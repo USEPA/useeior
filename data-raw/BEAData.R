@@ -56,6 +56,58 @@ usethis::use_data(Detail_Use_2012_PRO_BeforeRedef, overwrite = T)
 Detail_Use_2007_PRO_BeforeRedef <- getBEADetailUseProBeforeRedef2012Schema()[["2007"]]
 usethis::use_data(Detail_Use_2007_PRO_BeforeRedef, overwrite = T)
 
+# Get BEA Summary Make (Before Redef) 2007-2017 from static Excel
+getBEASummaryMakeBeforeRedef2012Schema <- function () {
+  # Download all IO tables from BEA iTable
+  getBEAIOTables()
+  # Load desired excel file
+  SummaryMakeList <- list()
+  FileName <- "inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2018_Summary.xlsx"
+  for (i in 2007:2017) {
+    SummaryMake <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[7:78, 3:76]
+    SummaryMake <- as.data.frame(apply(SummaryMake, 2, as.numeric))
+    rownames(SummaryMake) <- c(as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[7:77, 1],
+                               as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[78, 2])
+    colnames(SummaryMake) <- c(as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 3:75],
+                               as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6, 76])
+    SummaryMake[is.na(SummaryMake)] <- 0
+    SummaryMakeList[[as.character(i)]] <- SummaryMake
+  }
+  return(SummaryMakeList)
+}
+Summary_Make_2012_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Summary_Make_2012_BeforeRedef, overwrite = T)
+Summary_Make_2007_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2007"]]
+usethis::use_data(Summary_Make_2007_BeforeRedef, overwrite = T)
+
+# Get BEA Summary Use (PRO, Before Redef) 2007-2017 from static Excel
+getBEASummaryUseProBeforeRedef2012Schema <- function () {
+  # Download all IO tables from BEA iTable
+  getBEAIOTables()
+  # Load desired excel file
+  SummaryUseList <- list()
+  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_1997-2018_Summary.xlsx"
+  for (i in 2007:2017) {
+    SummaryUse <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[7:89, 3:100]
+    SummaryUse <- as.data.frame(apply(SummaryUse, 2, as.numeric))
+    rownames(SummaryUse) <- c(as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[7:79, 1],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[80:82, 2],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[83:85, 1],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[86:89, 2])
+    colnames(SummaryUse) <- c(as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 3:73],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6, 74:76],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 77:96],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6, 97:100])
+    SummaryUse[is.na(SummaryUse)] <- 0
+    SummaryUseList[[as.character(i)]] <- SummaryUse
+  }
+  return(SummaryUseList)
+}
+Summary_Use_2012_PRO_BeforeRedef <- getBEASummaryUseProBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Summary_Use_2012_PRO_BeforeRedef, overwrite = T)
+Summary_Use_2007_PRO_BeforeRedef <- getBEASummaryUseProBeforeRedef2012Schema()[["2007"]]
+usethis::use_data(Summary_Use_2007_PRO_BeforeRedef, overwrite = T)
+
 # Download all GDP tables from BEA iTable
 getBEAUnderlyingTables <- function () {
   # Create the placeholder file
