@@ -45,7 +45,7 @@ buildEEIOmodel <- function(modelname) {
     model$FinalDemand <- model$FinalDemand[, model$BEA$FinalDemandCodes]*ModelIndustryCPI$ReferenceCurrencyYeartoOutputYearRatio
     model$FinalDemand <- model$FinalDemand[, model$BEA$FinalDemandCodes]
     # Transform ModelFinalDeamnd with MS
-    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand)#This output needs to be tested - producing strange results
+    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
   }
   # Get model$SectorNames
   if (model$specs$CommoditybyIndustryType=="Commodity") {
