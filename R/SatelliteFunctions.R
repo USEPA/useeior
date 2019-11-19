@@ -123,10 +123,11 @@ stackSatelliteTables <- function (sattable1, sattable2) {
 #' @param sattable A satellite table to be aggregated based on the level (Detail, Summary, or Sector) of BEA code.
 #' @param from_level The level of BEA code in the satellite table.
 #' @param to_level The level of BEA code this satellite table will be aggregated to.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A more aggregated satellite table.
-aggregateSatelliteTable <- function(sattable, from_level, to_level) {
+aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
   # Load MasterCrosswalk
-  crosswalk <- utils::read.table(system.file("extdata", "Crosswalk_MasterCrosswalk.csv", package = "useeior"),
+  crosswalk <- utils::read.table(system.file("extdata", paste0("Crosswalk_MasterCrosswalk", model$specs$BaseIOSchema, ".csv"), package = "useeior"),
                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste("BEA", model$specs$BaseIOSchema, from_level, "Code", sep = "_")

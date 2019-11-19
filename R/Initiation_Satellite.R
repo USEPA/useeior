@@ -17,7 +17,7 @@ loadsattables <- function(model){
         if (sat$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
           #apply allocation
         } else if (sat$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
-          sattable <- aggregateSatelliteTable(sattable, sat$SectorListLevel, model$specs$BaseIOLevel)
+          sattable <- aggregateSatelliteTable(sattable, sat$SectorListLevel, model$specs$BaseIOLevel, model)
         }
       } else {
         #In NAICS #
