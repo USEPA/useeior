@@ -1,0 +1,193 @@
+Gross_Output_Industry,BEA_2012_Summary_Code
+    All industries,
+Private industries,
+"  Agriculture, forestry, fishing, and hunting",
+    Farms,111CA
+          Crop production,
+          Animal production and aquaculture,
+"    Forestry, fishing, and related activities",113FF
+  Mining,
+    Oil and gas extraction,211
+"    Mining, except oil and gas",212
+    Support activities for mining,213
+  Utilities,22
+"          Electric power generation, transmission, and distribution",
+"          Natural gas distribution and water, sewage and other systems",
+  Construction,23
+"          Education, hospital, and health structures",
+          Maintenance and repair construction,
+          Office and commercial structures,
+          Other residential construction,
+          Other nonresidential structures,
+          Power and communication structures,
+          Single-family residential structures,
+          Transportation structures and highways and streets,
+  Manufacturing,
+    Durable goods,
+      Wood products,321
+      Nonmetallic mineral products,327
+      Primary metals,331
+          Iron and steel mills and manufacturing from purchased steel,
+          Nonferrous metal production and processing and foundries,
+      Fabricated metal products,332
+      Machinery,333
+          Agricultural implement manufacturing,
+          Construction machinery manufacturing,
+          Mining and oil and gas field machinery manufacturing,
+          Other machinery,
+      Computer and electronic products,334
+          Computer and peripheral equipment manufacturing,
+          Communications equipment manufacturing,
+          Semiconductor and other electronic component manufacturing,
+"          Navigational, measuring, electromedical, and control instruments manufacturing",
+          Other computer and electronic product manufacturing,
+"      Electrical equipment, appliances, and components",335
+"      Motor vehicles, bodies and trailers, and parts",3361MV
+          Automobile manufacturing,
+          Light truck and utility vehicle manufacturing,
+          Heavy duty truck manufacturing,
+"          Motor vehicle body, trailer, and parts manufacturing",
+      Other transportation equipment,3364OT
+          Aerospace product and parts manufacturing,
+          All other transportation equipment manufacturing,
+      Furniture and related products,337
+      Miscellaneous manufacturing,339
+          Medical equipment and supplies manufacturing,
+          Other miscellaneous manufacturing,
+    Nondurable goods,
+      Food and beverage and tobacco products,311FT
+          Food manufacturing,
+          Beverage manufacturing,
+          Tobacco product manufacturing,
+      Textile mills and textile product mills,313TT
+      Apparel and leather and allied products,315AL
+      Paper products,322
+      Printing and related support activities,323
+      Petroleum and coal products,324
+      Chemical products,325
+          Basic chemical manufacturing,
+"          Resin, rubber, and artificial fibers manufacturing",
+          Pharmaceutical and medicine manufacturing,
+          Other chemical manufacturing,
+      Plastics and rubber products,326
+  Wholesale trade,42
+          Motor vehicle and motor vehicle parts and supplies merchant wholesalers,
+          Professional and commercial equipment and supplies merchant wholesalers,
+          Household appliances and electrical and electronic goods merchant wholesalers,
+"          Machinery, equipment, and supplies merchant wholesalers",
+          Other durable goods merchant wholesalers,
+          Drugs and druggists sundries merchant wholesalers,
+          Grocery and related products merchant wholesalers,
+          Petroleum and petroleum products merchant wholesalers,
+          Other nondurable goods merchant wholesalers,
+          Wholesale electronic markets and agents and brokers,
+          Customs duties,
+  Retail trade,
+    Motor vehicle and parts dealers,441
+    Food and beverage stores,445
+    General merchandise stores,452
+    Other retail,4A0
+          Building material and garden equipment and supplies dealers,
+          Health and personal care stores,
+          Gasoline stations,
+          Clothing and clothing accessories stores,
+          Nonstore retailers,
+          All other retail,
+  Transportation and warehousing,
+    Air transportation,481
+    Rail transportation,482
+    Water transportation,483
+    Truck transportation,484
+    Transit and ground passenger transportation,485
+    Pipeline transportation,486
+    Other transportation and support activities,487OS
+          Scenic and sightseeing transportation and support activities,
+          Couriers and messengers,
+    Warehousing and storage,493
+  Information,
+"    Publishing industries, except internet (includes software)",511
+"          Newspaper, periodical, book, and directory publishers",
+          Software publishers,
+    Motion picture and sound recording industries,512
+    Broadcasting and telecommunications,513
+          Broadcasting (except Internet),
+          Wired telecommunications carriers,
+          Wireless telecommunications carriers (except satellites),
+"          Other telecommunications, including satellite",
+"    Data processing, internet publishing, and other information services",514
+"          Data processing, hosting, and related services",
+          Other information services,
+"  Finance, insurance, real estate, rental, and leasing",
+    Finance and insurance,
+"      Federal Reserve banks, credit intermediation, and related activities",521CI
+"      Securities, commodity contracts, and investments",523
+      Insurance carriers and related activities,524
+          Direct Life Insurance Carriers,
+"          Insurance carriers, except direct life",
+"          Agencies, brokerages, and other insurance related activities",
+"      Funds, trusts, and other financial vehicles",525
+    Real estate and rental and leasing,
+      Real estate,
+        Housing,HS
+          Owner-occupied housing,
+          Tenant-occupied housing,
+        Other real estate,ORE
+      Rental and leasing services and lessors of intangible assets,532RL
+  Professional and business services,
+"    Professional, scientific, and technical services",
+      Legal services,5411
+      Computer systems design and related services,5415
+"      Miscellaneous professional, scientific, and technical services",5412OP
+"          Accounting, tax preparation, bookkeeping, and payroll services",
+"          Architectural, engineering, and related services",
+"          Management, scientific, and technical consulting services",
+          Scientific research and development services,
+"          Advertising, public relations, and related services",
+"          Specialized design services and other professional, scientific, and technical services",
+    Management of companies and enterprises,55
+    Administrative and waste management services,
+      Administrative and support services,561
+          Employment services,
+          Services to buildings and dwellings,
+          Other administrative and support services,
+      Waste management and remediation services,562
+"  Educational services, health care, and social assistance",
+    Educational services,61
+    Health care and social assistance,
+      Ambulatory health care services,621
+          Offices of physicians,
+          Offices of dentists,
+          Offices of other health practitioners,
+          Outpatient care centers,
+          Other ambulatory health care services,
+      Hospitals,622
+      Nursing and residential care facilities,623
+      Social assistance,624
+"  Arts, entertainment, recreation, accommodation, and food services",
+"    Arts, entertainment, and recreation",
+"      Performing arts, spectator sports, museums, and related activities",711AS
+"      Amusements, gambling, and recreation industries",713
+    Accommodation and food services,
+      Accommodation,721
+      Food services and drinking places,722
+"  Other services, except government",81
+          Repair and maintenance,
+          Personal and laundry services,
+"          Religious, grantmaking, civic, professional, and similar organizations",
+          Private households,
+Government,
+  Federal,
+    Federal general government,
+      National defense,GFGD
+      Nondefense,GFGN
+    Government enterprises,GFE
+  State and local,
+    State and local general government,GSLG
+          State and local government educational services,
+          State and local government hospitals and health services,
+          State and local government other services,
+    Government enterprises,GSLE
+Addenda:,
+    Private goods-producing industries [1],
+    Private services-producing industries [2],
+    Information-communications-technology-producing industries [3],
