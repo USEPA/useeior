@@ -7,12 +7,12 @@ loadGDPtables <- function(specs) {
 
   # Load pre-saved GrossOutput and CPI tables
   # GrossOutput
-  GrossOutputFile <- paste0("data/", specs$BaseIOLevel, "_GrossOutput_IO", ".rda")
-  GDP$BEAGrossOutputIO <- get(load(GrossOutputFile))
+  GrossOutputData <- paste0("data/", specs$BaseIOLevel, "_GrossOutput_IO")
+  GDP$BEAGrossOutputIO <- get(GrossOutputData)
   GDP$BEAGrossOutputIO <- GDP$BEAGrossOutputIO * 1E6 # data frame, values are in dollars ($)
   # CPI
-  CPIFile <- paste0("data/", specs$BaseIOLevel, "_CPI_IO", ".rda")
-  GDP$BEACPIIO <- get(load(CPIFile))
+  CPIData <- paste0("data/", specs$BaseIOLevel, "_CPI_IO")
+  GDP$BEACPIIO <- get(CPIData)
 
   return(GDP)
 }
