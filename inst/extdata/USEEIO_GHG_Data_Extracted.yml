@@ -1,6 +1,0 @@
-Location:
-SectorListSource: "BEA" # or, NAICS
-SectorListYear: 2012
-SectorListLevel: 'Detail'
-OriginalFlowSource: 'GHG'
-AdditionalHouseHoldSectors: [] # a list of sectors
