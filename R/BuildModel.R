@@ -7,7 +7,7 @@ buildEEIOmodel <- function(modelname) {
   logging::loginfo('Begin model initialization...')
   model <- list()
   # Get model specs
-  model$specs <- loadConfig(modelname)
+  model$specs <- getModelConfiguration(modelname)
   # Get BEA IO tables
   model$BEA <- loadBEAtables(model$specs)
   # Get model$Industries and model$Commodities

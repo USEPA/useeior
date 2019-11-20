@@ -9,3 +9,13 @@ loadConfig <- function(modelname) {
   try(config <- configr::read.config(configfile))
   return(config)
 }
+
+#'Show model names with configuration files
+#'@return Prints model names.
+#'@export
+seeAvailableModels <- function() {
+  packdir <- system.file("extdata", package="useeior")
+  configfiles <- list.files(path=packdir,pattern=".yml") 
+  modelnames <- substr(configfiles,0,nchar(configfiles)-4)
+  print(modelnames)
+}
