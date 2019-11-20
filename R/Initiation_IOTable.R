@@ -32,12 +32,10 @@ loadBEAtables <- function(specs) {
 
   # Load pre-saved Make and Use tables
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
-  #MakeFile <- paste0("data/", specs$BaseIOLevel, "_Make_", specs$IOYear, "_", Redef, ".rda")
-  UseFile <- paste0("data/", specs$BaseIOLevel, "_Use_", specs$IOYear, "_", specs$BasePriceType, "_", Redef, ".rda")
   MakeData <- paste0(specs$BaseIOLevel, "_Make_", specs$IOYear, "_", Redef)
-  #BEA$Make <- get(load(MakeFile))
+  UseData <- paste0("data/", specs$BaseIOLevel, "_Use_", specs$IOYear, "_", specs$BasePriceType, "_", Redef)
   BEA$Make <- get(MakeData)
-  BEA$Use <-  get(load(UseFile))
+  BEA$Use <-  get(UseData)
 
   # Separate Make and Use tables into specific tables
   BEA$MakeTransactions <- BEA$Make[BEA$Industries, BEA$Commodities] * 1E6 # data frame, values are in dollars ($)
