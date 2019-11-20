@@ -3,7 +3,7 @@
 \docType{data}
 \name{PEQBridge2012}
 \alias{PEQBridge2012}
-\title{PEQ Bridge Data for 2012}
+\title{PEQ Bridge Data for 2012 (2012 schema)}
 \format{A data frame with 185 obs. and 9 variables:
 \describe{
  \item{NIPACode}{text code}
@@ -23,6 +23,6 @@
 PEQBridge2012
 }
 \description{
-PEQ Bridge Data for 2012
+PEQ Bridge Data for 2012 (2012 schema)
 }
 \keyword{datasets}

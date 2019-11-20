@@ -4,7 +4,7 @@
 \alias{aggregateSatelliteTable}
 \title{Aggreagte (FlowAmount in) satellite tables from one BEA level to another}
 \usage{
-aggregateSatelliteTable(sattable, from_level, to_level)
+aggregateSatelliteTable(sattable, from_level, to_level, model)
 }
 \arguments{
 \item{sattable}{A satellite table to be aggregated based on the level (Detail, Summary, or Sector) of BEA code.}
@@ -12,6 +12,8 @@ aggregateSatelliteTable(sattable, from_level, to_level)
 \item{from_level}{The level of BEA code in the satellite table.}
 
 \item{to_level}{The level of BEA code this satellite table will be aggregated to.}
+
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
 A more aggregated satellite table.

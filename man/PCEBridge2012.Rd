@@ -3,7 +3,7 @@
 \docType{data}
 \name{PCEBridge2012}
 \alias{PCEBridge2012}
-\title{PCE Bridge Data for 2012}
+\title{PCE Bridge Data for 2012 (2012 schema)}
 \format{A data frame with 712 obs. and 9 variables:
 \describe{
  \item{NIPACode}{text code}
@@ -23,6 +23,6 @@
 PCEBridge2012
 }
 \description{
-PCE Bridge Data for 2012
+PCE Bridge Data for 2012 (2012 schema)
 }
 \keyword{datasets}

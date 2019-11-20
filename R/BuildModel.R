@@ -3,8 +3,9 @@
 #' @export
 #' @return A list with USEEIO model components and attributes.
 buildEEIOmodel <- function(modelname) {
-  model <- list()
   startLogging()
+  logging::loginfo('Begin model initialization...')
+  model <- list()
   # Get model specs
   model$specs <- loadConfig(modelname)
   # Get BEA IO tables
@@ -211,30 +212,6 @@ writeModelComponents <- function(model) {
   logging::addHandler(logging::writeToFile, file = logfilename, level = "INFO")
 
   logging::loginfo("Model components written to Model Build folder.")
-}
-
-#' Start logging model build.
-startLogging <- function (){
-  #http://logging.r-forge.r-project.org/sample_session.php
-  logging::basicConfig()
-  # Define output folder
-  #dir.create(paste("Model Builds/", modelname, sep = ""), recursive = TRUE) # meant to be flexible up to users
-  #outputfolder <- paste("Model Builds/", modelname, sep = "")
-  #Write logs to file in model build folder
-  #logtimestamp = Sys.Date()
-  #logfilename = paste(outputfolder,"/",logtimestamp,".log",sep="")
-  #addHandler(writeToFile, file=logfilename, level='INFO')
-  logging::loginfo('Begin model initialization...')
-}
-
-#' Load model configuration.
-#' @param modelname The name of the model.
-#' @return A list of model specifications.
-loadConfig <- function(modelname) {
-  configname <- paste(modelname, ".yml", sep = "")
-  configfile <- system.file("extdata", configname, package="useeior")
-  try(config <- configr::read.config(configfile))
-  return(config)
 }
 
 #' Multiply the Leontief inverse L and the demand vector.

@@ -1,0 +1,11 @@
+#Handle configuration files
+
+#' Load model configuration.
+#' @param modelname The name of the model.
+#' @return A list of model specifications.
+loadConfig <- function(modelname) {
+  configname <- paste(modelname, ".yml", sep = "")
+  configfile <- system.file("extdata", configname, package="useeior")
+  try(config <- configr::read.config(configfile))
+  return(config)
+}

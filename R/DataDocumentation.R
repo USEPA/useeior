@@ -125,12 +125,6 @@
 #' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Use_2012_PRO_AfterRedef"
 
-#' Summary 2007 Use Producer's Value After Redefinition (2012 schema)
-#' @format A data frame with 83 obs. and 98 variables
-#' @description TBD
-#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
-"Summary_Use_2007_PRO_AfterRedef"
-
 #' Summary 2012 Use Purchaser's Value After Redefinition (2012 schema)
 #' @format A data frame with 80 obs. and 98 variables
 #' @description TBD
