@@ -143,6 +143,78 @@
 #' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Use_2007_PUR_AfterRedef"
 
+#' Sector 2012 Make Before Redefinition (2012 schema)
+#' @format A data frame with 16 obs. and 18 variables
+#' @description TBD
+#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+"Sector_Make_2012_BeforeRedef"
+
+#' Sector 2007 Make Before Redefinition (2012 schema)
+#' @format A data frame with 16 obs. and 18 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
+"Sector_Make_2007_BeforeRedef"
+
+#' Sector 2012 Use Producer's Value Before Redefinition (2012 schema)
+#' @format A data frame with 27 obs. and 28 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
+"Sector_Use_2012_PRO_BeforeRedef"
+
+#' Sector 2007 Use Producer's Value Before Redefinition (2012 schema)
+#' @format A data frame with 27 obs. and 28 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
+"Sector_Use_2007_PRO_BeforeRedef"
+
+#' Sector 2012 Use Purchaser's Value Before Redefinition (2012 schema)
+#' @format A data frame with 27 obs. and 28 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
+"Sector_Use_2012_PUR_BeforeRedef"
+
+#' Sector 2007 Use Purchaser's Value Before Redefinition (2012 schema)
+#' @format A data frame with 27 obs. and 28 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
+"Sector_Use_2007_PUR_BeforeRedef"
+
+#' Sector 2012 Make After Redefinition (2012 schema)
+#' @format A data frame with 16 obs. and 18 variables
+#' @description TBD
+#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+"Sector_Make_2012_AfterRedef"
+
+#' Sector 2007 Make After Redefinition (2012 schema)
+#' @format A data frame with 16 obs. and 18 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
+"Sector_Make_2007_AfterRedef"
+
+#' Sector 2012 Use Producer's Value After Redefinition (2012 schema)
+#' @format A data frame with 27 obs. and 28 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
+"Sector_Use_2012_PRO_AfterRedef"
+
+#' Sector 2007 Use Producer's Value After Redefinition (2012 schema)
+#' @format A data frame with 27 obs. and 28 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
+"Sector_Use_2007_PRO_AfterRedef"
+
+#' Sector 2012 Use Purchaser's Value After Redefinition (2012 schema)
+#' @format A data frame with 27 obs. and 28 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
+"Sector_Use_2012_PUR_AfterRedef"
+
+#' Sector 2007 Use Purchaser's Value After Redefinition (2012 schema)
+#' @format A data frame with 27 obs. and 28 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
+"Sector_Use_2007_PUR_AfterRedef"
+
 #' Detail 2007-2017 Gross Output (2012 schema)
 #' @format A data frame with 405 obs. and 11 variables
 #' @description TBD
