@@ -2,5 +2,6 @@
 
 export(buildEEIOmodel)
 export(calculate)
+export(getModelConfiguration)
 export(seeAvailableModels)
 export(writeModelComponents)
