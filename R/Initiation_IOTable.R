@@ -33,7 +33,7 @@ loadBEAtables <- function(specs) {
   # Load pre-saved Make and Use tables
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
   MakeData <- paste0(specs$BaseIOLevel, "_Make_", specs$IOYear, "_", Redef)
-  UseData <- paste0("data/", specs$BaseIOLevel, "_Use_", specs$IOYear, "_", specs$BasePriceType, "_", Redef)
+  UseData <- paste0(specs$BaseIOLevel, "_Use_", specs$IOYear, "_", specs$BasePriceType, "_", Redef)
   BEA$Make <- get(MakeData)
   BEA$Use <-  get(UseData)
 
