@@ -15,10 +15,15 @@ getModelConfiguration <- function(modelname) {
 #'@return Prints model names.
 #'@export
 seeAvailableModels <- function() {
-  packdir <- system.file("extdata", package="useeior")
-  configfiles <- list.files(path=packdir,pattern=".yml") 
+  configfiles <- findModelConfigurationFiles()
   modelnames <- substr(configfiles,0,nchar(configfiles)-4)
   print(modelnames)
 }
 
-
+#' Get model config files
+#' @return vector of model config files
+findModelConfigurationFiles <- function() {
+  packdir <- system.file("extdata", package="useeior")
+  configfiles <- list.files(path=packdir,pattern=".yml") 
+  return(configfiles)
+}
