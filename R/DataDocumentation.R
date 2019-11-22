@@ -454,6 +454,60 @@
 #' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Use_2018_PRO_AfterRedef"
 
+#' Detail 2012 Import (2012 schema)
+#' @format A dataframe with 405 obs. and 427 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx}
+"Detail_Import_2012"
+
+#' Summary 2010 Import (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
+"Summary_Import_2010"
+
+#' Summary 2011 Import (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
+"Summary_Import_2011"
+
+#' Summary 2012 Import (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
+"Summary_Import_2012"
+
+#' Summary 2013 Import (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
+"Summary_Import_2013"
+
+#' Summary 2014 Import (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
+"Summary_Import_2014"
+
+#' Summary 2015 Import (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
+"Summary_Import_2015"
+
+#' Summary 2016 Import (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
+"Summary_Import_2016"
+
+#' Summary 2017 Import (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
+"Summary_Import_2017"
+
 #' Detail 2007-2017 Gross Output (2012 schema)
 #' @format A dataframe with 405 obs. and 11 variables
 #' @description TBD

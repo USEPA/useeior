@@ -100,7 +100,7 @@ usethis::use_data(Detail_Use_2007_PRO_AfterRedef, overwrite = T)
 Detail_Use_2012_PRO_AfterRedef <- getBEADetailUsePROAfterRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Use_2012_PRO_AfterRedef, overwrite = T)
 
-# Get BEA Summary Make (Before Redef, 2012 schema) 2007-2017 tables from static Excel
+# Get BEA Summary Make (Before Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASummaryMakeBeforeRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
   getBEAIOTables()
@@ -138,7 +138,7 @@ usethis::use_data(Summary_Make_2017_BeforeRedef, overwrite = T)
 Summary_Make_2018_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2018"]]
 usethis::use_data(Summary_Make_2018_BeforeRedef, overwrite = T)
 
-# Get BEA Summary Use (PRO, Before Redef, 2012 schema) 2007-2017 tables from static Excel
+# Get BEA Summary Use (PRO, Before Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASummaryUsePROBeforeRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
   getBEAIOTables()
@@ -180,7 +180,7 @@ usethis::use_data(Summary_Use_2017_PRO_BeforeRedef, overwrite = T)
 Summary_Use_2018_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2018"]]
 usethis::use_data(Summary_Use_2018_PRO_BeforeRedef, overwrite = T)
 
-# Get BEA Summary Make (After Redef, 2012 schema) 2007-2017 tables from static Excel
+# Get BEA Summary Make (After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASummaryMakeAfterRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
   getBEAIOTables()
@@ -218,7 +218,7 @@ usethis::use_data(Summary_Make_2017_AfterRedef, overwrite = T)
 Summary_Make_2018_AfterRedef <- getBEASummaryMakeAfterRedef2012Schema()[["2018"]]
 usethis::use_data(Summary_Make_2018_AfterRedef, overwrite = T)
 
-# Get BEA Summary Use (PRO, After Redef, 2012 schema) 2007-2017 tables from static Excel
+# Get BEA Summary Use (PRO, After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASummaryUsePROAfterRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
   getBEAIOTables()
@@ -260,7 +260,7 @@ usethis::use_data(Summary_Use_2017_PRO_AfterRedef, overwrite = T)
 Summary_Use_2018_PRO_AfterRedef <- getBEASummaryUsePROAfterRedef2012Schema()[["2018"]]
 usethis::use_data(Summary_Use_2018_PRO_AfterRedef, overwrite = T)
 
-# Get BEA Sector Make (Before Redef, 2012 schema) 2007-2017 tables from static Excel
+# Get BEA Sector Make (Before Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASectorMakeBeforeRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
   getBEAIOTables()
@@ -298,7 +298,7 @@ usethis::use_data(Sector_Make_2017_BeforeRedef, overwrite = T)
 Sector_Make_2018_BeforeRedef <- getBEASectorMakeBeforeRedef2012Schema()[["2018"]]
 usethis::use_data(Sector_Make_2018_BeforeRedef, overwrite = T)
 
-# Get BEA Sector Use (PRO, Before Redef, 2012 schema) 2007-2017 tables from static Excel
+# Get BEA Sector Use (PRO, Before Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASectorUsePROBeforeRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
   getBEAIOTables()
@@ -340,7 +340,7 @@ usethis::use_data(Sector_Use_2017_PRO_BeforeRedef, overwrite = T)
 Sector_Use_2018_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2018"]]
 usethis::use_data(Sector_Use_2018_PRO_BeforeRedef, overwrite = T)
 
-# Get BEA Sector Make (After Redef, 2012 schema) 2007-2017 tables from static Excel
+# Get BEA Sector Make (After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASectorMakeAfterRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
   getBEAIOTables()
@@ -362,7 +362,7 @@ getBEASectorMakeAfterRedef2012Schema <- function () {
 Sector_Make_2012_AfterRedef <- getBEASectorMakeAfterRedef2012Schema()[["2012"]]
 usethis::use_data(Sector_Make_2012_AfterRedef, overwrite = T)
 
-# Get BEA Sector Use (PRO, After Redef, 2012 schema) 2007-2017 tables from static Excel
+# Get BEA Sector Use (PRO, After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASectorUsePROAfterRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
   getBEAIOTables()
@@ -419,29 +419,44 @@ getBEADetailImportMatrix <- function () {
     DetailImport[is.na(DetailImport)] <- 0
     DetailImportList[[as.character(i)]] <- DetailImport
   }
-  
   return(DetailImportList)
 }
+Detail_Import_2012 <- getBEADetailImportMatrix()[["2012"]]
+usethis::use_data(Detail_Import_2012, overwrite = T)
 
-# Get BEA Summary Import (2007-2017) from static Excel
+# Get BEA Summary Import (2010:2017) from static Excel
 getBEASummaryImportMatrix <- function () {
   SummaryImportList <- list()
   # read excel sheet
-  FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx"
+  FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_SUM_1997-2017.xlsx"
   if(!file.exists(FileName)) {
     download.file(paste("https://apps.bea.gov/industry/xls/io-annual", FileName, sep = "/"), FileName, mode="wb")
   }
-  for (i in 2010:2018) {
-    SummaryImport <- as.data.frame(read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:79, 3:95]
-    rownames(SummaryImport) <- as.data.frame(read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:79, 1]
-    colnames(SummaryImport) <- as.data.frame(read_excel(FileName, sheet = as.character(i), col_names = FALSE))[6, 3:95]
+  for (i in 2010:2017) {
+    SummaryImport <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:79, 3:95]
+    rownames(SummaryImport) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:79, 1]
+    colnames(SummaryImport) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[6, 3:95]
     SummaryImport[is.na(SummaryImport)] <- 0
-    SummaryImportList[[i]] <- SummaryImport
+    SummaryImportList[[as.character(i)]] <- SummaryImport
   }
-  
   return(SummaryImportList)
 }
-
+Summary_Import_2010 <- getBEASummaryImportMatrix()[["2010"]]
+usethis::use_data(Summary_Import_2010, overwrite = T)
+Summary_Import_2011 <- getBEASummaryImportMatrix()[["2011"]]
+usethis::use_data(Summary_Import_2011, overwrite = T)
+Summary_Import_2012 <- getBEASummaryImportMatrix()[["2012"]]
+usethis::use_data(Summary_Import_2012, overwrite = T)
+Summary_Import_2013 <- getBEASummaryImportMatrix()[["2013"]]
+usethis::use_data(Summary_Import_2013, overwrite = T)
+Summary_Import_2014 <- getBEASummaryImportMatrix()[["2014"]]
+usethis::use_data(Summary_Import_2014, overwrite = T)
+Summary_Import_2015 <- getBEASummaryImportMatrix()[["2015"]]
+usethis::use_data(Summary_Import_2015, overwrite = T)
+Summary_Import_2016 <- getBEASummaryImportMatrix()[["2016"]]
+usethis::use_data(Summary_Import_2016, overwrite = T)
+Summary_Import_2017 <- getBEASummaryImportMatrix()[["2017"]]
+usethis::use_data(Summary_Import_2017, overwrite = T)
 
 # Download all GDP tables from BEA iTable
 getBEAUnderlyingTables <- function () {
@@ -465,7 +480,6 @@ getBEADetailGrossOutput2012Schema <- function () {
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual_Detail.xls"
   DetailGrossOutput <- readxl::read_excel(FileName, sheet = "GO")[6:422, c(2, 13:23)]
   colnames(DetailGrossOutput) <- c("Gross_Output_Detail_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "GO"))[5, 13:23])
-
   return(DetailGrossOutput)
 }
 Detail_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Detail"]]
@@ -479,7 +493,6 @@ getBEASummaryGrossOutput2012Schema <- function () {
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
   SummaryGrossOutput <- readxl::read_excel(FileName, sheet = "GO")[6:197, c(2, 13:23)]
   colnames(SummaryGrossOutput) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "GO"))[5, 13:23])
-
   return(SummaryGrossOutput)
 }
 Summary_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Summary"]]
@@ -493,7 +506,6 @@ getBEASectorGrossOutput2012Schema <- function () {
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
   SectorGrossOutput <- readxl::read_excel(FileName, sheet = "GO")[6:197, c(2, 13:23)]
   colnames(SectorGrossOutput) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "GO"))[5, 13:23])
-
   return(SectorGrossOutput)
 }
 Sector_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Sector"]]
@@ -507,7 +519,6 @@ getBEADetailCPI2012Schema <- function () {
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual_Detail.xls"
   DetailCPI <- readxl::read_excel(FileName, sheet = "ChainPriceIndexes")[6:422, c(2, 13:23)]
   colnames(DetailCPI) <- c("Gross_Output_Detail_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 13:23])
-
   return(DetailCPI)
 }
 Detail_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Detail"]]
@@ -521,7 +532,6 @@ getBEASummaryCPI2012Schema <- function () {
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
   SummaryCPI <- readxl::read_excel(FileName, sheet = "ChainPriceIndexes")[6:197, c(2, 13:23)]
   colnames(SummaryCPI) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 13:23])
-
   return(SummaryCPI)
 }
 Summary_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Summary"]]
@@ -535,7 +545,6 @@ getBEASectorCPI2012Schema <- function () {
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
   SectorCPI <- readxl::read_excel(FileName, sheet = "ChainPriceIndexes")[6:197, c(2, 13:23)]
   colnames(SectorCPI) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 13:23])
-
   return(SectorCPI)
 }
 Sector_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Sector"]]
@@ -564,7 +573,6 @@ getBEADetailPCEBridge2012Schema <- function () {
   # PutPCEBridge2012 and PCEBridge2007 in the PCEBridge2012SchemaList
   PCEBridge2012SchemaList <- list(PCEBridge2007, PCEBridge2012)
   names(PCEBridge2012SchemaList) <- c("2007", "2012")
-
   return(PCEBridge2012SchemaList)
 }
 Detail_PCE_2012 <- getBEADetailPCEBridge2012Schema()[["2012"]]
@@ -593,7 +601,6 @@ getBEADetailPEQBridge2012Schema <- function () {
   # PutPEQBridge2012 and PEQBridge2007 in the PEQBridge2012SchemaList
   PEQBridge2012SchemaList <- list(PEQBridge2007, PEQBridge2012)
   names(PEQBridge2012SchemaList) <- c("2007", "2012")
-
   return(PEQBridge2012SchemaList)
 }
 Detail_PEQ_2012 <- getBEADetailPEQBridge2012Schema()[["2012"]]
@@ -622,7 +629,6 @@ getBEADetailMarginsBeforeRedef2012Schema <- function () {
   # Put Margins2012 and Margins2007 in the Margins2012SchemaList
   Margins2012SchemaList <- list(Margins2007, Margins2012)
   names(Margins2012SchemaList) <- c("2007", "2012")
-  
   return(Margins2012SchemaList)
 }
 Detail_Margins_2012_BeforeRedef <- getBEADetailMarginsBeforeRedef2012Schema()[["2012"]]
