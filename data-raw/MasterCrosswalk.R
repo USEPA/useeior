@@ -315,3 +315,9 @@ getMasterCrosswalk <- function (year) {
   
   return(MasterCrosswalk)
 }
+
+MasterCrosswalk2012 <- getMasterCrosswalk(2012)
+MasterCrosswalk2012 <- MasterCrosswalk2012[, c(paste("BEA_2012", c("Sector_Code", "Summary_Code", "Detail_Code"), sep = "_"),
+                                               paste(c("NAICS_2012", "NAICS_2007"), "Code", sep = "_"))]
+usethis::use_data(MasterCrosswalk2012, overwrite = T)
+
