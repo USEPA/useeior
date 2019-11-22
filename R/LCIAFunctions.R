@@ -5,7 +5,7 @@
 generateLCIA <- function (version) { # version is a string value, e.g. 'v1.2'
   lciafactlong <- loadLCIAfactors()
   #Import LCIA indicator info
-  lciainfo <- utils::read.table(system.file("extdata", "USEEIO_LCIA_indicators.csv", package = "useeior"),
+  lciainfo <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
                                 sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
   #keep version of interest
   lciainfo <- lciainfo[,c(colnames(lciainfo)[1:4],version)]
@@ -24,7 +24,7 @@ generateLCIA <- function (version) { # version is a string value, e.g. 'v1.2'
 #' Loads all LCIA factors from static source file after melting it to long file
 #' Returns df with "Name""Category""Subcategory""Unit""UUID""Abbreviation""Amount"
 loadLCIAfactors <- function() {
-  lciafact <- utils::read.table(system.file("extdata", "USEEIO_LCIA_factors.csv", package = "useeior"),
+  lciafact <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Factors.csv", package = "useeior"),
                                 sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
   #Melt these so there is one indicator score per line
   lciafactlong <- reshape2::melt(lciafact,id.vars = c(1:5))
