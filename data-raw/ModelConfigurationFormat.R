@@ -7,8 +7,9 @@ ModelConfiguration$IOYear <- 2012
 ModelConfiguration$PrimaryRegionAcronym <- "US"
 ModelConfiguration$ModelRegionAcronyms <- list()
 ModelConfiguration$ModelType <- "US"
+ModelConfiguration$ModelSource <- "BEA"
 ModelConfiguration$BasePriceType <-  "PRO"
-ModelConfiguration$BasewithDefinitions <- FALSE
+ModelConfiguration$BasewithRedefinitions <- FALSE
 ModelConfiguration$ReferenceCurrencyYear <- 0
 ModelConfiguration$CommoditybyIndustryType <- "Commodity"
 ModelConfiguration$ScrapIncluded <- TRUE
