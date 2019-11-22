@@ -1,5 +1,4 @@
 Model: "USEEIOv2.0.10s-GHG" # 2010 Summary, Commodity
-SectorListVersion: 1
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2010 # Year for IO data

@@ -1,5 +1,4 @@
 Model: "USEEIOv2.0.11is-GHG" # 2011 Summary, Industry
-SectorListVersion: 1
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2011 # Year for IO data

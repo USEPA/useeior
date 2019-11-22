@@ -1,5 +1,4 @@
 Model: "USEEIOv2.0.11c-GHG" # 2011 Sector, Commodity
-SectorListVersion: 1
 BaseIOSchema: 2012
 BaseIOLevel: "Sector"
 IOYear: 2011 # Year for IO data
