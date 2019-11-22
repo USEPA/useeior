@@ -12,9 +12,15 @@ buildEEIOmodel <- function(modelname) {
   model$BEA <- loadBEAtables(model$specs)
   # Get model$Industries and model$Commodities
   if (model$specs$ModelType=="US") {
-    model$Industries <- model$BEA$Industries
     model$Commodities <- model$BEA$Commodities
+    model$Industries <- model$BEA$Industries
   }
+  # Get model$Make, model$Use, model$MakeTransactions, model$UseTransactions, and model$UseValueAdded
+  model$Make <- model$BEA$Make
+  model$Use <- model$BEA$Use
+  model$MakeTransactions <- model$BEA$MakeTransactions
+  model$UseTransactions <- model$BEA$UseTransactions
+  model$UseValueAdded <- model$BEA$UseValueAdded
   # Get GDP tables
   model$GDP <- loadGDPtables(model$specs)
   # Get model$CommodityOutput, model$CommodityCPI, model$IndustryOutput, model$IndustryCPI, and model$FinalDemand
@@ -52,8 +58,8 @@ buildEEIOmodel <- function(modelname) {
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
                                      sep = ",", header = TRUE, stringsAsFactors = FALSE)
-    model$SectorNames <- merge(as.data.frame(model$BEA$Commodities, stringsAsFactors = FALSE), USEEIONames,
-                               by.x = "model$BEA$Commodities", by.y = "Code", all.x = TRUE)
+    model$SectorNames <- merge(as.data.frame(model$Commodities, stringsAsFactors = FALSE), USEEIONames,
+                               by.x = "model$Commodities", by.y = "Code", all.x = TRUE)
   } else {
     SectorNamesFile <- paste(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Industry_Code_Name.csv", sep = "_")
     model$SectorNames <- utils::read.table(system.file("extdata", SectorNamesFile, package = "useeior"),
@@ -104,8 +110,8 @@ buildEEIOmodel <- function(modelname) {
   # Move Flow to rowname so matrix is all numbers
   rownames(model$sattables_cast) <- model$sattables_cast$Flow
   model$sattables_cast$Flow <- NULL
-  # Complete sector list using model$BEA$Industries
-  columns_to_add <- tolower(paste(model$BEA$Industries[!model$BEA$Industries%in%model$sattables$ProcessCode], model$specs$PrimaryRegionAcronym, sep = "/"))
+  # Complete sector list using model$Industries
+  columns_to_add <- tolower(paste(model$Industries[!model$Industries%in%model$sattables$ProcessCode], model$specs$PrimaryRegionAcronym, sep = "/"))
   model$sattables_cast[, columns_to_add] <- 0
   # Adjust column order to be the same with V_n rownames
   model$sattables_cast <- model$sattables_cast[, tolower(paste(rownames(model$V_n), model$specs$PrimaryRegionAcronym, sep = "/"))]

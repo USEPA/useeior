@@ -57,7 +57,7 @@ normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
 #' @return Direct Requirements matrix of the model.
 generateDirectRequirementsfromUse <- function (model) {
   # Generate direct requirments matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
-  B <- normalizeIOTransactions(model$BEA$UseTransactions, model$BEA$MakeIndustryOutput) # B = U %*% solve(x_hat)
+  B <- normalizeIOTransactions(model$UseTransactions, model$MakeIndustryOutput) # B = U %*% solve(x_hat)
   return(B)
 }
 
@@ -66,7 +66,7 @@ generateDirectRequirementsfromUse <- function (model) {
 #' @return Market Shares matrix of the model.
 generateMarketSharesfromMake <- function(model) {
   # Generate market shares matrix (industry x commodity) from Make, see Miller and Blair section 5.3.1
-  D <- normalizeIOTransactions(model$BEA$MakeTransactions, model$BEA$UseCommodityOutput) # D = V %*% solve(q_hat)
+  D <- normalizeIOTransactions(model$MakeTransactions, model$UseCommodityOutput) # D = V %*% solve(q_hat)
   # Put in code here for adjusting marketshares to remove scrap
   return(D)
 }
@@ -76,7 +76,7 @@ generateMarketSharesfromMake <- function(model) {
 #' @return Commodity Mix matrix of the model.
 generateCommodityMixMatrix <- function (model) {
   # Generate commodity mix matrix (commodity x industry), see Miller and Blair section 5.3.2
-  C <- normalizeIOTransactions(t(model$BEA$MakeTransactions), model$BEA$MakeIndustryOutput) # C = V' %*% solve(x_hat)
+  C <- normalizeIOTransactions(t(model$MakeTransactions), model$MakeIndustryOutput) # C = V' %*% solve(x_hat)
   # Validation: check if column sums equal to 1
   industryoutputfractions <- colSums(C)
   for (s in industryoutputfractions) {
@@ -124,7 +124,7 @@ generatePriceAdjustedCommodityCPIforYear <- function(year, model) {
 #' @return A datframe with rows being model industries and a column for "non_scrap_ratios" for that industry.
 generateNonScrapRatios <- function() {
   # Merge scrap from model Make transactions and Industry output
-  V_scrap <- model$BEA$MakeTransactions[, ModelScrapCode, drop = FALSE]
+  V_scrap <- model$MakeTransactions[, ModelScrapCode, drop = FALSE]
   V_scrap_total <- merge(V_scrap, model$BEA$MakeIndustryOutput, by = 0)
   IndustryTotalCode <- colnames(model$BEA$MakeIndustryOutput)
   V_scrap_total[,"nonscrap_ratio"] <- (V_scrap_total[,IndustryTotalCode]-V_scrap_total[, ModelScrapCode])/V_scrap_total[, IndustryTotalCode]
@@ -236,7 +236,7 @@ getIndustryUseofImportedCommodities <- function() {
 #' Adjust multi-year USEEIO gross output by model-specified currency year.
 #' @return A dataframe contains adjusted multi-year USEEIO gross output.
 adjustUSEEIOGrossOutputbyCPIYear <- function () {
-  GrossOutput <- model$BEA$GrossOutputIO
+  GrossOutput <- model$GDP$BEAGrossOutputIO
   for (year in colnames(GrossOutput)) {
     GrossOutput[, year] <- GrossOutput[, year]*(model$GDP$BEACPIIO[, as.character(model$specs$ReferenceCurrencyYear)]/model$GDP$BEACPIIO[, year])
   }
