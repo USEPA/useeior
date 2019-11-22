@@ -387,9 +387,7 @@ getMarginsTable <- function (specs, marginsource) {
     PEQBridge[, c("ProducersValue", "PurchasersValue")] <- apply(PEQBridge[, c("ProducersValue", "PurchasersValue")], 2, as.numeric)
   }
   # Map to Summary and Sector level
-  crosswalk <- utils::read.table(system.file("extdata", "Crosswalk_MasterCrosswalk2012.csv", package = "useeior"),
-                                 sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
-  crosswalk <- unique(crosswalk[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
+  crosswalk <- unique(MasterCrosswalk2012[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
   MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_2012_Detail_Code")
   # Adjust ProducersValue using Detail CPI
   CPI_Detail <- Detail_CPI_IO

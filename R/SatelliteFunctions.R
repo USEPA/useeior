@@ -15,11 +15,8 @@ getStandardSatelliteTableFormat <- function () {
 mapSatTablefromNAICStoUSEEIO <- function (sattable, majormodelversionnumber, satellitetableyear) {
   modelcodelistname <- paste("USEEIO", majormodelversionnumber, "_Code", sep = "")
   modelcommoditylistname <- paste("USEEIO", majormodelversionnumber, "_Commodity", sep = "")
-  # Load MasterCrosswalk
-  crosswalk <- utils::read.table(system.file("extdata", "Crosswalk_MasterCrosswalk.csv", package = "useeior"),
-                                 sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
-  # Generate NAICS-to-USEEIO mapping dataframe, assuming NAICS are 2012 NAICS.
-  NAICStoUSEEIO <- unique(crosswalk[!is.na(crosswalk$`2012_NAICS_Code`), c("2012_NAICS_Code", modelcodelistname, modelcommoditylistname)])
+  # Generate NAICS-to-USEEIO mapping dataframe based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
+  NAICStoUSEEIO <- unique(MasterCrosswalk2012[!is.na(crosswalk$`2012_NAICS_Code`), c("2012_NAICS_Code", modelcodelistname, modelcommoditylistname)])
   colnames(NAICStoUSEEIO) <- c("2012_NAICS_Code", "SectorCode", "SectorName")
   # Assign DQTechnological score based on the the correspondence between NAICS and USEEIO code:
   # If there is allocation (1 NAICS to 2 or more USEEIO), DQTechnological score = 2, otherwise, 1.
@@ -126,14 +123,11 @@ stackSatelliteTables <- function (sattable1, sattable2) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A more aggregated satellite table.
 aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
-  # Load MasterCrosswalk
-  crosswalk <- utils::read.table(system.file("extdata", paste0("Crosswalk_MasterCrosswalk", model$specs$BaseIOSchema, ".csv"), package = "useeior"),
-                                 sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste("BEA", model$specs$BaseIOSchema, from_level, "Code", sep = "_")
   to_code <- paste("BEA", model$specs$BaseIOSchema, to_level, "Code", sep = "_")
-  # Merge the satellite table with MasterCrosswalk
-  sattable <- merge(sattable, unique(crosswalk[, c(from_code, to_code)]), by.x = "SectorCode", by.y = from_code)
+  # Merge the satellite table with MasterCrosswalk2012
+  sattable <- merge(sattable, unique(MasterCrosswalk2012[, c(from_code, to_code)]), by.x = "SectorCode", by.y = from_code)
   # Replace NA in ReliabilityScore column with 5
   sattable[is.na(sattable$ReliabilityScore), "ReliabilityScore"] <- 5
   # Aggregate FlowAmount by specified columns
