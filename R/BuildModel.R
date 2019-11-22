@@ -60,12 +60,19 @@ buildEEIOmodel <- function(modelname) {
                                            sep = ",", header = TRUE, stringsAsFactors = FALSE)
   }
   colnames(model$SectorNames) <- c("SectorCode", "SectorName")
-  # Get model$PRObyPURRatios
-  model$PRObyPURRatios <- getPRObyPURRatios(model$specs)
-  model$PRObyPURRatios <- merge(as.data.frame(model$BEA$Commodities), model$PRObyPURRatios, by.x = "model$BEA$Commodities", by.y = "CommodityCode", all.x = TRUE)
-  model$PRObyPURRatios[is.na(model$PRObyPURRatios$PRObyPURRatios), "PRObyPURRatios"] <- 1
-  colnames(model$PRObyPURRatios)[1] <- "SectorCode"
-  model$PRObyPURRatios$SectorCode <- as.character(model$PRObyPURRatios$SectorCode)
+  # Get model$IndustryMargins and model$FinalConsumerMargins
+  model$IndustryMargins <- getMarginsTable(model$specs, "Industry") # Magrins Matrix
+  model$IndustryMargins <- merge(as.data.frame(model$BEA$Commodities), model$IndustryMargins, by.x = "model$BEA$Commodities", by.y = "CommodityCode", all.x = TRUE)
+  model$IndustryMargins[is.na(model$IndustryMargins$PRObyPURRatios), "PRObyPURRatios"] <- 1
+  colnames(model$IndustryMargins)[1] <- "SectorCode"
+  model$IndustryMargins$SectorCode <- as.character(model$IndustryMargins$SectorCode)
+  
+  model$FinalConsumerMargins <- getMarginsTable(model$specs, "FinalConsumer") # PCE&PEQ bridge df
+  model$FinalConsumerMargins <- merge(as.data.frame(model$BEA$Commodities), model$FinalConsumerMargins, by.x = "model$BEA$Commodities", by.y = "CommodityCode", all.x = TRUE)
+  model$FinalConsumerMargins[is.na(model$FinalConsumerMargins$PRObyPURRatios), "PRObyPURRatios"] <- 1
+  colnames(model$FinalConsumerMargins)[1] <- "SectorCode"
+  model$FinalConsumerMargins$SectorCode <- as.character(model$FinalConsumerMargins$SectorCode)
+  
 
   ### Build Model
   # Generate Demand
@@ -134,7 +141,8 @@ buildEEIOmodel <- function(modelname) {
   model$U <- model$C %*% model$M
   # Translates M from producer to purchaser price (M_bar)
   logging::loginfo("Adjusting total emissions per dollar from producer to purchaser prices...")
-  PHI_C <- as.vector(model$PRObyPURRatios$PRObyPURRatios)
+  PHI_C <- as.vector(model$IndustryMargins$PRObyPURRatios)
+  #! PHI_C <- as.vector(model$FinalConsumerMargins$PRObyPURRatios)
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     model$M_bar <- model$M %*% diag(PHI_C)
     colnames(model$M_bar) <- model$Commodities
