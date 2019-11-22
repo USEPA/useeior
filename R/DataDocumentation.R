@@ -490,7 +490,7 @@
 #' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesUnderlying.zip}
 "Sector_CPI_IO"
 
-#' PCE Bridge Data for 2012 (2012 schema)
+#' Detail PCE Bridge table for 2012 (2012 schema)
 #' @format A data frame with 712 obs. and 9 variables:
 #' \describe{
 #'  \item{NIPACode}{text code}
@@ -504,9 +504,9 @@
 #'  \item{PurchasersValue}{USD2012}
 #' }
 #' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/PCEBridge_2007_2012_DET.xlsx}
-"PCEBridge2012"
+"Detail_PCE_2012"
 
-#' PEQ Bridge Data for 2012 (2012 schema)
+#' Detail PEQ Bridge table for 2012 (2012 schema)
 #' @format A data frame with 185 obs. and 9 variables:
 #' \describe{
 #'  \item{NIPACode}{text code}
@@ -520,9 +520,9 @@
 #'  \item{PurchasersValue}{USD2012}
 #' }
 #' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/PEQBridge_2007_2012_DET.xlsx}
-"PEQBridge2012"
+"Detail_PEQ_2012"
 
-#' Margins (Before Redef) Data for 2012 (2012 schema)
+#' Detail Margins (Before Redef) table for 2012 (2012 schema)
 #' @format A data frame with 61844 obs. and 9 variables:
 #' \describe{
 #'  \item{NIPACode}{text code}
@@ -536,4 +536,4 @@
 #'  \item{PurchasersValue}{USD2012}
 #' }
 #' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_DET.xlsx}
-"MarginsBeforeRedef2012"
+"Detail_Margins_2012_BeforeRedef"

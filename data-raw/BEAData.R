@@ -542,7 +542,7 @@ Sector_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Sector"]]
 usethis::use_data(Sector_CPI_IO, overwrite = T)
 
 # Get PCE Bridge (2012 schema) 2007 and 2012 tables from BEA static URL
-getBEAPCEBridge2012Schema <- function () {
+getBEADetailPCEBridge2012Schema <- function () {
   # Download BEA PCE bridge table
   if(!file.exists("inst/extdata/PCEBridge_2007_2012_DET.xlsx")) {
     download.file("https://apps.bea.gov/industry/xls/underlying-estimates/PCEBridge_2007_2012_DET.xlsx",
@@ -567,11 +567,11 @@ getBEAPCEBridge2012Schema <- function () {
 
   return(PCEBridge2012SchemaList)
 }
-PCEBridge2012 <- getBEAPCEBridge2012Schema()[["2012"]]
-usethis::use_data(PCEBridge2012, overwrite = T)
+Detail_PCE_2012 <- getBEADetailPCEBridge2012Schema()[["2012"]]
+usethis::use_data(Detail_PCE_2012, overwrite = T)
 
-# Get PEQ Bridge (2012 schema) 2007 and 2012 tables from BEA static URL
-getBEAPEQBridge2012Schema <- function () {
+# Get DetailPEQ Bridge (2012 schema) 2007 and 2012 tables from BEA static URL
+getBEADetailPEQBridge2012Schema <- function () {
   # Download BEA PEQ bridge table
   if(!file.exists("inst/extdata/PEQBridge_2007_2012_DET.xlsx")) {
     download.file("https://apps.bea.gov/industry/xls/underlying-estimates/PEQBridge_2007_2012_DET.xlsx",
@@ -596,11 +596,11 @@ getBEAPEQBridge2012Schema <- function () {
 
   return(PEQBridge2012SchemaList)
 }
-PEQBridge2012 <- getBEAPEQBridge2012Schema()[["2012"]]
-usethis::use_data(PEQBridge2012, overwrite = T)
+Detail_PEQ_2012 <- getBEADetailPEQBridge2012Schema()[["2012"]]
+usethis::use_data(Detail_PEQ_2012, overwrite = T)
 
-# Get Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
-getBEAMarginsBeforeRedef2012Schema <- function () {
+# Get Detail Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
+getBEADetailMarginsBeforeRedef2012Schema <- function () {
   # Download BEA PCE bridge table
   if(!file.exists("inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx")) {
     download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_DET.xlsx",
@@ -625,5 +625,5 @@ getBEAMarginsBeforeRedef2012Schema <- function () {
   
   return(Margins2012SchemaList)
 }
-MarginsBeforeRedef2012 <- getBEAMarginsBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(MarginsBeforeRedef2012, overwrite = T)
+Detail_Margins_2012_BeforeRedef <- getBEADetailMarginsBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Detail_Margins_2012_BeforeRedef, overwrite = T)

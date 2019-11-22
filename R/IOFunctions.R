@@ -369,12 +369,12 @@ getMarginsTable <- function (specs, marginsource) {
   # Load Margins or PCE and PEQ Bridge data
   if (schemayear==2012) {
     if (marginsource=="margins") {
-      MarginsTable <- MarginsBeforeRedef2012[, 3:9]
+      MarginsTable <- Detail_Margins_2012_BeforeRedef[, 3:9]
     } else {
       # Use PCE and PEQ Bridge tables
-      PCEBridge <- PCEBridge2012[, 3:9]
-      PEQBridge <- PEQBridge2012[, 3:9]
-      MarginsTable <- rbind(PCEBridge, PEQBridge)
+      PCE <- Detail_PCE_2012[, 3:9]
+      PEQ <- Detail_PEQ_2012[, 3:9]
+      MarginsTable <- rbind(PCE, PEQ)
     }
   } else { #! this is 2007 scehma tables, will decide how to modify later.
     # PCE
