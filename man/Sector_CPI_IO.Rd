@@ -4,7 +4,7 @@
 \name{Sector_CPI_IO}
 \alias{Sector_CPI_IO}
 \title{Sector 2007-2017 CPI (2012 schema)}
-\format{A data frame with 15 obs. and 11 variables}
+\format{A dataframe with 15 obs. and 11 variables}
 \usage{
 Sector_CPI_IO
 }

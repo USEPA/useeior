@@ -4,7 +4,7 @@
 \name{Summary_Make_2016_BeforeRedef}
 \alias{Summary_Make_2016_BeforeRedef}
 \title{Summary 2016 Make Before Redefinition (2012 schema)}
-\format{A data frame with 72 obs. and 74 variables}
+\format{A dataframe with 72 obs. and 74 variables}
 \usage{
 Summary_Make_2016_BeforeRedef
 }

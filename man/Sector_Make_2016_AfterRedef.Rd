@@ -4,7 +4,7 @@
 \name{Sector_Make_2016_AfterRedef}
 \alias{Sector_Make_2016_AfterRedef}
 \title{Sector 2016 Make After Redefinition (2012 schema)}
-\format{A data frame with 16 obs. and 18 variables}
+\format{A dataframe with 16 obs. and 18 variables}
 \usage{
 Sector_Make_2016_AfterRedef
 }

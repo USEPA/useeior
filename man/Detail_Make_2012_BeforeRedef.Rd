@@ -4,7 +4,7 @@
 \name{Detail_Make_2012_BeforeRedef}
 \alias{Detail_Make_2012_BeforeRedef}
 \title{Detail 2012 Make Before Redefinition (2012 schema)}
-\format{A data frame with 406 obs. and 406 variables}
+\format{A dataframe with 406 obs. and 406 variables}
 \usage{
 Detail_Make_2012_BeforeRedef
 }

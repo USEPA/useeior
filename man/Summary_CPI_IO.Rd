@@ -4,7 +4,7 @@
 \name{Summary_CPI_IO}
 \alias{Summary_CPI_IO}
 \title{Summary 2007-2017 CPI (2012 schema)}
-\format{A data frame with 71 obs. and 11 variables}
+\format{A dataframe with 71 obs. and 11 variables}
 \usage{
 Summary_CPI_IO
 }
