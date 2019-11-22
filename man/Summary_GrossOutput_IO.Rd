@@ -4,7 +4,7 @@
 \name{Summary_GrossOutput_IO}
 \alias{Summary_GrossOutput_IO}
 \title{Summary 2007-2017 Gross Output (2012 schema)}
-\format{A data frame with 71 obs. and 11 variables}
+\format{A dataframe with 71 obs. and 11 variables}
 \usage{
 Summary_GrossOutput_IO
 }

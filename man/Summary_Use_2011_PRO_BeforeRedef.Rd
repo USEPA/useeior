@@ -4,7 +4,7 @@
 \name{Summary_Use_2011_PRO_BeforeRedef}
 \alias{Summary_Use_2011_PRO_BeforeRedef}
 \title{Summary 2011 Use Producer's Value Before Redefinition (2012 schema)}
-\format{A data frame with 83 obs. and 98 variables}
+\format{A dataframe with 83 obs. and 98 variables}
 \usage{
 Summary_Use_2011_PRO_BeforeRedef
 }

@@ -4,7 +4,7 @@
 \name{Sector_Use_2010_PRO_BeforeRedef}
 \alias{Sector_Use_2010_PRO_BeforeRedef}
 \title{Sector 2010 Use Producer's Value Before Redefinition (2012 schema)}
-\format{A data frame with 27 obs. and 28 variables}
+\format{A dataframe with 27 obs. and 28 variables}
 \usage{
 Sector_Use_2010_PRO_BeforeRedef
 }

@@ -4,7 +4,7 @@
 \name{Detail_CPI_IO}
 \alias{Detail_CPI_IO}
 \title{Detail 2007-2017 CPI (2012 schema)}
-\format{A data frame with 405 obs. and 11 variables}
+\format{A dataframe with 405 obs. and 11 variables}
 \usage{
 Detail_CPI_IO
 }

@@ -4,7 +4,7 @@
 \name{Detail_GrossOutput_IO}
 \alias{Detail_GrossOutput_IO}
 \title{Detail 2007-2017 Gross Output (2012 schema)}
-\format{A data frame with 405 obs. and 11 variables}
+\format{A dataframe with 405 obs. and 11 variables}
 \usage{
 Detail_GrossOutput_IO
 }

@@ -4,7 +4,7 @@
 \name{Detail_PCE_2012}
 \alias{Detail_PCE_2012}
 \title{Detail PCE Bridge table for 2012 (2012 schema)}
-\format{A data frame with 712 obs. and 9 variables:
+\format{A dataframe with 712 obs. and 9 variables:
 \describe{
  \item{NIPACode}{text code}
  \item{PCECategory}{text category name, like 'Therapeutic medical equipment'}

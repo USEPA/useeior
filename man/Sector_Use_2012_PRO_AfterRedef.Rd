@@ -4,7 +4,7 @@
 \name{Sector_Use_2012_PRO_AfterRedef}
 \alias{Sector_Use_2012_PRO_AfterRedef}
 \title{Sector 2012 Use Producer's Value After Redefinition (2012 schema)}
-\format{A data frame with 27 obs. and 28 variables}
+\format{A dataframe with 27 obs. and 28 variables}
 \usage{
 Sector_Use_2012_PRO_AfterRedef
 }
