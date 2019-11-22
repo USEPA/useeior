@@ -57,7 +57,7 @@ normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
 #' @return Direct Requirements matrix of the model.
 generateDirectRequirementsfromUse <- function (model) {
   # Generate direct requirments matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
-  B <- normalizeIOTransactions(model$UseTransactions, model$MakeIndustryOutput) # B = U %*% solve(x_hat)
+  B <- normalizeIOTransactions(model$UseTransactions, model$BEA$MakeIndustryOutput) # B = U %*% solve(x_hat)
   return(B)
 }
 
@@ -66,7 +66,7 @@ generateDirectRequirementsfromUse <- function (model) {
 #' @return Market Shares matrix of the model.
 generateMarketSharesfromMake <- function(model) {
   # Generate market shares matrix (industry x commodity) from Make, see Miller and Blair section 5.3.1
-  D <- normalizeIOTransactions(model$MakeTransactions, model$UseCommodityOutput) # D = V %*% solve(q_hat)
+  D <- normalizeIOTransactions(model$MakeTransactions, model$BEA$UseCommodityOutput) # D = V %*% solve(q_hat)
   # Put in code here for adjusting marketshares to remove scrap
   return(D)
 }
@@ -76,7 +76,7 @@ generateMarketSharesfromMake <- function(model) {
 #' @return Commodity Mix matrix of the model.
 generateCommodityMixMatrix <- function (model) {
   # Generate commodity mix matrix (commodity x industry), see Miller and Blair section 5.3.2
-  C <- normalizeIOTransactions(t(model$MakeTransactions), model$MakeIndustryOutput) # C = V' %*% solve(x_hat)
+  C <- normalizeIOTransactions(t(model$MakeTransactions), model$BEA$MakeIndustryOutput) # C = V' %*% solve(x_hat)
   # Validation: check if column sums equal to 1
   industryoutputfractions <- colSums(C)
   for (s in industryoutputfractions) {
