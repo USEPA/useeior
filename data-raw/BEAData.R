@@ -30,9 +30,9 @@ getBEADetailMakeBeforeRedef2012Schema <- function () {
   return(DetailMakeList)
 }
 Detail_Make_2007_BeforeRedef <- getBEADetailMakeBeforeRedef2012Schema()[["2007"]]
-usethis::use_data(Detail_Make_2007_BeforeRedef, overwrite = T)
+usethis::use_data(Detail_Make_2007_BeforeRedef, overwrite = TRUE)
 Detail_Make_2012_BeforeRedef <- getBEADetailMakeBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(Detail_Make_2012_BeforeRedef, overwrite = T)
+usethis::use_data(Detail_Make_2012_BeforeRedef, overwrite = TRUE)
 
 # Get BEA Detail Use (PRO, Before Redef, 2012 schema) 2007 and 2012 tables from static Excel
 getBEADetailUsePROBeforeRedef2012Schema <- function () {
@@ -52,9 +52,9 @@ getBEADetailUsePROBeforeRedef2012Schema <- function () {
   return(DetailUseList)
 }
 Detail_Use_2007_PRO_BeforeRedef <- getBEADetailUsePROBeforeRedef2012Schema()[["2007"]]
-usethis::use_data(Detail_Use_2007_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Detail_Use_2007_PRO_BeforeRedef, overwrite = TRUE)
 Detail_Use_2012_PRO_BeforeRedef <- getBEADetailUsePROBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(Detail_Use_2012_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Detail_Use_2012_PRO_BeforeRedef, overwrite = TRUE)
 
 # Get BEA Detail Make (After Redef, 2012 schema) 2007 and 2012 tables from static Excel
 getBEADetailMakeAfterRedef2012Schema <- function () {
@@ -74,9 +74,9 @@ getBEADetailMakeAfterRedef2012Schema <- function () {
   return(DetailMakeList)
 }
 Detail_Make_2007_AfterRedef <- getBEADetailMakeAfterRedef2012Schema()[["2007"]]
-usethis::use_data(Detail_Make_2007_AfterRedef, overwrite = T)
+usethis::use_data(Detail_Make_2007_AfterRedef, overwrite = TRUE)
 Detail_Make_2012_AfterRedef <- getBEADetailMakeAfterRedef2012Schema()[["2012"]]
-usethis::use_data(Detail_Make_2012_AfterRedef, overwrite = T)
+usethis::use_data(Detail_Make_2012_AfterRedef, overwrite = TRUE)
 
 # Get BEA Detail Use (PRO, After Redef, 2012 schema) 2007 and 2012 tables from static Excel
 getBEADetailUsePROAfterRedef2012Schema <- function () {
@@ -96,9 +96,9 @@ getBEADetailUsePROAfterRedef2012Schema <- function () {
   return(DetailUseList)
 }
 Detail_Use_2007_PRO_AfterRedef <- getBEADetailUsePROAfterRedef2012Schema()[["2007"]]
-usethis::use_data(Detail_Use_2007_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Detail_Use_2007_PRO_AfterRedef, overwrite = TRUE)
 Detail_Use_2012_PRO_AfterRedef <- getBEADetailUsePROAfterRedef2012Schema()[["2012"]]
-usethis::use_data(Detail_Use_2012_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Detail_Use_2012_PRO_AfterRedef, overwrite = TRUE)
 
 # Get BEA Summary Make (Before Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASummaryMakeBeforeRedef2012Schema <- function () {
@@ -120,23 +120,23 @@ getBEASummaryMakeBeforeRedef2012Schema <- function () {
   return(SummaryMakeList)
 }
 Summary_Make_2010_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2010"]]
-usethis::use_data(Summary_Make_2010_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Make_2010_BeforeRedef, overwrite = TRUE)
 Summary_Make_2011_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2011"]]
-usethis::use_data(Summary_Make_2011_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Make_2011_BeforeRedef, overwrite = TRUE)
 Summary_Make_2012_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(Summary_Make_2012_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Make_2012_BeforeRedef, overwrite = TRUE)
 Summary_Make_2013_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2013"]]
-usethis::use_data(Summary_Make_2013_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Make_2013_BeforeRedef, overwrite = TRUE)
 Summary_Make_2014_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2014"]]
-usethis::use_data(Summary_Make_2014_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Make_2014_BeforeRedef, overwrite = TRUE)
 Summary_Make_2015_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2015"]]
-usethis::use_data(Summary_Make_2015_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Make_2015_BeforeRedef, overwrite = TRUE)
 Summary_Make_2016_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2016"]]
-usethis::use_data(Summary_Make_2016_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Make_2016_BeforeRedef, overwrite = TRUE)
 Summary_Make_2017_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2017"]]
-usethis::use_data(Summary_Make_2017_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Make_2017_BeforeRedef, overwrite = TRUE)
 Summary_Make_2018_BeforeRedef <- getBEASummaryMakeBeforeRedef2012Schema()[["2018"]]
-usethis::use_data(Summary_Make_2018_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Make_2018_BeforeRedef, overwrite = TRUE)
 
 # Get BEA Summary Use (PRO, Before Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASummaryUsePROBeforeRedef2012Schema <- function () {
@@ -162,23 +162,23 @@ getBEASummaryUsePROBeforeRedef2012Schema <- function () {
   return(SummaryUseList)
 }
 Summary_Use_2010_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2010"]]
-usethis::use_data(Summary_Use_2010_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Use_2010_PRO_BeforeRedef, overwrite = TRUE)
 Summary_Use_2011_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2011"]]
-usethis::use_data(Summary_Use_2011_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Use_2011_PRO_BeforeRedef, overwrite = TRUE)
 Summary_Use_2012_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(Summary_Use_2012_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Use_2012_PRO_BeforeRedef, overwrite = TRUE)
 Summary_Use_2013_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2013"]]
-usethis::use_data(Summary_Use_2013_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Use_2013_PRO_BeforeRedef, overwrite = TRUE)
 Summary_Use_2014_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2014"]]
-usethis::use_data(Summary_Use_2014_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Use_2014_PRO_BeforeRedef, overwrite = TRUE)
 Summary_Use_2015_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2015"]]
-usethis::use_data(Summary_Use_2015_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Use_2015_PRO_BeforeRedef, overwrite = TRUE)
 Summary_Use_2016_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2016"]]
-usethis::use_data(Summary_Use_2016_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Use_2016_PRO_BeforeRedef, overwrite = TRUE)
 Summary_Use_2017_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2017"]]
-usethis::use_data(Summary_Use_2017_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Use_2017_PRO_BeforeRedef, overwrite = TRUE)
 Summary_Use_2018_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2018"]]
-usethis::use_data(Summary_Use_2018_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Summary_Use_2018_PRO_BeforeRedef, overwrite = TRUE)
 
 # Get BEA Summary Make (After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASummaryMakeAfterRedef2012Schema <- function () {
@@ -200,23 +200,23 @@ getBEASummaryMakeAfterRedef2012Schema <- function () {
   return(SummaryMakeList)
 }
 Summary_Make_2010_AfterRedef <- getBEASummaryMakeAfterRedef2012Schema()[["2010"]]
-usethis::use_data(Summary_Make_2010_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Make_2010_AfterRedef, overwrite = TRUE)
 Summary_Make_2011_AfterRedef <- getBEASummaryMakeAfterRedef2012Schema()[["2011"]]
-usethis::use_data(Summary_Make_2011_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Make_2011_AfterRedef, overwrite = TRUE)
 Summary_Make_2012_AfterRedef <- getBEASummaryMakeAfterRedef2012Schema()[["2012"]]
-usethis::use_data(Summary_Make_2012_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Make_2012_AfterRedef, overwrite = TRUE)
 Summary_Make_2013_AfterRedef <- getBEASummaryMakeAfterRedef2012Schema()[["2013"]]
-usethis::use_data(Summary_Make_2013_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Make_2013_AfterRedef, overwrite = TRUE)
 Summary_Make_2014_AfterRedef <- getBEASummaryMakeAfterRedef2012Schema()[["2014"]]
-usethis::use_data(Summary_Make_2014_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Make_2014_AfterRedef, overwrite = TRUE)
 Summary_Make_2015_AfterRedef <- getBEASummaryMakeAfterRedef2012Schema()[["2015"]]
-usethis::use_data(Summary_Make_2015_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Make_2015_AfterRedef, overwrite = TRUE)
 Summary_Make_2016_AfterRedef <- getBEASummaryMakeAfterRedef2012Schema()[["2016"]]
-usethis::use_data(Summary_Make_2016_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Make_2016_AfterRedef, overwrite = TRUE)
 Summary_Make_2017_AfterRedef <- getBEASummaryMakeAfterRedef2012Schema()[["2017"]]
-usethis::use_data(Summary_Make_2017_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Make_2017_AfterRedef, overwrite = TRUE)
 Summary_Make_2018_AfterRedef <- getBEASummaryMakeAfterRedef2012Schema()[["2018"]]
-usethis::use_data(Summary_Make_2018_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Make_2018_AfterRedef, overwrite = TRUE)
 
 # Get BEA Summary Use (PRO, After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASummaryUsePROAfterRedef2012Schema <- function () {
@@ -242,23 +242,23 @@ getBEASummaryUsePROAfterRedef2012Schema <- function () {
   return(SummaryUseList)
 }
 Summary_Use_2010_PRO_AfterRedef <- getBEASummaryUsePROAfterRedef2012Schema()[["2010"]]
-usethis::use_data(Summary_Use_2010_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Use_2010_PRO_AfterRedef, overwrite = TRUE)
 Summary_Use_2011_PRO_AfterRedef <- getBEASummaryUsePROAfterRedef2012Schema()[["2011"]]
-usethis::use_data(Summary_Use_2011_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Use_2011_PRO_AfterRedef, overwrite = TRUE)
 Summary_Use_2012_PRO_AfterRedef <- getBEASummaryUsePROAfterRedef2012Schema()[["2012"]]
-usethis::use_data(Summary_Use_2012_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Use_2012_PRO_AfterRedef, overwrite = TRUE)
 Summary_Use_2013_PRO_AfterRedef <- getBEASummaryUsePROAfterRedef2012Schema()[["2013"]]
-usethis::use_data(Summary_Use_2013_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Use_2013_PRO_AfterRedef, overwrite = TRUE)
 Summary_Use_2014_PRO_AfterRedef <- getBEASummaryUsePROAfterRedef2012Schema()[["2014"]]
-usethis::use_data(Summary_Use_2014_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Use_2014_PRO_AfterRedef, overwrite = TRUE)
 Summary_Use_2015_PRO_AfterRedef <- getBEASummaryUsePROAfterRedef2012Schema()[["2015"]]
-usethis::use_data(Summary_Use_2015_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Use_2015_PRO_AfterRedef, overwrite = TRUE)
 Summary_Use_2016_PRO_AfterRedef <- getBEASummaryUsePROAfterRedef2012Schema()[["2016"]]
-usethis::use_data(Summary_Use_2016_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Use_2016_PRO_AfterRedef, overwrite = TRUE)
 Summary_Use_2017_PRO_AfterRedef <- getBEASummaryUsePROAfterRedef2012Schema()[["2017"]]
-usethis::use_data(Summary_Use_2017_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Use_2017_PRO_AfterRedef, overwrite = TRUE)
 Summary_Use_2018_PRO_AfterRedef <- getBEASummaryUsePROAfterRedef2012Schema()[["2018"]]
-usethis::use_data(Summary_Use_2018_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Summary_Use_2018_PRO_AfterRedef, overwrite = TRUE)
 
 # Get BEA Sector Make (Before Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASectorMakeBeforeRedef2012Schema <- function () {
@@ -280,23 +280,23 @@ getBEASectorMakeBeforeRedef2012Schema <- function () {
   return(SectorMakeList)
 }
 Sector_Make_2010_BeforeRedef <- getBEASectorMakeBeforeRedef2012Schema()[["2010"]]
-usethis::use_data(Sector_Make_2010_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Make_2010_BeforeRedef, overwrite = TRUE)
 Sector_Make_2011_BeforeRedef <- getBEASectorMakeBeforeRedef2012Schema()[["2011"]]
-usethis::use_data(Sector_Make_2011_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Make_2011_BeforeRedef, overwrite = TRUE)
 Sector_Make_2012_BeforeRedef <- getBEASectorMakeBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(Sector_Make_2012_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Make_2012_BeforeRedef, overwrite = TRUE)
 Sector_Make_2013_BeforeRedef <- getBEASectorMakeBeforeRedef2012Schema()[["2013"]]
-usethis::use_data(Sector_Make_2013_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Make_2013_BeforeRedef, overwrite = TRUE)
 Sector_Make_2014_BeforeRedef <- getBEASectorMakeBeforeRedef2012Schema()[["2014"]]
-usethis::use_data(Sector_Make_2014_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Make_2014_BeforeRedef, overwrite = TRUE)
 Sector_Make_2015_BeforeRedef <- getBEASectorMakeBeforeRedef2012Schema()[["2015"]]
-usethis::use_data(Sector_Make_2015_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Make_2015_BeforeRedef, overwrite = TRUE)
 Sector_Make_2016_BeforeRedef <- getBEASectorMakeBeforeRedef2012Schema()[["2016"]]
-usethis::use_data(Sector_Make_2016_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Make_2016_BeforeRedef, overwrite = TRUE)
 Sector_Make_2017_BeforeRedef <- getBEASectorMakeBeforeRedef2012Schema()[["2017"]]
-usethis::use_data(Sector_Make_2017_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Make_2017_BeforeRedef, overwrite = TRUE)
 Sector_Make_2018_BeforeRedef <- getBEASectorMakeBeforeRedef2012Schema()[["2018"]]
-usethis::use_data(Sector_Make_2018_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Make_2018_BeforeRedef, overwrite = TRUE)
 
 # Get BEA Sector Use (PRO, Before Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASectorUsePROBeforeRedef2012Schema <- function () {
@@ -322,23 +322,23 @@ getBEASectorUsePROBeforeRedef2012Schema <- function () {
   return(SectorUseList)
 }
 Sector_Use_2010_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2010"]]
-usethis::use_data(Sector_Use_2010_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Use_2010_PRO_BeforeRedef, overwrite = TRUE)
 Sector_Use_2011_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2011"]]
-usethis::use_data(Sector_Use_2011_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Use_2011_PRO_BeforeRedef, overwrite = TRUE)
 Sector_Use_2012_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(Sector_Use_2012_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Use_2012_PRO_BeforeRedef, overwrite = TRUE)
 Sector_Use_2013_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2013"]]
-usethis::use_data(Sector_Use_2013_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Use_2013_PRO_BeforeRedef, overwrite = TRUE)
 Sector_Use_2014_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2014"]]
-usethis::use_data(Sector_Use_2014_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Use_2014_PRO_BeforeRedef, overwrite = TRUE)
 Sector_Use_2015_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2015"]]
-usethis::use_data(Sector_Use_2015_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Use_2015_PRO_BeforeRedef, overwrite = TRUE)
 Sector_Use_2016_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2016"]]
-usethis::use_data(Sector_Use_2016_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Use_2016_PRO_BeforeRedef, overwrite = TRUE)
 Sector_Use_2017_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2017"]]
-usethis::use_data(Sector_Use_2017_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Use_2017_PRO_BeforeRedef, overwrite = TRUE)
 Sector_Use_2018_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2018"]]
-usethis::use_data(Sector_Use_2018_PRO_BeforeRedef, overwrite = T)
+usethis::use_data(Sector_Use_2018_PRO_BeforeRedef, overwrite = TRUE)
 
 # Get BEA Sector Make (After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASectorMakeAfterRedef2012Schema <- function () {
@@ -360,7 +360,7 @@ getBEASectorMakeAfterRedef2012Schema <- function () {
   return(SectorMakeList)
 }
 Sector_Make_2012_AfterRedef <- getBEASectorMakeAfterRedef2012Schema()[["2012"]]
-usethis::use_data(Sector_Make_2012_AfterRedef, overwrite = T)
+usethis::use_data(Sector_Make_2012_AfterRedef, overwrite = TRUE)
 
 # Get BEA Sector Use (PRO, After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASectorUsePROAfterRedef2012Schema <- function () {
@@ -386,23 +386,23 @@ getBEASectorUsePROAfterRedef2012Schema <- function () {
   return(SectorUseList)
 }
 Sector_Use_2010_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2010"]]
-usethis::use_data(Sector_Use_2010_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Sector_Use_2010_PRO_AfterRedef, overwrite = TRUE)
 Sector_Use_2011_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2011"]]
-usethis::use_data(Sector_Use_2011_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Sector_Use_2011_PRO_AfterRedef, overwrite = TRUE)
 Sector_Use_2012_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2012"]]
-usethis::use_data(Sector_Use_2012_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Sector_Use_2012_PRO_AfterRedef, overwrite = TRUE)
 Sector_Use_2013_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2013"]]
-usethis::use_data(Sector_Use_2013_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Sector_Use_2013_PRO_AfterRedef, overwrite = TRUE)
 Sector_Use_2014_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2014"]]
-usethis::use_data(Sector_Use_2014_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Sector_Use_2014_PRO_AfterRedef, overwrite = TRUE)
 Sector_Use_2015_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2015"]]
-usethis::use_data(Sector_Use_2015_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Sector_Use_2015_PRO_AfterRedef, overwrite = TRUE)
 Sector_Use_2016_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2016"]]
-usethis::use_data(Sector_Use_2016_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Sector_Use_2016_PRO_AfterRedef, overwrite = TRUE)
 Sector_Use_2017_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2017"]]
-usethis::use_data(Sector_Use_2017_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Sector_Use_2017_PRO_AfterRedef, overwrite = TRUE)
 Sector_Use_2018_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2018"]]
-usethis::use_data(Sector_Use_2018_PRO_AfterRedef, overwrite = T)
+usethis::use_data(Sector_Use_2018_PRO_AfterRedef, overwrite = TRUE)
 
 # Get BEA Detail Import (2007 and 2012) from static Excel
 getBEADetailImportMatrix <- function () {
@@ -422,7 +422,7 @@ getBEADetailImportMatrix <- function () {
   return(DetailImportList)
 }
 Detail_Import_2012 <- getBEADetailImportMatrix()[["2012"]]
-usethis::use_data(Detail_Import_2012, overwrite = T)
+usethis::use_data(Detail_Import_2012, overwrite = TRUE)
 
 # Get BEA Summary Import (2010:2017) from static Excel
 getBEASummaryImportMatrix <- function () {
@@ -442,21 +442,21 @@ getBEASummaryImportMatrix <- function () {
   return(SummaryImportList)
 }
 Summary_Import_2010 <- getBEASummaryImportMatrix()[["2010"]]
-usethis::use_data(Summary_Import_2010, overwrite = T)
+usethis::use_data(Summary_Import_2010, overwrite = TRUE)
 Summary_Import_2011 <- getBEASummaryImportMatrix()[["2011"]]
-usethis::use_data(Summary_Import_2011, overwrite = T)
+usethis::use_data(Summary_Import_2011, overwrite = TRUE)
 Summary_Import_2012 <- getBEASummaryImportMatrix()[["2012"]]
-usethis::use_data(Summary_Import_2012, overwrite = T)
+usethis::use_data(Summary_Import_2012, overwrite = TRUE)
 Summary_Import_2013 <- getBEASummaryImportMatrix()[["2013"]]
-usethis::use_data(Summary_Import_2013, overwrite = T)
+usethis::use_data(Summary_Import_2013, overwrite = TRUE)
 Summary_Import_2014 <- getBEASummaryImportMatrix()[["2014"]]
-usethis::use_data(Summary_Import_2014, overwrite = T)
+usethis::use_data(Summary_Import_2014, overwrite = TRUE)
 Summary_Import_2015 <- getBEASummaryImportMatrix()[["2015"]]
-usethis::use_data(Summary_Import_2015, overwrite = T)
+usethis::use_data(Summary_Import_2015, overwrite = TRUE)
 Summary_Import_2016 <- getBEASummaryImportMatrix()[["2016"]]
-usethis::use_data(Summary_Import_2016, overwrite = T)
+usethis::use_data(Summary_Import_2016, overwrite = TRUE)
 Summary_Import_2017 <- getBEASummaryImportMatrix()[["2017"]]
-usethis::use_data(Summary_Import_2017, overwrite = T)
+usethis::use_data(Summary_Import_2017, overwrite = TRUE)
 
 # Download all GDP tables from BEA iTable
 getBEAUnderlyingTables <- function () {
@@ -483,7 +483,7 @@ getBEADetailGrossOutput2012Schema <- function () {
   return(DetailGrossOutput)
 }
 Detail_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Detail"]]
-usethis::use_data(Detail_GrossOutput_IO, overwrite = T)
+usethis::use_data(Detail_GrossOutput_IO, overwrite = TRUE)
 
 # Get Summary BEA Gross Output (2012 schema) 2007-2017 tables from static Excel
 getBEASummaryGrossOutput2012Schema <- function () {
@@ -496,7 +496,7 @@ getBEASummaryGrossOutput2012Schema <- function () {
   return(SummaryGrossOutput)
 }
 Summary_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Summary"]]
-usethis::use_data(Summary_GrossOutput_IO, overwrite = T)
+usethis::use_data(Summary_GrossOutput_IO, overwrite = TRUE)
 
 # Get Sector BEA Gross Output (2012 schema) 2007-2017 tables from static Excel
 getBEASectorGrossOutput2012Schema <- function () {
@@ -509,7 +509,7 @@ getBEASectorGrossOutput2012Schema <- function () {
   return(SectorGrossOutput)
 }
 Sector_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Sector"]]
-usethis::use_data(Sector_GrossOutput_IO, overwrite = T)
+usethis::use_data(Sector_GrossOutput_IO, overwrite = TRUE)
 
 # Get Detail BEA U.Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
 getBEADetailCPI2012Schema <- function () {
@@ -522,7 +522,7 @@ getBEADetailCPI2012Schema <- function () {
   return(DetailCPI)
 }
 Detail_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Detail"]]
-usethis::use_data(Detail_CPI_IO, overwrite = T)
+usethis::use_data(Detail_CPI_IO, overwrite = TRUE)
 
 # Get Summary BEA U.Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
 getBEASummaryCPI2012Schema <- function () {
@@ -535,7 +535,7 @@ getBEASummaryCPI2012Schema <- function () {
   return(SummaryCPI)
 }
 Summary_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Summary"]]
-usethis::use_data(Summary_CPI_IO, overwrite = T)
+usethis::use_data(Summary_CPI_IO, overwrite = TRUE)
 
 # Get Sector BEA U.Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
 getBEASectorCPI2012Schema <- function () {
@@ -548,7 +548,63 @@ getBEASectorCPI2012Schema <- function () {
   return(SectorCPI)
 }
 Sector_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Sector"]]
-usethis::use_data(Sector_CPI_IO, overwrite = T)
+usethis::use_data(Sector_CPI_IO, overwrite = TRUE)
+
+# Get BEA (Detail/Summary/Sector) Code and Name under 2012 schema
+getBEACodeName2012Schema <- function () {
+  ### Download all IO tables from BEA iTable
+  getBEAIOTables()
+  ### Load desired excel file
+  ## Detail
+  BEADetail <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_2007_2012_Detail.xlsx", sheet = "2012"))
+  # Industry
+  BEADetailIndustryCodeName <- BEADetail[6:410, 1:2]
+  colnames(BEADetailIndustryCodeName) <- c("BEA_2012_Detail_Industry_Code", "BEA_2012_Detail_Industry_Name")
+  rownames(BEADetailIndustryCodeName) <- NULL
+  # Commodity
+  BEADetailCommodityCodeName <- as.data.frame(t(BEADetail[5:4, 3:407]))
+  colnames(BEADetailCommodityCodeName) <- c("BEA_2012_Detail_Commodity_Code", "BEA_2012_Detail_Commodity_Name")
+  rownames(BEADetailCommodityCodeName) <- NULL
+  ## Summary
+  BEASummary <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2018_Summary.xlsx", sheet = "2012"))
+  # Industry
+  BEASummaryIndustryCodeName <- BEASummary[7:77, 1:2]
+  colnames(BEASummaryIndustryCodeName) <- c("BEA_2012_Summary_Industry_Code", "BEA_2012_Summary_Industry_Name")
+  rownames(BEASummaryIndustryCodeName) <- NULL
+  # Commodity
+  BEASummaryCommodityCodeName <- as.data.frame(t(BEASummary[5:6, 3:75]))
+  colnames(BEASummaryCommodityCodeName) <- c("BEA_2012_Summary_Commodity_Code", "BEA_2012_Summary_Commodity_Name")
+  rownames(BEASummaryCommodityCodeName) <- NULL
+  ## Sector
+  BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2018_Sector.xlsx", sheet = "2012"))
+  # Industry
+  BEASectorIndustryCodeName <- BEASector[7:21, 1:2]
+  colnames(BEASectorIndustryCodeName) <- c("BEA_2012_Sector_Industry_Code", "BEA_2012_Sector_Industry_Name")
+  rownames(BEASectorIndustryCodeName) <- NULL
+  # Commodity
+  BEASectorCommodityCodeName <- as.data.frame(t(BEASector[5:6, 3:19]))
+  colnames(BEASectorCommodityCodeName) <- c("BEA_2012_Sector_Commodity_Code", "BEA_2012_Sector_Commodity_Name")
+  rownames(BEASectorCommodityCodeName) <- NULL
+  ### Put the data.frames in a list
+  BEACodeNameList <- list(BEADetailIndustryCodeName, BEADetailCommodityCodeName,
+                          BEASummaryIndustryCodeName, BEASummaryCommodityCodeName,
+                          BEASectorIndustryCodeName, BEASectorCommodityCodeName)
+  names(BEACodeNameList) <- c("DetailIndustry", "DetailCommodity", "SummaryIndustry", "SummaryCommodity", "SectorIndustry", "SectorCommodity")
+  return(BEACodeNameList)
+}
+
+Detail_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["DetailIndustry"]]
+usethis::use_data(Detail_IndustryCodeName_2012, overwrite = TRUE)
+Detail_CommodityCodeName_2012 <- getBEACodeName2012Schema()[["DetailCommodity"]]
+usethis::use_data(Detail_CommodityCodeName_2012, overwrite = TRUE)
+Summary_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["SummaryIndustry"]]
+usethis::use_data(Summary_IndustryCodeName_2012, overwrite = TRUE)
+Summary_CommodityCodeName_2012 <- getBEACodeName2012Schema()[["SummaryCommodity"]]
+usethis::use_data(Summary_CommodityCodeName_2012, overwrite = TRUE)
+Sector_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["SectorIndustry"]]
+usethis::use_data(Sector_IndustryCodeName_2012, overwrite = TRUE)
+Sector_CommodityCodeName_2012 <- getBEACodeName2012Schema()[["SectorCommodity"]]
+usethis::use_data(Sector_CommodityCodeName_2012, overwrite = TRUE)
 
 # Get PCE Bridge (2012 schema) 2007 and 2012 tables from BEA static URL
 getBEADetailPCEBridge2012Schema <- function () {
@@ -576,7 +632,7 @@ getBEADetailPCEBridge2012Schema <- function () {
   return(PCEBridge2012SchemaList)
 }
 Detail_PCE_2012 <- getBEADetailPCEBridge2012Schema()[["2012"]]
-usethis::use_data(Detail_PCE_2012, overwrite = T)
+usethis::use_data(Detail_PCE_2012, overwrite = TRUE)
 
 # Get DetailPEQ Bridge (2012 schema) 2007 and 2012 tables from BEA static URL
 getBEADetailPEQBridge2012Schema <- function () {
@@ -604,7 +660,7 @@ getBEADetailPEQBridge2012Schema <- function () {
   return(PEQBridge2012SchemaList)
 }
 Detail_PEQ_2012 <- getBEADetailPEQBridge2012Schema()[["2012"]]
-usethis::use_data(Detail_PEQ_2012, overwrite = T)
+usethis::use_data(Detail_PEQ_2012, overwrite = TRUE)
 
 # Get Detail Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
 getBEADetailMarginsBeforeRedef2012Schema <- function () {
@@ -632,4 +688,4 @@ getBEADetailMarginsBeforeRedef2012Schema <- function () {
   return(Margins2012SchemaList)
 }
 Detail_Margins_2012_BeforeRedef <- getBEADetailMarginsBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(Detail_Margins_2012_BeforeRedef, overwrite = T)
+usethis::use_data(Detail_Margins_2012_BeforeRedef, overwrite = TRUE)

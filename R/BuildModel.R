@@ -61,9 +61,7 @@ buildEEIOmodel <- function(modelname) {
     model$SectorNames <- merge(as.data.frame(model$Commodities, stringsAsFactors = FALSE), USEEIONames,
                                by.x = "model$Commodities", by.y = "Code", all.x = TRUE)
   } else {
-    SectorNamesFile <- paste(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Industry_Code_Name.csv", sep = "_")
-    model$SectorNames <- utils::read.table(system.file("extdata", SectorNamesFile, package = "useeior"),
-                                           sep = ",", header = TRUE, stringsAsFactors = FALSE)
+    model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema), sep = "_")
   }
   colnames(model$SectorNames) <- c("SectorCode", "SectorName")
   # Get model$IndustryMargins and model$FinalConsumerMargins

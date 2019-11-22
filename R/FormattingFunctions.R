@@ -4,13 +4,9 @@
 #' @return A dataframe, having IO table structure, with row and column names from "code" to "code/names/locationcode".
 formatIOTableforIOMB <- function (IOtable, model) {
   # Load pre-saved IndustryCodeName and CommodityCodeName tables
-  IndustryCodeNameFile <- paste(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Industry_Code_Name.csv", sep = "_")
-  IndustryCodeName <- utils::read.table(system.file("extdata", IndustryCodeNameFile, package = "useeior"),
-                                         sep = ",", header = TRUE, stringsAsFactors = FALSE)
+  IndustryCodeName <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema), sep = "_")
   colnames(IndustryCodeName) <- c("Code", "Name")
-  CommodityCodeNameFile <- paste(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Commodity_Code_Name.csv", sep = "_")
-  CommodityCodeName <- utils::read.table(system.file("extdata", CommodityCodeNameFile, package = "useeior"),
-                                         sep = ",", header = TRUE, stringsAsFactors = FALSE)
+  CommodityCodeName <- get(paste(model$specs$BaseIOLevel, "CommodityCodeName", model$specs$BaseIOSchema), sep = "_")
   colnames(CommodityCodeName) <- c("Code", "Name")
   # Modify IOtable row and column names based on table type
   # Use "S00401 Scrap" or "Used" to determine rowname is Commodity or Industry
