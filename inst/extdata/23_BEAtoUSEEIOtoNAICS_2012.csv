@@ -1,0 +1,617 @@
+BEA_2012_Sector_Code,BEA_2012_Sector_Name,BEA_2012_Summary_Code,BEA_2012_Summary_Name,BEA_2012_Detail_Code,BEA_2012_Detail_Name,USEEIO_Code,USEEIO_Industry,NAICS_2012_Code,NAICS_2012_Name
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23,Construction
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23,Construction
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23,Construction
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23,Construction
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23,Construction
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23,Construction
+23,Construction,23,Construction,2332C0,Transportation structures and highways and streets,2332C0,Transportation structures and highways and streets,23,Construction
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23,Construction
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23,Construction
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23,Construction
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23,Construction
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23,Construction
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,236,Construction of Buildings
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,236,Construction of Buildings
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,236,Construction of Buildings
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,236,Construction of Buildings
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,236,Construction of Buildings
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",236,Construction of Buildings
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,236,Construction of Buildings
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,236,Construction of Buildings
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,236,Construction of Buildings
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,236,Construction of Buildings
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,2361,Residential Building Construction
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,2361,Residential Building Construction
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,2361,Residential Building Construction
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,2361,Residential Building Construction
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23611,Residential Building Construction
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23611,Residential Building Construction
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23611,Residential Building Construction
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23611,Residential Building Construction
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,236115,New Single-Family Housing Construction (except For-Sale Builders) 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,236116,New Multifamily Housing Construction (except For-Sale Builders) 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,236117,New Housing For-Sale Builders 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,236117,New Housing For-Sale Builders 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,236117,New Housing For-Sale Builders 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,236118,Residential Remodelers 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2362,Nonresidential Building Construction
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",2362,Nonresidential Building Construction
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,2362,Nonresidential Building Construction
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,2362,Nonresidential Building Construction
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,2362,Nonresidential Building Construction
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,2362,Nonresidential Building Construction
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23621,Industrial Building Construction
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23621,Industrial Building Construction
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,236210,Industrial Building Construction 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,236210,Industrial Building Construction 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23622,Commercial and Institutional Building Construction
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23622,Commercial and Institutional Building Construction
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23622,Commercial and Institutional Building Construction
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23622,Commercial and Institutional Building Construction
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,236220,Commercial and Institutional Building Construction 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,236220,Commercial and Institutional Building Construction 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",236220,Commercial and Institutional Building Construction 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,236220,Commercial and Institutional Building Construction 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,237,Heavy and Civil Engineering Construction
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,237,Heavy and Civil Engineering Construction
+23,Construction,23,Construction,2332C0,Transportation structures and highways and streets,2332C0,Transportation structures and highways and streets,237,Heavy and Civil Engineering Construction
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,2371,Utility System Construction
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23711,Water and Sewer Line and Related Structures Construction
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,237110,Water and Sewer Line and Related Structures Construction 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23712,Oil and Gas Pipeline and Related Structures Construction
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,237120,Oil and Gas Pipeline and Related Structures Construction 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23713,Power and Communication Line and Related Structures Construction
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,237130,Power and Communication Line and Related Structures Construction 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,2372,Land Subdivision
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,2372,Land Subdivision
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,2372,Land Subdivision
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,2372,Land Subdivision
+23,Construction,23,Construction,2332C0,Transportation structures and highways and streets,2332C0,Transportation structures and highways and streets,2372,Land Subdivision
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",2372,Land Subdivision
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2372,Land Subdivision
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,2372,Land Subdivision
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,2372,Land Subdivision
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,2372,Land Subdivision
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23721,Land Subdivision
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23721,Land Subdivision
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23721,Land Subdivision
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23721,Land Subdivision
+23,Construction,23,Construction,2332C0,Transportation structures and highways and streets,2332C0,Transportation structures and highways and streets,23721,Land Subdivision
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23721,Land Subdivision
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23721,Land Subdivision
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23721,Land Subdivision
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23721,Land Subdivision
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23721,Land Subdivision
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,237210,Land Subdivision 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,237210,Land Subdivision 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,237210,Land Subdivision 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,237210,Land Subdivision 
+23,Construction,23,Construction,2332C0,Transportation structures and highways and streets,2332C0,Transportation structures and highways and streets,237210,Land Subdivision 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",237210,Land Subdivision 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,237210,Land Subdivision 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,237210,Land Subdivision 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,237210,Land Subdivision 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,237210,Land Subdivision 
+23,Construction,23,Construction,2332C0,Transportation structures and highways and streets,2332C0,Transportation structures and highways and streets,2373,"Highway, Street, and Bridge Construction"
+23,Construction,23,Construction,2332C0,Transportation structures and highways and streets,2332C0,Transportation structures and highways and streets,23731,"Highway, Street, and Bridge Construction"
+23,Construction,23,Construction,2332C0,Transportation structures and highways and streets,2332C0,Transportation structures and highways and streets,237310,"Highway, Street, and Bridge Construction "
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2379,Other Heavy and Civil Engineering Construction
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23799,Other Heavy and Civil Engineering Construction
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,237990,Other Heavy and Civil Engineering Construction 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238,Specialty Trade Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238,Specialty Trade Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238,Specialty Trade Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238,Specialty Trade Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238,Specialty Trade Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238,Specialty Trade Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238,Specialty Trade Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238,Specialty Trade Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238,Specialty Trade Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238,Specialty Trade Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238,Specialty Trade Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238,Specialty Trade Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2381,"Foundation, Structure, and Building Exterior Contractors"
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23811,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238110,Poured Concrete Foundation and Structure Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23812,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238120,Structural Steel and Precast Concrete Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23813,Framing Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23813,Framing Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23813,Framing Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23813,Framing Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23813,Framing Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23813,Framing Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23813,Framing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23813,Framing Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23813,Framing Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23813,Framing Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23813,Framing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23813,Framing Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238130,Framing Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238130,Framing Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238130,Framing Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238130,Framing Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238130,Framing Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238130,Framing Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238130,Framing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238130,Framing Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238130,Framing Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238130,Framing Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238130,Framing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238130,Framing Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23814,Masonry Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23814,Masonry Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23814,Masonry Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23814,Masonry Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23814,Masonry Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23814,Masonry Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23814,Masonry Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23814,Masonry Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23814,Masonry Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23814,Masonry Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23814,Masonry Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23814,Masonry Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238140,Masonry Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238140,Masonry Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238140,Masonry Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238140,Masonry Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238140,Masonry Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238140,Masonry Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238140,Masonry Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238140,Masonry Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238140,Masonry Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238140,Masonry Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238140,Masonry Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238140,Masonry Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23815,Glass and Glazing Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238150,Glass and Glazing Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23816,Roofing Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23816,Roofing Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23816,Roofing Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23816,Roofing Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23816,Roofing Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23816,Roofing Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23816,Roofing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23816,Roofing Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23816,Roofing Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23816,Roofing Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23816,Roofing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23816,Roofing Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238160,Roofing Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238160,Roofing Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238160,Roofing Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238160,Roofing Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238160,Roofing Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238160,Roofing Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238160,Roofing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238160,Roofing Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238160,Roofing Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238160,Roofing Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238160,Roofing Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238160,Roofing Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23817,Siding Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23817,Siding Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23817,Siding Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23817,Siding Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23817,Siding Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23817,Siding Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23817,Siding Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23817,Siding Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23817,Siding Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23817,Siding Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23817,Siding Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23817,Siding Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238170,Siding Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238170,Siding Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238170,Siding Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238170,Siding Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238170,Siding Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238170,Siding Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238170,Siding Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238170,Siding Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238170,Siding Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238170,Siding Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238170,Siding Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238170,Siding Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23819,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238190,"Other Foundation, Structure, and Building Exterior Contractors "
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,2382,Building Equipment Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,2382,Building Equipment Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,2382,Building Equipment Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,2382,Building Equipment Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,2382,Building Equipment Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,2382,Building Equipment Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",2382,Building Equipment Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2382,Building Equipment Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,2382,Building Equipment Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,2382,Building Equipment Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,2382,Building Equipment Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2382,Building Equipment Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23821,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238210,Electrical Contractors and Other Wiring Installation Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23822,"Plumbing, Heating, and Air-Conditioning Contractors"
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238220,"Plumbing, Heating, and Air-Conditioning Contractors "
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23829,Other Building Equipment Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23829,Other Building Equipment Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238290,Other Building Equipment Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,2383,Building Finishing Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,2383,Building Finishing Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,2383,Building Finishing Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,2383,Building Finishing Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,2383,Building Finishing Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,2383,Building Finishing Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",2383,Building Finishing Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2383,Building Finishing Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,2383,Building Finishing Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,2383,Building Finishing Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,2383,Building Finishing Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2383,Building Finishing Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23831,Drywall and Insulation Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238310,Drywall and Insulation Contractors 
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23832,Painting and Wall Covering Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238320,Painting and Wall Covering Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23833,Flooring Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23833,Flooring Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23833,Flooring Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23833,Flooring Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23833,Flooring Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23833,Flooring Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23833,Flooring Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23833,Flooring Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23833,Flooring Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23833,Flooring Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23833,Flooring Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23833,Flooring Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238330,Flooring Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238330,Flooring Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238330,Flooring Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238330,Flooring Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238330,Flooring Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238330,Flooring Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238330,Flooring Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238330,Flooring Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238330,Flooring Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238330,Flooring Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238330,Flooring Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238330,Flooring Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23834,Tile and Terrazzo Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238340,Tile and Terrazzo Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23835,Finish Carpentry Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23835,Finish Carpentry Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238350,Finish Carpentry Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238350,Finish Carpentry Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23839,Other Building Finishing Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23839,Other Building Finishing Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238390,Other Building Finishing Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238390,Other Building Finishing Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,2389,Other Specialty Trade Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23891,Site Preparation Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23891,Site Preparation Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23891,Site Preparation Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23891,Site Preparation Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23891,Site Preparation Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23891,Site Preparation Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23891,Site Preparation Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23891,Site Preparation Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23891,Site Preparation Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23891,Site Preparation Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23891,Site Preparation Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23891,Site Preparation Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238910,Site Preparation Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238910,Site Preparation Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238910,Site Preparation Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238910,Site Preparation Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238910,Site Preparation Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238910,Site Preparation Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238910,Site Preparation Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238910,Site Preparation Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238910,Site Preparation Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238910,Site Preparation Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238910,Site Preparation Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238910,Site Preparation Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,23899,All Other Specialty Trade Contractors
+23,Construction,23,Construction,230301,Nonresidential maintenance and repair,230301,Nonresidential maintenance and repair,238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,230302,Residential maintenance and repair,230302,Residential maintenance and repair,238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233210,Health care structures,233210,Health care structures,238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233230,Manufacturing structures,233230,Manufacturing structures,238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233240,Power and communication structures,233240,Power and communication structures,238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233262,Educational and vocational structures,233262,Educational and vocational structures,238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,2332A0,"Commercial structures, including farm structures",2332A0,"Commercial structures, including farm structures",238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233411,Single-family residential structures,233411,Single-family residential structures,238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,233412,Multifamily residential structures,233412,Multifamily residential structures,238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,2334A0,Other residential structures,2334A0,Other residential structures,238990,All Other Specialty Trade Contractors
+23,Construction,23,Construction,2332D0,Other nonresidential structures,2332D0,Other nonresidential structures,238990,All Other Specialty Trade Contractors

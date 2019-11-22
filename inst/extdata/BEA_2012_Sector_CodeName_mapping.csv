@@ -1,0 +1,33 @@
+BEA_2012_Sector_Code,BEA_2012_Sector_Name,BEA_2012_Sector_Code_agg,BEA_2012_Sector_Name_agg
+11,"AGRICULTURE, FORESTRY, FISHING, AND HUNTING",11,"Agriculture, forestry, fishing, and hunting"
+21,MINING,21,Mining
+22,UTILITIES,22,Utilities
+23,Construction,23,Construction
+31ND,NONDURABLE GOODS,31G,Manufacturing
+33DG,DURABLE GOODS,31G,Manufacturing
+42,WHOLESALE TRADE,42,Wholesale trade
+44RT,RETAIL TRADE,44RT,Retail trade
+48TW,"TRANSPORTATION AND WAREHOUSING, EXCLUDING POSTAL SERVICE",48TW,Transportation and warehousing
+G,Government,G,Government
+51,INFORMATION,51,Information
+52,FINANCE AND INSURANCE,FIRE,"Finance, insurance, real estate, rental, and leasing"
+53,REAL ESTATE AND RENTAL AND LEASING,FIRE,"Finance, insurance, real estate, rental, and leasing"
+54,PROFESSIONAL AND TECHNICAL SERVICES,PROF,Professional and business services
+55,MANAGEMENT OF COMPANIES AND ENTREPRISES,PROF,Professional and business services
+56,ADMINISTRATIVE AND WASTE SERVICES,PROF,Professional and business services
+61,EDUCATIONAL SERVICES,6,"Educational services, health care, and social assistance"
+62,HEALTH CARE AND SOCIAL ASSISTANCE,6,"Educational services, health care, and social assistance"
+71,"ARTS, ENTERTAINMENT, AND RECREATION",7,"Arts, entertainment, recreation, accommodation, and food services"
+72,ACCOMMODATION AND FOOD SERVICES,7,"Arts, entertainment, recreation, accommodation, and food services"
+81,"OTHER SERVICES, EXCEPT GOVERNMENT",81,"Other services, except government"
+Used,"SCRAP, USED AND SECONDHAND GOODS",Used,"Scrap, used and secondhand goods"
+Other,NONCOMPARABLE IMPORTS AND REST-OF-THE-WORLD ADJUSTMENT,Other,Noncomparable imports and rest-of-the-world adjustment
+F010,Personal consumption expenditures,F010,Personal consumption expenditures
+F020,Private fixed investment,F020,Private fixed investment
+F030,Change in private inventories,F030,Change in private inventories
+F040,Exports of goods and services,F040,Exports of goods and services
+F050,Imports of goods and services,F050,Imports of goods and services
+F100,Government consumption expenditures and gross investment,F100,Government consumption expenditures and gross investment
+V001,Compensation of employees,V001,Compensation of employees
+V002,"Taxes on production and imports, less subsidies",V002,"Taxes on production and imports, less subsidies"
+V003,Gross operating surplus,V003,Gross operating surplus

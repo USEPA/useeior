@@ -1,0 +1,158 @@
+BEA_2007_Sector_Code,BEA_2007_Sector_Name,BEA_2007_Summary_Code,BEA_2007_Summary_Name,BEA_2007_Detail_Code,BEA_2007_Detail_Name,USEEIO_Code,USEEIO_Industry,NAICS_2007_Code,NAICS_2007_Name
+G,Government,GFE,Federal government enterprises,491000,Postal service,491000,Postal service,49,Postal Service
+G,Government,GFE,Federal government enterprises,491000,Postal service,491000,Postal service,491,Postal Service
+G,Government,GFE,Federal government enterprises,491000,Postal service,491000,Postal service,4911,Postal Service
+G,Government,GFE,Federal government enterprises,491000,Postal service,491000,Postal service,49111,Postal Service
+G,Government,GFE,Federal government enterprises,491000,Postal service,491000,Postal service,491110,Postal Service
+G,Government,GFG,Federal general government,S00500,Federal general government (defense),S00500,Federal general government (defense),92,Public Administration
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92,Public Administration
+G,Government,GFE,Federal government enterprises,S00102,Other federal government enterprises,S00102,Other federal government enterprises,92,Public Administration
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92,Public Administration
+G,Government,GSLE,State and local government enterprises,S00203,Other state and local government enterprises,S00203,Other state and local government enterprises,92,Public Administration
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),921,"Executive, Legislative, and Other General Government Support "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,921,"Executive, Legislative, and Other General Government Support "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),9211,"Executive, Legislative, and Other General Government Support "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,9211,"Executive, Legislative, and Other General Government Support "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92111,Executive Offices 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92111,Executive Offices 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92112,Legislative Bodies 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92112,Legislative Bodies 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92113,Public Finance Activities 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92113,Public Finance Activities 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92114,"Executive and Legislative Offices, Combined "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92114,"Executive and Legislative Offices, Combined "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92115,American Indian and Alaska Native Tribal Governments 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92119,Other General Government Support 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92119,Other General Government Support 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),921110,Executive Offices 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,921110,Executive Offices 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),921120,Legislative Bodies 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,921120,Legislative Bodies 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),921130,Public Finance Activities 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,921130,Public Finance Activities 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),921140,"Executive and Legislative Offices, Combined "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,921140,"Executive and Legislative Offices, Combined "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,921150,American Indian and Alaska Native Tribal Governments 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),921190,Other General Government Support 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,921190,Other General Government Support 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922,"Justice, Public Order, and Safety Activities "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,922,"Justice, Public Order, and Safety Activities "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),923,Administration of Human Resource Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,923,Administration of Human Resource Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),924,Administration of Environmental Quality Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,924,Administration of Environmental Quality Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),925,"Administration of Housing Programs, Urban Planning, and Community Development "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,925,"Administration of Housing Programs, Urban Planning, and Community Development "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),9221,"Justice, Public Order, and Safety Activities "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,9221,"Justice, Public Order, and Safety Activities "
+G,Government,GFE,Federal government enterprises,S00102,Other federal government enterprises,S00102,Other federal government enterprises,9221,"Justice, Public Order, and Safety Activities "
+G,Government,GSLE,State and local government enterprises,S00203,Other state and local government enterprises,S00203,Other state and local government enterprises,9221,"Justice, Public Order, and Safety Activities "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),9231,Administration of Human Resource Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,9231,Administration of Human Resource Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),9241,Administration of Environmental Quality Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,9241,Administration of Environmental Quality Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),9251,"Administration of Housing Programs, Urban Planning, and Community Development "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,9251,"Administration of Housing Programs, Urban Planning, and Community Development "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92211,Courts 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92211,Courts 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92212,Police Protection 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92212,Police Protection 
+G,Government,GFE,Federal government enterprises,S00102,Other federal government enterprises,S00102,Other federal government enterprises,92212,Police Protection 
+G,Government,GSLE,State and local government enterprises,S00203,Other state and local government enterprises,S00203,Other state and local government enterprises,92212,Police Protection 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92213,Legal Counsel and Prosecution 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92213,Legal Counsel and Prosecution 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92214,Correctional Institutions 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92214,Correctional Institutions 
+G,Government,GFE,Federal government enterprises,S00102,Other federal government enterprises,S00102,Other federal government enterprises,92214,Correctional Institutions 
+G,Government,GSLE,State and local government enterprises,S00203,Other state and local government enterprises,S00203,Other state and local government enterprises,92214,Correctional Institutions 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92215,Parole Offices and Probation Offices 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92215,Parole Offices and Probation Offices 
+G,Government,GSLE,State and local government enterprises,S00203,Other state and local government enterprises,S00203,Other state and local government enterprises,92216,Fire Protection 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92216,Fire Protection 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92219,"Other Justice, Public Order, and Safety Activities "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92219,"Other Justice, Public Order, and Safety Activities "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92311,Administration of Education Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92311,Administration of Education Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92312,Administration of Public Health Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92312,Administration of Public Health Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92313,"Administration of Human Resource Programs (except Education, Public Health, and Veterans' Affairs Programs) "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92313,"Administration of Human Resource Programs (except Education, Public Health, and Veterans' Affairs Programs) "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92314,Administration of Veterans' Affairs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92314,Administration of Veterans' Affairs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92411,Administration of Air and Water Resource and Solid Waste Management Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92411,Administration of Air and Water Resource and Solid Waste Management Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92412,Administration of Conservation Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92412,Administration of Conservation Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92511,Administration of Housing Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92511,Administration of Housing Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92512,Administration of Urban Planning and Community and Rural Development 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92512,Administration of Urban Planning and Community and Rural Development 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922110,Courts 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,922110,Courts 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922120,Police Protection 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,922120,Police Protection 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922130,Legal Counsel and Prosecution 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,922130,Legal Counsel and Prosecution 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922140,Correctional Institutions 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,922140,Correctional Institutions 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922150,Parole Offices and Probation Offices 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,922150,Parole Offices and Probation Offices 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922160,Fire Protection 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,922160,Fire Protection 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922190,"Other Justice, Public Order, and Safety Activities "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,922190,"Other Justice, Public Order, and Safety Activities "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),923110,Administration of Education Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,923110,Administration of Education Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),923120,Administration of Public Health Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,923120,Administration of Public Health Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),923130,"Administration of Human Resource Programs (except Education, Public Health, and Veterans' Affairs Programs) "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,923130,"Administration of Human Resource Programs (except Education, Public Health, and Veterans' Affairs Programs) "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),923140,Administration of Veterans' Affairs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,923140,Administration of Veterans' Affairs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),924110,Administration of Air and Water Resource and Solid Waste Management Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,924110,Administration of Air and Water Resource and Solid Waste Management Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),924120,Administration of Conservation Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,924120,Administration of Conservation Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),925110,Administration of Housing Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,925110,Administration of Housing Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),925120,Administration of Urban Planning and Community and Rural Development 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,925120,Administration of Urban Planning and Community and Rural Development 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),926,Administration of Economic Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,926,Administration of Economic Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),9261,Administration of Economic Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,9261,Administration of Economic Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92611,Administration of General Economic Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92611,Administration of General Economic Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),926110,Administration of General Economic Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,926110,Administration of General Economic Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92612,Regulation and Administration of Transportation Programs 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,926120,Regulation and Administration of Transportation Programs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92613,"Regulation and Administration of Communications, Electric, Gas, and Other Utilities "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92613,"Regulation and Administration of Communications, Electric, Gas, and Other Utilities "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),926130,"Regulation and Administration of Communications, Electric, Gas, and Other Utilities "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,926130,"Regulation and Administration of Communications, Electric, Gas, and Other Utilities "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92614,Regulation of Agricultural Marketing and Commodities 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92614,Regulation of Agricultural Marketing and Commodities 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92615,"Regulation, Licensing, and Inspection of Miscellaneous Commercial Sectors "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,92615,"Regulation, Licensing, and Inspection of Miscellaneous Commercial Sectors "
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),926140,Regulation of Agricultural Marketing and Commodities 
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,926140,Regulation of Agricultural Marketing and Commodities 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),926150,"Regulation, Licensing, and Inspection of Miscellaneous Commercial Sectors "
+G,Government,GSLG,State and local general government,S00700,State and local general government,S00700,State and local general government,926150,"Regulation, Licensing, and Inspection of Miscellaneous Commercial Sectors "
+G,Government,GFE,Federal government enterprises,S00102,Other federal government enterprises,S00102,Other federal government enterprises,927,Space Research and Technology 
+G,Government,GFE,Federal government enterprises,S00102,Other federal government enterprises,S00102,Other federal government enterprises,9271,Space Research and Technology 
+G,Government,GFE,Federal government enterprises,S00102,Other federal government enterprises,S00102,Other federal government enterprises,92711,Space Research and Technology 
+G,Government,GFE,Federal government enterprises,S00102,Other federal government enterprises,S00102,Other federal government enterprises,927110,Space Research and Technology 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),928,National Security and International Affairs 
+G,Government,GFG,Federal general government,S00500,Federal general government (defense),S00500,Federal general government (defense),928,National Security and International Affairs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),9281,National Security and International Affairs 
+G,Government,GFG,Federal general government,S00500,Federal general government (defense),S00500,Federal general government (defense),9281,National Security and International Affairs 
+G,Government,GFG,Federal general government,S00500,Federal general government (defense),S00500,Federal general government (defense),92811,National Security 
+G,Government,GFG,Federal general government,S00500,Federal general government (defense),S00500,Federal general government (defense),928110,National Security 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92812,International Affairs 
+G,Government,GFG,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),928120,International Affairs 
+G,Government,GFE,Federal government enterprises,S00101,Federal electric utilities,S00101,Federal electric utilities,,
+G,Government,GSLE,State and local government enterprises,S00201,State and local government passenger transit,S00201,State and local government passenger transit,,
+G,Government,GSLE,State and local government enterprises,S00202,State and local government electric utilities,S00202,State and local government electric utilities,,
+G,Government,GFGD,Federal general government,S00500,Federal general government (defense),S00500,Federal general government (defense),,
+G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),,
