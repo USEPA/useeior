@@ -358,23 +358,25 @@ adjustBEACPItoIOIndustry2012Schema <- function () {
   return(CPIIOList)
 }
 
-
-#' Calculate PRO/PUR price ratios using BEA PCE and PEQ Bridge data.
+#' Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).
 #' @param specs Model specifications.
-#' @return A dataframe contains PRO/PUR ratios for Detail BEA sectors.
-getPRObyPURRatios <- function (specs) {
+#' @param marginsource A character indicating the source of Margins, either "Industry" or "FinalConsumer".
+#' @return A dataframe containing PRO/PUR ratios for Detail BEA sectors.
+getMarginsTable <- function (specs, marginsource) {
   # Set year parameters
   schemayear <- specs$BaseIOSchema
   referenceyear <- specs$ReferenceCurrencyYear
-  # Load PCE and PEQ Bridge data
+  # Load Margins or PCE and PEQ Bridge data
   if (schemayear==2012) {
-    # PCE
-    PCEBridge <- PCEBridge2012[, 3:9]
-    PCEBridge[, c("ProducersValue", "PurchasersValue")] <- apply(PCEBridge[, c("ProducersValue", "PurchasersValue")], 2, as.numeric)
-    # PEQ
-    PEQBridge <- PEQBridge2012[, 3:9]
-    PEQBridge[, c("ProducersValue", "PurchasersValue")] <- apply(PEQBridge[, c("ProducersValue", "PurchasersValue")], 2, as.numeric)
-  } else {
+    if (marginsource=="margins") {
+      MarginsTable <- MarginsBeforeRedef2012[, 3:9]
+    } else {
+      # Use PCE and PEQ Bridge tables
+      PCEBridge <- PCEBridge2012[, 3:9]
+      PEQBridge <- PEQBridge2012[, 3:9]
+      MarginsTable <- rbind(PCEBridge, PEQBridge)
+    }
+  } else { #! this is 2007 scehma tables, will decide how to modify later.
     # PCE
     PCEBridge <- as.data.frame(readxl::read_excel(paste(BEApath, "2007Schema/PCEBridge_2007_Detail.xlsx", sep = ""), sheet = "2007"))[7:710, 3:9]
     colnames(PCEBridge) <- c("CommodityCode", "CommodityDescription", "ProducersValue","Transportation","Wholesale","Retail", "PurchasersValue")
@@ -384,32 +386,31 @@ getPRObyPURRatios <- function (specs) {
     colnames(PEQBridge) <- colnames(PCEBridge)
     PEQBridge[, c("ProducersValue", "PurchasersValue")] <- apply(PEQBridge[, c("ProducersValue", "PurchasersValue")], 2, as.numeric)
   }
-  # Combine PCEBridge and PEQBridge to create PCEPEQBridge
-  PCEPEQBridge <- rbind(PCEBridge, PEQBridge)
   # Map to Summary and Sector level
   crosswalk <- utils::read.table(system.file("extdata", "Crosswalk_MasterCrosswalk2012.csv", package = "useeior"),
                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
   crosswalk <- unique(crosswalk[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
-  PCEPEQBridge <- merge(PCEPEQBridge, crosswalk, by.x = "CommodityCode", by.y = "BEA_2012_Detail_Code")
+  MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_2012_Detail_Code")
   # Adjust ProducersValue using Detail CPI
   CPI_Detail <- Detail_CPI_IO
-  PCEPEQBridge <- merge(PCEPEQBridge, CPI_Detail[, as.character(c(schemayear, referenceyear))], by.x = "CommodityCode", by.y = 0)
-  PCEPEQBridge$ProducersValue <- (PCEPEQBridge$ProducersValue*PCEPEQBridge[, as.character(schemayear)])/PCEPEQBridge[, as.character(referenceyear)]
+  MarginsTable <- merge(MarginsTable, CPI_Detail[, as.character(c(schemayear, referenceyear))], by.x = "CommodityCode", by.y = 0)
+  MarginsTable$ProducersValue <- (MarginsTable$ProducersValue*MarginsTable[, as.character(schemayear)])/MarginsTable[, as.character(referenceyear)]
   # Adjust Transportation, Wholesale, and Retail using Sector CPI
   CPI_Sector <- Sector_CPI_IO
   rates <- CPI_Sector[c("48TW", "42", "44RT"), as.character(schemayear)]/CPI_Sector[c("48TW", "42", "44RT"), as.character(referenceyear)]
-  PCEPEQBridge[, c("Transportation", "Wholesale", "Retail")] <- t(t(PCEPEQBridge[, c("Transportation", "Wholesale", "Retail")])*rates)
+  MarginsTable[, c("Transportation", "Wholesale", "Retail")] <- t(t(MarginsTable[, c("Transportation", "Wholesale", "Retail")])*rates)
   # Adjust PurchasersValue
-  PCEPEQBridge$PurchasersValue <- rowSums(PCEPEQBridge[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
+  MarginsTable$PurchasersValue <- rowSums(MarginsTable[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
   # Aggregate by CommodityCode (dynamic to model BaseIOLevel) and CommodityDescription
   if (!specs$BaseIOLevel=="Detail") {
-    PCEPEQBridge$CommodityCode <- PCEPEQBridge[, paste("BEA_2012", specs$BaseIOLevel, "Code", sep = "_")]
+    MarginsTable$CommodityCode <- MarginsTable[, paste("BEA_2012", specs$BaseIOLevel, "Code", sep = "_")]
   }
-  PCEPEQBridge <- stats::aggregate(PCEPEQBridge[, c("ProducersValue", "PurchasersValue")], by = list(PCEPEQBridge$CommodityCode), sum)
-  colnames(PCEPEQBridge)[1] <- "CommodityCode"
+  MarginsTable <- stats::aggregate(MarginsTable[, c("ProducersValue", "PurchasersValue")], by = list(MarginsTable$CommodityCode), sum)
+  colnames(MarginsTable)[1] <- "CommodityCode"
   # Calculate PRO by PUR ratios
-  PCEPEQBridge$PRObyPURRatios <- PCEPEQBridge$ProducersValue/PCEPEQBridge$PurchasersValue
-  PCEPEQBridge[, c("ProducersValue", "PurchasersValue")] <- NULL
-
-  return(PCEPEQBridge)
+  MarginsTable$PRObyPURRatios <- MarginsTable$ProducersValue/MarginsTable$PurchasersValue
+  MarginsTable[, c("ProducersValue", "PurchasersValue")] <- NULL
+  
+  return(MarginsTable)
 }
+
