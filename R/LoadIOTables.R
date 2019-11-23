@@ -32,11 +32,9 @@ loadBEAtables <- function(specs) {
 
   # Load pre-saved Make and Use tables
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
-  MakeData <- paste0(specs$BaseIOLevel, "_Make_", specs$IOYear, "_", Redef)
-  UseData <- paste0(specs$BaseIOLevel, "_Use_", specs$IOYear, "_", specs$BasePriceType, "_", Redef)
-  BEA$Make <- get(MakeData)
-  BEA$Use <-  get(UseData)
-
+  BEA$Make <- get(paste(specs$BaseIOLevel, "Make", specs$IOYear, Redef, sep = "_"))
+  BEA$Use <-  get(paste(specs$BaseIOLevel, "Use", specs$IOYear, specs$BasePriceType, Redef, sep = "_"))
+  
   # Separate Make and Use tables into specific tables
   BEA$MakeTransactions <- BEA$Make[BEA$Industries, BEA$Commodities] * 1E6 # data frame, values are in dollars ($)
   BEA$MakeIndustryOutput <- BEA$Make[BEA$Industries, BEA$IndustryTotalOutputCodes, drop = FALSE] * 1E6 # data frame, values are in dollars ($)
@@ -44,6 +42,16 @@ loadBEAtables <- function(specs) {
   BEA$UseFinalDemand <- BEA$Use[BEA$Commodities, BEA$FinalDemandCodes] * 1E6 # data frame, values are in dollars ($)
   BEA$UseValueAdded <- BEA$Use[BEA$ValueAddedCodes, BEA$Industries] * 1E6 # data frame, values are in dollars ($)
   BEA$UseCommodityOutput <- BEA$Use[BEA$Commodities, BEA$CommodityTotalOutputCodes, drop = FALSE] * 1E6 # data frame, values are in dollars ($)
+  if (specs$BaseIOLevel=="Sector") {
+    Import <- get(paste("Summary_Import", specs$IOYear, "BeforeRedef", sep = "_"))
+    ImportTrasactions <- Import[Summary_CommodityCodeName_2012$BEA_2012_Summary_Commodity_Code,
+                                Summary_IndustryCodeName_2012$BEA_2012_Summary_Industry_Code] * 1E6 # data frame, values are in dollars ($)
+    BEA$ImportTransactions <- as.data.frame(aggregateMatrix(as.matrix(ImportTrasactions), "Summary", "Sector", model))[BEA$Commodities, BEA$Industries]
+  } else {
+    Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, Redef, sep = "_"))
+    BEA$ImportTransactions <- Import[BEA$Commodities, BEA$Industries] * 1E6 # data frame, values are in dollars ($)
+  }
+  BEA$DomesticUseTransactions <- BEA$UseTransactions - BEA$ImportTransactions
   # For Detail model, set used goods (S00402) and noncomparable imports (S00300) in UseCommodityOutput to 1 to prevent dividing by zero when creating market shares
   if (specs$BaseIOLevel == "Detail") {
     BEA$UseCommodityOutput[c("S00402", "S00300"), ] <- 1
