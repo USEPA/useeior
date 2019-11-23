@@ -20,6 +20,7 @@ buildEEIOmodel <- function(modelname) {
   model$Use <- model$BEA$Use
   model$MakeTransactions <- model$BEA$MakeTransactions
   model$UseTransactions <- model$BEA$UseTransactions
+  model$DomesticUseTransactions <- model$BEA$DomesticUseTransactions
   model$UseValueAdded <- model$BEA$UseValueAdded
   # Get GDP tables
   model$GDP <- loadGDPtables(model$specs)
@@ -83,14 +84,17 @@ buildEEIOmodel <- function(modelname) {
   model$f <- as.matrix(rowSums(model$FinalDemand))
   # Generate IO tables
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
-  model$U_n <- generateDirectRequirementsfromUse(model) #normalized Use
+  model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
+  model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
 
   if(model$specs$CommoditybyIndustryType == 'Commodity') {
     logging::loginfo(paste("Building commodityxcommodity direct requirement matrix ..."))
-    model$A <- model$U_n %*% model$V_n #transformDirectRequirementswithMarketShares(U_n,V_n)
+    model$A <- model$U_n %*% model$V_n
+    model$A_d <- model$U_d_n %*% model$V_n 
   } else if(model$specs$CommoditybyIndustryType == 'Industry') {
     logging::loginfo(paste("Building industryxindustry requirement matrix ..."))
-    model$A <- model$V_n %*% model$U_n #transformDirectRequirementswithMarketShares(V_n,U_n)
+    model$A <- model$V_n %*% model$U_n
+    model$A_d <- model$V_n %*% model$U_d_n
   }
   # Generate satellite tables
   model$sattableslist <- loadsattables(model)

@@ -54,10 +54,15 @@ normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
 
 #' Generate Direct Requirements matrix from Use table.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param domestic A logical parameter indicating whether to calculate DR or Domestic DR.
 #' @return Direct Requirements matrix of the model.
-generateDirectRequirementsfromUse <- function (model) {
+generateDirectRequirementsfromUse <- function (model, domestic) {
   # Generate direct requirments matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
-  B <- normalizeIOTransactions(model$UseTransactions, model$BEA$MakeIndustryOutput) # B = U %*% solve(x_hat)
+  if (domestic==TRUE) {
+    B <- normalizeIOTransactions(model$DomesticUseTransactions, model$BEA$MakeIndustryOutput) # B = U %*% solve(x_hat)
+  } else {
+    B <- normalizeIOTransactions(model$UseTransactions, model$BEA$MakeIndustryOutput) # B = U %*% solve(x_hat)
+  }
   return(B)
 }
 
