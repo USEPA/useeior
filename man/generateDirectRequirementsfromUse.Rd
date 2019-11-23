@@ -4,10 +4,12 @@
 \alias{generateDirectRequirementsfromUse}
 \title{Generate Direct Requirements matrix from Use table.}
 \usage{
-generateDirectRequirementsfromUse(model)
+generateDirectRequirementsfromUse(model, domestic)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{domestic}{A logical parameter indicating whether to calculate DR or Domestic DR.}
 }
 \value{
 Direct Requirements matrix of the model.
