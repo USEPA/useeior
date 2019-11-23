@@ -414,6 +414,7 @@ getBEADetailImportBeforeRedef2012Schema <- function () {
   }
   for (i in c(2007, 2012)) {
     DetailImport <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:411, 3:429]
+    DetailImport <- as.data.frame(apply(DetailImport, 2, as.numeric))
     rownames(DetailImport) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:411, 1]
     colnames(DetailImport) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[6, 3:429]
     DetailImport[is.na(DetailImport)] <- 0
@@ -434,6 +435,7 @@ getBEASummaryImportBeforeRedef2012Schema <- function () {
   }
   for (i in 2010:2017) {
     SummaryImport <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:79, 3:95]
+    SummaryImport <- as.data.frame(apply(SummaryImport, 2, as.numeric))
     rownames(SummaryImport) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:79, 1]
     colnames(SummaryImport) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[6, 3:95]
     SummaryImport[is.na(SummaryImport)] <- 0
