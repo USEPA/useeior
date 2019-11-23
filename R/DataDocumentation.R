@@ -1,7 +1,7 @@
 #' Detail 2012 Make Before Redefinition (2012 schema)
 #' @format A dataframe with 406 obs. and 406 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Detail_Make_2012_BeforeRedef"
 
 #' Detail 2012 Use Producer's Value Before Redefinition (2012 schema)
@@ -13,7 +13,7 @@
 #' Detail 2012 Make After Redefinition (2012 schema)
 #' @format A dataframe with 406 obs. and 406 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Detail_Make_2012_AfterRedef"
 
 #' Detail 2012 Use Producer's Value After Redefinition (2012 schema)
@@ -37,7 +37,7 @@
 #' Summary 2012 Make Before Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2012_BeforeRedef"
 
 #' Summary 2013 Make Before Redefinition (2012 schema)
@@ -55,7 +55,7 @@
 #' Summary 2015 Make Before Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2015_BeforeRedef"
 
 #' Summary 2016 Make Before Redefinition (2012 schema)
@@ -73,7 +73,7 @@
 #' Summary 2018 Make Before Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2018_BeforeRedef"
 
 #' Summary 2010 Use Producer's Value Before Redefinition (2012 schema)
@@ -133,55 +133,55 @@
 #' Summary 2010 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2010_AfterRedef"
 
 #' Summary 2011 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2011_AfterRedef"
 
 #' Summary 2012 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2012_AfterRedef"
 
 #' Summary 2013 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2013_AfterRedef"
 
 #' Summary 2014 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2014_AfterRedef"
 
 #' Summary 2015 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2015_AfterRedef"
 
 #' Summary 2016 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2016_AfterRedef"
 
 #' Summary 2017 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2017_AfterRedef"
 
 #' Summary 2018 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Summary_Make_2018_AfterRedef"
 
 #' Summary 2010 Use Producer's Value After Redefinition (2012 schema)
@@ -253,7 +253,7 @@
 #' Sector 2012 Make Before Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2012_BeforeRedef"
 
 #' Sector 2013 Make Before Redefinition (2012 schema)
@@ -271,7 +271,7 @@
 #' Sector 2015 Make Before Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2015_BeforeRedef"
 
 #' Sector 2016 Make Before Redefinition (2012 schema)
@@ -289,7 +289,7 @@
 #' Sector 2018 Make Before Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2018_BeforeRedef"
 
 #' Sector 2010 Use Producer's Value Before Redefinition (2012 schema)
@@ -349,55 +349,55 @@
 #' Sector 2010 Make After Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2010_AfterRedef"
 
 #' Sector 2011 Make After Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2011_AfterRedef"
 
 #' Sector 2012 Make After Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2012_AfterRedef"
 
 #' Sector 2013 Make After Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2013_AfterRedef"
 
 #' Sector 2014 Make After Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2014_AfterRedef"
 
 #' Sector 2015 Make After Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2015_AfterRedef"
 
 #' Sector 2016 Make After Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2016_AfterRedef"
 
 #' Sector 2017 Make After Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2017_AfterRedef"
 
 #' Sector 2018 Make After Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
 #' @description TBD
-#' @source \url{"https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"}
+#' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Make_2018_AfterRedef"
 
 #' Sector 2010 Use Producer's Value After Redefinition (2012 schema)
@@ -454,59 +454,59 @@
 #' @source \url{https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip}
 "Sector_Use_2018_PRO_AfterRedef"
 
-#' Detail 2012 Import (2012 schema)
+#' Detail 2012 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 405 obs. and 427 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx}
-"Detail_Import_2012"
+"Detail_Import_2012_BeforeRedef"
 
-#' Summary 2010 Import (2012 schema)
+#' Summary 2010 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 73 obs. and 93 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
-"Summary_Import_2010"
+"Summary_Import_2010_BeforeRedef"
 
-#' Summary 2011 Import (2012 schema)
+#' Summary 2011 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 73 obs. and 93 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
-"Summary_Import_2011"
+"Summary_Import_2011_BeforeRedef"
 
-#' Summary 2012 Import (2012 schema)
+#' Summary 2012 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 73 obs. and 93 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
-"Summary_Import_2012"
+"Summary_Import_2012_BeforeRedef"
 
-#' Summary 2013 Import (2012 schema)
+#' Summary 2013 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 73 obs. and 93 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
-"Summary_Import_2013"
+"Summary_Import_2013_BeforeRedef"
 
-#' Summary 2014 Import (2012 schema)
+#' Summary 2014 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 73 obs. and 93 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
-"Summary_Import_2014"
+"Summary_Import_2014_BeforeRedef"
 
-#' Summary 2015 Import (2012 schema)
+#' Summary 2015 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 73 obs. and 93 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
-"Summary_Import_2015"
+"Summary_Import_2015_BeforeRedef"
 
-#' Summary 2016 Import (2012 schema)
+#' Summary 2016 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 73 obs. and 93 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
-"Summary_Import_2016"
+"Summary_Import_2016_BeforeRedef"
 
-#' Summary 2017 Import (2012 schema)
+#' Summary 2017 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 73 obs. and 93 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
-"Summary_Import_2017"
+"Summary_Import_2017_BeforeRedef"
 
 #' Detail 2007-2017 Gross Output (2012 schema)
 #' @format A dataframe with 405 obs. and 11 variables

@@ -404,8 +404,8 @@ usethis::use_data(Sector_Use_2017_PRO_AfterRedef, overwrite = TRUE)
 Sector_Use_2018_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2018"]]
 usethis::use_data(Sector_Use_2018_PRO_AfterRedef, overwrite = TRUE)
 
-# Get BEA Detail Import (2007 and 2012) from static Excel
-getBEADetailImportMatrix <- function () {
+# Get BEA Detail Import (Before Redef, 2012 schema) 2007 and 2012 from static Excel
+getBEADetailImportBeforeRedef2012Schema <- function () {
   DetailImportList <- list()
   # read excel sheet
   FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx"
@@ -421,11 +421,11 @@ getBEADetailImportMatrix <- function () {
   }
   return(DetailImportList)
 }
-Detail_Import_2012 <- getBEADetailImportMatrix()[["2012"]]
-usethis::use_data(Detail_Import_2012, overwrite = TRUE)
+Detail_Import_2012_BeforeRedef <- getBEADetailImportBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Detail_Import_2012_BeforeRedef, overwrite = TRUE)
 
-# Get BEA Summary Import (2010:2017) from static Excel
-getBEASummaryImportMatrix <- function () {
+# Get BEA Summary Import (Before Redef, 2012 schema) 2010:2017 from static Excel
+getBEASummaryImportBeforeRedef2012Schema <- function () {
   SummaryImportList <- list()
   # read excel sheet
   FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_SUM_1997-2017.xlsx"
@@ -441,22 +441,22 @@ getBEASummaryImportMatrix <- function () {
   }
   return(SummaryImportList)
 }
-Summary_Import_2010 <- getBEASummaryImportMatrix()[["2010"]]
-usethis::use_data(Summary_Import_2010, overwrite = TRUE)
-Summary_Import_2011 <- getBEASummaryImportMatrix()[["2011"]]
-usethis::use_data(Summary_Import_2011, overwrite = TRUE)
-Summary_Import_2012 <- getBEASummaryImportMatrix()[["2012"]]
-usethis::use_data(Summary_Import_2012, overwrite = TRUE)
-Summary_Import_2013 <- getBEASummaryImportMatrix()[["2013"]]
-usethis::use_data(Summary_Import_2013, overwrite = TRUE)
-Summary_Import_2014 <- getBEASummaryImportMatrix()[["2014"]]
-usethis::use_data(Summary_Import_2014, overwrite = TRUE)
-Summary_Import_2015 <- getBEASummaryImportMatrix()[["2015"]]
-usethis::use_data(Summary_Import_2015, overwrite = TRUE)
-Summary_Import_2016 <- getBEASummaryImportMatrix()[["2016"]]
-usethis::use_data(Summary_Import_2016, overwrite = TRUE)
-Summary_Import_2017 <- getBEASummaryImportMatrix()[["2017"]]
-usethis::use_data(Summary_Import_2017, overwrite = TRUE)
+Summary_Import_2010_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["2010"]]
+usethis::use_data(Summary_Import_2010_BeforeRedef, overwrite = TRUE)
+Summary_Import_2011_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["2011"]]
+usethis::use_data(Summary_Import_2011_BeforeRedef, overwrite = TRUE)
+Summary_Import_2012_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Summary_Import_2012_BeforeRedef, overwrite = TRUE)
+Summary_Import_2013_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["2013"]]
+usethis::use_data(Summary_Import_2013_BeforeRedef, overwrite = TRUE)
+Summary_Import_2014_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["2014"]]
+usethis::use_data(Summary_Import_2014_BeforeRedef, overwrite = TRUE)
+Summary_Import_2015_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["2015"]]
+usethis::use_data(Summary_Import_2015_BeforeRedef, overwrite = TRUE)
+Summary_Import_2016_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["2016"]]
+usethis::use_data(Summary_Import_2016_BeforeRedef, overwrite = TRUE)
+Summary_Import_2017_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["2017"]]
+usethis::use_data(Summary_Import_2017_BeforeRedef, overwrite = TRUE)
 
 # Download all GDP tables from BEA iTable
 getBEAUnderlyingTables <- function () {
