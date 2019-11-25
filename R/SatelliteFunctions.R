@@ -7,42 +7,38 @@ getStandardSatelliteTableFormat <- function () {
   return(sat)
 }
 
-#' Map a satellite table from NAICS-coded format to USEEIO-coded format.
+#' Map a satellite table from NAICS-coded format to BEA-coded format.
 #' @param sattable A standardized satellite table with resource and emission names from original sources.
-#' @param majormodelversionnumber Model's major version number.
 #' @param satellitetableyear Year of the satellite table.
 #' @return A satellite table aggregated by the USEEIO model sector codes.
-mapSatTablefromNAICStoUSEEIO <- function (sattable, majormodelversionnumber, satellitetableyear) {
-  modelcodelistname <- paste("USEEIO", majormodelversionnumber, "_Code", sep = "")
-  modelcommoditylistname <- paste("USEEIO", majormodelversionnumber, "_Commodity", sep = "")
-  # Generate NAICS-to-USEEIO mapping dataframe based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
-  NAICStoUSEEIO <- unique(MasterCrosswalk2012[!is.na(crosswalk$`2012_NAICS_Code`), c("2012_NAICS_Code", modelcodelistname, modelcommoditylistname)])
-  colnames(NAICStoUSEEIO) <- c("2012_NAICS_Code", "SectorCode", "SectorName")
-  # Assign DQTechnological score based on the the correspondence between NAICS and USEEIO code:
-  # If there is allocation (1 NAICS to 2 or more USEEIO), DQTechnological score = 2, otherwise, 1.
-  for (NAICS in unique(NAICStoUSEEIO$`2012_NAICS_Code`)) {
-    N_USEEIO <- nrow(NAICStoUSEEIO[NAICStoUSEEIO$`2012_NAICS_Code` == NAICS, ])
-    if (N_USEEIO == 1) {
-      NAICStoUSEEIO[NAICStoUSEEIO$`2012_NAICS_Code` == NAICS, "DQTechnological"] <- 1
+mapSatTablefromNAICStoBEA <- function (sattable, satellitetableyear) {
+  # Generate NAICS-to-BEA mapping dataframe based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
+  NAICStoBEA <- unique(MasterCrosswalk2012[, c("NAICS_2012_Code", paste("BEA", model$specs$BaseIOSchema, "Detail_Code", sep = "_"))])
+  colnames(NAICStoBEA) <- c("NAICS", "SectorCode")
+  # Assign DQTechnological score based on the the correspondence between NAICS and BEA code:
+  # If there is allocation (1 NAICS to 2 or more BEA), DQTechnological score = 2, otherwise, 1.
+  for (NAICS in unique(NAICStoBEA$NAICS)) {
+    N_BEA <- nrow(NAICStoBEA[NAICStoBEA$NAICS == NAICS, ])
+    if (N_BEA == 1) {
+      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "DQTechnological"] <- 1
     } else {
-      NAICStoUSEEIO[NAICStoUSEEIO$`2012_NAICS_Code` == NAICS, "DQTechnological"] <- 2
+      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "DQTechnological"] <- 2
     }
   }
-  # Merge satellite table with NAICStoUSEEIO dataframe
-  Sattable_USEEIO <- merge(sattable, NAICStoUSEEIO, by.x = "NAICS", by.y = "2012_NAICS_Code", all.x = TRUE)
+  # Merge satellite table with NAICStoBEA dataframe
+  Sattable_BEA <- merge(sattable, NAICStoBEA, by = "NAICS", all.x = TRUE)
   # Generate allocation_factor dataframe containing allocation factors between NAICS and BEA sectors
   allocation_factor <- getNAICStoBEAAllocation(satellitetableyear)
-  colnames(allocation_factor) <- c("2012_NAICS_Code", "SectorCode", "allocation_factor")
-  # Merge the USEEIO-coded satellite table with allocation_factor dataframe
-  Sattable_USEEIO <- merge(Sattable_USEEIO, allocation_factor,
-                           by.x = c("NAICS", "SectorCode"), by.y = c("2012_NAICS_Code", "SectorCode"), all.x = TRUE)
+  colnames(allocation_factor) <- c("NAICS", "SectorCode", "allocation_factor")
+  # Merge the BEA-coded satellite table with allocation_factor dataframe
+  Sattable_BEA <- merge(Sattable_BEA, allocation_factor, by = c("NAICS", "SectorCode"), all.x = TRUE)
   # Replace NA in allocation_factor with 1
-  Sattable_USEEIO[is.na(Sattable_USEEIO$allocation_factor), "allocation_factor"] <- 1
-  # Calculate FlowAmount for USEEIO-coded sectors using allocation factors
-  Sattable_USEEIO$FlowAmount <- Sattable_USEEIO$FlowAmount*Sattable_USEEIO$allocation_factor
-  # Aggregate FlowAmount to USEEIO sectors
-  Sattable_USEEIO <- stats::aggregate(FlowAmount~SectorCode+SectorName+FlowName+ReliabilityScore+DQTechnological, Sattable_USEEIO, sum)
-  return(Sattable_USEEIO)
+  Sattable_BEA[is.na(Sattable_BEA$allocation_factor), "allocation_factor"] <- 1
+  # Calculate FlowAmount for BEA-coded sectors using allocation factors
+  Sattable_BEA$FlowAmount <- Sattable_BEA$FlowAmount*Sattable_BEA$allocation_factor
+  # Aggregate FlowAmount to BEA sectors
+  Sattable_BEA <- stats::aggregate(FlowAmount~SectorCode+SectorName+FlowName+ReliabilityScore+DQTechnological, Sattable_BEA, sum)
+  return(Sattable_BEA)
 }
 
 #' Calculates intensity coefficient (kg/$) for a standard satellite table.
