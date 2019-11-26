@@ -29,10 +29,9 @@ getBEADetailMakeBeforeRedef2012Schema <- function () {
   }
   return(DetailMakeList)
 }
-Detail_Make_2007_BeforeRedef <- getBEADetailMakeBeforeRedef2012Schema()[["2007"]]
-usethis::use_data(Detail_Make_2007_BeforeRedef, overwrite = TRUE)
 Detail_Make_2012_BeforeRedef <- getBEADetailMakeBeforeRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Make_2012_BeforeRedef, overwrite = TRUE)
+
 
 # Get BEA Detail Use (PRO, Before Redef, 2012 schema) 2007 and 2012 tables from static Excel
 getBEADetailUsePROBeforeRedef2012Schema <- function () {
@@ -51,8 +50,6 @@ getBEADetailUsePROBeforeRedef2012Schema <- function () {
   }
   return(DetailUseList)
 }
-Detail_Use_2007_PRO_BeforeRedef <- getBEADetailUsePROBeforeRedef2012Schema()[["2007"]]
-usethis::use_data(Detail_Use_2007_PRO_BeforeRedef, overwrite = TRUE)
 Detail_Use_2012_PRO_BeforeRedef <- getBEADetailUsePROBeforeRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Use_2012_PRO_BeforeRedef, overwrite = TRUE)
 
@@ -73,8 +70,6 @@ getBEADetailMakeAfterRedef2012Schema <- function () {
   }
   return(DetailMakeList)
 }
-Detail_Make_2007_AfterRedef <- getBEADetailMakeAfterRedef2012Schema()[["2007"]]
-usethis::use_data(Detail_Make_2007_AfterRedef, overwrite = TRUE)
 Detail_Make_2012_AfterRedef <- getBEADetailMakeAfterRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Make_2012_AfterRedef, overwrite = TRUE)
 
@@ -95,8 +90,6 @@ getBEADetailUsePROAfterRedef2012Schema <- function () {
   }
   return(DetailUseList)
 }
-Detail_Use_2007_PRO_AfterRedef <- getBEADetailUsePROAfterRedef2012Schema()[["2007"]]
-usethis::use_data(Detail_Use_2007_PRO_AfterRedef, overwrite = TRUE)
 Detail_Use_2012_PRO_AfterRedef <- getBEADetailUsePROAfterRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Use_2012_PRO_AfterRedef, overwrite = TRUE)
 
