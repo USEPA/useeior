@@ -53,7 +53,7 @@
 #'  }
 "IndicatorConfiguration"
 
-#' DataSource
+#' DataSourceConfiguration
 #' @format A list of data source attributes
 #' \describe{
 #'  \item{Title}{string, Name of source},
@@ -62,5 +62,5 @@
 #'  \item{URL}{string, URL data retrieved from}
 #'  \item{Primary}{boolean, TRUE if this is the primary source}
 #' }
-"DataSource"
+"DataSourceConfiguration"
 
