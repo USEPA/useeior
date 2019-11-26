@@ -29,12 +29,12 @@ SatelliteTableConfiguration$Abbreviation <- ""
 SatelliteTableConfiguration$StaticSource <- TRUE
 SatelliteTableConfiguration$StaticFile <- ""
 SatelliteTableConfiguration$DataYears <- list()
-SatelliteTableConfiguration$DataSources <- list()
 SatelliteTableConfiguration$Locations <- list()
 SatelliteTableConfiguration$SectorListSource <- ""
 SatelliteTableConfiguration$SectorListYear <- 2012
-SatelliteTableConfiguration$SectorListLevel <- 'Detail'
+SatelliteTableConfiguration$SectorListLevel <- "Detail"
 SatelliteTableConfiguration$OriginalFlowSource <- ""
+SatelliteTableConfiguration$DataSources <- list()
 
 usethis::use_data(SatelliteTableConfiguration, overwrite = T)
 
@@ -49,16 +49,17 @@ IndicatorConfiguration$FullName <- ""
 IndicatorConfiguration$Abbreviation <- ""
 IndicatorConfiguration$Category <- ""
 IndicatorConfiguration$Unit <- ""
+IndicatorConfiguration$StaticSource <- TRUE
 IndicatorConfiguration$DataSources <- list()
 
 usethis::use_data(IndicatorConfiguration, overwrite = T)
 
 #Define a data source
-DataSource <- list()
-DataSource$Title <- ""
-DataSource$DataYear <- ""
-DataSource$Author <- ""
-DataSource$URL <- ""
-DataSource$Primary <- FALSE
+DataSourceConfiguration <- list()
+DataSourceConfiguration$Title <- ""
+DataSourceConfiguration$Author <- ""
+DataSourceConfiguration$DataYear <- ""
+DataSourceConfiguration$URL <- ""
+DataSourceConfiguration$Primary <- FALSE
 
-usethis::use_data(DataSource, overwrite = T)
+usethis::use_data(DataSourceConfiguration, overwrite = T)

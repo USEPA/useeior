@@ -7,12 +7,13 @@
 \format{A list of main model attributes.
 \describe{
  \item{Model}{string, Name of the model using standard naming scheme}
- \item{BaseIOSchema}{numeric,  value indicating yea of the base BEA IO schema, 2007 or 2012}
+ \item{BaseIOSchema}{numeric, value indicating yea of the base BEA IO schema, 2007 or 2012}
  \item{BaseIOLevel}{string, BEA IO levels. Options are "Detail","Summary", or "Sector"}
  \item{IOYear}{numeric, value indicatinbg year of IO data, e.g. 2012}
  \item{PrimaryRegionAcronym}{string, acronyms for main model region, e.g. "US"}
  \item{ModelRegionAcronyms}{list, acronyms for all model regions}
  \item{ModelType}{string, either "US" or "state" currently supported}
+ \item{ModelSource}{string, only "BEA" currently supported}
  \item{BasePriceType}{string, base IO table price type, only "PRO" currently supported}
  \item{BasewithDefinitions}{boolean, TRUE if IO tables after redefinitions, FALSE if before}
  \item{ReferenceCurrencyYear}{numeric value indicating the reference currency year, e.g. 2013}

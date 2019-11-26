@@ -2,12 +2,13 @@
 #' @format A list of main model attributes.
 #' \describe{
 #'  \item{Model}{string, Name of the model using standard naming scheme}
-#'  \item{BaseIOSchema}{numeric,  value indicating yea of the base BEA IO schema, 2007 or 2012}
+#'  \item{BaseIOSchema}{numeric, value indicating yea of the base BEA IO schema, 2007 or 2012}
 #'  \item{BaseIOLevel}{string, BEA IO levels. Options are "Detail","Summary", or "Sector"}
 #'  \item{IOYear}{numeric, value indicatinbg year of IO data, e.g. 2012}
 #'  \item{PrimaryRegionAcronym}{string, acronyms for main model region, e.g. "US"}
 #'  \item{ModelRegionAcronyms}{list, acronyms for all model regions}
 #'  \item{ModelType}{string, either "US" or "state" currently supported}
+#'  \item{ModelSource}{string, only "BEA" currently supported}
 #'  \item{BasePriceType}{string, base IO table price type, only "PRO" currently supported}
 #'  \item{BasewithDefinitions}{boolean, TRUE if IO tables after redefinitions, FALSE if before}
 #'  \item{ReferenceCurrencyYear}{numeric value indicating the reference currency year, e.g. 2013}
@@ -26,11 +27,13 @@
 #'  \item{Abbreviation}{string, Abbreviation for table}
 #'  \item{StaticSource}{boolean, TRUE if loading table from static source}
 #'  \item{StaticFile}{string, path to static file}
-#'  \item{DataSources}{list of data sources, @seealso [DataSource]}
+#'  \item{DataYears}{list of data years}
 #'  \item{Locations}{list of location acyronyms}
 #'  \item{SectorListSource}{string, name of source "NAICS" or "BEA" accepted}
 #'  \item{SectorListYear}{numeric, year of sector list schema, e.g. 2017}
+#'  \item{SectorListLevel}{string, BEA IO levels. Options are "Detail","Summary", or "Sector"}
 #'  \item{OriginalFlowSource}{string, name of original flow source for mapping}
+#'  \item{DataSources}{list of data sources, @seealso [DataSourceConfiguration]}
 #'}
 "SatelliteTableConfiguration"
 
@@ -49,18 +52,19 @@
 #'  \item{Abbreviation}{string, Name of the indicator}
 #'  \item{Category}{string, Impact category of the indicator}
 #'  \item{Unit}{string, unit of the indicator}
-#'  \item{DataSources}{list of data sources, @seealso [DataSource]}
+#'  \item{SatticSource}{boolean, TRUE if this is a static source}
+#'  \item{DataSources}{list of data sources, @seealso [DataSourceConfiguration]}
 #'  }
 "IndicatorConfiguration"
 
-#' DataSource
+#' DataSourceConfiguration
 #' @format A list of data source attributes
 #' \describe{
 #'  \item{Title}{string, Name of source},
-#'  \item{DataYear}{numeric, year of data},
 #'  \item{Author}{string, name or orgs or individuals}
+#'  \item{DataYear}{numeric, year of data},
 #'  \item{URL}{string, URL data retrieved from}
 #'  \item{Primary}{boolean, TRUE if this is the primary source}
 #' }
-"DataSource"
+"DataSourceConfiguration"
 

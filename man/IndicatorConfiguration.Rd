@@ -10,7 +10,8 @@
  \item{Abbreviation}{string, Name of the indicator}
  \item{Category}{string, Impact category of the indicator}
  \item{Unit}{string, unit of the indicator}
- \item{DataSources}{list of data sources, @seealso [DataSource]}
+ \item{SatticSource}{boolean, TRUE if this is a static source}
+ \item{DataSources}{list of data sources, @seealso [DataSourceConfiguration]}
  }}
 \usage{
 IndicatorConfiguration

@@ -10,11 +10,13 @@
  \item{Abbreviation}{string, Abbreviation for table}
  \item{StaticSource}{boolean, TRUE if loading table from static source}
  \item{StaticFile}{string, path to static file}
- \item{DataSources}{list of data sources, @seealso [DataSource]}
+ \item{DataYears}{list of data years}
  \item{Locations}{list of location acyronyms}
  \item{SectorListSource}{string, name of source "NAICS" or "BEA" accepted}
  \item{SectorListYear}{numeric, year of sector list schema, e.g. 2017}
+ \item{SectorListLevel}{string, BEA IO levels. Options are "Detail","Summary", or "Sector"}
  \item{OriginalFlowSource}{string, name of original flow source for mapping}
+ \item{DataSources}{list of data sources, @seealso [DataSourceConfiguration]}
 }}
 \usage{
 SatelliteTableConfiguration
