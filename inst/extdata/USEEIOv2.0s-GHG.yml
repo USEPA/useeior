@@ -19,7 +19,7 @@ SatelliteTable:
     StaticSource: TRUE
     StaticFile: "USEEIO_GHG_Data_Extracted_2016.csv"
     DataYears: [2016]
-    Location: "US"
+    Locations: ["US"]
     SectorListSource: "BEA" # or, NAICS
     SectorListYear: 2012
     SectorListLevel: "Detail"
