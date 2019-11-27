@@ -17,7 +17,7 @@ SatelliteTable:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "SI/GHG/USEEIO_GHG_Data_Extracted_2011.csv"
+    StaticFile: "USEEIO_GHG_Data_Extracted_2011.csv"
     DataYears: [2011]
     Locations: ["US"]
     SectorListSource: "BEA" # or, NAICS
