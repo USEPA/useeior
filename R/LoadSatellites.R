@@ -39,7 +39,7 @@ loadsattables <- function(model){
             sattable_r[, "Location"] <- paste("US-", r, sep = "")
           }
         }
-        sattablecoeffs_r <- generateFlowtoDollarCoefficient(sattable_r, sat$DataYears[1], model$specs$ReferenceCurrencyYear, r, IsRoUS=IsRoUS, model)
+        sattablecoeffs_r <- generateFlowtoDollarCoefficient(sattable_r, sat$DataYears[1], model$specs$IOYear,r, IsRoUS=IsRoUS, model)
         sattablecoeffs <- rbind(sattablecoeffs,sattablecoeffs_r)
       }
       #Need to have sector name
