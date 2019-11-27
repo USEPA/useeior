@@ -1,16 +1,16 @@
 # Define Model Configuration list object
 ModelConfiguration <- list()
 ModelConfiguration$Model <- ""
-ModelConfiguration$BaseIOSchema <- 2012
+ModelConfiguration$BaseIOSchema <- 2012L
 ModelConfiguration$BaseIOLevel <- "Detail"
-ModelConfiguration$IOYear <- 2012
+ModelConfiguration$IOYear <- 2012L
 ModelConfiguration$PrimaryRegionAcronym <- "US"
 ModelConfiguration$ModelRegionAcronyms <- list()
 ModelConfiguration$ModelType <- "US"
 ModelConfiguration$ModelSource <- "BEA"
 ModelConfiguration$BasePriceType <-  "PRO"
 ModelConfiguration$BasewithRedefinitions <- FALSE
-ModelConfiguration$ReferenceCurrencyYear <- 0
+ModelConfiguration$ReferenceCurrencyYear <- 0L
 ModelConfiguration$CommoditybyIndustryType <- "Commodity"
 ModelConfiguration$ScrapIncluded <- TRUE
 ModelConfiguration$SatelliteTable <- list()
@@ -31,7 +31,7 @@ SatelliteTableConfiguration$StaticFile <- ""
 SatelliteTableConfiguration$DataYears <- list()
 SatelliteTableConfiguration$Locations <- list()
 SatelliteTableConfiguration$SectorListSource <- ""
-SatelliteTableConfiguration$SectorListYear <- 2012
+SatelliteTableConfiguration$SectorListYear <- 2012L
 SatelliteTableConfiguration$SectorListLevel <- "Detail"
 SatelliteTableConfiguration$OriginalFlowSource <- ""
 SatelliteTableConfiguration$DataSources <- list()
