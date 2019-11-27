@@ -1,4 +1,3 @@
-
 #' Start logging 
 startLogging <- function (){
   #http://logging.r-forge.r-project.org/sample_session.php
@@ -21,10 +20,10 @@ joinStringswithSlashes <- function(...) {
 }
 
 #' Aggregate matrix by rows then by columns
-aggregateMatrix <- function (matrix, from_level, to_level, model) {
+aggregateMatrix <- function (matrix, from_level, to_level, specs) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
-  from_code <- paste("BEA", model$specs$BaseIOSchema, from_level, "Code", sep = "_")
-  to_code <- paste("BEA", model$specs$BaseIOSchema, to_level, "Code", sep = "_")
+  from_code <- paste("BEA", specs$BaseIOSchema, from_level, "Code", sep = "_")
+  to_code <- paste("BEA", specs$BaseIOSchema, to_level, "Code", sep = "_")
   # Aggregate by rows
   value_columns_1 <- colnames(matrix)
   df_fromlevel <- merge(matrix, unique(MasterCrosswalk2012[, c(from_code, to_code)]), by.x = 0, by.y = from_code)

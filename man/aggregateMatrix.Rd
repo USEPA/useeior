@@ -4,7 +4,7 @@
 \alias{aggregateMatrix}
 \title{Aggregate matrix by rows then by columns}
 \usage{
-aggregateMatrix(matrix, from_level, to_level, model)
+aggregateMatrix(matrix, from_level, to_level, specs)
 }
 \description{
 Aggregate matrix by rows then by columns
