@@ -5,6 +5,9 @@
 \alias{Sector_IndustryCodeName_2012}
 \title{Sector Industry Code and Name (2012 schema)}
 \format{A dataframe with 17 obs. and 2 variables}
+\source{
+\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+}
 \usage{
 Sector_IndustryCodeName_2012
 }

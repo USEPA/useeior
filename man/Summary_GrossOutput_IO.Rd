@@ -5,6 +5,9 @@
 \alias{Summary_GrossOutput_IO}
 \title{Summary 2007-2017 Gross Output (2012 schema)}
 \format{A dataframe with 71 obs. and 11 variables}
+\source{
+\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
+}
 \usage{
 Summary_GrossOutput_IO
 }

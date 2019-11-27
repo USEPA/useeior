@@ -5,6 +5,9 @@
 \alias{Detail_CPI_IO}
 \title{Detail 2007-2017 CPI (2012 schema)}
 \format{A dataframe with 405 obs. and 11 variables}
+\source{
+\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
+}
 \usage{
 Detail_CPI_IO
 }

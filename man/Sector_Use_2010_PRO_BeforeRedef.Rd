@@ -5,6 +5,9 @@
 \alias{Sector_Use_2010_PRO_BeforeRedef}
 \title{Sector 2010 Use Producer's Value Before Redefinition (2012 schema)}
 \format{A dataframe with 27 obs. and 28 variables}
+\source{
+\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+}
 \usage{
 Sector_Use_2010_PRO_BeforeRedef
 }

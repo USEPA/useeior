@@ -5,6 +5,9 @@
 \alias{Summary_Use_2014_PRO_BeforeRedef}
 \title{Summary 2014 Use Producer's Value Before Redefinition (2012 schema)}
 \format{A dataframe with 83 obs. and 98 variables}
+\source{
+\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+}
 \usage{
 Summary_Use_2014_PRO_BeforeRedef
 }

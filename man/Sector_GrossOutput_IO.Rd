@@ -5,6 +5,9 @@
 \alias{Sector_GrossOutput_IO}
 \title{Sector 2007-2017 Gross Output (2012 schema)}
 \format{A dataframe with 15 obs. and 11 variables}
+\source{
+\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
+}
 \usage{
 Sector_GrossOutput_IO
 }
