@@ -44,7 +44,7 @@ loadsattables <- function(model){
       }
       #Need to have sector name
       sattablecoeffs$SectorName <- NULL
-      sattablecoeffs_withsectors <- merge(sattablecoeffs, model$SectorNames, by = "SectorCode")#, all.x = TRUE)
+      sattablecoeffs_withsectors <- merge(sattablecoeffs, model$SectorNames, by = "SectorCode")
       #!temp set DQ technological
       sattablecoeffs_withsectors$DQTechnological <- 5
 
