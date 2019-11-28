@@ -33,8 +33,10 @@ prepareEEIOModel <- function(modelname) {
     if (model$specs$BaseIOLevel=="Detail") {
       ReferenceCurrencyYearCPI[ReferenceCurrencyYearCPI$ReferenceCurrencyYeartoOutputYearCPIRatio=="NaN", "ReferenceCurrencyYeartoOutputYearCPIRatio"] <- 1
     }
-    model$FinalDemand <- model$BEA$UseFinalDemand[rownames(ReferenceCurrencyYearCPI), ]
-    model$FinalDemand <- model$FinalDemand*ReferenceCurrencyYearCPI$ReferenceCurrencyYeartoOutputYearCPIRatio
+    FinalDemand <- model$BEA$UseFinalDemand[rownames(ReferenceCurrencyYearCPI), ]
+    model$FinalDemand <- FinalDemand*ReferenceCurrencyYearCPI$ReferenceCurrencyYeartoOutputYearCPIRatio
+    DomesticFinalDemand <- model$BEA$DomesticFinalDemand[rownames(ReferenceCurrencyYearCPI), ]
+    model$DomesticFinalDemand <- DomesticFinalDemand*ReferenceCurrencyYearCPI$ReferenceCurrencyYeartoOutputYearCPIRatio
   } else {
     # Get model$IndustryOutput from GDP tables
     if (model$specs$PrimaryRegionAcronym=="US") {
@@ -45,14 +47,23 @@ prepareEEIOModel <- function(modelname) {
     # Adjust model$FinalDemand by CPI
     ModelIndustryCPI <- model$IndustryCPI
     ModelIndustryCPI$ReferenceCurrencyYeartoOutputYearRatio <- model$GDP$BEACPIIO[, as.character(model$specs$ReferenceCurrencyYear)]/model$GDP$BEACPIIO[, as.character(model$specs$IOYear)]
-    model$FinalDemand <- merge(model$BEA$UseFinalDemand, ModelIndustryCPI[, "ReferenceCurrencyYeartoOutputYearRatio", drop = FALSE], by = 0, all.x = TRUE)
-    rownames(model$FinalDemand) <- model$FinalDemand$Row.names
+    FinalDemand <- merge(model$BEA$UseFinalDemand, ModelIndustryCPI[, "ReferenceCurrencyYeartoOutputYearRatio", drop = FALSE], by = 0, all.x = TRUE)
+    rownames(FinalDemand) <- FinalDemand$Row.names
     # Modify ReferenceCurrencyYeartoOutputYearRatio of Used and Other sectors to 1
-    model$FinalDemand[is.na(model$FinalDemand$ReferenceCurrencyYeartoOutputYearRatio), "ReferenceCurrencyYeartoOutputYearRatio"] <- 1
-    model$FinalDemand <- model$FinalDemand[, model$BEA$FinalDemandCodes]*ModelIndustryCPI$ReferenceCurrencyYeartoOutputYearRatio
-    model$FinalDemand <- model$FinalDemand[, model$BEA$FinalDemandCodes]
+    FinalDemand[is.na(FinalDemand$ReferenceCurrencyYeartoOutputYearRatio), "ReferenceCurrencyYeartoOutputYearRatio"] <- 1
+    FinalDemand <- FinalDemand[, model$BEA$FinalDemandCodes]*ModelIndustryCPI$ReferenceCurrencyYeartoOutputYearRatio
+    FinalDemand <- FinalDemand[, model$BEA$FinalDemandCodes]
     # Transform ModelFinalDeamnd with MS
-    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
+    model$FinalDemand <- transformFinalDemandwithMarketShares(FinalDemand, model)#This output needs to be tested - producing strange results
+    # Adjust model$DomesticFinalDemand by CPI
+    DomesticFinalDemand <- merge(model$BEA$DomesticFinalDemand, ModelIndustryCPI[, "ReferenceCurrencyYeartoOutputYearRatio", drop = FALSE], by = 0, all.x = TRUE)
+    rownames(DomesticFinalDemand) <- DomesticFinalDemand$Row.names
+    # Modify ReferenceCurrencyYeartoOutputYearRatio of Used and Other sectors to 1
+    DomesticFinalDemand[is.na(DomesticFinalDemand$ReferenceCurrencyYeartoOutputYearRatio), "ReferenceCurrencyYeartoOutputYearRatio"] <- 1
+    DomesticFinalDemand <- DomesticFinalDemand[, model$BEA$FinalDemandCodes]*ModelIndustryCPI$ReferenceCurrencyYeartoOutputYearRatio
+    DomesticFinalDemand <- DomesticFinalDemand[, model$BEA$FinalDemandCodes]
+    # Transform ModelFinalDeamnd with MS
+    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(DomesticFinalDemand, model)#This output needs to be tested - producing strange results
   }
   # Get model$SectorNames
   if (model$specs$CommoditybyIndustryType=="Commodity") {
@@ -84,12 +95,9 @@ prepareEEIOModel <- function(modelname) {
 #' @export
 #' @return A list with USEEIO model components and attributes.
 buildEEIOModel <- function(modelname) {
-  # Prepare mdoel
+  # Prepare model
   model <- prepareEEIOModel(modelname)
-  # Build model
-  # Generate Demand
-  model$f <- as.matrix(rowSums(model$FinalDemand))
-  # Generate IO tables
+  # Generate matrices
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
