@@ -5,9 +5,11 @@
 #' @param perspective Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".
 #' @export
 #' @return A list with LCI and LCIA results of the EEIO model.
-#'
 calculateEEIOModel <- function(model, perspective) {
   result = list()
+  # Generate Demand and DomesticDemand vector
+  model$f <- as.matrix(rowSums(model$FinalDemand))
+  model$f_d <- as.matrix(rowSums(model$DomesticFinalDemand))
   # Calculates total requirements matrix as Leontief inverse of A (L)
   logging::loginfo("Calculating total requirements matrix...")
   I <- diag(nrow(model$A))
