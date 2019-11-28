@@ -557,7 +557,7 @@ getBEACodeName2012Schema <- function () {
   colnames(BEADetailIndustryCodeName) <- c("BEA_2012_Detail_Industry_Code", "BEA_2012_Detail_Industry_Name")
   rownames(BEADetailIndustryCodeName) <- NULL
   # Commodity
-  BEADetailCommodityCodeName <- as.data.frame(t(BEADetail[5:4, 3:407]))
+  BEADetailCommodityCodeName <- as.data.frame(t(BEADetail[5:4, 3:407]), stringsAsFactors = FALSE)
   colnames(BEADetailCommodityCodeName) <- c("BEA_2012_Detail_Commodity_Code", "BEA_2012_Detail_Commodity_Name")
   rownames(BEADetailCommodityCodeName) <- NULL
   ## Summary
@@ -567,7 +567,7 @@ getBEACodeName2012Schema <- function () {
   colnames(BEASummaryIndustryCodeName) <- c("BEA_2012_Summary_Industry_Code", "BEA_2012_Summary_Industry_Name")
   rownames(BEASummaryIndustryCodeName) <- NULL
   # Commodity
-  BEASummaryCommodityCodeName <- as.data.frame(t(BEASummary[5:6, 3:75]))
+  BEASummaryCommodityCodeName <- as.data.frame(t(BEASummary[5:6, 3:75]), stringsAsFactors = FALSE)
   colnames(BEASummaryCommodityCodeName) <- c("BEA_2012_Summary_Commodity_Code", "BEA_2012_Summary_Commodity_Name")
   rownames(BEASummaryCommodityCodeName) <- NULL
   ## Sector
@@ -575,9 +575,10 @@ getBEACodeName2012Schema <- function () {
   # Industry
   BEASectorIndustryCodeName <- BEASector[7:21, 1:2]
   colnames(BEASectorIndustryCodeName) <- c("BEA_2012_Sector_Industry_Code", "BEA_2012_Sector_Industry_Name")
+  BEASectorIndustryCodeName$BEA_2012_Sector_Industry_Code <- gsub("\\s", "", BEASectorIndustryCodeName$BEA_2012_Sector_Industry_Code)
   rownames(BEASectorIndustryCodeName) <- NULL
   # Commodity
-  BEASectorCommodityCodeName <- as.data.frame(t(BEASector[5:6, 3:19]))
+  BEASectorCommodityCodeName <- as.data.frame(t(BEASector[5:6, 3:19]), stringsAsFactors = FALSE)
   colnames(BEASectorCommodityCodeName) <- c("BEA_2012_Sector_Commodity_Code", "BEA_2012_Sector_Commodity_Name")
   rownames(BEASectorCommodityCodeName) <- NULL
   ### Put the data.frames in a list
