@@ -151,6 +151,16 @@ buildEEIOModel <- function(modelname) {
   model$C <- as.matrix(model$C[, rownames(model$B)])
   model$C[is.na(model$C)] <- 0
 
+  # Calculates total requirements matrix as Leontief inverse of A (L)
+  logging::loginfo("Calculating total requirements matrix...")
+  I <- diag(nrow(model$A))
+  model$L <- solve(I-model$A)
+  # Calculate total emissions/resource use per dollar (M)
+  logging::loginfo("Calculating total emissions per dollar matrix...")
+  model$M <- model$B %*% model$L
+  # Calculate total impacts per dollar (U), impact category x sector
+  model$U <- model$C %*% model$M
+  
   logging::loginfo("Model build complete.")
   return(model)
 }

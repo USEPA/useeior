@@ -10,32 +10,23 @@ calculateEEIOModel <- function(model, perspective) {
   # Generate Demand and DomesticDemand vector
   model$f <- as.matrix(rowSums(model$FinalDemand))
   model$f_d <- as.matrix(rowSums(model$DomesticFinalDemand))
-  # Calculates total requirements matrix as Leontief inverse of A (L)
-  logging::loginfo("Calculating total requirements matrix...")
-  I <- diag(nrow(model$A))
-  result$L <- solve(I-model$A)
-  # Calculate total emissions/resource use per dollar (M)
-  logging::loginfo("Calculating total emissions per dollar matrix...")
-  result$M <- model$B %*% result$L
-  # Calculate total impacts per dollar (U), impact category x sector
-  result$U <- model$C %*% result$M
   # Translates M from producer to purchaser price (M_bar)
   logging::loginfo("Adjusting total emissions per dollar from producer to purchaser prices...")
   PHI_C <- as.vector(model$IndustryMargins$PRObyPURRatios)
   #! PHI_C <- as.vector(model$FinalConsumerMargins$PRObyPURRatios)
   if (model$specs$CommoditybyIndustryType=="Commodity") {
-    result$M_bar <- result$M %*% diag(PHI_C)
+    result$M_bar <- model$M %*% diag(PHI_C)
     colnames(result$M_bar) <- model$Commodities
   } else {
     CM <- generateCommodityMixMatrix(model)
     PHI_I <- as.vector(PHI_C %*% CM)
-    result$M_bar <- result$M %*% diag(PHI_I)
+    result$M_bar <- model$M %*% diag(PHI_I)
     colnames(result$M_bar) <- model$Industries
   }
   if (perspective=="DIRECT") {
     # Calculate DirectPerspectiveLCI (transposed m_d with total impacts in form of sectorxflows)
     logging::loginfo("Calculating Direct Perspective LCI...")
-    c <- getScalingVector(result$L, model$f)
+    c <- getScalingVector(model$L, model$f)
     result$m_d <- calculateDirectPerspectiveLCI(model$B, c)
     # Normalize DirectPerspectiveLCI
     logging::loginfo("Normalize Direct Perspective LCI...")
