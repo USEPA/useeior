@@ -5,10 +5,25 @@
 #' @param perspective Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".
 #' @export
 #' @return A list with LCI and LCIA results of the EEIO model.
-calculateEEIOModel <- function(model, perspective) {
+calculateEEIOModel <- function(model, perspective, demand="production", use_domestic=FALSE) {
   result <- list()
+
+  ##NOT WORKING - Just outlined
+  if (use_domestic) {
+    A <- A_d
+    Demand <- DomesticDemand
+  } 
+  
+  if (demand=="production") {
+    f=as.matrix(model$USTotalProduction)
+  } else if (demand="consumption") {
+    f=as.matrix(model$USTotalConsumption)
+
+  } else if (class(demand)=="matrix") {
+    
+  } 
+  
   # Generate Demand and DomesticDemand vector
-  model$f <- as.matrix(rowSums(model$FinalDemand))
   model$f_d <- as.matrix(rowSums(model$DomesticFinalDemand))
   # Translates M from producer to purchaser price (M_bar)
   logging::loginfo("Adjusting total emissions per dollar from producer to purchaser prices...")
