@@ -27,16 +27,10 @@ prepareEEIOModel <- function(modelname) {
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     model$CommodityOutput <- generatePriceAdjustedCommodityOutputforYear(model$specs$IOYear, model$specs$PrimaryRegionAcronym, IsRoU = FALSE, model)
     model$CommodityCPI <- generatePriceAdjustedCommodityCPIforYear(model$specs$IOYear, model) # return a one-column table for IOYear
-    # Adjust model$FinalDemand by CPI
-    ReferenceCurrencyYearCPI <- generatePriceAdjustedCommodityCPIforYear(model$specs$ReferenceCurrencyYear, model)
-    ReferenceCurrencyYearCPI$ReferenceCurrencyYeartoOutputYearCPIRatio <- ReferenceCurrencyYearCPI[, as.character(model$specs$ReferenceCurrencyYear)]/model$CommodityCPI[, as.character(model$specs$IOYear)]
-    if (model$specs$BaseIOLevel=="Detail") {
-      ReferenceCurrencyYearCPI[ReferenceCurrencyYearCPI$ReferenceCurrencyYeartoOutputYearCPIRatio=="NaN", "ReferenceCurrencyYeartoOutputYearCPIRatio"] <- 1
-    }
-    FinalDemand <- model$BEA$UseFinalDemand[rownames(ReferenceCurrencyYearCPI), ]
-    model$FinalDemand <- FinalDemand*ReferenceCurrencyYearCPI$ReferenceCurrencyYeartoOutputYearCPIRatio
-    DomesticFinalDemand <- model$BEA$DomesticFinalDemand[rownames(ReferenceCurrencyYearCPI), ]
-    model$DomesticFinalDemand <- DomesticFinalDemand*ReferenceCurrencyYearCPI$ReferenceCurrencyYeartoOutputYearCPIRatio
+    # Get model$FinalDemand
+    model$FinalDemand <- model$BEA$UseFinalDemand
+    # Get model$DomesticFinalDemand
+    model$DomesticFinalDemand <- model$BEA$DomesticFinalDemand
   } else {
     # Get model$IndustryOutput from GDP tables
     if (model$specs$PrimaryRegionAcronym=="US") {
@@ -44,26 +38,10 @@ prepareEEIOModel <- function(modelname) {
     }
     # Get model$IndustryCPI from GDP tables
     model$IndustryCPI <- model$GDP$BEACPIIO[, as.character(model$specs$IOYear), drop = FALSE]
-    # Adjust model$FinalDemand by CPI
-    ModelIndustryCPI <- model$IndustryCPI
-    ModelIndustryCPI$ReferenceCurrencyYeartoOutputYearRatio <- model$GDP$BEACPIIO[, as.character(model$specs$ReferenceCurrencyYear)]/model$GDP$BEACPIIO[, as.character(model$specs$IOYear)]
-    FinalDemand <- merge(model$BEA$UseFinalDemand, ModelIndustryCPI[, "ReferenceCurrencyYeartoOutputYearRatio", drop = FALSE], by = 0, all.x = TRUE)
-    rownames(FinalDemand) <- FinalDemand$Row.names
-    # Modify ReferenceCurrencyYeartoOutputYearRatio of Used and Other sectors to 1
-    FinalDemand[is.na(FinalDemand$ReferenceCurrencyYeartoOutputYearRatio), "ReferenceCurrencyYeartoOutputYearRatio"] <- 1
-    FinalDemand <- FinalDemand[, model$BEA$FinalDemandCodes]*ModelIndustryCPI$ReferenceCurrencyYeartoOutputYearRatio
-    FinalDemand <- FinalDemand[, model$BEA$FinalDemandCodes]
-    # Transform ModelFinalDeamnd with MS
-    model$FinalDemand <- transformFinalDemandwithMarketShares(FinalDemand, model)#This output needs to be tested - producing strange results
-    # Adjust model$DomesticFinalDemand by CPI
-    DomesticFinalDemand <- merge(model$BEA$DomesticFinalDemand, ModelIndustryCPI[, "ReferenceCurrencyYeartoOutputYearRatio", drop = FALSE], by = 0, all.x = TRUE)
-    rownames(DomesticFinalDemand) <- DomesticFinalDemand$Row.names
-    # Modify ReferenceCurrencyYeartoOutputYearRatio of Used and Other sectors to 1
-    DomesticFinalDemand[is.na(DomesticFinalDemand$ReferenceCurrencyYeartoOutputYearRatio), "ReferenceCurrencyYeartoOutputYearRatio"] <- 1
-    DomesticFinalDemand <- DomesticFinalDemand[, model$BEA$FinalDemandCodes]*ModelIndustryCPI$ReferenceCurrencyYeartoOutputYearRatio
-    DomesticFinalDemand <- DomesticFinalDemand[, model$BEA$FinalDemandCodes]
-    # Transform ModelFinalDeamnd with MS
-    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(DomesticFinalDemand, model)#This output needs to be tested - producing strange results
+    # Transform model$BEA$UseFinalDemand with MarketShares
+    model$FinalDemand <- transformFinalDemandwithMarketShares(model$BEA$UseFinalDemand, model)#This output needs to be tested - producing strange results
+    # Transform model$BEA$DomesticFinalDemand with MarketShares
+    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$BEA$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
   }
   # Get model$SectorNames
   if (model$specs$CommoditybyIndustryType=="Commodity") {
@@ -102,11 +80,11 @@ buildEEIOModel <- function(modelname) {
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
   model$W <- as.matrix(model$BEA$UseValueAdded)
-  if(model$specs$CommoditybyIndustryType == 'Commodity') {
+  if(model$specs$CommoditybyIndustryType == "Commodity") {
     logging::loginfo(paste("Building commodityxcommodity direct requirement matrix ..."))
     model$A <- model$U_n %*% model$V_n
     model$A_d <- model$U_d_n %*% model$V_n 
-  } else if(model$specs$CommoditybyIndustryType == 'Industry') {
+  } else if(model$specs$CommoditybyIndustryType == "Industry") {
     logging::loginfo(paste("Building industryxindustry requirement matrix ..."))
     model$A <- model$V_n %*% model$U_n
     model$A_d <- model$V_n %*% model$U_d_n
@@ -136,7 +114,7 @@ buildEEIOModel <- function(modelname) {
   model$B <- as.matrix(model$sattables_cast)
 
   # Transform B into a flowxcommodity matrix using market shares matrix for commodity models
-  if(model$specs$CommoditybyIndustryType == 'Commodity') {
+  if(model$specs$CommoditybyIndustryType == "Commodity") {
     model$B <- model$B %*% model$V_n
     colnames(model$B) <- tolower(paste(colnames(model$B), model$specs$PrimaryRegionAcronym, sep = "/"))
   }
