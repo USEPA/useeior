@@ -56,8 +56,11 @@ loadBEAtables <- function(specs) {
     ImportFinalDemand <- Import[Summary_CommodityCodeName_2012$BEA_2012_Summary_Commodity_Code, SummaryFinalDemandCodes] * 1E6 # data frame, values are in dollars ($)
     BEA$ImportFinalDemand <- as.data.frame(aggregateMatrix(as.matrix(ImportFinalDemand), "Summary", "Sector", specs))[BEA$Commodities, BEA$FinalDemandCodes]
   } else {
+    # Extract ImportTransactions from Import matrix
     Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, Redef, sep = "_"))
     BEA$ImportTransactions <- Import[BEA$Commodities, BEA$Industries] * 1E6 # data frame, values are in dollars ($)
+    # Extract ImportFinalDemand from Import matrix
+    BEA$ImportFinalDemand <- Import[BEA$Commodities, BEA$FinalDemandCodes] * 1E6 # data frame, values are in dollars ($)
   }
   BEA$DomesticUseTransactions <- BEA$UseTransactions - BEA$ImportTransactions
   BEA$DomesticFinalDemand <- BEA$UseFinalDemand - BEA$ImportFinalDemand
