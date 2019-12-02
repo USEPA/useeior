@@ -373,7 +373,7 @@ getMarginsTable <- function (specs, marginsource) {
   referenceyear <- specs$ReferenceCurrencyYear
   # Load Margins or PCE and PEQ Bridge data
   if (schemayear==2012) {
-    if (marginsource=="margins") {
+    if (marginsource=="Industry") {
       MarginsTable <- Detail_Margins_2012_BeforeRedef[, 3:9]
     } else {
       # Use PCE and PEQ Bridge tables
@@ -394,14 +394,6 @@ getMarginsTable <- function (specs, marginsource) {
   # Map to Summary and Sector level
   crosswalk <- unique(MasterCrosswalk2012[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
   MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_2012_Detail_Code")
-  # Adjust ProducersValue using Detail CPI
-  CPI_Detail <- Detail_CPI_IO
-  MarginsTable <- merge(MarginsTable, CPI_Detail[, as.character(c(schemayear, referenceyear))], by.x = "CommodityCode", by.y = 0)
-  MarginsTable$ProducersValue <- (MarginsTable$ProducersValue*MarginsTable[, as.character(schemayear)])/MarginsTable[, as.character(referenceyear)]
-  # Adjust Transportation, Wholesale, and Retail using Sector CPI
-  CPI_Sector <- Sector_CPI_IO
-  rates <- CPI_Sector[c("48TW", "42", "44RT"), as.character(schemayear)]/CPI_Sector[c("48TW", "42", "44RT"), as.character(referenceyear)]
-  MarginsTable[, c("Transportation", "Wholesale", "Retail")] <- t(t(MarginsTable[, c("Transportation", "Wholesale", "Retail")])*rates)
   # Adjust PurchasersValue
   MarginsTable$PurchasersValue <- rowSums(MarginsTable[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
   # Aggregate by CommodityCode (dynamic to model BaseIOLevel) and CommodityDescription
