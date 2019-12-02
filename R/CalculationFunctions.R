@@ -6,7 +6,7 @@
 #' @export
 #' @return A list with LCI and LCIA results of the EEIO model.
 calculateEEIOModel <- function(model, perspective) {
-  result = list()
+  result <- list()
   # Generate Demand and DomesticDemand vector
   model$f <- as.matrix(rowSums(model$FinalDemand))
   model$f_d <- as.matrix(rowSums(model$DomesticFinalDemand))
