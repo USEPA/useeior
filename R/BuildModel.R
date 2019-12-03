@@ -141,7 +141,7 @@ buildEEIOModel <- function(modelname) {
   logging::loginfo("Calculating total emissions per dollar matrix...")
   model$M <- model$B %*% model$L
   #M_d are the domestic emissions per dollar using domestic Leontief
-  model$M_d <- model$B %*% model$L_d
+  model$M_d <- model$B %*% L_d
   #M_e are the external emissions per dollar using the domestic technology assumption
   model$M_e <- model$B %*% model$A_m %*% model$L
   # Calculate total impacts per dollar (U), impact category x sector
@@ -149,7 +149,7 @@ buildEEIOModel <- function(modelname) {
   #U_d are the domestic impacts per dollar
   model$U_d <- model$C %*% model$M_d
   #U_e are the external impacts per dollar using the domestic technology assumption
-  model$U_e <- model$C %*% model$M_m
+  model$U_e <- model$C %*% model$M_e
   
   logging::loginfo("Model build complete.")
   return(model)
