@@ -370,7 +370,6 @@ adjustBEACPItoIOIndustry2012Schema <- function () {
 getMarginsTable <- function (specs, marginsource) {
   # Set year parameters
   schemayear <- specs$BaseIOSchema
-  referenceyear <- specs$ReferenceCurrencyYear
   # Load Margins or PCE and PEQ Bridge data
   if (schemayear==2012) {
     if (marginsource=="Industry") {
