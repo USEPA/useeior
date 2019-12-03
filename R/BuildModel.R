@@ -136,11 +136,14 @@ buildEEIOModel <- function(modelname) {
   logging::loginfo("Calculating total requirements matrix...")
   I <- diag(nrow(model$A))
   model$L <- solve(I-model$A)
+  L_d <- solve(I-model$A_d)
   # Calculate total emissions/resource use per dollar (M)
   logging::loginfo("Calculating total emissions per dollar matrix...")
   model$M <- model$B %*% model$L
+  model$M_d <- model$B %*% model$L_d
   # Calculate total impacts per dollar (U), impact category x sector
   model$U <- model$C %*% model$M
+  model$U_d <- model$C %*% model$M_d
   
   logging::loginfo("Model build complete.")
   return(model)
