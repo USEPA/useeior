@@ -83,12 +83,14 @@ buildEEIOModel <- function(modelname) {
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     logging::loginfo(paste("Building commodityxcommodity direct requirement matrix ..."))
     model$A <- model$U_n %*% model$V_n
-    model$A_d <- model$U_d_n %*% model$V_n 
+    model$A_d <- model$U_d_n %*% model$V_n
   } else if(model$specs$CommoditybyIndustryType == "Industry") {
     logging::loginfo(paste("Building industryxindustry requirement matrix ..."))
     model$A <- model$V_n %*% model$U_n
     model$A_d <- model$V_n %*% model$U_d_n
   }
+  #Create an imports requirements matrix 
+  model$A_m <- model$A - model$A_d
   # Generate satellite tables
   model$sattableslist <- loadsattables(model)
   # Combine satellite table dfs into a single df
