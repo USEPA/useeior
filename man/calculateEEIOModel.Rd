@@ -4,12 +4,17 @@
 \alias{calculateEEIOModel}
 \title{Calculate total emissions/resources (LCI) or total impact for USEEIO model for a given demand vector and perspective.}
 \usage{
-calculateEEIOModel(model, perspective)
+calculateEEIOModel(model, perspective, demand = "production",
+  use_domestic = FALSE)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
 \item{perspective}{Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".}
+
+\item{demand}{A character value or a matrix: if the former, can be "production" or "consumption"; if the latter, can be demand matrix for one or more sectors.}
+
+\item{use_domestic}{A boolean value: if TRUE, use domestic A and FinalDemand matrices; if FALSE, use original A and FinalDemand matrices.}
 }
 \value{
 A list with LCI and LCIA results of the EEIO model.
