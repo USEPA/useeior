@@ -48,6 +48,51 @@ calculateEEIOModel <- function(model, perspective, demand = "production", use_do
   return(result)
 }
 
+#' Adjust multipliers based on currency year, price type, and margin type.
+#' @param currency_year An integer representing the currency year.
+#' @param purchaser_price A boolean value indicating whether to adjust producer's price to purchaser's price.
+#' @param margin_type A character value: can be "industry" or "final consumer".
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @export
+#' @return A list of price-adjusted multipliers.
+adjustMultiplierPrice <- function(currency_year, purchaser_price=TRUE, margin_type="industry", model) {
+  price_adjusted_result <- list()
+  # Adjust producer's price to purchaser's price
+  if (purchaser_price) {
+    # Determine PRObyPURRatios based on margin_type
+    logging::loginfo("Adjusting total emissions per dollar from producer to purchaser prices...")
+    if (margin_type=="industry") {
+      PHI_C <- as.vector(model$IndustryMargins$PRObyPURRatios)
+    } else {
+      PHI_C <- as.vector(model$FinalConsumerMargins$PRObyPURRatios)
+    }
+    # Convert M from producer to purchaser price (M_bar)
+    if (model$specs$CommoditybyIndustryType=="Commodity") {
+      price_adjusted_result$M_bar <- model$M %*% diag(PHI_C)
+      colnames(price_adjusted_result$M_bar) <- model$Commodities
+    } else {
+      CM <- generateCommodityMixMatrix(model)
+      PHI_I <- as.vector(PHI_C %*% CM)
+      price_adjusted_result$M_bar <- model$M %*% diag(PHI_I)
+      colnames(price_adjusted_result$M_bar) <- model$Industries
+    }
+  }
+  # Adjust Multipliers from IOyear to currency_year
+  if (!model$specs$IOYear==currency_year) {
+    logging::loginfo("Adjusting multipliers from IO year to currency year dollars...")
+    # Caculate IO_to_currency_year_ratio based on CPI
+    IO_to_currency_year_ratio <- model$GDP$BEACPIIO[, as.character(currency_year)]/model$GDP$BEACPIIO[, as.character(model$specs$IOYear)]
+    # Determine what multipliers (matrices) need adjustment
+    matrices <- names(model[as.logical(lapply(model1, is.matrix)==TRUE)])
+    # Apply the adjustment in each row of the matrix
+    for (matrix in matrices[!matrices=="C"]) {
+      price_adjusted_result[[matrix]] <- sweep(model[[matrix]], 2, IO_to_currency_year_ratio, `*`)
+    }
+  }
+  logging::loginfo("Result price adjustment complete.")
+  return(price_adjusted_result)
+}
+
 #' Multiply the Leontief inverse L and the demand vector.
 #' @param L Leontief inverse.
 #' @param demand Final demand vector.
