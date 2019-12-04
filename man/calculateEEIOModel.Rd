@@ -5,7 +5,7 @@
 \title{Calculate total emissions/resources (LCI) or total impact for USEEIO model for a given demand vector and perspective.}
 \usage{
 calculateEEIOModel(model, perspective, demand = "production",
-  use_domestic = FALSE)
+  use_domestic = FALSE, for_imports_using_domestic = FALSE)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
