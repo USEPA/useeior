@@ -13,9 +13,11 @@ calculateEEIOModel <- function(model, perspective, demand = "production", use_do
   if (use_domestic) {
     A <- model$A_d
     Demand <- model$DomesticFinalDemand
+    L <- model$L_d
   } else {
     A <- model$A
     Demand <- model$FinalDemand
+    L <- model$L
   }
   # Generate f (vector) matrix based on "demand"
   if (demand=="production") {
@@ -33,17 +35,11 @@ calculateEEIOModel <- function(model, perspective, demand = "production", use_do
   if (perspective=="DIRECT") {
     # Calculate DirectPerspectiveLCI (transposed m_d with total impacts in form of sectorxflows)
     logging::loginfo("Calculating Direct Perspective LCI...")
-    c <- getScalingVector(model$L, f)
+    c <- getScalingVector(L, f)
     result$m_d <- calculateDirectPerspectiveLCI(model$B, c)
-    # Normalize DirectPerspectiveLCI
-    logging::loginfo("Normalize Direct Perspective LCI...")
-    result$m_d_norm <- normalizeResultMatrixByTotalImpacts(result$m_d)
     # Calculate DirectPerspectiveLCIA (transposed u_d with total impacts in form of sectorximpact categories)
     logging::loginfo("Calculating Direct Perspective LCIA...")
     result$u_d <- calculateDirectPerspectiveLCIA(model$B, model$C, c)
-    # Normalize DirectPerspectiveLCIA
-    logging::loginfo("Normalize Direct Perspective LCIA...")
-    result$u_d_norm <- normalizeResultMatrixByTotalImpacts(result$m_d)
   }
   
   logging::loginfo("Result calculation complete.")
@@ -96,6 +92,7 @@ calculateDirectPerspectiveLCIA <- function(B, C, c) {
 
 #' Divide/Normalize a sector x flows matrix by the total of respective flow (column sum)
 #' @param m A sector x flows matrix.
+#' @export
 #' @return A normalized sector x flows matrix.
 normalizeResultMatrixByTotalImpacts <- function(m) {
   #Use sweep function to prevent error

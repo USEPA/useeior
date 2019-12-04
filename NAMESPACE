@@ -3,5 +3,6 @@
 export(buildEEIOModel)
 export(calculateEEIOModel)
 export(getModelConfiguration)
+export(normalizeResultMatrixByTotalImpacts)
 export(seeAvailableModels)
 export(writeModelComponents)
