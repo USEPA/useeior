@@ -132,6 +132,9 @@ buildEEIOModel <- function(modelname) {
   model$C <- as.matrix(model$C[, rownames(model$B)])
   model$C[is.na(model$C)] <- 0
 
+  #Add direct impact matrix
+  model$D <- model$C %*% model$B 
+  
   # Calculates total requirements matrix as Leontief inverse of A (L)
   logging::loginfo("Calculating total requirements matrix...")
   I <- diag(nrow(model$A))
