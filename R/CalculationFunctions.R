@@ -7,15 +7,17 @@
 #' @param use_domestic A boolean value: if TRUE, use domestic A and FinalDemand matrices; if FALSE, use original A and FinalDemand matrices.
 #' @export
 #' @return A list with LCI and LCIA results of the EEIO model.
-calculateEEIOModel <- function(model, perspective, demand = "production", use_domestic = FALSE) {
+calculateEEIOModel <- function(model, perspective, demand = "production", use_domestic = FALSE, for_imports_using_domestic=FALSE) {
   result <- list()
   # Generate Direct Requirements (A) matrix and Demand dataframe flexibly based on "use_domestic"
   if (use_domestic) {
-    A <- model$A_d
     Demand <- model$DomesticFinalDemand
     L <- model$L_d
+    #If this is for the imports
+    if (for_imports_using_domestic) {
+      L <- model$L_m
+    }
   } else {
-    A <- model$A
     Demand <- model$FinalDemand
     L <- model$L
   }
@@ -36,10 +38,10 @@ calculateEEIOModel <- function(model, perspective, demand = "production", use_do
     # Calculate DirectPerspectiveLCI (transposed m_d with total impacts in form of sectorxflows)
     logging::loginfo("Calculating Direct Perspective LCI...")
     c <- getScalingVector(L, f)
-    result$m_d <- calculateDirectPerspectiveLCI(model$B, c)
+    result$LCI_d <- calculateDirectPerspectiveLCI(model$B, c)
     # Calculate DirectPerspectiveLCIA (transposed u_d with total impacts in form of sectorximpact categories)
     logging::loginfo("Calculating Direct Perspective LCIA...")
-    result$u_d <- calculateDirectPerspectiveLCIA(model$B, model$C, c)
+    result$LCIA_d <- calculateDirectPerspectiveLCIA(model$B, model$C, c)
   }
   
   logging::loginfo("Result calculation complete.")
