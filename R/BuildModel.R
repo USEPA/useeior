@@ -138,8 +138,9 @@ buildEEIOModel <- function(modelname) {
   # Calculates total requirements matrix as Leontief inverse of A (L)
   logging::loginfo("Calculating total requirements matrix...")
   I <- diag(nrow(model$A))
-  model$L <- solve(I-model$A)
-  model$L_d <- solve(I-model$A_d)
+  I_d <- diag(nrow(model$A_d))
+  model$L <- solve(I - model$A)
+  model$L_d <- solve(I_d - model$A_d)
   # Calculate total emissions/resource use per dollar (M)
   logging::loginfo("Calculating total emissions per dollar matrix...")
   model$M <- model$B %*% model$L
