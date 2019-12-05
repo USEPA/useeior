@@ -83,12 +83,15 @@ adjustMultiplierPrice <- function(currency_year, purchaser_price=TRUE, margin_ty
     # Caculate IO_to_currency_year_ratio based on CPI
     IO_to_currency_year_ratio <- model$GDP$BEACPIIO[, as.character(currency_year)]/model$GDP$BEACPIIO[, as.character(model$specs$IOYear)]
     # Determine what multipliers (matrices) need adjustment
-    matrices <- names(model[as.logical(lapply(model1, is.matrix)==TRUE)])
+    matrices <- c("B", "D", "M", "U")
     # Apply the adjustment in each row of the matrix
-    for (matrix in matrices[!matrices=="C"]) {
-      price_adjusted_result[[matrix]] <- sweep(model[[matrix]], 2, IO_to_currency_year_ratio, `*`)
+    for (matrix in matrices) {
+      matrix_name <- paste(matrix, "pro", currency_year, sep = "_")
+      price_adjusted_result[[matrix_name]] <- model[[matrix]] %*% diag(IO_to_currency_year_ratio)
+      colnames(price_adjusted_result[[matrix_name]]) <- colnames(model[[matrix]])
     }
   }
+  
   logging::loginfo("Result price adjustment complete.")
   return(price_adjusted_result)
 }
