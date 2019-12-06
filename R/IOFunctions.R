@@ -365,7 +365,7 @@ adjustBEACPItoIOIndustry2012Schema <- function () {
 #' Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).
 #' @param specs Model specifications.
 #' @param marginsource A character indicating the source of Margins, either "Industry" or "FinalConsumer".
-#' @return A dataframe containing PRO/PUR ratios for Detail BEA sectors.
+#' @return A dataframe containing CommodityCode, and margins for ProducersValue, Transportation, Wholesale, Retail and PurchasersValue.
 getMarginsTable <- function (specs, marginsource) {
   # Set year parameters
   schemayear <- specs$BaseIOSchema
@@ -392,18 +392,13 @@ getMarginsTable <- function (specs, marginsource) {
   # Map to Summary and Sector level
   crosswalk <- unique(MasterCrosswalk2012[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
   MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_2012_Detail_Code")
-  # Adjust PurchasersValue
-  MarginsTable$PurchasersValue <- rowSums(MarginsTable[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
   # Aggregate by CommodityCode (dynamic to model BaseIOLevel) and CommodityDescription
   if (!specs$BaseIOLevel=="Detail") {
     MarginsTable$CommodityCode <- MarginsTable[, paste("BEA_2012", specs$BaseIOLevel, "Code", sep = "_")]
   }
-  MarginsTable <- stats::aggregate(MarginsTable[, c("ProducersValue", "PurchasersValue")], by = list(MarginsTable$CommodityCode), sum)
+  MarginsTable <- stats::aggregate(MarginsTable[, c("ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")],
+                                   by = list(MarginsTable$CommodityCode), sum)
   colnames(MarginsTable)[1] <- "CommodityCode"
-  # Calculate PRO by PUR ratios
-  MarginsTable$PRObyPURRatios <- MarginsTable$ProducersValue/MarginsTable$PurchasersValue
-  MarginsTable[, c("ProducersValue", "PurchasersValue")] <- NULL
-  
   return(MarginsTable)
 }
 

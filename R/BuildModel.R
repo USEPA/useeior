@@ -54,17 +54,8 @@ prepareEEIOModel <- function(modelname) {
   }
   colnames(model$SectorNames) <- c("SectorCode", "SectorName")
   # Get model$IndustryMargins and model$FinalConsumerMargins
-  model$IndustryMargins <- getMarginsTable(model$specs, "Industry") # Magrins Matrix
-  model$IndustryMargins <- merge(as.data.frame(model$BEA$Commodities), model$IndustryMargins, by.x = "model$BEA$Commodities", by.y = "CommodityCode", all.x = TRUE)
-  model$IndustryMargins[is.na(model$IndustryMargins$PRObyPURRatios), "PRObyPURRatios"] <- 1
-  colnames(model$IndustryMargins)[1] <- "SectorCode"
-  model$IndustryMargins$SectorCode <- as.character(model$IndustryMargins$SectorCode)
-  
-  model$FinalConsumerMargins <- getMarginsTable(model$specs, "FinalConsumer") # PCE&PEQ bridge df
-  model$FinalConsumerMargins <- merge(as.data.frame(model$BEA$Commodities), model$FinalConsumerMargins, by.x = "model$BEA$Commodities", by.y = "CommodityCode", all.x = TRUE)
-  model$FinalConsumerMargins[is.na(model$FinalConsumerMargins$PRObyPURRatios), "PRObyPURRatios"] <- 1
-  colnames(model$FinalConsumerMargins)[1] <- "SectorCode"
-  model$FinalConsumerMargins$SectorCode <- as.character(model$FinalConsumerMargins$SectorCode)
+  model$IndustryMargins <- getMarginsTable(model$specs, "Industry")
+  model$FinalConsumerMargins <- getMarginsTable(model$specs, "FinalConsumer")
   return(model)
 }
 

@@ -12,7 +12,7 @@ getMarginsTable(specs, marginsource)
 \item{marginsource}{A character indicating the source of Margins, either "Industry" or "FinalConsumer".}
 }
 \value{
-A dataframe containing PRO/PUR ratios for Detail BEA sectors.
+A dataframe containing CommodityCode, and margins for ProducersValue, Transportation, Wholesale, Retail and PurchasersValue.
 }
 \description{
 Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).
