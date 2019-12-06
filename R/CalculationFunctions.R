@@ -57,41 +57,54 @@ calculateEEIOModel <- function(model, perspective, demand = "production", use_do
 #' @return A list of price-adjusted multipliers.
 adjustMultiplierPrice <- function(currency_year, purchaser_price=TRUE, margin_type="industry", model) {
   price_adjusted_result <- list()
-  # Adjust producer's price to purchaser's price
+  # Generate CPI_ratio based on currency_year and model$specs$IOYear
+  CPI_ratio <- as.data.frame(model$GDP$BEACPIIO[, as.character(currency_year)]/model$GDP$BEACPIIO[, as.character(model$specs$IOYear)])
+  rownames(CPI_ratio) <- rownames(model$GDP$BEACPIIO)
+  colnames(CPI_ratio) <- "Ratio"
+  # Determine what multipliers (matrices) need adjustment
+  matrices <- c("B", "D", "M", "U")
+  # Adjust from producer's to purchaser's price
   if (purchaser_price) {
-    # Determine PRObyPURRatios based on margin_type
-    logging::loginfo("Adjusting total emissions per dollar from producer to purchaser prices...")
+    # Get Margins table based on margin_type
     if (margin_type=="industry") {
-      PHI_C <- as.vector(model$IndustryMargins$PRObyPURRatios)
+      Margins <- model$IndustryMargins
     } else {
-      PHI_C <- as.vector(model$FinalConsumerMargins$PRObyPURRatios)
+      Margins <- model$FinalConsumerMargins
     }
-    # Convert M from producer to purchaser price (M_bar)
+    logging::loginfo("Adjusting margins from IO year to currency year dollars...")
+    # Adjust ProducersValue using CPI_ratio
+    Margins <- merge(Margins, CPI_ratio, by.x = "CommodityCode", by.y = 0, all.y = TRUE)
+    Margins$ProducersValue <- Margins$ProducersValue * Margins$Ratio
+    # Adjust Transportation, Wholesale and Retail using corresponding CPI_ratio
+    TWR_CPI_ratio <- Sector_CPI_IO[c("48TW", "42", "44RT"), as.character(currency_year)]/Sector_CPI_IO[c("48TW", "42", "44RT"), as.character(model$specs$IOYear)]
+    Margins[, c("Transportation", "Wholesale", "Retail")] <- sweep(Margins[, c("Transportation", "Wholesale", "Retail")], 2, TWR_CPI_ratio, "*")
+    # Generate PRObyPURRatios vector
+    Margins$PRObyPURRatios <- Margins$ProducersValue/rowSums(MarginsTable[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
+    Margins[is.na(Margins$PRObyPURRatios), "PRObyPURRatios"] <- 1
     if (model$specs$CommoditybyIndustryType=="Commodity") {
-      price_adjusted_result$M_bar <- model$M %*% diag(PHI_C)
-      colnames(price_adjusted_result$M_bar) <- model$Commodities
+      PHI <- Margins$PRObyPURRatios
     } else {
       CM <- generateCommodityMixMatrix(model)
-      PHI_I <- as.vector(PHI_C %*% CM)
-      price_adjusted_result$M_bar <- model$M %*% diag(PHI_I)
-      colnames(price_adjusted_result$M_bar) <- model$Industries
+      PHI <- as.vector(Margins$PRObyPURRatios %*% CM)
     }
-  }
-  # Adjust Multipliers from IOyear to currency_year
-  if (!model$specs$IOYear==currency_year) {
-    logging::loginfo("Adjusting multipliers from IO year to currency year dollars...")
-    # Caculate IO_to_currency_year_ratio based on CPI
-    IO_to_currency_year_ratio <- model$GDP$BEACPIIO[, as.character(currency_year)]/model$GDP$BEACPIIO[, as.character(model$specs$IOYear)]
-    # Determine what multipliers (matrices) need adjustment
-    matrices <- c("B", "D", "M", "U")
-    # Apply the adjustment in each row of the matrix
+    logging::loginfo("Adjusting total emissions per dollar from producer to purchaser prices...")
     for (matrix in matrices) {
-      matrix_name <- paste(matrix, "pro", currency_year, sep = "_")
-      price_adjusted_result[[matrix_name]] <- model[[matrix]] %*% diag(IO_to_currency_year_ratio)
+      matrix_name <- paste(matrix, "pur", currency_year, sep = "_")
+      price_adjusted_result[[matrix_name]] <- model[[matrix]] %*% diag(PHI)
       colnames(price_adjusted_result[[matrix_name]]) <- colnames(model[[matrix]])
     }
+  } else {
+    # Adjust from IOYear to currency_year dollars
+    if (!currency_year==model$specs$IOYear) {
+      logging::loginfo("Adjusting multipliers from IO year to currency year dollars...")
+      # Apply the adjustment in each row of the matrix
+      for (matrix in matrices) {
+        matrix_name <- paste(matrix, "pro", currency_year, sep = "_")
+        price_adjusted_result[[matrix_name]] <- model[[matrix]] %*% diag(CPI_ratio$Ratio)
+        colnames(price_adjusted_result[[matrix_name]]) <- colnames(model[[matrix]])
+      }
+    }
   }
-  
   logging::loginfo("Result price adjustment complete.")
   return(price_adjusted_result)
 }
