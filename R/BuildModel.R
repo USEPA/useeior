@@ -25,8 +25,8 @@ prepareEEIOModel <- function(modelname) {
   model$GDP <- loadGDPtables(model$specs)
   # Get model$CommodityOutput, model$CommodityCPI, model$IndustryOutput, model$IndustryCPI, and model$FinalDemand
   if (model$specs$CommoditybyIndustryType=="Commodity") {
-    model$CommodityOutput <- generatePriceAdjustedCommodityOutputforYear(model$specs$IOYear, model$specs$PrimaryRegionAcronym, IsRoU = FALSE, model)
-    model$CommodityCPI <- generatePriceAdjustedCommodityCPIforYear(model$specs$IOYear, model) # return a one-column table for IOYear
+    model$CommodityOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoU = FALSE, model)
+    model$CommodityCPI <- generateCommodityCPIforYear(model$specs$IOYear, model) # return a one-column table for IOYear
     # Get model$FinalDemand
     model$FinalDemand <- model$BEA$UseFinalDemand
     # Get model$DomesticFinalDemand

@@ -93,16 +93,15 @@ generateCommodityMixMatrix <- function (model) {
 }
 
 #' Generate Commodity output by transforming Industry output using Commodity Mix matrix.
-#' @param outputyear Year of Industry output.
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
 #' @param IsRoU A logical parameter indicating whether to adjust Industry output for Rest of US (RoU).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Commodity output.
-generatePriceAdjustedCommodityOutputforYear <- function(outputyear, location_acronym, IsRoU, model) {
+generateCommodityOutputforYear <- function(location_acronym, IsRoU, model) {
   # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
   CommodityMix <- generateCommodityMixMatrix(model)
   # Generate adjusted industry output by location
-  IndustryOutputVector <- as.matrix(getAdjustedOutput(outputyear, location_acronym, IsRoU, model))
+  IndustryOutputVector <- as.matrix(model$BEA$MakeIndustryOutput)
   # Use CommodityMix to transform IndustryOutput to CommodityOutput
   CommodityOutput <- as.data.frame(CommodityMix %*% IndustryOutputVector)
   colnames(CommodityOutput) <- as.character(model$specs$IOYear)
@@ -113,7 +112,7 @@ generatePriceAdjustedCommodityOutputforYear <- function(outputyear, location_acr
 #' @param year Year of Industry CPI.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Commodity CPI.
-generatePriceAdjustedCommodityCPIforYear <- function(year, model) {
+generateCommodityCPIforYear <- function(year, model) {
   # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
   CommodityMix <- generateCommodityMixMatrix(model)
   # Generate adjusted industry CPI by location
