@@ -8,8 +8,7 @@ ModelType: "US"
 ModelSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
-ReferenceCurrencyYear: 2017
-CommoditybyIndustryType: "Industry"
+ommoditybyIndustryType: "Industry"
 ScrapIncluded: FALSE
 
 SatelliteTable:

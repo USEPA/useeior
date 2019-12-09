@@ -10,7 +10,6 @@ ModelConfiguration$ModelType <- "US"
 ModelConfiguration$ModelSource <- "BEA"
 ModelConfiguration$BasePriceType <-  "PRO"
 ModelConfiguration$BasewithRedefinitions <- FALSE
-ModelConfiguration$ReferenceCurrencyYear <- 0L
 ModelConfiguration$CommoditybyIndustryType <- "Commodity"
 ModelConfiguration$ScrapIncluded <- TRUE
 ModelConfiguration$SatelliteTable <- list()

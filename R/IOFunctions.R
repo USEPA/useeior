@@ -4,7 +4,7 @@
 #' @param IsRoU A logical parameter indicating whether to adjust Industry output for Rest of US (RoU).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Industry output with row names being BEA sector code.
-getAdjustedOutput <- function (outputyear, location_acronym, IsRoU, model) {
+getAdjustedOutput <- function (outputyear, referenceyear, location_acronym, IsRoU, model) {
   # Load Industry Gross Output
   if (model$specs$PrimaryRegionAcronym == "US") {
     Output <- cbind.data.frame(rownames(model$GDP$BEAGrossOutputIO), model$GDP$BEAGrossOutputIO[, as.character(outputyear)])
@@ -30,9 +30,9 @@ getAdjustedOutput <- function (outputyear, location_acronym, IsRoU, model) {
   }
   colnames(Output) <- c("SectorCode", "Output")
   # Adjust Industry output based on CPI
-  model$GDP$BEACPIIO$ReferenceCurrencyYeartoOutputYearRatio <- model$GDP$BEACPIIO[, as.character(model$specs$ReferenceCurrencyYear)]/model$GDP$BEACPIIO[, as.character(outputyear)]
-  AdjustedOutput <- merge(Output, model$GDP$BEACPIIO[, "ReferenceCurrencyYeartoOutputYearRatio", drop = FALSE], by.x = "SectorCode", by.y = 0)
-  AdjustedOutput[, paste(outputyear, "IndustryOutput", sep = "")] <- AdjustedOutput$Output * AdjustedOutput$ReferenceCurrencyYeartoOutputYearRatio
+  model$GDP$BEACPIIO$ReferenceYeartoOutputYearRatio <- model$GDP$BEACPIIO[, as.character(referenceyear)]/model$GDP$BEACPIIO[, as.character(outputyear)]
+  AdjustedOutput <- merge(Output, model$GDP$BEACPIIO[, "ReferenceYeartoOutputYearRatio", drop = FALSE], by.x = "SectorCode", by.y = 0)
+  AdjustedOutput[, paste(outputyear, "IndustryOutput", sep = "")] <- AdjustedOutput$Output * AdjustedOutput$ReferenceYeartoOutputYearRatio
   # Assign rownames and keep wanted column
   rownames(AdjustedOutput) <- AdjustedOutput$SectorCode
   AdjustedOutput <- AdjustedOutput[, paste(outputyear, "IndustryOutput", sep = ""), drop = FALSE]
@@ -239,13 +239,13 @@ getIndustryUseofImportedCommodities <- function() {
 
 #' Adjust multi-year USEEIO gross output by model-specified currency year.
 #' @return A dataframe contains adjusted multi-year USEEIO gross output.
-adjustUSEEIOGrossOutputbyCPIYear <- function () {
-  GrossOutput <- model$GDP$BEAGrossOutputIO
-  for (year in colnames(GrossOutput)) {
-    GrossOutput[, year] <- GrossOutput[, year]*(model$GDP$BEACPIIO[, as.character(model$specs$ReferenceCurrencyYear)]/model$GDP$BEACPIIO[, year])
-  }
-  return(GrossOutput)
-}
+# adjustUSEEIOGrossOutputbyCPIYear <- function () {
+#   GrossOutput <- model$GDP$BEAGrossOutputIO
+#   for (year in colnames(GrossOutput)) {
+#     GrossOutput[, year] <- GrossOutput[, year]*(model$GDP$BEACPIIO[, as.character(model$specs$ReferenceCurrencyYear)]/model$GDP$BEACPIIO[, year])
+#   }
+#   return(GrossOutput)
+# }
 
 #' Adjust gross output from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
 #' @return A list contains IO-based gross output at Detail, Summary, and Sector IO levels.
