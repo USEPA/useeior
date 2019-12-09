@@ -51,7 +51,7 @@ mapSatTablefromNAICStoBEA <- function (sattable, satellitetableyear) {
 #' @return A dataframe contains intensity coefficient (kg/$).
 generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym, IsRoUS = FALSE, model) {
   # Generate adjusted industry output
-  Output_adj <- getAdjustedOutput(outputyear, location_acronym, IsRoUS, model)
+  Output_adj <- getAdjustedOutput(outputyear, referenceyear, location_acronym, IsRoUS, model)
   # Merge the satellite table with the adjusted industry output
   Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "SectorCode", by.y = 0, all.x = TRUE)
   # Drop rows where output is zero

@@ -4,7 +4,8 @@
 \alias{getAdjustedOutput}
 \title{Adjust Industry output based on CPI.}
 \usage{
-getAdjustedOutput(outputyear, location_acronym, IsRoU, model)
+getAdjustedOutput(outputyear, referenceyear, location_acronym, IsRoU,
+  model)
 }
 \arguments{
 \item{outputyear}{Year of Industry output.}
