@@ -395,7 +395,7 @@ getMarginsTable <- function (model, marginsource) {
   # Keep the Commodities specified in model
   MarginsTable <- MarginsTable[MarginsTable$CommodityCode%in%model$Commodities, ]
   # Transform MarginsTable from Commodity to Industry format
-  if (model$specs$ModelType=="Industry") {
+  if (model$specs$CommoditybyIndustryType=="Industry") {
     # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
     CommodityMix <- generateCommodityMixMatrix(model)
     for (column in value_columns) {
