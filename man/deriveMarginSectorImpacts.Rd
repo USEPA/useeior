@@ -4,10 +4,12 @@
 \alias{deriveMarginSectorImpacts}
 \title{Prepare M and U matrices with sector margin impacts}
 \usage{
-deriveMarginSectorImpacts(model)
+deriveMarginSectorImpacts(model, margin_type = "industry")
 }
 \arguments{
 \item{model}{A complete EEIO model}
+
+\item{margin_type}{A character value: can be "industry" or "final consumer".}
 }
 \value{
 A list with M_margin and U_margin
