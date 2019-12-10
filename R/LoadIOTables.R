@@ -29,6 +29,10 @@ loadBEAtables <- function(specs) {
   BEA$FinalDemandCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes, BEA$ChangeInventoriesCodes, BEA$ImportCodes, BEA$ExportCodes, BEA$GovernmentDemandCodes)
   BEA$TotalConsumptionCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes, BEA$GovernmentDemandCodes)
   BEA$ScrapCodes <- getVectorOfCodes("Scrap")
+  BEA$TransportationCodes <- getVectorOfCodes("Distribution")
+  BEA$WholesaleCodes <- getVectorOfCodes("Wholesale")
+  BEA$RetailCodes <- getVectorOfCodes("Retail")
+  
 
   # Load pre-saved Make and Use tables
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
