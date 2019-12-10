@@ -35,7 +35,7 @@ deriveMarginSectorImpacts <- function(model,margin_type="industry") {
   
   
   #Just for testing - assign 1 to first margin sectors by type
-  margin_allocation["Transportation","423100"] <- 1
+  margin_allocation["Transportation","481000"] <- 1
   margin_allocation["Wholesale","423100"] <- 1
   margin_allocation["Retail","441000"] <- 1
   
@@ -44,11 +44,13 @@ deriveMarginSectorImpacts <- function(model,margin_type="industry") {
   
   #Need to drop extra sectors from margins_by_sector and order to be same a A
   margins_by_sector <- margins_by_sector[-which(rownames(margins_by_sector) %in% model$BEA$ValueAddedCodes),]
+
   #Put margins_by_sector into a matrix in the form of A
   A_margin <- model$A #matrix(nrow=nrow(model$A),ncol=ncol(model$A),rep(0))
+  #Make sure sector ordering is the same
   A_margin[,] <- 0 
   for (s in all_margin_sectors) {
-    A_margin[,s] <- margins_by_sector[,s]
+    A_margin[s,] <- margins_by_sector[,s]
   }
   #Multiply M,U by margins_by_sector
   #Derive an M_margin as an transformation of M_margin
