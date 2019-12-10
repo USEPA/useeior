@@ -371,11 +371,9 @@ adjustBEACPItoIOIndustry2012Schema <- function () {
 #' @param marginsource A character indicating the source of Margins, either "Industry" or "FinalConsumer".
 #' @return A dataframe containing CommodityCode, and margins for ProducersValue, Transportation, Wholesale, Retail and PurchasersValue.
 getMarginsTable <- function (specs, marginsource) {
-  # Set year parameters
-  schemayear <- specs$BaseIOSchema
   # Load Margins or PCE and PEQ Bridge data
-  if (schemayear==2012) {
-    if (marginsource=="Industry") {
+  if (specs$BaseIOSchema==2012) {
+    if (marginsource=="intermediate") {
       MarginsTable <- Detail_Margins_2012_BeforeRedef[, 3:9]
     } else {
       # Use PCE and PEQ Bridge tables
@@ -383,15 +381,6 @@ getMarginsTable <- function (specs, marginsource) {
       PEQ <- Detail_PEQ_2012[, 3:9]
       MarginsTable <- rbind(PCE, PEQ)
     }
-  } else { #! this is 2007 scehma tables, will decide how to modify later.
-    # PCE
-    PCEBridge <- as.data.frame(readxl::read_excel(paste(BEApath, "2007Schema/PCEBridge_2007_Detail.xlsx", sep = ""), sheet = "2007"))[7:710, 3:9]
-    colnames(PCEBridge) <- c("CommodityCode", "CommodityDescription", "ProducersValue","Transportation","Wholesale","Retail", "PurchasersValue")
-    PCEBridge[, c("ProducersValue", "PurchasersValue")] <- apply(PCEBridge[, c("ProducersValue", "PurchasersValue")], 2, as.numeric)
-    # PEQ
-    PEQBridge <- as.data.frame(readxl::read_excel(paste(BEApath, "2007Schema/PEQBridge_2007_Detail.xlsx", sep = ""), sheet = "2007"))[5:191, 3:9]
-    colnames(PEQBridge) <- colnames(PCEBridge)
-    PEQBridge[, c("ProducersValue", "PurchasersValue")] <- apply(PEQBridge[, c("ProducersValue", "PurchasersValue")], 2, as.numeric)
   }
   # Map to Summary and Sector level
   crosswalk <- unique(MasterCrosswalk2012[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])

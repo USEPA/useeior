@@ -53,9 +53,9 @@ prepareEEIOModel <- function(modelname) {
     model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   }
   colnames(model$SectorNames) <- c("SectorCode", "SectorName")
-  # Get model$IndustryMargins and model$FinalConsumerMargins
-  model$IndustryMargins <- getMarginsTable(model$specs, "Industry")
-  model$FinalConsumerMargins <- getMarginsTable(model$specs, "FinalConsumer")
+  # Get model$IntermediateMargins and model$FinalConsumerMargins
+  model$IntermediateMargins <- getMarginsTable(model$specs, "intermediate")
+  model$FinalConsumerMargins <- getMarginsTable(model$specs, "final consumer")
   return(model)
 }
 

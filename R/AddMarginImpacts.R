@@ -1,12 +1,12 @@
 #' Prepare M and U matrices with sector margin impacts
 #' @param model A complete EEIO model
-#' @param margin_type A character value: can be "industry" or "final consumer".
+#' @param margin_type A character value: can be "intermediate" or "final consumer".
 #' @export
 #' @return A list with M_margin and U_margin
-deriveMarginSectorImpacts <- function(model,margin_type="industry") {
+deriveMarginSectorImpacts <- function(model,margin_type="intermediate") {
 
-  if (margin_type=="industry") {
-    Margins <- model$IndustryMargins
+  if (margin_type=="intermediate") {
+    Margins <- model$IntermediateMargins
   } else {
     Margins <- model$FinalConsumerMargins
   }

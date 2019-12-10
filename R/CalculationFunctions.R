@@ -51,11 +51,11 @@ calculateEEIOModel <- function(model, perspective, demand = "production", use_do
 #' Adjust multipliers based on currency year, price type, and margin type.
 #' @param currency_year An integer representing the currency year.
 #' @param purchaser_price A boolean value indicating whether to adjust producer's price to purchaser's price.
-#' @param margin_type A character value: can be "industry" or "final consumer".
+#' @param margin_type A character value: can be "intermediate" or "final consumer".
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @export
 #' @return A list of price-adjusted multipliers.
-adjustMultiplierPrice <- function(currency_year, purchaser_price=TRUE, margin_type="industry", model) {
+adjustMultiplierPrice <- function(currency_year, purchaser_price=TRUE, margin_type="intermediate", model) {
   price_adjusted_result <- list()
   # Generate CPI_ratio based on currency_year and model$specs$IOYear
   CPI_ratio <- as.data.frame(model$GDP$BEACPIIO[, as.character(currency_year)]/model$GDP$BEACPIIO[, as.character(model$specs$IOYear)])
@@ -66,8 +66,8 @@ adjustMultiplierPrice <- function(currency_year, purchaser_price=TRUE, margin_ty
   # Adjust from producer's to purchaser's price
   if (purchaser_price) {
     # Get Margins table based on margin_type
-    if (margin_type=="industry") {
-      Margins <- model$IndustryMargins
+    if (margin_type=="intermediate") {
+      Margins <- model$IntermediateMargins
     } else {
       Margins <- model$FinalConsumerMargins
     }
