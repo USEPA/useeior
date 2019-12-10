@@ -389,9 +389,19 @@ getMarginsTable <- function (specs, marginsource) {
   if (!specs$BaseIOLevel=="Detail") {
     MarginsTable$CommodityCode <- MarginsTable[, paste("BEA_2012", specs$BaseIOLevel, "Code", sep = "_")]
   }
-  MarginsTable <- stats::aggregate(MarginsTable[, c("ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")],
-                                   by = list(MarginsTable$CommodityCode), sum)
+  value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
+  MarginsTable <- stats::aggregate(MarginsTable[, value_columns], by = list(MarginsTable$CommodityCode), sum)
   colnames(MarginsTable)[1] <- "CommodityCode"
+  # Keep the Commodities specified in model
+  MarginsTable <- MarginsTable[MarginsTable$CommodityCode%in%model$Commodities, ]
+  # Transform MarginsTable from Commodity to Industry format
+  if (specs$ModelType=="Industry") {
+    # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
+    CommodityMix <- generateCommodityMixMatrix(model)
+    for (column in value_columns) {
+      MarginsTable[, column] <- as.vector(MarginsTable[, column]%*%CommodityMix)
+    }
+  }
   return(MarginsTable)
 }
 
