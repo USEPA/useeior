@@ -628,6 +628,38 @@
 #' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_DET.xlsx}
 "Detail_Margins_2012_BeforeRedef"
 
+#' Summary Margins (Before Redef) table for 2012 (2012 schema)
+#' @format A dataframe with 4632 obs. and 9 variables:
+#' \describe{
+#'  \item{NIPACode}{text code}
+#'  \item{MarginsCategory}{text category name, like 'Therapeutic medical equipment'}
+#'  \item{CommodityCode}{BEA_2012_Detail_Code}
+#'  \item{CommodityDescription}{BEA_2012_Detail_Name}
+#'  \item{ProducersValue}{USD2012}
+#'  \item{Transportation}{USD2012}
+#'  \item{Wholesale}{USD2012}
+#'  \item{Retail}{USD2012}
+#'  \item{PurchasersValue}{USD2012}
+#' }
+#' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SUM.xlsx}
+"Summary_Margins_2012_BeforeRedef"
+
+#' Sector Margins (Before Redef) table for 2012 (2012 schema)
+#' @format A dataframe with 4632 obs. and 9 variables:
+#' \describe{
+#'  \item{NIPACode}{text code}
+#'  \item{MarginsCategory}{text category name, like 'Therapeutic medical equipment'}
+#'  \item{CommodityCode}{BEA_2012_Detail_Code}
+#'  \item{CommodityDescription}{BEA_2012_Detail_Name}
+#'  \item{ProducersValue}{USD2012}
+#'  \item{Transportation}{USD2012}
+#'  \item{Wholesale}{USD2012}
+#'  \item{Retail}{USD2012}
+#'  \item{PurchasersValue}{USD2012}
+#' }
+#' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SECT.xlsx}
+"Sector_Margins_2012_BeforeRedef"
+
 #' Census Manufacturing and Mining Sectors NAICS code and name table
 #' @format A dataframe with 8257 obs. and 2 variables:
 #' \describe{

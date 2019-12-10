@@ -682,3 +682,59 @@ getBEADetailMarginsBeforeRedef2012Schema <- function () {
 }
 Detail_Margins_2012_BeforeRedef <- getBEADetailMarginsBeforeRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Margins_2012_BeforeRedef, overwrite = TRUE)
+
+# Get Summary Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
+getBEASummaryMarginsBeforeRedef2012Schema <- function () {
+  # Download BEA PCE bridge table
+  if(!file.exists("inst/extdata/Margins_Before_Redefinitions_2007_2012_SUM.xlsx")) {
+    download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SUM.xlsx",
+                  "inst/extdata/Margins_Before_Redefinitions_2007_2012_SUM.xlsx", mode = "wb")
+  }
+  column_names <- c("NIPACode", "MarginsCategory", "CommodityCode", "CommodityDescription",
+                    "ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
+  # 2012 data
+  Margins2012 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_SUM.xlsx", sheet = "2012"))[5:4630, ]
+  colnames(Margins2012) <- column_names
+  # Convert Margins values from character to numeric
+  Margins2012[, column_names[5:9]] <- as.data.frame(apply(Margins2012[, column_names[5:9]], 2, as.numeric))
+  # 2007 data
+  Margins2007 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_SUM.xlsx", sheet = "2007"))[5:4634, ]
+  colnames(Margins2007) <- column_names
+  # Convert Margins values from character to numeric
+  Margins2007[, column_names[5:9]] <- as.data.frame(apply(Margins2007[, column_names[5:9]], 2, as.numeric))
+  
+  # Put Margins2012 and Margins2007 in the Margins2012SchemaList
+  Margins2012SchemaList <- list(Margins2007, Margins2012)
+  names(Margins2012SchemaList) <- c("2007", "2012")
+  return(Margins2012SchemaList)
+}
+Summary_Margins_2012_BeforeRedef <- getBEASummaryMarginsBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Summary_Margins_2012_BeforeRedef, overwrite = TRUE)
+
+# Get Sector Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
+getBEASectorMarginsBeforeRedef2012Schema <- function () {
+  # Download BEA PCE bridge table
+  if(!file.exists("inst/extdata/Margins_Before_Redefinitions_2007_2012_SECT.xlsx")) {
+    download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SECT.xlsx",
+                  "inst/extdata/Margins_Before_Redefinitions_2007_2012_SECT.xlsx", mode = "wb")
+  }
+  column_names <- c("NIPACode", "MarginsCategory", "CommodityCode", "CommodityDescription",
+                    "ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
+  # 2012 data
+  Margins2012 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_SECT.xlsx", sheet = "2012"))[5:377, ]
+  colnames(Margins2012) <- column_names
+  # Convert Margins values from character to numeric
+  Margins2012[, column_names[5:9]] <- as.data.frame(apply(Margins2012[, column_names[5:9]], 2, as.numeric))
+  # 2007 data
+  Margins2007 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_SECT.xlsx", sheet = "2007"))[5:377, ]
+  colnames(Margins2007) <- column_names
+  # Convert Margins values from character to numeric
+  Margins2007[, column_names[5:9]] <- as.data.frame(apply(Margins2007[, column_names[5:9]], 2, as.numeric))
+  
+  # Put Margins2012 and Margins2007 in the Margins2012SchemaList
+  Margins2012SchemaList <- list(Margins2007, Margins2012)
+  names(Margins2012SchemaList) <- c("2007", "2012")
+  return(Margins2012SchemaList)
+}
+Sector_Margins_2012_BeforeRedef <- getBEASectorMarginsBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Sector_Margins_2012_BeforeRedef, overwrite = TRUE)
