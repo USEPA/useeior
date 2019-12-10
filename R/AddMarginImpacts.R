@@ -1,5 +1,8 @@
-
-deriveMarginSectorImpacts < function(model) {
+#' Prepare M and U matrices with sector margin impacts
+#' @param model A complete EEIO model
+#' @export
+#' @return A list with M_margin and U_margin
+deriveMarginSectorImpacts <- function(model) {
   ##Add in impacts of margin sectors
   
   #Get fractions of producer price for each margin

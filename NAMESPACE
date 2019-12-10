@@ -3,6 +3,7 @@
 export(adjustMultiplierPrice)
 export(buildEEIOModel)
 export(calculateEEIOModel)
+export(deriveMarginSectorImpacts)
 export(getModelConfiguration)
 export(normalizeResultMatrixByTotalImpacts)
 export(seeAvailableModels)
