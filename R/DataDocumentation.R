@@ -508,38 +508,38 @@
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
 "Summary_Import_2017_BeforeRedef"
 
-#' Detail 2007-2017 Gross Output (2012 schema)
-#' @format A dataframe with 405 obs. and 11 variables
+#' Detail 2007-2018 Gross Output (2012 schema)
+#' @format A dataframe with 405 obs. and 12 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Detail_GrossOutput_IO"
 
-#' Summary 2007-2017 Gross Output (2012 schema)
-#' @format A dataframe with 71 obs. and 11 variables
+#' Summary 2007-2018 Gross Output (2012 schema)
+#' @format A dataframe with 71 obs. and 12 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Summary_GrossOutput_IO"
 
-#' Sector 2007-2017 Gross Output (2012 schema)
-#' @format A dataframe with 15 obs. and 11 variables
+#' Sector 2007-2018 Gross Output (2012 schema)
+#' @format A dataframe with 15 obs. and 12 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Sector_GrossOutput_IO"
 
-#' Detail 2007-2017 CPI (2012 schema)
-#' @format A dataframe with 405 obs. and 11 variables
+#' Detail 2007-2018 CPI (2012 schema)
+#' @format A dataframe with 405 obs. and 12 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Detail_CPI_IO"
 
-#' Summary 2007-2017 CPI (2012 schema)
-#' @format A dataframe with 71 obs. and 11 variables
+#' Summary 2007-2018 CPI (2012 schema)
+#' @format A dataframe with 71 obs. and 12 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Summary_CPI_IO"
 
-#' Sector 2007-2017 CPI (2012 schema)
-#' @format A dataframe with 15 obs. and 11 variables
+#' Sector 2007-2018 CPI (2012 schema)
+#' @format A dataframe with 15 obs. and 12 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Sector_CPI_IO"
