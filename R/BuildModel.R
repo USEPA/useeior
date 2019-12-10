@@ -54,8 +54,8 @@ prepareEEIOModel <- function(modelname) {
   }
   colnames(model$SectorNames) <- c("SectorCode", "SectorName")
   # Get model$IntermediateMargins and model$FinalConsumerMargins
-  model$IntermediateMargins <- getMarginsTable(model$specs, "intermediate")
-  model$FinalConsumerMargins <- getMarginsTable(model$specs, "final consumer")
+  model$IntermediateMargins <- getMarginsTable(model, "intermediate")
+  model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
   return(model)
 }
 

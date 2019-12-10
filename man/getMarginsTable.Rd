@@ -4,10 +4,10 @@
 \alias{getMarginsTable}
 \title{Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).}
 \usage{
-getMarginsTable(specs, marginsource)
+getMarginsTable(model, marginsource)
 }
 \arguments{
-\item{specs}{Model specifications.}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
 \item{marginsource}{A character indicating the source of Margins, either "Industry" or "FinalConsumer".}
 }
