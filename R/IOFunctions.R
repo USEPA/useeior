@@ -367,12 +367,12 @@ adjustBEACPItoIOIndustry2012Schema <- function () {
 }
 
 #' Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).
-#' @param specs Model specifications.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param marginsource A character indicating the source of Margins, either "Industry" or "FinalConsumer".
 #' @return A dataframe containing CommodityCode, and margins for ProducersValue, Transportation, Wholesale, Retail and PurchasersValue.
-getMarginsTable <- function (specs, marginsource) {
+getMarginsTable <- function (model, marginsource) {
   # Load Margins or PCE and PEQ Bridge data
-  if (specs$BaseIOSchema==2012) {
+  if (model$specs$BaseIOSchema==2012) {
     if (marginsource=="intermediate") {
       MarginsTable <- Detail_Margins_2012_BeforeRedef[, 3:9]
     } else {
@@ -386,8 +386,8 @@ getMarginsTable <- function (specs, marginsource) {
   crosswalk <- unique(MasterCrosswalk2012[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
   MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_2012_Detail_Code")
   # Aggregate by CommodityCode (dynamic to model BaseIOLevel) and CommodityDescription
-  if (!specs$BaseIOLevel=="Detail") {
-    MarginsTable$CommodityCode <- MarginsTable[, paste("BEA_2012", specs$BaseIOLevel, "Code", sep = "_")]
+  if (!model$specs$BaseIOLevel=="Detail") {
+    MarginsTable$CommodityCode <- MarginsTable[, paste("BEA_2012", model$specs$BaseIOLevel, "Code", sep = "_")]
   }
   value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
   MarginsTable <- stats::aggregate(MarginsTable[, value_columns], by = list(MarginsTable$CommodityCode), sum)
@@ -395,7 +395,7 @@ getMarginsTable <- function (specs, marginsource) {
   # Keep the Commodities specified in model
   MarginsTable <- MarginsTable[MarginsTable$CommodityCode%in%model$Commodities, ]
   # Transform MarginsTable from Commodity to Industry format
-  if (specs$ModelType=="Industry") {
+  if (model$specs$ModelType=="Industry") {
     # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
     CommodityMix <- generateCommodityMixMatrix(model)
     for (column in value_columns) {
