@@ -393,9 +393,10 @@ getMarginsTable <- function (model, marginsource) {
   MarginsTable <- stats::aggregate(MarginsTable[, value_columns], by = list(MarginsTable$CommodityCode), sum)
   colnames(MarginsTable)[1] <- "CommodityCode"
   # Keep the Commodities specified in model
-  MarginsTable <- MarginsTable[MarginsTable$CommodityCode%in%model$Commodities, ]
+  MarginsTable <- merge(MarginsTable, as.data.frame(model$Commodities), by.x = "CommodityCode", by.y = "model$Commodities", all.y = TRUE)
+  MarginsTable[is.na(MarginsTable)] <- 0
   # Transform MarginsTable from Commodity to Industry format
-  if (model$specs$ModelType=="Industry") {
+  if (model$specs$CommoditybyIndustryType=="Industry") {
     # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
     CommodityMix <- generateCommodityMixMatrix(model)
     for (column in value_columns) {
