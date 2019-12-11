@@ -39,3 +39,40 @@ aggregateMatrix <- function (matrix, from_level, to_level, specs) {
   matrix_fromlevel_agg <- t(matrix_fromlevel_agg[, -1])
   return(matrix_fromlevel_agg)
 }
+
+#' Generate Output Ratio table, flexible to Commodity/Industry output and model Commodity/Industry type
+calculateOutputRatio <- function (model, output_type="Commodity") {
+  # Generate Output based on output_type and model Commodity/Industry type 
+  if (output_type=="Commodity") {
+    if (model$specs$CommoditybyIndustryType=="Industry") {
+      Output <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoU = FALSE, model)
+    } else {
+      Output <- model$CommodityOutput
+    }
+  } else {
+    if (model$specs$CommoditybyIndustryType=="Commodity") {
+      Output <- model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear), drop = FALSE]
+    } else {
+      Output <- model$IndustryOutput
+    }
+  }
+  # Map CommodityOutput to more aggregated IO levels
+  Crosswalk <- unique(MasterCrosswalk2012[, c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
+  ratio_table <- merge(Crosswalk, Output, by.x = paste("BEA_2012", model$specs$BaseIOLevel, "Code", sep = "_"), by.y = 0)
+  # Calculate output ratios
+  for (iolevel in c("Summary", "Sector")) {
+    # Generate flexible sector_code
+    sector_code <- paste("BEA_2012", iolevel, "Code", sep = "_")
+    # Sum Detail output to Summary/Sector
+    output_sum <- stats::aggregate(ratio_table[, as.character(model$specs$IOYear)], by = list(ratio_table[, sector_code]), sum)
+    colnames(output_sum) <- c(sector_code, paste0(iolevel, "Output"))
+    ratio_table <- merge(ratio_table, output_sum, by = sector_code)
+    # Calculate DetailSummaryRatio and DetailSectorRatio
+    ratio_table[, paste0("to", iolevel, "Ratio")] <- ratio_table[, as.character(model$specs$IOYear)]/ratio_table[, paste0(iolevel, "Output")]
+    # Generate SectorCode column
+    ratio_table$SectorCode <- ratio_table[, paste("BEA_2012", model$specs$BaseIOLevel, "Code", sep = "_")]
+  }
+  # Keep ratio columns
+  ratio_table <- ratio_table[, c("SectorCode", "toSummaryRatio", "toSectorRatio")]
+  return(ratio_table)
+}
