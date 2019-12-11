@@ -8,7 +8,7 @@ ModelType: "US"
 ModelSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
-ommoditybyIndustryType: "Industry"
+CommoditybyIndustryType: "Industry"
 ScrapIncluded: FALSE
 
 SatelliteTable:
