@@ -86,12 +86,7 @@ adjustMultiplierPrice <- function(matrix, currency_year, purchaser_price=TRUE, m
     # Generate PRObyPURRatios vector
     Margins$PRObyPURRatios <- Margins$ProducersValue/rowSums(Margins[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
     Margins[is.na(Margins$PRObyPURRatios), "PRObyPURRatios"] <- 1
-    if (model$specs$CommoditybyIndustryType=="Commodity") {
-      PHI <- Margins$PRObyPURRatios
-    } else {
-      CM <- generateCommodityMixMatrix(model)
-      PHI <- as.vector(Margins$PRObyPURRatios %*% CM)
-    }
+    PHI <- Margins$PRObyPURRatios
     logging::loginfo("Adjusting total emissions per dollar from producer to purchaser prices...")
     matrix_name <- paste(matrix, "pur", currency_year, sep = "_")
     price_adjusted_result[[matrix_name]] <- model[[matrix]] %*% diag(PHI)
