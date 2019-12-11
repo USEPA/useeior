@@ -59,8 +59,14 @@ calculateEEIOModel <- function(model, perspective, demand = "production", use_do
 adjustMultiplierPrice <- function(matrix, currency_year, purchaser_price=TRUE, margin_type="intermediate", model) {
   price_adjusted_result <- list()
   # Generate CPI_ratio based on currency_year and model$specs$IOYear
-  CPI_ratio <- as.data.frame(model$GDP$BEACPIIO[, as.character(currency_year)]/model$GDP$BEACPIIO[, as.character(model$specs$IOYear)])
-  rownames(CPI_ratio) <- rownames(model$GDP$BEACPIIO)
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+    currency_year_CPI <- generateCommodityCPIforYear(currency_year, model)
+    CPI_ratio <- as.data.frame(currency_year_CPI[, as.character(currency_year)]/model$CommodityCPI[, as.character(model$specs$IOYear)])
+    rownames(CPI_ratio) <- rownames(model$CommodityCPI)
+  } else {
+    CPI_ratio <- as.data.frame(model$GDP$BEACPIIO[, as.character(currency_year)]/model$GDP$BEACPIIO[, as.character(model$specs$IOYear)])
+    rownames(CPI_ratio) <- rownames(model$GDP$BEACPIIO)
+  }
   colnames(CPI_ratio) <- "Ratio"
   # Adjust from producer's to purchaser's price
   if (purchaser_price) {
