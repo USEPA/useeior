@@ -38,9 +38,8 @@ deriveMarginSectorImpacts <- function(model, margin_type = "intermediate") {
     A_margin[s, ] <- margins_by_sector[, s]
   }
   # Multiply M and U by margins_by_sector to derive M_margin and U_margin
-  result <- list()
-  result$M_margin <- model$M %*% A_margin
-  result$U_margin <- model$U %*% A_margin
-  return(result)
+  model$M_margin <- model$M %*% A_margin
+  model$U_margin <- model$U %*% A_margin
+  return(model)
 }
 
