@@ -406,6 +406,8 @@ getMarginsTable <- function (model, marginsource) {
     }
     MarginsTable <- MarginsTable_Industry
   }
+  # Rename code column from CommodityCode/IndustryCode to SectorCode
+  colnames(MarginsTable)[1] <- "SectorCode"
   return(MarginsTable)
 }
 

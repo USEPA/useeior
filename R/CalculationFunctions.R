@@ -78,7 +78,7 @@ adjustMultiplierPrice <- function(matrix, currency_year, purchaser_price=TRUE, m
     }
     logging::loginfo("Adjusting margins from IO year to currency year dollars...")
     # Adjust ProducersValue using CPI_ratio
-    Margins <- merge(Margins, CPI_ratio, by.x = "CommodityCode", by.y = 0, all.y = TRUE)
+    Margins <- merge(Margins, CPI_ratio, by.x = "SectorCode", by.y = 0, all.y = TRUE)
     Margins$ProducersValue <- Margins$ProducersValue * Margins$Ratio
     # Adjust Transportation, Wholesale and Retail using corresponding CPI_ratio
     TWR_CPI_ratio <- Sector_CPI_IO[c("48TW", "42", "44RT"), as.character(currency_year)]/Sector_CPI_IO[c("48TW", "42", "44RT"), as.character(model$specs$IOYear)]
