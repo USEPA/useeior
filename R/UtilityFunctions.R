@@ -74,5 +74,9 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
   }
   # Keep ratio columns
   ratio_table <- unique(ratio_table[, c("SectorCode", "toSummaryRatio", "toSectorRatio")])
+  if(model$specs$BaseIOLevel=="Sector") {
+    ratio_table$toSectorRatio <- 1
+    ratio_table <- unique(ratio_table[, c("SectorCode", "toSectorRatio")])
+  }
   return(ratio_table)
 }
