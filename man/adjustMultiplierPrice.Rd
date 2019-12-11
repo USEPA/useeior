@@ -4,10 +4,12 @@
 \alias{adjustMultiplierPrice}
 \title{Adjust multipliers based on currency year, price type, and margin type.}
 \usage{
-adjustMultiplierPrice(currency_year, purchaser_price = TRUE,
+adjustMultiplierPrice(matrix, currency_year, purchaser_price = TRUE,
   margin_type = "intermediate", model)
 }
 \arguments{
+\item{matrix}{A matrix representing the multiplier that needs price adjustment.}
+
 \item{currency_year}{An integer representing the currency year.}
 
 \item{purchaser_price}{A boolean value indicating whether to adjust producer's price to purchaser's price.}
