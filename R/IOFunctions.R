@@ -400,8 +400,9 @@ getMarginsTable <- function (model, marginsource) {
     # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
     CommodityMix <- generateCommodityMixMatrix(model)
     for (column in value_columns) {
-      MarginsTable[, column] <- as.vector(MarginsTable[, column]%*%CommodityMix)
+      MarginsTable[MarginsTable$CommodityCode%in%colnames(CommodityMix), column] <- as.vector(MarginsTable[, column]%*%CommodityMix)
     }
+    MarginsTable <- MarginsTable[MarginsTable$CommodityCode%in%colnames(CommodityMix), ]
   }
   return(MarginsTable)
 }
