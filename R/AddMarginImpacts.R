@@ -39,7 +39,9 @@ deriveMarginSectorImpacts <- function(model, margin_type = "intermediate") {
   }
   # Multiply M and U by margins_by_sector to derive M_margin and U_margin
   model$M_margin <- model$M %*% A_margin
+  colnames(model$M_margin) <- tolower(paste(colnames(model$M_margin), model$specs$PrimaryRegionAcronym, sep = "/"))
   model$U_margin <- model$U %*% A_margin
+  colnames(model$U_margin) <- tolower(paste(colnames(model$U_margin), model$specs$PrimaryRegionAcronym, sep = "/"))
   logging::loginfo("Model margin impacts derived")
   return(model)
 }

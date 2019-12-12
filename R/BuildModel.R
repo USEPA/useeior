@@ -135,12 +135,15 @@ buildEEIOModel <- function(modelname) {
   # Calculate total emissions/resource use per dollar (M)
   logging::loginfo("Calculating total emissions per dollar matrix...")
   model$M <- model$B %*% model$L
+  colnames(model$M) <- tolower(paste(colnames(model$M), model$specs$PrimaryRegionAcronym, sep = "/"))
   #M_d are the domestic emissions per dollar using domestic Leontief
   model$M_d <- model$B %*% model$L_d
+  colnames(model$M_d) <- tolower(paste(colnames(model$M_d), model$specs$PrimaryRegionAcronym, sep = "/"))
   #Calculate total requirements for imports - note different method
   model$L_m <- model$A_m %*% model$L_d
   #M_e are the external emissions per dollar using the domestic technology assumption
   model$M_e <- model$B %*% model$L_m
+  colnames(model$M_e) <- tolower(paste(colnames(model$M_e), model$specs$PrimaryRegionAcronym, sep = "/"))
   # Calculate total impacts per dollar (U), impact category x sector
   model$U <- model$C %*% model$M
   #U_d are the domestic impacts per dollar
