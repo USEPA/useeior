@@ -48,7 +48,7 @@ prepareEEIOModel <- function(modelname) {
     USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
                                      sep = ",", header = TRUE, stringsAsFactors = FALSE)
     model$SectorNames <- merge(as.data.frame(model$Commodities, stringsAsFactors = FALSE), USEEIONames,
-                               by.x = "model$Commodities", by.y = "Code", all.x = TRUE)
+                               by.x = "model$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
   } else {
     model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   }
