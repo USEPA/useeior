@@ -1,6 +1,52 @@
 #' Load satellite tables in a list based on model.
 #' @param model Configuration of the model.
-#' @return A list with satellite tables.
+#' @return Lists of national totals by sector and formatted satellite tables
+#' @format A list with lists of totals by sector and formatted satellite tables
+#' \describe{
+#'  \itemize{
+#'    \item totals_by_sector
+#'      \itemize{
+#'        \item {SectorCode} {The code of the sector in the model IO schema}
+#'        \item SectorName
+#'        \item FlowName
+#'        \item Year
+#'        \item FlowAmount
+#'        \item ReliabilityScore
+#'        \item Location
+#'        \item Compartment
+#'        \item Unit
+#'        \item Location
+#'        \item MetaSources
+#'      }
+#'    \item tables
+#'      \itemize{
+#'        \item FlowName
+#'        \item CAS
+#'        \item FlowCategory
+#'        \item FlowSubCategory
+#'        \item FlowUUID
+#'        \item ProcessName
+#'        \item ProcessCode
+#'        \item ProcessLocation
+#'        \item FlowAmount       
+#'        \item UncertaintyDistribution
+#'        \item UncertaintyExpectedValue
+#'        \item UncertaintyDispersion
+#'        \item UncertaintyMin
+#'        \item UncertaintyMax
+#'        \item DQReliability
+#'        \item DQTemporal
+#'        \item DQGeographical
+#'        \item DQTechnological
+#'        \item DQDataCollection
+#'        \item MetaYearofData
+#'        \item MetaTags
+#'        \item MetaSources
+#'        \item MetaYearofData        
+#'        \item MetaOther
+#'      }
+#'  }
+#' }
 #' @description Only works for static national totals by BEA sector in a set format
 loadsattables <- function(model) {
   nationaltotalsbysector <- list()
