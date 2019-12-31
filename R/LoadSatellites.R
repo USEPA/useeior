@@ -1,15 +1,20 @@
 #' Load satellite tables in a list based on model.
 #' @param model Configuration of the model.
 #' @return A list with satellite tables.
-loadsattables <- function(model){
+#' @description Only works for static national totals by BEA sector in a set format
+loadsattables <- function(model) {
+  nationaltotalsbysector <- list()
   sattables <- list()
+  sattables$totals_by_sector <- list()
+  sattables$tables <- list()
+  
   logging::loginfo("Initializing model satellite tables...")
 
   for (sat in model$specs$SatelliteTable) {
     logging::loginfo(paste("Adding model satellite tables..."))
     #Check if its the table uses a static file..if so proceed
     if(!is.null(sat$StaticFile)) {
-      sattable <- utils::read.table(system.file("extdata", sat$StaticFile, package = "useeior"),
+      totals_by_sector <- utils::read.table(system.file("extdata", sat$StaticFile, package = "useeior"),
                                     sep = ",", header = TRUE, stringsAsFactors = FALSE)
       #If BEA based
       if (sat$SectorListSource == "BEA") {
@@ -17,7 +22,7 @@ loadsattables <- function(model){
         if (sat$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
           #apply allocation
         } else if (sat$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
-          sattable <- aggregateSatelliteTable(sattable, sat$SectorListLevel, model$specs$BaseIOLevel, model)
+          totals_by_sector <- aggregateSatelliteTable(totals_by_sector, sat$SectorListLevel, model$specs$BaseIOLevel, model)
         }
       } else {
         #In NAICS #
@@ -29,7 +34,7 @@ loadsattables <- function(model){
       #Split table based on regions
       sattablecoeffs <- data.frame()
       for (r in model$specs$ModelRegionAcronyms) {
-        sattable_r <- sattable[sattable$Location==r, ]
+        sattable_r <- totals_by_sector[totals_by_sector$Location==r, ]
         if (r=="RoUS") {
           IsRoUS <- TRUE
         } else {
@@ -39,7 +44,7 @@ loadsattables <- function(model){
             sattable_r[, "Location"] <- paste("US-", r, sep = "")
           }
         }
-        sattablecoeffs_r <- generateFlowtoDollarCoefficient(sattable_r, sat$DataYears[1], model$specs$IOYear,r, IsRoUS=IsRoUS, model)
+        sattablecoeffs_r <- generateFlowtoDollarCoefficient(totals_by_sector, sat$DataYears[1], model$specs$IOYear,r, IsRoUS=IsRoUS, model)
         sattablecoeffs <- rbind(sattablecoeffs,sattablecoeffs_r)
       }
       #Need to have sector name
@@ -50,14 +55,15 @@ loadsattables <- function(model){
 
       sattablestandardized <- generateStandardSatelliteTable(sattablecoeffs_withsectors, mapbyname = TRUE, sat)
     } else {
-      #Source is dynamic
+      #Source is dynamic - not currently working
       source(sat$ScriptSource)
       func_to_eval <- sat$ScriptFunctionCall
       satgenfunction <- as.name(func_to_eval)
       sattablestandardized <- do.call(eval(satgenfunction), sat$ScriptFunctionParameters)
     }
     #append it to list
-    sattables[[sat$Abbreviation]] <- sattablestandardized
+    sattables$totals_by_sector[[sat$Abbreviation]] <- totals_by_sector
+    sattables$tables[[sat$Abbreviation]] <- sattablestandardized
   }
   return(sattables)
 }
