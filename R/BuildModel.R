@@ -157,6 +157,7 @@ buildEEIOModel <- function(modelname) {
 
 #' Write model components to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @description Only writes model economic components (DRC, Marketshares, Demand) for now.
 #' @export
 writeModelComponents <- function(model) {
   # Define output folder
@@ -172,16 +173,13 @@ writeModelComponents <- function(model) {
   # Format model build components for IOMB
   MarketShares <- formatIOTableforIOMB(model$V_n, model)
   DirectRequirementsCoefficients <- formatIOTableforIOMB(model$A, model)
-  # Satellite table
-  sattableGHG <- model$sattableslist[["GHG"]]
-  # Indicators
-  indicatorsGHG <- model$C
+
   # write model build components to csv
   utils::write.csv(Demand, paste(outputfolder, "FinalDemand.csv", sep = "/"), row.names = FALSE)
   utils::write.csv(MarketShares, paste(outputfolder, "MarketShares.csv", sep = "/"), row.names = FALSE)
   utils::write.csv(DirectRequirementsCoefficients, paste(outputfolder, "DirectRequirementsCoefficients.csv", sep = "/"), row.names = FALSE)
-  utils::write.csv(sattableGHG, paste(outputfolder, "Satellite_GHG.csv", sep = "/"), row.names = FALSE)
-  utils::write.csv(indicatorsGHG, paste(outputfolder, "Indicators_GHG.csv", sep = "/"), row.names = FALSE)
+  
+  
   # Write logs to file in Model Builds folder
   logtimestamp <- Sys.Date()
   dir.create("modelbuildlogs", recursive = TRUE) # meant to be flexible up to users
