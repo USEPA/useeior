@@ -10,5 +10,5 @@ writeModelComponents(model)
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \description{
-Write model components to output folder.
+Only writes model economic components (DRC, Marketshares, Demand) for now.
 }
