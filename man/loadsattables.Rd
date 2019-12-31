@@ -3,6 +3,52 @@
 \name{loadsattables}
 \alias{loadsattables}
 \title{Load satellite tables in a list based on model.}
+\format{A list with lists of totals by sector and formatted satellite tables
+\describe{
+ \itemize{
+   \item totals_by_sector
+     \itemize{
+       \item {SectorCode} {The code of the sector in the model IO schema}
+       \item SectorName
+       \item FlowName
+       \item Year
+       \item FlowAmount
+       \item ReliabilityScore
+       \item Location
+       \item Compartment
+       \item Unit
+       \item Location
+       \item MetaSources
+     }
+   \item tables
+     \itemize{
+       \item FlowName
+       \item CAS
+       \item FlowCategory
+       \item FlowSubCategory
+       \item FlowUUID
+       \item ProcessName
+       \item ProcessCode
+       \item ProcessLocation
+       \item FlowAmount       
+       \item UncertaintyDistribution
+       \item UncertaintyExpectedValue
+       \item UncertaintyDispersion
+       \item UncertaintyMin
+       \item UncertaintyMax
+       \item DQReliability
+       \item DQTemporal
+       \item DQGeographical
+       \item DQTechnological
+       \item DQDataCollection
+       \item MetaYearofData
+       \item MetaTags
+       \item MetaSources
+       \item MetaYearofData        
+       \item MetaOther
+     }
+ }
+}}
 \usage{
 loadsattables(model)
 }
@@ -10,8 +56,8 @@ loadsattables(model)
 \item{model}{Configuration of the model.}
 }
 \value{
-A list with satellite tables.
+Lists of national totals by sector and formatted satellite tables
 }
 \description{
-Load satellite tables in a list based on model.
+Only works for static national totals by BEA sector in a set format
 }
