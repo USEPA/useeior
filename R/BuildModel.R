@@ -86,8 +86,8 @@ buildEEIOModel <- function(modelname) {
   model$sattableslist <- loadsattables(model)
   # Combine satellite table dfs into a single df
   model$sattables <- data.frame()
-  for (satable in model$sattableslist) {
-    model$sattables <- rbind(model$sattables, satable)
+  for (table in model$sattableslist$tables) {
+    model$sattables <- rbind(model$sattables, table)
   }
   # ransform into a flow x sector matrix
   model$sattables["Flow"] <- apply(model$sattables[, c("FlowName", "FlowCategory", "FlowSubCategory", "FlowUnit")], 1 ,FUN = joinStringswithSlashes)
