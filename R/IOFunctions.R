@@ -405,10 +405,11 @@ getMarginsTable <- function (model, marginsource) {
     # Transform ProducerValue from Commodity to Industry format
     # ! Not transforming Transportation, Wholesale and Retail to Industry format now
     MarginsTable_Industry[, "ProducersValue"] <- as.vector(MarginsTable[, "ProducersValue"]%*%CommodityMix)
-    # Keep Industry sectors the Margins Table
-    MarginsTable <- MarginsTable[MarginsTable$CommodityCode%in%MarginsTable_Industry$IndustryCode, ]
-    # Replace Commodity ProducersValue with Industry ProducersValue in Margins Table
-    MarginsTable$ProducersValue <- MarginsTable_Industry$ProducersValue
+    # Merge Industry Margins Table with Commodity Margins Table
+    MarginsTable <- merge(MarginsTable_Industry, MarginsTable[, -which(names(MarginsTable)=="ProducersValue")],
+                          by.x = "IndustryCode", by.y = "CommodityCode", all.x = TRUE)
+    # Replace NA with zero
+    MarginsTable[is.na(MarginsTable)] <- 0
   }
   MarginsTable$PurchasersValue <- rowSums(MarginsTable[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
   # Rename code column from CommodityCode/IndustryCode to SectorCode
