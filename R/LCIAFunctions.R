@@ -38,8 +38,8 @@ loadLCIAfactors <- function() {
   names(lciafactlong)[names(lciafactlong) == "variable"] <- "Abbreviation"
   names(lciafactlong)[names(lciafactlong) == "value"] <- "Amount"
   return(lciafactlong)
-
 }
+
 
 #' Formats an LCIA factor table for IOMB
 #'
