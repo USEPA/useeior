@@ -49,10 +49,9 @@
 #' }
 #' @description Only works for static national totals by BEA sector in a set format
 loadsattables <- function(model) {
-  nationaltotalsbysector <- list()
   sattables <- list()
   sattables$totals_by_sector <- list()
-  sattables$tables <- list()
+  sattables$coeffs_by_sector <- list()
   
   logging::loginfo("Initializing model satellite tables...")
 
@@ -109,7 +108,7 @@ loadsattables <- function(model) {
     }
     #append it to list
     sattables$totals_by_sector[[sat$Abbreviation]] <- totals_by_sector
-    sattables$tables[[sat$Abbreviation]] <- sattablestandardized
+    sattables$coeffs_by_sector[[sat$Abbreviation]] <- sattablestandardized
   }
   return(sattables)
 }
