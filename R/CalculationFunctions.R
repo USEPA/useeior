@@ -30,13 +30,13 @@ calculateEEIOModel <- function(model, perspective, demand = "production", use_do
     if (ncol(demand)==ncol(Demand)) {
       # Replace sectors in Demand with the sectors from demand
       Demand_adj <- rbind(Demand[!rownames(Demand)%in%rownames(demand), ], demand)
+      f <- as.matrix(rowSums(Demand_adj))
     } else if (ncol(demand)==1) {
       # Replace sectors in Demand with the sectors from demand
-      Demand_adj <- rbind(as.matrix(rowSums(Demand[!rownames(Demand)%in%rownames(demand), ])), demand)
+      f <- rbind(as.matrix(rowSums(Demand[!rownames(Demand)%in%rownames(demand), ])), demand)
     }
-    # Order row sequence of Demand_adj to be the same with that of Demand
-    Demand_adj <- Demand_adj[match(rownames(Demand), rownames(Demand_adj)), ]
-    f <- as.matrix(rowSums(Demand_adj))
+    # Order row sequence of f to be the same with that of Demand
+    f <- as.matrix(f[match(rownames(Demand), rownames(f)), ])
   }
   # DirectPerspectiveLCI and DirectPerspectiveLCIA
   if (perspective=="DIRECT") {
