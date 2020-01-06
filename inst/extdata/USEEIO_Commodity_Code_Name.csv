@@ -502,8 +502,8 @@ GFGN,Federal general government (nondefense)
 GFE,Federal government enterprises
 GSLG,State and local general government
 GSLE,State and local government enterprises
-Used,"Scrap, used and secondhand goods /1/"
-Other,Noncomparable imports and rest-of-the-world adjustment /2/
+Used,"Scrap, used and secondhand goods"
+Other,Noncomparable imports and rest-of-the-world adjustment
 11,"Agriculture, forestry, fishing, and hunting"
 21,Mining
 31G,Manufacturing
