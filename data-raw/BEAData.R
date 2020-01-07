@@ -567,6 +567,7 @@ getBEACodeName2012Schema <- function () {
   BEASummaryCommodityCodeName <- as.data.frame(t(BEASummary[5:6, 3:75]), stringsAsFactors = FALSE)
   colnames(BEASummaryCommodityCodeName) <- c("BEA_2012_Summary_Commodity_Code", "BEA_2012_Summary_Commodity_Name")
   rownames(BEASummaryCommodityCodeName) <- NULL
+  BEASummaryCommodityCodeName$BEA_2012_Summary_Commodity_Name <- gsub(" /.*", "", BEASummaryCommodityCodeName$BEA_2012_Summary_Commodity_Name)
   ## Sector
   BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2018_Sector.xlsx", sheet = "2012"))
   # Industry
@@ -578,6 +579,7 @@ getBEACodeName2012Schema <- function () {
   BEASectorCommodityCodeName <- as.data.frame(t(BEASector[5:6, 3:19]), stringsAsFactors = FALSE)
   colnames(BEASectorCommodityCodeName) <- c("BEA_2012_Sector_Commodity_Code", "BEA_2012_Sector_Commodity_Name")
   rownames(BEASectorCommodityCodeName) <- NULL
+  BEASectorCommodityCodeName$BEA_2012_Sector_Commodity_Name <- gsub(" /.*", "", BEASectorCommodityCodeName$BEA_2012_Sector_Commodity_Name)
   ### Put the data.frames in a list
   BEACodeNameList <- list(BEADetailIndustryCodeName, BEADetailCommodityCodeName,
                           BEASummaryIndustryCodeName, BEASummaryCommodityCodeName,
