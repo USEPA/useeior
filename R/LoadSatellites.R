@@ -12,6 +12,9 @@
 #'        \item Year
 #'        \item FlowAmount
 #'        \item ReliabilityScore
+#'        \item GeographicalCorrelation
+#'        \item TechnologicalCorrelation
+#'        \item DataCollection
 #'        \item Location
 #'        \item Compartment
 #'        \item Unit
@@ -72,6 +75,14 @@ loadsattables <- function(model) {
       } else {
         #In NAICS #
       }
+      #Add in DQ columns and additional contextual scores not provided
+      totals_by_sector <- scoreContextualDQ(totals_by_sector) #just sets TemporalCorrelation for now
+      
+      #Check that all DQ columns are present
+      if(length(getDQfields(totals_by_sector))!=5){
+        logging::logerror('Missing 1 or more data quality fields in satellite data.')
+      }
+      
       #split table based on data years
       if (length(sat$DataYears)>1) {
         print("more than 1 data year")
@@ -95,8 +106,6 @@ loadsattables <- function(model) {
       #Need to have sector name
       sattablecoeffs$SectorName <- NULL
       sattablecoeffs_withsectors <- merge(sattablecoeffs, model$SectorNames, by = "SectorCode")
-      #!temp set DQ technological
-      sattablecoeffs_withsectors$DQTechnological <- 5
 
       sattablestandardized <- generateStandardSatelliteTable(sattablecoeffs_withsectors, mapbyname = TRUE, sat)
     } else {
