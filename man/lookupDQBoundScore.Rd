@@ -2,10 +2,24 @@
 % Please edit documentation in R/DataQuality.R
 \name{lookupDQBoundScore}
 \alias{lookupDQBoundScore}
-\title{Constants to determine which bound type to use for DQ indicator}
+\title{For the data quality scores based on ranges, this provides the appropriate
+score in relation to either an upper or lower bound
+passed based on the data quality indicator type.}
 \usage{
 lookupDQBoundScore(raw_score, dqi, scoring_bounds)
 }
+\arguments{
+\item{raw_score}{numeric. Raw value used}
+
+\item{dqi}{string. Name of the DQI category and a column name}
+
+\item{scoring_bounds}{List. Constant returned by setDQScoringBounds()}
+}
+\value{
+integer, a data quality score
+}
 \description{
-Constants to determine which bound type to use for DQ indicator
+For the data quality scores based on ranges, this provides the appropriate
+score in relation to either an upper or lower bound
+passed based on the data quality indicator type.
 }

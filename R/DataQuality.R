@@ -2,7 +2,7 @@
 
 #'Get DQ fields in existing data frame
 #'@param national totals data frame 
-#'@result string vector with names of data quality fields
+#'@return string vector with names of data quality fields
 getDQfields <- function (df) {
   flow_data_quality_fields <- c('ReliabilityScore',
                                 'TemporalCorrelation',
@@ -15,7 +15,7 @@ getDQfields <- function (df) {
 
 #' Constants to determine which bound type to use for DQ indicator
 #' and for each indicator, provide those bounds
-#' @result a list with DQ bounds
+#' @return a list with DQ bounds
 setDQScoringBounds <- function() {
   bound_to_dqi <- list()
   bound_to_dqi[['upper']] <- c('TemporalCorrelation')
@@ -27,9 +27,13 @@ setDQScoringBounds <- function() {
   return(bound_to_dqi)
 }
 
-
-
-#' Constants to determine which bound type to use for DQ indicator
+#' For the data quality scores based on ranges, this provides the appropriate
+#' score in relation to either an upper or lower bound
+#' passed based on the data quality indicator type.
+#' @param raw_score numeric. Raw value used
+#' @param dqi string. Name of the DQI category and a column name
+#' @param scoring_bounds List. Constant returned by setDQScoringBounds()
+#' @return integer, a data quality score
 lookupDQBoundScore <- function(raw_score,dqi,scoring_bounds) {
   
   score <- NA
@@ -59,4 +63,30 @@ lookupDQBoundScore <- function(raw_score,dqi,scoring_bounds) {
   return(score)
   
 }
-  
+
+#' Adds contextual data quality scores to a data frame with Year present
+#'@param df a dataframe containing a 'Year' column representing data year
+#'@return a dataframe with contextual data quality scores added in columns
+#' with names of the indicators. Only 'TemporalCorrelation' currently added.
+scoreContextualDQ <- function(df)  {
+  bounds <- setDQScoringBounds()    
+  df['TemporalCorrelation'] <- vapply(df['Year'],scoreTemporalDQ,target_year=NA,scoring_bounds=bounds,FUN.VALUE=0)
+  return(df)
+}
+
+#'Scores temporal data quality using a lookup based on difference between data year and target year
+#'@param data_year integer year of data
+#'@param target_year integer year of data, defaults to current year
+#'@param scoring_bounds global scoring bounds
+#'@return an integer data quality score 1-5 or NA
+scoreTemporalDQ <- function(data_year,target_year=NA, scoring_bounds) {
+  if (is.na(data_year)) {
+    return(NA)
+  }
+  if (is.na(target_year)) {
+    target_year <- as.integer(format(Sys.Date(), "%Y"))
+  }
+  age <- target_year-data_year
+  score <- lookupDQBoundScore(age,"TemporalCorrelation",scoring_bounds) 
+  return(score)
+}

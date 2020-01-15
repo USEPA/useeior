@@ -10,6 +10,9 @@ getDQfields(df)
 \arguments{
 \item{national}{totals data frame}
 }
+\value{
+string vector with names of data quality fields
+}
 \description{
 Draws from https://github.com/USEPA/ElectricityLCI/blob/master/electricitylci/dqi.py 
 Get DQ fields in existing data frame

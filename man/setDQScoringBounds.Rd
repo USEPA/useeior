@@ -7,6 +7,9 @@ and for each indicator, provide those bounds}
 \usage{
 setDQScoringBounds()
 }
+\value{
+a list with DQ bounds
+}
 \description{
 Constants to determine which bound type to use for DQ indicator
 and for each indicator, provide those bounds
