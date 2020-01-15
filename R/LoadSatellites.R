@@ -79,8 +79,9 @@ loadsattables <- function(model) {
       totals_by_sector <- scoreContextualDQ(totals_by_sector) #just sets TemporalCorrelation for now
       
       #Check that all DQ columns are present
-      if(length(getDQfields(totals_by_sector))!=5){
-        logging::logerror('Missing 1 or more data quality fields in satellite data.')
+      len_dq_fields <- length(getDQfields(totals_by_sector))
+      if(len_dq_fields!=5){
+        logging::logerror(paste0('Missing 1 or more data quality fields in satellite data. ',len_dq_fields, " present"))
       }
       
       #split table based on data years
