@@ -20,9 +20,9 @@ mapSatTablefromNAICStoBEA <- function (sattable, satellitetableyear) {
   for (NAICS in unique(NAICStoBEA$NAICS)) {
     N_BEA <- nrow(NAICStoBEA[NAICStoBEA$NAICS == NAICS, ])
     if (N_BEA == 1) {
-      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "DQTechnological"] <- 1
+      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "TechnologicalCorrelation"] <- 1
     } else {
-      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "DQTechnological"] <- 2
+      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "TechnologicalCorrelation"] <- 2
     }
   }
   # Merge satellite table with NAICStoBEA dataframe
@@ -37,7 +37,7 @@ mapSatTablefromNAICStoBEA <- function (sattable, satellitetableyear) {
   # Calculate FlowAmount for BEA-coded sectors using allocation factors
   Sattable_BEA$FlowAmount <- Sattable_BEA$FlowAmount*Sattable_BEA$allocation_factor
   # Aggregate FlowAmount to BEA sectors
-  Sattable_BEA <- stats::aggregate(FlowAmount~SectorCode+SectorName+FlowName+ReliabilityScore+DQTechnological, Sattable_BEA, sum)
+  Sattable_BEA <- stats::aggregate(FlowAmount~SectorCode+SectorName+FlowName+ReliabilityScore+TechnologicalCorrelation, Sattable_BEA, sum)
   return(Sattable_BEA)
 }
 
@@ -86,7 +86,7 @@ generateStandardSatelliteTable <- function (sattable, mapbyname = FALSE, sattabl
   }
   Sattable_standardformat[, "FlowAmount"] <- sattable[, "FlowAmount"]
   Sattable_standardformat[, "DQReliability"] <- sattable[, "ReliabilityScore"]
-  Sattable_standardformat[, "DQTechnological"] <- sattable[, "DQTechnological"]
+  Sattable_standardformat[, "DQTechnological"] <- sattable[, "TechnologicalCorrelation"]
   if("MetaSources" %in% colnames(sattable)) {
     Sattable_standardformat[, "MetaSources"] <- sattable[, "MetaSources"]
   }
