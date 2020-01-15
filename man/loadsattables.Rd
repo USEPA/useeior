@@ -14,6 +14,9 @@
        \item Year
        \item FlowAmount
        \item ReliabilityScore
+       \item GeographicalCorrelation
+       \item TechnologicalCorrelation
+       \item DataCollection
        \item Location
        \item Compartment
        \item Unit
