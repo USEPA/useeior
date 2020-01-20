@@ -127,8 +127,9 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
   # Replace NA in ReliabilityScore column with 5
   sattable[is.na(sattable$ReliabilityScore), "ReliabilityScore"] <- 5
   # Aggregate FlowAmount by specified columns
+  DQscores <- c("ReliabilityScore", "TemporalCorrelation", "GeographicalCorrelation", "TechnologicalCorrelation", "DataCollection")
   # Need particular aggregation functions, e.g. sum, weighted avg on ReliabilityScore
-  sattable_agg <- stats::aggregate(sattable$FlowAmount, by = sattable[, c(to_code, "FlowName", "Compartment", "Unit", "ReliabilityScore", "Year", "MetaSources", "Location")], sum)
+  sattable_agg <- stats::aggregate(sattable$FlowAmount, by = sattable[, c(to_code, "FlowName", "Compartment", "Unit", DQscores, "Year", "MetaSources", "Location")], sum)
   colnames(sattable_agg)[c(1, ncol(sattable_agg))] <- c("SectorCode", "FlowAmount")
   return(sattable_agg)
 }
