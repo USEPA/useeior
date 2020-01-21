@@ -7,7 +7,7 @@ writeModelComponents <- function(model) {
   
   user_dir <- rappdirs::user_data_dir()
   outputfolder <- file.path(user_dir,"USEEIO","Model_Builds", model$specs$Model)
-  if (!dir.exists(model_dir)) {
+  if (!dir.exists(outputfolder)) {
     dir.create(outputfolder, recursive = TRUE) 
   }
   
