@@ -1,11 +1,15 @@
-#' Write model components to output folder.
+#' Write model components to output folder using IO-Model-Builder format.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @description Only writes model economic components (DRC, Marketshares, Demand) for now.
 #' @export
 writeModelComponents <- function(model) {
   # Define output folder
-  dir.create(paste("Model Builds/", model$specs$Model, sep = ""), recursive = TRUE) # meant to be flexible up to users
-  outputfolder <- paste("Model Builds/", model$specs$Model, sep = "")
+  
+  user_dir <- rappdirs::user_data_dir()
+  outputfolder <- file.path(user_dir,"USEEIO","Model_Builds", model$specs$Model)
+  if (!dir.exists(model_dir)) {
+    dir.create(outputfolder, recursive = TRUE) 
+  }
   
   # Demand
   if(model$specs$PrimaryRegionAcronym=="US") {
@@ -25,9 +29,10 @@ writeModelComponents <- function(model) {
   
   # Write logs to file in Model Builds folder
   logtimestamp <- Sys.Date()
-  dir.create("modelbuildlogs", recursive = TRUE) # meant to be flexible up to users
-  logfilename <- paste0("modelbuildlogs/", model$specs$Model, logtimestamp, ".log")
-  logging::addHandler(logging::writeToFile, file = logfilename, level = "INFO")
+  #if (!dir.exists())
+  #dir.create("modelbuildlogs", recursive = TRUE) # meant to be flexible up to users
+  #logfilename <- paste0("modelbuildlogs/", model$specs$Model, logtimestamp, ".log")
+  #logging::addHandler(logging::writeToFile, file = logfilename, level = "INFO")
   
-  logging::loginfo("Model components written to Model Build folder.")
+  logging::loginfo(paste0("Model components written to ",outputfolder," ."))
 }
