@@ -70,7 +70,7 @@ lookupDQBoundScore <- function(raw_score,dqi,scoring_bounds) {
 #' with names of the indicators. Only 'TemporalCorrelation' currently added.
 scoreContextualDQ <- function(df)  {
   bounds <- setDQScoringBounds()    
-  df['TemporalCorrelation'] <- vapply(df['Year'],scoreTemporalDQ,target_year=NA,scoring_bounds=bounds,FUN.VALUE=0)
+  df[, 'TemporalCorrelation'] <- vapply(df[, 'Year'],scoreTemporalDQ,target_year=NA,scoring_bounds=bounds,FUN.VALUE=0)
   return(df)
 }
 
