@@ -18,7 +18,7 @@ Imports:
   stats (>= 3.6.1),
   usethis (>= 1.5),
   utils (>= 3.6.1),
-  rappdirs (>=0.3)
+  rappdirs (>= 0.3)
 Depends:
   R (>= 3.6)
 License: CC0
