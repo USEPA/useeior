@@ -41,7 +41,7 @@ generateLCIA <- function (model) {
 }
 
 #' Loads all LCIA factors from static source file after melting it to long file
-#' Returns df with "Name""Category""Subcategory""Unit""UUID""Abbreviation""Amount"
+#' @return A dataframe with "Name""Category""Subcategory""Unit""UUID""Abbreviation""Amount"
 loadLCIAfactors <- function() {
    lciafact <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Factors.csv", package = "useeior"),
                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)

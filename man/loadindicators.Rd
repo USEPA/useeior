@@ -7,10 +7,10 @@
 loadindicators(specs)
 }
 \arguments{
-\item{specs}{specifications of the model.}
+\item{specs}{Specifications of the model.}
 }
 \value{
-a list of indicator factors not yet formatted for IOMB.
+A list of indicator factors not yet formatted for IOMB.
 }
 \description{
 Load indicator factors in a list based on model config.

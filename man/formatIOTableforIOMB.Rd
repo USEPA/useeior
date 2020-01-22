@@ -9,6 +9,8 @@ formatIOTableforIOMB(IOtable, model)
 }
 \arguments{
 \item{IOtable}{The dataframe, having IO table structure with just sector code, to be formatted.}
+
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
 A dataframe, having IO table structure, with row and column names from "code" to "code/names/locationcode".
