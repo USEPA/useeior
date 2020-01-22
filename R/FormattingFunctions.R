@@ -1,6 +1,7 @@
 #' Format a dataframe having IO table structure (with just sector code in row and column names) for IOMB process.
 #' Change row and column names of the dataframe to "code/names/locationcode".
 #' @param IOtable The dataframe, having IO table structure with just sector code, to be formatted.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe, having IO table structure, with row and column names from "code" to "code/names/locationcode".
 formatIOTableforIOMB <- function (IOtable, model) {
   # Load pre-saved IndustryCodeName and CommodityCodeName tables
@@ -33,3 +34,15 @@ formatIOTableforIOMB <- function (IOtable, model) {
 
   return(IOtable)
 }
+
+#' Format the sector meta data of a model for IOMB process.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return A dataframe, having sector meta data table structure, with column names required by IOMB. 
+formatSectorMetaDataforIOMB <- function (model) {
+  sectormetadata <- model$SectorNames
+  sectormetadata[, c("Category",	"Sub-category")] <- ""
+  sectormetadata$Location <- model$specs$PrimaryRegionAcronym
+  sectormetadata$Description <- ""
+  return(sectormetadata)
+}
+
