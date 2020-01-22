@@ -117,10 +117,8 @@ buildEEIOModel <- function(modelname) {
   factors_from_static <- loadindicators(model$specs)
   factors_from_static$GHG <- tolower(paste(factors_from_static$Name, factors_from_static$Category, factors_from_static$Subcategory,
                                            factors_from_static$Unit, sep = "/"))
-  factors_from_static[factors_from_static$Name%in%c("Carbon dioxide", "Methane", "Dinitrogen monoxide"), "Group"] <- "Major GHGs"
-  factors_from_static[!factors_from_static$Name%in%c("Carbon dioxide", "Methane", "Dinitrogen monoxide"), "Group"] <- "Other GHGs"
-  model$C <- reshape2::dcast(factors_from_static, Group ~ GHG, value.var = "Amount")
-  rownames(model$C) <- model$C$Group
+  model$C <- reshape2::dcast(factors_from_static, Abbreviation ~ GHG, value.var = "Amount")
+  rownames(model$C) <- model$C$Abbreviation
   model$C <- as.matrix(model$C[, rownames(model$B)])
   model$C[is.na(model$C)] <- 0
 
