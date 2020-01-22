@@ -1,26 +1,28 @@
-Full name,Abbreviation,Category,Units,v1.1,v1.2,v1.2-WASTE
-Acid Rain,ACID,Impact Potential,kg SO2-eq,1,1,0
-Eutrophication,EUTR,Impact Potential,kg N-eq,1,1,0
-Freshwater Aquatic Ecotoxicity,ETOX,Impact Potential,CTUe,1,1,0
-Greenhouse Gases,GHG,Impact Potential,kg CO2-eq,1,1,0
-Human Health - Cancer,HCAN,Impact Potential,CTUh,1,1,0
-Human Health - Noncancer,HNCN,Impact Potential,CTUh,1,1,0
-Human Health Toxicity,HTOX,Impact Potential,CTUh,1,1,0
-Human Health - Respiratory Effects,HRSP,Impact Potential,kg PM2.5-eq,1,1,0
-Ozone Depletion,OZON,Impact Potential,kg CFC-11-eq,1,1,0
-Smog Formation,SMOG,Impact Potential,kg O3-eq,1,1,0
-Nonrenewable Energy Use,NNRG,Resource Use,MJ,1,1,0
-Renewable Energy Use,RNRG,Resource Use,MJ,1,1,0
-Energy Use,ENRG,Resource Use,MJ,1,1,0
-Land Use,LAND,Resource Use,m2*yr,1,1,0
-Water Use,WATR,Resource Use,m3,1,1,0
-Minerals and Metals Use,MNRL,Resource Use,kg,1,1,0
-Pesticides,PEST,Chemical Releases,kg,1,1,0
-Metals,METL,Chemical Releases,kg,1,1,0
-Hazardous Air Pollutants,HAPS,Chemical Releases,kg,1,1,0
-Value Added,VADD,Economic & Social,$,1,1,0
-Jobs Supported,JOBS,Economic & Social,jobs,1,1,0
-Commercial RCRA Hazardous Waste,CRHW,Waste Generated,kg,0,1,1
-Commercial Municipal Solid Waste,CMSW,Waste Generated,kg,0,1,1
-Food in Commercial Municipal Solid Waste,FMSW,Waste Generated,kg,0,0,1
-Commercial Construction and Demolition Debris,CCDD,Waste Generated,kg,0,1,1
+Full name,Abbreviation,Category,Units
+Acid Rain,ACID,Impact Potential,kg SO2-eq
+Eutrophication,EUTR,Impact Potential,kg N-eq
+Freshwater Aquatic Ecotoxicity,ETOX,Impact Potential,CTUe
+Greenhouse Gases,GHG,Impact Potential,kg CO2-eq
+Major Greenhouse Gases,MGHG,Impact Potential,kg CO2-eq
+Other Greenhouse Gases,OGHG,Impact Potential,kg CO2-eq
+Human Health - Cancer,HCAN,Impact Potential,CTUh
+Human Health - Noncancer,HNCN,Impact Potential,CTUh
+Human Health Toxicity,HTOX,Impact Potential,CTUh
+Human Health - Respiratory Effects,HRSP,Impact Potential,kg PM2.5-eq
+Ozone Depletion,OZON,Impact Potential,kg CFC-11-eq
+Smog Formation,SMOG,Impact Potential,kg O3-eq
+Nonrenewable Energy Use,NNRG,Resource Use,MJ
+Renewable Energy Use,RNRG,Resource Use,MJ
+Energy Use,ENRG,Resource Use,MJ
+Land Use,LAND,Resource Use,m2*yr
+Water Use,WATR,Resource Use,m3
+Minerals and Metals Use,MNRL,Resource Use,kg
+Pesticides,PEST,Chemical Releases,kg
+Metals,METL,Chemical Releases,kg
+Hazardous Air Pollutants,HAPS,Chemical Releases,kg
+Value Added,VADD,Economic & Social,$
+Jobs Supported,JOBS,Economic & Social,jobs
+Commercial RCRA Hazardous Waste,CRHW,Waste Generated,kg
+Commercial Municipal Solid Waste,CMSW,Waste Generated,kg
+Food in Commercial Municipal Solid Waste,FMSW,Waste Generated,kg
+Commercial Construction and Demolition Debris,CCDD,Waste Generated,kg
