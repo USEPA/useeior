@@ -27,21 +27,17 @@ loadindicators <- function(specs) {
 #' Deprecated function for generating LCIA output using LCIA_indicators static file
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A LCIA dataframe not yet formatted for IOMB.
-generateLCIA <- function (model) { # version is a string value, e.g. 'v1.2'
+generateLCIA <- function (model) {
    # Load LCIA factors
    lciafactors <- loadLCIAfactors()
    # Import LCIA indicators
    lciaindicators <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
    indicators <- as.vector(unlist(lapply(model$specs$Indicators, FUN = `[[`, "Abbreviation")))
-   if ("GHG"%in%indicators==TRUE) indicators <- c(indicators, "MGHG", "OGHG")
    lciaindicators <- lciaindicators[lciaindicators$Abbreviation%in%indicators, ]
    # Merge LCIA factors and indicators to get meta data
    lcia <- merge(lciafactors, lciaindicators, by = "Abbreviation")
-   # Drop unit of kg
-   lcia$Unit <- lcia$Units
-   lcia$Units <- NULL
-   return(lciafactorformatted)
+   return(lcia)
 }
 
 #' Loads all LCIA factors from static source file after melting it to long file

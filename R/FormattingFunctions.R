@@ -35,6 +35,25 @@ formatIOTableforIOMB <- function (IOtable, model) {
   return(IOtable)
 }
 
+#' Format a dataframe having LCIA table structure for IOMB process.
+#' Change row names of the dataframe to "code/names/locationcode".
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return A dataframe, having LCIA table structure, with row names from "code" to "code/names/locationcode".
+formatLCIAforIOMB <- function(model) {
+  # Generate LCIA table
+  lcia <- generateLCIA(model)
+  # Load standard LCIA fields for IOMB
+  lciafields <- utils::read.table(system.file("extdata", "IOMB_LCIA_fields.csv", package = "useeior"),
+                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+  # Change column names to match those in IOMB format
+  colnames(lcia) <- c("Code", "Flow", "Compartment", "Sub-Compartment", "Unit", "Flow-UUID", "Amount", "Name", "Group", "Ref.Unit")
+  # Add LCIA-Method column
+  lcia[, "LCIA-Method"] <- "USEEIO-LCIA"
+  # format to meet IOMB format
+  formattedlcia <- lcia[, colnames(lciafields)]
+  return(formattedlcia)
+}
+
 #' Format the sector meta data of a model for IOMB process.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe, having sector meta data table structure, with column names required by IOMB. 
@@ -45,4 +64,3 @@ formatSectorMetaDataforIOMB <- function (model) {
   sectormetadata$Description <- ""
   return(sectormetadata)
 }
-
