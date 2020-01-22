@@ -49,3 +49,17 @@ Indicators:
         DataYear: NA
         URL: NA
         Primary: TRUE
+  GreenhouseGases-Major:
+    FullName: "Major Greenhouse Gases"
+    Abbreviation: "MGHG"
+    Category: "Impact Potential"
+    Unit: "kg CO2 eq"
+    StaticSource: TRUE
+    DataSources:
+  GreenhouseGases-Other:
+    FullName: "Other Greenhouse Gases"
+    Abbreviation: "OGHG"
+    Category: "Impact Potential"
+    Unit: "kg CO2 eq"
+    StaticSource: TRUE
+    DataSources:
