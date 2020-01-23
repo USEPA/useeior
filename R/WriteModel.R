@@ -28,12 +28,12 @@ writeModelComponents <- function(model) {
   
   # write model build components to csv
   name_pre <- paste(outputfolder, model$specs$Model,sep="/")
-  utils::write.csv(sattable, paste0(name_pre, "_sat.csv"), row.names = FALSE)
+  utils::write.csv(sattable, paste0(name_pre, "_sat.csv"), na = "", row.names = FALSE) 
   utils::write.csv(LCIA, paste0(name_pre, "_LCIA.csv"), row.names = FALSE)
   utils::write.csv(SectorMetaData, paste0(name_pre, "_sector_meta_data.csv"), row.names = FALSE)
   utils::write.csv(Demand, paste0(name_pre, "_FinalDemand.csv"), row.names = FALSE)
-  utils::write.csv(MarketShares, paste0(name_pre,"_MarketShares.csv"), row.names = FALSE)
-  utils::write.csv(DirectRequirementsCoefficients, paste0(name_pre,"_DRC.csv"), row.names = FALSE)
+  utils::write.csv(MarketShares, paste0(name_pre,"_MarketShares.csv"), row.names = TRUE) #MS needs row indices
+  utils::write.csv(DirectRequirementsCoefficients, paste0(name_pre,"_DRC.csv"), row.names = TRUE) #DRC needs row indices
   
   # Write logs to file in Model Builds folder
   logtimestamp <- Sys.Date()
