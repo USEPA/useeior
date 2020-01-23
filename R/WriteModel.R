@@ -27,12 +27,13 @@ writeModelComponents <- function(model) {
   DirectRequirementsCoefficients <- formatIOTableforIOMB(model$A, model)
   
   # write model build components to csv
-  utils::write.csv(sattable, paste(outputfolder, model$specs$Model, "_sat.csv", sep = "/"), row.names = FALSE)
-  utils::write.csv(LCIA, paste(outputfolder, model$specs$Model, "_LCIA.csv", sep = "/"), row.names = FALSE)
-  utils::write.csv(SectorMetaData, paste(outputfolder, model$specs$Model, "_sector_meta_data.csv", sep = "/"), row.names = FALSE)
-  utils::write.csv(Demand, paste(outputfolder, model$specs$Model, "/FinalDemand.csv", sep = "/"), row.names = FALSE)
-  utils::write.csv(MarketShares, paste(outputfolder, model$specs$Model, "_MarketShares.csv", sep = "/"), row.names = FALSE)
-  utils::write.csv(DirectRequirementsCoefficients, paste(outputfolder, model$specs$Model, "_DRC.csv", sep = "/"), row.names = FALSE)
+  name_pre <- paste(outputfolder, model$specs$Model,sep="/")
+  utils::write.csv(sattable, paste0(name_pre, "_sat.csv"), row.names = FALSE)
+  utils::write.csv(LCIA, paste0(name_pre, "_LCIA.csv"), row.names = FALSE)
+  utils::write.csv(SectorMetaData, paste0(name_pre, "_sector_meta_data.csv"), row.names = FALSE)
+  utils::write.csv(Demand, paste0(name_pre, "_FinalDemand.csv"), row.names = FALSE)
+  utils::write.csv(MarketShares, paste0(name_pre,"_MarketShares.csv"), row.names = FALSE)
+  utils::write.csv(DirectRequirementsCoefficients, paste0(name_pre,"_DRC.csv"), row.names = FALSE)
   
   # Write logs to file in Model Builds folder
   logtimestamp <- Sys.Date()
