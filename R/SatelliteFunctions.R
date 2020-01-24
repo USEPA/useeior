@@ -85,8 +85,14 @@ generateStandardSatelliteTable <- function (sattable, mapbyname = FALSE, sattabl
     Sattable_standardformat[, "CAS"] <- sattable[, "FlowName"]
   }
   Sattable_standardformat[, "FlowAmount"] <- sattable[, "FlowAmount"]
+  
+  #Map data quality fields
   Sattable_standardformat[, "DQReliability"] <- sattable[, "ReliabilityScore"]
+  Sattable_standardformat[, "DQTemporal"] <- sattable[, "TemporalCorrelation"]
+  Sattable_standardformat[, "DQGeographical"] <- sattable[, "GeographicalCorrelation"]
   Sattable_standardformat[, "DQTechnological"] <- sattable[, "TechnologicalCorrelation"]
+  Sattable_standardformat[, "DQDataCollection"] <- sattable[, "DataCollection"]
+  
   if("MetaSources" %in% colnames(sattable)) {
     Sattable_standardformat[, "MetaSources"] <- sattable[, "MetaSources"]
   }
