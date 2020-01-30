@@ -132,9 +132,9 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
   sattable <- merge(sattable, unique(MasterCrosswalk2012[, c(from_code, to_code)]), by.x = "SectorCode", by.y = from_code)
   # Replace NA in DQ cols with 5
   dq_fields <- getDQfields(sattable)
-  for (f in dq_fields)
-    sattable[is.na(sattable$f), f] <- 5
-  
+  for (f in dq_fields) {
+    sattable[is.na(sattable[, f]), f] <- 5
+  }
   # Aggregate FlowAmount by specified columns
   DQscores <- c("ReliabilityScore", "TemporalCorrelation", "GeographicalCorrelation", "TechnologicalCorrelation", "DataCollection")
   # Need particular aggregation functions, e.g. sum, weighted avg on ReliabilityScore
