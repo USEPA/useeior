@@ -23,6 +23,12 @@ prepareEEIOModel <- function(modelname) {
   model$UseValueAdded <- model$BEA$UseValueAdded
   # Get GDP tables
   model$GDP <- loadGDPtables(model$specs)
+  # Replace Gross Output with Industry Output from Make if modellevel is "Detail"
+  if (model$specs$BaseIOLevel=="Detail") {
+    MakeIndustryOutput <- model$BEA$MakeIndustryOutput
+    MakeIndustryOutput <- MakeIndustryOutput[rownames(model$GDP$BEAGrossOutputIO), colnames(MakeIndustryOutput), drop = FALSE]
+    model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear)] <- MakeIndustryOutput[, 1]
+  }
   # Get model$CommodityOutput, model$CommodityCPI, model$IndustryOutput, model$IndustryCPI, and model$FinalDemand
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     model$CommodityOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoU = FALSE, model)
