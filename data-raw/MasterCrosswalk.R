@@ -86,68 +86,6 @@ extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
   return(BEAtoNAICS)
 }
 
-getNAICS2to6Digits <- function (year) {
-  if (year == 2012) {
-    # Download the 2-6 digits NAICS table
-    FileName <- "inst/extdata/2-digit_2012_Codes.xls"
-    if(!file.exists(FileName)) {
-      download.file("https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls", FileName, mode = "wb")
-    }
-    NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
-  } else { #year = 2007
-    # Download the 2-6 digits NAICS table
-    FileName <- "inst/extdata/naics07.xls"
-    if(!file.exists(FileName)) {
-      download.file("https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls", FileName, mode = "wb")
-    }
-    NAICS <- as.data.frame(readxl::read_excel("naics07.xls", sheet = 1, col_names = TRUE))[-1,-1]
-  }
-  colnames(NAICS) <- c("NAICS_Code", "NAICS_Name")
-  NAICS$NAICS_Code <- as.integer(NAICS$NAICS_Code)
-  NAICS <- NAICS[!is.na(NAICS$NAICS_Code), ]
-  # Reshape the table
-  NAICSwide <- as.data.frame(NAICS[nchar(NAICS$NAICS_Code)==6, ])
-  NAICSwide[,c("NAICS_2", "NAICS_3", "NAICS_4", "NAICS_5")] <- cbind(substr(NAICSwide$NAICS_Code, 1, 2), substr(NAICSwide$NAICS_Code, 1, 3),
-                                                                     substr(NAICSwide$NAICS_Code, 1, 4), substr(NAICSwide$NAICS_Code, 1, 5))
-  NAICSwide$NAICS_6 <- NAICSwide$NAICS_Code
-  NAICSwide <- NAICSwide[, -c(1:2)]
-  
-  return(NAICSwide)
-}
-
-getNAICSCodeName <- function (year) {
-  if (year == 2012) {
-    # Download the 2-6 digits NAICS table
-    FileName <- "inst/extdata/2-digit_2012_Codes.xls"
-    if(!file.exists(FileName)) {
-      download.file("https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls", FileName, mode = "wb")
-    }
-    NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
-  } else { #year = 2007
-    # Download the 2-6 digits NAICS table
-    FileName <- "inst/extdata/naics07.xls"
-    if(!file.exists(FileName)) {
-      download.file("https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls", FileName, mode = "wb")
-    }
-    NAICS <- as.data.frame(readxl::read_excel("naics07.xls", sheet = 1, col_names = TRUE))[-1,-1]
-  }
-  colnames(NAICS) <- c("NAICS_Code", "NAICS_Name")
-  # Split the NAICS code with dash ("-)
-  DashSplit <- do.call("rbind.data.frame", apply(do.call("rbind", strsplit(NAICS$NAICS_Code, "-")), 1, function(x) seq(x[1], x[2], 1)))
-  colnames(DashSplit) <- c(paste("V", 1:ncol(DashSplit), sep=""))
-  # Merge back with NAICS
-  NAICSCodeName <- cbind(NAICS, DashSplit)
-  # Reshape to long table
-  NAICSCodeName <- reshape2::melt(NAICSCodeName[, -1], id.vars = "NAICS_Name")
-  # Drop unwanted column and duplicated rows
-  NAICSCodeName$variable <- NULL
-  NAICSCodeName$value <- as.integer(NAICSCodeName$value)
-  NAICSCodeName <- unique(NAICSCodeName)
-  # Rename columns
-  colnames(NAICSCodeName) <- c(paste("NAICS_", year, "_Name", sep = ""), paste("NAICS_", year, "_Code", sep = ""))
-  
-  return(NAICSCodeName)
-}
 
 getBEAtoNAICS <- function (year) {
   # Define local variables
