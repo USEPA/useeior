@@ -35,14 +35,14 @@ getNAICStoBEAAllocation <- function (year) {
 getNAICSCodeName <- function (year) {
   if (year == 2012) {
     # Download the 2-6 digits NAICS table
-    FileName <- "inst/extdata/2-digit_2012_Codes.xls"
+    FileName <- "2-digit_2012_Codes.xls"
     if(!file.exists(FileName)) {
       download.file("https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls", FileName, mode = "wb")
     }
     NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   } else { #year = 2007
     # Download the 2-6 digits NAICS table
-    FileName <- "inst/extdata/naics07.xls"
+    FileName <- "naics07.xls"
     if(!file.exists(FileName)) {
       download.file("https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls", FileName, mode = "wb")
     }
@@ -73,14 +73,14 @@ getNAICSCodeName <- function (year) {
 getNAICS2to6Digits <- function (year) {
   if (year == 2012) {
     # Download the 2-6 digits NAICS table
-    FileName <- "inst/extdata/2-digit_2012_Codes.xls"
+    FileName <- "2-digit_2012_Codes.xls"
     if(!file.exists(FileName)) {
       download.file("https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls", FileName, mode = "wb")
     }
     NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   } else { #year = 2007
     # Download the 2-6 digits NAICS table
-    FileName <- "inst/extdata/naics07.xls"
+    FileName <- "naics07.xls"
     if(!file.exists(FileName)) {
       download.file("https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls", FileName, mode = "wb")
     }
