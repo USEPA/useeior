@@ -11,4 +11,4 @@ price_adjusted_result <- adjustMultiplierPrice("B", 2017, purchaser_price=TRUE, 
 writeModelComponents(model)
 
 # Normalize the M result
-m_d_n <- useeior::normalizeResultMatrixByTotalImpacts(result$m_d)
+m_d_n <- useeior::normalizeResultMatrixByTotalImpacts(result$LCI_d)
