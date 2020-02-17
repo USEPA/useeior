@@ -28,9 +28,9 @@ getNAICStoBEAAllocation <- function (year) {
 }
 
 
-#' Get NAICS code names for year specified
-#' @param year, int. 2012 or 2007 accepted
-#' @return dataframe with NAICS_year_Code and NAICS_year_Name
+#' Get NAICS code names for year specified.
+#' @param year int. 2012 or 2007 accepted.
+#' @return dataframe with columns NAICS_year_Code and NAICS_year_Name.
 #' @export 
 getNAICSCodeName <- function (year) {
   if (year == 2012) {
@@ -66,9 +66,9 @@ getNAICSCodeName <- function (year) {
   return(NAICSCodeName)
 }
 
-#' Gets NAICS codes for  from 2 to 6 digits in the form of a crosswalk
-#' @param year, int, 2012 or 2007 accepted
-#' @return data frame with columns NAICS_2, NAICS_3,NAICS_4,NAICS_5,NAICS_6
+#' Gets NAICS codes from 2 to 6 digits.
+#' @param year int, 2012 or 2007 accepted.
+#' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6.
 #' @export
 getNAICS2to6Digits <- function (year) {
   if (year == 2012) {
@@ -99,3 +99,21 @@ getNAICS2to6Digits <- function (year) {
   return(NAICSwide)
 }
 
+#' Gets 2012 NAICS codes from 7 to 12 digits in the form of a crosswalk.
+#' @return data frame with columns NAICS_year_Code and NAICS_year_Name.
+#' @export
+get2012NAICS7to12Digits <- function () {
+  # Download Census 2012 Numerical List of Manufactured and Mineral Products
+  SectorList <- c(211, 212, 213, 311, 312, 313, 314, 315, 316, 321, 322, 323, 324, 325, 326, 327, 331, 332, 333, 334, 335, 336, 337, 339)
+  CensusNAICSList <- list()
+  td <- tempdir()
+  tf <- tempfile(tmpdir = tempdir(), fileext = ".csv")
+  for(sector in SectorList) {
+    download.file(paste("https://www.census.gov/manufacturing/numerical_list/", sector, ".xls", sep = ""), tf, mode = "wb")
+    CensusNAICSList[[sector]] <- as.data.frame(readxl::read_excel(tf, sheet = 1, col_names = TRUE, skip = 2))[, 1:2]
+    colnames(CensusNAICSList[[sector]]) <- c("NAICS_2012_Code", "NAICS_2012_Name")
+  }
+  CensusNAICS <- do.call(rbind, CensusNAICSList)
+  
+  return(CensusNAICS)
+}

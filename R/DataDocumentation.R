@@ -660,14 +660,6 @@
 #' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SECT.xlsx}
 "Sector_Margins_2012_BeforeRedef"
 
-#' Census Manufacturing and Mining Sectors NAICS code and name table
-#' @format A dataframe with 8257 obs. and 2 variables:
-#' \describe{
-#'  \item{NAICS_Code}{numeric value}
-#'  \item{NAICS_Name}{text code}
-#' }
-"Census_ManufacturingMiningSectors_NAICSCodeName"
-
 #' Master Crosswalk table (2012 schema)
 #' @format A dataframe with 16821 obs. and 5 variables:
 #' \describe{

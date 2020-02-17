@@ -2,16 +2,16 @@
 % Please edit documentation in R/NAICS.R
 \name{getNAICS2to6Digits}
 \alias{getNAICS2to6Digits}
-\title{Gets NAICS codes for  from 2 to 6 digits in the form of a crosswalk}
+\title{Gets NAICS codes from 2 to 6 digits.}
 \usage{
 getNAICS2to6Digits(year)
 }
 \arguments{
-\item{year, }{int, 2012 or 2007 accepted}
+\item{year}{int, 2012 or 2007 accepted.}
 }
 \value{
-data frame with columns NAICS_2, NAICS_3,NAICS_4,NAICS_5,NAICS_6
+data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6.
 }
 \description{
-Gets NAICS codes for  from 2 to 6 digits in the form of a crosswalk
+Gets NAICS codes from 2 to 6 digits.
 }
