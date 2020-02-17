@@ -17,7 +17,7 @@ test_that("IO industry output equals to GDP gross output", {
   show_failure(expect_equal(GrossOutput[, 2], GrossOutput[, as.character(model$specs$IOYear)]))
 })
 
-#' Check that IO commodity output equals to GDP gross output
+#' Check that IO Use commodity output equals to model commodity output
 test_that("IO commodity output equals to GDP gross output", {
   model <- buildEEIOModel("USEEIOv2.0.16-GHG")
   CommodityOutput <- merge(model$BEA$UseCommodityOutput, model$CommodityOutput, by = 0)
