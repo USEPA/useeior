@@ -28,7 +28,7 @@ getNAICStoBEAAllocation <- function (year) {
 }
 
 
-#' Get NAICS code names for year specified.
+#' Get NAICS codes and names for year specified.
 #' @param year int. 2012 or 2007 accepted.
 #' @return dataframe with columns NAICS_year_Code and NAICS_year_Name.
 #' @export 
@@ -66,7 +66,7 @@ getNAICSCodeName <- function (year) {
   return(NAICSCodeName)
 }
 
-#' Gets NAICS codes from 2 to 6 digits.
+#' Get NAICS codes from 2 to 6 digits in a crosswalk format.
 #' @param year int, 2012 or 2007 accepted.
 #' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6.
 #' @export
@@ -99,10 +99,10 @@ getNAICS2to6Digits <- function (year) {
   return(NAICSwide)
 }
 
-#' Gets 2012 NAICS codes from 7 to 12 digits in the form of a crosswalk.
+#' Get 2012 7-10 digit NAICS codes and names (agricultural, manufacturing, and mining industries).
 #' @return data frame with columns NAICS_year_Code and NAICS_year_Name.
 #' @export
-get2012NAICS7to12Digits <- function () {
+get2012NAICS7to10DigitsCodeName <- function () {
   # Download Census 2012 Numerical List of Manufactured and Mineral Products
   SectorList <- c(211, 212, 213, 311, 312, 313, 314, 315, 316, 321, 322, 323, 324, 325, 326, 327, 331, 332, 333, 334, 335, 336, 337, 339)
   CensusNAICSList <- list()
@@ -117,3 +117,20 @@ get2012NAICS7to12Digits <- function () {
   
   return(CensusNAICS)
 }
+
+#' Gets 2012 NAICS codes from 7 to 10 digits in a crosswalk format.
+#' @return data frame with columns NAICS_7, NAICS_8, NAICS_9, NAICS_10.
+#' @export
+get2012NAICS7to10Digits <- function () {
+  NAICSCodeName <- get2012NAICS7to10DigitsCodeName()
+  # Reshape the table
+  NAICSwide <- as.data.frame(NAICSCodeName[nchar(NAICSCodeName$NAICS_2012_Code)==10, ])
+  NAICSwide[, c("NAICS_7", "NAICS_8", "NAICS_9")] <- cbind(substr(NAICSwide$NAICS_2012_Code, 1, 7),
+                                                            substr(NAICSwide$NAICS_2012_Code, 1, 8),
+                                                            substr(NAICSwide$NAICS_2012_Code, 1, 9))
+  NAICSwide$NAICS_10 <- NAICSwide$NAICS_2012_Code
+  NAICSwide <- NAICSwide[, -c(1:2)]
+  
+  return(NAICSwide)
+}
+

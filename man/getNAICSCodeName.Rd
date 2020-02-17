@@ -2,7 +2,7 @@
 % Please edit documentation in R/NAICS.R
 \name{getNAICSCodeName}
 \alias{getNAICSCodeName}
-\title{Get NAICS code names for year specified.}
+\title{Get NAICS codes and names for year specified.}
 \usage{
 getNAICSCodeName(year)
 }
@@ -13,5 +13,5 @@ getNAICSCodeName(year)
 dataframe with columns NAICS_year_Code and NAICS_year_Name.
 }
 \description{
-Get NAICS code names for year specified.
+Get NAICS codes and names for year specified.
 }
