@@ -28,11 +28,11 @@ getNAICStoBEAAllocation <- function (year) {
 }
 
 
-#' Get NAICS codes and names for year specified.
+#' Get 2-6 digit NAICS codes and names for year specified.
 #' @param year int. 2012 or 2007 accepted.
 #' @return dataframe with columns NAICS_year_Code and NAICS_year_Name.
 #' @export 
-getNAICSCodeName <- function (year) {
+getNAICS2to6DigitsCodeName <- function (year) {
   if (year == 2012) {
     # Download the 2-6 digits NAICS table
     FileName <- "2-digit_2012_Codes.xls"
@@ -60,13 +60,14 @@ getNAICSCodeName <- function (year) {
   NAICSCodeName$variable <- NULL
   NAICSCodeName$value <- as.integer(NAICSCodeName$value)
   NAICSCodeName <- unique(NAICSCodeName)
-  # Rename columns
-  colnames(NAICSCodeName) <- c(paste("NAICS_", year, "_Name", sep = ""), paste("NAICS_", year, "_Code", sep = ""))
+  # Re-order and rename columns
+  NAICSCodeName <- NAICSCodeName[, c("value", "NAICS_Name")]
+  colnames(NAICSCodeName) <- paste("NAICS", year, c("Code", "Name"), sep = "_")
   
   return(NAICSCodeName)
 }
 
-#' Get NAICS codes from 2 to 6 digits in a crosswalk format.
+#' Get 2-6 digit NAICS codes in a crosswalk format.
 #' @param year int, 2012 or 2007 accepted.
 #' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6.
 #' @export
@@ -118,7 +119,7 @@ get2012NAICS7to10DigitsCodeName <- function () {
   return(CensusNAICS)
 }
 
-#' Gets 2012 NAICS codes from 7 to 10 digits in a crosswalk format.
+#' Get 2012 7-10 digit NAICS codes in a crosswalk format.
 #' @return data frame with columns NAICS_7, NAICS_8, NAICS_9, NAICS_10.
 #' @export
 get2012NAICS7to10Digits <- function () {
@@ -126,11 +127,41 @@ get2012NAICS7to10Digits <- function () {
   # Reshape the table
   NAICSwide <- as.data.frame(NAICSCodeName[nchar(NAICSCodeName$NAICS_2012_Code)==10, ])
   NAICSwide[, c("NAICS_7", "NAICS_8", "NAICS_9")] <- cbind(substr(NAICSwide$NAICS_2012_Code, 1, 7),
-                                                            substr(NAICSwide$NAICS_2012_Code, 1, 8),
-                                                            substr(NAICSwide$NAICS_2012_Code, 1, 9))
+                                                           substr(NAICSwide$NAICS_2012_Code, 1, 8),
+                                                           substr(NAICSwide$NAICS_2012_Code, 1, 9))
   NAICSwide$NAICS_10 <- NAICSwide$NAICS_2012_Code
   NAICSwide <- NAICSwide[, -c(1:2)]
   
   return(NAICSwide)
 }
 
+#' Get 2012 2-10 digit NAICS codes in a crosswalk format.
+#' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6, NAICS_7, NAICS_8, NAICS_9, NAICS_10.
+#' @export
+getNAICSCrosswalk <- function() {
+  # 2-6 digit
+  NAICS_2to6 <- getNAICS2to6Digits(2012)
+  # 7-10 digit
+  NAICS_7to10 <- get2012NAICS7to10Digits()
+  NAICS_7to10$NAICS_6 <- substr(NAICS_7to10$NAICS_7, 1, 6)
+  # Combine
+  NAICS_2to10 <- merge(NAICS_2to6, NAICS_7to10, by = "NAICS_6", all.x = TRUE)
+  # Re-order columns
+  NAICS_2to10 <- NAICS_2to10[, paste("NAICS", c(2:10), sep = "_")]
+  
+  return(NAICS_2to10)
+}
+
+#' Get 2012 2-10 digit NAICS codes in a crosswalk format.
+#' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6, NAICS_7, NAICS_8, NAICS_9, NAICS_10.
+#' @export
+getNAICSCodeName <- function() {
+  # 2-6 digit
+  NAICSCodeName_2to6 <- getNAICS2to6DigitsCodeName(2012)
+  # 7-10 digit
+  NAICSCodeName_7to10 <- get2012NAICS7to10DigitsCodeName()
+  # Combine
+  NAICSCodeName_2to10 <- rbind.data.frame(NAICSCodeName_2to6, NAICSCodeName_7to10)
+  
+  return(NAICSCodeName_2to10)
+}

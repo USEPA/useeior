@@ -2,7 +2,7 @@
 % Please edit documentation in R/NAICS.R
 \name{get2012NAICS7to10Digits}
 \alias{get2012NAICS7to10Digits}
-\title{Gets 2012 NAICS codes from 7 to 10 digits in a crosswalk format.}
+\title{Get 2012 7-10 digit NAICS codes in a crosswalk format.}
 \usage{
 get2012NAICS7to10Digits()
 }
@@ -10,5 +10,5 @@ get2012NAICS7to10Digits()
 data frame with columns NAICS_7, NAICS_8, NAICS_9, NAICS_10.
 }
 \description{
-Gets 2012 NAICS codes from 7 to 10 digits in a crosswalk format.
+Get 2012 7-10 digit NAICS codes in a crosswalk format.
 }

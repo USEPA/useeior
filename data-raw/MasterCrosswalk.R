@@ -142,7 +142,7 @@ getBEAtoNAICS <- function (year) {
   BEAtoNAICScomplete <- BEAtoNAICScomplete[order(BEAtoNAICScomplete[, BEAyearDetailCode], BEAtoNAICScomplete[, NAICSyearCode]), ]
   
   # Assign NAICS_Name
-  NAICSCodeName <- getNAICSCodeName(year)
+  NAICSCodeName <- getNAICS2to6DigitsCodeName(year)
   
   BEAtoNAICScomplete <- merge(BEAtoNAICScomplete, NAICSCodeName, by = NAICSyearCode, all.x = TRUE)
   
