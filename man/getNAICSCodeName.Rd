@@ -4,7 +4,7 @@
 \alias{getNAICSCodeName}
 \title{Get 2012 2-10 digit NAICS codes in a crosswalk format.}
 \usage{
-getNAICSCodeName()
+getNAICSCodeName(year)
 }
 \value{
 data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6, NAICS_7, NAICS_8, NAICS_9, NAICS_10.
