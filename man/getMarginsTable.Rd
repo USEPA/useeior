@@ -2,7 +2,7 @@
 % Please edit documentation in R/IOFunctions.R
 \name{getMarginsTable}
 \alias{getMarginsTable}
-\title{Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).}
+\title{Adjust CPI from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.}
 \usage{
 getMarginsTable(model, marginsource)
 }
@@ -12,8 +12,11 @@ getMarginsTable(model, marginsource)
 \item{marginsource}{A character indicating the source of Margins, either "Industry" or "FinalConsumer".}
 }
 \value{
+A list contains IO-based CPI at Detail, Summary, and Sector IO levels.
+Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).
+
 A dataframe containing CommodityCode, and margins for ProducersValue, Transportation, Wholesale, Retail and PurchasersValue.
 }
 \description{
-Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).
+Adjust CPI from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
 }
