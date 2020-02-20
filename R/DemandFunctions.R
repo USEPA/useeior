@@ -23,3 +23,4 @@ getUSTotalConsProd <- function (model) {
   return(USTotalConsProd)
 }
 
+#
