@@ -117,9 +117,25 @@ getNAICS7to10DigitsCodeName <- function (year) {
     }
     CensusNAICS <- do.call(rbind, CensusNAICSList)
     # NAICS from USDA
-    # Note for Catherine: you could insert the code of pulling USDA NAICS here.
+    coaNAICS <- utils::read.table(system.file("extdata", "Crosswalk_COA_to_NAICS.csv", package = "useeior"),
+                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+    # Subset dataset and change column names to match other NAICS datasets
+    coaNAICS <- subset(coaNAICS, select = c(Sector, Activity))
+    names(coaNAICS)[names(coaNAICS)=="Sector"]    <- "NAICS_2012_Code"
+    names(coaNAICS)[names(coaNAICS)=="Activity"]  <- "NAICS_2012_Name"
+    
+    # Create 10 digit NAICS out of the 8 digit so Code name isn't dropped in future function
+    coaNAICS10 <- coaNAICS
+    coaNAICS10$NAICS_2012_Code <- stringr::str_pad(coaNAICS10$NAICS_2012_Code, width=10, side="right", pad="0")
+    
+    # row bind 8 digit and 10 digit Census of Ag NAICS
+    coaNAICS <- rbind(coaNAICS, coaNAICS10)
+    
+    # row bind NAICS data from different sources
+    CensusNAICS <- rbind(CensusNAICS, coaNAICS)
+    
   }
-
+  
   return(CensusNAICS)
 }
 
