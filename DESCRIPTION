@@ -11,14 +11,15 @@ Description: The United States Environmentally-Extended Input-Output model
 URL: https://github.com/USEPA/useeior
 BugReports: https://github.com/USEPA/useeior/issues
 Imports:
-  configr (>= 0.3.4),
-  logging (>= 0.10),
-  readxl (>= 1.3.1),
-  reshape2 (>= 1.4.3),
-  stats (>= 3.6.1),
-  usethis (>= 1.5),
-  utils (>= 3.6.1),
-  rappdirs (>= 0.3)
+    configr (>= 0.3.4),
+    logging (>= 0.10),
+    readxl (>= 1.3.1),
+    reshape2 (>= 1.4.3),
+    stats (>= 3.6.1),
+    usethis (>= 1.5),
+    utils (>= 3.6.1),
+    rappdirs (>= 0.3),
+    stringr
 Depends:
   R (>= 3.6)
 License: CC0
