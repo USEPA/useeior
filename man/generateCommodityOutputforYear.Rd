@@ -4,12 +4,12 @@
 \alias{generateCommodityOutputforYear}
 \title{Generate Commodity output by transforming Industry output using Commodity Mix matrix.}
 \usage{
-generateCommodityOutputforYear(location_acronym, IsRoU, model)
+generateCommodityOutputforYear(location_acronym, IsRoUS, model)
 }
 \arguments{
 \item{location_acronym}{Abbreviated location name of the model, e.g. "US" or "GA".}
 
-\item{IsRoU}{A logical parameter indicating whether to adjust Industry output for Rest of US (RoU).}
+\item{IsRoUS}{A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).}
 
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }

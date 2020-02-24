@@ -12,6 +12,8 @@ startLogging <- function (){
 }
 
 #' Join strings with slashes
+#'
+#' @param ... text string
 joinStringswithSlashes <- function(...) {
   items <- list(...)
   str <- sapply(items, paste, collapse = '/')
@@ -20,10 +22,15 @@ joinStringswithSlashes <- function(...) {
 }
 
 #' Aggregate matrix by rows then by columns
+#'
+#' @param matrix      A matrix
+#' @param from_level  The level of BEA code this matrix starts at
+#' @param to_level    The level of BEA code this matrix will be aggregated to
+#' @param specs       Model specifications
 aggregateMatrix <- function (matrix, from_level, to_level, specs) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste("BEA", specs$BaseIOSchema, from_level, "Code", sep = "_")
-  to_code <- paste("BEA", specs$BaseIOSchema, to_level, "Code", sep = "_")
+  to_code   <- paste("BEA", specs$BaseIOSchema, to_level, "Code", sep = "_")
   # Aggregate by rows
   value_columns_1 <- colnames(matrix)
   df_fromlevel <- merge(matrix, unique(MasterCrosswalk2012[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
@@ -41,11 +48,14 @@ aggregateMatrix <- function (matrix, from_level, to_level, specs) {
 }
 
 #' Generate Output Ratio table, flexible to Commodity/Industry output and model Commodity/Industry type
+#'
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param output_type Either Commodity or Industry, default is Commodity
 calculateOutputRatio <- function (model, output_type="Commodity") {
   # Generate Output based on output_type and model Commodity/Industry type 
   if (output_type=="Commodity") {
     if (model$specs$CommoditybyIndustryType=="Industry") {
-      Output <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoU = FALSE, model)
+      Output <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
     } else {
       Output <- model$CommodityOutput
     }

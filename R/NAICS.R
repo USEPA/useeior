@@ -101,6 +101,9 @@ getNAICS2to6Digits <- function (year) {
 }
 
 #' Get 7-10 digit NAICS codes and names (agricultural, manufacturing, and mining industries) for year specified.
+#'
+#' @param year int. 2012 or 2007 accepted.
+#'
 #' @return data frame with columns NAICS_year_Code and NAICS_year_Name.
 #' @export
 getNAICS7to10DigitsCodeName <- function (year) {
@@ -140,6 +143,9 @@ getNAICS7to10DigitsCodeName <- function (year) {
 }
 
 #' Get 7-10 digit NAICS codes in a crosswalk format for year specified.
+#'
+#' @param year int. 2012 or 2007 accepted.
+#'
 #' @return data frame with columns NAICS_7, NAICS_8, NAICS_9, NAICS_10.
 #' @export
 getNAICS7to10Digits <- function (year) {
@@ -158,6 +164,9 @@ getNAICS7to10Digits <- function (year) {
 }
 
 #' Get 2012 2-10 digit NAICS codes in a crosswalk format for year specified.
+#'
+#' @param year int. 2012 or 2007 accepted.
+#'
 #' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6, NAICS_7, NAICS_8, NAICS_9, NAICS_10.
 #' @export
 getNAICSCrosswalk <- function(year) {
@@ -175,6 +184,9 @@ getNAICSCrosswalk <- function(year) {
 }
 
 #' Get 2012 2-10 digit NAICS codes in a crosswalk format.
+#'
+#' @param year int. 2012 or 2007 accepted.
+#'
 #' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6, NAICS_7, NAICS_8, NAICS_9, NAICS_10.
 #' @export
 getNAICSCodeName <- function(year) {

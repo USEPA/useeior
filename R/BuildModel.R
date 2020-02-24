@@ -31,7 +31,7 @@ prepareEEIOModel <- function(modelname) {
   }
   # Get model$CommodityOutput, model$CommodityCPI, model$IndustryOutput, model$IndustryCPI, and model$FinalDemand
   if (model$specs$CommoditybyIndustryType=="Commodity") {
-    model$CommodityOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoU = FALSE, model)
+    model$CommodityOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
     model$CommodityCPI <- generateCommodityCPIforYear(model$specs$IOYear, model) # return a one-column table for IOYear
     # Get model$FinalDemand
     model$FinalDemand <- model$BEA$UseFinalDemand

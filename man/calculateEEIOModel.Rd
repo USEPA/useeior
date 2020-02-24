@@ -15,6 +15,8 @@ calculateEEIOModel(model, perspective, demand = "production",
 \item{demand}{A character value or a matrix: if the former, can be "production" or "consumption"; if the latter, can be demand matrix for one or more sectors.}
 
 \item{use_domestic}{A boolean value: if TRUE, use domestic A and FinalDemand matrices; if FALSE, use original A and FinalDemand matrices.}
+
+\item{for_imports_using_domestic}{If TRUE, use total requirements for imports matrix (A)}
 }
 \value{
 A list with LCI and LCIA results of the EEIO model.

@@ -8,7 +8,7 @@ Get DQ fields in existing data frame}
 getDQfields(df)
 }
 \arguments{
-\item{national}{totals data frame}
+\item{df}{totals data frame}
 }
 \value{
 string vector with names of data quality fields

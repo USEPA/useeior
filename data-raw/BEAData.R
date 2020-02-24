@@ -505,7 +505,10 @@ usethis::use_data(Summary_GrossOutput_IO, overwrite = TRUE)
 Sector_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Sector"]]
 usethis::use_data(Sector_GrossOutput_IO, overwrite = TRUE)
 
-# Get Detail BEA U.Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
+
+#' Get Detail BEA U.Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
+#'
+#' @return Detailed CPI data from downloaded BEA excel file
 getBEADetailCPI2012Schema <- function () {
   # Download all Underlying tables from BEA iTable
   getBEAUnderlyingTables()
