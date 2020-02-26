@@ -120,7 +120,7 @@ getNAICS7to10DigitsCodeName <- function (year) {
     }
     CensusNAICS <- do.call(rbind, CensusNAICSList)
     # NAICS from USDA
-    coaNAICS <- utils::read.table(system.file("extdata", "Crosswalk_COA_to_NAICS.csv", package = "useeior"),
+    coaNAICS <- utils::read.table(system.file("extdata", "Crosswalk_COAtoNAICS.csv", package = "useeior"),
                                   sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
     # Subset dataset and change column names to match other NAICS datasets
     coaNAICS <- subset(coaNAICS, select = c(Sector, Activity))
