@@ -6,6 +6,15 @@
 \usage{
 aggregateMatrix(matrix, from_level, to_level, specs)
 }
+\arguments{
+\item{matrix}{A matrix}
+
+\item{from_level}{The level of BEA code this matrix starts at}
+
+\item{to_level}{The level of BEA code this matrix will be aggregated to}
+
+\item{specs}{Model specifications}
+}
 \description{
 Aggregate matrix by rows then by columns
 }

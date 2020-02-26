@@ -6,6 +6,9 @@
 \usage{
 getNAICS7to10DigitsCodeName(year)
 }
+\arguments{
+\item{year}{int. 2012 or 2007 accepted.}
+}
 \value{
 data frame with columns NAICS_year_Code and NAICS_year_Name.
 }

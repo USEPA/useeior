@@ -76,7 +76,7 @@ mapFlowbyNameandCategory <- function (originalname, originalcategory = "", satta
 
 #' Map resource and emission names in a standardized satellite table to new names by code and category.
 #' Must set original source before getting this information.
-#' @param originalname Original name of flows.
+#' @param originalcas Original name of flows.
 #' @param originalcategory Original category of flows, an optional parameter.
 #' @param sattablemeta Meta data of the satellite table.
 mapFlowbyCodeandCategory <- function (originalcas, originalcategory = "", sattablemeta) {

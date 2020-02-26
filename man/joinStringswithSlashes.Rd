@@ -6,6 +6,9 @@
 \usage{
 joinStringswithSlashes(...)
 }
+\arguments{
+\item{...}{text string}
+}
 \description{
 Join strings with slashes
 }

@@ -6,6 +6,11 @@
 \usage{
 calculateOutputRatio(model, output_type = "Commodity")
 }
+\arguments{
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{output_type}{Either Commodity or Industry, default is Commodity}
+}
 \description{
 Generate Output Ratio table, flexible to Commodity/Industry output and model Commodity/Industry type
 }

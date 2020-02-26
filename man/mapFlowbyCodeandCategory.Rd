@@ -9,11 +9,11 @@ mapFlowbyCodeandCategory(originalcas, originalcategory = "",
   sattablemeta)
 }
 \arguments{
+\item{originalcas}{Original name of flows.}
+
 \item{originalcategory}{Original category of flows, an optional parameter.}
 
 \item{sattablemeta}{Meta data of the satellite table.}
-
-\item{originalname}{Original name of flows.}
 }
 \description{
 Map resource and emission names in a standardized satellite table to new names by code and category.

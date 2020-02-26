@@ -1,16 +1,19 @@
 #' Adjust Industry output based on CPI.
+#'
 #' @param outputyear Year of Industry output.
+#' @param referenceyear Year of the currency reference.
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
-#' @param IsRoU A logical parameter indicating whether to adjust Industry output for Rest of US (RoU).
+#' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#'
 #' @return A dataframe contains adjusted Industry output with row names being BEA sector code.
-getAdjustedOutput <- function (outputyear, referenceyear, location_acronym, IsRoU, model) {
+getAdjustedOutput <- function (outputyear, referenceyear, location_acronym, IsRoUS, model) {
   # Load Industry Gross Output
   if (model$specs$PrimaryRegionAcronym == "US") {
     Output <- cbind.data.frame(rownames(model$GDP$BEAGrossOutputIO), model$GDP$BEAGrossOutputIO[, as.character(outputyear)])
   } else {
     if(model$specs$ModelSource=="WinDC") {
-      if(IsRoU == TRUE) {
+      if(IsRoUS == TRUE) {
         Output <- model$IndustryOutput[model$IndustryOutput$Location=="RoUS", c("SectorCode", as.character(outputyear)), drop = FALSE]
         rownames(Output) <- Output$SectorCode
       } else {
@@ -20,9 +23,9 @@ getAdjustedOutput <- function (outputyear, referenceyear, location_acronym, IsRo
       # This is if model is using calculated state demand
       Output <- getStateIndustryOutput(model$specs$PrimaryRegionAcronym, outputyear)
       row.names(Output) <- Output[,"BEACode"]
-      if(IsRoU == TRUE) {
-        Output$RoU <- Output$US - Output$SoI
-        Output <- subset(Output, select = c(BEACode, RoU))
+      if(IsRoUS == TRUE) {
+        Output$RoUS <- Output$US - Output$SoI
+        Output <- subset(Output, select = c(BEACode, RoUS))
       } else {
         Output <- subset(Output, select = c(BEACode, SoI))
       }
@@ -94,10 +97,10 @@ generateCommodityMixMatrix <- function (model) {
 
 #' Generate Commodity output by transforming Industry output using Commodity Mix matrix.
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
-#' @param IsRoU A logical parameter indicating whether to adjust Industry output for Rest of US (RoU).
+#' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Commodity output.
-generateCommodityOutputforYear <- function(location_acronym, IsRoU, model) {
+generateCommodityOutputforYear <- function(location_acronym, IsRoUS, model) {
   # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
   CommodityMix <- generateCommodityMixMatrix(model)
   # Generate adjusted industry output by location

@@ -42,12 +42,14 @@ mapSatTablefromNAICStoBEA <- function (sattable, satellitetableyear) {
 }
 
 #' Calculates intensity coefficient (kg/$) for a standard satellite table.
+#'
 #' @param sattable A standardized satellite table with resource and emission names from original sources.
 #' @param outputyear Year of Industry output.
 #' @param referenceyear Year of the currency reference.
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
-#' @param IsRoU A logical parameter indicating whether to adjust Industry output for Rest of US (RoU).
+#' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#'
 #' @return A dataframe contains intensity coefficient (kg/$).
 generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym, IsRoUS = FALSE, model) {
   # Generate adjusted industry output
