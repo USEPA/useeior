@@ -31,7 +31,6 @@ getNAICStoBEAAllocation <- function (year) {
 #' Get 2-6 digit NAICS codes and names for year specified.
 #' @param year int. 2012 or 2007 accepted.
 #' @return dataframe with columns NAICS_year_Code and NAICS_year_Name.
-#' @export 
 getNAICS2to6DigitsCodeName <- function (year) {
   if (year == 2012) {
     # Download the 2-6 digits NAICS table
@@ -70,7 +69,6 @@ getNAICS2to6DigitsCodeName <- function (year) {
 #' Get 2-6 digit NAICS codes in a crosswalk format for year specified.
 #' @param year int, 2012 or 2007 accepted.
 #' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6.
-#' @export
 getNAICS2to6Digits <- function (year) {
   if (year == 2012) {
     # Download the 2-6 digits NAICS table
@@ -105,7 +103,6 @@ getNAICS2to6Digits <- function (year) {
 #' @param year int. 2012 or 2007 accepted.
 #'
 #' @return data frame with columns NAICS_year_Code and NAICS_year_Name.
-#' @export
 getNAICS7to10DigitsCodeName <- function (year) {
   if (year==2012) {
     # Download Census 2012 Numerical List of Manufactured and Mineral Products
@@ -147,7 +144,6 @@ getNAICS7to10DigitsCodeName <- function (year) {
 #' @param year int. 2012 or 2007 accepted.
 #'
 #' @return data frame with columns NAICS_7, NAICS_8, NAICS_9, NAICS_10.
-#' @export
 getNAICS7to10Digits <- function (year) {
   NAICSCodeName <- getNAICS7to10DigitsCodeName(year)
   # Change column name from year-specific to generic
