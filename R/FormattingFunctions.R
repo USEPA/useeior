@@ -16,7 +16,7 @@ formatIOTableforIOMB <- function (IOtable, model) {
   colnames(CommodityCodeName) <- c("Code", "Name")
   # Determine whether it is Industry/Commodity in IOtable row/column
   # Modify IOtable row and column names
-  if (unique(rownames(IOtable)%in%IndustryCodeName$Code) == TRUE) {
+  if (length(unique(rownames(IOtable)%in%IndustryCodeName$Code)) == 1) {
     # Row name is Industry
     IndustryCodeName <- IndustryCodeName[IndustryCodeName$Code%in%rownames(IOtable), ]
     IndustryCodeName <- IndustryCodeName[order(factor(IndustryCodeName$Code, levels = rownames(IOtable))), ]
@@ -27,7 +27,7 @@ formatIOTableforIOMB <- function (IOtable, model) {
     CommodityCodeName <- CommodityCodeName[order(factor(CommodityCodeName$Code, levels = rownames(IOtable))), ]
     rownames(IOtable) <- tolower(paste(rownames(IOtable), CommodityCodeName[, 2], "US", sep = "/"))
   }
-  if (unique(colnames(IOtable)%in%IndustryCodeName$Code) == TRUE) {
+  if (length(unique(colnames(IOtable)%in%IndustryCodeName$Code)) == 1) {
     # Column name is Industry
     IndustryCodeName <- IndustryCodeName[IndustryCodeName$Code%in%colnames(IOtable), ]
     IndustryCodeName <- IndustryCodeName[order(factor(IndustryCodeName$Code, levels = colnames(IOtable))), ]
