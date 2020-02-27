@@ -4,14 +4,19 @@
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe, having IO table structure, with row and column names from "code" to "code/names/locationcode".
 formatIOTableforIOMB <- function (IOtable, model) {
-  # Load model-specific IndustryCodeName and CommodityCodeName tables
+  # Load pre-saved IndustryCodeName
   IndustryCodeName <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   colnames(IndustryCodeName) <- c("Code", "Name")
-  CommodityCodeName <- get(paste(model$specs$BaseIOLevel, "CommodityCodeName", model$specs$BaseIOSchema, sep = "_"))
+  # Load pre-saved or model-specific CommodityCodeName tables, depent on modeltype
+  if (model$specs$CommoditybyIndustryType=="Industry") {
+    CommodityCodeName <- get(paste(model$specs$BaseIOLevel, "CommodityCodeName", model$specs$BaseIOSchema, sep = "_"))
+  } else {
+    CommodityCodeName <- model$SectorNames
+  }
   colnames(CommodityCodeName) <- c("Code", "Name")
   # Determine whether it is Industry/Commodity in IOtable row/column
   # Modify IOtable row and column names
-  if (unique(rownames(IOtable)%in%IndustryCodeName) == TRUE) {
+  if (unique(rownames(IOtable)%in%IndustryCodeName$Code) == TRUE) {
     # Row name is Industry
     IndustryCodeName <- IndustryCodeName[IndustryCodeName$Code%in%rownames(IOtable), ]
     IndustryCodeName <- IndustryCodeName[order(factor(IndustryCodeName$Code, levels = rownames(IOtable))), ]
@@ -22,7 +27,7 @@ formatIOTableforIOMB <- function (IOtable, model) {
     CommodityCodeName <- CommodityCodeName[order(factor(CommodityCodeName$Code, levels = rownames(IOtable))), ]
     rownames(IOtable) <- tolower(paste(rownames(IOtable), CommodityCodeName[, 2], "US", sep = "/"))
   }
-  if (unique(colnames(IOtable)%in%IndustryCodeName) == TRUE) {
+  if (unique(colnames(IOtable)%in%IndustryCodeName$Code) == TRUE) {
     # Column name is Industry
     IndustryCodeName <- IndustryCodeName[IndustryCodeName$Code%in%colnames(IOtable), ]
     IndustryCodeName <- IndustryCodeName[order(factor(IndustryCodeName$Code, levels = colnames(IOtable))), ]
