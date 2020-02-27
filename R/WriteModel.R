@@ -22,8 +22,7 @@ writeModelComponents <- function(model) {
     #add in food system demand
     #Demand <- addDemandforSubsystem("food",Demand)
   }
-  # Format model build components for IOMB
-  MarketShares <- formatIOTableforIOMB(model$V_n, model)
+  # Format DRC for IOMB
   DirectRequirementsCoefficients <- formatIOTableforIOMB(model$A, model)
   
   # write model build components to csv
@@ -32,7 +31,6 @@ writeModelComponents <- function(model) {
   utils::write.csv(LCIA, paste0(name_pre, "_LCIA.csv"), row.names = FALSE, fileEncoding="UTF-8")
   utils::write.csv(SectorMetaData, paste0(name_pre, "_sector_meta_data.csv"), row.names = FALSE, fileEncoding="UTF-8")
   utils::write.csv(Demand, paste0(name_pre, "_FinalDemand.csv"), row.names = FALSE, fileEncoding="UTF-8")
-  utils::write.csv(MarketShares, paste0(name_pre,"_MarketShares.csv"), row.names = TRUE, fileEncoding="UTF-8") #MS needs row indices
   utils::write.csv(DirectRequirementsCoefficients, paste0(name_pre,"_DRC.csv"), row.names = TRUE, fileEncoding="UTF-8") #DRC needs row indices
   
   # Write logs to file in Model Builds folder
