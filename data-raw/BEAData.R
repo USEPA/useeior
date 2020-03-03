@@ -418,15 +418,17 @@ getBEADetailImportBeforeRedef2012Schema <- function () {
 Detail_Import_2012_BeforeRedef <- getBEADetailImportBeforeRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Import_2012_BeforeRedef, overwrite = TRUE)
 
-# Get BEA Summary Import (Before Redef, 2012 schema) 2010:2017 from static Excel
+
+
+# Get BEA Summary Import (Before Redef, 2012 schema) 2010:2018 from static Excel
 getBEASummaryImportBeforeRedef2012Schema <- function () {
   SummaryImportList <- list()
   # read excel sheet
-  FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_SUM_1997-2017.xlsx"
+  FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx"
   if(!file.exists(FileName)) {
-    download.file(paste("https://apps.bea.gov/industry/xls/io-annual", FileName, sep = "/"), FileName, mode="wb")
+    download.file("https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx", FileName, mode="wb")
   }
-  for (i in 2010:2017) {
+  for (i in 2010:2018) {
     SummaryImport <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:79, 3:95]
     SummaryImport <- as.data.frame(apply(SummaryImport, 2, as.numeric))
     rownames(SummaryImport) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:79, 1]
@@ -452,6 +454,10 @@ Summary_Import_2016_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["
 usethis::use_data(Summary_Import_2016_BeforeRedef, overwrite = TRUE)
 Summary_Import_2017_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["2017"]]
 usethis::use_data(Summary_Import_2017_BeforeRedef, overwrite = TRUE)
+Summary_Import_2018_BeforeRedef <- getBEASummaryImportBeforeRedef2012Schema()[["2018"]]
+usethis::use_data(Summary_Import_2018_BeforeRedef, overwrite = TRUE)
+
+
 
 # Download all GDP tables from BEA iTable
 getBEAUnderlyingTables <- function () {
