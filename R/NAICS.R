@@ -36,14 +36,14 @@ getNAICS2to6DigitsCodeName <- function (year) {
     # Download the 2-6 digits NAICS table
     FileName <- "2-digit_2012_Codes.xls"
     if(!file.exists(FileName)) {
-      download.file("https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls", FileName, mode = "wb")
+      utils::download.file("https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls", FileName, mode = "wb")
     }
     NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   } else { #year = 2007
     # Download the 2-6 digits NAICS table
     FileName <- "naics07.xls"
     if(!file.exists(FileName)) {
-      download.file("https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls", FileName, mode = "wb")
+      utils::download.file("https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls", FileName, mode = "wb")
     }
     NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   }
@@ -74,14 +74,14 @@ getNAICS2to6Digits <- function (year) {
     # Download the 2-6 digits NAICS table
     FileName <- "2-digit_2012_Codes.xls"
     if(!file.exists(FileName)) {
-      download.file("https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls", FileName, mode = "wb")
+      utils::download.file("https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls", FileName, mode = "wb")
     }
     NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   } else { #year = 2007
     # Download the 2-6 digits NAICS table
     FileName <- "naics07.xls"
     if(!file.exists(FileName)) {
-      download.file("https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls", FileName, mode = "wb")
+      utils::download.file("https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls", FileName, mode = "wb")
     }
     NAICS <- as.data.frame(readxl::read_excel("naics07.xls", sheet = 1, col_names = TRUE))[-1,-1]
   }
@@ -111,7 +111,7 @@ getNAICS7to10DigitsCodeName <- function (year) {
     td <- tempdir()
     tf <- tempfile(tmpdir = tempdir(), fileext = ".csv")
     for(sector in SectorList) {
-      download.file(paste("https://www.census.gov/manufacturing/numerical_list/", sector, ".xls", sep = ""), tf, mode = "wb")
+      utils::download.file(paste("https://www.census.gov/manufacturing/numerical_list/", sector, ".xls", sep = ""), tf, mode = "wb")
       CensusNAICSList[[sector]] <- as.data.frame(readxl::read_excel(tf, sheet = 1, col_names = TRUE, skip = 2))[, 1:2]
       colnames(CensusNAICSList[[sector]]) <- c("NAICS_2012_Code", "NAICS_2012_Name")
     }

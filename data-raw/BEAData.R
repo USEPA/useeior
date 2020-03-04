@@ -4,7 +4,7 @@ getBEAIOTables <- function () {
   AllTablesIO <- "inst/extdata/AllTablesIO.zip"
   # Download all BEA IO tables into the placeholder file
   if(!file.exists(AllTablesIO)) {
-    download.file("https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip", AllTablesIO, mode = "wb")
+    utils::download.file("https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip", AllTablesIO, mode = "wb")
   }
   # Get the name of all files in the zip archive
   fname <- unzip(AllTablesIO, list = TRUE)[unzip(AllTablesIO, list = TRUE)$Length > 0, ]$Name
@@ -403,7 +403,7 @@ getBEADetailImportBeforeRedef2012Schema <- function () {
   # read excel sheet
   FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx"
   if(!file.exists(FileName)) {
-    download.file(paste("https://apps.bea.gov/industry/xls/io-annual", FileName, sep = "/"), FileName, mode = "wb")
+    utils::download.file(paste("https://apps.bea.gov/industry/xls/io-annual", FileName, sep = "/"), FileName, mode = "wb")
   }
   for (i in c(2007, 2012)) {
     DetailImport <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:411, 3:429]
@@ -426,7 +426,7 @@ getBEASummaryImportBeforeRedef2012Schema <- function () {
   # read excel sheet
   FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx"
   if(!file.exists(FileName)) {
-    download.file("https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx", FileName, mode="wb")
+    utils::download.file("https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx", FileName, mode="wb")
   }
   for (i in 2010:2018) {
     SummaryImport <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:79, 3:95]
@@ -465,7 +465,7 @@ getBEAUnderlyingTables <- function () {
   AllTablesUnderlying <- "inst/extdata/AllTablesUnderlying.zip"
   # Download all BEA IO tables into the placeholder file
   if(!file.exists(AllTablesUnderlying)) {
-    download.file("https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesUnderlying.zip", AllTablesUnderlying, mode = "wb")
+    utils::download.file("https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesUnderlying.zip", AllTablesUnderlying, mode = "wb")
   }
   # Get the name of all files in the zip archive
   fname <- unzip(AllTablesUnderlying, list = TRUE)[unzip(AllTablesUnderlying, list = TRUE)$Length > 0, ]$Name
@@ -614,7 +614,7 @@ usethis::use_data(Sector_CommodityCodeName_2012, overwrite = TRUE)
 getBEADetailPCEBridge2012Schema <- function () {
   # Download BEA PCE bridge table
   if(!file.exists("inst/extdata/PCEBridge_2007_2012_DET.xlsx")) {
-    download.file("https://apps.bea.gov/industry/xls/underlying-estimates/PCEBridge_2007_2012_DET.xlsx",
+    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/PCEBridge_2007_2012_DET.xlsx",
                   "inst/extdata/PCEBridge_2007_2012_DET.xlsx", mode = "wb")
   }
   column_names <- c("NIPACode", "PCECategory", "CommodityCode", "CommodityDescription",
@@ -642,7 +642,7 @@ usethis::use_data(Detail_PCE_2012, overwrite = TRUE)
 getBEADetailPEQBridge2012Schema <- function () {
   # Download BEA PEQ bridge table
   if(!file.exists("inst/extdata/PEQBridge_2007_2012_DET.xlsx")) {
-    download.file("https://apps.bea.gov/industry/xls/underlying-estimates/PEQBridge_2007_2012_DET.xlsx",
+    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/PEQBridge_2007_2012_DET.xlsx",
                   "inst/extdata/PEQBridge_2007_2012_DET.xlsx", mode = "wb")
   }
   column_names <- c("NIPACode", "PEQCategory", "CommodityCode", "CommodityDescription",
@@ -670,7 +670,7 @@ usethis::use_data(Detail_PEQ_2012, overwrite = TRUE)
 getBEADetailMarginsBeforeRedef2012Schema <- function () {
   # Download BEA PCE bridge table
   if(!file.exists("inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx")) {
-    download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_DET.xlsx",
+    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_DET.xlsx",
                   "inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx", mode = "wb")
   }
   column_names <- c("NIPACode", "MarginsCategory", "CommodityCode", "CommodityDescription",
@@ -698,7 +698,7 @@ usethis::use_data(Detail_Margins_2012_BeforeRedef, overwrite = TRUE)
 getBEASummaryMarginsBeforeRedef2012Schema <- function () {
   # Download BEA PCE bridge table
   if(!file.exists("inst/extdata/Margins_Before_Redefinitions_2007_2012_SUM.xlsx")) {
-    download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SUM.xlsx",
+    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SUM.xlsx",
                   "inst/extdata/Margins_Before_Redefinitions_2007_2012_SUM.xlsx", mode = "wb")
   }
   column_names <- c("NIPACode", "MarginsCategory", "CommodityCode", "CommodityDescription",
@@ -726,7 +726,7 @@ usethis::use_data(Summary_Margins_2012_BeforeRedef, overwrite = TRUE)
 getBEASectorMarginsBeforeRedef2012Schema <- function () {
   # Download BEA PCE bridge table
   if(!file.exists("inst/extdata/Margins_Before_Redefinitions_2007_2012_SECT.xlsx")) {
-    download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SECT.xlsx",
+    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SECT.xlsx",
                   "inst/extdata/Margins_Before_Redefinitions_2007_2012_SECT.xlsx", mode = "wb")
   }
   column_names <- c("NIPACode", "MarginsCategory", "CommodityCode", "CommodityDescription",

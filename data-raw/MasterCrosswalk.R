@@ -4,7 +4,7 @@ extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
     # Download the IO table
     FileName <- "inst/extdata/IOUse_Before_Redefinitions_PRO_2007_2012_Detail.xlsx"
     if(!file.exists(FileName)) {
-      download.file("https://apps.bea.gov/industry/xls/io-annual/IOUse_Before_Redefinitions_PRO_DET.xlsx",
+      utils::download.file("https://apps.bea.gov/industry/xls/io-annual/IOUse_Before_Redefinitions_PRO_DET.xlsx",
                     FileName, mode = "wb")
     }
     # Load desired excel file
@@ -214,7 +214,7 @@ getMasterCrosswalk <- function (year) {
   # Download the 2007 and 2012 NAICS code concordances (6-digit)
   FileName <- "inst/extdata/2012_to_2007_NAICS.xls"
   if(!file.exists(FileName)) {
-    download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2007_NAICS.xls", FileName, mode = "wb")
+    utils::download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2007_NAICS.xls", FileName, mode = "wb")
   }
   NAICS2007to2012 <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE, skip = 2))
   NAICS2007to2012 <- as.data.frame(sapply(NAICS2007to2012[, c("2012 NAICS Code", "2007 NAICS Code")], as.factor))
