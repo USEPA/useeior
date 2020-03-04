@@ -17,7 +17,7 @@ loadindicators <- function(specs) {
       }
    }
    # Subset LCIA factors list for the list of abbbreviations
-   factors_from_static <- subset(StaticIndicatorFactors, Abbreviation %in% abbr_from_static)
+   factors_from_static <- StaticIndicatorFactors[StaticIndicatorFactors$Abbreviation %in% abbr_from_static, ]
    # Place holder to later rbind in factors_from_dynamic
    indicators <- factors_from_static
 
@@ -52,7 +52,7 @@ loadLCIAfactors <- function() {
    #Convert values to numeric
    lciafactlong$value <- as.numeric(lciafactlong$value)
    #drop zeroes
-   lciafactlong <- subset(lciafactlong, value>0)
+   lciafactlong <- lciafactlong[lciafactlong$value>0, ]
    #Change colname for merging later
    names(lciafactlong)[names(lciafactlong) == "variable"] <- "Abbreviation"
    names(lciafactlong)[names(lciafactlong) == "value"] <- "Amount"

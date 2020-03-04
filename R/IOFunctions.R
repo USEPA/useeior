@@ -25,9 +25,9 @@ getAdjustedOutput <- function (outputyear, referenceyear, location_acronym, IsRo
       row.names(Output) <- Output[,"BEACode"]
       if(IsRoUS == TRUE) {
         Output$RoUS <- Output$US - Output$SoI
-        Output <- subset(Output, select = c(BEACode, RoUS))
+        Output <- Output[, c("BEACode", "RoUS")]
       } else {
-        Output <- subset(Output, select = c(BEACode, SoI))
+        Output <- Output[, c("BEACode", "SoI")]
       }
     }
   }
@@ -231,9 +231,9 @@ generateOutputBasedAllocationFactorsByGroup <- function(codeswithgroups) {
 #' @return A dataframe contains "imports_used_by_industry", "total_used_by_industry", and "import_ratio_of_industry_use".
 getIndustryUseofImportedCommodities <- function() {
   ImportDetail <- getImportDetailwithUseCommodities()
-  TotalIndustryUseofImportedCommoditiesfromImportDetail <- subset(ImportDetail, select = "T001")
+  TotalIndustryUseofImportedCommoditiesfromImportDetail <- ImportDetail[, "T001"]
   UseDetail <- getUseDetailwithCommoditiesOnly()
-  TotalIndustryUseofCommoditiesfromUseDetail <- subset(UseDetail, select = "T001")
+  TotalIndustryUseofCommoditiesfromUseDetail <- UseDetail[, "T001"]
   proportion_imports_in_industryuse <- cbind(TotalIndustryUseofImportedCommoditiesfromImportDetail,TotalIndustryUseofCommoditiesfromUseDetail)
   proportion_imports_in_industryuse[, "import_ratio"] <- proportion_imports_in_industryuse[, 1]/proportion_imports_in_industryuse[, 2]
   colnames(proportion_imports_in_industryuse) <- c("imports_used_by_industry", "total_used_by_industry", "import_ratio_of_industry_use")

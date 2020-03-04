@@ -120,9 +120,8 @@ getNAICS7to10DigitsCodeName <- function (year) {
     coaNAICS <- utils::read.table(system.file("extdata", "Crosswalk_COAtoNAICS.csv", package = "useeior"),
                                   sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
     # Subset dataset and change column names to match other NAICS datasets
-    coaNAICS <- subset(coaNAICS, select = c(Sector, Activity))
-    names(coaNAICS)[names(coaNAICS)=="Sector"]    <- "NAICS_2012_Code"
-    names(coaNAICS)[names(coaNAICS)=="Activity"]  <- "NAICS_2012_Name"
+    coaNAICS <- coaNAICS[, c("Sector", "Activity")]
+    colnames(coaNAICS) <- c("NAICS_2012_Code", "NAICS_2012_Name")
     
     # Create 10 digit NAICS out of the 8 digit so Code name isn't dropped in future function
     coaNAICS10 <- coaNAICS

@@ -18,7 +18,7 @@ mapListbyName <- function (sattable, sattablemeta) {
     stop("Set variable 'originalflowsource' first.")
   }
   # Get subset for mapping
-  sourcemapping <- subset(flowmapping, Source==originalflowsource)
+  sourcemapping <- flowmapping[flowmapping$Source==originalflowsource, ]
   fieldstokeep <- c("OriginalName", "NewName", "CAS", "NewCategory", "NewSubCategory", "NewUnit", "UUID")
   sourcemapping <- sourcemapping[, fieldstokeep]
 
@@ -50,14 +50,14 @@ mapFlowbyNameandCategory <- function (originalname, originalcategory = "", satta
   if(originalflowsource=="") {
     stop("Set variable 'originalflowsource' first.")
   }
-  sourcemapping <- subset(flowmapping, Source==originalflowsource)
+  sourcemapping <- flowmapping[flowmapping$Source==originalflowsource, ]
   if (nrow(sourcemapping)==0) {
     stop(paste("No flows found for source", originalflowsource))
   }
   if (originalcategory != "") {
-    matchingrow <- subset(sourcemapping, OriginalName==originalname&&OriginalCategory==originalcategory)
+    matchingrow <- sourcemapping[sourcemapping$OriginalName==originalname&&sourcemapping$OriginalCategory==originalcategory, ]
   } else {
-    matchingrow <- subset(sourcemapping, OriginalName==originalname)
+    matchingrow <- sourcemapping[sourcemapping$OriginalName==originalname, ]
   }
   if(nrow(matchingrow)==0) {
     stop(paste("No flow found with original name", originalname, "and category", originalcategory, "for source", originalflowsource))
@@ -84,14 +84,14 @@ mapFlowbyCodeandCategory <- function (originalcas, originalcategory = "", sattab
   if(originalflowsource=="") {
     stop("Set variable 'originalflowsource' first.")
   }
-  sourcemapping <- subset(flowmapping, Source==originalflowsource)
+  sourcemapping <- flowmapping[flowmapping$Source==originalflowsource, ]
   if (nrow(sourcemapping)==0) {
     stop(paste("No flows found for source", originalflowsource))
   }
   if (originalcategory != "") {
-    matchingrow <- subset(sourcemapping, OriginalCAS==originalcas&&OriginalCategory==originalcategory)
+    matchingrow <- sourcemapping[sourcemapping$OriginalCAS==originalcas&&sourcemapping$OriginalCategory==originalcategory, ]
   } else {
-    matchingrow <- subset(sourcemapping, OriginalCAS==originalcas)
+    matchingrow <- sourcemapping[sourcemapping$OriginalCAS==originalcas, ]
   }
   if(nrow(matchingrow)==0) {
     stop(paste("No flow found with original CAS", originalcas, "and category", originalcategory, "for source", originalflowsource))
