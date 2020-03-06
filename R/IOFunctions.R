@@ -379,16 +379,16 @@ getMarginsTable <- function (model, marginsource) {
   # Load Margins or PCE and PEQ Bridge data
   if (model$specs$BaseIOSchema==2012) {
     if (marginsource=="intermediate") {
-      MarginsTable <- Detail_Margins_2012_BeforeRedef[, 3:9]
+      MarginsTable <- useeior::Detail_Margins_2012_BeforeRedef[, 3:9]
     } else {
       # Use PCE and PEQ Bridge tables
-      PCE <- Detail_PCE_2012[, 3:9]
-      PEQ <- Detail_PEQ_2012[, 3:9]
+      PCE <- useeior::Detail_PCE_2012[, 3:9]
+      PEQ <- useeior::Detail_PEQ_2012[, 3:9]
       MarginsTable <- rbind(PCE, PEQ)
     }
   }
   # Map to Summary and Sector level
-  crosswalk <- unique(MasterCrosswalk2012[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
+  crosswalk <- unique(useeior::MasterCrosswalk2012[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
   MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_2012_Detail_Code")
   # Aggregate by CommodityCode (dynamic to model BaseIOLevel) and CommodityDescription
   if (!model$specs$BaseIOLevel=="Detail") {

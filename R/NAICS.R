@@ -3,7 +3,7 @@
 #' @return A table of allocation factors between NAICS and BEA sectors.
 getNAICStoBEAAllocation <- function (year) {
   # Keep USEEIO and NAICS columns in MasterCrosswalk2012 table based on the model specs
-  NAICStoBEA <- unique(MasterCrosswalk2012[, c(paste("NAICS", model$specs$BaseIOSchema, "Code", sep = "_"),
+  NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c(paste("NAICS", model$specs$BaseIOSchema, "Code", sep = "_"),
                                                paste("BEA", model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Code", sep = "_"))])
   colnames(NAICStoBEA) <- c("NAICS_Code", "BEA_Code")
   # Drop 2-digit NAICS code

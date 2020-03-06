@@ -89,7 +89,7 @@ adjustMultiplierPrice <- function(matrix, currency_year, purchaser_price=TRUE, m
     Margins <- merge(Margins, CPI_ratio, by.x = "SectorCode", by.y = 0, all.y = TRUE)
     Margins$ProducersValue <- Margins$ProducersValue * Margins$Ratio
     # Adjust Transportation, Wholesale and Retail using corresponding CPI_ratio
-    TWR_CPI_ratio <- Sector_CPI_IO[c("48TW", "42", "44RT"), as.character(currency_year)]/Sector_CPI_IO[c("48TW", "42", "44RT"), as.character(model$specs$IOYear)]
+    TWR_CPI_ratio <- useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), as.character(currency_year)]/useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), as.character(model$specs$IOYear)]
     Margins[, c("Transportation", "Wholesale", "Retail")] <- sweep(Margins[, c("Transportation", "Wholesale", "Retail")], 2, TWR_CPI_ratio, "*")
     # Generate PRObyPURRatios vector
     Margins$PRObyPURRatios <- Margins$ProducersValue/rowSums(Margins[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])

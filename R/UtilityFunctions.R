@@ -33,13 +33,13 @@ aggregateMatrix <- function (matrix, from_level, to_level, specs) {
   to_code   <- paste("BEA", specs$BaseIOSchema, to_level, "Code", sep = "_")
   # Aggregate by rows
   value_columns_1 <- colnames(matrix)
-  df_fromlevel <- merge(matrix, unique(MasterCrosswalk2012[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
+  df_fromlevel <- merge(matrix, unique(useeior::MasterCrosswalk2012[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
   df_fromlevel_agg <- stats::aggregate(df_fromlevel[, value_columns_1], by = list(df_fromlevel[, to_code]), sum)
   rownames(df_fromlevel_agg) <- df_fromlevel_agg[, 1]
   df_fromlevel_agg[, 1] <- NULL
   # aggregate by columns
   value_columns_2 <- rownames(df_fromlevel_agg)
-  df_fromlevel_agg <- merge(t(df_fromlevel_agg), unique(MasterCrosswalk2012[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
+  df_fromlevel_agg <- merge(t(df_fromlevel_agg), unique(useeior::MasterCrosswalk2012[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
   matrix_fromlevel_agg <- stats::aggregate(df_fromlevel_agg[, value_columns_2], by = list(df_fromlevel_agg[, to_code]), sum)
   # reshape back to orginal CxI (IxC) format
   rownames(matrix_fromlevel_agg) <- matrix_fromlevel_agg[, 1]
@@ -67,7 +67,7 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
     }
   }
   # Map CommodityOutput to more aggregated IO levels
-  Crosswalk <- unique(MasterCrosswalk2012[, c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
+  Crosswalk <- unique(useeior::MasterCrosswalk2012[, c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
   ratio_table <- merge(Crosswalk, Output, by.x = paste("BEA_2012", model$specs$BaseIOLevel, "Code", sep = "_"), by.y = 0)
   # Calculate output ratios
   for (iolevel in c("Summary", "Sector")) {
