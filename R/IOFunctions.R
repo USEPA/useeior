@@ -160,7 +160,7 @@ transformDirectRequirementswithMarketShares <- function (B, D) {
     A <- D %*% B
     dimnames(A) <- c(dimnames(D)[1], dimnames(B)[2])
   } else {
-    logging:logerror("commoditybyIndustryType not specified for model or incorrectly specified")
+    logging::logerror("commoditybyIndustryType not specified for model or incorrectly specified")
   }
   return(A)
 }
