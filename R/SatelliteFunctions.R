@@ -9,9 +9,10 @@ getStandardSatelliteTableFormat <- function () {
 
 #' Map a satellite table from NAICS-coded format to BEA-coded format.
 #' @param sattable A standardized satellite table with resource and emission names from original sources.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param satellitetableyear Year of the satellite table.
 #' @return A satellite table aggregated by the USEEIO model sector codes.
-mapSatTablefromNAICStoBEA <- function (sattable, satellitetableyear) {
+mapSatTablefromNAICStoBEA <- function (sattable, satellitetableyear, model) {
   # Generate NAICS-to-BEA mapping dataframe based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
   NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c("NAICS_2012_Code", paste("BEA", model$specs$BaseIOSchema, "Detail_Code", sep = "_"))])
   colnames(NAICStoBEA) <- c("NAICS", "SectorCode")
@@ -28,7 +29,7 @@ mapSatTablefromNAICStoBEA <- function (sattable, satellitetableyear) {
   # Merge satellite table with NAICStoBEA dataframe
   Sattable_BEA <- merge(sattable, NAICStoBEA, by = "NAICS", all.x = TRUE)
   # Generate allocation_factor dataframe containing allocation factors between NAICS and BEA sectors
-  allocation_factor <- getNAICStoBEAAllocation(satellitetableyear)
+  allocation_factor <- getNAICStoBEAAllocation(satellitetableyear, model)
   colnames(allocation_factor) <- c("NAICS", "SectorCode", "allocation_factor")
   # Merge the BEA-coded satellite table with allocation_factor dataframe
   Sattable_BEA <- merge(Sattable_BEA, allocation_factor, by = c("NAICS", "SectorCode"), all.x = TRUE)

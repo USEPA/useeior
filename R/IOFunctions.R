@@ -128,7 +128,7 @@ generateCommodityCPIforYear <- function(year, model) {
 }
 
 #' Generate non-scrap ratios
-#' @return A datframe with rows being model industries and a column for "non_scrap_ratios" for that industry.
+#' @return A dataframe with rows being model industries and a column for "non_scrap_ratios" for that industry.
 generateNonScrapRatios <- function() {
   # Merge scrap from model Make transactions and Industry output
   V_scrap <- model$MakeTransactions[, ModelScrapCode, drop = FALSE]
@@ -142,9 +142,10 @@ generateNonScrapRatios <- function() {
 
 #' Transform Direct Requirements matrix with Market Shares matrix, works for both commodity-by-commodity and industry-by-industry model types.
 #' @param B Marginal impact per unit of the environmental flows.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param D Market Shares matrix.
 #' @return Direct Requirements matrix.
-transformDirectRequirementswithMarketShares <- function (B, D) {
+transformDirectRequirementswithMarketShares <- function (B, D, model) {
   # Only generate result if the column names of the direct requirements table match the row names of the market shares matrix
   if (all(colnames(B) == rownames(D)) && all(colnames(D) == rownames(B))) {
 
@@ -227,7 +228,9 @@ generateOutputBasedAllocationFactorsByGroup <- function(codeswithgroups) {
 #   }
 # }
 
-#' Determine proportion of Imports in Industr use.
+
+
+#' Determine proportion of Imports in Industry use.
 #' @return A dataframe contains "imports_used_by_industry", "total_used_by_industry", and "import_ratio_of_industry_use".
 getIndustryUseofImportedCommodities <- function() {
   ImportDetail <- getImportDetailwithUseCommodities()
@@ -240,8 +243,8 @@ getIndustryUseofImportedCommodities <- function() {
   return (proportion_imports_in_industryuse)
 }
 
-#' Adjust multi-year USEEIO gross output by model-specified currency year.
-#' @return A dataframe contains adjusted multi-year USEEIO gross output.
+# #' Adjust multi-year USEEIO gross output by model-specified currency year.
+# #' @return A dataframe contains adjusted multi-year USEEIO gross output.
 # adjustUSEEIOGrossOutputbyCPIYear <- function () {
 #   GrossOutput <- model$GDP$BEAGrossOutputIO
 #   for (year in colnames(GrossOutput)) {

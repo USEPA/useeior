@@ -7,7 +7,7 @@
 generateNonScrapRatios()
 }
 \value{
-A datframe with rows being model industries and a column for "non_scrap_ratios" for that industry.
+A dataframe with rows being model industries and a column for "non_scrap_ratios" for that industry.
 }
 \description{
 Generate non-scrap ratios

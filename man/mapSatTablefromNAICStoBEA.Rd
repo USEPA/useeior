@@ -4,12 +4,14 @@
 \alias{mapSatTablefromNAICStoBEA}
 \title{Map a satellite table from NAICS-coded format to BEA-coded format.}
 \usage{
-mapSatTablefromNAICStoBEA(sattable, satellitetableyear)
+mapSatTablefromNAICStoBEA(sattable, satellitetableyear, model)
 }
 \arguments{
 \item{sattable}{A standardized satellite table with resource and emission names from original sources.}
 
 \item{satellitetableyear}{Year of the satellite table.}
+
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
 A satellite table aggregated by the USEEIO model sector codes.

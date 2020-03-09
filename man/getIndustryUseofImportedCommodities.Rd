@@ -2,7 +2,7 @@
 % Please edit documentation in R/IOFunctions.R
 \name{getIndustryUseofImportedCommodities}
 \alias{getIndustryUseofImportedCommodities}
-\title{Determine proportion of Imports in Industr use.}
+\title{Determine proportion of Imports in Industry use.}
 \usage{
 getIndustryUseofImportedCommodities()
 }
@@ -10,5 +10,5 @@ getIndustryUseofImportedCommodities()
 A dataframe contains "imports_used_by_industry", "total_used_by_industry", and "import_ratio_of_industry_use".
 }
 \description{
-Determine proportion of Imports in Industr use.
+Determine proportion of Imports in Industry use.
 }
