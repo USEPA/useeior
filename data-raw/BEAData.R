@@ -504,11 +504,11 @@ getBEASectorGrossOutput2012Schema <- function () {
   return(SectorGrossOutput)
 }
 
-Detail_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Detail"]]
+Detail_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Detail"]]
 usethis::use_data(Detail_GrossOutput_IO, overwrite = TRUE)
-Summary_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Summary"]]
+Summary_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Summary"]]
 usethis::use_data(Summary_GrossOutput_IO, overwrite = TRUE)
-Sector_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Sector"]]
+Sector_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Sector"]]
 usethis::use_data(Sector_GrossOutput_IO, overwrite = TRUE)
 
 
