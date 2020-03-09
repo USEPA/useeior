@@ -85,14 +85,19 @@ loadBEAtables <- function(specs) {
 #' Externalize the BEA make and use tables
 #' @param iolevel "Detail", "Sector", or "Summary" level
 #' @param makeoruse Select either "Make" or "Use"
-#' @param year Year of interest between 2010--2018
+#' @param year If iolevel = "Detail", then has to be 2012, otherwise select between 2010--2018
 #' @param redef Select either "BeforeRedef" or "AfterRedef"
 #' @return A dataframe of BEA make or use tables
 #' @export
-BEAMakeAndUseTables <- function (iolevel, makeoruse, year, redef){
+loadBEAMakeorUseTable <- function (iolevel, makeoruse, year, redef){
   
-  filename <- paste(iolevel, "_", makeoruse, "_", year, "_", redef, sep = "")
-  BEA_Table <- get(filename)
+  if(makeoruse == "Make"){
+    filename <- paste(iolevel, "_", makeoruse, "_", year, "_", redef, sep = "")
+    BEA_Table <- get(filename)
+  } else {
+    filename <- paste(iolevel, "_", makeoruse, "_", year, "_PRO_", redef, sep = "")
+    BEA_Table <- get(filename)
+  }
   
   return(BEA_Table)
 }
