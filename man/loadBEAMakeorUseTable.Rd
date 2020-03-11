@@ -16,7 +16,7 @@ loadBEAMakeorUseTable(iolevel, makeoruse, year, redef)
 \item{redef}{Select either "BeforeRedef" or "AfterRedef"}
 }
 \value{
-A dataframe of "PRO" BEA make or use tables
+A dataframe of BEA make or use tables
 }
 \description{
 Externalize the BEA make and use tables
