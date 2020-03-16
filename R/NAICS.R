@@ -197,3 +197,17 @@ getNAICSCodeName <- function(year) {
   
   return(NAICSCodeName_2to10)
 }
+
+
+
+#' Function to externalize the BEA to NAICS crosswalk
+#' @return A crosswalk linking 2007 and 2012 NAICS codes to 2012 Sector, Summary, and Detail BEA codes
+#' @export
+loadMasterCrosswalk <- function(){
+  
+  # Pull the mastercrosswalk created in the data-raw subdirectory
+  BEAtoNAICSCrosswalk <- useeior::MasterCrosswalk2012
+  
+  return(BEAtoNAICSCrosswalk)
+  
+}
