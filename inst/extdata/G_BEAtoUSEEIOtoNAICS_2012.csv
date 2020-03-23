@@ -39,6 +39,7 @@ G,Government,GFGN,Federal general government,S00600,Federal general government (
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),921190,Other General Government Support 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922,"Justice, Public Order, and Safety Activities "
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),922,"Justice, Public Order, and Safety Activities "
+G,Government,GSLE,State and local government enterprises,S00203,Other state and local government enterprises,S00203,Other state and local government enterprises,922,"Justice, Public Order, and Safety Activities "
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),923,Administration of Human Resource Programs 
 G,Government,GSLG,State and local general government,GSLGE,State and local government (educational services),GSLGE,State and local government (educational services),923,Administration of Human Resource Programs 
 G,Government,GSLG,State and local general government,GSLGH,State and local government (hospitals and health services),GSLGH,State and local government (hospitals and health services),923,Administration of Human Resource Programs 

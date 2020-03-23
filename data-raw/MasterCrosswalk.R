@@ -200,7 +200,8 @@ getMasterCrosswalk <- function (year) {
   BEAtoUSEEIOtoNAICS <- rbind(BEAtoUSEEIOtoNAICS, Crosswalk23, CrosswalkG, CrosswalkF, CrosswalkV)
   
   # Add USEEIO_Commodity columns
-  SectortoCommodity <- utils::read.table(paste0("inst/extdata/DetailIndustrytoCommodityName", year, "Schema.csv"), sep = ",", header = TRUE, stringsAsFactors = FALSE, quote = "\"")
+  SectortoCommodity <- utils::read.table(paste0("inst/extdata/Crosswalk_DetailIndustrytoCommodityName", year, "Schema.csv"),
+                                         sep = ",", header = TRUE, stringsAsFactors = FALSE, quote = "\"")
   BEAtoUSEEIOtoNAICS <- merge(BEAtoUSEEIOtoNAICS, SectortoCommodity[, -2], by = paste("BEA_", year, "_Detail_Code", sep = ""), all.x = TRUE)
   
   # Keep wanted columns
@@ -237,7 +238,8 @@ getMasterCrosswalk <- function (year) {
     MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2007to2012all, by = "NAICS_2012_Code", all = TRUE)
     MasterCrosswalk <- MasterCrosswalk[, c(colnames(BEAtoUSEEIOtoNAICS), "NAICS_2007_Code")]
     # Include 7-, 8-, and 10-digit NAICS (from Census for manufacturing and mining sectors)
-    CensusNAICS <- data(Census_ManufacturingMiningSectors_NAICSCodeName)
+    CensusNAICS <- utils::read.table("inst/extdata/CensusNAICSManufacturingMining_2012.csv",
+                                     sep = ",", header = TRUE, stringsAsFactors = FALSE)
     CensusNAICS$NAICS_Code_6digit <- substr(CensusNAICS$NAICS_Code, 1, 6)
     CensusNAICS2USEEIO <- merge(MasterCrosswalk, CensusNAICS, by.x = "NAICS_2012_Code", by.y = "NAICS_Code_6digit")
     CensusNAICS2USEEIO[, c("NAICS_2012_Code", "NAICS_2012_Name")] <- CensusNAICS2USEEIO[, c("NAICS_Code", "NAICS_Name")]
