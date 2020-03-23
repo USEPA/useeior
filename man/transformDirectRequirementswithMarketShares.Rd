@@ -4,12 +4,14 @@
 \alias{transformDirectRequirementswithMarketShares}
 \title{Transform Direct Requirements matrix with Market Shares matrix, works for both commodity-by-commodity and industry-by-industry model types.}
 \usage{
-transformDirectRequirementswithMarketShares(B, D)
+transformDirectRequirementswithMarketShares(B, D, model)
 }
 \arguments{
 \item{B}{Marginal impact per unit of the environmental flows.}
 
 \item{D}{Market Shares matrix.}
+
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
 Direct Requirements matrix.

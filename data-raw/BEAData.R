@@ -504,12 +504,68 @@ getBEASectorGrossOutput2012Schema <- function () {
   return(SectorGrossOutput)
 }
 
-Detail_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Detail"]]
+Detail_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Detail"]]
 usethis::use_data(Detail_GrossOutput_IO, overwrite = TRUE)
-Summary_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Summary"]]
+Summary_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Summary"]]
 usethis::use_data(Summary_GrossOutput_IO, overwrite = TRUE)
-Sector_GrossOutput_IO <- adjustBEAGrossOutouttoIOIndustry2012Schema()[["Sector"]]
+Sector_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Sector"]]
 usethis::use_data(Sector_GrossOutput_IO, overwrite = TRUE)
+
+
+
+#' Adjust gross output from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
+#' @return A list contains IO-based gross output at Detail, Summary, and Sector IO levels.
+adjustBEAGrossOutputtoIOIndustry2012Schema <- function () {
+  # Detail
+  DetailGrossOutput <- getBEADetailGrossOutput2012Schema()
+  # Determine year range
+  year_range <- colnames(DetailGrossOutput)[2:ncol(DetailGrossOutput)]
+  # Attach BEA Detail industry code
+  DetailGDPIndustrytoIO <- utils::read.table(system.file("inst/extdata", "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv", package = "useeior"),
+                                             sep = ",", header = TRUE)
+  DetailGrossOutputIO <- merge(DetailGDPIndustrytoIO, DetailGrossOutput, by = "Gross_Output_Detail_Industry", all.y = TRUE)
+  # Convert values to numeric format
+  DetailGrossOutputIO[, year_range] <- as.data.frame(apply(DetailGrossOutputIO[, year_range], 2, as.numeric))
+  # Aggregate by BEA Detail industry code
+  DetailGrossOutputIO <- stats::aggregate(DetailGrossOutputIO[, year_range], by = list(DetailGrossOutputIO$BEA_2012_Detail_Code), sum)
+  # Assign rownames as sector code
+  rownames(DetailGrossOutputIO) <- DetailGrossOutputIO[, 1]
+  DetailGrossOutputIO[, 1] <- NULL
+  
+  # Summary
+  SummaryGrossOutput <- getBEASummaryGrossOutput2012Schema()
+  # Attach IO industry
+  SummaryGDPIndustrytoIO <- utils::read.table(system.file("inst/extdata", "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv", package = "useeior"),
+                                              sep = ",", header = TRUE)
+  SummaryGrossOutputIO <- cbind(SummaryGDPIndustrytoIO, SummaryGrossOutput)
+  # Keep Summary rows
+  SummaryGrossOutputIO <- SummaryGrossOutputIO[!SummaryGrossOutputIO$BEA_2012_Summary_Code == "", c("BEA_2012_Summary_Code", year_range)]
+  # Assign rownames as sector code
+  rownames(SummaryGrossOutputIO) <- SummaryGrossOutputIO[, 1]
+  SummaryGrossOutputIO[, 1] <- NULL
+  # Convert values to numeric format
+  SummaryGrossOutputIO[] <- as.data.frame(apply(SummaryGrossOutputIO, 2, as.numeric))
+  
+  # Sector
+  SectorGrossOutput <- getBEASectorGrossOutput2012Schema()
+  # Attach IO industry
+  SectorGDPIndustrytoIO <- utils::read.table(system.file("inst/extdata", "Crosswalk_SectorGDPIndustrytoIO2012Schema.csv", package = "useeior"),
+                                             sep = ",", header = TRUE)
+  SectorGrossOutputIO <- cbind(SectorGDPIndustrytoIO, SectorGrossOutput)
+  # Keep Summary rows
+  SectorGrossOutputIO <- SectorGrossOutputIO[!SectorGrossOutputIO$BEA_2012_Sector_Code == "", c("BEA_2012_Sector_Code", year_range)]
+  # Assign rownames as sector code
+  rownames(SectorGrossOutputIO) <- SectorGrossOutputIO[, 1]
+  SectorGrossOutputIO[, 1] <- NULL
+  # Convert values to numeric format
+  SectorGrossOutputIO[] <- as.data.frame(apply(SectorGrossOutputIO, 2, as.numeric))
+  
+  # Put GrossOutputIO tables in the GrossOutputIOList
+  GrossOutputIOList <- list(DetailGrossOutputIO, SummaryGrossOutputIO, SectorGrossOutputIO)
+  names(GrossOutputIOList) <- c("Detail", "Summary", "Sector")
+  return(GrossOutputIOList)
+}
+
 
 
 #' Get Detail BEA U.Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
@@ -550,6 +606,76 @@ Summary_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Summary"]]
 usethis::use_data(Summary_CPI_IO, overwrite = TRUE)
 Sector_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Sector"]]
 usethis::use_data(Sector_CPI_IO, overwrite = TRUE)
+
+
+#' Adjust CPI from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
+#' @return A list contains IO-based CPI at Detail, Summary, and Sector IO levels.
+adjustBEACPItoIOIndustry2012Schema <- function () {
+  # Detail
+  DetailCPI <- getBEADetailCPI2012Schema()
+  # Determine year range
+  year_range <- colnames(DetailCPI)[2:ncol(DetailCPI)]
+  # Attach BEA Detail industry code
+  DetailGDPIndustrytoIO <- utils::read.table(system.file("inst/extdata", "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv", package = "useeior"),
+                                             sep = ",", header = TRUE)
+  DetailCPIIO <- merge(DetailGDPIndustrytoIO, DetailCPI, by = "Gross_Output_Detail_Industry", all.y = TRUE)
+  # Convert values to numeric format
+  DetailCPIIO[, year_range] <- as.data.frame(apply(DetailCPIIO[, year_range], 2, as.numeric))
+  # Adjust (weighted average) CPI based on DetailGrossOutput
+  # DetailGrossOutput
+  DetailGrossOutput <- getBEADetailGrossOutput2012Schema()
+  DetailGrossOutput[, year_range] <- as.data.frame(apply(DetailGrossOutput[, year_range], 2, as.numeric))
+  # Merge CPI with GrossOutput
+  DetailCPIIO <- merge(DetailCPIIO, DetailGrossOutput, by = "Gross_Output_Detail_Industry")
+  # Calculate weighted average of CPI
+  for (code in unique(DetailCPIIO[, "BEA_2012_Detail_Code"])) {
+    for (year in year_range) {
+      DetailCPIIO[DetailCPIIO$BEA_2012_Detail_Code == code, year] <- stats::weighted.mean(DetailCPIIO[DetailCPIIO$BEA_2012_Detail_Code == code, paste(year, "x", sep = ".")],
+                                                                                          DetailCPIIO[DetailCPIIO$BEA_2012_Detail_Code == code, paste(year, "y", sep = ".")])
+    }
+  }
+  # Aggregate CPI by BEA_2012_Detail_Code
+  DetailCPIIO <- stats::aggregate(DetailCPIIO[, year_range], by = list(DetailCPIIO$BEA_2012_Detail_Code), mean)
+  # Assign rownames as sector code
+  rownames(DetailCPIIO) <- DetailCPIIO[, 1]
+  DetailCPIIO[, 1] <- NULL
+  
+  # Summary
+  SummaryCPI <- getBEASummaryCPI2012Schema()
+  # Attach BEA Detail industry code
+  SummaryGDPIndustrytoIO <- utils::read.table(system.file("inst/extdata", "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv", package = "useeior"),
+                                              sep = ",", header = TRUE)
+  SummaryCPIIO <- cbind(SummaryGDPIndustrytoIO, SummaryCPI)
+  # Keep Summary rows
+  SummaryCPIIO <- SummaryCPIIO[!SummaryCPIIO$BEA_2012_Summary_Code == "", c("BEA_2012_Summary_Code", year_range)]
+  # Assign rownames as sector code
+  rownames(SummaryCPIIO) <- SummaryCPIIO[, 1]
+  SummaryCPIIO[, 1] <- NULL
+  # Convert values to numeric format
+  SummaryCPIIO[] <- as.data.frame(apply(SummaryCPIIO, 2, as.numeric))
+  
+  # Sector
+  SectorCPI <- getBEASectorCPI2012Schema()
+  # Attach BEA Detail industry code
+  SectorGDPIndustrytoIO <- utils::read.table(system.file("inst/extdata", "Crosswalk_SectorGDPIndustrytoIO2012Schema.csv", package = "useeior"),
+                                             sep = ",", header = TRUE)
+  SectorCPIIO <- cbind(SectorGDPIndustrytoIO, SectorCPI)
+  # Keep Sector rows
+  SectorCPIIO <- SectorCPIIO[!SectorCPIIO$BEA_2012_Sector_Code == "", c("BEA_2012_Sector_Code", year_range)]
+  # Assign rownames as sector code
+  rownames(SectorCPIIO) <- SectorCPIIO[, 1]
+  SectorCPIIO[, 1] <- NULL
+  # Convert values to numeric format
+  SectorCPIIO[] <- as.data.frame(apply(SectorCPIIO, 2, as.numeric))
+  
+  # Put CPIIO tables in the CPIIOList
+  CPIIOList <- list(DetailCPIIO, SummaryCPIIO, SectorCPIIO)
+  names(CPIIOList) <- c("Detail", "Summary", "Sector")
+  return(CPIIOList)
+}
+
+
+
 
 # Get BEA (Detail/Summary/Sector) Code and Name under 2012 schema
 getBEACodeName2012Schema <- function () {

@@ -4,10 +4,12 @@
 \alias{getNAICStoBEAAllocation}
 \title{Determine allocation factors between NAICS and BEA sectors based on IO output.}
 \usage{
-getNAICStoBEAAllocation(year)
+getNAICStoBEAAllocation(year, model)
 }
 \arguments{
 \item{year}{Year of model Industry output.}
+
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
 A table of allocation factors between NAICS and BEA sectors.

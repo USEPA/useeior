@@ -17,18 +17,19 @@ getAdjustedOutput <- function (outputyear, referenceyear, location_acronym, IsRo
         Output <- model$IndustryOutput[model$IndustryOutput$Location=="RoUS", c("SectorCode", as.character(outputyear)), drop = FALSE]
         rownames(Output) <- Output$SectorCode
       } else {
-        Output <- model$IndustryOutput[model$IndustryOutput$Location==location_acronym, c("SectorCode", as.character(outputyear)), drop = FALSE]
-      }
-    } else {
+        Output <- model$IndustryOutput[model$IndustryOutput$Location==location_acronym, 
+                                       c("SectorCode", as.character(outputyear)), drop = FALSE]
+             }
+    #} else {
       # This is if model is using calculated state demand
-      Output <- getStateIndustryOutput(model$specs$PrimaryRegionAcronym, outputyear)
-      row.names(Output) <- Output[,"BEACode"]
-      if(IsRoUS == TRUE) {
-        Output$RoUS <- Output$US - Output$SoI
-        Output <- Output[, c("BEACode", "RoUS")]
-      } else {
-        Output <- Output[, c("BEACode", "SoI")]
-      }
+      # Output <- getStateIndustryOutput(model$specs$PrimaryRegionAcronym, outputyear)
+      #row.names(Output) <- Output[,"BEACode"]
+      #if(IsRoUS == TRUE) {
+      #  Output$RoUS <- Output$US - Output$SoI
+      #  Output <- Output[, c("BEACode", "RoUS")]
+      #} else {
+      # Output <- Output[, c("BEACode", "SoI")]
+      #}
     }
   }
   colnames(Output) <- c("SectorCode", "Output")
@@ -127,24 +128,26 @@ generateCommodityCPIforYear <- function(year, model) {
   return(CommodityCPI)
 }
 
-#' Generate non-scrap ratios
-#' @return A datframe with rows being model industries and a column for "non_scrap_ratios" for that industry.
-generateNonScrapRatios <- function() {
-  # Merge scrap from model Make transactions and Industry output
-  V_scrap <- model$MakeTransactions[, ModelScrapCode, drop = FALSE]
-  V_scrap_total <- merge(V_scrap, model$BEA$MakeIndustryOutput, by = 0)
-  IndustryTotalCode <- colnames(model$BEA$MakeIndustryOutput)
-  V_scrap_total[,"nonscrap_ratio"] <- (V_scrap_total[,IndustryTotalCode]-V_scrap_total[, ModelScrapCode])/V_scrap_total[, IndustryTotalCode]
-  row.names(V_scrap_total) <- V_scrap_total[,"Row.names"]
-  non_scrap_ratios <- V_scrap_total[,"nonscrap_ratio", drop=FALSE]
-  return(non_scrap_ratios)
-}
+# Function not used in model
+# #' Generate non-scrap ratios
+# #' @return A dataframe with rows being model industries and a column for "non_scrap_ratios" for that industry.
+# generateNonScrapRatios <- function() {
+#   # Merge scrap from model Make transactions and Industry output
+#   V_scrap <- model$MakeTransactions[, ModelScrapCode, drop = FALSE]
+#   V_scrap_total <- merge(V_scrap, model$BEA$MakeIndustryOutput, by = 0)
+#   IndustryTotalCode <- colnames(model$BEA$MakeIndustryOutput)
+#   V_scrap_total[,"nonscrap_ratio"] <- (V_scrap_total[,IndustryTotalCode]-V_scrap_total[, ModelScrapCode])/V_scrap_total[, IndustryTotalCode]
+#   row.names(V_scrap_total) <- V_scrap_total[,"Row.names"]
+#   non_scrap_ratios <- V_scrap_total[,"nonscrap_ratio", drop=FALSE]
+#   return(non_scrap_ratios)
+# }
 
 #' Transform Direct Requirements matrix with Market Shares matrix, works for both commodity-by-commodity and industry-by-industry model types.
 #' @param B Marginal impact per unit of the environmental flows.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param D Market Shares matrix.
 #' @return Direct Requirements matrix.
-transformDirectRequirementswithMarketShares <- function (B, D) {
+transformDirectRequirementswithMarketShares <- function (B, D, model) {
   # Only generate result if the column names of the direct requirements table match the row names of the market shares matrix
   if (all(colnames(B) == rownames(D)) && all(colnames(D) == rownames(B))) {
 
@@ -185,23 +188,23 @@ calculateLeontiefInverse <- function(A) {
   return(L)
 }
 
-#' Generate output-based allocation factors for a dataframe of BEA codes and a grouping variable.
-#' @param codeswithgroups A dataframe contains two columns: "Code" and "Group".
-#' @return A dataframe contains codes, groups, and allocation factors.
-generateOutputBasedAllocationFactorsByGroup <- function(codeswithgroups) {
-  # Get output in desired year and that same currency year
-  output <- getAdjustedOutput(year, year, location_acronym, model)
-  # Merge with output
-  codeswithgroupswithoutput <- merge(codeswithgroups, output, by.x = "Code", by.y = 0)
-  # Aggregate based on group to get sums of output by group
-  outputbygroup <- stats::aggregate(codeswithgroupswithoutput$output, by = list(codeswithgroupswithoutput$Group), sum)
-  colnames(outputbygroup) <- c("Group", "Groupoutput")
-  # Merge in output totals by group
-  codeswithgroupswithoutputandgroupoutput <- merge(codeswithgroupswithoutput,outputbygroup, by = "Group")
-  codeswithgroupswithoutputandgroupoutput$allocationfactor <- codeswithgroupswithoutputandgroupoutput$output/codeswithgroupswithoutputandgroupoutput$Groupoutput
-  codeswithgroupsandallocation <- codeswithgroupswithoutputandgroupoutput[,c("Code","Group","allocationfactor")]
-  return(codeswithgroupsandallocation)
-}
+# #' Generate output-based allocation factors for a dataframe of BEA codes and a grouping variable.
+# #' @param codeswithgroups A dataframe contains two columns: "Code" and "Group".
+# #' @return A dataframe contains codes, groups, and allocation factors.
+# generateOutputBasedAllocationFactorsByGroup <- function(codeswithgroups) {
+#   # Get output in desired year and that same currency year
+#   output <- getAdjustedOutput(year, year, location_acronym, model)
+#   # Merge with output
+#   codeswithgroupswithoutput <- merge(codeswithgroups, output, by.x = "Code", by.y = 0)
+#   # Aggregate based on group to get sums of output by group
+#   outputbygroup <- stats::aggregate(codeswithgroupswithoutput$output, by = list(codeswithgroupswithoutput$Group), sum)
+#   colnames(outputbygroup) <- c("Group", "Groupoutput")
+#   # Merge in output totals by group
+#   codeswithgroupswithoutputandgroupoutput <- merge(codeswithgroupswithoutput,outputbygroup, by = "Group")
+#   codeswithgroupswithoutputandgroupoutput$allocationfactor <- codeswithgroupswithoutputandgroupoutput$output/codeswithgroupswithoutputandgroupoutput$Groupoutput
+#   codeswithgroupsandallocation <- codeswithgroupswithoutputandgroupoutput[,c("Code","Group","allocationfactor")]
+#   return(codeswithgroupsandallocation)
+# }
 
 #No need for use with refactor
 # getUseDetailwithCommoditiesOnly = function() {
@@ -227,21 +230,24 @@ generateOutputBasedAllocationFactorsByGroup <- function(codeswithgroups) {
 #   }
 # }
 
-#' Determine proportion of Imports in Industr use.
-#' @return A dataframe contains "imports_used_by_industry", "total_used_by_industry", and "import_ratio_of_industry_use".
-getIndustryUseofImportedCommodities <- function() {
-  ImportDetail <- getImportDetailwithUseCommodities()
-  TotalIndustryUseofImportedCommoditiesfromImportDetail <- ImportDetail[, "T001"]
-  UseDetail <- getUseDetailwithCommoditiesOnly()
-  TotalIndustryUseofCommoditiesfromUseDetail <- UseDetail[, "T001"]
-  proportion_imports_in_industryuse <- cbind(TotalIndustryUseofImportedCommoditiesfromImportDetail,TotalIndustryUseofCommoditiesfromUseDetail)
-  proportion_imports_in_industryuse[, "import_ratio"] <- proportion_imports_in_industryuse[, 1]/proportion_imports_in_industryuse[, 2]
-  colnames(proportion_imports_in_industryuse) <- c("imports_used_by_industry", "total_used_by_industry", "import_ratio_of_industry_use")
-  return (proportion_imports_in_industryuse)
-}
 
-#' Adjust multi-year USEEIO gross output by model-specified currency year.
-#' @return A dataframe contains adjusted multi-year USEEIO gross output.
+
+# Commenting out because the functions called on are already commented out
+# #' Determine proportion of Imports in Industry use.
+# #' @return A dataframe contains "imports_used_by_industry", "total_used_by_industry", and "import_ratio_of_industry_use".
+# getIndustryUseofImportedCommodities <- function() {
+#   ImportDetail <- getImportDetailwithUseCommodities()
+#   TotalIndustryUseofImportedCommoditiesfromImportDetail <- ImportDetail[, "T001"]
+#   UseDetail <- getUseDetailwithCommoditiesOnly()
+#   TotalIndustryUseofCommoditiesfromUseDetail <- UseDetail[, "T001"]
+#   proportion_imports_in_industryuse <- cbind(TotalIndustryUseofImportedCommoditiesfromImportDetail,TotalIndustryUseofCommoditiesfromUseDetail)
+#   proportion_imports_in_industryuse[, "import_ratio"] <- proportion_imports_in_industryuse[, 1]/proportion_imports_in_industryuse[, 2]
+#   colnames(proportion_imports_in_industryuse) <- c("imports_used_by_industry", "total_used_by_industry", "import_ratio_of_industry_use")
+#   return (proportion_imports_in_industryuse)
+# }
+
+# #' Adjust multi-year USEEIO gross output by model-specified currency year.
+# #' @return A dataframe contains adjusted multi-year USEEIO gross output.
 # adjustUSEEIOGrossOutputbyCPIYear <- function () {
 #   GrossOutput <- model$GDP$BEAGrossOutputIO
 #   for (year in colnames(GrossOutput)) {
@@ -250,126 +256,11 @@ getIndustryUseofImportedCommodities <- function() {
 #   return(GrossOutput)
 # }
 
-#' Adjust gross output from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
-#' @return A list contains IO-based gross output at Detail, Summary, and Sector IO levels.
-adjustBEAGrossOutouttoIOIndustry2012Schema <- function () {
-  # Detail
-  DetailGrossOutput <- getBEADetailGrossOutput2012Schema()
-  # Determine year range
-  year_range <- colnames(DetailGrossOutput)[2:ncol(DetailGrossOutput)]
-  # Attach BEA Detail industry code
-  DetailGDPIndustrytoIO <- utils::read.table(system.file("extdata", "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv", package = "useeior"),
-                                             sep = ",", header = TRUE)
-  DetailGrossOutputIO <- merge(DetailGDPIndustrytoIO, DetailGrossOutput, by = "Gross_Output_Detail_Industry", all.y = TRUE)
-  # Convert values to numeric format
-  DetailGrossOutputIO[, year_range] <- as.data.frame(apply(DetailGrossOutputIO[, year_range], 2, as.numeric))
-  # Aggregate by BEA Detail industry code
-  DetailGrossOutputIO <- stats::aggregate(DetailGrossOutputIO[, year_range], by = list(DetailGrossOutputIO$BEA_2012_Detail_Code), sum)
-  # Assign rownames as sector code
-  rownames(DetailGrossOutputIO) <- DetailGrossOutputIO[, 1]
-  DetailGrossOutputIO[, 1] <- NULL
-
-  # Summary
-  SummaryGrossOutput <- getBEASummaryGrossOutput2012Schema()
-  # Attach IO industry
-  SummaryGDPIndustrytoIO <- utils::read.table(system.file("extdata", "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv", package = "useeior"),
-                                              sep = ",", header = TRUE)
-  SummaryGrossOutputIO <- cbind(SummaryGDPIndustrytoIO, SummaryGrossOutput)
-  # Keep Summary rows
-  SummaryGrossOutputIO <- SummaryGrossOutputIO[!SummaryGrossOutputIO$BEA_2012_Summary_Code == "", c("BEA_2012_Summary_Code", year_range)]
-  # Assign rownames as sector code
-  rownames(SummaryGrossOutputIO) <- SummaryGrossOutputIO[, 1]
-  SummaryGrossOutputIO[, 1] <- NULL
-  # Convert values to numeric format
-  SummaryGrossOutputIO[] <- as.data.frame(apply(SummaryGrossOutputIO, 2, as.numeric))
-
-  # Sector
-  SectorGrossOutput <- getBEASectorGrossOutput2012Schema()
-  # Attach IO industry
-  SectorGDPIndustrytoIO <- utils::read.table(system.file("extdata", "Crosswalk_SectorGDPIndustrytoIO2012Schema.csv", package = "useeior"),
-                                             sep = ",", header = TRUE)
-  SectorGrossOutputIO <- cbind(SectorGDPIndustrytoIO, SectorGrossOutput)
-  # Keep Summary rows
-  SectorGrossOutputIO <- SectorGrossOutputIO[!SectorGrossOutputIO$BEA_2012_Sector_Code == "", c("BEA_2012_Sector_Code", year_range)]
-  # Assign rownames as sector code
-  rownames(SectorGrossOutputIO) <- SectorGrossOutputIO[, 1]
-  SectorGrossOutputIO[, 1] <- NULL
-  # Convert values to numeric format
-  SectorGrossOutputIO[] <- as.data.frame(apply(SectorGrossOutputIO, 2, as.numeric))
-
-  # Put GrossOutputIO tables in the GrossOutputIOList
-  GrossOutputIOList <- list(DetailGrossOutputIO, SummaryGrossOutputIO, SectorGrossOutputIO)
-  names(GrossOutputIOList) <- c("Detail", "Summary", "Sector")
-  return(GrossOutputIOList)
-}
 
 
 
-#' Adjust CPI from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
-#' @return A list contains IO-based CPI at Detail, Summary, and Sector IO levels.
-adjustBEACPItoIOIndustry2012Schema <- function () {
-  # Detail
-  DetailCPI <- getBEADetailCPI2012Schema()
-  # Determine year range
-  year_range <- colnames(DetailCPI)[2:ncol(DetailCPI)]
-  # Attach BEA Detail industry code
-  DetailGDPIndustrytoIO <- utils::read.table(system.file("extdata", "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv", package = "useeior"),
-                                             sep = ",", header = TRUE)
-  DetailCPIIO <- merge(DetailGDPIndustrytoIO, DetailCPI, by = "Gross_Output_Detail_Industry", all.y = TRUE)
-  # Convert values to numeric format
-  DetailCPIIO[, year_range] <- as.data.frame(apply(DetailCPIIO[, year_range], 2, as.numeric))
-  # Adjust (weighted average) CPI based on DetailGrossOutput
-  # DetailGrossOutput
-  DetailGrossOutput <- getBEADetailGrossOutput2012Schema()
-  DetailGrossOutput[, year_range] <- as.data.frame(apply(DetailGrossOutput[, year_range], 2, as.numeric))
-  # Merge CPI with GrossOutput
-  DetailCPIIO <- merge(DetailCPIIO, DetailGrossOutput, by = "Gross_Output_Detail_Industry")
-  # Calculate weighted average of CPI
-  for (code in unique(DetailCPIIO[, "BEA_2012_Detail_Code"])) {
-    for (year in year_range) {
-      DetailCPIIO[DetailCPIIO$BEA_2012_Detail_Code == code, year] <- stats::weighted.mean(DetailCPIIO[DetailCPIIO$BEA_2012_Detail_Code == code, paste(year, "x", sep = ".")],
-                                                                                         DetailCPIIO[DetailCPIIO$BEA_2012_Detail_Code == code, paste(year, "y", sep = ".")])
-    }
-  }
-  # Aggregate CPI by BEA_2012_Detail_Code
-  DetailCPIIO <- stats::aggregate(DetailCPIIO[, year_range], by = list(DetailCPIIO$BEA_2012_Detail_Code), mean)
-  # Assign rownames as sector code
-  rownames(DetailCPIIO) <- DetailCPIIO[, 1]
-  DetailCPIIO[, 1] <- NULL
 
-  # Summary
-  SummaryCPI <- getBEASummaryCPI2012Schema()
-  # Attach BEA Detail industry code
-  SummaryGDPIndustrytoIO <- utils::read.table(system.file("extdata", "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv", package = "useeior"),
-                                              sep = ",", header = TRUE)
-  SummaryCPIIO <- cbind(SummaryGDPIndustrytoIO, SummaryCPI)
-  # Keep Summary rows
-  SummaryCPIIO <- SummaryCPIIO[!SummaryCPIIO$BEA_2012_Summary_Code == "", c("BEA_2012_Summary_Code", year_range)]
-  # Assign rownames as sector code
-  rownames(SummaryCPIIO) <- SummaryCPIIO[, 1]
-  SummaryCPIIO[, 1] <- NULL
-  # Convert values to numeric format
-  SummaryCPIIO[] <- as.data.frame(apply(SummaryCPIIO, 2, as.numeric))
 
-  # Sector
-  SectorCPI <- getBEASectorCPI2012Schema()
-  # Attach BEA Detail industry code
-  SectorGDPIndustrytoIO <- utils::read.table(system.file("extdata", "Crosswalk_SectorGDPIndustrytoIO2012Schema.csv", package = "useeior"),
-                                             sep = ",", header = TRUE)
-  SectorCPIIO <- cbind(SectorGDPIndustrytoIO, SectorCPI)
-  # Keep Sector rows
-  SectorCPIIO <- SectorCPIIO[!SectorCPIIO$BEA_2012_Sector_Code == "", c("BEA_2012_Sector_Code", year_range)]
-  # Assign rownames as sector code
-  rownames(SectorCPIIO) <- SectorCPIIO[, 1]
-  SectorCPIIO[, 1] <- NULL
-  # Convert values to numeric format
-  SectorCPIIO[] <- as.data.frame(apply(SectorCPIIO, 2, as.numeric))
-
-  # Put CPIIO tables in the CPIIOList
-  CPIIOList <- list(DetailCPIIO, SummaryCPIIO, SectorCPIIO)
-  names(CPIIOList) <- c("Detail", "Summary", "Sector")
-  return(CPIIOList)
-}
 
 #' Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
