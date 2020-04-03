@@ -5,8 +5,7 @@
 \title{Map resource and emission names in a standardized satellite table to new names by name and category.
 Must set original source before getting this information.}
 \usage{
-mapFlowbyNameandCategory(originalname, originalcategory = "",
-  sattablemeta)
+mapFlowbyNameandCategory(originalname, originalcategory = "", sattablemeta)
 }
 \arguments{
 \item{originalname}{Original name of flows.}

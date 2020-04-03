@@ -4,7 +4,8 @@
 \name{ModelConfiguration}
 \alias{ModelConfiguration}
 \title{Model Configuration - Main attributes}
-\format{A list of main model attributes.
+\format{
+A list of main model attributes.
 \describe{
  \item{Model}{string, Name of the model using standard naming scheme}
  \item{BaseIOSchema}{numeric, value indicating yea of the base BEA IO schema, 2007 or 2012}
@@ -21,7 +22,8 @@
  \item{SatelliteTable}{named list of satellite table objects named by table acynonyms. @seealso [SatelliteTableConfiguration]}
  \item{Demand}{list. @seealso [DemandConfiguration]}
  \item{Indicators}{named list of indicators by indicator acronym.  @seealso [IndicatorConfiguration]}
-}}
+}
+}
 \usage{
 ModelConfiguration
 }

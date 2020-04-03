@@ -4,7 +4,9 @@
 \name{Sector_CommodityCodeName_2012}
 \alias{Sector_CommodityCodeName_2012}
 \title{Sector Commodity Code and Name (2012 schema)}
-\format{A dataframe with 17 obs. and 2 variables}
+\format{
+A dataframe with 17 obs. and 2 variables
+}
 \source{
 \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 }

@@ -4,8 +4,14 @@
 \alias{generateFlowtoDollarCoefficient}
 \title{Calculates intensity coefficient (kg/$) for a standard satellite table.}
 \usage{
-generateFlowtoDollarCoefficient(sattable, outputyear, referenceyear,
-  location_acronym, IsRoUS = FALSE, model)
+generateFlowtoDollarCoefficient(
+  sattable,
+  outputyear,
+  referenceyear,
+  location_acronym,
+  IsRoUS = FALSE,
+  model
+)
 }
 \arguments{
 \item{sattable}{A standardized satellite table with resource and emission names from original sources.}

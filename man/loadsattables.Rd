@@ -3,7 +3,8 @@
 \name{loadsattables}
 \alias{loadsattables}
 \title{Load satellite tables in a list based on model.}
-\format{A list with lists of totals by sector and formatted satellite tables
+\format{
+A list with lists of totals by sector and formatted satellite tables
 \describe{
  \itemize{
    \item totals_by_sector
@@ -51,7 +52,8 @@
        \item MetaOther
      }
  }
-}}
+}
+}
 \usage{
 loadsattables(model)
 }
