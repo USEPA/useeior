@@ -39,11 +39,11 @@ loadBEAtables <- function(specs) {
   
   # Separate Make and Use tables into specific tables
   BEA$MakeTransactions <- BEA$Make[BEA$Industries, BEA$Commodities] * 1E6 # data frame, values are in dollars ($)
-  BEA$MakeIndustryOutput <- rowSums(BEA$MakeTransactions) # data frame, values are in dollars ($)
+  BEA$MakeIndustryOutput <- as.data.frame(rowSums(BEA$MakeTransactions)) # data frame, values are in dollars ($)
   BEA$UseTransactions <- BEA$Use[BEA$Commodities, BEA$Industries] * 1E6 # data frame, values are in dollars ($)
   BEA$UseFinalDemand <- BEA$Use[BEA$Commodities, BEA$FinalDemandCodes] * 1E6 # data frame, values are in dollars ($)
   BEA$UseValueAdded <- BEA$Use[BEA$ValueAddedCodes, BEA$Industries] * 1E6 # data frame, values are in dollars ($)
-  BEA$UseCommodityOutput <- rowSums(cbind(BEA$UseTransactions, BEA$UseFinalDemand)) # data frame, values are in dollars ($)
+  BEA$UseCommodityOutput <- as.data.frame(rowSums(cbind(BEA$UseTransactions, BEA$UseFinalDemand))) # data frame, values are in dollars ($)
   if (specs$BaseIOLevel=="Sector") {
     Import <- get(paste("Summary_Import", specs$IOYear, "BeforeRedef", sep = "_"))
     # Aggregate ImportTrasactions from Summary to Sector
