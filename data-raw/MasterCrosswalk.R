@@ -211,32 +211,44 @@ getMasterCrosswalk <- function (year) {
   BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[, Columns]
   BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[order(BEAtoUSEEIOtoNAICS[, paste("NAICS_", year, "_Code", sep = "")]), ]
   
-  # Add NAICS 2007/2012 Code column
-  # Download the 2007 and 2012 NAICS code concordances (6-digit)
-  FileName <- "inst/extdata/2012_to_2007_NAICS.xls"
-  if(!file.exists(FileName)) {
-    utils::download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2007_NAICS.xls", FileName, mode = "wb")
+  # Add 2007 and 2017 NAICS Code column
+  # Download 2012 to 2007 NAICS code concordance (6-digit)
+  NAICS2012to2007_filename <- "inst/extdata/2012_to_2007_NAICS.xls"
+  if(!file.exists(NAICS2012to2007_filename)) {
+    utils::download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2007_NAICS.xls",
+                         NAICS2012to2007_filename, mode = "wb")
   }
-  NAICS2007to2012 <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE, skip = 2))
-  NAICS2007to2012 <- as.data.frame(sapply(NAICS2007to2012[, c("2012 NAICS Code", "2007 NAICS Code")], as.factor))
-  ColNames <- colnames(NAICS2007to2012) <- c("NAICS_2012_Code", "NAICS_2007_Code")
-  # Generate 2007 and 2012 NAICS code concordances at 2-5 digits
-  NAICS2007to2012_2digit <- unique(do.call("cbind.data.frame", lapply(NAICS2007to2012, function(x) substr(x, 1, 2))))
-  NAICS2007to2012_3digit <- unique(do.call("cbind.data.frame", lapply(NAICS2007to2012, function(x) substr(x, 1, 3))))
-  NAICS2007to2012_4digit <- unique(do.call("cbind.data.frame", lapply(NAICS2007to2012, function(x) substr(x, 1, 4))))
-  NAICS2007to2012_5digit <- unique(do.call("cbind.data.frame", lapply(NAICS2007to2012, function(x) substr(x, 1, 5))))
-  # Assemble 2007 and 2012 NAICS code concordances at 2-6 digits
-  NAICS2007to2012all <- rbind(setNames(NAICS2007to2012_2digit, ColNames), setNames(NAICS2007to2012_3digit, ColNames),
-                              setNames(NAICS2007to2012_4digit, ColNames), setNames(NAICS2007to2012_5digit, ColNames),
-                              NAICS2007to2012)
-  NAICS2007to2012all[] <- lapply(NAICS2007to2012all, as.character)
-  # Merge BEAtoUSEEIOtoNAICS with NAICS2007to2012
+  # Download 2012 to 2017 NAICS code concordance (6-digit)
+  NAICS2012to2017_filename <- "inst/extdata/2012_to_2017_NAICS.xlsx"
+  if(!file.exists(NAICS2012to2017_filename)) {
+    utils::download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2017_NAICS.xlsx",
+                         NAICS2012to2017_filename, mode = "wb")
+  }
+  # Load 2012 to 2007 NAICS
+  NAICS2012to2007 <- as.data.frame(readxl::read_excel(NAICS2012to2007_filename, sheet = 1, col_names = TRUE, skip = 2))
+  # Load 2012 to 2017 NAICS
+  NAICS2012to2017 <- as.data.frame(readxl::read_excel(NAICS2012to2017_filename, sheet = 1, col_names = TRUE, skip = 2))
+  # Merge to get 2012-2007-2017 NAICS table
+  NAICS2012to2007to2017 <- merge(NAICS2012to2007[, c("2012 NAICS Code", "2007 NAICS Code")],
+                                 NAICS2012to2017[, c("2012 NAICS Code", "2017 NAICS Code")],
+                                 by = "2012 NAICS Code")
+  colnames(NAICS2012to2007to2017) <- paste("NAICS", c(2012, 2007, 2017), "Code", sep = "_")
+  # Generate 2012-2007-2017 NAICS code concordance at 2-5 digits
+  NAICS2012to2007to2017all <- data.frame()
+  for (digit in c(2:5)) {
+    NAICS2012to2007to2017_bydigit <- unique(do.call("cbind.data.frame",lapply(NAICS2012to2007to2017, function(x) substr(x, 1, digit))))
+    NAICS2012to2007to2017_bydigit[] <- lapply(NAICS2012to2007to2017_bydigit, as.character)
+    NAICS2012to2007to2017all <- rbind(NAICS2012to2007to2017all, NAICS2012to2007to2017_bydigit)
+  }
+  # Assemble 2012-2007-2017 NAICS code concordances at 2-6 digits
+  NAICS2012to2007to2017all <- rbind(NAICS2012to2007to2017all, NAICS2012to2007to2017)
+  # Merge BEAtoUSEEIOtoNAICS with NAICS2012to2007to2017all
   if (year==2007) {
-    MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2007to2012all, by = "NAICS_2007_Code", all = TRUE)
+    MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2012to2007to2017all, by = "NAICS_2007_Code", all = TRUE)
     MasterCrosswalk <- MasterCrosswalk[, c(colnames(BEAtoUSEEIOtoNAICS), "NAICS_2012_Code")]
   } else {
-    MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2007to2012all, by = "NAICS_2012_Code", all = TRUE)
-    MasterCrosswalk <- MasterCrosswalk[, c(colnames(BEAtoUSEEIOtoNAICS), "NAICS_2007_Code")]
+    MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2012to2007to2017all, by = "NAICS_2012_Code", all = TRUE)
+    MasterCrosswalk <- MasterCrosswalk[, c(colnames(BEAtoUSEEIOtoNAICS), "NAICS_2007_Code", "NAICS_2017_Code")]
     # Include 7-, 8-, and 10-digit NAICS (from Census for manufacturing and mining sectors)
     CensusNAICS <- utils::read.table("inst/extdata/CensusNAICSManufacturingMining_2012.csv",
                                      sep = ",", header = TRUE, stringsAsFactors = FALSE)
@@ -257,7 +269,7 @@ getMasterCrosswalk <- function (year) {
 }
 
 MasterCrosswalk2012 <- getMasterCrosswalk(2012)
-MasterCrosswalk2012 <- MasterCrosswalk2012[, c(paste("BEA_2012", c("Sector_Code", "Summary_Code", "Detail_Code"), sep = "_"),
-                                               paste(c("NAICS_2012", "NAICS_2007"), "Code", sep = "_"))]
+MasterCrosswalk2012 <- MasterCrosswalk2012[, c(paste("BEA_2012", c("Sector", "Summary", "Detail"), "Code", sep = "_"),
+                                               paste("NAICS", c(2012, 2007, 2017), "Code", sep = "_"))]
 usethis::use_data(MasterCrosswalk2012, overwrite = T)
 
