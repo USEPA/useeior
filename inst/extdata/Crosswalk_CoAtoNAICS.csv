@@ -1,130 +1,164 @@
-ActivitySourceName,Activity,SectorSourceName,Sector,SectorType
-COA_2012,crop production,NAICS_2012_Code,11100000,I
-COA_2012,oilseed and grain farming,NAICS_2012_Code,11110000,I
-COA_2012,soybean farming,NAICS_2012_Code,11111000,I
-COA_2012,oilseed (except soybean) farming,NAICS_2012_Code,11112000,I
-COA_2012,canola,NAICS_2012_Code,1111200A,I
-COA_2012,flaxseed,NAICS_2012_Code,1111200B,I
-COA_2012,mustard,NAICS_2012_Code,1111200C,I
-COA_2012,rapeseed,NAICS_2012_Code,1111200D,I
-COA_2012,safflower,NAICS_2012_Code,1111200E,I
-COA_2012,sesame,NAICS_2012_Code,1111200F,I
-COA_2012,sunflower,NAICS_2012_Code,1111200G,I
-COA_2012,dry pea and bean farming,NAICS_2012_Code,11113000,I
-COA_2012,austrian winter peas,NAICS_2012_Code,1111300A,I
-COA_2012,dry edible (excl lima) beans,NAICS_2012_Code,1111300B,I
-COA_2012,dry edible lima beans,NAICS_2012_Code,1111300C,I
-COA_2012,dry edible peas,NAICS_2012_Code,1111300D,I
-COA_2012,dry southern (cowpeas) peas,NAICS_2012_Code,1111300E,I
-COA_2012,lentils,NAICS_2012_Code,1111300F,I
-COA_2012,mung beans,NAICS_2012_Code,1111300G,I
-COA_2012,wheat farming,NAICS_2012_Code,11114000,I
-COA_2012,corn farming,NAICS_2012_Code,11115000,I
-COA_2012,corn for grain,NAICS_2012_Code,1111500A,I
-COA_2012,corn for silage,NAICS_2012_Code,1111500B,I
-COA_2012,popcorn,NAICS_2012_Code,1111500C,I
-COA_2012,rice farming,NAICS_2012_Code,11116000,I
-COA_2012,other grain farming,NAICS_2012_Code,11119000,I
-COA_2012,barley,NAICS_2012_Code,1111900A,I
-COA_2012,buckwheat,NAICS_2012_Code,1111900B,I
-COA_2012,millet,NAICS_2012_Code,1111900C,I
-COA_2012,oats,NAICS_2012_Code,1111900D,I
-COA_2012,rye,NAICS_2012_Code,1111900E,I
-COA_2012,sorghum for grain,NAICS_2012_Code,1111900F,I
-COA_2012,sorghum for silage,NAICS_2012_Code,1111900G,I
-COA_2012,sorghum for syrup,NAICS_2012_Code,1111900H,I
-COA_2012,sweet rice,NAICS_2012_Code,1111900J,I
-COA_2012,triticale,NAICS_2012_Code,1111900K,I
-COA_2012,wild rice,NAICS_2012_Code,1111900L,I
-COA_2012,vegetable and melon farming,NAICS_2012_Code,11121000,I
-COA_2012,potato farming,NAICS_2012_Code,11121100,I
-COA_2012,other vegetable (except potato) and melon farming,NAICS_2012_Code,11121900,I
-COA_2012,camelina,NAICS_2012_Code,1112190A,I
-COA_2012,ginseng,NAICS_2012_Code,1112190B,I
-COA_2012,lotus root,NAICS_2012_Code,1112190C,I
-COA_2012,sweet potatoes,NAICS_2012_Code,1112190D,I
-COA_2012,taro,NAICS_2012_Code,1112190E,I
-COA_2012,fruit and tree nut farming,NAICS_2012_Code,11130000,I
-COA_2012,berry totals,NAICS_2012_Code,1113340A,I
-COA_2012,other noncitrus fruit farming,NAICS_2012_Code,11133900,I
-COA_2012,pineapples,NAICS_2012_Code,1113390A,I
-COA_2012,greenhouse nursery and floriculture production,NAICS_2012_Code,11140000,I
-COA_2012,cut christmas trees,NAICS_2012_Code,1114210A,I
-COA_2012,short term woody crops,NAICS_2012_Code,1114210B,I
-COA_2012,horticulture totals (excl cut trees),NAICS_2012_Code,11143000,I
-COA_2012,other crop farming,NAICS_2012_Code,11190000,I
-COA_2012,tobacco farming,NAICS_2012_Code,11191000,I
-COA_2012,cotton,NAICS_2012_Code,11192000,I
-COA_2012,sugarcane farming,NAICS_2012_Code,11193000,I
-COA_2012,sugarcane for seed,NAICS_2012_Code,1119300A,I
-COA_2012,sugarcane for sugar,NAICS_2012_Code,1119300B,I
-COA_2012,hay farming,NAICS_2012_Code,11194000,I
-COA_2012,hay and haylage,NAICS_2012_Code,1119400A,I
-COA_2012,haylage,NAICS_2012_Code,1119400B,I
-COA_2012,all other crop farming,NAICS_2012_Code,11199000,I
-COA_2012,dill for oil,NAICS_2012_Code,1119900A,I
-COA_2012,ginger root,NAICS_2012_Code,1119900B,I
-COA_2012,grasses & legumes totals,NAICS_2012_Code,1119900C,I
-COA_2012,guar,NAICS_2012_Code,1119900D,I
-COA_2012,herbs dry,NAICS_2012_Code,1119900E,I
-COA_2012,hops,NAICS_2012_Code,1119900F,I
-COA_2012,jojoba,NAICS_2012_Code,1119900G,I
-COA_2012,mint for all utilization practices,NAICS_2012_Code,1119900H,I
-COA_2012,peanuts,NAICS_2012_Code,1119900J,I
-COA_2012,sugarbeets for all utilization practices,NAICS_2012_Code,1119900K,I
-COA_2012,sugarbeets for seed,NAICS_2012_Code,1119900L,I
-COA_2012,sweet corn for seed,NAICS_2012_Code,1119900M,I
-COA_2012,animal production,NAICS_2012_Code,11200000,I
-COA_2012,cattle ranching and farming,NAICS_2012_Code,11210000,I
-COA_2012,beef cattle ranching and farming including feedlots ,NAICS_2012_Code,11211000,I
-COA_2012,bison ,NAICS_2012_Code,1121100A,I
-COA_2012,cattle incl calves ,NAICS_2012_Code,1121100B,I
-COA_2012,beef cattle ranching and farming,NAICS_2012_Code,11211100,I
-COA_2012,cattle feedlots,NAICS_2012_Code,11211200,I
-COA_2012,dairy cattle and milk production,NAICS_2012_Code,11212000,I
-COA_2012,cattle cows milk ,NAICS_2012_Code,1121200A,I
-COA_2012,hog and pig farming,NAICS_2012_Code,11220000,I
-COA_2012,hogs ,NAICS_2012_Code,1122000A,I
-COA_2012,poultry and egg production,NAICS_2012_Code,11230000,I
-COA_2012,chicken egg production,NAICS_2012_Code,11231000,I
-COA_2012,chickens layers ,NAICS_2012_Code,1123100A,I
-COA_2012,broilers and other meat-type chicken production,NAICS_2012_Code,11232000,I
-COA_2012,chickens broilers ,NAICS_2012_Code,1123200A,I
-COA_2012,chickens pullets replacement ,NAICS_2012_Code,1123200B,I
-COA_2012,chickens roosters ,NAICS_2012_Code,1123200C,I
-COA_2012,turkey production,NAICS_2012_Code,11233000,I
-COA_2012,turkeys ,NAICS_2012_Code,1123300A,I
-COA_2012,poultry hatcheries,NAICS_2012_Code,11234000,I
-COA_2012,other poultry production,NAICS_2012_Code,11239000,I
-COA_2012,chukars ,NAICS_2012_Code,1123900A,I
-COA_2012,ducks ,NAICS_2012_Code,1123900B,I
-COA_2012,emus ,NAICS_2012_Code,1123900C,I
-COA_2012,geese ,NAICS_2012_Code,1123900D,I
-COA_2012,guineas ,NAICS_2012_Code,1123900E,I
-COA_2012,ostriches ,NAICS_2012_Code,1123900F,I
-COA_2012,partridges hungarian ,NAICS_2012_Code,1123900G,I
-COA_2012,peafowl hens & cocks ,NAICS_2012_Code,1123900H,I
-COA_2012,pheasants ,NAICS_2012_Code,1123900J,I
-COA_2012,pigeons & squab ,NAICS_2012_Code,1123900K,I
-COA_2012,poultry other ,NAICS_2012_Code,1123900L,I
-COA_2012,quail ,NAICS_2012_Code,1123900M,I
-COA_2012,rheas ,NAICS_2012_Code,1123900N,I
-COA_2012,sheep and goat farming,NAICS_2012_Code,11240000,I
-COA_2012,sheep farming,NAICS_2012_Code,11241000,I
-COA_2012,sheep incl lambs ,NAICS_2012_Code,1124100A,I
-COA_2012,goat farming,NAICS_2012_Code,11242000,I
-COA_2012,goats ,NAICS_2012_Code,1124200A,I
-COA_2012,animal aquaculture,NAICS_2012_Code,11250000,I
-COA_2012,other animal production,NAICS_2012_Code,11290000,I
-COA_2012,apiculture,NAICS_2012_Code,11291000,I
-COA_2012,horse and other equine production,NAICS_2012_Code,11292000,I
-COA_2012,equine horses & ponies ,NAICS_2012_Code,1129200A,I
-COA_2012,equine mules & burros & donkeys ,NAICS_2012_Code,1129200B,I
-COA_2012,fur-bearing animal and rabbit production,NAICS_2012_Code,11293000,I
-COA_2012,mink live ,NAICS_2012_Code,1129300A,I
-COA_2012,rabbits live ,NAICS_2012_Code,1129300B,I
-COA_2012,all other animal production,NAICS_2012_Code,11299000,I
-COA_2012,alpacas ,NAICS_2012_Code,1129900A,I
-COA_2012,deer ,NAICS_2012_Code,1129900B,I
-COA_2012,elk ,NAICS_2012_Code,1129900C,I
-COA_2013,llamas ,NAICS_2012_Code,1129900D,I
+"ActivitySourceName","Activity","SectorSourceName","Sector","SectorType"
+"USDA_CoA","AG LAND","NAICS_2012_Code","11000000",""
+"USDA_CoA","AG LAND, CROPLAND","NAICS_2012_Code","11100000",""
+"USDA_CoA","FIELD CROPS, OTHER","NAICS_2012_Code","1110000A",""
+"USDA_CoA","Oilseed and Grain Farming","NAICS_2012_Code","11110000",""
+"USDA_CoA","SOYBEANS","NAICS_2012_Code","11111000",""
+"USDA_CoA","Oilseed (except Soybean) Farming","NAICS_2012_Code","11112000",""
+"USDA_CoA","CANOLA","NAICS_2012_Code","1111200A",""
+"USDA_CoA","FLAXSEED","NAICS_2012_Code","1111200B",""
+"USDA_CoA","MUSTARD","NAICS_2012_Code","1111200C",""
+"USDA_CoA","RAPESEED","NAICS_2012_Code","1111200D",""
+"USDA_CoA","SAFFLOWER","NAICS_2012_Code","1111200E",""
+"USDA_CoA","SESAME","NAICS_2012_Code","1111200F",""
+"USDA_CoA","SUNFLOWER","NAICS_2012_Code","1111200G",""
+"USDA_CoA","Dry Pea and Bean Farming","NAICS_2012_Code","11113000",""
+"USDA_CoA","BEANS, DRY EDIBLE, (EXCL LIMA), INCL CHICKPEAS","NAICS_2012_Code","1111300A",""
+"USDA_CoA","BEANS, DRY EDIBLE, (EXCL CHICKPEAS & LIMA)","NAICS_2012_Code","1111300B",""
+"USDA_CoA","BEANS, DRY EDIBLE, LIMA","NAICS_2012_Code","1111300C",""
+"USDA_CoA","CHICKPEAS","NAICS_2012_Code","1111300D",""
+"USDA_CoA","LENTILS","NAICS_2012_Code","1111300E",""
+"USDA_CoA","PEAS, AUSTRIAN WINTER","NAICS_2012_Code","1111300F",""
+"USDA_CoA","PEAS, DRY EDIBLE","NAICS_2012_Code","1111300G",""
+"USDA_CoA","PEAS, DRY, SOUTHERN (COWPEAS)","NAICS_2012_Code","1111300H",""
+"USDA_CoA","WHEAT","NAICS_2012_Code","11114000",""
+"USDA_CoA","CORN","NAICS_2012_Code","11115000",""
+"USDA_CoA","CORN, GRAIN","NAICS_2012_Code","1111500A",""
+"USDA_CoA","CORN, SILAGE","NAICS_2012_Code","1111500B",""
+"USDA_CoA","POPCORN","NAICS_2012_Code","1111500C",""
+"USDA_CoA","RICE","NAICS_2012_Code","11116000",""
+"USDA_CoA","SMALL GRAINS, WHEAT & BARLEY & OATS & RYE","NAICS_2012_Code","11119000",""
+"USDA_CoA","BARLEY","NAICS_2012_Code","1111900A",""
+"USDA_CoA","BUCKWHEAT","NAICS_2012_Code","1111900B",""
+"USDA_CoA","MILLET, PROSO","NAICS_2012_Code","1111900C",""
+"USDA_CoA","OATS","NAICS_2012_Code","1111900D",""
+"USDA_CoA","RYE","NAICS_2012_Code","1111900E",""
+"USDA_CoA","SORGHUM, GRAIN","NAICS_2012_Code","1111900F",""
+"USDA_CoA","SORGHUM, SILAGE","NAICS_2012_Code","1111900G",""
+"USDA_CoA","SORGHUM, SYRUP","NAICS_2012_Code","1111900H",""
+"USDA_CoA","TRITICALE","NAICS_2012_Code","1111900I",""
+"USDA_CoA","WILD RICE","NAICS_2012_Code","1111900J",""
+"USDA_CoA","Oilseed and Grain Combination Farming","NAICS_2012_Code","11119100",""
+"USDA_CoA","All Other Grain Farming","NAICS_2012_Code","11119900",""
+"USDA_CoA","Vegetable and Melon Farming","NAICS_2012_Code","11120000",""
+"USDA_CoA","VEGETABLE TOTALS","NAICS_2012_Code","11121000",""
+"USDA_CoA","Potato Farming","NAICS_2012_Code","11121100",""
+"USDA_CoA","CATTLE, ON FEED","NAICS_2012_Code","1112112",""
+"USDA_CoA","Other Vegetable (except Potato) and Melon Farming","NAICS_2012_Code","11121900",""
+"USDA_CoA","ORCHARDS","NAICS_2012_Code","11130000",""
+"USDA_CoA","BERRY TOTALS","NAICS_2012_Code","1113000A",""
+"USDA_CoA","Orange Groves","NAICS_2012_Code","11131000",""
+"USDA_CoA","Citrus (except Orange) Groves","NAICS_2012_Code","11132000",""
+"USDA_CoA","Noncitrus Fruit and Tree Nut Farming","NAICS_2012_Code","11133000",""
+"USDA_CoA","Apple Orchards","NAICS_2012_Code","11133100",""
+"USDA_CoA","Grape Vineyards","NAICS_2012_Code","11133200",""
+"USDA_CoA","Strawberry Farming","NAICS_2012_Code","11133300",""
+"USDA_CoA","Berry (except Strawberry) Farming","NAICS_2012_Code","11133400",""
+"USDA_CoA","Tree Nut Farming","NAICS_2012_Code","11133500",""
+"USDA_CoA","Fruit and Tree Nut Combination Farming","NAICS_2012_Code","11133600",""
+"USDA_CoA","Other Noncitrus Fruit Farming","NAICS_2012_Code","11133900",""
+"USDA_CoA","HORTICULTURE TOTALS","NAICS_2012_Code","11140000",""
+"USDA_CoA","SHORT TERM WOODY CROPS","NAICS_2012_Code","1114008",""
+"USDA_CoA","CUT CHRISTMAS TREES","NAICS_2012_Code","111400A",""
+"USDA_CoA","Food Crops Grown Under Cover","NAICS_2012_Code","11141000",""
+"USDA_CoA","Mushroom Production","NAICS_2012_Code","11141100",""
+"USDA_CoA","Other Food Crops Grown Under Cover","NAICS_2012_Code","11141900",""
+"USDA_CoA","Nursery and Floriculture Production","NAICS_2012_Code","11142000",""
+"USDA_CoA","Nursery and Tree Production","NAICS_2012_Code","11142100",""
+"USDA_CoA","Floriculture Production","NAICS_2012_Code","11142200",""
+"USDA_CoA","CROPS, OTHER","NAICS_2012_Code","11190000",""
+"USDA_CoA","TOBACCO","NAICS_2012_Code","11191000",""
+"USDA_CoA","COTTON","NAICS_2012_Code","11192000",""
+"USDA_CoA","Sugarcane Farming","NAICS_2012_Code","11193000",""
+"USDA_CoA","SUGARCANE, SUGAR","NAICS_2012_Code","1119300A",""
+"USDA_CoA","SUGARCANE, SEED","NAICS_2012_Code","1119300B",""
+"USDA_CoA","HAY & HAYLAGE","NAICS_2012_Code","11194000",""
+"USDA_CoA","HAY & HAYLAGE (EXCL ALFALFA)","NAICS_2012_Code","1119400A",""
+"USDA_CoA","HAY & HAYLAGE, ALFALFA","NAICS_2012_Code","1119400B",""
+"USDA_CoA","HAY","NAICS_2012_Code","11194010",""
+"USDA_CoA","HAY (EXCL ALFALFA)","NAICS_2012_Code","1119401A",""
+"USDA_CoA","HAY, ALFALFA","NAICS_2012_Code","1119401B",""
+"USDA_CoA","HAYLAGE","NAICS_2012_Code","11194020",""
+"USDA_CoA","HAYLAGE (EXCL ALFALFA)","NAICS_2012_Code","1119402A",""
+"USDA_CoA","HAYLAGE, ALFALFA","NAICS_2012_Code","1119402B",""
+"USDA_CoA","All Other Crop Farming","NAICS_2012_Code","11199000",""
+"USDA_CoA","DILL","NAICS_2012_Code","1119900A",""
+"USDA_CoA","GRASSES & LEGUMES TOTALS","NAICS_2012_Code","1119900C",""
+"USDA_CoA","GUAR","NAICS_2012_Code","1119900D",""
+"USDA_CoA","HERBS, DRY","NAICS_2012_Code","1119900E",""
+"USDA_CoA","HOPS","NAICS_2012_Code","1119900F",""
+"USDA_CoA","JOJOBA","NAICS_2012_Code","1119900G",""
+"USDA_CoA","MISCANTHUS","NAICS_2012_Code","1119900H",""
+"USDA_CoA","PEANUTS","NAICS_2012_Code","1119900I",""
+"USDA_CoA","SUGARBEETS","NAICS_2012_Code","1119900J",""
+"USDA_CoA","Sugar Beet Farming","NAICS_2012_Code","11199100",""
+"USDA_CoA","Peanut Farming","NAICS_2012_Code","11199200",""
+"USDA_CoA","All Other Miscellaneous Crop Farming","NAICS_2012_Code","11199800",""
+"USDA_CoA","AG LAND, PASTURELAND","NAICS_2012_Code","11200000",""
+"USDA_CoA","Cattle Ranching and Farming","NAICS_2012_Code","11210000",""
+"USDA_CoA","Beef Cattle Ranching and Farming, including Feedlots","NAICS_2012_Code","11211000",""
+"USDA_CoA","BISON","NAICS_2012_Code","1121100A",""
+"USDA_CoA","CATTLE, (EXCL COWS)","NAICS_2012_Code","1121100B",""
+"USDA_CoA","CATTLE, COWS","NAICS_2012_Code","1121100C",""
+"USDA_CoA","CATTLE, INCL CALVES","NAICS_2012_Code","1121100D",""
+"USDA_CoA","CATTLE, COWS, BEEF","NAICS_2012_Code","11211100",""
+"USDA_CoA","Cattle Feedlots","NAICS_2012_Code","11211200",""
+"USDA_CoA","Dairy Cattle and Milk Production","NAICS_2012_Code","11212000",""
+"USDA_CoA","CATTLE, COWS, MILK","NAICS_2012_Code","1121200A",""
+"USDA_CoA","Dual-Purpose Cattle Ranching and Farming","NAICS_2012_Code","11213000",""
+"USDA_CoA","Hog and Pig Farming","NAICS_2012_Code","11220000",""
+"USDA_CoA","HOGS","NAICS_2012_Code","11221000",""
+"USDA_CoA","Poultry and Egg Production","NAICS_2012_Code","11230000",""
+"USDA_CoA","Chicken Egg Production","NAICS_2012_Code","11231000",""
+"USDA_CoA","CHICKENS, LAYERS","NAICS_2012_Code","1123100A",""
+"USDA_CoA","Broilers and Other Meat Type Chicken Production","NAICS_2012_Code","11232000",""
+"USDA_CoA","CHICKENS, BROILERS","NAICS_2012_Code","1123200A",""
+"USDA_CoA","CHICKENS, PULLETS, REPLACEMENT","NAICS_2012_Code","1123200B",""
+"USDA_CoA","CHICKENS, ROOSTERS","NAICS_2012_Code","1123200C",""
+"USDA_CoA","TURKEYS","NAICS_2012_Code","11233000",""
+"USDA_CoA","Poultry Hatcheries","NAICS_2012_Code","11234000",""
+"USDA_CoA","Other Poultry Production","NAICS_2012_Code","11239000",""
+"USDA_CoA","CHUKARS","NAICS_2012_Code","1123900A",""
+"USDA_CoA","DUCKS","NAICS_2012_Code","1123900B",""
+"USDA_CoA","EMUS","NAICS_2012_Code","1123900C",""
+"USDA_CoA","GEESE","NAICS_2012_Code","1123900D",""
+"USDA_CoA","GUINEAS","NAICS_2012_Code","1123900E",""
+"USDA_CoA","OSTRICHES","NAICS_2012_Code","1123900F",""
+"USDA_CoA","PARTRIDGES, HUNGARIAN","NAICS_2012_Code","1123900G",""
+"USDA_CoA","PEAFOWL, HENS & COCKS","NAICS_2012_Code","1123900H",""
+"USDA_CoA","PHEASANTS","NAICS_2012_Code","1123900J",""
+"USDA_CoA","PIGEONS & SQUAB","NAICS_2012_Code","1123900K",""
+"USDA_CoA","POULTRY, OTHER","NAICS_2012_Code","1123900L",""
+"USDA_CoA","QUAIL","NAICS_2012_Code","1123900M",""
+"USDA_CoA","RHEAS","NAICS_2012_Code","1123900N",""
+"USDA_CoA","SHEEP & GOATS TOTALS","NAICS_2012_Code","11240000",""
+"USDA_CoA","SHEEP, INCL LAMBS","NAICS_2012_Code","11241000",""
+"USDA_CoA","GOATS","NAICS_2012_Code","11242000",""
+"USDA_CoA","Aquaculture","NAICS_2012_Code","11250000",""
+"USDA_CoA","AQUACULTURE TOTALS","NAICS_2012_Code","11251000",""
+"USDA_CoA","Finfish Farming and Fish Hatcheries","NAICS_2012_Code","11251100",""
+"USDA_CoA","FOOD FISH, CATFISH","NAICS_2012_Code","1125110A",""
+"USDA_CoA","FOOD FISH, TROUT","NAICS_2012_Code","1125110B",""
+"USDA_CoA","FOOD FISH, (EXCL CATFISH & TROUT)","NAICS_2012_Code","1125110C",""
+"USDA_CoA","BAITFISH","NAICS_2012_Code","1125110D",""
+"USDA_CoA","ORNAMENTAL FISH","NAICS_2012_Code","1125110E",""
+"USDA_CoA","SPORT FISH","NAICS_2012_Code","1125110F",""
+"USDA_CoA","Shellfish Farming","NAICS_2012_Code","11251200",""
+"USDA_CoA","CRUSTACEANS","NAICS_2012_Code","1125120A",""
+"USDA_CoA","MOLLUSKS","NAICS_2012_Code","1125120B",""
+"USDA_CoA","AQUACULTURE, OTHER","NAICS_2012_Code","11251900",""
+"USDA_CoA","Other Animal Production","NAICS_2012_Code","11290000",""
+"USDA_CoA","Apiculture","NAICS_2012_Code","11291000",""
+"USDA_CoA","HONEY","NAICS_2012_Code","1129100A",""
+"USDA_CoA","HONEY, BEE COLONIES","NAICS_2012_Code","1129100B",""
+"USDA_CoA","EQUINE, (HORSES & PONIES) & (MULES & BURROS & DONKEYS)","NAICS_2012_Code","11292000",""
+"USDA_CoA","EQUINE, HORSES AND POINIES","NAICS_2012_Code","1129200A",""
+"USDA_CoA","EQUINE, MULES & BURROS & DONKEYS","NAICS_2012_Code","1129200B",""
+"USDA_CoA","Fur-Bearing Animal and Rabbit Production","NAICS_2012_Code","11293000",""
+"USDA_CoA","MINK, LIVE","NAICS_2012_Code","1129300A",""
+"USDA_CoA","RABBITS, LIVE","NAICS_2012_Code","1129300B",""
+"USDA_CoA","All Other Animal Production","NAICS_2012_Code","11299000",""
+"USDA_CoA","ALPACAS","NAICS_2012_Code","1129900A",""
+"USDA_CoA","DEER","NAICS_2012_Code","1129900B",""
+"USDA_CoA","ELK","NAICS_2012_Code","1129900C",""
+"USDA_CoA","LLAMAS","NAICS_2012_Code","1129900D",""
