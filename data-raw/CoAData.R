@@ -267,14 +267,15 @@ getCoANAICS8 <- funciton(){
   # drop naics name column
   df_m2 <-df_m2[ , c("NAICS_Code","Activity")]
   
-  # rename/add columns to match format used in FLOWSA
-  df_m2$ActivitySourceName <- 'USDA_CoA'
-  df_m2$SectorSourceName <- "NAICS_2012_Code"
-  df_m2$SectorType <- ''
-  names(df_m2)[names(df_m2) == 'NAICS_Code'] <- 'Sector'
+  # rename/add columns
+  names(df_m2)[names(df_m2) == 'NAICS_Code'] <- 'NAICS_2012_Code'
+  #df_m2$ActivitySourceName <- 'USDA_CoA'
+  #df_m2$SectorSourceName <- "NAICS_2012_Code"
+  #df_m2$SectorType <- ''
+  #names(df_m2)[names(df_m2) == 'NAICS_Code'] <- 'Sector'
   
   # reorder df
-  CoAtoNAICS <- df_m2[,c("ActivitySourceName", "Activity", "SectorSourceName", "Sector", "SectorType")]
+  CoAtoNAICS <- df_m2[,c("NAICS_2012_Code", "Activity")]
   
   # write as csv
   
