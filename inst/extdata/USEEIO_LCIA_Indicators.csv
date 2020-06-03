@@ -1,28 +1,28 @@
-Full name,Abbreviation,Category,Units
-Acid Rain,ACID,Impact Potential,kg SO2-eq
-Eutrophication,EUTR,Impact Potential,kg N-eq
-Freshwater Aquatic Ecotoxicity,ETOX,Impact Potential,CTUe
-Greenhouse Gases,GHG,Impact Potential,kg CO2-eq
-Major Greenhouse Gases,MGHG,Impact Potential,kg CO2-eq
-Other Greenhouse Gases,OGHG,Impact Potential,kg CO2-eq
-Human Health - Cancer,HCAN,Impact Potential,CTUh
-Human Health - Noncancer,HNCN,Impact Potential,CTUh
-Human Health Toxicity,HTOX,Impact Potential,CTUh
-Human Health - Respiratory Effects,HRSP,Impact Potential,kg PM2.5-eq
-Ozone Depletion,OZON,Impact Potential,kg CFC-11-eq
-Smog Formation,SMOG,Impact Potential,kg O3-eq
-Nonrenewable Energy Use,NNRG,Resource Use,MJ
-Renewable Energy Use,RNRG,Resource Use,MJ
-Energy Use,ENRG,Resource Use,MJ
-Land Use,LAND,Resource Use,m2*yr
-Water Use,WATR,Resource Use,m3
-Minerals and Metals Use,MNRL,Resource Use,kg
-Pesticides,PEST,Chemical Releases,kg
-Metals,METL,Chemical Releases,kg
-Hazardous Air Pollutants,HAPS,Chemical Releases,kg
-Value Added,VADD,Economic & Social,$
-Jobs Supported,JOBS,Economic & Social,jobs
-Commercial RCRA Hazardous Waste,CRHW,Waste Generated,kg
-Commercial Municipal Solid Waste,CMSW,Waste Generated,kg
-Food in Commercial Municipal Solid Waste,FMSW,Waste Generated,kg
-Commercial Construction and Demolition Debris,CCDD,Waste Generated,kg
+Full name,Short name,Abbreviation,Category,Units,Icon
+Acid Rain,Acid Rain,ACID,Impact Potential,kg SO2-eq,
+Eutrophication,Water Eutrophication,EUTR,Impact Potential,kg N-eq,
+Freshwater Aquatic Ecotoxicity,Freshwater Ecotoxicity,ETOX,Impact Potential,CTUe,
+Greenhouse Gases,Greenhouse Gases,GHG,Impact Potential,kg CO2-eq,
+Major Greenhouse Gases,Major Greenhouse Gases,MGHG,Impact Potential,kg CO2-eq,
+Other Greenhouse Gases,Other Greenhouse Gases,OGHG,Impact Potential,kg CO2-eq,
+Human Health - Cancer,Cancer disease,HCAN,Impact Potential,CTUh,
+Human Health - Noncancer,Noncancer disease,HNCN,Impact Potential,CTUh,
+Human Health - Toxicity,Toxic to Humans,HTOX,Impact Potential,CTUh,
+Human Health - Respiratory Effects,Respiratory Effects,HRSP,Impact Potential,kg PM2.5-eq,
+Ozone Depletion,Ozone Depletion,OZON,Impact Potential,kg CFC-11-eq,
+Smog Formation,Smog Formation,SMOG,Impact Potential,kg O3-eq,
+Nonrenewable Energy Use,Nonrenewable Energy Use,NNRG,Resource Use,MJ,
+Renewable Energy Use,Renewable Energy Use,RNRG,Resource Use,MJ,
+Energy Use,Energy Use,ENRG,Resource Use,MJ,
+Land Use,Land Use,LAND,Resource Use,m2*yr,
+Water Use,Water Use,WATR,Resource Use,m3,
+Minerals and Metals Use,Minerals and Metals Use,MNRL,Resource Use,kg,
+Pesticides,Pesticides,PEST,Chemical Releases,kg,
+Metals,Metals,METL,Chemical Releases,kg,
+Hazardous Air Pollutants,Air Pollutants,HAPS,Chemical Releases,kg,
+Value Added,Value Added,VADD,Economic & Social,$,
+Jobs Supported,Jobs Supported,JOBS,Economic & Social,jobs,
+Commercial RCRA Hazardous Waste,Hazardous Waste,CRHW,Waste Generated,kg,
+Commercial Municipal Solid Waste,Municipal Solid Waste,CMSW,Waste Generated,kg,
+Food in Commercial Municipal Solid Waste,Food Waste,FMSW,Waste Generated,kg,
+Commercial Construction and Demolition Debris,Construction Debris,CCDD,Waste Generated,kg,
