@@ -9,7 +9,37 @@
 #' @return a dataframe with the originalMake table modified.
 modifyMakeTable <- function(newSectorCode, similarSectorCode, percentage, originalMake){
   
-  originalMake
+  modMake<-originalMake
+  #Determine number of sectors
+  n<- ncol(modMake)-1
+  
+  #Add column of zeros and assign col name(the code)
+  colZeros<- rep(0, times=n+1)
+  modMake<-cbind(modMake[,1:n],colZeros,modMake[,-(1:n)])
+  colnames(modMake)[n+1]<- newSectorCode
+  #Not clear why it changes the name, but I put it again
+  colnames(modMake)[n+2]<-"T008"
+
+  #Add row of zeros and assign row name(the code)
+  rowZeros<- rep(0, times=n+2)
+  modMake<-rbind(modMake[1:n,],rowZeros,modMake[-(1:n),])
+  rownames(modMake)[n+1]<- newSectorCode
+  
+  #Get row and column of similar sector
+  rowS<-which(rownames(modMake)==similarSectorCode)
+  colS<-which(colnames(modMake)==similarSectorCode)
+  
+  #Fill row
+  
+  valToDist<-modMake[rowS,colS]
+  modMake[n+1,n+1]<- valToDist*percentage
+  modMake[rowS,colS]<- valToDist*(1-percentage)
+
+  # Recalculate totals
+  modMake[n+2,]<-colSums(modMake[1:(n+1),]) #sum over rows for each column
+  modMake[,n+2]<-rowSums(modMake[,1:(n+1)]) #sum over columns for each row
+  
+  modMake
 }
 
 #' This function modifies the pre-saved Use table for adding one new bioeconomy sector
