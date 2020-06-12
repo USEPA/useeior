@@ -15,16 +15,21 @@ model <- useeior::buildEEIOModel('USEEIOv2.0-GHG')
 
 # Obtain Input purchases from similar sector
 simSectorCode<-"324110"
-inputPurchases<- model$Use[1:405, simSectorCode]
+#inputPurchases<- c(model$Use[1:405, simSectorCode],0)
+inputPurchases<- c(rep(0,405),1)
 colSim<-which(colnames(model$Use)==simSectorCode)
-envVector<-model$B[,colSim] 
-
+#envVector<-model$B[,colSim] 
+envVector<-rep(0,15) 
 #Modify model
 source("R/BioeconomyFunctions.R")
-debug(createBioeconomyModel)
-createBioeconomyModel(model,newSectorCode="324110B",newSectorName="LignoCelullosic Biofuels", similarSectorCode=simSectorCode,percentage=0.2, inputPurchases, newEnvData=envVector)
+model<-createBioeconomyModel(model,newSectorCode="324110B",newSectorName="LignoCelullosic Biofuels", similarSectorCode=simSectorCode,percentage=0.9, inputPurchases, newEnvData=envVector)
+#Calculate model
+result2 <- useeior::calculateEEIOModel(model, perspective='DIRECT')
 
+#for testing
+result2$LCIA_d["324110B",1]
+result2$LCIA_d["324110",1]
+result$LCIA_d["324110",1]
 
-
-result <- useeior::calculateEEIOModel(model, perspective='DIRECT')
+#Print results
 useeior::writeModelComponents(model)
