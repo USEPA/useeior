@@ -7,10 +7,12 @@
 #' @param percentage numeric that refers to the % of output of the original sector that new sector will produce.
 #' @param originalMake dataframe with the Make table obtained in buildEEIOModel().
 #' @return a dataframe with the originalMake table modified.
+#' 
+#' Example: modifyMakeTable("prueba","324110",0.2,model$Make)
 modifyMakeTable <- function(newSectorCode, similarSectorCode, percentage, originalMake){
   
   modMake<-originalMake
-  #Determine number of sectors
+  #Determine number of sectors in originalMake
   n<- ncol(modMake)-1
   
   #Add column of zeros and assign col name(the code)
@@ -50,9 +52,83 @@ modifyMakeTable <- function(newSectorCode, similarSectorCode, percentage, origin
 #' of the new sector.
 #' @param originalUse dataframe with the Make table obtained in buildEEIOModel().
 #' @return a dataframe with the originalUse table modified.
-modifyUseTable <- function(newSectorCode, similarSectorCode, percentage, inputPurchases, originalUse){
+#' 
+#' Example: modifyUseTable("prueba","324110",0.2,rep(1,times=406),model$Use)
+modifyUseTable <- function(newSectorCode, similarSectorCode, percentage, inputPurchases, originalUse, newTotalIndustryOutput){
   
-  originalUse
+  modUse<-originalUse
+  #Determine number of sectors in originalUse
+  n<- nrow(modUse)-6
+  
+  #Add column of zeros and assign col name(the code)
+  colZeros<- rep(0, times=n+6)
+  modUse<-cbind(modUse[,1:n],colZeros,modUse[,-(1:n)])
+  colnames(modUse)[n+1]<- newSectorCode
+  
+  #Add row of zeros and assign row name(the code)
+  rowZeros<- rep(0, times=(n+1)+23)
+  modUse<-rbind(modUse[1:n,],rowZeros,modUse[-(1:n),])
+  rownames(modUse)[n+1]<- newSectorCode
+  
+  #Get row and column of similar sector
+  rowS<-which(rownames(modUse)==similarSectorCode)
+  colS<-which(colnames(modUse)==similarSectorCode)
+  
+  #Fill row n+1- cycle over columns
+  for(j in 1:n){
+    useSim<- modUse[rowS,j]
+    modUse[n+1,j]<-useSim*percentage
+    modUse[rowS,j]<-useSim*(1-percentage)
+  }
+  
+  # Change final users demand
+  # For now, assuming the same % for all the 20 categories that compose final users demand
+  
+  initialCol<-(n+1)+2
+  for(j in initialCol:(initialCol+19)){
+    demSim<-modUse[rowS,j]
+    modUse[(n+1),j]<-demSim*percentage
+    modUse[rowS,j]<-demSim*(1-percentage)
+  }
+  
+  #Fill column n+1- cycle over rows
+  
+  for(i in 1:(n+1)){
+    modUse[i,(n+1)]<-inputPurchases[i]
+  }
+  
+  # Recalculate totals
+  
+  #Total intermediate inputs
+  modUse[n+2,]<-colSums(modUse[1:(n+1),]) #sum over rows for each column
+  #Total intermediate use
+  modUse[,n+2]<-rowSums(modUse[,1:(n+1)]) #sum over columns for each row
+  #Total final uses
+  modUse[,(n+1)+22]<-rowSums(modUse[,((n+1)+2):((n+1)+2+19)]) #sum over user demand columns for each row
+  #Total commodity output
+  modUse[,(n+1+23)]<-modUse[,(n+1+1)]+modUse[,(n+1+22)]
+  
+  #Fill value added
+  #' ASSUMPTION: Since the 3 components of value added are not explicitly used nowhere, just calculate the total VA
+  #' for balance purposes and then divide it in 3 for each category
+  
+  #Calculate total value added
+  
+  totalIntermediateInputsNewSector<- modUse[n+2,n+1]
+  totalNewIndustryOutput<- newTotalIndustryOutput
+  totalValueAddedNewSector<- totalNewIndustryOutput-totalIntermediateInputsNewSector
+  
+  #Update Total Value Added
+  modUse[(n+1)+5,n+1]<-totalValueAddedNewSector
+  #Assign 1/3 of Total Value Added for each of the 3 VA categories
+  modUse[(n+1)+2,n+1]<- totalValueAddedNewSector*1/3
+  modUse[(n+1)+3,n+1]<- totalValueAddedNewSector*1/3
+  modUse[(n+1)+4,n+1]<- totalValueAddedNewSector*1/3
+
+  #Total industry output
+  modUse[(n+1)+6,1:(n+1+1)]<-modUse[(n+1)+1,1:(n+1+1)]+modUse[(n+1)+5,1:(n+1+1)]
+  
+  modUse
 }
 
 #' This function modifies the B table created in buildEEIOModel() for adding one new bioeconomy sector
@@ -60,8 +136,17 @@ modifyUseTable <- function(newSectorCode, similarSectorCode, percentage, inputPu
 #' @param newEnvData (# environmental flows x 1) column vector with the data for all the environmental flows per dollar of output for the new sector.
 #' @param originalB B matrix obtained in buildEEIOModel().
 #' @return B matrix modified.
-modifyBmatrix <- function(newsectorCode, newEnvData, originalB){
-  originalB
+modifyBmatrix <- function(newsectorCode, newEnvData, originalB, primaryRegionAcronym){
+  modB<-originalB
+  
+  #Determine number of sectors in originalB
+  n<- ncol(modB)
+  
+  #Add newEnvDataColumn and assign col name (the code)
+  modB<-cbind(modB,newEnvData)
+  colnames(modB)[n+1]<- tolower(paste(newsectorCode, primaryRegionAcronym, sep = "/")) #Unnecesary
+ 
+  modB
 }
 
 
@@ -70,72 +155,82 @@ modifyBmatrix <- function(newsectorCode, newEnvData, originalB){
 #' @param newSectorCode string/character that refers to the code/identifier that will be used for the new sector in the matrices.
 #' @param newSectorName string/character that refers to the name given to the new sector.
 #' @param similarSectorCode string/character that refers to the code/identifier for the similar existing sector.
-#' @param percentage numeric that refers to the % of output of the original sector that new sector will produce.
+#' @param percentage numeric (0,1] that refers to the % of output of the original sector that new sector will produce.
 #' @param inputPurchases (n+1)x 1 column vector with the amount spent in each of the n existing commodities to produce "Total Industry Output"
 #' of the new sector.
 #' @param newEnvData (# environmental flows x 1) column vector with the data for all the environmental flows per dollar of output for the new sector.
 #' When the function runs succesfully, it prints a message that says, "model correctly modyfied. Bioeconomy model correctly created".
 createBioeconomyModel<- function(model,newSectorCode,newSectorName, similarSectorCode,percentage, inputPurchases, newEnvData) {
-  
+  modModel<-model
+
   #Obtain original Make and use tables
-  originalMake<- model$Make
-  originalUse<- model$Use
+  originalMake<- modModel$Make
+  originalUse<- modModel$Use
   
   #Obtain original B matrix
-  originalB<- model$B
+  originalB<- modModel$B
   
   #Modify Make Table
+  logging::loginfo(paste("Updating Make Table ..."))
   newMake<- modifyMakeTable(newSectorCode, similarSectorCode, percentage, originalMake)
-  model$Make <- newMake
+  modModel$Make <- newMake
+  newNumSec<- nrow(newMake)-1
+  newSectorTotalIndustryOutput<-newMake[newNumSec+1,newNumSec]
   
   #Modify Use Table
-  newUse<- modifyUseTable(newSectorCode, similarSectorCode, percentage, inputPurchases, originalUse)
-  model$Use<- newUse
+  logging::loginfo(paste("Updating Use Table ..."))
+  newUse<- modifyUseTable(newSectorCode, similarSectorCode, percentage, inputPurchases, originalUse, newSectorTotalIndustryOutput)
+  modModel$Use<- newUse
   
   #Update model Industries, Commodities
-  model$Commodities= append(model$Commodities,newSectorCode, after= length(model$Commodities))
-  model$Industries= append(model$Industries,newSectorCode, after= length(model$Industries))
+  modModel$Commodities= append(modModel$Commodities,newSectorCode, after= length(modModel$Commodities))
+  modModel$Industries= append(modModel$Industries,newSectorCode, after= length(modModel$Industries))
   
   # Update model MakeTransactions, UseTransactions, FinalDemand and UseCommodityOutput for normalization
-  model$MakeTransactions <- model$Make[model$Industries, model$Commodities] * 1E6 # data frame, values are in dollars ($)
-  model$UseTransactions <- model$Use[model$Commodities, model$Industries] * 1E6 # data frame, values are in dollars ($)
+  modModel$MakeTransactions <- modModel$Make[modModel$Industries, modModel$Commodities] * 1E6 # data frame, values are in dollars ($)
+  modModel$UseTransactions <- modModel$Use[modModel$Commodities, modModel$Industries] * 1E6 # data frame, values are in dollars ($)
   
-  updatedMakeIndustryOutput <- as.data.frame(rowSums(model$MakeTransactions)) # data frame, values are in dollars ($)
-  model$FinalDemand <- model$Use[model$Commodities, BEA$FinalDemandCodes] * 1E6 # data frame, values are in dollars ($)
+  updatedMakeIndustryOutput <- as.data.frame(rowSums(modModel$MakeTransactions)) # data frame, values are in dollars ($)
+  modModel$FinalDemand <- modModel$Use[modModel$Commodities, modModel$BEA$FinalDemandCodes] * 1E6 # data frame, values are in dollars ($)
   
-  updatedUseCommodityOutput <- as.data.frame(rowSums(cbind(model$UseTransactions, model$FinalDemand))) # data frame, values are in dollars ($)
+  updatedUseCommodityOutput <- as.data.frame(rowSums(cbind(modModel$UseTransactions, modModel$FinalDemand))) # data frame, values are in dollars ($)
   #update model$BEA$UseCommodityOutput because is the one used in generateMarketSharesfromMake()
-  model$BEA$UseCommodityOutput <- updatedUseCommodityOutput
+  modModel$BEA$UseCommodityOutput <- updatedUseCommodityOutput
   
-  updatedMakeIndustryOutput <- as.data.frame(rowSums(model$MakeTransactions)) # data frame, values are in dollars ($)
+  updatedMakeIndustryOutput <- as.data.frame(rowSums(modModel$MakeTransactions)) # data frame, values are in dollars ($)
   #update model$BEA$MakeIndustryOutput because is the one used in generateDirectRequirementsfromUse()
-  model$BEA$MakeIndustryOutput<-updatedMakeIndustryOutput
+  modModel$BEA$MakeIndustryOutput<-updatedMakeIndustryOutput
   
   
   #Re-generate matrices: Not updating for Domestic
+  modModel$V_n <- generateMarketSharesfromMake(modModel) # normalized Make
+  modModel$U_n <- generateDirectRequirementsfromUse(modModel, domestic = FALSE) #normalized Use , Warning: Not updated for domestic!
   
-  model$V_n <- generateMarketSharesfromMake(model) # normalized Make
-  model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use , Warning: Not updated for domestic!
-  
-  updatedUseValueAdded<- model$Use[BEA$ValueAddedCodes, model$Industries] * 1E6 # data frame, values are in dollars ($)
-  model$W <- as.matrix(updatedUseValueAdded)
+  updatedUseValueAdded<- modModel$Use[modModel$BEA$ValueAddedCodes, modModel$Industries] * 1E6 # data frame, values are in dollars ($)
+  modModel$W <- as.matrix(updatedUseValueAdded)
   
   # Assuming CommoditybyIndustryType == "Commodity"
   logging::loginfo(paste("Updating commodityxcommodity direct requirement matrix ..."))
-  model$A <- model$U_n %*% model$V_n
+  modModel$A <- modModel$U_n %*% modModel$V_n
   
   #Modify B matrix
-  newB<- modifyBmatrix(newSectorCode,newEnvData, originalB)
-  model$B<-newB
+  logging::loginfo(paste("Updating B matrix ..."))
+  newB<- modifyBmatrix(newSectorCode,newEnvData, originalB, modModel$specs$PrimaryRegionAcronym)
+  modModel$B<-newB
   
   # Transform B into a flowxcommodity matrix using market shares matrix for commodity models
-  model$B <- model$B %*% model$V_n
-  colnames(model$B) <- tolower(paste(colnames(model$B), model$specs$PrimaryRegionAcronym, sep = "/"))
+  modModel$B <- modModel$B %*% modModel$V_n
+  colnames(modModel$B) <- tolower(paste(colnames(modModel$B), modModel$specs$PrimaryRegionAcronym, sep = "/"))
   
   #Re-calculate Total Requirements Matrix L=(I-A)^(-1)
   logging::loginfo("Re-calculating total requirements matrix...")
-  I <- diag(nrow(model$A))
-  model$L <- solve(I - model$A)
+  I <- diag(nrow(modModel$A))
+  modModel$L <- solve(I - modModel$A)
+  
+  #Update model$SectorNames
+  modModel$SectorNames<-rbind(modModel$SectorNames,c(newSectorCode,newSectorName))
   
   logging::loginfo("model correctly modyfied. Bioeconomy model correctly created.")
+ 
+  return(modModel)
 }
