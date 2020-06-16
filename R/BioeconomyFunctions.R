@@ -227,6 +227,14 @@ createBioeconomyModel<- function(model,newSectorCode,newSectorName, similarSecto
   I <- diag(nrow(modModel$A))
   modModel$L <- solve(I - modModel$A)
   
+  # Re-calculate total emissions/resource use per dollar (M)
+  logging::loginfo("Re-calculating total emissions per dollar matrix...")
+  modModel$M <- modModel$B %*% modModel$L
+  colnames(modModel$M) <- tolower(paste(colnames(modModel$M), modModel$specs$PrimaryRegionAcronym, sep = "/"))
+  
+  # Re-calculate total impacts per dollar (U), impact category x sector
+  modModel$U <- modModel$C %*% modModel$M
+  
   #Update model$SectorNames
   modModel$SectorNames<-rbind(modModel$SectorNames,c(newSectorCode,newSectorName))
   
