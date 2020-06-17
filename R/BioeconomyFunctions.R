@@ -9,7 +9,7 @@
 #' @return a dataframe with the originalMake table modified.
 #' 
 #' Example: modifyMakeTable("prueba","324110",0.2,model$Make)
-modifyMakeTable <- function(newSectorCode, similarSectorCode, percentage, originalMake){
+modifyMakeTable <- function(newSectorCode, similarSectorCode, percentage, originalMake, inputPurchases){
   
   modMake<-originalMake
   #Determine number of sectors in originalMake
@@ -36,6 +36,12 @@ modifyMakeTable <- function(newSectorCode, similarSectorCode, percentage, origin
   valToDist<-modMake[rowS,colS]
   modMake[n+1,n+1]<- valToDist*percentage
   modMake[rowS,colS]<- valToDist*(1-percentage)
+  
+  #Update diagonal entries 
+  #ASSUMPTION: asumming the primary producer produces thE increase in demand caused by the the input requirements for thenew sector
+  for(i in 1:(n+1)){
+    modMake[i,i]<-modMake[i,i]+inputPurchases[i]
+  }
 
   # Recalculate totals
   modMake[n+2,]<-colSums(modMake[1:(n+1),]) #sum over rows for each column
@@ -100,13 +106,13 @@ modifyUseTable <- function(newSectorCode, similarSectorCode, percentage, inputPu
   # Recalculate totals
   
   #Total intermediate inputs
-  modUse[n+2,]<-colSums(modUse[1:(n+1),]) #sum over rows for each column
+  modUse[n+2,1:(n+1)]<-colSums(modUse[1:(n+1),1:(n+1)]) #sum over rows for each column
   #Total intermediate use
-  modUse[,n+2]<-rowSums(modUse[,1:(n+1)]) #sum over columns for each row
+  modUse[1:(n+1),n+2]<-rowSums(modUse[1:(n+1),1:(n+1)]) #sum over columns for each row
   #Total final uses
-  modUse[,(n+1)+22]<-rowSums(modUse[,((n+1)+2):((n+1)+2+19)]) #sum over user demand columns for each row
+  modUse[1:(n+1),(n+1)+2+20]<-rowSums(modUse[1:(n+1),((n+1)+2):((n+1)+2+19)]) #sum over user demand columns for each row
   #Total commodity output
-  modUse[,(n+1+23)]<-modUse[,(n+1+1)]+modUse[,(n+1+22)]
+  modUse[1:(n+1),(n+1+2+21)]<-modUse[1:(n+1),(n+1+1)]+modUse[1:(n+1),(n+1+2+20)]
   
   #Fill value added
   #' ASSUMPTION: Since the 3 components of value added are not explicitly used nowhere, just calculate the total VA
@@ -172,7 +178,7 @@ createBioeconomyModel<- function(model,newSectorCode,newSectorName, similarSecto
   
   #Modify Make Table
   logging::loginfo(paste("Updating Make Table ..."))
-  newMake<- modifyMakeTable(newSectorCode, similarSectorCode, percentage, originalMake)
+  newMake<- modifyMakeTable(newSectorCode, similarSectorCode, percentage, originalMake, inputPurchases)
   modModel$Make <- newMake
   newNumSec<- nrow(newMake)-1
   newSectorTotalIndustryOutput<-newMake[newNumSec+1,newNumSec]
@@ -190,14 +196,20 @@ createBioeconomyModel<- function(model,newSectorCode,newSectorName, similarSecto
   modModel$MakeTransactions <- modModel$Make[modModel$Industries, modModel$Commodities] * 1E6 # data frame, values are in dollars ($)
   modModel$UseTransactions <- modModel$Use[modModel$Commodities, modModel$Industries] * 1E6 # data frame, values are in dollars ($)
   
-  updatedMakeIndustryOutput <- as.data.frame(rowSums(modModel$MakeTransactions)) # data frame, values are in dollars ($)
+  #updatedMakeIndustryOutput <- as.data.frame(rowSums(modModel$MakeTransactions)) # data frame, values are in dollars ($) DON'T REMEMBER IF I DIDN'T ERASE THIS
   modModel$FinalDemand <- modModel$Use[modModel$Commodities, modModel$BEA$FinalDemandCodes] * 1E6 # data frame, values are in dollars ($)
   
+  #This is their original version, obtaining the number from the use table
   updatedUseCommodityOutput <- as.data.frame(rowSums(cbind(modModel$UseTransactions, modModel$FinalDemand))) # data frame, values are in dollars ($)
+  #This is my version obtaining the number for the make table, seems that it is not convenient to use this because sectors S00402 and S00300 has zero Total commodity Output and then there is a problem when dividing by zero
+  #updatedUseCommodityOutput <-modModel$Make[nrow(modModel$Make),1:newNumSec]
   #update model$BEA$UseCommodityOutput because is the one used in generateMarketSharesfromMake()
   modModel$BEA$UseCommodityOutput <- updatedUseCommodityOutput
   
+  #This is their original version, obtaining the number from the make table
   updatedMakeIndustryOutput <- as.data.frame(rowSums(modModel$MakeTransactions)) # data frame, values are in dollars ($)
+  #This is my version obtaining the number for the use table
+  #updatedMakeIndustryOutput <-modModel$Use[nrow(modModel$Use),1:newNumSec]
   #update model$BEA$MakeIndustryOutput because is the one used in generateDirectRequirementsfromUse()
   modModel$BEA$MakeIndustryOutput<-updatedMakeIndustryOutput
   
