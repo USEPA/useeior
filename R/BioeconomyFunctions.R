@@ -1,11 +1,16 @@
 # This script contains the modifications of the Make and Use tables, teh A and B matrices and the Y vector
 # to recalculate the USEEIO model with an additional Bio-economy sector
 
-#' This function modifies the pre-saved Make table for adding one new bioeconomy sector
+#' Modify Make BEA Table.
+#' 
+#' This function modifies the pre-saved Make table for adding one new bioeconomy sector.
+#' 
 #' @param newSectorCode string/character that refers to the code/identifier that will be used for the new sector in the matrices
 #' @param similarSectorCode string/character that refers to the code/identifier for the similar existing sector.
-#' @param percentage numeric that refers to the % of output of the original sector that new sector will produce.
+#' @param percentage numeric that refers to the \% of output of the original sector that new sector will produce.
 #' @param originalMake dataframe with the Make table obtained in buildEEIOModel().
+#' @param inputPurchases (n+1)x 1 column vector with the amount spent in each of the n existing commodities to produce "Total Industry Output"
+#'  of the new sector.
 #' @return a dataframe with the originalMake table modified.
 #' 
 #' Example: modifyMakeTable("prueba","324110",0.2,model$Make)
@@ -50,13 +55,17 @@ modifyMakeTable <- function(newSectorCode, similarSectorCode, percentage, origin
   modMake
 }
 
-#' This function modifies the pre-saved Use table for adding one new bioeconomy sector
+#' Modify Use Table.
+#' 
+#' This function modifies the pre-saved Use table for adding one new bioeconomy sector.
+#' 
 #' @param newSectorCode string/character that refers to the code/identifier that will be used for the new sector in the matrices
 #' @param similarSectorCode string/character that refers to the code/identifier for the similar existing sector.
-#' @param percentage numeric that refers to the % of output of the original sector that new sector will produce.
+#' @param percentage numeric that refers to the \% of output of the original sector that new sector will produce.
 #' @param inputPurchases (n+1)x 1 column vector with the amount spent in each of the n existing commodities to produce "Total Industry Output"
 #' of the new sector.
 #' @param originalUse dataframe with the Make table obtained in buildEEIOModel().
+#' @param newTotalIndustryOutput the Total Industry Output of the new sector obtained from the updated make table.
 #' @return a dataframe with the originalUse table modified.
 #' 
 #' Example: modifyUseTable("prueba","324110",0.2,rep(1,times=406),model$Use)
@@ -115,8 +124,8 @@ modifyUseTable <- function(newSectorCode, similarSectorCode, percentage, inputPu
   modUse[1:(n+1),(n+1+2+21)]<-modUse[1:(n+1),(n+1+1)]+modUse[1:(n+1),(n+1+2+20)]
   
   #Fill value added
-  #' ASSUMPTION: Since the 3 components of value added are not explicitly used nowhere, just calculate the total VA
-  #' for balance purposes and then divide it in 3 for each category
+  # ASSUMPTION: Since the 3 components of value added are not explicitly used nowhere, just calculate the total VA
+  # for balance purposes and then divide it in 3 for each category
   
   #Calculate total value added
   
@@ -141,8 +150,9 @@ modifyUseTable <- function(newSectorCode, similarSectorCode, percentage, inputPu
 #' @param newSectorCode string/character that refers to the code/identifier that will be used for the new sector in the matrices.
 #' @param newEnvData (# environmental flows x 1) column vector with the data for all the environmental flows per dollar of output for the new sector.
 #' @param originalB B matrix obtained in buildEEIOModel().
+#' @param primaryRegionAcronym string with the primary region for the model to change the name of the column.
 #' @return B matrix modified.
-modifyBmatrix <- function(newsectorCode, newEnvData, originalB, primaryRegionAcronym){
+modifyBmatrix <- function(newSectorCode, newEnvData, originalB, primaryRegionAcronym){
   modB<-originalB
   
   #Determine number of sectors in originalB
@@ -150,22 +160,24 @@ modifyBmatrix <- function(newsectorCode, newEnvData, originalB, primaryRegionAcr
   
   #Add newEnvDataColumn and assign col name (the code)
   modB<-cbind(modB,newEnvData)
-  colnames(modB)[n+1]<- tolower(paste(newsectorCode, primaryRegionAcronym, sep = "/")) #Unnecesary
+  colnames(modB)[n+1]<- tolower(paste(newSectorCode, primaryRegionAcronym, sep = "/")) #Unnecesary
  
   modB
 }
 
-
-#This function updates/modifies the components in model that need to be modified based on user administered data
+#' Creates BioEconomy model. 
+#' 
+#' This function updates/modifies the components in model that need to be modified based on user administered data.
+#' 
 #' @param model refers to the model constructed via buildEEIOModel().
 #' @param newSectorCode string/character that refers to the code/identifier that will be used for the new sector in the matrices.
 #' @param newSectorName string/character that refers to the name given to the new sector.
 #' @param similarSectorCode string/character that refers to the code/identifier for the similar existing sector.
-#' @param percentage numeric (0,1] that refers to the % of output of the original sector that new sector will produce.
-#' @param inputPurchases (n+1)x 1 column vector with the amount spent in each of the n existing commodities to produce "Total Industry Output"
-#' of the new sector.
+#' @param percentage numeric (0,1] that refers to the \% of output of the original sector that new sector will produce.
+#' @param inputPurchases (n+1)x 1 column vector with the amount spent in each of the n existing commodities to produce "Total Industry Output" of the new sector.
 #' @param newEnvData (# environmental flows x 1) column vector with the data for all the environmental flows per dollar of output for the new sector.
-#' When the function runs succesfully, it prints a message that says, "model correctly modyfied. Bioeconomy model correctly created".
+#' @export
+#' @return A list with USEEIO model components and attributes modified.
 createBioeconomyModel<- function(model,newSectorCode,newSectorName, similarSectorCode,percentage, inputPurchases, newEnvData) {
   modModel<-model
 
