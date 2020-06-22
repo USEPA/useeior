@@ -26,7 +26,7 @@ colSim<-which(colnames(model2$Use)==simSectorCode)
 #envVector<-model$B[,colSim] 
 envVector<-rep(0,15) 
 #Modify model
-source("R/BioeconomyFunctions.R")
+#source("R/BioeconomyFunctions.R")
 #debug(createBioeconomyModel)
 model2<-createBioeconomyModel(model2,newSectorCode="324110B",newSectorName="LignoCelullosic Biofuels", similarSectorCode=simSectorCode,percentage=0.01, inputPurchases, newEnvData=envVector)
 
