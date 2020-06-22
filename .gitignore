@@ -2,3 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+USEEIO/Model_Builds/USEEIOv2.0-GHG/USEEIOv2.0-GHG_DRC.csv
+USEEIO/Model_Builds/USEEIOv2.0-GHG/USEEIOv2.0-GHG_FinalDemand.csv
+USEEIO/Model_Builds/USEEIOv2.0-GHG/USEEIOv2.0-GHG_LCIA.csv
+USEEIO/Model_Builds/USEEIOv2.0-GHG/USEEIOv2.0-GHG_sat.csv
+USEEIO/Model_Builds/USEEIOv2.0-GHG/USEEIOv2.0-GHG_sector_meta_data.csv
