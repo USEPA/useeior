@@ -155,16 +155,12 @@ modifyUseTable <- function(newSectorCode, similarSectorCode, percentage, inputPu
 modifyBmatrix <- function(newSectorCode, newEnvData, originalB, primaryRegionAcronym){
   modB<-originalB
   
-  #Since now this is called inside the buildEEIOModel(), in # Complete sector list using model$Industries they add a column of zeros for this new sector
-  # given it is already included in the industry list, therefore, now it is only necessary to fill it and not to add the column.
-  
-  #Determine number of sectors in originalB (This already include the new sector)
+  #Determine number of sectors in originalB
   n<- ncol(modB)
   
-  #Fill newEnvDataColumn and assign col name (the code)
-  #modB<-cbind(modB,newEnvData)
-  modB[,n]<-newEnvData
-  #colnames(modB)[n+1]<- tolower(paste(newSectorCode, primaryRegionAcronym, sep = "/")) #Unnecesary
+  #Add newEnvDataColumn and assign col name (the code)
+  modB<-cbind(modB,newEnvData)
+  colnames(modB)[n+1]<- tolower(paste(newSectorCode, primaryRegionAcronym, sep = "/")) #Unnecesary
  
   modB
 }
@@ -189,9 +185,8 @@ createBioeconomyModel<- function(model,newSectorCode,newSectorName, similarSecto
   originalMake<- modModel$Make
   originalUse<- modModel$Use
   
-  # This will have to be updated in buildEEIOModel() after creating B
-  # #Obtain original B matrix
-  # originalB<- modModel$B
+  #Obtain original B matrix
+  originalB<- modModel$B
   
   #Modify Make Table
   logging::loginfo(paste("Updating Make Table ..."))
@@ -231,43 +226,43 @@ createBioeconomyModel<- function(model,newSectorCode,newSectorName, similarSecto
   modModel$BEA$MakeIndustryOutput<-updatedMakeIndustryOutput
   
   
-  # #Re-generate matrices: Not updating for Domestic
-  # modModel$V_n <- generateMarketSharesfromMake(modModel) # normalized Make
-  # modModel$U_n <- generateDirectRequirementsfromUse(modModel, domestic = FALSE) #normalized Use , Warning: Not updated for domestic!
-  # 
-  # updatedUseValueAdded<- modModel$Use[modModel$BEA$ValueAddedCodes, modModel$Industries] * 1E6 # data frame, values are in dollars ($)
-  # modModel$W <- as.matrix(updatedUseValueAdded)
-  # 
-  # # Assuming CommoditybyIndustryType == "Commodity"
-  # logging::loginfo(paste("Updating commodityxcommodity direct requirement matrix ..."))
-  # modModel$A <- modModel$U_n %*% modModel$V_n
-  # 
-  # #Modify B matrix
-  # logging::loginfo(paste("Updating B matrix ..."))
-  # newB<- modifyBmatrix(newSectorCode,newEnvData, originalB, modModel$specs$PrimaryRegionAcronym)
-  # modModel$B<-newB
-  # 
-  # # Transform B into a flowxcommodity matrix using market shares matrix for commodity models
-  # modModel$B <- modModel$B %*% modModel$V_n
-  # colnames(modModel$B) <- tolower(paste(colnames(modModel$B), modModel$specs$PrimaryRegionAcronym, sep = "/"))
-  # 
-  # #Re-calculate Total Requirements Matrix L=(I-A)^(-1)
-  # logging::loginfo("Re-calculating total requirements matrix...")
-  # I <- diag(nrow(modModel$A))
-  # modModel$L <- solve(I - modModel$A)
-  # 
-  # # Re-calculate total emissions/resource use per dollar (M)
-  # logging::loginfo("Re-calculating total emissions per dollar matrix...")
-  # modModel$M <- modModel$B %*% modModel$L
-  # colnames(modModel$M) <- tolower(paste(colnames(modModel$M), modModel$specs$PrimaryRegionAcronym, sep = "/"))
-  # 
-  # # Re-calculate total impacts per dollar (U), impact category x sector
-  # modModel$U <- modModel$C %*% modModel$M
-  # 
-  # #Update model$SectorNames
-  # modModel$SectorNames<-rbind(modModel$SectorNames,c(newSectorCode,newSectorName))
-  # 
-  # logging::loginfo("model correctly modyfied. Bioeconomy model correctly created.")
+  #Re-generate matrices: Not updating for Domestic
+  modModel$V_n <- generateMarketSharesfromMake(modModel) # normalized Make
+  modModel$U_n <- generateDirectRequirementsfromUse(modModel, domestic = FALSE) #normalized Use , Warning: Not updated for domestic!
+  
+  updatedUseValueAdded<- modModel$Use[modModel$BEA$ValueAddedCodes, modModel$Industries] * 1E6 # data frame, values are in dollars ($)
+  modModel$W <- as.matrix(updatedUseValueAdded)
+  
+  # Assuming CommoditybyIndustryType == "Commodity"
+  logging::loginfo(paste("Updating commodityxcommodity direct requirement matrix ..."))
+  modModel$A <- modModel$U_n %*% modModel$V_n
+  
+  #Modify B matrix
+  logging::loginfo(paste("Updating B matrix ..."))
+  newB<- modifyBmatrix(newSectorCode,newEnvData, originalB, modModel$specs$PrimaryRegionAcronym)
+  modModel$B<-newB
+  
+  # Transform B into a flowxcommodity matrix using market shares matrix for commodity models
+  modModel$B <- modModel$B %*% modModel$V_n
+  colnames(modModel$B) <- tolower(paste(colnames(modModel$B), modModel$specs$PrimaryRegionAcronym, sep = "/"))
+  
+  #Re-calculate Total Requirements Matrix L=(I-A)^(-1)
+  logging::loginfo("Re-calculating total requirements matrix...")
+  I <- diag(nrow(modModel$A))
+  modModel$L <- solve(I - modModel$A)
+  
+  # Re-calculate total emissions/resource use per dollar (M)
+  logging::loginfo("Re-calculating total emissions per dollar matrix...")
+  modModel$M <- modModel$B %*% modModel$L
+  colnames(modModel$M) <- tolower(paste(colnames(modModel$M), modModel$specs$PrimaryRegionAcronym, sep = "/"))
+  
+  # Re-calculate total impacts per dollar (U), impact category x sector
+  modModel$U <- modModel$C %*% modModel$M
+  
+  #Update model$SectorNames
+  modModel$SectorNames<-rbind(modModel$SectorNames,c(newSectorCode,newSectorName))
+  
+  logging::loginfo("model correctly modyfied. Bioeconomy model correctly created.")
  
   return(modModel)
 }
