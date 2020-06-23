@@ -8,7 +8,7 @@ Other Greenhouse Gases,OGHG,Impact Potential,kg CO2-eq,kg Carbon Dioxide Equival
 Human Health - Cancer,HCAN,Impact Potential,CTUh,Comparative Toxic Unit-Human Equivalent (CTUh),comparative toxic unit-human equivalent (CTUh)
 Human Health - Noncancer,HNCN,Impact Potential,CTUh,Comparative Toxic Unit-Human Equivalent (CTUh),comparative toxic unit-human equivalent (CTUh)
 Human Health Toxicity,HTOX,Impact Potential,CTUh,Comparative Toxic Unit-Human Equivalent (CTUh),comparative toxic unit-human equivalent (CTUh)
-Human Health - Respiratory Effects,HRSP,Impact Potential,kg PM2.5-eq,kg Particulate Matter equivalent (PM2.5-eq),kg particulate matter equivalent (PM2.5-eq)
+Human Health - Respiratory Effects,HRSP,Impact Potential,kg PM2.5-eq,kg Particulate Matter Equivalent (PM2.5-eq),kg particulate matter equivalent (PM2.5-eq)
 Ozone Depletion,OZON,Impact Potential,kg CFC-11-eq,kg Chlorofluorocarbon-11 Equivalent (CFC-11-eq),kg chlorofluorocarbon-11 equivalent (CFC-11-eq)
 Smog Formation,SMOG,Impact Potential,kg O3-eq,kg Ozone Equivalent (O3-eq),kg ozone equivalent (O3-eq)
 Nonrenewable Energy Use,NNRG,Resource Use,MJ,"MJ (1,000,000 J)","MJ (1,000,000 J)"
