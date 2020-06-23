@@ -116,7 +116,11 @@ buildEEIOModel <- function(model) {
   sattables_cast <- sattables_cast[, tolower(paste(rownames(model$V_n), model$specs$PrimaryRegionAcronym, sep = "/"))]
   # Generate B matrix
   model$B <- as.matrix(sattables_cast)
- 
+  
+  #------------------------------------------------------------
+  # Save this untransformed matrix for bioeconomy modifications
+  model$B_untransformed <- model$B
+  #------------------------------------------------------------
   # Transform B into a flowxcommodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     model$B <- model$B %*% model$V_n

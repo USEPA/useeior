@@ -152,19 +152,30 @@ modifyUseTable <- function(newSectorCode, similarSectorCode, percentage, inputPu
 #' @param originalB B matrix obtained in buildEEIOModel().
 #' @param primaryRegionAcronym string with the primary region for the model to change the name of the column.
 #' @return B matrix modified.
-modifyBmatrix <- function(newSectorCode, newEnvData, originalB, primaryRegionAcronym){
-  modB<-originalB
+modifyBmatrix <- function(newSectorCode, newEnvData, model){
+  # This is not a pretty version, a prettier version is probably to modify the satellite tables.
+  # Here I require that the untransformed B matrix is saved in model in buildEEIOModel().
   
-  #Since now this is called inside the buildEEIOModel(), in # Complete sector list using model$Industries they add a column of zeros for this new sector
-  # given it is already included in the industry list, therefore, now it is only necessary to fill it and not to add the column.
+  #Obtain data from original model construction
+  primaryRegionAcronym<- model$specs$PrimaryRegionAcronym
+  commodityByIndustryType<- model$specs$CommoditybyIndustryType
+  modB<-model$B_untransformed
   
-  #Determine number of sectors in originalB (This already include the new sector)
+  # Since at the point this function is called, model$Industries is already updated, the original buildEEIOModel()
+  # has already added a new column with zeros for this new sector. Therefore, now it is only necessary to fill it and not to add the column.
+  
+  #Determine number of sectors in untransformed B (This already include the new sector)
   n<- ncol(modB)
   
   #Fill newEnvDataColumn and assign col name (the code)
   #modB<-cbind(modB,newEnvData)
   modB[,n]<-newEnvData
-  #colnames(modB)[n+1]<- tolower(paste(newSectorCode, primaryRegionAcronym, sep = "/")) #Unnecesary
+  
+  # If commodity model, transform B into a flowxcommodity matrix using market shares matrix
+  if(commodityByIndustryType == "Commodity") {
+    modB <- modB %*% model$V_n
+    colnames(modB) <- tolower(paste(colnames(modB), primaryRegionAcronym, sep = "/"))
+  }
   
   modB
 }
@@ -279,19 +290,10 @@ createBioeconomyModel<- function(modelname,newSectorCode,newSectorName, similarS
   #--------------------------------------------------------------------------------------------------------------------------------- 
   # Update B and W matrices
   
-  #Obtain original B matrix
-  originalB<- modModel$B
-  
   #Modify B matrix
   logging::loginfo(paste("Updating B matrix ..."))
-  newB<- modifyBmatrix(newSectorCode,newEnvData, originalB, modModel$specs$PrimaryRegionAcronym)
+  newB<- modifyBmatrix(newSectorCode,newEnvData, modModel)
   modModel$B<-newB
-  
-  # Transform B into a flowxcommodity matrix using market shares matrix for commodity models
-  if(modModel$specs$CommoditybyIndustryType == "Commodity") {
-    modModel$B <- modModel$B %*% modModel$V_n
-    colnames(modModel$B) <- tolower(paste(colnames(modModel$B), modModel$specs$PrimaryRegionAcronym, sep = "/"))
-  }
   
   # Update W matrix for Bioeconomy new sectors 
   updatedUseValueAdded<- modModel$Use[modModel$BEA$ValueAddedCodes, modModel$Industries] * 1E6 # data frame, values are in dollars ($)
