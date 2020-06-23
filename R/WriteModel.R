@@ -39,7 +39,7 @@ writeModelComponents <- function(model) {
   logging::loginfo(paste0("Model components written to ",outputfolder," ."))
 }
 
-#' Write model matrices as CSV and BIN files to output folder.
+#' Write model matrices as CSV files to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @description Writes model matrices, including A, B, C, D, L, and U.
 #' @export
@@ -54,7 +54,26 @@ writeModelMatrices <- function(model) {
   for (matrix in c("A", "B", "C", "D", "L", "U")) {
     utils::write.csv(model[[matrix]], paste0(outputfolder, "/", matrix, ".csv"),
                      na = "", row.names = FALSE, fileEncoding = "UTF-8")
-    writeMatrixasBinFile(model[[matrix]], paste0(outputfolder, "/", matrix, ".bin"))
   }
   logging::loginfo(paste0("Model matrices written to ", outputfolder, "."))
+}
+
+#' Write model matrices as BIN files for API to output folder.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @description Writes model matrices, including A, B, C, D, L, and U.
+#' @export
+writeModelMatricesforAPI <- function(model) {
+  # Define output folder
+  user_dir <- rappdirs::user_data_dir()
+  outputfolder <- file.path(user_dir, "USEEIO", "Model_Builds", model$specs$Model,
+                            "API", model$specs$Model)
+  if (!dir.exists(outputfolder)) {
+    dir.create(outputfolder, recursive = TRUE) 
+  }
+  # Write model matrices to .bin files for API
+  MatricesforAPI <- c("A", "A_d", "B", "C", "D", "L", "U", "M", "CPI")
+  for (matrix in MatricesforAPI) {
+    writeMatrixasBinFile(model[[matrix]], paste0(outputfolder, "/", matrix, ".bin"))
+  }
+  logging::loginfo(paste0("Model matrices for API written to ", outputfolder, "."))
 }
