@@ -90,3 +90,83 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
   }
   return(ratio_table)
 }
+
+#' Calculate tolerance for RAS. Takes a target row sum vector and target colsum vector.
+#' Specify either relative difference or absolute difference .
+ToleranceforRAS <- function(t_r, t_c, relative_diff = NULL, absolute_diff = NULL) {
+  if (!is.null(relative_diff)) {
+    t <- relative_diff
+  } else if (!is.null(absolute_diff)) {
+    t <- absolute_diff/max(abs(t_c), abs(t_r))
+  } else {
+    stop("Set relative_diff or absolute_diff first.")
+  }
+  return(t)
+}
+
+#' Generalized RAS procedure. Takes an initial matrix, a target row sum vector
+#' and target colsum vector. Iterates until all row sums of matrix equal to target row sum vector
+#' and colsums of matrix equal target col sum vector, within a tolerance.
+RAS <- function(m0, t_r, t_c, t, max_itr = 1E6) {
+  m <- m0
+  c_r <- as.vector(rowSums(m0))
+  c_c <- as.vector(colSums(m0))
+  # Check row and column conditions
+  row_condition <- all.equal(t_r, c_r, tolerance = t)
+  col_condition <- all.equal(t_c, c_c, tolerance = t)
+  i <- 0
+  while(!isTRUE(row_condition) | !isTRUE(col_condition)) {
+    if(i>max_itr){
+      break
+    }
+    # Adjust rowwise
+    c_r <- as.vector(rowSums(m))
+    # Replace 0 with 1 in c_r
+    c_r[c_r==0] <- 1
+    r_ratio <- t_r/c_r
+    m <- diag(r_ratio) %*% m
+    # Adjust colwise
+    c_c <- as.vector(colSums(m))
+    # Replace 0 with 1 in c_c
+    c_c[c_c==0] <- 1
+    c_ratio <- t_c/c_c
+    m <- m %*% diag(c_ratio)
+    # Check row and column conditions
+    row_condition <- all.equal(t_r, c_r, tolerance = t)
+    col_condition <- all.equal(t_c, c_c, tolerance = t)
+    i <- i + 1
+  }
+  dimnames(m) <- dimnames(m0)
+  print(paste("RAS converged after", i, "iterations."))
+  return(m)
+}
+
+#' Compare two matrices, calculate percentage difference (m1-m2)/m1.
+#' Dimensions of the two matrices must be the same.
+compareMatrices <- function(m1, m2, percentage_diff = FALSE) {
+  if (dim(m1)!=dim(m2)) {
+    stop("Make m1 and m2 have the same dimensions first.")
+  }
+  if (percentage_diff) {
+    m <- (m1-m2)/m1
+  } else {
+    m <- m1-m2
+  }
+  m[is.na(m)] <- 0
+  return(m)
+}
+
+#' Write matrix as bin file
+writeMatrixasBinFile <- function(matrix, path) {
+  out <- file(path, "wb")
+  rows <- dim(matrix)[1]
+  cols <- dim(matrix)[2]
+  writeBin(as.integer(rows), out, size = 4, endian = "little")
+  writeBin(as.integer(cols), out, size = 4, endian = "little")
+  for (col in 1:cols) {
+    for (row in 1:rows) {
+      writeBin(as.double(matrix[row, col]), out, size = 8, endian = "little")
+    }
+  }
+  close(out)
+}
