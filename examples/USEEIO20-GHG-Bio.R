@@ -25,7 +25,7 @@ simSectorCode<-"324110"
 percentage<- 0.01
 # Obtain Input purchases from similar sector
 #inputPurchases<- c(model$Use[1:405, simSectorCode],0)
-inputPurchases<- c(rep(0,300),rep(0,106))
+inputPurchases<- c(rep(100,300),rep(0,106))
 #colSim<-which(colnames(model2$Use)==simSectorCode)
 #envVector<-model$B[,colSim] 
 envVector<-rep(0,15) 
