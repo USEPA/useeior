@@ -287,6 +287,12 @@ createBioeconomyModel<- function(modelname,newSectorCode,newSectorName, similarS
   newB<- modifyBmatrix(newSectorCode,newEnvData, originalB, modModel$specs$PrimaryRegionAcronym)
   modModel$B<-newB
   
+  # Transform B into a flowxcommodity matrix using market shares matrix for commodity models
+  if(modModel$specs$CommoditybyIndustryType == "Commodity") {
+    modModel$B <- modModel$B %*% modModel$V_n
+    colnames(modModel$B) <- tolower(paste(colnames(modModel$B), modModel$specs$PrimaryRegionAcronym, sep = "/"))
+  }
+  
   # Update W matrix for Bioeconomy new sectors 
   updatedUseValueAdded<- modModel$Use[modModel$BEA$ValueAddedCodes, modModel$Industries] * 1E6 # data frame, values are in dollars ($)
   modModel$W <- as.matrix(updatedUseValueAdded)
