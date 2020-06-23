@@ -171,9 +171,11 @@ modifyBmatrix <- function(newSectorCode, newEnvData, originalB, primaryRegionAcr
 
 #' Creates BioEconomy model. 
 #' 
-#' This function updates/modifies the components in model that need to be modified based on user administered data.
+#' This function prepares (read and organize data from the BEA tables), modify the Make and Use table to add the new sector, 
+#' build the model (create the required matrices) and update B and W matrices after its construction to return a bioeconomy model
+#' ready for calculation.
 #' 
-#' @param model refers to the model constructed via buildEEIOModel().
+#' @param modelname Name of the model from a config file.
 #' @param newSectorCode string/character that refers to the code/identifier that will be used for the new sector in the matrices.
 #' @param newSectorName string/character that refers to the name given to the new sector.
 #' @param similarSectorCode string/character that refers to the code/identifier for the similar existing sector.
@@ -181,17 +183,22 @@ modifyBmatrix <- function(newSectorCode, newEnvData, originalB, primaryRegionAcr
 #' @param inputPurchases (n+1)x 1 column vector with the amount spent in each of the n existing commodities to produce "Total Industry Output" of the new sector.
 #' @param newEnvData (# environmental flows x 1) column vector with the data for all the environmental flows per dollar of output for the new sector.
 #' @export
-#' @return A list with USEEIO model components and attributes modified.
-createBioeconomyModel<- function(model,newSectorCode,newSectorName, similarSectorCode,percentage, inputPurchases, newEnvData) {
+#' @return A list with USEEIO model components and attributes modified and ready for calculation.
+createBioeconomyModel<- function(modelname,newSectorCode,newSectorName, similarSectorCode,percentage, inputPurchases, newEnvData) {
+  
+  # Prepare the model based on original BEA data
+  model<- useeior::prepareEEIOModel(modelname)
+  
+  #---------------------------------------------------------------------------------------------------------------------------------
+  # Modify the original Tables
+  
   modModel<-model
   
   #Obtain original Make and use tables
   originalMake<- modModel$Make
   originalUse<- modModel$Use
   
-  # This will have to be updated in buildEEIOModel() after creating B
-  # #Obtain original B matrix
-  # originalB<- modModel$B
+
   
   #Modify Make Table
   logging::loginfo(paste("Updating Make Table ..."))
@@ -229,7 +236,9 @@ createBioeconomyModel<- function(model,newSectorCode,newSectorName, similarSecto
   #updatedMakeIndustryOutput <-modModel$Use[nrow(modModel$Use),1:newNumSec]
   #update model$BEA$MakeIndustryOutput because is the one used in generateDirectRequirementsfromUse()
   modModel$BEA$MakeIndustryOutput<-updatedMakeIndustryOutput
-  
+  #---------------------------------------------------------------------------------------------------------------------------------
+  #Build the model with the modified tables
+  modModel<- buildEEIOModel(modModel)
   
   # #Re-generate matrices: Not updating for Domestic
   # modModel$V_n <- generateMarketSharesfromMake(modModel) # normalized Make
@@ -267,7 +276,22 @@ createBioeconomyModel<- function(model,newSectorCode,newSectorName, similarSecto
   # #Update model$SectorNames
   # modModel$SectorNames<-rbind(modModel$SectorNames,c(newSectorCode,newSectorName))
   # 
-  # logging::loginfo("model correctly modyfied. Bioeconomy model correctly created.")
+  #--------------------------------------------------------------------------------------------------------------------------------- 
+  # Update B and W matrices
+  
+  #Obtain original B matrix
+  originalB<- modModel$B
+  
+  #Modify B matrix
+  logging::loginfo(paste("Updating B matrix ..."))
+  newB<- modifyBmatrix(newSectorCode,newEnvData, originalB, modModel$specs$PrimaryRegionAcronym)
+  modModel$B<-newB
+  
+  # Update W matrix for Bioeconomy new sectors 
+  updatedUseValueAdded<- modModel$Use[modModel$BEA$ValueAddedCodes, modModel$Industries] * 1E6 # data frame, values are in dollars ($)
+  modModel$W <- as.matrix(updatedUseValueAdded)
+  
+  logging::loginfo("Bioeconomy model correctly created.")
   
   return(modModel)
 }
