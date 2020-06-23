@@ -149,8 +149,7 @@ modifyUseTable <- function(newSectorCode, similarSectorCode, percentage, inputPu
 #' This function modifies the B table created in buildEEIOModel() for adding one new bioeconomy sector
 #' @param newSectorCode string/character that refers to the code/identifier that will be used for the new sector in the matrices.
 #' @param newEnvData (# environmental flows x 1) column vector with the data for all the environmental flows per dollar of output for the new sector.
-#' @param originalB B matrix obtained in buildEEIOModel().
-#' @param primaryRegionAcronym string with the primary region for the model to change the name of the column.
+#' @param model the list of USEEIO model components and attributes under modification.
 #' @return B matrix modified.
 modifyBmatrix <- function(newSectorCode, newEnvData, model){
   # This is not a pretty version, a prettier version is probably to modify the satellite tables.

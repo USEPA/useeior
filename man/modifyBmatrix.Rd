@@ -4,16 +4,14 @@
 \alias{modifyBmatrix}
 \title{This function modifies the B table created in buildEEIOModel() for adding one new bioeconomy sector}
 \usage{
-modifyBmatrix(newSectorCode, newEnvData, originalB, primaryRegionAcronym)
+modifyBmatrix(newSectorCode, newEnvData, model)
 }
 \arguments{
 \item{newSectorCode}{string/character that refers to the code/identifier that will be used for the new sector in the matrices.}
 
 \item{newEnvData}{(# environmental flows x 1) column vector with the data for all the environmental flows per dollar of output for the new sector.}
 
-\item{originalB}{B matrix obtained in buildEEIOModel().}
-
-\item{primaryRegionAcronym}{string with the primary region for the model to change the name of the column.}
+\item{model}{the list of USEEIO model components and attributes under modification.}
 }
 \value{
 B matrix modified.
