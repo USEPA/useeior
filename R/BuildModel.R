@@ -1,5 +1,6 @@
 #' Prepare economic components of an EEIO form USEEIO model.
 #' @param modelname Name of the model from a config file.
+#' @export
 #' @return A list with USEEIO model economic components.
 prepareEEIOModel <- function(modelname) {
   startLogging()
@@ -65,51 +66,21 @@ prepareEEIOModel <- function(modelname) {
   return(model)
 }
 
-#' Build an EEIO form USEEIO model.
-#' @param modelname Name of the model from a config file.
+#' Build an EEIO from USEEIO model.
+#' @param model the model prepared with prepareEEIOModel().
 #' @export
 #' @return A list with USEEIO model components and attributes.
-buildEEIOModel <- function(modelname) {
-  # Prepare model
-  model <- prepareEEIOModel(modelname)
-  
-  #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  #Modify model for Bioeconomy new sectors 
-  #For now, just for adding 1 sector, then maybe a cycle must me used and maybe this cycle is written in another function
-  
-  #Info for new sector
-  newSectorCode<-"324110B"
-  newSectorName<-"LignoCelullosic Biofuels"
-  simSectorCode<-"324110"
-  percentage<- 0.01
-  # Obtain Input purchases from similar sector
-  #inputPurchases<- c(model$Use[1:405, simSectorCode],0)
-  inputPurchases<- c(rep(100,300),rep(0,106))
-  #colSim<-which(colnames(model2$Use)==simSectorCode)
-  #envVector<-model$B[,colSim] 
-  envVector<-rep(0,15) 
-  
-  #Modify model
-  #source("R/BioeconomyFunctions.R")
-  #debug(createBioeconomyModel)
-  model<-createBioeconomyModel(model,newSectorCode,newSectorName, simSectorCode,percentage, inputPurchases, envVector)
-  
-  #Note matrix B is modified below
-  #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  
+buildEEIOModel <- function(model) {
+  # In order for the modifications of createBioeconomyModel() be done to re-use this code, prepareEEIOModel() must be outside this function.
+  # For this, I had to change the parameter
+  # # Prepare model
+  # model <- prepareEEIOModel(modelname)
   # Generate matrices
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   # model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
   model$W <- as.matrix(model$BEA$UseValueAdded)
-  
-  #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  # Update W matrix for Bioeconomy new sectors 
-  updatedUseValueAdded<- model$Use[model$BEA$ValueAddedCodes, model$Industries] * 1E6 # data frame, values are in dollars ($)
-  model$W <- as.matrix(updatedUseValueAdded)
-  
-  #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  
+
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     logging::loginfo(paste("Building commodityxcommodity direct requirement matrix ..."))
     model$A <- model$U_n %*% model$V_n
@@ -145,18 +116,7 @@ buildEEIOModel <- function(modelname) {
   sattables_cast <- sattables_cast[, tolower(paste(rownames(model$V_n), model$specs$PrimaryRegionAcronym, sep = "/"))]
   # Generate B matrix
   model$B <- as.matrix(sattables_cast)
-  
-  #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  # Modify B matrix for Bioeconomy new sectors 
-  
-  #Modify B matrix
-  logging::loginfo(paste("Updating B matrix ..."))
-  newB<- modifyBmatrix(newSectorCode,envVector, model$B, model$specs$PrimaryRegionAcronym)
-  model$B<-newB
-  
-  #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  
-  
+ 
   # Transform B into a flowxcommodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     model$B <- model$B %*% model$V_n
