@@ -5,7 +5,7 @@
 \title{Creates BioEconomy model.}
 \usage{
 createBioeconomyModel(
-  model,
+  modelname,
   newSectorCode,
   newSectorName,
   similarSectorCode,
@@ -15,7 +15,7 @@ createBioeconomyModel(
 )
 }
 \arguments{
-\item{model}{refers to the model constructed via buildEEIOModel().}
+\item{modelname}{Name of the model from a config file.}
 
 \item{newSectorCode}{string/character that refers to the code/identifier that will be used for the new sector in the matrices.}
 
@@ -30,8 +30,10 @@ createBioeconomyModel(
 \item{newEnvData}{(# environmental flows x 1) column vector with the data for all the environmental flows per dollar of output for the new sector.}
 }
 \value{
-A list with USEEIO model components and attributes modified.
+A list with USEEIO model components and attributes modified and ready for calculation.
 }
 \description{
-This function updates/modifies the components in model that need to be modified based on user administered data.
+This function prepares (read and organize data from the BEA tables), modify the Make and Use table to add the new sector, 
+build the model (create the required matrices) and update B and W matrices after its construction to return a bioeconomy model
+ready for calculation.
 }
