@@ -60,7 +60,7 @@ writeModelMatrices <- function(model) {
 
 #' Write model matrices as BIN files for API to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @description Writes model matrices, including A, B, C, D, L, and U.
+#' @description Writes model matrices, including A, B, C, D, L, U, M, CPI, x (Industry Output), and q (Commodity Output).
 #' @export
 writeModelMatricesforAPI <- function(model) {
   # Define output folder
@@ -74,6 +74,12 @@ writeModelMatricesforAPI <- function(model) {
   MatricesforAPI <- c("A", "A_d", "B", "C", "D", "L", "U", "M", "CPI")
   for (matrix in MatricesforAPI) {
     writeMatrixasBinFile(model[[matrix]], paste0(outputfolder, "/", matrix, ".bin"))
+  }
+  # Write x (Industry Output) or q (Commodity Output) to .bin files for API
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+    writeMatrixasBinFile(model$CommodityOutput, paste0(outputfolder, "/q.bin"))
+  } else {
+    writeMatrixasBinFile(model$CommodityOutput, paste0(outputfolder, "/x.bin"))
   }
   logging::loginfo(paste0("Model matrices for API written to ", outputfolder, "."))
 }
