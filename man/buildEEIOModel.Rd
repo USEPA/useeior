@@ -2,16 +2,16 @@
 % Please edit documentation in R/BuildModel.R
 \name{buildEEIOModel}
 \alias{buildEEIOModel}
-\title{Build an EEIO form USEEIO model.}
+\title{Build an EEIO from USEEIO model.}
 \usage{
-buildEEIOModel(modelname)
+buildEEIOModel(model)
 }
 \arguments{
-\item{modelname}{Name of the model from a config file.}
+\item{model}{the model prepared with prepareEEIOModel().}
 }
 \value{
 A list with USEEIO model components and attributes.
 }
 \description{
-Build an EEIO form USEEIO model.
+Build an EEIO from USEEIO model.
 }
