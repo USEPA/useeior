@@ -10,5 +10,5 @@ writeModelMatrices(model)
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \description{
-Writes model matrices, including A, B, C, D, L, and U.
+Writes model matrices, including A, B, C, D, L, U, and M.
 }

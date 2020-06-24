@@ -41,7 +41,7 @@ writeModelComponents <- function(model) {
 
 #' Write model matrices as CSV files to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @description Writes model matrices, including A, B, C, D, L, and U.
+#' @description Writes model matrices, including A, B, C, D, L, U, and M.
 #' @export
 writeModelMatrices <- function(model) {
   # Define output folder
@@ -51,7 +51,7 @@ writeModelMatrices <- function(model) {
     dir.create(outputfolder, recursive = TRUE) 
   }
   # Write model matrices to csv
-  for (matrix in c("A", "B", "C", "D", "L", "U")) {
+  for (matrix in c("A", "B", "C", "D", "L", "U", "M")) {
     utils::write.csv(model[[matrix]], paste0(outputfolder, "/", matrix, ".csv"),
                      na = "", row.names = FALSE, fileEncoding = "UTF-8")
   }
@@ -82,4 +82,72 @@ writeModelMatricesforAPI <- function(model) {
     writeMatrixasBinFile(model$CommodityOutput, paste0(outputfolder, "/x.bin"))
   }
   logging::loginfo(paste0("Model matrices for API written to ", outputfolder, "."))
+}
+
+#' Write model demand vectors as JSON files for API to output folder.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @description Writes model demand vectors, including y and y_d for consumption and production.
+#' @export
+writeModelDemandstoJSON <- function(model) {
+  # Define output folder
+  user_dir <- rappdirs::user_data_dir()
+  outputfolder <- file.path(user_dir, "USEEIO", "Model_Builds", model$specs$Model, "demands")
+  if (!dir.exists(outputfolder)) {
+    dir.create(outputfolder, recursive = TRUE) 
+  }
+  # Write model demand vectors as JSON files for API
+  for (demand in c("Consumption", "Production")) {
+    if (demand=="Consumption") {
+      Demand <- as.matrix(rowSums(model[["DomesticFinalDemand"]][, model$BEA$TotalConsumptionCodes]))
+    } else {
+      Demand <- as.matrix(rowSums(model[["DomesticFinalDemand"]]))
+    }
+    filename <- tolower(paste(model$specs$IOYear, model$specs$PrimaryRegionAcronym,
+                              "domestic", demand, sep = "_"))
+    write(jsonlite::toJSON(Demand), paste0(outputfolder, "/", filename, ".json"))
+  }
+  logging::loginfo(paste0("Model demand vectors for API written to ", outputfolder, "."))
+}
+
+#' Write model metadata (indicators and demands) as CSV files to output folder.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @description Writes model metadata, including indicators and demands.
+#' @export
+writeModelMetadata <- function(model) {
+  # Define output folder
+  user_dir <- rappdirs::user_data_dir()
+  outputfolder <- file.path(user_dir, "USEEIO", "Model_Builds")
+  if (!dir.exists(outputfolder)) {
+    dir.create(outputfolder, recursive = TRUE) 
+  }
+  # Write indicators to csv
+  indicators <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
+                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+  indicators$ID <- apply(indicators[, c("Category", "Abbreviation", "Units")],
+                         1, FUN = joinStringswithSlashes)
+  indicators[, c("Name", "Unit", "Group")] <- indicators[, c("Abbreviation", "Units", "Category")]
+  indicators$Index <- c(1:nrow(indicators)-1)
+  indicators$Code <- ""
+  indicators <- indicators[, c("Index", "ID", "Name", "Code", "Unit", "Group")]
+  utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"),
+                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  # Write sectors to csv
+  sectors <- model$SectorNames
+  colnames(sectors) <- c("Code", "Name")
+  sectors$Location <- model$specs$PrimaryRegionAcronym
+  sectors$Index <- c(1:nrow(sectors)-1)
+  sectors$ID <- apply(sectors[, c("Code", "Name", "Location")], 1, FUN = joinStringswithSlashes)
+  sectors <- sectors[, c("Index", "ID", "Name", "Code", "Location")]
+  utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"),
+                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  # Write flows to csv
+  flows <- loadLCIAfactors()
+  flows$ID <- apply(flows[, c("Category", "Subcategory", "Name", "Unit")],
+                    1, FUN = joinStringswithSlashes)
+  flows[, "Sub-Category"] <- flows$Subcategory
+  flows$Index <- c(1:nrow(flows)-1)
+  flows <- flows[, c("Index", "ID", "Name", "Category", "Sub-Category", "Unit", "UUID")]
+  utils::write.csv(flows, paste0(outputfolder, "/flows.csv"),
+                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
 }
