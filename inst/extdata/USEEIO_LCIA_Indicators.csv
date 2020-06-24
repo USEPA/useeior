@@ -1,28 +1,28 @@
 Full name,Abbreviation,Category,Units,Elementary,Name
-Acid Rain,ACID,Impact Potential,kg SO2-eq,Kilograms Sulphur Dioxide (SO2),
-Eutrophication,EUTR,Impact Potential,kg N-eq,Kilograms Nitrogen (N),
-Freshwater Aquatic Ecotoxicity,ETOX,Impact Potential,CTUe,Toxicity to Ecosystem (CTUe) per Kilogram,
-Greenhouse Gases,GHG,Impact Potential,kg CO2-eq,Kilograms Carbon Dioxide (CO2),
-Major Greenhouse Gases,MGHG,Impact Potential,kg CO2-eq,Kilograms Carbon Dioxide (CO2),
-Other Greenhouse Gases,OGHG,Impact Potential,kg CO2-eq,Kilograms Carbon Dioxide (CO2),
-Human Health - Cancer,HCAN,Impact Potential,CTUh,Toxicity to Humans (CTUh) per Kilogram,
-Human Health - Noncancer,HNCN,Impact Potential,CTUh,Toxicity to Humans (CTUh) per Kilogram,
-Human Health Toxicity,HTOX,Impact Potential,CTUh,Toxicity to Humans (CTUh) per Kilogram,
-Human Health - Respiratory Effects,HRSP,Impact Potential,kg PM2.5-eq,Kilograms Particulate Matter (PM 2.5),
-Ozone Depletion,OZON,Impact Potential,kg CFC-11-eq,Kilograms Chlorofluorocarbon-11 (CFC-11),
-Smog Formation,SMOG,Impact Potential,kg O3-eq,Kilograms Ozone (O3),
-Nonrenewable Energy Use,NNRG,Resource Use,MJ,Megajoules (MJ),
-Renewable Energy Use,RNRG,Resource Use,MJ,Megajoules (MJ),
-Energy Use,ENRG,Resource Use,MJ,Megajoules (MJ),
-Land Use,LAND,Resource Use,m2*yr,Square Meters per Year,
-Water Use,WATR,Resource Use,m3,Cubic Meters,
-Minerals and Metals Use,MNRL,Resource Use,kg,Kilograms,
-Pesticides,PEST,Chemical Releases,kg,Kilograms,
-Metals,METL,Chemical Releases,kg,Kilograms,
-Hazardous Air Pollutants,HAPS,Chemical Releases,kg,Kilograms,
-Value Added,VADD,Economic & Social,$,US Dollars ($),
-Jobs Supported,JOBS,Economic & Social,jobs,Employees,
-Commercial RCRA Hazardous Waste,CRHW,Waste Generated,kg,Kilograms,
-Commercial Municipal Solid Waste,CMSW,Waste Generated,kg,Kilograms,
-Food in Commercial Municipal Solid Waste,FMSW,Waste Generated,kg,Kilograms,
-Commercial Construction and Demolition Debris,CCDD,Waste Generated,kg,Kilograms,
+Acid Rain,ACID,Impact Potential,kg SO2-eq,Kilograms Sulphur Dioxide (SO2),Acid Rain
+Eutrophication,EUTR,Impact Potential,kg N-eq,Kilograms Nitrogen (N),Water Eutrophication
+Freshwater Aquatic Ecotoxicity,ETOX,Impact Potential,CTUe,Toxicity to Ecosystem (CTUe),Freshwater Ecotoxicity
+Greenhouse Gases,GHG,Impact Potential,kg CO2-eq,Kilograms Carbon Dioxide (CO2),Greenhouse Gases
+Major Greenhouse Gases,MGHG,Impact Potential,kg CO2-eq,Kilograms Carbon Dioxide (CO2),Major Greenhouse Gases
+Other Greenhouse Gases,OGHG,Impact Potential,kg CO2-eq,Kilograms Carbon Dioxide (CO2),Other Greenhouse Gases
+Human Health - Cancer,HCAN,Impact Potential,CTUh,Toxicity to Humans (CTUh),Cancer Disease
+Human Health - Noncancer,HNCN,Impact Potential,CTUh,Toxicity to Humans (CTUh),Noncancer Disease
+Human Health Toxicity,HTOX,Impact Potential,CTUh,Toxicity to Humans (CTUh),Toxic to Humans
+Human Health - Respiratory Effects,HRSP,Impact Potential,kg PM2.5-eq,Kilograms Particulate Matter (PM 2.5),Respiratory Effects
+Ozone Depletion,OZON,Impact Potential,kg CFC-11-eq,Kg ChloroFluoroCarbon-11 (CFC-11),Ozone Depletion
+Smog Formation,SMOG,Impact Potential,kg O3-eq,Kilograms Ozone (O3),Smog Formation
+Nonrenewable Energy Use,NNRG,Resource Use,MJ,Megajoules (MJ),Nonrenewable Energy Use
+Renewable Energy Use,RNRG,Resource Use,MJ,Megajoules (MJ),Renewable Energy Use
+Energy Use,ENRG,Resource Use,MJ,Megajoules (MJ),Energy Use
+Land Use,LAND,Resource Use,m2*yr,Square Meters per Year,Land Use
+Water Use,WATR,Resource Use,m3,Cubic Meters,Water Use
+Minerals and Metals Use,MNRL,Resource Use,kg,Kilograms,Minerals and Metals Use
+Pesticides,PEST,Chemical Releases,kg,Kilograms,Pesticides
+Metals,METL,Chemical Releases,kg,Kilograms,Metals
+Hazardous Air Pollutants,HAPS,Chemical Releases,kg,Kilograms,Hazardous Air Pollutants
+Value Added,VADD,Economic & Social,$,US Dollars ($),Value Added
+Jobs Supported,JOBS,Economic & Social,jobs,Employees,Jobs Supported
+Commercial RCRA Hazardous Waste,CRHW,Waste Generated,kg,Kilograms,Hazardous Waste
+Commercial Municipal Solid Waste,CMSW,Waste Generated,kg,Kilograms,Municipal Solid Waste
+Food in Commercial Municipal Solid Waste,FMSW,Waste Generated,kg,Kilograms,Food Waste
+Commercial Construction and Demolition Debris,CCDD,Waste Generated,kg,Kilograms,Construction Debris
