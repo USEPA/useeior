@@ -65,8 +65,7 @@ writeModelMatrices <- function(model) {
 writeModelMatricesforAPI <- function(model) {
   # Define output folder
   user_dir <- rappdirs::user_data_dir()
-  outputfolder <- file.path(user_dir, "USEEIO", "Model_Builds", model$specs$Model,
-                            "API", model$specs$Model)
+  outputfolder <- file.path(user_dir, "USEEIO", "Model_Builds", model$specs$Model)
   if (!dir.exists(outputfolder)) {
     dir.create(outputfolder, recursive = TRUE) 
   }
@@ -102,6 +101,13 @@ writeModelDemandstoJSON <- function(model) {
     } else {
       Demand <- as.matrix(rowSums(model[["DomesticFinalDemand"]]))
     }
+    # Change column name
+    colnames(Demand) <- "amount"
+    # Add sector name
+    Demand <- merge(model$SectorNames, Demand, by.x = "SectorCode", by.y = 0)
+    Demand$sector <- apply(cbind(Demand[, c("SectorCode", "SectorName")], model$specs$PrimaryRegionAcronym),
+                           1, FUN = joinStringswithSlashes)
+    Demand <- Demand[, c("sector", "amount")]
     filename <- tolower(paste(model$specs$IOYear, model$specs$PrimaryRegionAcronym,
                               "domestic", demand, sep = "_"))
     write(jsonlite::toJSON(Demand), paste0(outputfolder, "/", filename, ".json"))
@@ -116,7 +122,7 @@ writeModelDemandstoJSON <- function(model) {
 writeModelMetadata <- function(model) {
   # Define output folder
   user_dir <- rappdirs::user_data_dir()
-  outputfolder <- file.path(user_dir, "USEEIO", "Model_Builds")
+  outputfolder <- file.path(user_dir, "USEEIO", "Model_Builds", model$specs$Model)
   if (!dir.exists(outputfolder)) {
     dir.create(outputfolder, recursive = TRUE) 
   }
@@ -130,6 +136,20 @@ writeModelMetadata <- function(model) {
   indicators$Code <- ""
   indicators <- indicators[, c("Index", "ID", "Name", "Code", "Unit", "Group")]
   utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"),
+                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  # Write demands to csv
+  demands <- as.data.frame(gsub(".json", "", list.files(paste0(outputfolder, "/demands"))),
+                           stringsAsFactors = FALSE)
+  colnames(demands) <- "ID"
+  for (n in 1:nrow(demands)) {
+    demands[n, "Year"] <- unlist(strsplit(demands[n, "ID"], "_"))[1]
+    demands[n, "Type"] <- unlist(strsplit(demands[n, "ID"], "_"))[4]
+    demands[n, "System"] <- ifelse(is.na(unlist(strsplit(demands[n, "ID"], "_"))[5]),
+                                   "complete", unlist(strsplit(demands[n, "ID"], "_"))[5])
+    demands[n, "Location"] <- toupper(unlist(strsplit(demands[n, "ID"], "_"))[2])
+    demands[n, "Scope"] <- unlist(strsplit(demands[n, "ID"], "_"))[4]
+  }
+  utils::write.csv(demands, paste0(outputfolder, "/sectors.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write sectors to csv
   sectors <- model$SectorNames
