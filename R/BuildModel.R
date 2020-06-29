@@ -13,7 +13,10 @@ prepareEEIOModel <- function(modelname) {
   if (model$specs$ModelType=="US") {
     model$Commodities <- model$BEA$Commodities
     model$Industries <- model$BEA$Industries
+  } else if (model$specs$ModelType=="State2R") {
+    # Fork for state model here
   }
+  
   # Get model$Make, model$Use, model$MakeTransactions, model$UseTransactions, and model$UseValueAdded
   model$Make <- model$BEA$Make
   model$Use <- model$BEA$Use
@@ -31,8 +34,13 @@ prepareEEIOModel <- function(modelname) {
   }
   # Get model$CommodityOutput, model$CommodityCPI, model$IndustryOutput, model$IndustryCPI, and model$FinalDemand
   if (model$specs$CommoditybyIndustryType=="Commodity") {
-    model$CommodityOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
-    model$CommodityCPI <- generateCommodityCPIforYear(model$specs$IOYear, model) # return a one-column table for IOYear
+    if (model$specs$PrimaryRegionAcronym=="US") {
+      model$CommodityOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
+    } else {
+      # Add RoUS in CommodityOutput table
+      model$CommodityOutput <- getStateCommodityOutputEstimates(model$specs$PrimaryRegionAcronym)
+    }
+    model$CPI <- generateCommodityCPIforYear(model$specs$IOYear, model) # return a one-column table for IOYear
     # Get model$FinalDemand
     model$FinalDemand <- model$BEA$UseFinalDemand
     # Get model$DomesticFinalDemand
@@ -41,9 +49,12 @@ prepareEEIOModel <- function(modelname) {
     # Get model$IndustryOutput from GDP tables
     if (model$specs$PrimaryRegionAcronym=="US") {
       model$IndustryOutput <- model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear), drop = FALSE]
+    } else {
+      # Add RoUS in IndustryOutput table
+      model$IndustryOutput <- getStateIndustryOutput(model$specs$PrimaryRegionAcronym)
     }
     # Get model$IndustryCPI from GDP tables
-    model$IndustryCPI <- model$GDP$BEACPIIO[, as.character(model$specs$IOYear), drop = FALSE]
+    model$CPI <- model$GDP$BEACPIIO[, as.character(model$specs$IOYear), drop = FALSE]
     # Transform model$BEA$UseFinalDemand with MarketShares
     model$FinalDemand <- transformFinalDemandwithMarketShares(model$BEA$UseFinalDemand, model)#This output needs to be tested - producing strange results
     # Transform model$BEA$DomesticFinalDemand with MarketShares
@@ -95,7 +106,7 @@ buildEEIOModel <- function(modelname) {
   for (table in model$SatelliteTables$coeffs_by_sector) {
     StandardizedSatelliteTable <- rbind(StandardizedSatelliteTable, table)
   }
-  # ransform into a flow x sector matrix
+  # transform into a flow x sector matrix
   StandardizedSatelliteTable["Flow"] <- apply(StandardizedSatelliteTable[, c("FlowName", "FlowCategory", "FlowSubCategory", "FlowUnit")],
                                               1 ,FUN = joinStringswithSlashes)
   StandardizedSatelliteTable["Sector"] <- apply(StandardizedSatelliteTable[, c("ProcessCode", "ProcessLocation")], 1, FUN = joinStringswithSlashes)
@@ -113,7 +124,7 @@ buildEEIOModel <- function(modelname) {
   # Generate B matrix
   model$B <- as.matrix(sattables_cast)
 
-  # Transform B into a flowxcommodity matrix using market shares matrix for commodity models
+  # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     model$B <- model$B %*% model$V_n
     colnames(model$B) <- tolower(paste(colnames(model$B), model$specs$PrimaryRegionAcronym, sep = "/"))
