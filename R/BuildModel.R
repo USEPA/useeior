@@ -80,9 +80,13 @@ prepareEEIOModel <- function(modelname) {
 #' @param modelname Name of the model from a config file.
 #' @export
 #' @return A list with USEEIO model components and attributes.
-buildEEIOModel <- function(modelname) {
+buildEEIOModel <- function(modelname, disaggregationfile=NULL) {
   # Prepare model
   model <- prepareEEIOModel(modelname)
+  # Disaggregate based on disaggregationfile
+  if(!is.null(disaggregationfile)){
+    #perform disaggregation
+  }
   # Generate matrices
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
