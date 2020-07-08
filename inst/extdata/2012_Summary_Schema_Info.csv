@@ -1,4 +1,4 @@
-Code,Commodity,Industry,Scrap,ValueAdded,CommodityTotalOutput,IndustryTotalOutput,CommodityIntermediateOutput,HouseholdDemand,InvestmentDemand,ChangeInventories, Import,Export,GovernmentDemand,Wholesale,Retail,Distribution
+Code,Commodity,Industry,Scrap,ValueAdded,CommodityTotalOutput,IndustryTotalOutput,CommodityIntermediateOutput,HouseholdDemand,InvestmentDemand,ChangeInventories,Export,Import,GovernmentDemand,Wholesale,Retail,Distribution
 111CA,1,1,,,,,,,,,,,,,,
 113FF,1,1,,,,,,,,,,,,,,
 211,1,1,,,,,,,,,,,,,,
