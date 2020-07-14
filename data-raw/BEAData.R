@@ -675,6 +675,78 @@ Sector_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Sector"]]
 usethis::use_data(Sector_CPI_IO, overwrite = TRUE)
 
 
+#' Get Summary BEA Value Added (2012 schema) 2007-2017 tables from static Excel
+#' 
+#' @return Summary Value Added data from downloaded BEA excel file
+getBEASummaryValueAdded2012Schema <- function () {
+  # Download all Underlying tables from BEA iTable
+  getBEAUnderlyingTables()
+  # Load desired excel file
+  FileName <- "inst/extdata/AllTablesUnderlying/ValueAddedAnnual.xls"
+  SummaryValueAdded <- readxl::read_excel(FileName, sheet = "VA")[6:197, c(2, 13:24)]
+  colnames(SummaryValueAdded) <- c("Industry", as.data.frame(readxl::read_excel(FileName, sheet = "VA"))[5, 13:24])
+  return(SummaryValueAdded)
+}
+#' Get Sector BEA Value Added (2012 schema) 2007-2017 tables from static Excel
+#' 
+#' @return Sector Value Added data from downloaded BEA excel file
+getBEASectorValueAdded2012Schema <- function () {
+  # Download all Underlying tables from BEA iTable
+  getBEAUnderlyingTables()
+  # Load desired excel file
+  FileName <- "inst/extdata/AllTablesUnderlying/ValueAddedAnnual.xls"
+  SectorValueAdded <- readxl::read_excel(FileName, sheet = "VA")[6:197, c(2, 13:24)]
+  colnames(SectorValueAdded) <- c("Industry", as.data.frame(readxl::read_excel(FileName, sheet = "VA"))[5, 13:24])
+  return(SectorValueAdded)
+}
+
+#' Adjust Value Added ($) from GDP industries to IO industries (2012 schema) at Summary and Sector IO levels.
+#' @return A list contains IO-based Value Added at Summary and Sector IO levels.
+adjustBEAValueAddedtoIOIndustry2012Schema <- function () {
+  # Summary
+  SummaryValueAdded <- getBEASummaryValueAdded2012Schema()
+  # Determine year range
+  year_range <- colnames(SummaryValueAdded)[2:ncol(SummaryValueAdded)]
+  # Attach BEA Detail industry code
+  SummaryGDPIndustrytoIO <- utils::read.table(system.file("extdata", "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv", package = "useeior"),
+                                              sep = ",", header = TRUE)
+  SummaryValueAddedIO <- cbind(SummaryGDPIndustrytoIO, SummaryValueAdded)
+  # Keep Summary rows
+  SummaryValueAddedIO <- SummaryValueAddedIO[!SummaryValueAddedIO$BEA_2012_Summary_Code == "", c("BEA_2012_Summary_Code", year_range)]
+  # Assign rownames as sector code
+  rownames(SummaryValueAddedIO) <- SummaryValueAddedIO[, 1]
+  SummaryValueAddedIO[, 1] <- NULL
+  # Convert values to numeric format
+  SummaryValueAddedIO[] <- as.data.frame(apply(SummaryValueAddedIO, 2, as.numeric))
+  
+  # Sector
+  SectorValueAdded <- getBEASectorValueAdded2012Schema()
+  # Attach BEA Detail industry code
+  SectorGDPIndustrytoIO <- utils::read.table(system.file("extdata", "Crosswalk_SectorGDPIndustrytoIO2012Schema.csv", package = "useeior"),
+                                             sep = ",", header = TRUE)
+  SectorValueAddedIO <- cbind(SectorGDPIndustrytoIO, SectorValueAdded)
+  # Keep Sector rows
+  SectorValueAddedIO <- SectorValueAddedIO[!SectorValueAddedIO$BEA_2012_Sector_Code == "", c("BEA_2012_Sector_Code", year_range)]
+  # Assign rownames as sector code
+  rownames(SectorValueAddedIO) <- SectorValueAddedIO[, 1]
+  SectorValueAddedIO[, 1] <- NULL
+  # Convert values to numeric format
+  SectorValueAddedIO[] <- as.data.frame(apply(SectorValueAddedIO, 2, as.numeric))
+  
+  # Put ValueAddedIO tables in the ValueAddedIOList
+  ValueAddedIOList <- list(SummaryValueAddedIO, SectorValueAddedIO)
+  # Convert values from million $ to $
+  ValueAddedIOList <- lapply(ValueAddedIOList, function(x) x*1E6)
+  # Rename elements in list
+  names(ValueAddedIOList) <- c("Summary", "Sector")
+  return(ValueAddedIOList)
+}
+
+Summary_ValueAdded_IO <- adjustBEAValueAddedtoIOIndustry2012Schema()[["Summary"]]
+usethis::use_data(Summary_ValueAdded_IO, overwrite = TRUE)
+Sector_ValueAdded_IO <- adjustBEAValueAddedtoIOIndustry2012Schema()[["Sector"]]
+usethis::use_data(Sector_ValueAdded_IO, overwrite = TRUE)
+
 
 # Get BEA (Detail/Summary/Sector) Code and Name under 2012 schema
 getBEACodeName2012Schema <- function () {
