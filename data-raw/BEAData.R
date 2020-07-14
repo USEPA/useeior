@@ -504,16 +504,7 @@ getBEASectorGrossOutput2012Schema <- function () {
   return(SectorGrossOutput)
 }
 
-Detail_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Detail"]]
-usethis::use_data(Detail_GrossOutput_IO, overwrite = TRUE)
-Summary_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Summary"]]
-usethis::use_data(Summary_GrossOutput_IO, overwrite = TRUE)
-Sector_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Sector"]]
-usethis::use_data(Sector_GrossOutput_IO, overwrite = TRUE)
-
-
-
-#' Adjust gross output from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
+#' Adjust gross output ($) from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
 #' @return A list contains IO-based gross output at Detail, Summary, and Sector IO levels.
 adjustBEAGrossOutputtoIOIndustry2012Schema <- function () {
   # Detail
@@ -562,15 +553,24 @@ adjustBEAGrossOutputtoIOIndustry2012Schema <- function () {
   
   # Put GrossOutputIO tables in the GrossOutputIOList
   GrossOutputIOList <- list(DetailGrossOutputIO, SummaryGrossOutputIO, SectorGrossOutputIO)
+  # Convert values from million $ to $
+  GrossOutputIOList <- lapply(GrossOutputIOList, function(x) x*1E6)
+  # Rename elements in list
   names(GrossOutputIOList) <- c("Detail", "Summary", "Sector")
   return(GrossOutputIOList)
 }
 
+Detail_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Detail"]]
+usethis::use_data(Detail_GrossOutput_IO, overwrite = TRUE)
+Summary_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Summary"]]
+usethis::use_data(Summary_GrossOutput_IO, overwrite = TRUE)
+Sector_GrossOutput_IO <- adjustBEAGrossOutputtoIOIndustry2012Schema()[["Sector"]]
+usethis::use_data(Sector_GrossOutput_IO, overwrite = TRUE)
 
 
-#' Get Detail BEA U.Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
+#' Get Detail BEA Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
 #'
-#' @return Detailed CPI data from downloaded BEA excel file
+#' @return Detail CPI data from downloaded BEA excel file
 getBEADetailCPI2012Schema <- function () {
   # Download all Underlying tables from BEA iTable
   getBEAUnderlyingTables()
@@ -580,7 +580,7 @@ getBEADetailCPI2012Schema <- function () {
   colnames(DetailCPI) <- c("Gross_Output_Detail_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 13:24])
   return(DetailCPI)
 }
-# Get Summary BEA U.Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
+# Get Summary BEA Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
 getBEASummaryCPI2012Schema <- function () {
   # Download all Underlying tables from BEA iTable
   getBEAUnderlyingTables()
@@ -590,7 +590,7 @@ getBEASummaryCPI2012Schema <- function () {
   colnames(SummaryCPI) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 13:24])
   return(SummaryCPI)
 }
-# Get Sector BEA U.Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
+# Get Sector BEA Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
 getBEASectorCPI2012Schema <- function () {
   # Download all Underlying tables from BEA iTable
   getBEAUnderlyingTables()
@@ -600,13 +600,6 @@ getBEASectorCPI2012Schema <- function () {
   colnames(SectorCPI) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 13:24])
   return(SectorCPI)
 }
-Detail_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Detail"]]
-usethis::use_data(Detail_CPI_IO, overwrite = TRUE)
-Summary_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Summary"]]
-usethis::use_data(Summary_CPI_IO, overwrite = TRUE)
-Sector_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Sector"]]
-usethis::use_data(Sector_CPI_IO, overwrite = TRUE)
-
 
 #' Adjust CPI from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
 #' @return A list contains IO-based CPI at Detail, Summary, and Sector IO levels.
@@ -674,6 +667,12 @@ adjustBEACPItoIOIndustry2012Schema <- function () {
   return(CPIIOList)
 }
 
+Detail_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Detail"]]
+usethis::use_data(Detail_CPI_IO, overwrite = TRUE)
+Summary_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Summary"]]
+usethis::use_data(Summary_CPI_IO, overwrite = TRUE)
+Sector_CPI_IO <- adjustBEACPItoIOIndustry2012Schema()[["Sector"]]
+usethis::use_data(Sector_CPI_IO, overwrite = TRUE)
 
 
 
