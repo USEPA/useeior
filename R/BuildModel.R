@@ -80,12 +80,22 @@ prepareEEIOModel <- function(modelname) {
 #' @param modelname Name of the model from a config file.
 #' @export
 #' @return A list with USEEIO model components and attributes.
-buildEEIOModel <- function(modelname, disaggregationfile=NULL) {
+buildEEIOModel <- function(modelname, disaggregationfiles=NULL) {
   # Prepare model
   model <- prepareEEIOModel(modelname)
   # Disaggregate based on disaggregationfile
-  if(!is.null(disaggregationfile)){
+  model$specs$disaggregation=FALSE
+  if(!is.null(disaggregationfiles)){
+    # For each file in disaggregationfiles:
+    
+    # Read disaggregationfile and assign model parameters
+    model$DisaggregationSpecs$'211000'$OldSector <- "211000"
+    model$DisaggregationSpecs$'211000'$NewSectors <- list("211000a","211000b","211000c")
+    model$specs$disaggregation=TRUE
+    
     #perform disaggregation
+    
+    
   }
   # Generate matrices
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
