@@ -182,6 +182,7 @@ writeModelMetadata <- function(model) {
   sectors$Index <- c(1:nrow(sectors)-1)
   sectors$ID <- apply(sectors[, c("Code", "Name", "Location")], 1, FUN = joinStringswithSlashes)
   sectors <- sectors[, c("Index", "ID", "Name", "Code", "Location")]
+  sectors$Description <- ""
   utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write flows to csv
