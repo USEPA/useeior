@@ -115,7 +115,7 @@ writeModelDemandstoJSON <- function(model) {
   logging::loginfo(paste0("Model demand vectors for API written to ", outputfolder, "."))
 }
 
-#' Write model metadata (indicators and demands) as CSV files to output folder.
+#' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @description Writes model metadata, including indicators and demands.
 #' @export
@@ -173,7 +173,7 @@ writeModelMetadata <- function(model) {
     demands[n, "Location"] <- toupper(unlist(strsplit(demands[n, "ID"], "_"))[2])
     demands[n, "Scope"] <- unlist(strsplit(demands[n, "ID"], "_"))[4]
   }
-  utils::write.csv(demands, paste0(outputfolder, "/sectors.csv"),
+  utils::write.csv(demands, paste0(outputfolder, "/demands.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write sectors to csv
   sectors <- model$SectorNames
