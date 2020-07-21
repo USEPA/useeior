@@ -156,9 +156,8 @@ writeModelMetadata <- function(model) {
                                   sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
   indicators$ID <- apply(indicators[, c("Category", "Abbreviation", "Units")],
                          1, FUN = joinStringswithSlashes)
-  indicators[, c("Name", "Unit", "Group")] <- indicators[, c("Abbreviation", "Units", "Category")]
+  indicators[, c("Name", "Code", "Unit", "Group")] <- indicators[, c("Full name", "Abbreviation", "Units", "Category")]
   indicators$Index <- c(1:nrow(indicators)-1)
-  indicators$Code <- ""
   indicators <- indicators[, c("Index", "ID", "Name", "Code", "Unit", "Group")]
   utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
