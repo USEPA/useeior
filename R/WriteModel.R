@@ -126,6 +126,31 @@ writeModelMetadata <- function(model) {
   if (!dir.exists(outputfolder)) {
     dir.create(outputfolder, recursive = TRUE) 
   }
+  # Write model description to models.csv
+  model_desc <- file.path(user_dir, "USEEIO", "Model_Builds", "models.csv")
+  ID <- model$specs$Model
+  Name <- paste("A", substr(ID, 8, 10), "version", model$specs$PrimaryRegionAcronym,
+                "EEIO model in", tolower(model$specs$CommoditybyIndustryType),
+                "form at the BEA", tolower(model$specs$BaseIOLevel), "level with",
+                model$specs$SatelliteTable$GHG$DataYears, 
+                names(model$specs$SatelliteTable), "data")
+  Location <- outputfolder
+  Description <- paste("A", substr(ID, 8, 10), "version", model$specs$PrimaryRegionAcronym,
+                       "EEIO model in", tolower(model$specs$CommoditybyIndustryType),
+                       "form at the BEA", tolower(model$specs$BaseIOLevel), "level with",
+                       model$specs$SatelliteTable$GHG$DataYears, 
+                       names(model$specs$SatelliteTable), "table and customzied",
+                       names(model$specs$SatelliteTable), "indicators")
+  if (!file.exists(model_desc)) {
+    df <- cbind.data.frame(ID, Name, Location, Description)
+  } else {
+    df <- utils::read.table(model_desc, sep = ",", header = TRUE,
+                            stringsAsFactors = FALSE, check.names = FALSE)
+    if (!ID%in%df$ID) {
+      df <- rbind(df, cbind.data.frame(ID, Name, Location, Description))
+    }
+  }
+  utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write indicators to csv
   indicators <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
                                   sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
