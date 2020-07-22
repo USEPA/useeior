@@ -83,6 +83,10 @@ prepareEEIOModel <- function(modelname) {
 buildEEIOModel <- function(modelname) {
   # Prepare model
   model <- prepareEEIOModel(modelname)
+  
+  # Check for disaggregation
+  #! TO DO
+  
   # Generate matrices
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
