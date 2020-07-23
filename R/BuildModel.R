@@ -1,7 +1,7 @@
 #' Prepare economic components of an EEIO form USEEIO model.
 #' @param modelname Name of the model from a config file.
 #' @return A list with USEEIO model economic components.
-prepareEEIOModel <- function(modelname) {
+loadIOData <- function(modelname) {
   startLogging()
   logging::loginfo('Begin model initialization...')
   model <- list()
@@ -73,6 +73,13 @@ prepareEEIOModel <- function(modelname) {
   # Get model$IntermediateMargins and model$FinalConsumerMargins
   model$IntermediateMargins <- getMarginsTable(model, "intermediate")
   model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
+  
+  # Check for disaggregation
+  if(!is.null(model$specs$disaggregation)){
+    #! TO DO - point to DisaggregationFunctions.R
+    
+  }
+  
   return(model)
 }
 
@@ -80,13 +87,8 @@ prepareEEIOModel <- function(modelname) {
 #' @param modelname Name of the model from a config file.
 #' @export
 #' @return A list with USEEIO model components and attributes.
-buildEEIOModel <- function(modelname) {
-  # Prepare model
-  model <- prepareEEIOModel(modelname)
-  
-  # Check for disaggregation
-  #! TO DO
-  
+buildEEIOModel <- function(model) {
+
   # Generate matrices
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
