@@ -8,5 +8,5 @@ disaggregateSatelliteTable <- function (model, sattable){
   
   #Disaggregate satellite tables
   
-  return (sattable_disaggregated)
-} 
+  return(sattable_disaggregated)
+}
