@@ -84,7 +84,7 @@ loadIOData <- function(modelname) {
 }
 
 #' Build an EEIO form USEEIO model.
-#' @param modelname Name of the model from a config file.
+#' @param model Model file loaded with IO tables.
 #' @export
 #' @return A list with USEEIO model components and attributes.
 buildEEIOModel <- function(model) {
