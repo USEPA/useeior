@@ -1,3 +1,89 @@
+#' Prepare economic components of an EEIO form USEEIO model.
+#' @param modelname Name of the model from a config file.
+#' @return A list with USEEIO model economic components.
+loadIOData <- function(modelname) {
+  startLogging()
+  logging::loginfo('Begin model initialization...')
+  model <- list()
+  # Get model specs
+  model$specs <- getModelConfiguration(modelname)
+  # Get BEA IO tables
+  model$BEA <- loadBEAtables(model$specs)
+  # Get model$Industries and model$Commodities
+  if (model$specs$ModelType=="US") {
+    model$Commodities <- model$BEA$Commodities
+    model$Industries <- model$BEA$Industries
+  } else if (model$specs$ModelType=="State2R") {
+    # Fork for state model here
+  }
+  
+  # Get model$Make, model$Use, model$MakeTransactions, model$UseTransactions, and model$UseValueAdded
+  model$Make <- model$BEA$Make
+  model$Use <- model$BEA$Use
+  model$MakeTransactions <- model$BEA$MakeTransactions
+  model$UseTransactions <- model$BEA$UseTransactions
+  model$DomesticUseTransactions <- model$BEA$DomesticUseTransactions
+  model$UseValueAdded <- model$BEA$UseValueAdded
+  # Get GDP tables
+  model$GDP <- loadGDPtables(model$specs)
+  # Replace Gross Output with Industry Output from Make if modellevel is "Detail"
+  if (model$specs$BaseIOLevel=="Detail") {
+    MakeIndustryOutput <- model$BEA$MakeIndustryOutput
+    MakeIndustryOutput <- MakeIndustryOutput[rownames(model$GDP$BEAGrossOutputIO), colnames(MakeIndustryOutput), drop = FALSE]
+    model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear)] <- MakeIndustryOutput[, 1]
+  }
+  # Get model$CommodityOutput, model$CommodityCPI, model$IndustryOutput, model$IndustryCPI, and model$FinalDemand
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+    if (model$specs$PrimaryRegionAcronym=="US") {
+      model$CommodityOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
+    } else {
+      # Add RoUS in CommodityOutput table
+      model$CommodityOutput <- getStateCommodityOutputEstimates(model$specs$PrimaryRegionAcronym)
+    }
+    model$CPI <- generateCommodityCPIforYear(model$specs$IOYear, model) # return a one-column table for IOYear
+    # Get model$FinalDemand
+    model$FinalDemand <- model$BEA$UseFinalDemand
+    # Get model$DomesticFinalDemand
+    model$DomesticFinalDemand <- model$BEA$DomesticFinalDemand
+  } else {
+    # Get model$IndustryOutput from GDP tables
+    if (model$specs$PrimaryRegionAcronym=="US") {
+      model$IndustryOutput <- model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear), drop = FALSE]
+    } else {
+      # Add RoUS in IndustryOutput table
+      model$IndustryOutput <- getStateIndustryOutput(model$specs$PrimaryRegionAcronym)
+    }
+    # Get model$IndustryCPI from GDP tables
+    model$CPI <- model$GDP$BEACPIIO[, as.character(model$specs$IOYear), drop = FALSE]
+    # Transform model$BEA$UseFinalDemand with MarketShares
+    model$FinalDemand <- transformFinalDemandwithMarketShares(model$BEA$UseFinalDemand, model)#This output needs to be tested - producing strange results
+    # Transform model$BEA$DomesticFinalDemand with MarketShares
+    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$BEA$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
+  }
+  # Get model$SectorNames
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+    USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
+                                     sep = ",", header = TRUE, stringsAsFactors = FALSE)
+    model$SectorNames <- merge(as.data.frame(model$Commodities, stringsAsFactors = FALSE), USEEIONames,
+                               by.x = "model$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
+  } else {
+    model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
+  }
+  colnames(model$SectorNames) <- c("SectorCode", "SectorName")
+  # Get model$IntermediateMargins and model$FinalConsumerMargins
+  model$IntermediateMargins <- getMarginsTable(model, "intermediate")
+  model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
+  
+  # Check for disaggregation
+  if(!is.null(model$specs$disaggregation)){
+    #! TO DO - point to DisaggregationFunctions.R
+    
+  }
+  
+  return(model)
+}
+
+
 #' Load BEA IO tables in a list based on model config.
 #' @param specs Model specifications.
 #' @return A list with BEA IO tables.
