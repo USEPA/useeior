@@ -75,24 +75,6 @@ loadsattables <- function(model) {
       } else {
         #In NAICS #
       }
-      if(model$specs$disaggregation){
-        # For each disaggregation:
-        for (disagg in model$DisaggregationSpecs){
-        
-        # Subset the totals from the original sector
-        old_sector_totals <- subset(totals_by_sector, SectorCode==disagg$OldSector, colnames(totals_by_sector))
-          for (new_sector in disagg$NewSectors){
-            new_sector_totals <- old_sector_totals
-            new_sector_totals$SectorCode <- new_sector
-            #new_sector_totals$SectorName <- newname
-            # Adjust the total quantities, temporarily dividing evenly
-            new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount / length(disagg$NewSectors))
-            # Append to the main dataframe
-            totals_by_sector <- rbind(totals_by_sector,new_sector_totals)
-          }
-        # Remove the old_sector_totals
-        }
-      }
       #Add in DQ columns and additional contextual scores not provided
       totals_by_sector <- scoreContextualDQ(totals_by_sector) #just sets TemporalCorrelation for now
       
