@@ -96,6 +96,11 @@ loadsattables <- function(model) {
       #Add in DQ columns and additional contextual scores not provided
       totals_by_sector <- scoreContextualDQ(totals_by_sector) #just sets TemporalCorrelation for now
       
+      #Check for disaggregation
+      if(!is.null(model$specs$disaggregation)){
+        totals_by_sector <- disaggregateSatelliteTable(model, totals_by_sector)
+      }
+      
       #Check that all DQ columns are present
       len_dq_fields <- length(getDQfields(totals_by_sector))
       if(len_dq_fields!=5){

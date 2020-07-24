@@ -544,6 +544,18 @@
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Sector_CPI_IO"
 
+#' Summary 2007-2018 Value Added (2012 schema)
+#' @format A dataframe with 71 obs. and 12 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
+"Summary_ValueAdded_IO"
+
+#' Sector 2007-2018 Value Added (2012 schema)
+#' @format A dataframe with 15 obs. and 12 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
+"Sector_ValueAdded_IO"
+
 #' Detail Industry Code and Name (2012 schema)
 #' @format A dataframe with 405 obs. and 2 variables
 #' @description TBD
