@@ -1,4 +1,4 @@
-Code,Commodity,Industry,Scrap,ValueAdded,CommodityTotalOutput,IndustryTotalOutput,CommodityIntermediateOutput,HouseholdDemand,InvestmentDemand,ChangeInventories, Import,Export,GovernmentDemand,NaturalGas,Water,Electricity,Petroleum,PersonalTransportRelated,Wholesale,Retail,Distribution
+Code,Commodity,Industry,Scrap,ValueAdded,CommodityTotalOutput,IndustryTotalOutput,CommodityIntermediateOutput,HouseholdDemand,InvestmentDemand,ChangeInventories,Export,Import,GovernmentDemand,NaturalGas,Water,Electricity,Petroleum,PersonalTransportRelated,Wholesale,Retail,Distribution
 1111A0,1,1,,,,,,,,,,,,,,,,,,,
 1111B0,1,1,,,,,,,,,,,,,,,,,,,
 111200,1,1,,,,,,,,,,,,,,,,,,,

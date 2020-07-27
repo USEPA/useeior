@@ -47,6 +47,7 @@ getAdjustedOutput <- function (outputyear, referenceyear, location_acronym, IsRo
 #' @param IO_transactions_df IO transactions of the model in dataframe format.
 #' @param IO_output_df Output of the model in dataframe format.
 #' @return A matrix.
+#' @export
 normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
   Z <- as.matrix(IO_transactions_df)
   x <- unname(unlist(IO_output_df))
