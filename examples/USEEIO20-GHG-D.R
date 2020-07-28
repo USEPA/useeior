@@ -16,8 +16,9 @@ model <- useeior::buildEEIOModel(model)
 result <- useeior::calculateEEIOModel(model, perspective='DIRECT')
 
 # output model results in various formats
-useeior::writeModelComponents(model)
+##useeior::writeModelComponents(model)
 #useeior::writeModelMatrices(model)
-useeior::writeModelMatricesforAPI(model)
-useeior::writeModelDemandstoJSON(model)
-useeior::writeModelMetadata(model)
+##useeior::writeModelMatricesforAPI(model)
+##useeior::writeModelDemandstoJSON(model)
+##useeior::writeModelMetadata(model)
+## means temporary comment block, used to run this file for debugging purposes.
