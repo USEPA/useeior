@@ -21,6 +21,19 @@ writeSectorCrosswalk <- function(){
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")  
 }
 
+#' Write model matrices as CSV files to output folder.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param outputfolder A directory to write matrices out to
+#' @description Writes model matrices, including A, B, C, D, L, U, and M.
+#' @export
+writeModelMatrices <- function(model, outputfolder) {
+  # Write model matrices to csv
+  for (matrix in c("A", "B", "C", "D", "L", "U", "M")) {
+    utils::write.csv(model[[matrix]], paste0(outputfolder, "/matrcies", matrix, ".csv"),
+                     na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  }
+  logging::loginfo(paste0("Model matrices written to ", outputfolder, "."))
+}
 ###All functions below here are internal
 
 #' Sets directories to write model output data to
@@ -93,18 +106,6 @@ writeModelComponents <- function(model, modelfolder) {
   #logfilename <- paste0("modelbuildlogs/", model$specs$Model, logtimestamp, ".log")
   #logging::addHandler(logging::writeToFile, file = logfilename, level = "INFO")
   logging::loginfo(paste0("Model components written to ",modelfolder," ."))
-}
-
-#' Write model matrices as CSV files to output folder.
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @description Writes model matrices, including A, B, C, D, L, U, and M.
-writeModelMatrices <- function(model) {
-  # Write model matrices to csv
-  for (matrix in c("A", "B", "C", "D", "L", "U", "M")) {
-    utils::write.csv(model[[matrix]], paste0(demandsfolder, "/", matrix, ".csv"),
-                     na = "", row.names = FALSE, fileEncoding = "UTF-8")
-  }
-  logging::loginfo(paste0("Model matrices written to ", demandsfolder, "."))
 }
 
 #' Write model matrices as BIN files for API to output folder.
