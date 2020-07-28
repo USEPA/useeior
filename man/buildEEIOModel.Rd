@@ -4,10 +4,10 @@
 \alias{buildEEIOModel}
 \title{Build an EEIO form USEEIO model.}
 \usage{
-buildEEIOModel(modelname)
+buildEEIOModel(model)
 }
 \arguments{
-\item{modelname}{Name of the model from a config file.}
+\item{model}{Model file loaded with IO tables.}
 }
 \value{
 A list with USEEIO model components and attributes.

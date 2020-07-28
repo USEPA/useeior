@@ -4,9 +4,7 @@
 \name{Summary_Import_2010_BeforeRedef}
 \alias{Summary_Import_2010_BeforeRedef}
 \title{Summary 2010 Import Before Redefinition (2012 schema)}
-\format{
-A dataframe with 73 obs. and 93 variables
-}
+\format{A dataframe with 73 obs. and 93 variables}
 \source{
 \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
 }

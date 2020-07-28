@@ -2,9 +2,9 @@
 % Please edit documentation in R/WriteModel.R
 \name{writeModelMetadata}
 \alias{writeModelMetadata}
-\title{Write model metadata (indicators and demands) as CSV files to output folder.}
+\title{Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder.}
 \usage{
-writeModelMetadata(model)
+writeModelMetadata(model, dirs)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}

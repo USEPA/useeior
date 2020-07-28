@@ -4,8 +4,7 @@
 \name{SatelliteTableConfiguration}
 \alias{SatelliteTableConfiguration}
 \title{Satellite Table Configuration}
-\format{
-A list of satellite table attributes
+\format{A list of satellite table attributes
 \describe{
  \item{FullName}{string, Name of the satellite table}
  \item{Abbreviation}{string, Abbreviation for table}
@@ -18,8 +17,7 @@ A list of satellite table attributes
  \item{SectorListLevel}{string, BEA IO levels. Options are "Detail","Summary", or "Sector"}
  \item{OriginalFlowSource}{string, name of original flow source for mapping}
  \item{DataSources}{list of data sources, @seealso [DataSourceConfiguration]}
-}
-}
+}}
 \usage{
 SatelliteTableConfiguration
 }

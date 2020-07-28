@@ -4,7 +4,7 @@
 \alias{writeModelDemandstoJSON}
 \title{Write model demand vectors as JSON files for API to output folder.}
 \usage{
-writeModelDemandstoJSON(model)
+writeModelDemandstoJSON(model, demandsfolder)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}

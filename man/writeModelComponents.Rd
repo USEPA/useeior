@@ -4,10 +4,12 @@
 \alias{writeModelComponents}
 \title{Write model components to output folder using IO-Model-Builder format.}
 \usage{
-writeModelComponents(model)
+writeModelComponents(model, modelfolder)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{modelfolder}{Directory to write the model components to}
 }
 \description{
 Only writes model economic components (DRC, Marketshares, Demand) for now.
