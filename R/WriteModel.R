@@ -126,6 +126,9 @@ writeModelMetadata <- function(model) {
   if (!dir.exists(outputfolder)) {
     dir.create(outputfolder, recursive = TRUE) 
   }
+  # Write BEA-NAICS crosswalk to csv
+  utils::write.csv(MasterCrosswalk2012, paste0(outputfolder, "/BEA-NAICSCrosswalk.csv"),
+                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write model description to models.csv
   model_desc <- file.path(user_dir, "USEEIO", "Model_Builds", "models.csv")
   ID <- model$specs$Model
