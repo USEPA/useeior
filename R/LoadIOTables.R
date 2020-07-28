@@ -75,6 +75,7 @@ loadIOData <- function(modelname) {
   model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
   
   # Check for disaggregation
+  #model$DisaggregationSpecs <- getDisaggregationConfiguration(modelname)
   if(!is.null(model$specs$disaggregation)){
     #! TO DO - point to DisaggregationFunctions.R
     
