@@ -10,7 +10,7 @@ library(useeior)
 
 # See the versioning scheme for explanation of model names (https://github.com/USEPA/USEEIO/blob/master/VersioningScheme.md)
 useeior::seeAvailableModels()
-model <- useeior::loadIOData('USEEIOv2.0-GHG')
+model <- loadIOData('USEEIOv2.0-GHG')
 model <- useeior::buildEEIOModel(model)
 result <- useeior::calculateEEIOModel(model, perspective='DIRECT')
 
