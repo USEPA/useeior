@@ -1,6 +1,7 @@
 #' Prepare economic components of an EEIO form USEEIO model.
 #' @param modelname Name of the model from a config file.
 #' @return A list with USEEIO model economic components.
+#' @export
 loadIOData <- function(modelname) {
   startLogging()
   logging::loginfo('Begin model initialization...')
