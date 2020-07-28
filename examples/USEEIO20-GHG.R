@@ -14,9 +14,8 @@ model <- useeior::loadIOData('USEEIOv2.0-GHG')
 model <- useeior::buildEEIOModel(model)
 result <- useeior::calculateEEIOModel(model, perspective='DIRECT')
 
-# output model results in various formats
-useeior::writeModelComponents(model)
-#useeior::writeModelMatrices(model)
-useeior::writeModelMatricesforAPI(model)
-useeior::writeModelDemandstoJSON(model)
-useeior::writeModelMetadata(model)
+# Write model for API
+useeior::writeModelforAPI(model)
+
+# Write model matrices to csv for review
+useeior::writeModelMatrices(model,getwd())
