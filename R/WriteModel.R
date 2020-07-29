@@ -165,7 +165,7 @@ writeModelMetadata <- function(model,dirs) {
                 "form at the BEA", tolower(model$specs$BaseIOLevel), "level with",
                 model$specs$SatelliteTable$GHG$DataYears, 
                 names(model$specs$SatelliteTable), "data")
-  Location <- outputfolder
+  Location <- model$specs$PrimaryRegionAcronym
   Description <- paste("A", substr(ID, 8, 10), "version", model$specs$PrimaryRegionAcronym,
                        "EEIO model in", tolower(model$specs$CommoditybyIndustryType),
                        "form at the BEA", tolower(model$specs$BaseIOLevel), "level with",
