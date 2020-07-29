@@ -5,7 +5,6 @@
 writeModelforAPI <-function(model){
   dirs <- setWriteDirs(model)
   prepareWriteDirs(dirs,model)
-  writeModelComponents(model,dirs$model)
   writeModelMatricesforAPI(model,dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
   writeModelMetadata(model,dirs)
@@ -14,10 +13,10 @@ writeModelforAPI <-function(model){
 #' Write the master sector crosswalk out for the API
 #' @description Writes master sector crosswalk out for the API in csv
 #' @export
-writeSectorCrosswalk <- function(){
+writeSectorCrosswalkforAPI <- function(){
   dirs <- setWriteDirs()
   prepareWriteDirs(dirs)
-  utils::write.csv(MasterCrosswalk2012, paste0(datafolder, "/sectorcrosswalk.csv"),
+  utils::write.csv(MasterCrosswalk2012, paste0(dirs$data, "/sectorcrosswalk.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")  
 }
 
@@ -34,6 +33,48 @@ writeModelMatrices <- function(model, outputfolder) {
   }
   logging::loginfo(paste0("Model matrices written to ", outputfolder, "."))
 }
+
+
+#' Write model components to output folder for useeiopy building using IO-Model-Builder format.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param modelfolder Directory to write the model components to
+#' @description Only writes model economic components (DRC, Marketshares, Demand) for now.
+#' @export
+writeModelforPY <- function(model) {
+  dirs <- setWriteDirs(model)
+  prepareWriteDirs(dirs,model)
+  modelfolder <- dirs$model
+  # Sat Tables
+  sattable <- do.call(rbind.data.frame, model$SatelliteTables$coeffs_by_sector)
+  # LCIA
+  LCIA <- formatLCIAforIOMB(model)
+  # Sector meta data
+  SectorMetaData <- formatSectorMetaDataforIOMB(model)
+  # Demand
+  if(model$specs$PrimaryRegionAcronym=="US") {
+    Demand <- getUSTotalConsProd(model)
+    #add in food system demand
+    #Demand <- addDemandforSubsystem("food",Demand)
+  }
+  # Format DRC for IOMB
+  DirectRequirementsCoefficients <- formatIOTableforIOMB(model$A, model)
+  # Write model build components to csv
+  name_pre <- paste(modelfolder, model$specs$Model, sep = "/")
+  utils::write.csv(sattable, paste0(name_pre, "_sat.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8") 
+  utils::write.csv(LCIA, paste0(name_pre, "_LCIA.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(SectorMetaData, paste0(name_pre, "_sector_meta_data.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(Demand, paste0(name_pre, "_FinalDemand.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(DirectRequirementsCoefficients, paste0(name_pre, "_DRC.csv"), row.names = TRUE, fileEncoding = "UTF-8") #DRC needs row indices
+  # Write logs to file in Model Builds folder
+  logtimestamp <- Sys.Date()
+  #if (!dir.exists())
+  #dir.create("modelbuildlogs", recursive = TRUE) # meant to be flexible up to users
+  #logfilename <- paste0("modelbuildlogs/", model$specs$Model, logtimestamp, ".log")
+  #logging::addHandler(logging::writeToFile, file = logfilename, level = "INFO")
+  logging::loginfo(paste0("Model components written to ",modelfolder," ."))
+}
+
+
 ###All functions below here are internal
 
 #' Sets directories to write model output data to
@@ -71,41 +112,6 @@ prepareWriteDirs <- function(dirs,model=NA) {
       dir.create(dirs$demands, recursive = TRUE) 
     }
   }
-}
-
-#' Write model components to output folder using IO-Model-Builder format.
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param modelfolder Directory to write the model components to
-#' @description Only writes model economic components (DRC, Marketshares, Demand) for now.
-writeModelComponents <- function(model, modelfolder) {
-  # Sat Tables
-  sattable <- do.call(rbind.data.frame, model$SatelliteTables$coeffs_by_sector)
-  # LCIA
-  LCIA <- formatLCIAforIOMB(model)
-  # Sector meta data
-  SectorMetaData <- formatSectorMetaDataforIOMB(model)
-  # Demand
-  if(model$specs$PrimaryRegionAcronym=="US") {
-    Demand <- getUSTotalConsProd(model)
-    #add in food system demand
-    #Demand <- addDemandforSubsystem("food",Demand)
-  }
-  # Format DRC for IOMB
-  DirectRequirementsCoefficients <- formatIOTableforIOMB(model$A, model)
-  # Write model build components to csv
-  name_pre <- paste(modelfolder, model$specs$Model, sep = "/")
-  utils::write.csv(sattable, paste0(name_pre, "_sat.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8") 
-  utils::write.csv(LCIA, paste0(name_pre, "_LCIA.csv"), row.names = FALSE, fileEncoding = "UTF-8")
-  utils::write.csv(SectorMetaData, paste0(name_pre, "_sector_meta_data.csv"), row.names = FALSE, fileEncoding = "UTF-8")
-  utils::write.csv(Demand, paste0(name_pre, "_FinalDemand.csv"), row.names = FALSE, fileEncoding = "UTF-8")
-  utils::write.csv(DirectRequirementsCoefficients, paste0(name_pre, "_DRC.csv"), row.names = TRUE, fileEncoding = "UTF-8") #DRC needs row indices
-  # Write logs to file in Model Builds folder
-  logtimestamp <- Sys.Date()
-  #if (!dir.exists())
-  #dir.create("modelbuildlogs", recursive = TRUE) # meant to be flexible up to users
-  #logfilename <- paste0("modelbuildlogs/", model$specs$Model, logtimestamp, ".log")
-  #logging::addHandler(logging::writeToFile, file = logfilename, level = "INFO")
-  logging::loginfo(paste0("Model components written to ",modelfolder," ."))
 }
 
 #' Write model matrices as BIN files for API to output folder.
