@@ -178,13 +178,15 @@ writeModelMetadata <- function(model,dirs) {
                        model$specs$SatelliteTable$GHG$DataYears, 
                        names(model$specs$SatelliteTable), "table and customzied",
                        names(model$specs$SatelliteTable), "indicators")
+  #Add in sector schema for model
+  Sector_Schema <- paste0("BEA_",model$specs$BaseIOSchema,"_",model$specs$BaseIOLevel,"_Code")
   if (!file.exists(model_desc)) {
-    df <- cbind.data.frame(ID, Name, Location, Description)
+    df <- cbind.data.frame(ID, Name, Location, Description, Sector_Schema)
   } else {
     df <- utils::read.table(model_desc, sep = ",", header = TRUE,
                             stringsAsFactors = FALSE, check.names = FALSE)
     if (!ID%in%df$ID) {
-      df <- rbind(df, cbind.data.frame(ID, Name, Location, Description))
+      df <- rbind(df, cbind.data.frame(ID, Name, Location, Description, Sector_Schema))
     }
   }
   utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
