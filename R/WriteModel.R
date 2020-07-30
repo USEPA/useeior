@@ -28,11 +28,15 @@ writeSectorCrosswalkforAPI <- function(basedir){
 #' @export
 writeModelMatrices <- function(model, outputfolder) {
   # Write model matrices to csv
+  modelfolder <- file.path(outputfolder, model$specs$Model,"matrices")
+  if (!dir.exists(modelfolder)) {
+    dir.create(modelfolder, recursive = TRUE) 
+  }
   for (matrix in c("A", "B", "C", "D", "L", "U", "M")) {
-    utils::write.csv(model[[matrix]], paste0(outputfolder, "/matrcies", matrix, ".csv"),
+    utils::write.csv(model[[matrix]], paste0(modelfolder, matrix, ".csv"),
                      na = "", row.names = FALSE, fileEncoding = "UTF-8")
   }
-  logging::loginfo(paste0("Model matrices written to ", outputfolder, "."))
+  logging::loginfo(paste0("Model matrices written to ", modelfolder, "."))
 }
 
 
@@ -41,7 +45,7 @@ writeModelMatrices <- function(model, outputfolder) {
 #' @param modelfolder Directory to write the model components to
 #' @description Only writes model economic components (DRC, Marketshares, Demand) for now.
 #' @export
-writeModelforPY <- function(model) {
+writeModelforUSEEIOPY <- function(model) {
   user_dir <- rappdirs::user_data_dir()
   modelfolder <- file.path(user_dir, "USEEIO", "Model_Builds",model$specs$Model)
   if (!dir.exists(modelfolder)) {
