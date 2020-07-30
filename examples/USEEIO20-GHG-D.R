@@ -11,7 +11,7 @@ library(useeior)
 
 # See the versioning scheme for explanation of model names (https://github.com/USEPA/USEEIO/blob/master/VersioningScheme.md)
 useeior::seeAvailableModels()
-model <- loadIOData('USEEIOv2.0-GHG-D')
+model <- useeior::loadIOData('USEEIOv2.0-GHG-D')
 model <- useeior::buildEEIOModel(model)
 result <- useeior::calculateEEIOModel(model, perspective='DIRECT')
 

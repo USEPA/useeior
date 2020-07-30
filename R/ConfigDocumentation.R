@@ -16,6 +16,7 @@
 #'  \item{SatelliteTable}{named list of satellite table objects named by table acynonyms. @seealso [SatelliteTableConfiguration]}
 #'  \item{Demand}{list. @seealso [DemandConfiguration]}
 #'  \item{Indicators}{named list of indicators by indicator acronym.  @seealso [IndicatorConfiguration]}
+#'  \item{DisaggregationSpecs}{string, name of YML file with disaggregation specs}
 #'}
 "ModelConfiguration"
 
@@ -67,3 +68,20 @@
 #' }
 "DataSourceConfiguration"
 
+#' DisaggregationConfiguration
+#' @format A list of disaggregation attributes
+#' \describe{
+#'  \item{DisaggregationType}{String. Options are "Predefined" or "UserDefined"}#Can make a template of UserDefined for Summary->Detail disaggregation?
+#'  \item{PredefinedSectors}{list of sectors to disaggregate, @seealso [PredefinedSectors]}
+#' }
+"DisaggregationConfiguration"
+
+#' PredefinedSectorsConfiguration
+#' @format A list of sectors to disaggregate attributes
+#' \describe{
+#'  \item{OriginalSectorName}{string, Name of the original sector}
+#'  \item{OriginalSectorCode}{string, code of the original sector}
+#'  \item{DiaggregatedSectorNames}{list of disaggregated sector names}
+#'  \item{DisaggregatedSectorCodes}{list of disaggregated sector codes} 
+#'  }
+"PredefinedSectorsConfiguration"
