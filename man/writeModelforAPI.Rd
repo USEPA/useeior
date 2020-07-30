@@ -4,7 +4,7 @@
 \alias{writeModelforAPI}
 \title{Writes all model data and metadata components to the API}
 \usage{
-writeModelforAPI(model)
+writeModelforAPI(model, basedir)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}

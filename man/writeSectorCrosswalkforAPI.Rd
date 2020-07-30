@@ -4,7 +4,7 @@
 \alias{writeSectorCrosswalkforAPI}
 \title{Write the master sector crosswalk out for the API}
 \usage{
-writeSectorCrosswalkforAPI()
+writeSectorCrosswalkforAPI(basedir)
 }
 \description{
 Writes master sector crosswalk out for the API in csv

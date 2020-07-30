@@ -2,8 +2,8 @@
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @description Writes all model data and metadata components to the API
 #' @export
-writeModelforAPI <-function(model){
-  dirs <- setWriteDirs(model)
+writeModelforAPI <-function(model, basedir){
+  dirs <- setWriteDirsforAPI(model,basedir)
   prepareWriteDirs(dirs,model)
   writeModelMatricesforAPI(model,dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
@@ -13,11 +13,12 @@ writeModelforAPI <-function(model){
 #' Write the master sector crosswalk out for the API
 #' @description Writes master sector crosswalk out for the API in csv
 #' @export
-writeSectorCrosswalkforAPI <- function(){
-  dirs <- setWriteDirs()
+writeSectorCrosswalkforAPI <- function(basedir){
+  dirs <- setWriteDirsforAPI(model=NA,basedir)
   prepareWriteDirs(dirs)
   utils::write.csv(MasterCrosswalk2012, paste0(dirs$data, "/sectorcrosswalk.csv"),
-                   na = "", row.names = FALSE, fileEncoding = "UTF-8")  
+                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  logging::loginfo(paste0("Sector crosswalk written to ", basedir, "."))
 }
 
 #' Write model matrices as CSV files to output folder.
@@ -41,9 +42,11 @@ writeModelMatrices <- function(model, outputfolder) {
 #' @description Only writes model economic components (DRC, Marketshares, Demand) for now.
 #' @export
 writeModelforPY <- function(model) {
-  dirs <- setWriteDirs(model)
-  prepareWriteDirs(dirs,model)
-  modelfolder <- dirs$model
+  user_dir <- rappdirs::user_data_dir()
+  modelfolder <- file.path(user_dir, "USEEIO", "Model_Builds",model$specs$Model)
+  if (!dir.exists(modelfolder)) {
+    dir.create(modelfolder, recursive = TRUE) 
+  }
   # Sat Tables
   sattable <- do.call(rbind.data.frame, model$SatelliteTables$coeffs_by_sector)
   # LCIA
@@ -81,16 +84,12 @@ writeModelforPY <- function(model) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes. Optional
 #' @description Sets directories to write model output data to. If model is not passed, just sets data directory. 
 #' @return A named list of directories for model output writing
-setWriteDirs <- function(model=NA) {
-  user_dir <- rappdirs::user_data_dir()
-  datafolder <- file.path(user_dir, "USEEIO", "Model_Builds")
+setWriteDirsforAPI <- function(model=NA, basedir) {
   dirs <- list()
-  dirs$data <- datafolder
+  dirs$data <-  file.path(basedir,"build","data")
   if (!is.na(model)) {
-    modelfolder <- file.path(user_dir, "USEEIO", "Model_Builds", model$specs$Model)
-    demandsfolder <- file.path(user_dir, "USEEIO", "Model_Builds", model$specs$Model, "demands")    
-    dirs$model <- modelfolder
-    dirs$demands <- demandsfolder
+    dirs$model <- file.path(dirs$data, model$specs$Model)
+    dirs$demands <- file.path(dirs$model,"demands")    
   }
   return(dirs)
 }
