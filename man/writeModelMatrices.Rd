@@ -4,10 +4,12 @@
 \alias{writeModelMatrices}
 \title{Write model matrices as CSV files to output folder.}
 \usage{
-writeModelMatrices(model)
+writeModelMatrices(model, outputfolder)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{outputfolder}{A directory to write matrices out to}
 }
 \description{
 Writes model matrices, including A, B, C, D, L, U, and M.
