@@ -27,14 +27,3 @@ findModelConfigurationFiles <- function() {
   configfiles <- list.files(path=packdir,pattern=".yml") 
   return(configfiles)
 }
-
-#' Gets Disaggregation configuration
-#' @param modelname The name of the model.
-#' @return A list of Disaggregation specifications.
-#' @export
-getDisaggregationConfiguration <- function(modelname) {
-  #configname <- paste(modelname, ".yml", sep = "")
-  #configfile <- system.file("extdata", configname, package="useeior")
-  #try(config <- configr::read.config(configfile))
-  #return(config)
-}
