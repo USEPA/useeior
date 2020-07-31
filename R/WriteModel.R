@@ -33,8 +33,8 @@ writeModelMatrices <- function(model, outputfolder) {
     dir.create(modelfolder, recursive = TRUE) 
   }
   for (matrix in c("A", "B", "C", "D", "L", "U", "M")) {
-    utils::write.csv(model[[matrix]], paste0(modelfolder, matrix, ".csv"),
-                     na = "", row.names = FALSE, fileEncoding = "UTF-8")
+    utils::write.csv(model[[matrix]], paste0(modelfolder,"/",matrix, ".csv"),
+                     na = "", row.names = TRUE, fileEncoding = "UTF-8")
   }
   logging::loginfo(paste0("Model matrices written to ", modelfolder, "."))
 }
@@ -196,11 +196,11 @@ writeModelMetadata <- function(model,dirs) {
   # Write indicators to csv
   indicators <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
                                   sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
-  indicators$ID <- apply(indicators[, c("Category", "Abbreviation", "Units")],
+  indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")],
                          1, FUN = joinStringswithSlashes)
-  indicators[, c("FullName", "Code", "Unit", "Group")] <- indicators[, c("Full name", "Abbreviation", "Units", "Category")]
+  #indicators[, c("Name", "Code", "Unit", "Group")] <- indicators[, c("Full name", "Abbreviation", "Units", "Category")]
   indicators$Index <- c(1:nrow(indicators)-1)
-  indicators <- indicators[, c("Index", "ID", "FullName", "Code", "Unit", "Group", "SimpleUnit", "Name")]
+  indicators <- indicators[, c("Index", "ID", "Name", "Code", "Unit", "Group", "SimpleUnit", "SimpleName")]
   utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write demands to csv
