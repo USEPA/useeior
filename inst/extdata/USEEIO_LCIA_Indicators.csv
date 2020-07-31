@@ -1,4 +1,4 @@
-Full name,Abbreviation,Category,Units,SimpleUnit,Name
+Name,Code,Group,Unit,SimpleUnit,SimpleName
 Acid Rain,ACID,Impact Potential,kg SO2-eq,Kilograms Sulphur Dioxide (SO2),Acid Rain
 Eutrophication,EUTR,Impact Potential,kg N-eq,Kilograms Nitrogen (N),Water Eutrophication
 Freshwater Aquatic Ecotoxicity,ETOX,Impact Potential,CTUe,Comparative Toxic Unit for Ecosystem (CTUe),Freshwater Ecotoxicity

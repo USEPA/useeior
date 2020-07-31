@@ -2,7 +2,7 @@
 % Please edit documentation in R/LoadIndicators.R
 \name{generateLCIA}
 \alias{generateLCIA}
-\title{Deprecated function for generating LCIA output using LCIA_indicators static file}
+\title{Generating LCIA output formatted for useeiopy using LCIA_indicators static file}
 \usage{
 generateLCIA(model)
 }
@@ -10,8 +10,8 @@ generateLCIA(model)
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
-A LCIA dataframe not yet formatted for IOMB.
+A dataframe of the LCIA factors for all indicators used in the model
 }
 \description{
-Deprecated function for generating LCIA output using LCIA_indicators static file
+Generating LCIA output formatted for useeiopy using LCIA_indicators static file
 }
