@@ -191,7 +191,7 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   newTechGGEProd<-c(modModel$BiofuelsData$FutureBiofuelTech1, modModel$BiofuelsData$FutureBiofuelTech2,modModel$BiofuelsData$FutureBiofuelTech3)
   for(j in (nIndustries+1):(nIndustries+3)){
     for(i in 1:(nCommodities+1)){
-      modUse[i,j]<-inputPurchases[i,j-nIndustries]*newTechGGEProd[j-nIndustries] #the input purchases $/GGE times the GGE produced by each tech
+      modUse[i,j]<-(inputPurchases[i,j-nIndustries]*newTechGGEProd[j-nIndustries])/1000000 #the input purchases $/GGE times the GGE produced by each tech divided in 1000000 to be in million dollars
     }
   }
   
@@ -243,7 +243,7 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
       }
       else if(j==nIndustries+1 | j==nIndustries+2 | j==nIndustries+3)
       {
-        modUse[i,j]<-valueAdded[i-(nCommodities+1+1),j-nIndustries]*newTechGGEProd[j-nIndustries] #the value added components in $/GGE times the GGE produced by each tech
+        modUse[i,j]<-(valueAdded[i-(nCommodities+1+1),j-nIndustries]*newTechGGEProd[j-nIndustries])/1000000 #the value added components in $/GGE times the GGE produced by each tech divided by 1000000 to be in million dollars
       }
       else
       {
