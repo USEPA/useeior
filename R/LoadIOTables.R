@@ -79,6 +79,8 @@ loadIOData <- function(modelname) {
   model$DisaggregationSpecs <- getModelConfiguration(disaggregationConfigFile)
   if(!is.null(model$specs$DisaggregationSpecs)){
     #! TO DO - point to DisaggregationFunctions.R
+    logging::loginfo("Initializing Disaggregation of IO tables...")
+    #disaggregatedMake <- disaggregateMakeTable(model)
     
   }
   

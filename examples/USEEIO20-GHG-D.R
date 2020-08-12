@@ -22,3 +22,6 @@ result <- useeior::calculateEEIOModel(model, perspective='DIRECT')
 ##useeior::writeModelDemandstoJSON(model)
 ##useeior::writeModelMetadata(model)
 ## means temporary comment block, used to run this file for debugging purposes.
+
+#for testing
+useeior::disaggregateMakeTable(model)
