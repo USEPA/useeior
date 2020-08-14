@@ -39,6 +39,10 @@ disaggregateMakeTable <- function (model){
     originalRowIndex <- which(rownames(originalMake)==model$DisaggregationSpecs$PredefinedSectors$OriginalSectorCode)
     originalColIndex <- which(colnames(originalMake)==model$DisaggregationSpecs$PredefinedSectors$OriginalSectorCode)
     
+    #Determine end index of disaggregated sectors
+    endRowIndex <- originalRowIndex + numNewSectors -1
+    endColIndex <- originalColIndex + numNewSectors -1
+    
     
   ########Row disaggregation
     #Copy original row (ind) for disaggregation
@@ -82,8 +86,31 @@ disaggregateMakeTable <- function (model){
     rownames(disaggIntersection) <- model$DisaggregationSpecs$PredefinedSectors$DisaggregatedSectorCodes
     
     
+  ########Avengers Assemble
+    
+    #Assembling all columns above disaggregated rows, including all disaggregated columns
+    disaggTable <- cbind(originalMake[1:originalRowIndex-1,1:originalColIndex-1],  #above diagg rows, from 1st col to col right before disaggregation
+                        disaggCols[1:originalRowIndex-1,],                        #insert disaggregated cols before disaggregated rows
+                        originalMake[1:originalRowIndex-1,-(1:originalColIndex)]) #include all cols except from 1st col to disaggregated col
+    
+    #Inserting intersection into disaggregated rows
+    disaggRows <- cbind(disaggRows[,1:originalColIndex-1],  #from 1st col to col right before disaggregation
+                        disaggIntersection,                 #insert disaggregated intersection
+                        disaggRows[,-(1:originalColIndex)]) #include all cols except from 1s col to disaggregated col
+    
+    #Appending rest of original rows to partially assembled DMake
+    disaggTable <- rbind(disaggTable,disaggRows)
+    
+    #Assembling all columns below disaggregated rows, including all disaggregated columns
+    disaggTableBottom <- cbind(originalMake[-(1:originalRowIndex),1:originalColIndex-1],  #below disagg rows, from 1st col to col right before disaggregation
+                               disaggCols[-(1:originalRowIndex),],                        #insert disaggregated cols below disaggregated rows
+                               originalMake[-(1:originalRowIndex),-(1:originalColIndex)]) #below disagg rows, all columns after disagg columns 
+    
+    #Appeding bottom part of the table to top part of the table
+    disaggTable <- rbind(disaggTable, disaggTableBottom)
+    
   } else if(disaggType == "UserDefined"){
-    #TODO: perform UserDefined disaggregation
+    #TODO: perform UserDefined disaggregationd
     
   } else {
     
@@ -93,5 +120,5 @@ disaggregateMakeTable <- function (model){
   
   
   
-  return(maketable_disaggregated)
+  return(disaggTable)
 }
