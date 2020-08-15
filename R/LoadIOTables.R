@@ -75,7 +75,6 @@ loadIOData <- function(modelname) {
   model$IntermediateMargins <- getMarginsTable(model, "intermediate")
   model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
   
-  browser()
   # Check for disaggregation
   if(!is.null(model$specs$DisaggregationSpecs)){
     model <- disaggregateModel(model)
