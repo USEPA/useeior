@@ -145,3 +145,12 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
   colnames(sattable_agg)[c(1, ncol(sattable_agg))] <- c("SectorCode", "FlowAmount")
   return(sattable_agg)
 }
+
+#' Calls the Python flowsa package's getFlowBySector method
+#' @param method_name The name
+#' @return A dataframe in flowbysector format
+getFlowbySector <- function(method_name) {
+  flowsa <- reticulate::import("flowsa")
+  fbs <- flowsa$getFlowBySector(method_name)
+  return(fbs)
+}
