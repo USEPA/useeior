@@ -1,0 +1,53 @@
+Model: "USEEIOv2.0s-WAT" # 2012 Summary, Commodity
+BaseIOSchema: 2012
+BaseIOLevel: "Summary"
+IOYear: 2012 # Year for IO data
+PrimaryRegionAcronym: "US"
+ModelRegionAcronyms: ["US"]
+ModelType: "US"
+ModelSource: "BEA"
+BasePriceType: "PRO" #producer
+BasewithRedefinitions: FALSE
+CommoditybyIndustryType: "Commodity"
+ScrapIncluded: FALSE
+
+SatelliteTable:
+  WAT:
+    FullName: "Water withdrawals"
+    Abbreviation: "WAT"
+    StaticSource: FALSE
+    StaticFile: NA
+    DataYears: [2015]
+    Locations: ["US"]
+    SectorListSource: "NAICS"
+    SectorListYear: 2012
+    SectorListLevel: "6"
+    OriginalFlowSource: "FEDEFLv1.0.4"
+    ScriptFunctionCall: 'getflowbysector' #function to call for script
+    ScriptFunctionParameters: ['Water_national_2015_m1'] #list of parameters e.g. ['year','location']
+    DataSources:
+      USGS_NWIS_WU_2015:
+        Title: "Water Use in the US"
+        Author: "USGS"
+        DataYear: 2015
+        URL: "https://waterdata.usgs.gov/"
+        Primary: TRUE
+
+Demand:
+  DemandYear: 2012
+  DemandSubsystems: NA
+
+Indicators:
+  GreenhouseGases:
+    FullName: "Water withdrawals"
+    Abbreviation: "WAT"
+    Category: "Resource Use"
+    Unit: "kg"
+    StaticSource: FALSE
+    DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
