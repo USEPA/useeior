@@ -2,6 +2,7 @@
 
 
 disaggregateModel <- function (model){
+  browser()
   for (disagg in model$specs$DisaggregationSpecs){
     disaggregationConfigFile <- disagg
     logging::loginfo(paste("Reading disaggregation for", disaggregationConfigFile, sep=" "))
@@ -10,7 +11,18 @@ disaggregateModel <- function (model){
   logging::loginfo("Initializing Disaggregation of IO tables...")
   model$MakeTransactions <- disaggregateMakeTable(model)
   #model$UseTransactions <- disaggregateUseTable(model)
-  #model$UseValueAdded
+  #model$DomesticUseTransactions <- disaggregateUseTable(model, TRUE)
+  for (disagg in model$DisaggregationSpecs$Disaggregation){
+    model$UseValueAdded <- disaggregateRows(model$UseValueAdded, disagg)
+    model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
+    #model$CPI <- disaggregateCols(model$CPI, disagg, TRUE)
+    model$FinalDemand <- disaggregateCols(model$FinalDemand, disagg)
+    model$DomesticFinalDemand <- disaggregateCols(model$DomesticFinalDemand, disagg)
+    #model$SectorNames
+    model$IntermediateMargins <- disaggregateCols(model$IntermediateMargins, disagg)
+    model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
+  }
+  
   
   
   return(model)
@@ -104,30 +116,15 @@ disaggregateMakeTable <- function (model){
       #Copy original row (ind) for disaggregation
       originalRowVector <- originalMake[originalRowIndex,]
       
-      #Divide original row (ind) by number of new sectors to calculate values of individual rows
-      originalRowVector <- originalRowVector/numNewSectors
-      
-      #Create new rows with the uniform values
-      disaggRows <-originalRowVector[rep(seq_len(nrow(originalRowVector)), numNewSectors), ]
-      
-      #Rename rows to use the disaggregated codes
-      rownames(disaggRows) <- disagg$DisaggregatedSectorCodes
-      
+      disaggRows <- disaggregateRow(originalRowVector,disagg)
       
     ########Columnn disaggregation
       #Copy original Column (Com) for disaggregation
       originalColVector <-originalMake[,originalColIndex, drop = FALSE]#drop = False needed to copy as dataframe
       
-      #Divide original Column by number of new sectors to calculate the values of individual rows
-      originalColVector <- originalColVector/numNewSectors
+      disaggCols <- disaggregateCol(originalColVector,disagg)
       
-      #Create new cols with the uniform values
-      disaggCols <- originalColVector[, rep(seq_len(ncol(originalColVector)), numNewSectors)]
-    
-      #Rename cols to use the disaggregted codes
-      colnames(disaggCols) <- disagg$DisaggregatedSectorCodes
-      
-      
+
     ########Intersection Disaggregation
       originalIntersection <- originalMake[originalRowIndex, originalColIndex]
       
@@ -180,4 +177,78 @@ disaggregateMakeTable <- function (model){
   
   
   return(disaggTable)
+}
+
+disaggregateUseTable <- function(model, domestic = FALSE){
+  
+  #TODO
+  
+}
+
+disaggregateRows <- function (RowVectors, disagg_specs, duplicate=FALSE){
+  
+  originalColIndex <- which(colnames(RowVectors)==disagg_specs$OriginalSectorCode)
+  numNewSectors <- length(disagg_specs$DisaggregatedSectorCodes)
+  
+  ColVector <- RowVectors[,originalColIndex, drop = FALSE]#drop = False needed to copy as dataframe
+  disaggCols <- disaggregateCol (ColVector, disagg_specs, duplicate)
+  
+  disaggRows <- cbind(RowVectors[,1:originalColIndex-1],  #from 1st col to col right before disaggregation
+                      disaggCols,                         #insert disaggregated cols
+                      RowVectors[,-(1:originalColIndex)]) #include all cols except from 1s col to disaggregated col
+  
+  return(disaggRows)
+  
+}
+
+disaggregateCols <- function (ColVectors, disagg_specs, duplicate=FALSE){
+  
+  originalRowIndex <- which(rownames(ColVectors)==disagg_specs$OriginalSectorCode)
+  numNewSectors <- length(disagg_specs$DisaggregatedSectorCodes)
+  
+  RowVector <- ColVectors[originalRowIndex,,drop=FALSE]
+  disaggRows <- disaggregateRow (RowVector, disagg_specs, duplicate)
+  ## SOMETHING STILL WRONG IN THIS LINE (CALLED IN LOADIO)
+  disaggCols <- rbind(ColVectors[1:originalRowIndex-1,],  #from 1st row to row right before disaggregation
+                      disaggRows,                         #insert disaggregated rows
+                      ColVectors[-(1:originalRowIndex),]) #include all rows except from 1s row to disaggregated row
+  
+  return(disaggCols)
+  
+}
+
+disaggregateRow <- function (originalRowVector, disagg_specs, duplicate = FALSE){
+  
+  numNewSectors <- length(disagg_specs$DisaggregatedSectorCodes)
+  
+  if (!duplicate){
+      #Divide original row (ind) by number of new sectors to calculate values of individual rows
+      originalRowVector <- originalRowVector/numNewSectors
+  }
+  
+  #Create new rows with the uniform values
+  disaggRows <-originalRowVector[rep(seq_len(nrow(originalRowVector)), numNewSectors),,drop=FALSE]
+  
+  #Rename rows to use the disaggregated codes
+  rownames(disaggRows) <- disagg_specs$DisaggregatedSectorCodes
+  
+  return(disaggRows)
+}
+
+disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE){
+  
+  numNewSectors <- length(disagg_specs$DisaggregatedSectorCodes)
+  
+  if (!duplicate){
+      #Divide original Column by number of new sectors to calculate the values of individual rows
+      originalColVector <- originalColVector/numNewSectors
+  }
+  
+  #Create new cols with the uniform values
+  disaggCols <- originalColVector[, rep(seq_len(ncol(originalColVector)), numNewSectors)]
+  
+  #Rename cols to use the disaggregted codes
+  colnames(disaggCols) <- disagg_specs$DisaggregatedSectorCodes
+  
+  return(disaggCols)
 }
