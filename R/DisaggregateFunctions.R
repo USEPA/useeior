@@ -2,25 +2,28 @@
 
 
 disaggregateModel <- function (model){
-  browser()
+
   for (disagg in model$specs$DisaggregationSpecs){
     disaggregationConfigFile <- disagg
     logging::loginfo(paste("Reading disaggregation for", disaggregationConfigFile, sep=" "))
     model$DisaggregationSpecs <- getModelConfiguration(disaggregationConfigFile)
   }
   logging::loginfo("Initializing Disaggregation of IO tables...")
+  #model$Make <- disaggregateMakeTable(model)
   model$MakeTransactions <- disaggregateMakeTable(model)
+  #model$Use <- disaggregateUseTable(model)
   #model$UseTransactions <- disaggregateUseTable(model)
   #model$DomesticUseTransactions <- disaggregateUseTable(model, TRUE)
   for (disagg in model$DisaggregationSpecs$Disaggregation){
     model$UseValueAdded <- disaggregateRows(model$UseValueAdded, disagg)
     model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
-    #model$CPI <- disaggregateCols(model$CPI, disagg, TRUE)
+    model$CPI <- disaggregateCols(model$CPI, disagg, TRUE)
     model$FinalDemand <- disaggregateCols(model$FinalDemand, disagg)
     model$DomesticFinalDemand <- disaggregateCols(model$DomesticFinalDemand, disagg)
     #model$SectorNames
-    model$IntermediateMargins <- disaggregateCols(model$IntermediateMargins, disagg)
-    model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
+    # margins tables need to be adjusted as the index is not the sector code like other dataframes
+    #model$IntermediateMargins <- disaggregateCols(model$IntermediateMargins, disagg)
+    #model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
   }
   
   
@@ -166,7 +169,7 @@ disaggregateMakeTable <- function (model){
       disaggTable <- rbind(disaggTable, disaggTableBottom)
       
     } else if(disaggType == "UserDefined"){
-      #TODO: perform UserDefined disaggregationd
+      #TODO: perform UserDefined disaggregation
       
     } else {
       
@@ -208,10 +211,10 @@ disaggregateCols <- function (ColVectors, disagg_specs, duplicate=FALSE){
   
   RowVector <- ColVectors[originalRowIndex,,drop=FALSE]
   disaggRows <- disaggregateRow (RowVector, disagg_specs, duplicate)
-  ## SOMETHING STILL WRONG IN THIS LINE (CALLED IN LOADIO)
-  disaggCols <- rbind(ColVectors[1:originalRowIndex-1,],  #from 1st row to row right before disaggregation
-                      disaggRows,                         #insert disaggregated rows
-                      ColVectors[-(1:originalRowIndex),]) #include all rows except from 1s row to disaggregated row
+
+  disaggCols <- rbind(ColVectors[1:originalRowIndex-1,,drop=FALSE],  #from 1st row to row right before disaggregation
+                      disaggRows,                                    #insert disaggregated rows
+                      ColVectors[-(1:originalRowIndex),,drop=FALSE]) #include all rows except from 1s row to disaggregated row
   
   return(disaggCols)
   
