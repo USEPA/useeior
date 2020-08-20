@@ -12,18 +12,29 @@ disaggregateModel <- function (model){
   #model$Make <- disaggregateMakeTable(model)
   model$MakeTransactions <- disaggregateMakeTable(model)
   #model$Use <- disaggregateUseTable(model)
-  #model$UseTransactions <- disaggregateUseTable(model)
-  #model$DomesticUseTransactions <- disaggregateUseTable(model, TRUE)
+  model$UseTransactions <- disaggregateUseTable(model)
+  model$DomesticUseTransactions <- disaggregateUseTable(model, TRUE)
   for (disagg in model$DisaggregationSpecs$Disaggregation){
     model$UseValueAdded <- disaggregateRows(model$UseValueAdded, disagg)
     model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
     model$CPI <- disaggregateCols(model$CPI, disagg, TRUE)
     model$FinalDemand <- disaggregateCols(model$FinalDemand, disagg)
     model$DomesticFinalDemand <- disaggregateCols(model$DomesticFinalDemand, disagg)
-    #model$SectorNames
+
+    index <- match(disagg$OriginalSectorCode, model$SectorNames$SectorCode)
+    newNames <- data.frame("SectorCode" = disagg$DisaggregatedSectorCodes, "SectorName"=disagg$DisaggregatedSectorNames)
+    model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
+
     # margins tables need to be adjusted as the index is not the sector code like other dataframes
     #model$IntermediateMargins <- disaggregateCols(model$IntermediateMargins, disagg)
     #model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
+    
+    # Need to disaggregate original BEA vectors for use later
+    model$BEA$UseCommodityOutput <- disaggregateCols(model$BEA$UseCommodityOutput, disagg)
+    model$BEA$MakeIndustryOutput <- disaggregateCols(model$BEA$MakeIndustryOutput, disagg)
+    model$GDP$BEAGrossOutputIO <- disaggregateCols(model$GDP$BEAGrossOutputIO, disagg)
+    model$GDP$BEACPIIO <- disaggregateCols(model$GDP$BEACPIIO, disagg, TRUE)
+    
   }
   
   
@@ -184,8 +195,104 @@ disaggregateMakeTable <- function (model){
 
 disaggregateUseTable <- function(model, domestic = FALSE){
   
-  #TODO
+  for (disagg in model$DisaggregationSpecs$Disaggregation){
+    
+    #specify type of disaggregation
+    disaggType = disagg$DisaggregationType
+    
+    #disaggregation can be of types "Predefined" or "UserDefined". 
+    if(disaggType == "Predefined"){
+      
+      #Predefined disaggregation assumes 1 industry/commodity disaggregated uniformly into several, with  
+      #values along the intersections disaggregated uniformly along the diagonal.
+      
+      if(domestic){
+        originalUse<-model$DomesticUseTransactions  
+      }
+      else{
+        originalUse<-model$UseTransactions
+      }
+      
+      #Determine number of commodities and industries in originalUse
+      nCommodities <- nrow(originalUse)
+      nIndustries <- ncol(originalUse) 
+      
+      #Deterine number of commodities and industries in DisaggSpecs
+      numNewSectors <- length(disagg$DisaggregatedSectorCodes) 
+      
+      #Determine commodity and industry indeces corresponding to the original sector code
+      originalRowIndex <- which(rownames(originalUse)==disagg$OriginalSectorCode)
+      originalColIndex <- which(colnames(originalUse)==disagg$OriginalSectorCode)
+      
+      #Determine end index of disaggregated sectors
+      endRowIndex <- originalRowIndex + numNewSectors
+      endColIndex <- originalColIndex + numNewSectors
+      
+      
+      ########Row disaggregation
+      #Copy original row (com) for disaggregation
+      originalRowVector <- originalUse[originalRowIndex,]
+      
+      disaggRows <- disaggregateRow(originalRowVector,disagg)
+      
+      ########Columnn disaggregation
+      #Copy original Column (ind) for disaggregation
+      originalColVector <-originalUse[,originalColIndex, drop = FALSE]#drop = False needed to copy as dataframe
+      
+      disaggCols <- disaggregateCol(originalColVector,disagg)
+      
+      
+      ########Intersection Disaggregation
+      originalIntersection <- originalUse[originalRowIndex, originalColIndex]
+      
+      #Divide intersection by number of new sectors
+      originalIntersection <- originalIntersection/numNewSectors
+      
+      #Populate disaggregated intersection assuming equal values along the diagonal. Matrix variable. 
+      disaggIntersection <- diag(originalIntersection,numNewSectors,numNewSectors)
+      
+      #Convert to data frame
+      disaggIntersection = as.data.frame(t(disaggIntersection))
+      
+      #rename rows and columns
+      colnames(disaggIntersection) <- disagg$DisaggregatedSectorCodes
+      rownames(disaggIntersection) <- disagg$DisaggregatedSectorCodes
+      
+      
+      ########Assemble table
+      
+      #Assembling all columns above disaggregated rows, including all disaggregated columns
+      disaggTable <- cbind(originalUse[1:originalRowIndex-1,1:originalColIndex-1], #above diagg rows, from 1st col to col right before disaggregation
+                           disaggCols[1:originalRowIndex-1,],                        #insert disaggregated cols before disaggregated rows
+                           originalUse[1:originalRowIndex-1,-(1:originalColIndex)]) #include all cols except from 1st col to disaggregated col
+      
+      #Inserting intersection into disaggregated rows
+      disaggRows <- cbind(disaggRows[,1:originalColIndex-1],  #from 1st col to col right before disaggregation
+                          disaggIntersection,                 #insert disaggregated intersection
+                          disaggRows[,-(1:originalColIndex)]) #include all cols except from 1s col to disaggregated col
+      
+      #Appending rest of original rows to partially assembled DMake
+      disaggTable <- rbind(disaggTable,disaggRows)
+      
+      #Assembling all columns below disaggregated rows, including all disaggregated columns
+      disaggTableBottom <- cbind(originalUse[-(1:originalRowIndex),1:originalColIndex-1],  #below disagg rows, from 1st col to col right before disaggregation
+                                 disaggCols[-(1:originalRowIndex),],                        #insert disaggregated cols below disaggregated rows
+                                 originalUse[-(1:originalRowIndex),-(1:originalColIndex)]) #below disagg rows, all columns after disagg columns 
+      
+      #Appeding bottom part of the table to top part of the table
+      disaggTable <- rbind(disaggTable, disaggTableBottom)
+      
+    } else if(disaggType == "UserDefined"){
+      #TODO: perform UserDefined disaggregation
+      
+    } else {
+      
+      logging::loginfo("Disaggregation not performed, type not defined")
+      break
+    }
+  }
   
+  return(disaggTable)
 }
 
 disaggregateRows <- function (RowVectors, disagg_specs, duplicate=FALSE){
