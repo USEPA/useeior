@@ -8,38 +8,78 @@ getStandardSatelliteTableFormat <- function () {
 }
 
 #' Map a satellite table from NAICS-coded format to BEA-coded format.
-#' @param sattable A standardized satellite table with resource and emission names from original sources.
+#' @param totals_by_sector A standardized satellite table with resource and emission names from original sources.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param satellitetableyear Year of the satellite table.
 #' @return A satellite table aggregated by the USEEIO model sector codes.
-mapSatTablefromNAICStoBEA <- function (sattable, satellitetableyear, model) {
+mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year, model) {
   # Generate NAICS-to-BEA mapping dataframe based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
-  NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c("NAICS_2012_Code", paste("BEA", model$specs$BaseIOSchema, "Detail_Code", sep = "_"))])
-  colnames(NAICStoBEA) <- c("NAICS", "SectorCode")
-  # Assign DQTechnological score based on the the correspondence between NAICS and BEA code:
-  # If there is allocation (1 NAICS to 2 or more BEA), DQTechnological score = 2, otherwise, 1.
+  NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c("NAICS_2012_Code", paste("BEA", model$specs$BaseIOSchema,model$specs$BaseIOLevel, "Code", sep = "_"))])
+  colnames(NAICStoBEA) <- c("NAICS", "BEA")
+  # Modify TechnologicalCorrelation score based on the the correspondence between NAICS and BEA code
+  # If there is allocation (1 NAICS to 2 or more BEA), add one to score = 2
+  
+  #Drop any rows without matches between NAICS and BEA in the mapping
+  NAICStoBEA <- na.omit(NAICStoBEA)
+
+  ##this loop is very slow..needs to be improved
   for (NAICS in unique(NAICStoBEA$NAICS)) {
     N_BEA <- nrow(NAICStoBEA[NAICStoBEA$NAICS == NAICS, ])
     if (N_BEA == 1) {
-      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "TechnologicalCorrelation"] <- 1
+      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "TechnologicalCorrelationAdjustment"] <- 0
     } else {
-      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "TechnologicalCorrelation"] <- 2
+      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "TechnologicalCorrelationAdjustment"] <- 1
     }
   }
-  # Merge satellite table with NAICStoBEA dataframe
-  Sattable_BEA <- merge(sattable, NAICStoBEA, by = "NAICS", all.x = TRUE)
+  
+  #Rename the existing SectorCode field to NAICS
+  names(totals_by_sector)[names(totals_by_sector)=="SectorCode"] <- "NAICS"
+  
+  # Merge totals_by_sector table with NAICStoBEA mapping
+  totals_by_sector_BEA <- merge(totals_by_sector, NAICStoBEA,by="NAICS", all.x = TRUE)
+  #the BEA sector codes are now added as Sector.y
+  
   # Generate allocation_factor dataframe containing allocation factors between NAICS and BEA sectors
-  allocation_factor <- getNAICStoBEAAllocation(satellitetableyear, model)
-  colnames(allocation_factor) <- c("NAICS", "SectorCode", "allocation_factor")
+  allocation_factor <- getNAICStoBEAAllocation(totals_by_sector_year, model)
+  colnames(allocation_factor) <- c("NAICS", "BEA", "allocation_factor")
   # Merge the BEA-coded satellite table with allocation_factor dataframe
-  Sattable_BEA <- merge(Sattable_BEA, allocation_factor, by = c("NAICS", "SectorCode"), all.x = TRUE)
+  totals_by_sector_BEA <- merge(totals_by_sector_BEA, allocation_factor, by = c("NAICS", "BEA"), all.x = TRUE)
   # Replace NA in allocation_factor with 1
-  Sattable_BEA[is.na(Sattable_BEA$allocation_factor), "allocation_factor"] <- 1
+  totals_by_sector_BEA[is.na(totals_by_sector_BEA$allocation_factor), "allocation_factor"] <- 1
   # Calculate FlowAmount for BEA-coded sectors using allocation factors
-  Sattable_BEA$FlowAmount <- Sattable_BEA$FlowAmount*Sattable_BEA$allocation_factor
-  # Aggregate FlowAmount to BEA sectors
-  Sattable_BEA <- stats::aggregate(FlowAmount~SectorCode+SectorName+FlowName+ReliabilityScore+TechnologicalCorrelation, Sattable_BEA, sum)
-  return(Sattable_BEA)
+  totals_by_sector_BEA$FlowAmount <- totals_by_sector_BEA$FlowAmount*totals_by_sector_BEA$allocation_factor
+  
+  # Apply tech correlation adjustment
+  totals_by_sector_BEA$TechnologicalCorrelation <- totals_by_sector_BEA$TechnologicalCorrelation + totals_by_sector_BEA$TechnologicalCorrelationAdjustment
+  
+  # Drop unneeded cols
+  cols_to_drop <- c("NAICS","TechnologicalCorrelationAdjustment","allocation_factor")
+  totals_by_sector_BEA <- totals_by_sector_BEA[,-which(names(totals_by_sector_BEA) %in% cols_to_drop)]
+  
+  #Rename BEA to SectorCode
+  names(totals_by_sector_BEA)[names(totals_by_sector_BEA)=="BEA"] <- "SectorCode"
+  
+  # Add in BEA industry names
+  industrynames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
+  colnames(industrynames) <- c("SectorCode","SectorName")
+  totals_by_sector_BEA <- merge(totals_by_sector_BEA,industrynames,by="SectorCode",all.x=TRUE)
+  
+  # Aggregate to BEA sectors
+  # Unique aggregation functions are used depending on the quantitive variable
+  totals_by_sector_BEA_agg <- totals_by_sector_BEA %>%
+                              dplyr::group_by(FlowName,Compartment,SectorCode,SectorName,Location,Unit,Year,DistributionType) %>%
+                              dplyr::summarize(FlowAmountAgg = sum(FlowAmount),
+                                               Min = min(Min),
+                                               Max = max(Max),
+                                               ReliabilityScore = weighted.mean(ReliabilityScore, FlowAmount),
+                                               TemporalCorrelation = weighted.mean(TemporalCorrelation, FlowAmount),
+                                               GeographicCorrelation = weighted.mean(GeographicCorrelation, FlowAmount),
+                                               TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
+                                               DataCollection = weighted.mean(DataCollection, FlowAmount))
+  
+  names(totals_by_sector_BEA_agg)[names(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
+  
+  return(totals_by_sector_BEA_agg)
 }
 
 #' Calculates intensity coefficient (kg/$) for a standard satellite table.
