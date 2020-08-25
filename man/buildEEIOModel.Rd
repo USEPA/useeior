@@ -7,7 +7,7 @@
 buildEEIOModel(model)
 }
 \arguments{
-\item{model}{Model file loaded with IO tables.}
+\item{model}{Model file loaded with IO tables and satellite tables built}
 }
 \value{
 A list with USEEIO model components and attributes.
