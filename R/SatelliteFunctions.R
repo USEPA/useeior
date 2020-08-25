@@ -73,7 +73,7 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
                                                Max = max(Max),
                                                ReliabilityScore = weighted.mean(ReliabilityScore, FlowAmount),
                                                TemporalCorrelation = weighted.mean(TemporalCorrelation, FlowAmount),
-                                               GeographicCorrelation = weighted.mean(GeographicCorrelation, FlowAmount),
+                                               GeographicalCorrelation = weighted.mean(GeographicalCorrelation, FlowAmount),
                                                TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
                                                DataCollection = weighted.mean(DataCollection, FlowAmount))
   
