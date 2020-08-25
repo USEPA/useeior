@@ -1,5 +1,5 @@
 #' Build an EEIO form USEEIO model.
-#' @param model Model file loaded with IO tables.
+#' @param model Model file loaded with IO tables and satellite tables built
 #' @export
 #' @return A list with USEEIO model components and attributes.
 buildEEIOModel <- function(model) {
@@ -20,30 +20,9 @@ buildEEIOModel <- function(model) {
   }
   # Create an imports requirements matrix 
   model$A_m <- model$A - model$A_d
-  # Generate satellite tables
-  model$SatelliteTables <- loadsattables(model)
-  # Combine satellite tables (coeffs_by_sector) into a single df
-  StandardizedSatelliteTable <- data.frame()
-  for (table in model$SatelliteTables$coeffs_by_sector) {
-    StandardizedSatelliteTable <- rbind(StandardizedSatelliteTable, table)
-  }
-  # transform into a flow x sector matrix
-  StandardizedSatelliteTable["Flow"] <- apply(StandardizedSatelliteTable[, c("FlowName", "FlowCategory", "FlowSubCategory", "FlowUnit")],
-                                              1 ,FUN = joinStringswithSlashes)
-  StandardizedSatelliteTable["Sector"] <- apply(StandardizedSatelliteTable[, c("ProcessCode", "ProcessLocation")], 1, FUN = joinStringswithSlashes)
 
-  #! Needs to be cast and made into matrix, but the problem is that the sectors need to have the order and completness of the model sectors list and not just those in the sat tables
-  sattables_cast <- reshape2::dcast(StandardizedSatelliteTable, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount") #! check why aggregation is needed
-  # Move Flow to rowname so matrix is all numbers
-  rownames(sattables_cast) <- sattables_cast$Flow
-  sattables_cast$Flow <- NULL
-  # Complete sector list using model$Industries
-  columns_to_add <- tolower(paste(model$Industries[!model$Industries%in%StandardizedSatelliteTable$ProcessCode], model$specs$PrimaryRegionAcronym, sep = "/"))
-  sattables_cast[, columns_to_add] <- 0
-  # Adjust column order to be the same with V_n rownames
-  sattables_cast <- sattables_cast[, tolower(paste(rownames(model$V_n), model$specs$PrimaryRegionAcronym, sep = "/"))]
   # Generate B matrix
-  model$B <- as.matrix(sattables_cast)
+  model$B <- as.matrix(model$sattables_cast)
 
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
