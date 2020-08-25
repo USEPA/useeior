@@ -6,7 +6,8 @@
 Supports BEA and NAICS based totals. These totals can be provided as static files
 or dynamic function calls are supported. NAICS-based totals are aggregated/allocated to BEA sectors
 as part of the preparation.}
-\format{A list with lists of totals by sector and formatted satellite tables
+\format{
+A list with lists of totals by sector and formatted satellite tables
 \describe{
  \itemize{
    \item totals_by_sector
@@ -54,7 +55,8 @@ as part of the preparation.}
        \item MetaOther
      }
  }
-}}
+}
+}
 \usage{
 loadsattables(model)
 }

@@ -4,7 +4,8 @@
 \name{MasterCrosswalk2012}
 \alias{MasterCrosswalk2012}
 \title{Master Crosswalk table (2012 schema)}
-\format{A dataframe with 16838 obs. and 6 variables:
+\format{
+A dataframe with 16838 obs. and 6 variables:
 \describe{
  \item{BEA_2012_Sector_Code}{text code}
  \item{BEA_2012_Summary_Code}{text code}
@@ -12,7 +13,8 @@
  \item{NAICS_2012_Code}{text code}
  \item{NAICS_2007_Code}{text code}
  \item{NAICS_2017_Code}{text code}
-}}
+}
+}
 \usage{
 MasterCrosswalk2012
 }

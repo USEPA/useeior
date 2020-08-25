@@ -4,8 +4,11 @@
 \alias{mapFlowTotalsbySectorandLocationfromNAICStoBEA}
 \title{Map a satellite table from NAICS-coded format to BEA-coded format.}
 \usage{
-mapFlowTotalsbySectorandLocationfromNAICStoBEA(totals_by_sector,
-  totals_by_sector_year, model)
+mapFlowTotalsbySectorandLocationfromNAICStoBEA(
+  totals_by_sector,
+  totals_by_sector_year,
+  model
+)
 }
 \arguments{
 \item{totals_by_sector}{A standardized satellite table with resource and emission names from original sources.}

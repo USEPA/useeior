@@ -4,14 +4,16 @@
 \name{DataSourceConfiguration}
 \alias{DataSourceConfiguration}
 \title{DataSourceConfiguration}
-\format{A list of data source attributes
+\format{
+A list of data source attributes
 \describe{
  \item{Title}{string, Name of source},
  \item{Author}{string, name or orgs or individuals}
  \item{DataYear}{numeric, year of data},
  \item{URL}{string, URL data retrieved from}
  \item{Primary}{boolean, TRUE if this is the primary source}
-}}
+}
+}
 \usage{
 DataSourceConfiguration
 }

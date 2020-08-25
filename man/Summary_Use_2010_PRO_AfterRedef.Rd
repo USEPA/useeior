@@ -4,7 +4,9 @@
 \name{Summary_Use_2010_PRO_AfterRedef}
 \alias{Summary_Use_2010_PRO_AfterRedef}
 \title{Summary 2010 Use Producer's Value After Redefinition (2012 schema)}
-\format{A dataframe with 83 obs. and 98 variables}
+\format{
+A dataframe with 83 obs. and 98 variables
+}
 \source{
 \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 }
