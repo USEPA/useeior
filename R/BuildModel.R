@@ -1,4 +1,5 @@
-#' Build an EEIO form USEEIO model.
+#' Build an EEIO form USEEIO model. Requires model object with 
+#' loaded IO tables (see loadIOtables), built satellite tables, and built
 #' @param model Model file loaded with IO tables and satellite tables built
 #' @export
 #' @return A list with USEEIO model components and attributes.
@@ -31,10 +32,7 @@ buildEEIOModel <- function(model) {
   }
 
   # Generate C matrix: LCIA indicators
-  factors_from_static <- loadindicators(model$specs)
-  factors_from_static$Flow <- tolower(paste(factors_from_static$Name, factors_from_static$Category, factors_from_static$Subcategory,
-                                           factors_from_static$Unit, sep = "/"))
-  model$C <- reshape2::dcast(factors_from_static, Code ~ Flow, value.var = "Amount")
+  model$C <- reshape2::dcast(model$indicators, Code ~ Flow, value.var = "Amount")
   rownames(model$C) <- model$C$Code
   model$C <- as.matrix(model$C[, rownames(model$B)])
   model$C[is.na(model$C)] <- 0
