@@ -38,16 +38,19 @@ Demand:
   DemandSubsystems: NA
 
 Indicators:
-  GreenhouseGases:
-    FullName: "Water withdrawals"
+  freshwater_withdrawal:
+    FullName: "Freshwater withdrawals"
     Abbreviation: "WAT"
     Category: "Resource Use"
     Unit: "kg"
     StaticSource: FALSE
+    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionParameters: ["freshwater_resources"] #list of parameters
     DataSources:
       LCIAformatter:
         Title: "LCIAformatter FEDEFL Inventory Methods"
         Author: "USEPA"
-        DataYear: NA
-        URL: NA
+        DataYear: 2020
+        URL: https://github.com/USEPA/LCIAformatter
         Primary: TRUE
+
