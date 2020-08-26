@@ -21,16 +21,11 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   
   #Drop any rows without matches between NAICS and BEA in the mapping
   NAICStoBEA <- na.omit(NAICStoBEA)
-
-  ##this loop is very slow..needs to be improved
-  for (NAICS in unique(NAICStoBEA$NAICS)) {
-    N_BEA <- nrow(NAICStoBEA[NAICStoBEA$NAICS == NAICS, ])
-    if (N_BEA == 1) {
-      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "TechnologicalCorrelationAdjustment"] <- 0
-    } else {
-      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "TechnologicalCorrelationAdjustment"] <- 1
-    }
-  }
+  
+  # Assign TechnologicalCorrelationAdjustment to NAICS
+  NAICS_duplicates <- unique(NAICStoBEA[duplicated(NAICStoBEA$NAICS), "NAICS"])
+  NAICStoBEA[NAICStoBEA$NAICS%in%NAICS_duplicates, "TechnologicalCorrelationAdjustment"] <- 1
+  NAICStoBEA[!NAICStoBEA$NAICS%in%NAICS_duplicates, "TechnologicalCorrelationAdjustment"] <- 0
   
   #Rename the existing SectorCode field to NAICS
   names(totals_by_sector)[names(totals_by_sector)=="SectorCode"] <- "NAICS"
