@@ -126,8 +126,13 @@ loadsattables <- function(model) {
     #! This is incorrect because the coeffs still just have industry names and not model sector 
     sattablecoeffs_withsectors <- merge(sattablecoeffs, model$SectorNames, by = "SectorCode")
 
-    sattablestandardized <- generateStandardSatelliteTable(sattablecoeffs_withsectors, mapbyname = TRUE, sat)
- 
+    sattablestandardized <- generateStandardSatelliteTable(sattablecoeffs_withsectors, sat)
+    
+    #If dataset is static, it will use the embedded mapping files to map flows to internal flow names
+    if (!is.null(sat$StaticFile)) {
+      sattablestandardized <- mapListbyName(sattablestandardized, sat)
+    } 
+    
     #append it to list
     sattables$totals_by_sector[[sat$Abbreviation]] <- totals_by_sector
     sattables$coeffs_by_sector[[sat$Abbreviation]] <- sattablestandardized

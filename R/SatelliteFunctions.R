@@ -108,7 +108,7 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
 #' @param mapbyname A logical parameter indicating whether to map the satellite table by FlowName.
 #' @param sattablemeta Meta data of the satellite table.
 #' @return A standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
-generateStandardSatelliteTable <- function (sattable, mapbyname = FALSE, sattablemeta) {
+generateStandardSatelliteTable <- function (sattable, sattablemeta) {
   # Get standard sat table format
   Sattable_standardformat <- getStandardSatelliteTableFormat()
   # Make room for new rows
@@ -117,12 +117,12 @@ generateStandardSatelliteTable <- function (sattable, mapbyname = FALSE, sattabl
   Sattable_standardformat[, "ProcessCode"] <- sattable[, "SectorCode"]
   Sattable_standardformat[, "ProcessName"] <- sattable[, "SectorName"]
   Sattable_standardformat[, "ProcessLocation"] <- sattable[, "Location"]
-  if(mapbyname) {
-    Sattable_standardformat[, "FlowName"] <- sattable[, "FlowName"]
-  } else {
-    Sattable_standardformat[, "CAS"] <- sattable[, "FlowName"]
-  }
-  Sattable_standardformat[, "FlowAmount"] <- sattable[, "FlowAmount"]
+  Sattable_standardformat[, "FlowName"] <- sattable[, "FlowName"]
+  Sattable_standardformat[, "FlowCategory"] <- sattable[, "Compartment"]  
+  Sattable_standardformat[, "FlowSubCategory"] <- NA  
+  Sattable_standardformat[, "FlowAmount"] <- sattable[, "FlowAmount"]   
+  Sattable_standardformat[, "FlowUnit"] <- sattable[, "Unit"]
+
   
   #Map data quality fields
   Sattable_standardformat[, "DQReliability"] <- sattable[, "ReliabilityScore"]
@@ -133,14 +133,6 @@ generateStandardSatelliteTable <- function (sattable, mapbyname = FALSE, sattabl
   
   if("MetaSources" %in% colnames(sattable)) {
     Sattable_standardformat[, "MetaSources"] <- sattable[, "MetaSources"]
-  }
-  # Apply flow mapping
-  if (mapbyname) {
-    # Use new mapping
-    Sattable_standardformat <- mapListbyName(Sattable_standardformat, sattablemeta)
-  } else {
-    columns <- c("FlowName","CAS","FlowCategory","FlowSubCategory","FlowUUID","FlowUnit")
-    Sattable_standardformat[, columns] <- t(apply(Sattable_standardformat, 1, function(x) mapFlowbyCodeandCategory(x["CAS"], originalcategory = "")))
   }
   # Sort the satellite table sector code
   Sattable_standardformat <- Sattable_standardformat[order(Sattable_standardformat$ProcessCode), ]
