@@ -12,6 +12,7 @@ library(useeior)
 useeior::seeAvailableModels()
 model <- useeior::loadIOData('USEEIOv2.0-GHG')
 model <- loadbuildSatelliteTables(model)
+model <- loadandbuildIndicators(model)
 model <- useeior::buildEEIOModel(model)
 result <- useeior::calculateEEIOModel(model, perspective='DIRECT')
 
