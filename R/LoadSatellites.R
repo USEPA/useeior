@@ -86,7 +86,6 @@ loadsattables <- function(model) {
     } else if (("NAICS" %in% sat$SectorListSource)){
       #In NAICS #
       totals_by_sector <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(totals_by_sector, sat$DataYears[1], model)
-      print("NAICS")
     }
     #Add in DQ columns and additional contextual scores not provided
     totals_by_sector <- scoreContextualDQ(totals_by_sector) #just sets TemporalCorrelation for now
@@ -136,6 +135,9 @@ loadsattables <- function(model) {
   return(sattables)
 }
 
+#' Loads data for all satellite tables as lists in model specs
+#' @param list a model object with IO data loaded
+#' @return list a model object with Satellite tables added 
 loadbuildSatelliteTables <- function(model) {
   # Generate satellite tables
   model$SatelliteTables <- loadsattables(model)
