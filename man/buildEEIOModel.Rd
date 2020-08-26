@@ -2,7 +2,8 @@
 % Please edit documentation in R/BuildModel.R
 \name{buildEEIOModel}
 \alias{buildEEIOModel}
-\title{Build an EEIO form USEEIO model.}
+\title{Build an EEIO form USEEIO model. Requires model object with 
+loaded IO tables (see loadIOtables), built satellite tables, and built}
 \usage{
 buildEEIOModel(model)
 }
@@ -13,5 +14,6 @@ buildEEIOModel(model)
 A list with USEEIO model components and attributes.
 }
 \description{
-Build an EEIO form USEEIO model.
+Build an EEIO form USEEIO model. Requires model object with 
+loaded IO tables (see loadIOtables), built satellite tables, and built
 }
