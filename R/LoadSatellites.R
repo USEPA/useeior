@@ -143,6 +143,7 @@ loadsattables <- function(model) {
 #' Loads data for all satellite tables as lists in model specs
 #' @param list a model object with IO data loaded
 #' @return list a model object with Satellite tables added 
+#' @export
 loadbuildSatelliteTables <- function(model) {
   # Generate satellite tables
   model$SatelliteTables <- loadsattables(model)

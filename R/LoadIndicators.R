@@ -66,6 +66,7 @@ loadLCIAfactors <- function() {
 #' Loads data for all model indicators as listed in model specs
 #' @param list a model object with IO data loaded
 #' @return list a model object with Indicators added
+#' @export
 loadandbuildIndicators <- function(model) {
    # Generate C matrix: LCIA indicators
    indicators <- loadindicators(model$specs)
