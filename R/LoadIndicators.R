@@ -6,7 +6,7 @@ loadindicators <- function(specs) {
    logging::loginfo('Getting model indicators...')
    indicators <- data.frame()
 
-   for (i in model$specs$Indicators) {
+   for (i in specs$Indicators) {
       if(i$StaticSource) {
          StaticIndicatorFactors <- loadLCIAfactors()
          
