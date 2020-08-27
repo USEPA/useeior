@@ -16,7 +16,7 @@ SatelliteTable:
     FullName: "Water withdrawals"
     Abbreviation: "WAT"
     StaticSource: FALSE
-    StaticFile: NA
+    StaticFile: null
     DataYears: [2010]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -35,7 +35,7 @@ SatelliteTable:
 
 Demand:
   DemandYear: 2012
-  DemandSubsystems: NA
+  DemandSubsystems: null
 
 Indicators:
   freshwater_withdrawal:
