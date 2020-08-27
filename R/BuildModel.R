@@ -31,11 +31,16 @@ buildEEIOModel <- function(model) {
     colnames(model$B) <- tolower(paste(colnames(model$B), model$specs$PrimaryRegionAcronym, sep = "/"))
   }
 
-  # Generate C matrix: LCIA indicators
+  # Generate C matrix: LCIA indicators in indicator x flow format
   model$C <- reshape2::dcast(model$indicators, Code ~ Flow, value.var = "Amount")
   rownames(model$C) <- model$C$Code
-  model$C <- as.matrix(model$C[, rownames(model$B)])
+  #Get flows in B not in C and add to C
+  flows_inBnotC <-  rownames(model$B)[-which(rownames(model$B) %in% colnames(model$C))]
+  model$C[,flows_inBnotC] <- 0
   model$C[is.na(model$C)] <- 0
+  #filter and resort model C flows and make it into a matrix
+  model$C <- as.matrix(model$C[, rownames(model$B)])
+
 
   #Add direct impact matrix
   model$D <- model$C %*% model$B 
