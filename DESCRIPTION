@@ -23,7 +23,8 @@ Imports:
     utils (>= 3.6.1),
     rappdirs (>= 0.3),
     stringr (>= 1.4),
-    dplyr (>= 0.8)
+    dplyr (>= 0.8),
+    ggplot2 (>= 3.0)
 Depends:
   R (>= 3.6)
 License: file LICENSE
