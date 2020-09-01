@@ -29,14 +29,14 @@ lineplotFlowCoefficients <- function(flow, matrix, modelspecs) {
   #! Temp unit hardcoding - should come from flow
   y_unit <- "(kg/$)"
   # plot
-  p <- ggplot2::ggplot(df, aes(x = factor(SectorCode, levels = unique(df$SectorCode)), y = Coeff)) +
-    geom_line(aes(color = "red")) + #aes(color = as.character(Year)) +
-    scale_color_manual(values = c('#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00')) +
+  p <- ggplot2::ggplot(df, aes(x = SectorCode, y = Coeff, group = 1)) +
+    geom_line() + #aes(color = as.character(Year)) +
+    #scale_color_manual(values = c('#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00')) +
     labs(x = "", y = paste(tools::toTitleCase(flow), "Factors", y_unit)) +
-    scale_x_discrete(breaks = df$SectorCode, labels = df$SectorName) +
+    scale_x_discrete(breaks = df$SectorCode, labels = df$V1) +
     scale_y_continuous(expand = c(0, 0)) + coord_cartesian() + #ylim = ylim # removed from coord_cartesian
     theme_linedraw(base_size = 15) +
-    theme(axis.text = element_text(color = "black", size = 15), axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 12, color = "grey"),  #color = color, 
+    theme(axis.text = element_text(color = "black", size = 15), axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 12, color = df$color),  #color = color, 
           axis.title.y = element_text(size = 15), legend.title = element_blank(), legend.justification = c(1, 1), legend.position = c(0.95, 0.95),
           axis.ticks = element_blank(), panel.grid.minor.y = element_blank(), plot.margin = margin(rep(5.5, 3), 90))
   return(p)
