@@ -7,9 +7,6 @@ getFlowbySectorCollapsed <- function(method_name) {
   flowsa <- reticulate::import("flowsa")
   fbsc <- flowsa$getFlowBySector_collapsed(method_name)
   
-  #! Temporary renaming of this field until changes pushed
-  names(fbsc)[names(fbsc)=="GeographicCorrelation"] <- "GeographicalCorrelation"
-  
   flows_by_sector_and_region <- prepareFlowBySectorCollapsedforSatellite(fbsc)
   return(flows_by_sector_and_region)
 }
@@ -55,7 +52,7 @@ mapFlowBySectorCollapsedtoRegionalTotals <- function(fbsct) {
                'Location' = 'Location',
                'DataReliability' = 'ReliabilityScore',
                'TemporalCorrelation' = 'TemporalCorrelation',
-               'GeographicCorrelation' = 'GeographicCorrelation',
+               'GeographicalCorrelation' = 'GeographicCorrelation',
                'TechnologicalCorrelation' = 'TechnologicalCorrelation',
                'DataCollection' = 'DataCollection')
   
