@@ -49,5 +49,6 @@ lineplotFlowCoefficients <- function(flow, matrix_list, modelspecs_list) {
                    legend.justification = c(1, 1), legend.position = c(0.95, 0.95),
                    axis.ticks = ggplot2::element_blank(), panel.grid.minor.y = ggplot2::element_blank(),
                    plot.margin = ggplot2::margin(rep(5.5, 3), 90))
+  
   return(p)
 }
