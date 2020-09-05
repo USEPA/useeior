@@ -24,6 +24,7 @@ Imports:
     rappdirs (>= 0.3),
     stringr (>= 1.4),
     dplyr (>= 0.8),
+    ggplot2 (>= 3.0),
     jsonlite (>= 1.6),
     reticulate (>= 1.1)
 Depends:

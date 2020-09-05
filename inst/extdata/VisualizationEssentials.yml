@@ -1,0 +1,47 @@
+BEASectorLevel:
+  ColorLabelMapping:
+  - "#33A02C": # dark green
+    - "Agriculture, forestry, fishing, and hunting"
+    - "11"
+  - "#000000": # black
+    - "Mining"
+    - "21"
+  - "#696969": # dark grey
+    - "Utilities"
+    - "22"
+  - "#C0C0C0": # light grey
+    - "Construction"
+    - "23"
+  - "#E31A1C": # dark red
+    - "Manufacturing"
+    - "31G"
+  - "#1F78B4": # dark blue
+    - "Wholesale trade"
+    - "42"
+  - "#A6CEE3": # light blue
+    - "Retail trade"
+    - "44RT"
+  - "#FF6F00": # dark orange
+    - "Transportation and warehousing"
+    - "48TW"
+  - "#FDBF6F": # light orange
+    - "Information"
+    - "51"
+  - "#6A3D9A": # dark purple
+    - "Finance, insurance, real estate, rental, and leasing"
+    - "FIRE"
+  - "#CAB2D6": # light purple
+    - "Professional and business services"
+    - "PROF"
+  - "#800000": # maroon
+    - "Educational services, health care, and social assistance"
+    - "6"
+  - "#D2691E": # chocolate
+    - "Arts, entertainment, recreation, accommodation, and food services"
+    - "7"
+  - "#FF007F": # dark pink
+    - "Other services, except government"
+    - "81"
+  - "#B2DF8A": # light green
+    - "Government"
+    - "G"
