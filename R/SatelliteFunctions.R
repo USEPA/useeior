@@ -61,17 +61,19 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   
   # Aggregate to BEA sectors
   # Unique aggregation functions are used depending on the quantitive variable
-  totals_by_sector_BEA_agg <- totals_by_sector_BEA %>%
-                              dplyr::group_by(FlowName,Compartment,SectorCode,SectorName,Location,Unit,Year,DistributionType) %>%
-                              dplyr::summarize(FlowAmountAgg = sum(FlowAmount),
-                                               Min = min(Min),
-                                               Max = max(Max),
-                                               ReliabilityScore = weighted.mean(ReliabilityScore, FlowAmount),
-                                               TemporalCorrelation = weighted.mean(TemporalCorrelation, FlowAmount),
-                                               GeographicalCorrelation = weighted.mean(GeographicalCorrelation, FlowAmount),
-                                               TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
-                                               DataCollection = weighted.mean(DataCollection, FlowAmount))
-  
+  totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA, FlowName,Compartment,SectorCode,SectorName,Location,Unit,Year,DistributionType) 
+  totals_by_sector_BEA_agg <- dplyr::summarize(
+    totals_by_sector_BEA_agg,
+    FlowAmountAgg = sum(FlowAmount),
+    Min = min(Min),
+    Max = max(Max),
+    ReliabilityScore = weighted.mean(ReliabilityScore, FlowAmount),
+    TemporalCorrelation = weighted.mean(TemporalCorrelation, FlowAmount),
+    GeographicalCorrelation = weighted.mean(GeographicCorrelation, FlowAmount),
+    TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
+    DataCollection = weighted.mean(DataCollection, FlowAmount)
+  )
+
   names(totals_by_sector_BEA_agg)[names(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
   
   return(totals_by_sector_BEA_agg)
