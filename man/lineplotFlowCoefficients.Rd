@@ -4,14 +4,14 @@
 \alias{lineplotFlowCoefficients}
 \title{Line plot of flow coefficients}
 \usage{
-lineplotFlowCoefficients(flow, matrix, modelspecs)
+lineplotFlowCoefficients(flow, matrix_list, modelspecs_list)
 }
 \arguments{
 \item{flow}{An index name for a flow in a model matrix (full flow name)}
 
-\item{matrix}{Supports a model B, M, or U matrix}
+\item{matrix_list}{Supports a model B, M, or U matrix}
 
-\item{modelspecs}{The specs for a given model}
+\item{modelspecs_list}{The specs for a given model}
 }
 \description{
 Line plot of flow coefficients
