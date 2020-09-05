@@ -29,14 +29,14 @@ lineplotFlowCoefficients <- function(flow, matrix_list, modelspecs_list) {
     mapping <- unique(mapping)
     df_model <- merge(df_model, mapping, by.x = "SectorCode", by.y = modelspecs$BaseIOLevel)
     df_model <- merge(df_model, ColorLabelMapping, by.x = "Sector", by.y = "V2")
-    df_model <- merge(df_model, model$SectorNames, by = "SectorCode")
+    df_model <- merge(df_model, modelspecs$SectorCodeName, by = "SectorCode")
     df_model$modelname <- name
     df <- rbind(df, df_model)
   }
   #! Temp unit hardcoding - should come from flow
   y_unit <- "(kg/$)"
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = model$SectorNames$SectorCode), y = Coeff, group = as.character(modelname))) +
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = modelspecs$SectorCodeName$SectorCode), y = Coeff, group = as.character(modelname))) +
     ggplot2::geom_line() + ggplot2::aes(color = as.character(modelname)) +
     #scale_color_manual(values = c('#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00')) +
     ggplot2::labs(x = "", y = paste(tools::toTitleCase(flow), "Factors", y_unit)) +

@@ -14,7 +14,7 @@ for (modelname in modelnames) {
             "water, saline/resource/water/subterranean/saline water body/na/kg",
             "water/resource/water/na/kg")
   matrix_list[[modelname]] <- model$M
-  modelspecs_list[[modelname]] <- model$specs
+  modelspecs_list[[modelname]]  <- c(model$specs, list(SectorCodeName = model$SectorNames))
 }
 
 p <- lineplotFlowCoefficients(flow, matrix_list, modelspecs_list) +
