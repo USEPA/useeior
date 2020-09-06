@@ -2,8 +2,8 @@
 
 #' Line plot of flow coefficients 
 #' @param flow An index name for a flow in a model matrix (full flow name)
-#' @param matrix_list Supports a model B, M, or U matrix
-#' @param modelspecs_list The specs for a given model
+#' @param matrix_list List of model matrix, supports a model B, M, or U matrix
+#' @param modelspecs_list List of specs for given models
 #' @export
 lineplotFlowCoefficients <- function(flow, matrix_list, modelspecs_list) {
   configfile <- system.file("extdata", "VisualizationEssentials.yml", package="useeior")
@@ -36,7 +36,8 @@ lineplotFlowCoefficients <- function(flow, matrix_list, modelspecs_list) {
   #! Temp unit hardcoding - should come from flow
   y_unit <- "(kg/$)"
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = modelspecs$SectorCodeName$SectorCode), y = Coeff, group = as.character(modelname))) +
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = modelspecs$SectorCodeName$SectorCode),
+                                        y = Coeff, group = as.character(modelname))) +
     ggplot2::geom_line() + ggplot2::aes(color = as.character(modelname)) +
     #scale_color_manual(values = c('#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00')) +
     ggplot2::labs(x = "", y = paste(tools::toTitleCase(flow), "Factors", y_unit)) +
@@ -54,32 +55,33 @@ lineplotFlowCoefficients <- function(flow, matrix_list, modelspecs_list) {
 }
 
 #' Bar plot of flow by group
-#' @param methodname Name of the parquet file loaded from flowsa
-#' @param NAICS_digit Digit of NAICS code
-#' @param group Group of flows
+#' @param table Supports a model table
+#' @param modelspecs The specs for a given model
 #' @export
-barplotFlowbyGroup <- function(methodname, NAICS_digit, group) {
-  FlowbySector <- getFlowbySectorCollapsed(methodname)
-  # Assign flow groups
-  FlowbySector <- FlowbySector[FlowbySector$Compartment%in%unlist(group), ]
-  for (i in 1:length(group)) {
-    FlowbySector[FlowbySector$Compartment%in%group[[i]], "FlowGroup"] <- names(group)[i]
-  }
-  # Assign NAICS code by specified digit
-  FlowbySector$NAICS <- substr(FlowbySector$SectorCode, 1, NAICS_digit)
-  # Aggregate
-  df <- stats::aggregate(FlowAmount ~ FlowGroup + NAICS, FlowbySector, sum)
+barplotFlowbyGroup <- function(table, modelspecs) {
+  configfile <- system.file("extdata", "VisualizationEssentials.yml", package="useeior")
+  VisualizationEssentials <- configr::read.config(configfile)
+  ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$BEASectorLevel$ColorLabelMapping)))
+  ColorLabelMapping$color <- rownames(ColorLabelMapping)
+  MasterCrosswalk <- useeior::MasterCrosswalk2012
+  mapping <- unique(MasterCrosswalk[, c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
+  colnames(mapping) <- c("Sector", "Summary", "Detail")
+  mapping <- unique(mapping[mapping$Sector%in%ColorLabelMapping$V2, c(modelspecs$BaseIOLevel, "Sector")])
+  
+  df <- merge(table, mapping, by.x = "SectorCode", by.y = modelspecs$BaseIOLevel)
+  df <- merge(df, ColorLabelMapping, by.x = "Sector", by.y = "V2")
   # Convert unit from kg to million metric tons (MMT)
   df$FlowAmount <- df$FlowAmount*1E-9
   y_unit <- "(Million Metric Tons)"
   # Plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = NAICS, y = FlowAmount, fill = FlowGroup)) +
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorName, levels = modelspecs$SectorCodeName$SectorName),
+                                        y = FlowAmount, fill = FlowGroup)) +
     ggplot2::geom_bar(stat = "identity") +
-    ggplot2::labs(x = "NAICS Code", y = paste("Total Water Use", y_unit)) +
+    ggplot2::labs(x = "", y = paste("Total Water Use", y_unit)) +
     ggplot2::scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = FALSE)) +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.text.x = ggplot2::element_text(size = 12),
+                   axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1, size = 12, color = df$color),
                    axis.title.y = ggplot2::element_text(size = 15), legend.title = ggplot2::element_blank(),
                    legend.justification = c(1, 1), legend.position = c(0.95, 0.95),
                    axis.ticks = ggplot2::element_blank(), panel.grid.minor.y = ggplot2::element_blank(),

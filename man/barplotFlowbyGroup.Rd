@@ -4,14 +4,12 @@
 \alias{barplotFlowbyGroup}
 \title{Bar plot of flow by group}
 \usage{
-barplotFlowbyGroup(methodname, NAICS_digit, group)
+barplotFlowbyGroup(table, modelspecs)
 }
 \arguments{
-\item{methodname}{Name of the parquet file loaded from flowsa}
+\item{table}{Supports a model table}
 
-\item{NAICS_digit}{Digit of NAICS code}
-
-\item{group}{Group of flows}
+\item{modelspecs}{The specs for a given model}
 }
 \description{
 Bar plot of flow by group
