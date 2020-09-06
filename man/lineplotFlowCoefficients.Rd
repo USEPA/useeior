@@ -9,9 +9,9 @@ lineplotFlowCoefficients(flow, matrix_list, modelspecs_list)
 \arguments{
 \item{flow}{An index name for a flow in a model matrix (full flow name)}
 
-\item{matrix_list}{Supports a model B, M, or U matrix}
+\item{matrix_list}{List of model matrix, supports a model B, M, or U matrix}
 
-\item{modelspecs_list}{The specs for a given model}
+\item{modelspecs_list}{List of specs for given models}
 }
 \description{
 Line plot of flow coefficients
