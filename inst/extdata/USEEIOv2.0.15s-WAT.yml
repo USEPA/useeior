@@ -53,4 +53,18 @@ Indicators:
         DataYear: 2020
         URL: https://github.com/USEPA/LCIAformatter
         Primary: TRUE
-
+  water_withdrawal:
+    FullName: "Water withdrawals"
+    Abbreviation: "WAT"
+    Category: "Resource Use"
+    Unit: "kg"
+    StaticSource: FALSE
+    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionParameters: ["water_resources"] #list of parameters
+    DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: https://github.com/USEPA/LCIAformatter
+        Primary: TRUE
