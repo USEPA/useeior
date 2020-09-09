@@ -1,4 +1,4 @@
-Model: "USEEIOv2.0.15s_v2-WAT" # 2012 Summary, Commodity
+Model: "USEEIOv2.0.15.1s-WAT" # 2012 Summary, Commodity
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2015 # Year for IO data
