@@ -54,11 +54,12 @@ lineplotFlowCoefficients <- function(flow, matrix_list, modelspecs_list) {
   return(p)
 }
 
-#' Bar plot of flow by group
-#' @param table Supports a model table
-#' @param modelspecs The specs for a given model
+#' Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level
+#' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
+#' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
+#' @param indicator_code The code of the indicator of interest from the model$Indicators
 #' @export
-barplotFlowbyGroup <- function(table, modelspecs) {
+barplotIndicatorScoresbySector <- function(model, totals_by_sector_name, indicator_code) {
   configfile <- system.file("extdata", "VisualizationEssentials.yml", package="useeior")
   VisualizationEssentials <- configr::read.config(configfile)
   ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$BEASectorLevel$ColorLabelMapping)))
@@ -66,18 +67,25 @@ barplotFlowbyGroup <- function(table, modelspecs) {
   MasterCrosswalk <- useeior::MasterCrosswalk2012
   mapping <- unique(MasterCrosswalk[, c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
   colnames(mapping) <- c("Sector", "Summary", "Detail")
-  mapping <- unique(mapping[mapping$Sector%in%ColorLabelMapping$V2, c(modelspecs$BaseIOLevel, "Sector")])
+  mapping <- unique(mapping[mapping$Sector%in%ColorLabelMapping$V2, c(model$specs$BaseIOLevel, "Sector")])
+
   
-  df <- merge(table, mapping, by.x = "SectorCode", by.y = modelspecs$BaseIOLevel)
+  df <- calculateIndicatorScoresforTotalsBySector(model, totals_by_sector_name, indicator_code)
+
+  df <- merge(df, mapping, by.x = "SectorCode", by.y = model$specs$BaseIOLevel)
   df <- merge(df, ColorLabelMapping, by.x = "Sector", by.y = "V2")
+
+  # Aggregate 
+  df <- stats::aggregate(IndicatorScore ~ Code + Sector + V1, df, sum)
+  
   # Convert unit from kg to million metric tons (MMT)
-  df$FlowAmount <- df$FlowAmount*1E-9
-  y_unit <- "(Million Metric Tons)"
+  #df$FlowAmount <- df$FlowAmount*1E-9
+  #y_unit <- "(Million Metric Tons)"
   # Plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorName, levels = modelspecs$SectorCodeName$SectorName),
-                                        y = FlowAmount, fill = FlowGroup)) +
+ 
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Sector, levels = list(unique(Sector))), y = IndicatorScore, fill = Indicator)) +
     ggplot2::geom_bar(stat = "identity") +
-    ggplot2::labs(x = "", y = paste("Total Water Use", y_unit)) +
+    ggplot2::labs(x = "", y = paste("temp ind name", "(temp_y_unit")) +
     ggplot2::scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = FALSE)) +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
