@@ -40,7 +40,7 @@ Demand:
 Indicators:
   freshwater_withdrawal:
     FullName: "Freshwater withdrawals"
-    Abbreviation: "WAT"
+    Abbreviation: "FWAT"
     Category: "Resource Use"
     Unit: "kg"
     StaticSource: FALSE

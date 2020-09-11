@@ -83,10 +83,10 @@ barplotIndicatorScoresbySector <- function(model, totals_by_sector_name, indicat
   #y_unit <- "(Million Metric Tons)"
   # Plot
  
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Sector, levels = list(unique(Sector))), y = IndicatorScore, fill = Indicator)) +
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Sector, levels = list(unique(Sector))), y = IndicatorScore, fill = Sector)) +
     ggplot2::geom_bar(stat = "identity") +
     ggplot2::labs(x = "", y = paste("temp ind name", "(temp_y_unit")) +
-    ggplot2::scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = FALSE)) +
+    ggplot2::scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = TRUE)) +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
                    axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1, size = 12, color = df$color),
