@@ -55,11 +55,11 @@ lineplotFlowCoefficients <- function(flow, matrix_list, modelspecs_list) {
 }
 
 #' Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level
-#' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
+#' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
 #' @param indicator_code The code of the indicator of interest from the model$Indicators
 #' @export
-barplotIndicatorScoresbySector <- function(model, totals_by_sector_name, indicator_code) {
+barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code) {
   configfile <- system.file("extdata", "VisualizationEssentials.yml", package="useeior")
   VisualizationEssentials <- configr::read.config(configfile)
   ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$BEASectorLevel$ColorLabelMapping)))
@@ -69,29 +69,30 @@ barplotIndicatorScoresbySector <- function(model, totals_by_sector_name, indicat
   colnames(mapping) <- c("Sector", "Summary", "Detail")
   mapping <- unique(mapping[mapping$Sector%in%ColorLabelMapping$V2, c(model$specs$BaseIOLevel, "Sector")])
 
+  df <- data.frame()
+  for (modelname in names(model_list)) {
+    model <- model_list[[modelname]]
+    # Calculate Indicator Scores
+    df_model <- calculateIndicatorScoresforTotalsBySector(model, totals_by_sector_name, indicator_code)
+    # Assign sector name and colors
+    df_model <- merge(df_model, mapping, by.x = "SectorCode", by.y = model$specs$BaseIOLevel)
+    df_model <- merge(df_model, ColorLabelMapping, by.x = "Sector", by.y = "V2")
+    # Aggregate 
+    df_model <- stats::aggregate(IndicatorScore ~ Code + Sector + V1 + color + Unit, df_model, sum)
+    df_model$Model <- modelname
+    df <- rbind(df, df_model)
+  }
   
-  df <- calculateIndicatorScoresforTotalsBySector(model, totals_by_sector_name, indicator_code)
-
-  df <- merge(df, mapping, by.x = "SectorCode", by.y = model$specs$BaseIOLevel)
-  df <- merge(df, ColorLabelMapping, by.x = "Sector", by.y = "V2")
-
-  # Aggregate 
-  df <- stats::aggregate(IndicatorScore ~ Code + Sector + V1, df, sum)
-  
-  # Convert unit from kg to million metric tons (MMT)
-  #df$FlowAmount <- df$FlowAmount*1E-9
-  #y_unit <- "(Million Metric Tons)"
   # Plot
- 
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Sector, levels = list(unique(Sector))), y = IndicatorScore, fill = Sector)) +
-    ggplot2::geom_bar(stat = "identity") +
-    ggplot2::labs(x = "", y = paste("temp ind name", "(temp_y_unit")) +
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = Model, y = IndicatorScore, fill = factor(V1, levels = ColorLabelMapping$V1))) +
+    ggplot2::geom_bar(stat = "identity") + ggplot2::scale_fill_manual(values = ColorLabelMapping$color) +
+    ggplot2::labs(x = "", y = paste0("Indicator Score of ", indicator_code, " (", unique(df$Unit), ")")) +
     ggplot2::scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = TRUE)) +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1, size = 12, color = df$color),
+                   axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1, size = 12),
                    axis.title.y = ggplot2::element_text(size = 15), legend.title = ggplot2::element_blank(),
-                   legend.justification = c(1, 1), legend.position = c(0.95, 0.95),
+                   #legend.justification = c(1, 1), legend.position = c(0.95, 0.95),
                    axis.ticks = ggplot2::element_blank(), panel.grid.minor.y = ggplot2::element_blank(),
                    plot.margin = ggplot2::margin(rep(5.5, 3), 90))
   return(p)
