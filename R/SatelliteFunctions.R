@@ -175,3 +175,27 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
   return(sattable_agg)
 }
 
+
+
+#' Adds an indicator score to a totals by sector table. A short cut alternative to getting totals before model result
+#' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
+#' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
+#' @param indicator_code The code of the indicator of interest from the model$Indicators
+#' @return a totals_by_sector table with fields from the Indicator table "Code" and "Amount", and calculated "IndicatorScore" added
+calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_name, indicator_code) {
+
+  total_flow_vars <- c("FlowName","Compartment","Unit")
+  
+  indicator_flow_vars <- c("Name","Category","Unit")
+  indicator_vars <- c("Name","Category","Unit","Amount","Code")
+  flows_in_indicator <- model$indicators[model$indicators["Code"]==indicator_code, indicator_vars]
+  
+  
+  totals_by_sector <-  model$SatelliteTables$totals_by_sector[[totals_by_sector_name]]
+  df  <- merge(totals_by_sector,flows_in_indicator,by.x=total_flow_vars,by.y=indicator_flow_vars) 
+  df$IndicatorScore <- df$FlowAmount*df$Amount
+  return(df)
+  
+}
+
+
