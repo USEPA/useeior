@@ -4,10 +4,14 @@
 \alias{barplotIndicatorScoresbySector}
 \title{Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level}
 \usage{
-barplotIndicatorScoresbySector(model, totals_by_sector_name, indicator_code)
+barplotIndicatorScoresbySector(
+  model_list,
+  totals_by_sector_name,
+  indicator_code
+)
 }
 \arguments{
-\item{model}{A EEIO model with IOdata, satellite tables, and indicators loaded}
+\item{model_list}{List of EEIO models with IOdata, satellite tables, and indicators loaded}
 
 \item{totals_by_sector_name}{The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector}
 
