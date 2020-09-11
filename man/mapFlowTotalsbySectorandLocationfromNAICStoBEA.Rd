@@ -13,9 +13,9 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA(
 \arguments{
 \item{totals_by_sector}{A standardized satellite table with resource and emission names from original sources.}
 
-\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+\item{totals_by_sector_year}{Year of the satellite table.}
 
-\item{satellitetableyear}{Year of the satellite table.}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
 A satellite table aggregated by the USEEIO model sector codes.

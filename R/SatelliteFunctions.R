@@ -9,8 +9,8 @@ getStandardSatelliteTableFormat <- function () {
 
 #' Map a satellite table from NAICS-coded format to BEA-coded format.
 #' @param totals_by_sector A standardized satellite table with resource and emission names from original sources.
+#' @param totals_by_sector_year Year of the satellite table.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param satellitetableyear Year of the satellite table.
 #' @return A satellite table aggregated by the USEEIO model sector codes.
 mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year, model) {
   # Generate NAICS-to-BEA mapping dataframe based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
@@ -54,10 +54,18 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   #Rename BEA to SectorCode
   names(totals_by_sector_BEA)[names(totals_by_sector_BEA)=="BEA"] <- "SectorCode"
   
-  # Add in BEA industry names
-  industrynames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
-  colnames(industrynames) <- c("SectorCode","SectorName")
-  totals_by_sector_BEA <- merge(totals_by_sector_BEA,industrynames,by="SectorCode",all.x=TRUE)
+  # Add in BEA industry/commodity names
+  sectornames <- get(paste(model$specs$BaseIOLevel, paste0(model$specs$CommoditybyIndustryType, "CodeName"), model$specs$BaseIOSchema, sep = "_"))
+  colnames(sectornames) <- c("SectorCode","SectorName")
+  # Add F01000 or F010 to sectornames
+  if (model$specs$BaseIOLevel=="Detail") {
+    sectornames <- rbind.data.frame(sectornames, c("F01000", "Household"))
+  } else {
+    sectornames <- rbind.data.frame(sectornames, c("F010", "Household"))
+  }
+  
+  totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames, by = "SectorCode", all.x = TRUE)
+  
   
   # Aggregate to BEA sectors
   # Unique aggregation functions are used depending on the quantitive variable
