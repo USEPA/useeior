@@ -1,19 +1,13 @@
 # Functions for visualizing matrices
 
-#' Line plot of flow coefficients 
-#' @param flow An index name for a flow in a model matrix (full flow name)
-#' @param matrix_list List of model matrix, supports a model B, M, or U matrix
-#' @param modelspecs_list List of specs for given models
+#' Line plot of a specified matrix coefficients to compare coefficient across models
+#' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
+#' Models must have the same coefficient in the rows
+#' @param matrix_name Name of model matrix to extract data from, e.g. "B"
+#' @param coefficient_name Row name in the specified matrix for the line plot
 #' @export
-lineplotFlowCoefficients <- function(flow, matrix_list, modelspecs_list) {
-  configfile <- system.file("extdata", "VisualizationEssentials.yml", package="useeior")
-  VisualizationEssentials <- configr::read.config(configfile)
-  ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$BEASectorLevel$ColorLabelMapping)))
-  ColorLabelMapping$color <- rownames(ColorLabelMapping)
-  MasterCrosswalk <- useeior::MasterCrosswalk2012
-  mapping <- unique(MasterCrosswalk[, c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
-  colnames(mapping) <- c("Sector", "Summary", "Detail")
-  mapping <- mapping[mapping$Sector%in%ColorLabelMapping$V2, ]
+lineplotMatrixCoefficient <- function(model_list,matrix_name,coefficient_name) {
+  colormap <- getBEASectorColorMapping()
   
   df <- data.frame()
   for (name in names(matrix_list)) {
@@ -25,10 +19,10 @@ lineplotFlowCoefficients <- function(flow, matrix_list, modelspecs_list) {
     colnames(matrix) <- c("SectorCode", "Coeff")
     matrix$SectorCode <- toupper(gsub("/.*", "", matrix$SectorCode))
     df_model <- rbind(matrix, df_model)
-    mapping <- mapping[, c(modelspecs$BaseIOLevel, "Sector")]
-    mapping <- unique(mapping)
+    #mapping <- mapping[, c(modelspecs$BaseIOLevel, "Sector")]
+    #mapping <- unique(mapping)
     df_model <- merge(df_model, mapping, by.x = "SectorCode", by.y = modelspecs$BaseIOLevel)
-    df_model <- merge(df_model, ColorLabelMapping, by.x = "Sector", by.y = "V2")
+    #df_model <- merge(df_model, ColorLabelMapping, by.x = "Sector", by.y = "V2")
     df_model <- merge(df_model, modelspecs$SectorCodeName, by = "SectorCode")
     df_model$modelname <- name
     df <- rbind(df, df_model)
@@ -54,39 +48,40 @@ lineplotFlowCoefficients <- function(flow, matrix_list, modelspecs_list) {
   return(p)
 }
 
-#' Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level
+#' Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level to compare scores across models
 #' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
 #' @param indicator_code The code of the indicator of interest from the model$Indicators
 #' @export
 barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code) {
-  configfile <- system.file("extdata", "VisualizationEssentials.yml", package="useeior")
-  VisualizationEssentials <- configr::read.config(configfile)
-  ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$BEASectorLevel$ColorLabelMapping)))
-  ColorLabelMapping$color <- rownames(ColorLabelMapping)
-  MasterCrosswalk <- useeior::MasterCrosswalk2012
-  mapping <- unique(MasterCrosswalk[, c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
-  colnames(mapping) <- c("Sector", "Summary", "Detail")
-  mapping <- unique(mapping[mapping$Sector%in%ColorLabelMapping$V2, c(model$specs$BaseIOLevel, "Sector")])
 
+  mapping <- getBEASectorColorMapping(model_list[[1]]$specs$BaseIOLevel)
+  
+  #Create totals_by_sector dfs with indicator scores added and combine in a single df
   df <- data.frame()
   for (modelname in names(model_list)) {
     model <- model_list[[modelname]]
     # Calculate Indicator Scores
     df_model <- calculateIndicatorScoresforTotalsBySector(model, totals_by_sector_name, indicator_code)
+    Unit <- unique(df_model$Unit)
+    df_cols_to_keep <- c("FlowName","Compartment","Unit","SectorCode","Code","IndicatorScore")
+    df_model <- df_model[,df_cols_to_keep]
     # Assign sector name and colors
-    df_model <- merge(df_model, mapping, by.x = "SectorCode", by.y = model$specs$BaseIOLevel)
-    df_model <- merge(df_model, ColorLabelMapping, by.x = "Sector", by.y = "V2")
+    df_model <- merge(df_model, mapping, by.x = "SectorCode", by.y = paste0(model$specs$BaseIOLevel,"Code"))
     # Aggregate 
-    df_model <- stats::aggregate(IndicatorScore ~ Code + Sector + V1 + color + Unit, df_model, sum)
+    df_model <- stats::aggregate(IndicatorScore ~ Code + SectorName + color, df_model, sum)
     df_model$Model <- modelname
     df <- rbind(df, df_model)
+
   }
   
+
+  
+  
   # Plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = Model, y = IndicatorScore, fill = factor(V1, levels = ColorLabelMapping$V1))) +
-    ggplot2::geom_bar(stat = "identity") + ggplot2::scale_fill_manual(values = ColorLabelMapping$color) +
-    ggplot2::labs(x = "", y = paste0("Indicator Score of ", indicator_code, " (", unique(df$Unit), ")")) +
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = Model, y = IndicatorScore, fill = factor(SectorName, levels = mapping$SectorName))) +
+    ggplot2::geom_bar(stat = "identity") + ggplot2::scale_fill_manual(values = mapping$color) +
+    ggplot2::labs(x = "", y = paste0("Indicator Score of ", indicator_code, " (", Unit, ")")) +
     ggplot2::scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = TRUE)) +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
@@ -97,3 +92,26 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
                    plot.margin = ggplot2::margin(rep(5.5, 3), 90))
   return(p)
 }
+
+
+
+
+## Helper functions for plotting
+getBEASectorColorMapping <- function(BaseIOLevel){
+  configfile <- system.file("extdata", "VisualizationEssentials.yml", package="useeior")
+  VisualizationEssentials <- configr::read.config(configfile)
+  ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$BEASectorLevel$ColorLabelMapping)))
+  colnames(ColorLabelMapping) <- c("SectorName","SectorCode")
+  ColorLabelMapping$color <- rownames(ColorLabelMapping)
+  
+  MasterCrosswalk <- useeior::MasterCrosswalk2012
+  code_for_model_level <- paste0("BEA_2012_",BaseIOLevel,"_Code")
+  mapping <- unique(MasterCrosswalk[, c("BEA_2012_Sector_Code", code_for_model_level)])
+  colnames(mapping) <- c("SectorCode", paste0(BaseIOLevel,"Code"))
+  
+  mapping <- merge(mapping,ColorLabelMapping)
+  
+  return(mapping)
+  
+}
+
