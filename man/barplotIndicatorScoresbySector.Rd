@@ -2,7 +2,7 @@
 % Please edit documentation in R/VisualizationFunctions.R
 \name{barplotIndicatorScoresbySector}
 \alias{barplotIndicatorScoresbySector}
-\title{Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level}
+\title{Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level to compare scores across models}
 \usage{
 barplotIndicatorScoresbySector(
   model_list,
@@ -18,5 +18,5 @@ barplotIndicatorScoresbySector(
 \item{indicator_code}{The code of the indicator of interest from the model$Indicators}
 }
 \description{
-Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level
+Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level to compare scores across models
 }
