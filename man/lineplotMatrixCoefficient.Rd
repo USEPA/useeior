@@ -4,7 +4,12 @@
 \alias{lineplotMatrixCoefficient}
 \title{Line plot of a specified matrix coefficients to compare coefficient across models}
 \usage{
-lineplotMatrixCoefficient(model_list, matrix_name, coefficient_name)
+lineplotMatrixCoefficient(
+  model_list,
+  matrix_name,
+  coefficient_name,
+  sector_to_remove
+)
 }
 \arguments{
 \item{model_list}{List of EEIO models with IOdata, satellite tables, and indicators loaded
@@ -13,6 +18,8 @@ Models must have the same coefficient in the rows}
 \item{matrix_name}{Name of model matrix to extract data from, e.g. "B"}
 
 \item{coefficient_name}{Row name in the specified matrix for the line plot}
+
+\item{sector_to_remove}{Code of one or more BEA sectors that will be removed from the plot. Can be "".}
 }
 \description{
 Line plot of a specified matrix coefficients to compare coefficient across models

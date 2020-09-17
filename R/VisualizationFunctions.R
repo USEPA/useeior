@@ -5,8 +5,9 @@
 #' Models must have the same coefficient in the rows
 #' @param matrix_name Name of model matrix to extract data from, e.g. "B"
 #' @param coefficient_name Row name in the specified matrix for the line plot
+#' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
 #' @export
-lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name) {
+lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model_list[[1]]$specs$BaseIOLevel)
   # Prepare data frame for plot
@@ -25,12 +26,14 @@ lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name)
                       by.x = "SectorCode", by.y = paste0(model$specs$BaseIOLevel, "Code"))
     df_model <- merge(df_model, model$SectorNames, by = "SectorCode")
     df_model$modelname <- modelname
+    # Remove certain sectors
+    df_model <- df_model[!df_model$SectorCode%in%sector_to_remove, ]
     df <- rbind(df, df_model)
   }
   #! Temp unit hardcoding - should come from flow
   y_unit <- "(kg/$)"
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = model$SectorNames$SectorCode),
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = intersect(model$SectorNames$SectorCode, SectorCode)),
                                         y = Coeff, group = as.character(modelname))) +
     ggplot2::geom_line() + ggplot2::aes(color = as.character(modelname)) +
     ggplot2::labs(x = "", y = paste(coefficient_name, y_unit)) +
