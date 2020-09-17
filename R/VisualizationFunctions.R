@@ -32,11 +32,18 @@ lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name,
   }
   #! Temp unit hardcoding - should come from flow
   y_unit <- "(kg/$)"
+  #! y_lab hardcoding - should come from indicator
+  if (coefficient_name=="WAT") {
+    y_lab <- paste("Total Water Resources Coefficients", y_unit)
+  } else if (coefficient_name=="FWAT") {
+    y_lab <- paste("Fresh Water Resources Coefficients", y_unit)
+  }
+  
   # plot
   p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = intersect(model$SectorNames$SectorCode, SectorCode)),
                                         y = Coeff, group = as.character(modelname))) +
     ggplot2::geom_line() + ggplot2::aes(color = as.character(modelname)) +
-    ggplot2::labs(x = "", y = paste(coefficient_name, y_unit)) +
+    ggplot2::labs(x = "", y = y_lab) +
     ggplot2::scale_x_discrete(breaks = df$SectorCode, labels = df$SectorName) +
     ggplot2::scale_y_continuous(expand = c(0, 0)) + ggplot2::coord_cartesian() +
     ggplot2::theme_linedraw(base_size = 15) +
@@ -75,6 +82,12 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
     df_model$Model <- modelname
     df <- rbind(df, df_model[order(df_model$SectorName), ])
   }
+  #! y_lab hardcoding - should come from indicator
+  if (indicator_code=="WAT") {
+    y_lab <- paste0("Total Water Resources", " (", Unit, ")")
+  } else if (indicator_code=="FWAT") {
+    y_lab <- paste0("Fresh Water Resources", " (", Unit, ")")
+  }
   # Plot
   if (sector==FALSE) {
     p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName)) +
@@ -87,7 +100,7 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
                           position = ggplot2::position_stack(0.5), fill = "white", color = "black", fontface = "bold", size = 5)
   }
   p <- p + ggplot2::scale_fill_manual(breaks = df$SectorName, values = df$color) +
-    ggplot2::labs(x = "", y = paste0(indicator_code, " (", Unit, ")")) +
+    ggplot2::labs(x = "", y = y_lab) +
     ggplot2::scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = TRUE)) +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
