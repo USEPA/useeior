@@ -51,8 +51,9 @@ lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name)
 #' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
 #' @param indicator_code The code of the indicator of interest from the model$Indicators
+#' @param sector Can be a boolean value or a text. If non-boolean, it must be code of a BEA sector.
 #' @export
-barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code) {
+barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code, sector) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model_list[[1]]$specs$BaseIOLevel)
   #Create totals_by_sector dfs with indicator scores added and combine in a single df
@@ -67,13 +68,22 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
     # Assign sector name and colors
     df_model <- merge(df_model, mapping, by.x = "SectorCode", by.y = paste0(model$specs$BaseIOLevel,"Code"))
     # Aggregate 
-    df_model <- stats::aggregate(IndicatorScore ~ Code + SectorName + color, df_model, sum)
+    df_model <- stats::aggregate(IndicatorScore ~ SectorCode.y + SectorCode + SectorName + color, df_model, sum)
     df_model$Model <- modelname
     df <- rbind(df, df_model[order(df_model$SectorName), ])
   }
   # Plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = Model, y = IndicatorScore, fill = SectorName)) +
-    ggplot2::geom_bar(stat = "identity") + ggplot2::scale_fill_manual(breaks = df$SectorName, values = df$color) +
+  if (sector==FALSE) {
+    p <- ggplot2::ggplot(df, ggplot2::aes(x = Model, y = IndicatorScore, fill = SectorName)) +
+      ggplot2::geom_bar(stat = "identity", width = 0.8)
+  } else {
+    df <- df[df$SectorCode.y==sector, ]
+    p <- ggplot2::ggplot(df, ggplot2::aes(x = Model, y = IndicatorScore, fill = SectorName, group = SectorCode)) +
+      ggplot2::geom_bar(stat = "identity", width = 0.8, color = "white") +
+      ggplot2::geom_label(ggplot2::aes(label = SectorCode),
+                          position = ggplot2::position_stack(0.5), fill = "white", color = "black", fontface = "bold", size = 5)
+  }
+  p <- p + ggplot2::scale_fill_manual(breaks = df$SectorName, values = df$color) +
     ggplot2::labs(x = "", y = paste0(indicator_code, " (", Unit, ")")) +
     ggplot2::scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = TRUE)) +
     ggplot2::theme_linedraw(base_size = 15) +
@@ -83,6 +93,7 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
                    #legend.justification = c(1, 1), legend.position = c(0.95, 0.95),
                    axis.ticks = ggplot2::element_blank(), panel.grid.minor.y = ggplot2::element_blank(),
                    plot.margin = ggplot2::margin(rep(5.5, 3), 90))
+    
   return(p)
 }
 

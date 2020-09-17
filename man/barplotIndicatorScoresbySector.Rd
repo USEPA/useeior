@@ -7,7 +7,8 @@
 barplotIndicatorScoresbySector(
   model_list,
   totals_by_sector_name,
-  indicator_code
+  indicator_code,
+  sector
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ barplotIndicatorScoresbySector(
 \item{totals_by_sector_name}{The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector}
 
 \item{indicator_code}{The code of the indicator of interest from the model$Indicators}
+
+\item{sector}{Can be a boolean value or a text. If non-boolean, it must be code of a BEA sector.}
 }
 \description{
 Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level to compare scores across models
