@@ -74,11 +74,11 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
   }
   # Plot
   if (sector==FALSE) {
-    p <- ggplot2::ggplot(df, ggplot2::aes(x = Model, y = IndicatorScore, fill = SectorName)) +
+    p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName)) +
       ggplot2::geom_bar(stat = "identity", width = 0.8)
   } else {
     df <- df[df$SectorCode.y==sector, ]
-    p <- ggplot2::ggplot(df, ggplot2::aes(x = Model, y = IndicatorScore, fill = SectorName, group = SectorCode)) +
+    p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName, group = SectorCode)) +
       ggplot2::geom_bar(stat = "identity", width = 0.8, color = "white") +
       ggplot2::geom_label(ggplot2::aes(label = SectorCode),
                           position = ggplot2::position_stack(0.5), fill = "white", color = "black", fontface = "bold", size = 5)
