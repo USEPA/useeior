@@ -55,7 +55,7 @@ lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name,
 #' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
 #' @param indicator_code The code of the indicator of interest from the model$Indicators
-#' @param sector Can be a boolean value or a text. If non-boolean, it must be code of a BEA sector.
+#' @param sector Can be boolean value or text. If non-boolean, it must be code of one or more BEA sectors.
 #' @param y_title The title of y axis, excluding unit.
 #' @export
 barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code, sector, y_title) {
@@ -82,7 +82,7 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
     p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName)) +
       ggplot2::geom_bar(stat = "identity", width = 0.8)
   } else {
-    df <- df[df$SectorCode.y==sector, ]
+    df <- df[df$SectorCode.y%in%sector, ]
     p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName, group = SectorCode)) +
       ggplot2::geom_bar(stat = "identity", width = 0.8, color = "white") +
       ggplot2::geom_label(ggplot2::aes(label = SectorCode),

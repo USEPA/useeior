@@ -19,7 +19,7 @@ barplotIndicatorScoresbySector(
 
 \item{indicator_code}{The code of the indicator of interest from the model$Indicators}
 
-\item{sector}{Can be a boolean value or a text. If non-boolean, it must be code of a BEA sector.}
+\item{sector}{Can be boolean value or text. If non-boolean, it must be code of one or more BEA sectors.}
 
 \item{y_title}{The title of y axis, excluding unit.}
 }
