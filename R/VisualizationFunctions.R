@@ -6,8 +6,9 @@
 #' @param matrix_name Name of model matrix to extract data from, e.g. "B"
 #' @param coefficient_name Row name in the specified matrix for the line plot
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
+#' @param y_title The title of y axis, excluding unit.
 #' @export
-lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove) {
+lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model_list[[1]]$specs$BaseIOLevel)
   # Prepare data frame for plot
@@ -32,18 +33,11 @@ lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name,
   }
   #! Temp unit hardcoding - should come from flow
   y_unit <- "(kg/$)"
-  #! y_lab hardcoding - should come from indicator
-  if (coefficient_name=="WAT") {
-    y_lab <- paste("Total Water Resources Coefficients", y_unit)
-  } else if (coefficient_name=="FWAT") {
-    y_lab <- paste("Fresh Water Resources Coefficients", y_unit)
-  }
-  
   # plot
   p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = intersect(model$SectorNames$SectorCode, SectorCode)),
                                         y = Coeff, group = as.character(modelname))) +
     ggplot2::geom_line() + ggplot2::aes(color = as.character(modelname)) +
-    ggplot2::labs(x = "", y = y_lab) +
+    ggplot2::labs(x = "", y = paste(y_title, y_unit)) +
     ggplot2::scale_x_discrete(breaks = df$SectorCode, labels = df$SectorName) +
     ggplot2::scale_y_continuous(expand = c(0, 0)) + ggplot2::coord_cartesian() +
     ggplot2::theme_linedraw(base_size = 15) +
@@ -62,8 +56,9 @@ lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name,
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
 #' @param indicator_code The code of the indicator of interest from the model$Indicators
 #' @param sector Can be a boolean value or a text. If non-boolean, it must be code of a BEA sector.
+#' @param y_title The title of y axis, excluding unit.
 #' @export
-barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code, sector) {
+barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code, sector, y_title) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model_list[[1]]$specs$BaseIOLevel)
   #Create totals_by_sector dfs with indicator scores added and combine in a single df
@@ -82,12 +77,6 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
     df_model$Model <- modelname
     df <- rbind(df, df_model[order(df_model$SectorName), ])
   }
-  #! y_lab hardcoding - should come from indicator
-  if (indicator_code=="WAT") {
-    y_lab <- paste0("Total Water Resources", " (", Unit, ")")
-  } else if (indicator_code=="FWAT") {
-    y_lab <- paste0("Fresh Water Resources", " (", Unit, ")")
-  }
   # Plot
   if (sector==FALSE) {
     p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName)) +
@@ -100,7 +89,7 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
                           position = ggplot2::position_stack(0.5), fill = "white", color = "black", fontface = "bold", size = 5)
   }
   p <- p + ggplot2::scale_fill_manual(breaks = df$SectorName, values = df$color) +
-    ggplot2::labs(x = "", y = y_lab) +
+    ggplot2::labs(x = "", y = paste0(y_title, " (", Unit, ")")) +
     ggplot2::scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = TRUE)) +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),

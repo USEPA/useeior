@@ -8,7 +8,8 @@ lineplotMatrixCoefficient(
   model_list,
   matrix_name,
   coefficient_name,
-  sector_to_remove
+  sector_to_remove,
+  y_title
 )
 }
 \arguments{
@@ -20,6 +21,8 @@ Models must have the same coefficient in the rows}
 \item{coefficient_name}{Row name in the specified matrix for the line plot}
 
 \item{sector_to_remove}{Code of one or more BEA sectors that will be removed from the plot. Can be "".}
+
+\item{y_title}{The title of y axis, excluding unit.}
 }
 \description{
 Line plot of a specified matrix coefficients to compare coefficient across models
