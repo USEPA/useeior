@@ -1,6 +1,6 @@
 # Functions for visualizing matrices
 
-#' Line plot of a specified matrix coefficients to compare coefficient across models
+#' Scatter plot of a specified matrix coefficients to compare coefficient across models
 #' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
 #' Models must have the same coefficient in the rows
 #' @param matrix_name Name of model matrix to extract data from, e.g. "B"
@@ -8,7 +8,7 @@
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
 #' @param y_title The title of y axis, excluding unit.
 #' @export
-lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title) {
+scatterplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model_list[[1]]$specs$BaseIOLevel)
   # Prepare data frame for plot
@@ -34,20 +34,20 @@ lineplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name,
   #! Temp unit hardcoding - should come from flow
   y_unit <- "(kg/$)"
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = intersect(model$SectorNames$SectorCode, SectorCode)),
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = rev(intersect(model$SectorNames$SectorCode, SectorCode))),
                                         y = Coeff, group = as.character(modelname))) +
-    ggplot2::geom_line() + ggplot2::aes(color = as.character(modelname)) +
+    ggplot2::geom_point(ggplot2::aes(shape = as.character(modelname)), size = 3) +
+    ggplot2::scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
     ggplot2::labs(x = "", y = paste(y_title, y_unit)) +
     ggplot2::scale_x_discrete(breaks = df$SectorCode, labels = df$SectorName) +
-    ggplot2::scale_y_continuous(expand = c(0, 0)) + ggplot2::coord_cartesian() +
+    ggplot2::coord_flip() +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1, size = 12, color = df_model$color),
-                   axis.title.y = ggplot2::element_text(size = 15), legend.title = ggplot2::element_blank(),
-                   legend.justification = c(1, 1), legend.position = c(0.95, 0.95),
+                   axis.text.y = ggplot2::element_text(size = 12, color = df_model$color),
+                   axis.title.x = ggplot2::element_text(size = 15), legend.title = ggplot2::element_blank(),
+                   legend.justification = c(1, 1), legend.position = c(0.95, 0.15),
                    axis.ticks = ggplot2::element_blank(), panel.grid.minor.y = ggplot2::element_blank(),
-                   plot.margin = ggplot2::margin(rep(5.5, 3), 90))
-  
+                   plot.margin = ggplot2::margin(c(5, 20, 5, 5)))
   return(p)
 }
 
