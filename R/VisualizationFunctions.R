@@ -1,6 +1,6 @@
 # Functions for visualizing matrices
 
-#' Scatter plot of a specified matrix coefficients to compare coefficient across models
+#' Plot specified matrix coefficients as points to compare coefficient across models
 #' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
 #' Models must have the same coefficient in the rows
 #' @param matrix_name Name of model matrix to extract data from, e.g. "B"
@@ -8,7 +8,7 @@
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
 #' @param y_title The title of y axis, excluding unit.
 #' @export
-scatterplotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title) {
+plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model_list[[1]]$specs$BaseIOLevel)
   # Prepare data frame for plot
