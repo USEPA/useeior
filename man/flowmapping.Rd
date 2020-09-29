@@ -4,7 +4,9 @@
 \name{flowmapping}
 \alias{flowmapping}
 \title{Import flow mapping file.}
-\format{An object of class \code{data.frame} with 3209 rows and 28 columns.}
+\format{
+An object of class \code{data.frame} with 3209 rows and 28 columns.
+}
 \usage{
 flowmapping
 }

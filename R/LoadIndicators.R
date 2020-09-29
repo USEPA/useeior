@@ -2,26 +2,30 @@
 #' @param specs Specifications of the model.
 #' @return A list of indicator factors not yet formatted for IOMB.
 loadindicators <- function(specs) {
+   
    logging::loginfo('Getting model indicators...')
+   indicators <- data.frame()
 
-   StaticIndicatorFactors <- loadLCIAfactors()
+   for (i in specs$Indicators) {
+      if(i$StaticSource) {
+         StaticIndicatorFactors <- loadLCIAfactors()
+         
+         # Subset LCIA factors list for the abbreviations
+         factors <- StaticIndicatorFactors[StaticIndicatorFactors$Code == i$Abbreviation, ]
 
-   # Static LCIA handling - getting factors from LCIA_factors for those indicators used in this model
-   # Create a list for appending abbreviations of those staticsource
-   abbr_from_static <- c()
-   for (ind in specs$Indicators) {
-      if(ind$StaticSource) {
-         abbr <- ind$Abbreviation
-         logging::loginfo(paste('Adding',ind$Name, 'indicator.'))
-         abbr_from_static <- append(abbr_from_static,abbr)
+      } else {
+         #Source is dynamic
+         
+         func_to_eval <- i$ScriptFunctionCall
+         indloadfunction <- as.name(func_to_eval)
+         factors <- do.call(eval(indloadfunction), list(i$ScriptFunctionParameters))
+         factors <- prepareLCIAmethodforIndicators(factors)
+         factors$Code <- i$Abbreviation
       }
-   }
-   # Subset LCIA factors list for the list of abbbreviations
-   factors_from_static <- StaticIndicatorFactors[StaticIndicatorFactors$Code %in% abbr_from_static, ]
-   # Place holder to later rbind in factors_from_dynamic
-   indicators <- factors_from_static
-
+      indicators <- rbind(indicators,factors)
+   }   
    return(indicators)
+   
 }
 
 #' Generating LCIA output formatted for useeiopy using LCIA_indicators static file
@@ -59,3 +63,16 @@ loadLCIAfactors <- function() {
    return(lciafactlong)
 }
 
+#' Loads data for all model indicators as listed in model specs
+#' @param list a model object with IO data loaded
+#' @return list a model object with Indicators added
+#' @export
+loadandbuildIndicators <- function(model) {
+   # Generate C matrix: LCIA indicators
+   indicators <- loadindicators(model$specs)
+   #Add flow field
+   indicators$Flow <- tolower(paste(indicators$Name, indicators$Category, indicators$Subcategory,indicators$Unit, sep = "/"))
+   #Add to model object
+   model$indicators <- indicators
+   return(model)
+}

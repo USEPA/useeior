@@ -4,7 +4,8 @@
 \name{Detail_PEQ_2012}
 \alias{Detail_PEQ_2012}
 \title{Detail PEQ Bridge table for 2012 (2012 schema)}
-\format{A dataframe with 185 obs. and 9 variables:
+\format{
+A dataframe with 185 obs. and 9 variables:
 \describe{
  \item{NIPACode}{text code}
  \item{PEQCategory}{text category name, like 'Therapeutic medical equipment'}
@@ -15,7 +16,8 @@
  \item{Wholesale}{USD2012}
  \item{Retail}{USD2012}
  \item{PurchasersValue}{USD2012}
-}}
+}
+}
 \source{
 \url{https://apps.bea.gov/industry/xls/underlying-estimates/PEQBridge_2007_2012_DET.xlsx}
 }

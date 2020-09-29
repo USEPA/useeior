@@ -1,5 +1,6 @@
 BEA_2012_Sector_Code,BEA_2012_Sector_Name,BEA_2012_Summary_Code,BEA_2012_Summary_Name,BEA_2012_Detail_Code,BEA_2012_Detail_Name,USEEIO_Code,USEEIO_Industry,NAICS_2012_Code,NAICS_2012_Name
-F010,Personal consumption expenditures,F010,Personal consumption expenditures,F01000,Personal consumption expenditures,F01000,Personal consumption expenditures,,
+F010,Personal consumption expenditures,F010,Personal consumption expenditures,F01000,Personal consumption expenditures,F01000,Personal consumption expenditures,F01000,Households
+F010,Personal consumption expenditures,F010,Personal consumption expenditures,F01000,Personal consumption expenditures,F01000,Personal consumption expenditures,F010,Households
 F020,Private fixed investment,F02E,Nonresidential private fixed investment in structures,F02E00,Nonresidential private fixed investment in equipment,F02E00,Nonresidential private fixed investment in equipment,,
 F020,Private fixed investment,F02N,Nonresidential private fixed investment in equipment,F02N00,Nonresidential private fixed investment in intellectual property products,F02N00,Nonresidential private fixed investment in intellectual property products,,
 F020,Private fixed investment,F02R,Nonresidential private fixed investment in intellectual property products,F02R00,Residential private fixed investment,F02R00,Residential private fixed investment,,

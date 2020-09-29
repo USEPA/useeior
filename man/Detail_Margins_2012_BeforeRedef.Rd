@@ -4,7 +4,8 @@
 \name{Detail_Margins_2012_BeforeRedef}
 \alias{Detail_Margins_2012_BeforeRedef}
 \title{Detail Margins (Before Redef) table for 2012 (2012 schema)}
-\format{A dataframe with 61844 obs. and 9 variables:
+\format{
+A dataframe with 61844 obs. and 9 variables:
 \describe{
  \item{NIPACode}{text code}
  \item{MarginsCategory}{text category name, like 'Therapeutic medical equipment'}
@@ -15,7 +16,8 @@
  \item{Wholesale}{USD2012}
  \item{Retail}{USD2012}
  \item{PurchasersValue}{USD2012}
-}}
+}
+}
 \source{
 \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_DET.xlsx}
 }

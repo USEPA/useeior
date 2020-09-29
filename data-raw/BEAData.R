@@ -553,8 +553,6 @@ adjustBEAGrossOutputtoIOIndustry2012Schema <- function () {
   
   # Put GrossOutputIO tables in the GrossOutputIOList
   GrossOutputIOList <- list(DetailGrossOutputIO, SummaryGrossOutputIO, SectorGrossOutputIO)
-  # Convert values from million $ to $
-  GrossOutputIOList <- lapply(GrossOutputIOList, function(x) x*1E6)
   # Rename elements in list
   names(GrossOutputIOList) <- c("Detail", "Summary", "Sector")
   return(GrossOutputIOList)
@@ -735,8 +733,6 @@ adjustBEAValueAddedtoIOIndustry2012Schema <- function () {
   
   # Put ValueAddedIO tables in the ValueAddedIOList
   ValueAddedIOList <- list(SummaryValueAddedIO, SectorValueAddedIO)
-  # Convert values from million $ to $
-  ValueAddedIOList <- lapply(ValueAddedIOList, function(x) x*1E6)
   # Rename elements in list
   names(ValueAddedIOList) <- c("Summary", "Sector")
   return(ValueAddedIOList)

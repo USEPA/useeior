@@ -4,7 +4,9 @@
 \name{Sector_Make_2013_AfterRedef}
 \alias{Sector_Make_2013_AfterRedef}
 \title{Sector 2013 Make After Redefinition (2012 schema)}
-\format{A dataframe with 16 obs. and 18 variables}
+\format{
+A dataframe with 16 obs. and 18 variables
+}
 \source{
 \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 }
