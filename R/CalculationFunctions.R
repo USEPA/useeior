@@ -69,12 +69,11 @@ adjustMultiplierPrice <- function(matrix, currency_year, purchaser_price=TRUE, m
   # Generate CPI_ratio based on currency_year and model$specs$IOYear
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     currency_year_CPI <- generateCommodityCPIforYear(currency_year, model)
-    CPI_ratio <- as.data.frame(currency_year_CPI[, as.character(currency_year)]/model$CommodityCPI[, as.character(model$specs$IOYear)])
-    rownames(CPI_ratio) <- rownames(model$CommodityCPI)
+    CPI_ratio <- as.data.frame(currency_year_CPI[, as.character(currency_year)]/model$CPI[, as.character(model$specs$IOYear)])
   } else {
-    CPI_ratio <- as.data.frame(model$GDP$BEACPIIO[, as.character(currency_year)]/model$GDP$BEACPIIO[, as.character(model$specs$IOYear)])
-    rownames(CPI_ratio) <- rownames(model$GDP$BEACPIIO)
+    CPI_ratio <- as.data.frame(model$GDP$BEACPIIO[, as.character(currency_year)]/model$CPI[, as.character(model$specs$IOYear)])
   }
+  rownames(CPI_ratio) <- rownames(model$CPI)
   colnames(CPI_ratio) <- "Ratio"
   # Adjust from producer's to purchaser's price
   if (purchaser_price) {
