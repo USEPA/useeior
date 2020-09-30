@@ -4,7 +4,8 @@
 \name{IndicatorConfiguration}
 \alias{IndicatorConfiguration}
 \title{Indicator Configuration}
-\format{A list of indicator attributes
+\format{
+A list of indicator attributes
 \describe{
  \item{FullName}{string, Name of the indicator}
  \item{Abbreviation}{string, Name of the indicator}
@@ -12,7 +13,8 @@
  \item{Unit}{string, unit of the indicator}
  \item{SatticSource}{boolean, TRUE if this is a static source}
  \item{DataSources}{list of data sources, @seealso [DataSourceConfiguration]}
- }}
+ }
+}
 \usage{
 IndicatorConfiguration
 }

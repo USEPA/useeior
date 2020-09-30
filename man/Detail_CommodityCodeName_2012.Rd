@@ -4,7 +4,9 @@
 \name{Detail_CommodityCodeName_2012}
 \alias{Detail_CommodityCodeName_2012}
 \title{Detail Commodity Code and Name (2012 schema)}
-\format{A dataframe with 405 obs. and 2 variables}
+\format{
+A dataframe with 405 obs. and 2 variables
+}
 \source{
 \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 }

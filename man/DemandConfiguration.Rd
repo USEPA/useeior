@@ -4,11 +4,13 @@
 \name{DemandConfiguration}
 \alias{DemandConfiguration}
 \title{Demand Configuration}
-\format{A list of demand attibutes
+\format{
+A list of demand attibutes
 \describe{
  \item{DemandYear}{numeric, year of demand}
  \item{DemandSubsystems}{list of names of demand subsystems}
-}}
+}
+}
 \usage{
 DemandConfiguration
 }

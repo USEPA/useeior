@@ -4,7 +4,9 @@
 \name{Summary_ValueAdded_IO}
 \alias{Summary_ValueAdded_IO}
 \title{Summary 2007-2018 Value Added (2012 schema)}
-\format{A dataframe with 71 obs. and 12 variables}
+\format{
+A dataframe with 71 obs. and 12 variables
+}
 \source{
 \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 }

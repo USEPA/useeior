@@ -4,7 +4,7 @@
 
 See the [USEEIO Modeling Framework](https://github.com/USEPA/useeio) for more information on modeling with USEEIO.  
 
-`useeior` is in a pre-alpha development state. Look for Releases for working and tested versions.
+`useeior` is in an alpha development state. Look for Releases for working and tested versions.
 
 See the [Wiki](https://github.com/USEPA/useeior/wiki) for installation instructions for users and developers and contribution guidelines.
 

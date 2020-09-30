@@ -4,7 +4,9 @@
 \name{Summary_Make_2016_BeforeRedef}
 \alias{Summary_Make_2016_BeforeRedef}
 \title{Summary 2016 Make Before Redefinition (2012 schema)}
-\format{A dataframe with 72 obs. and 74 variables}
+\format{
+A dataframe with 72 obs. and 74 variables
+}
 \source{
 \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 }

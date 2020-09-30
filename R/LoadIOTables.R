@@ -33,7 +33,7 @@ loadIOData <- function(modelname) {
     MakeIndustryOutput <- MakeIndustryOutput[rownames(model$GDP$BEAGrossOutputIO), colnames(MakeIndustryOutput), drop = FALSE]
     model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear)] <- MakeIndustryOutput[, 1]
   }
-  # Get model$CommodityOutput, model$CommodityCPI, model$IndustryOutput, model$IndustryCPI, and model$FinalDemand
+  # Get Commodity/Industry Output, Commodity/Industry CPI, FinalDemand
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     if (model$specs$PrimaryRegionAcronym=="US") {
       model$CommodityOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
