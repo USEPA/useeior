@@ -1,0 +1,66 @@
+﻿IndustryCode,CommodityCode,PercentMake,Note
+562000,562111,0.441281953,Gross output disaggregation
+562000,562HAZ,0.140947501,Gross output disaggregation
+562000,562212,0.073334054,Gross output disaggregation
+562000,562213,0.04948233,Gross output disaggregation
+562000,562910,0.141623784,Gross output disaggregation
+562000,562920,0.064962231,Gross output disaggregation
+562000,562OTH,0.088368147,Gross output disaggregation
+562111,562111,0.441281953,Make table intersection
+562HAZ,562HAZ,0.140947501,Make table intersection
+562212,562212,0.073334054,Make table intersection
+562213,562213,0.04948233,Make table intersection
+562910,562910,0.141623784,Make table intersection
+562920,562920,0.064962231,Make table intersection
+562OTH,562OTH,0.088368147,Make table intersection
+484000,562111,1,commodity disaggregation
+492000,562HAZ,1,commodity disaggregation
+561700,562910,1,commodity disaggregation
+S00700,562111,0.7,commodity disaggregation
+S00700,562212,0.12,commodity disaggregation
+S00700,562213,0.08,commodity disaggregation
+S00700,562920,0.1,commodity disaggregation
+562910,211000,1,industry disaggregation
+562111,2332B0,0.441281953,industry disaggregation
+562HAZ,2332B0,0.140947501,industry disaggregation
+562212,2332B0,0.073334054,industry disaggregation
+562213,2332B0,0.04948233,industry disaggregation
+562910,2332B0,0.141623784,industry disaggregation
+562920,2332B0,0.064962231,industry disaggregation
+562OTH,2332B0,0.088368147,industry disaggregation
+562111,4A0000,0.441281953,industry disaggregation
+562HAZ,4A0000,0.140947501,industry disaggregation
+562212,4A0000,0.073334054,industry disaggregation
+562213,4A0000,0.04948233,industry disaggregation
+562910,4A0000,0.141623784,industry disaggregation
+562920,4A0000,0.064962231,industry disaggregation
+562OTH,4A0000,0.088368147,industry disaggregation
+562111,532400,0.441281953,industry disaggregation
+562HAZ,532400,0.140947501,industry disaggregation
+562212,532400,0.073334054,industry disaggregation
+562213,532400,0.04948233,industry disaggregation
+562910,532400,0.141623784,industry disaggregation
+562920,532400,0.064962231,industry disaggregation
+562OTH,532400,0.088368147,industry disaggregation
+562111,541511,0.441281953,industry disaggregation
+562HAZ,541511,0.140947501,industry disaggregation
+562212,541511,0.073334054,industry disaggregation
+562213,541511,0.04948233,industry disaggregation
+562910,541511,0.141623784,industry disaggregation
+562920,541511,0.064962231,industry disaggregation
+562OTH,541511,0.088368147,industry disaggregation
+562111,5416A0,0.441281953,industry disaggregation
+562HAZ,5416A0,0.140947501,industry disaggregation
+562212,5416A0,0.073334054,industry disaggregation
+562213,5416A0,0.04948233,industry disaggregation
+562910,5416A0,0.141623784,industry disaggregation
+562920,5416A0,0.064962231,industry disaggregation
+562OTH,5416A0,0.088368147,industry disaggregation
+562111,541700,0.441281953,industry disaggregation
+562HAZ,541700,0.140947501,industry disaggregation
+562212,541700,0.073334054,industry disaggregation
+562213,541700,0.04948233,industry disaggregation
+562910,541700,0.141623784,industry disaggregation
+562920,541700,0.064962231,industry disaggregation
+562OTH,541700,0.088368147,industry disaggregation
+S00401,562920,1,industry disaggregation
