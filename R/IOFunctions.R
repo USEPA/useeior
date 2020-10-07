@@ -19,17 +19,7 @@ getAdjustedOutput <- function (outputyear, referenceyear, location_acronym, IsRo
       } else {
         Output <- model$IndustryOutput[model$IndustryOutput$Location==location_acronym, 
                                        c("SectorCode", as.character(outputyear)), drop = FALSE]
-             }
-    #} else {
-      # This is if model is using calculated state demand
-      # Output <- getStateIndustryOutput(model$specs$PrimaryRegionAcronym, outputyear)
-      #row.names(Output) <- Output[,"BEACode"]
-      #if(IsRoUS == TRUE) {
-      #  Output$RoUS <- Output$US - Output$SoI
-      #  Output <- Output[, c("BEACode", "RoUS")]
-      #} else {
-      # Output <- Output[, c("BEACode", "SoI")]
-      #}
+      }
     }
   }
   colnames(Output) <- c("SectorCode", "Output")
@@ -188,80 +178,6 @@ calculateLeontiefInverse <- function(A) {
   L <- solve(I-A)
   return(L)
 }
-
-# #' Generate output-based allocation factors for a dataframe of BEA codes and a grouping variable.
-# #' @param codeswithgroups A dataframe contains two columns: "Code" and "Group".
-# #' @return A dataframe contains codes, groups, and allocation factors.
-# generateOutputBasedAllocationFactorsByGroup <- function(codeswithgroups) {
-#   # Get output in desired year and that same currency year
-#   output <- getAdjustedOutput(year, year, location_acronym, model)
-#   # Merge with output
-#   codeswithgroupswithoutput <- merge(codeswithgroups, output, by.x = "Code", by.y = 0)
-#   # Aggregate based on group to get sums of output by group
-#   outputbygroup <- stats::aggregate(codeswithgroupswithoutput$output, by = list(codeswithgroupswithoutput$Group), sum)
-#   colnames(outputbygroup) <- c("Group", "Groupoutput")
-#   # Merge in output totals by group
-#   codeswithgroupswithoutputandgroupoutput <- merge(codeswithgroupswithoutput,outputbygroup, by = "Group")
-#   codeswithgroupswithoutputandgroupoutput$allocationfactor <- codeswithgroupswithoutputandgroupoutput$output/codeswithgroupswithoutputandgroupoutput$Groupoutput
-#   codeswithgroupsandallocation <- codeswithgroupswithoutputandgroupoutput[,c("Code","Group","allocationfactor")]
-#   return(codeswithgroupsandallocation)
-# }
-
-#No need for use with refactor
-# getUseDetailwithCommoditiesOnly = function() {
-#   UseDetail07 = read.table(paste(BEApath,"2007Schema/Detail_Use_2007_PRO_BeforeRedef.csv",sep=""),header=T,sep = ",",row.names=1,check.names=F)
-#   UseDetail07[is.na(UseDetail07)]=0
-#   total_commodties = 389
-#   return(UseDetail07[1:389,])
-# }
-
-#Note planned for use with refactor
-#returns a a df with column T007 from the detail use table
-# getImportDetailwithUseCommodities = function() {
-#   ImportDetail07=read.table(paste(BEApath,"2007Schema/Detail_ImportMatrix_2007_BeforeRedef.csv",sep=""),sep = ",",header=T,row.names=1,check.names=F)
-#   ImportDetail07[is.na(ImportDetail07)]=0
-#   # Drop 331314, S00101, S00201, and S00202 to align with the UseDetail07
-#   ImportDetail07 = ImportDetail07[!rownames(ImportDetail07) %in% c("331314","S00101","S00201","S00202"),]
-#
-#   # Check if rows in UseDetail and ImportDetail line up
-#   if (!all.equal(rownames(UseDetail07),rownames(ImportDetail07))) {
-#     return ("Error: commodities in import do  not match Use commodity order")
-#   }  else {# should return all true
-#     return (ImportDetail07)
-#   }
-# }
-
-
-
-# Commenting out because the functions called on are already commented out
-# #' Determine proportion of Imports in Industry use.
-# #' @return A dataframe contains "imports_used_by_industry", "total_used_by_industry", and "import_ratio_of_industry_use".
-# getIndustryUseofImportedCommodities <- function() {
-#   ImportDetail <- getImportDetailwithUseCommodities()
-#   TotalIndustryUseofImportedCommoditiesfromImportDetail <- ImportDetail[, "T001"]
-#   UseDetail <- getUseDetailwithCommoditiesOnly()
-#   TotalIndustryUseofCommoditiesfromUseDetail <- UseDetail[, "T001"]
-#   proportion_imports_in_industryuse <- cbind(TotalIndustryUseofImportedCommoditiesfromImportDetail,TotalIndustryUseofCommoditiesfromUseDetail)
-#   proportion_imports_in_industryuse[, "import_ratio"] <- proportion_imports_in_industryuse[, 1]/proportion_imports_in_industryuse[, 2]
-#   colnames(proportion_imports_in_industryuse) <- c("imports_used_by_industry", "total_used_by_industry", "import_ratio_of_industry_use")
-#   return (proportion_imports_in_industryuse)
-# }
-
-# #' Adjust multi-year USEEIO gross output by model-specified currency year.
-# #' @return A dataframe contains adjusted multi-year USEEIO gross output.
-# adjustUSEEIOGrossOutputbyCPIYear <- function () {
-#   GrossOutput <- model$GDP$BEAGrossOutputIO
-#   for (year in colnames(GrossOutput)) {
-#     GrossOutput[, year] <- GrossOutput[, year]*(model$GDP$BEACPIIO[, as.character(model$specs$ReferenceCurrencyYear)]/model$GDP$BEACPIIO[, year])
-#   }
-#   return(GrossOutput)
-# }
-
-
-
-
-
-
 
 #' Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.

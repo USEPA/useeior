@@ -4,14 +4,14 @@
 \alias{generateStandardSatelliteTable}
 \title{Generate a standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.}
 \usage{
-generateStandardSatelliteTable(sattable, mapbyname = FALSE, sattablemeta)
+generateStandardSatelliteTable(sattable, sattablemeta)
 }
 \arguments{
 \item{sattable}{A statellite table contains FlowAmount already aggregated and transformed to coefficients.}
 
-\item{mapbyname}{A logical parameter indicating whether to map the satellite table by FlowName.}
-
 \item{sattablemeta}{Meta data of the satellite table.}
+
+\item{mapbyname}{A logical parameter indicating whether to map the satellite table by FlowName.}
 }
 \value{
 A standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.

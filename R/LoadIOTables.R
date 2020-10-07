@@ -1,6 +1,7 @@
 #' Prepare economic components of an EEIO form USEEIO model.
 #' @param modelname Name of the model from a config file.
 #' @return A list with USEEIO model economic components.
+#' @export
 loadIOData <- function(modelname) {
   startLogging()
   logging::loginfo('Begin model initialization...')
@@ -32,7 +33,7 @@ loadIOData <- function(modelname) {
     MakeIndustryOutput <- MakeIndustryOutput[rownames(model$GDP$BEAGrossOutputIO), colnames(MakeIndustryOutput), drop = FALSE]
     model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear)] <- MakeIndustryOutput[, 1]
   }
-  # Get model$CommodityOutput, model$CommodityCPI, model$IndustryOutput, model$IndustryCPI, and model$FinalDemand
+  # Get Commodity/Industry Output, Commodity/Industry CPI, FinalDemand
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     if (model$specs$PrimaryRegionAcronym=="US") {
       model$CommodityOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
@@ -75,14 +76,9 @@ loadIOData <- function(modelname) {
   model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
   
   # Check for disaggregation
-  disaggregationConfigFile <- model$specs$DisaggregationSpecs
-  model$DisaggregationSpecs <- getModelConfiguration(disaggregationConfigFile)
   if(!is.null(model$specs$DisaggregationSpecs)){
-    #! TO DO - point to DisaggregationFunctions.R
-    logging::loginfo("Initializing Disaggregation of IO tables...")
-    #disaggregatedMake <- disaggregateMakeTable(model)
-    
-  }
+    model <- disaggregateModel(model)
+      }
   
   return(model)
 }

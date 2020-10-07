@@ -1,0 +1,13 @@
+Disaggregation:
+  221100:
+    OriginalSectorCode: "221100"
+    OrignalSectorName: "Electric power generation, transmission, and distribution"
+    DisaggregationType: "Predefined"
+    
+    DisaggregatedSectorNames: ["Hydroelectric power generation","Fossil fuel electric power generation","Nuclear electric power generation","Solar electric power generation", "Wind electric power generation", "Geothermal electric power generation", "Biomass electric power generation", "Other electric power generation", "Electric bulk power transmission and control","Electric power distribution"]
+    DisaggregatedSectorCodes: ["221111","221112","221113","221114","221115","221116","221117","221118","221121","221122"]
+
+    MakeFile: ElectricityDisaggregation_Make.csv
+    UseFile: ElectricityDisaggregation_Use.csv
+    EnvFile: ElectricityDisaggregation_Env.csv
+

@@ -8,38 +8,83 @@ getStandardSatelliteTableFormat <- function () {
 }
 
 #' Map a satellite table from NAICS-coded format to BEA-coded format.
-#' @param sattable A standardized satellite table with resource and emission names from original sources.
+#' @param totals_by_sector A standardized satellite table with resource and emission names from original sources.
+#' @param totals_by_sector_year Year of the satellite table.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param satellitetableyear Year of the satellite table.
 #' @return A satellite table aggregated by the USEEIO model sector codes.
-mapSatTablefromNAICStoBEA <- function (sattable, satellitetableyear, model) {
+mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year, model) {
   # Generate NAICS-to-BEA mapping dataframe based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
-  NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c("NAICS_2012_Code", paste("BEA", model$specs$BaseIOSchema, "Detail_Code", sep = "_"))])
-  colnames(NAICStoBEA) <- c("NAICS", "SectorCode")
-  # Assign DQTechnological score based on the the correspondence between NAICS and BEA code:
-  # If there is allocation (1 NAICS to 2 or more BEA), DQTechnological score = 2, otherwise, 1.
-  for (NAICS in unique(NAICStoBEA$NAICS)) {
-    N_BEA <- nrow(NAICStoBEA[NAICStoBEA$NAICS == NAICS, ])
-    if (N_BEA == 1) {
-      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "TechnologicalCorrelation"] <- 1
-    } else {
-      NAICStoBEA[NAICStoBEA$NAICS == NAICS, "TechnologicalCorrelation"] <- 2
-    }
-  }
-  # Merge satellite table with NAICStoBEA dataframe
-  Sattable_BEA <- merge(sattable, NAICStoBEA, by = "NAICS", all.x = TRUE)
+  NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c("NAICS_2012_Code", paste("BEA", model$specs$BaseIOSchema,model$specs$BaseIOLevel, "Code", sep = "_"))])
+  colnames(NAICStoBEA) <- c("NAICS", "BEA")
+  # Modify TechnologicalCorrelation score based on the the correspondence between NAICS and BEA code
+  # If there is allocation (1 NAICS to 2 or more BEA), add one to score = 2
+  
+  #Drop any rows without matches between NAICS and BEA in the mapping
+  NAICStoBEA <- na.omit(NAICStoBEA)
+  
+  # Assign TechnologicalCorrelationAdjustment to NAICS
+  NAICS_duplicates <- unique(NAICStoBEA[duplicated(NAICStoBEA$NAICS), "NAICS"])
+  NAICStoBEA[NAICStoBEA$NAICS%in%NAICS_duplicates, "TechnologicalCorrelationAdjustment"] <- 1
+  NAICStoBEA[!NAICStoBEA$NAICS%in%NAICS_duplicates, "TechnologicalCorrelationAdjustment"] <- 0
+  
+  #Rename the existing SectorCode field to NAICS
+  names(totals_by_sector)[names(totals_by_sector)=="SectorCode"] <- "NAICS"
+  
+  # Merge totals_by_sector table with NAICStoBEA mapping
+  totals_by_sector_BEA <- merge(totals_by_sector, NAICStoBEA,by="NAICS", all.x = TRUE)
+  #the BEA sector codes are now added as Sector.y
+  
   # Generate allocation_factor dataframe containing allocation factors between NAICS and BEA sectors
-  allocation_factor <- getNAICStoBEAAllocation(satellitetableyear, model)
-  colnames(allocation_factor) <- c("NAICS", "SectorCode", "allocation_factor")
+  allocation_factor <- getNAICStoBEAAllocation(totals_by_sector_year, model)
+  colnames(allocation_factor) <- c("NAICS", "BEA", "allocation_factor")
   # Merge the BEA-coded satellite table with allocation_factor dataframe
-  Sattable_BEA <- merge(Sattable_BEA, allocation_factor, by = c("NAICS", "SectorCode"), all.x = TRUE)
+  totals_by_sector_BEA <- merge(totals_by_sector_BEA, allocation_factor, by = c("NAICS", "BEA"), all.x = TRUE)
   # Replace NA in allocation_factor with 1
-  Sattable_BEA[is.na(Sattable_BEA$allocation_factor), "allocation_factor"] <- 1
+  totals_by_sector_BEA[is.na(totals_by_sector_BEA$allocation_factor), "allocation_factor"] <- 1
   # Calculate FlowAmount for BEA-coded sectors using allocation factors
-  Sattable_BEA$FlowAmount <- Sattable_BEA$FlowAmount*Sattable_BEA$allocation_factor
-  # Aggregate FlowAmount to BEA sectors
-  Sattable_BEA <- stats::aggregate(FlowAmount~SectorCode+SectorName+FlowName+ReliabilityScore+TechnologicalCorrelation, Sattable_BEA, sum)
-  return(Sattable_BEA)
+  totals_by_sector_BEA$FlowAmount <- totals_by_sector_BEA$FlowAmount*totals_by_sector_BEA$allocation_factor
+  
+  # Apply tech correlation adjustment
+  totals_by_sector_BEA$TechnologicalCorrelation <- totals_by_sector_BEA$TechnologicalCorrelation + totals_by_sector_BEA$TechnologicalCorrelationAdjustment
+  
+  # Drop unneeded cols
+  cols_to_drop <- c("NAICS","TechnologicalCorrelationAdjustment","allocation_factor")
+  totals_by_sector_BEA <- totals_by_sector_BEA[,-which(names(totals_by_sector_BEA) %in% cols_to_drop)]
+  
+  #Rename BEA to SectorCode
+  names(totals_by_sector_BEA)[names(totals_by_sector_BEA)=="BEA"] <- "SectorCode"
+  
+  # Add in BEA industry/commodity names
+  sectornames <- get(paste(model$specs$BaseIOLevel, paste0(model$specs$CommoditybyIndustryType, "CodeName"), model$specs$BaseIOSchema, sep = "_"))
+  colnames(sectornames) <- c("SectorCode","SectorName")
+  # Add F01000 or F010 to sectornames
+  if (model$specs$BaseIOLevel=="Detail") {
+    sectornames <- rbind.data.frame(sectornames, c("F01000", "Household"))
+  } else {
+    sectornames <- rbind.data.frame(sectornames, c("F010", "Household"))
+  }
+  
+  totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames, by = "SectorCode", all.x = TRUE)
+  
+  
+  # Aggregate to BEA sectors
+  # Unique aggregation functions are used depending on the quantitive variable
+  totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA, FlowName,Compartment,SectorCode,SectorName,Location,Unit,Year,DistributionType) 
+  totals_by_sector_BEA_agg <- dplyr::summarize(
+    totals_by_sector_BEA_agg,
+    FlowAmountAgg = sum(FlowAmount),
+    Min = min(Min),
+    Max = max(Max),
+    ReliabilityScore = weighted.mean(ReliabilityScore, FlowAmount),
+    TemporalCorrelation = weighted.mean(TemporalCorrelation, FlowAmount),
+    GeographicalCorrelation = weighted.mean(GeographicCorrelation, FlowAmount),
+    TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
+    DataCollection = weighted.mean(DataCollection, FlowAmount)
+  )
+
+  names(totals_by_sector_BEA_agg)[names(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
+  
+  return(totals_by_sector_BEA_agg)
 }
 
 #' Calculates intensity coefficient (kg/$) for a standard satellite table.
@@ -73,7 +118,7 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
 #' @param mapbyname A logical parameter indicating whether to map the satellite table by FlowName.
 #' @param sattablemeta Meta data of the satellite table.
 #' @return A standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
-generateStandardSatelliteTable <- function (sattable, mapbyname = FALSE, sattablemeta) {
+generateStandardSatelliteTable <- function (sattable, sattablemeta) {
   # Get standard sat table format
   Sattable_standardformat <- getStandardSatelliteTableFormat()
   # Make room for new rows
@@ -82,12 +127,12 @@ generateStandardSatelliteTable <- function (sattable, mapbyname = FALSE, sattabl
   Sattable_standardformat[, "ProcessCode"] <- sattable[, "SectorCode"]
   Sattable_standardformat[, "ProcessName"] <- sattable[, "SectorName"]
   Sattable_standardformat[, "ProcessLocation"] <- sattable[, "Location"]
-  if(mapbyname) {
-    Sattable_standardformat[, "FlowName"] <- sattable[, "FlowName"]
-  } else {
-    Sattable_standardformat[, "CAS"] <- sattable[, "FlowName"]
-  }
-  Sattable_standardformat[, "FlowAmount"] <- sattable[, "FlowAmount"]
+  Sattable_standardformat[, "FlowName"] <- sattable[, "FlowName"]
+  Sattable_standardformat[, "FlowCategory"] <- sattable[, "Compartment"]  
+  Sattable_standardformat[, "FlowSubCategory"] <- NA  
+  Sattable_standardformat[, "FlowAmount"] <- sattable[, "FlowAmount"]   
+  Sattable_standardformat[, "FlowUnit"] <- sattable[, "Unit"]
+
   
   #Map data quality fields
   Sattable_standardformat[, "DQReliability"] <- sattable[, "ReliabilityScore"]
@@ -98,14 +143,6 @@ generateStandardSatelliteTable <- function (sattable, mapbyname = FALSE, sattabl
   
   if("MetaSources" %in% colnames(sattable)) {
     Sattable_standardformat[, "MetaSources"] <- sattable[, "MetaSources"]
-  }
-  # Apply flow mapping
-  if (mapbyname) {
-    # Use new mapping
-    Sattable_standardformat <- mapListbyName(Sattable_standardformat, sattablemeta)
-  } else {
-    columns <- c("FlowName","CAS","FlowCategory","FlowSubCategory","FlowUUID","FlowUnit")
-    Sattable_standardformat[, columns] <- t(apply(Sattable_standardformat, 1, function(x) mapFlowbyCodeandCategory(x["CAS"], originalcategory = "")))
   }
   # Sort the satellite table sector code
   Sattable_standardformat <- Sattable_standardformat[order(Sattable_standardformat$ProcessCode), ]
@@ -145,3 +182,28 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
   colnames(sattable_agg)[c(1, ncol(sattable_agg))] <- c("SectorCode", "FlowAmount")
   return(sattable_agg)
 }
+
+
+
+#' Adds an indicator score to a totals by sector table. A short cut alternative to getting totals before model result
+#' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
+#' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
+#' @param indicator_code The code of the indicator of interest from the model$Indicators
+#' @return a totals_by_sector table with fields from the Indicator table "Code" and "Amount", and calculated "IndicatorScore" added
+calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_name, indicator_code) {
+
+  total_flow_vars <- c("FlowName","Compartment","Unit")
+  
+  indicator_flow_vars <- c("Name","Category","Unit")
+  indicator_vars <- c("Name","Category","Unit","Amount","Code")
+  flows_in_indicator <- model$indicators[model$indicators["Code"]==indicator_code, indicator_vars]
+  
+  
+  totals_by_sector <-  model$SatelliteTables$totals_by_sector[[totals_by_sector_name]]
+  df  <- merge(totals_by_sector,flows_in_indicator,by.x=total_flow_vars,by.y=indicator_flow_vars) 
+  df$IndicatorScore <- df$FlowAmount*df$Amount
+  return(df)
+  
+}
+
+
