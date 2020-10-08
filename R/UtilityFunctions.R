@@ -126,9 +126,8 @@ writeMatrixasBinFile <- function(matrix, path) {
 #' @param fipscodes A vector of 5 digit FIPS codes
 #' @return A vector of location codes where matches are found
 mapFIPS5toLocationCodes <- function(fipscodes) {
-  mapping <- c('00000' = 'US')
-  
-  locations <- stringr::str_replace_all(string = fipscodes,pattern = mapping)
+  mapping <- c("00000" = "US")
+  locations <- stringr::str_replace_all(string = fipscodes, pattern = mapping)
   return(locations)
 }  
   
