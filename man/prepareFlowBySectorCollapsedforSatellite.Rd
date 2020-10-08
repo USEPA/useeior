@@ -12,7 +12,7 @@ prepareFlowBySectorCollapsedforSatellite(fbsc)
 \item{fbsc}{A FlowBySector collapsed df from flowsa}
 }
 \value{
-A df of sector by region totals
+A data frame of sector by region totals
 }
 \description{
 Adjusts flowbysector data from flowsa

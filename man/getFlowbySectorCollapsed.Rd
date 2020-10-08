@@ -10,7 +10,7 @@ getFlowbySectorCollapsed(method_name)
 \item{method_name}{The name}
 }
 \value{
-A dataframe for flowsa data in sector by region totals format
+A data frame for flowsa data in sector by region totals format
 }
 \description{
 Calls the Python flowsa package's getFlowBySector method
