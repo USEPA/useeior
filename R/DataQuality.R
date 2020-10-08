@@ -4,11 +4,11 @@
 #'@param df totals data frame 
 #'@return string vector with names of data quality fields
 getDQfields <- function (df) {
-  flow_data_quality_fields <- c('ReliabilityScore',
-                                'TemporalCorrelation',
-                                'GeographicalCorrelation',
-                                'TechnologicalCorrelation',
-                                'DataCollection')  
+  flow_data_quality_fields <- c("DataReliability",
+                                "TemporalCorrelation",
+                                "GeographicalCorrelation",
+                                "TechnologicalCorrelation",
+                                "DataCollection")  
   fields_in_df <- flow_data_quality_fields[flow_data_quality_fields %in% colnames(df)]
   return(fields_in_df)
 }
@@ -18,12 +18,12 @@ getDQfields <- function (df) {
 #' @return a list with DQ bounds
 setDQScoringBounds <- function() {
   bound_to_dqi <- list()
-  bound_to_dqi[['upper']] <- c('TemporalCorrelation')
-  bound_to_dqi[['lower']] <- c('DataCollection')
-  temp_upper_bounds <- c(3,6,10,15,NA) #years from target date
-  dc_lower_bounds <- c(0.8,0.6,0.4,0,NA) #proportion of total industry
-  bound_to_dqi[['TemporalCorrelation']] <- temp_upper_bounds
-  bound_to_dqi[['DataCollection']] <-  dc_lower_bounds
+  bound_to_dqi[["upper"]] <- c("TemporalCorrelation")
+  bound_to_dqi[["lower"]] <- c("DataCollection")
+  temp_upper_bounds <- c(3, 6, 10, 15, NA) #years from target date
+  dc_lower_bounds <- c(0.8, 0.6, 0.4, 0, NA) #proportion of total industry
+  bound_to_dqi[["TemporalCorrelation"]] <- temp_upper_bounds
+  bound_to_dqi[["DataCollection"]] <- dc_lower_bounds
   return(bound_to_dqi)
 }
 
@@ -41,7 +41,7 @@ lookupDQBoundScore <- function(raw_score,dqi,scoring_bounds) {
     return(score)  
   }
   
-  if (dqi %in% scoring_bounds['lower']) {
+  if (dqi %in% scoring_bounds["lower"]) {
     for (i in 1:4) {
       if (raw_score >= scoring_bounds[[dqi]][i]) {
         score <- i
@@ -49,7 +49,7 @@ lookupDQBoundScore <- function(raw_score,dqi,scoring_bounds) {
       }  
     }
     if (is.na(score)) score<-5
-  } else if (dqi %in% scoring_bounds['upper']) {
+  } else if (dqi %in% scoring_bounds["upper"]) {
     for (i in 1:4) {
       if (raw_score <= scoring_bounds[[dqi]][i]) {
         score <- i
@@ -70,7 +70,8 @@ lookupDQBoundScore <- function(raw_score,dqi,scoring_bounds) {
 #' with names of the indicators. Only 'TemporalCorrelation' currently added.
 scoreContextualDQ <- function(df)  {
   bounds <- setDQScoringBounds()    
-  df[, 'TemporalCorrelation'] <- vapply(df[, 'Year'],scoreTemporalDQ,target_year=NA,scoring_bounds=bounds,FUN.VALUE=0)
+  df[, "TemporalCorrelation"] <- vapply(unique(df[, "Year"]), scoreTemporalDQ, target_year = NA,
+                                        scoring_bounds = bounds, FUN.VALUE = 0)
   return(df)
 }
 
