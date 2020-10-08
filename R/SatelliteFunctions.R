@@ -13,28 +13,26 @@ getStandardSatelliteTableFormat <- function () {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A satellite table aggregated by the USEEIO model sector codes.
 mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year, model) {
-  # Generate NAICS-to-BEA mapping dataframe based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
-  NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c("NAICS_2012_Code", paste("BEA", model$specs$BaseIOSchema,model$specs$BaseIOLevel, "Code", sep = "_"))])
+  # Generate NAICS-to-BEA mapping data frame based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
+  NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c("NAICS_2012_Code",
+                                                        paste("BEA", model$specs$BaseIOSchema,
+                                                              model$specs$BaseIOLevel, "Code", sep = "_"))])
+  # Rename columns and drop any rows without matches between NAICS and BEA in the mapping
   colnames(NAICStoBEA) <- c("NAICS", "BEA")
+  NAICStoBEA <- na.omit(NAICStoBEA)
   # Modify TechnologicalCorrelation score based on the the correspondence between NAICS and BEA code
   # If there is allocation (1 NAICS to 2 or more BEA), add one to score = 2
-  
-  #Drop any rows without matches between NAICS and BEA in the mapping
-  NAICStoBEA <- na.omit(NAICStoBEA)
-  
   # Assign TechnologicalCorrelationAdjustment to NAICS
   NAICS_duplicates <- unique(NAICStoBEA[duplicated(NAICStoBEA$NAICS), "NAICS"])
   NAICStoBEA[NAICStoBEA$NAICS%in%NAICS_duplicates, "TechnologicalCorrelationAdjustment"] <- 1
   NAICStoBEA[!NAICStoBEA$NAICS%in%NAICS_duplicates, "TechnologicalCorrelationAdjustment"] <- 0
   
-  #Rename the existing SectorCode field to NAICS
-  names(totals_by_sector)[names(totals_by_sector)=="SectorCode"] <- "NAICS"
-  
+  # Rename the existing Sector field to NAICS
+  colnames(totals_by_sector)[colnames(totals_by_sector)=="Sector"] <- "NAICS"
   # Merge totals_by_sector table with NAICStoBEA mapping
-  totals_by_sector_BEA <- merge(totals_by_sector, NAICStoBEA,by="NAICS", all.x = TRUE)
-  #the BEA sector codes are now added as Sector.y
+  totals_by_sector_BEA <- merge(totals_by_sector, NAICStoBEA, by = "NAICS", all.x = TRUE)
   
-  # Generate allocation_factor dataframe containing allocation factors between NAICS and BEA sectors
+  # Generate allocation_factor data frame containing allocation factors between NAICS and BEA sectors
   allocation_factor <- getNAICStoBEAAllocation(totals_by_sector_year, model)
   colnames(allocation_factor) <- c("NAICS", "BEA", "allocation_factor")
   # Merge the BEA-coded satellite table with allocation_factor dataframe
@@ -46,56 +44,49 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   
   # Apply tech correlation adjustment
   totals_by_sector_BEA$TechnologicalCorrelation <- totals_by_sector_BEA$TechnologicalCorrelation + totals_by_sector_BEA$TechnologicalCorrelationAdjustment
-  
   # Drop unneeded cols
-  cols_to_drop <- c("NAICS","TechnologicalCorrelationAdjustment","allocation_factor")
-  totals_by_sector_BEA <- totals_by_sector_BEA[,-which(names(totals_by_sector_BEA) %in% cols_to_drop)]
-  
-  #Rename BEA to SectorCode
-  names(totals_by_sector_BEA)[names(totals_by_sector_BEA)=="BEA"] <- "SectorCode"
+  totals_by_sector_BEA[, c("NAICS", "TechnologicalCorrelationAdjustment", "allocation_factor")] <- NULL
+  # Rename BEA to Sector
+  colnames(totals_by_sector_BEA)[colnames(totals_by_sector_BEA)=="BEA"] <- "Sector"
   
   # Add in BEA industry/commodity names
-  sectornames <- get(paste(model$specs$BaseIOLevel, paste0(model$specs$CommoditybyIndustryType, "CodeName"), model$specs$BaseIOSchema, sep = "_"))
-  colnames(sectornames) <- c("SectorCode","SectorName")
+  sectornames <- model$SectorNames
   # Add F01000 or F010 to sectornames
   if (model$specs$BaseIOLevel=="Detail") {
     sectornames <- rbind.data.frame(sectornames, c("F01000", "Household"))
   } else {
     sectornames <- rbind.data.frame(sectornames, c("F010", "Household"))
   }
+  # Assign sector names to totals_by_sector_BEA
+  totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames,
+                                by.x = "Sector", by.y = "SectorCode", all.x = TRUE)
   
-  totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames, by = "SectorCode", all.x = TRUE)
-  
-  
-  # Aggregate to BEA sectors
-  # Unique aggregation functions are used depending on the quantitive variable
-  totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA, FlowName,Compartment,SectorCode,SectorName,Location,Unit,Year,DistributionType) 
+  # Aggregate to BEA sectors using unique aggregation functions depending on the quantitive variable
+  totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA,
+                                              Flowable, Context, Sector, SectorName,
+                                              Location, Unit, Year, DistributionType) 
   totals_by_sector_BEA_agg <- dplyr::summarize(
     totals_by_sector_BEA_agg,
     FlowAmountAgg = sum(FlowAmount),
     Min = min(Min),
     Max = max(Max),
-    ReliabilityScore = weighted.mean(ReliabilityScore, FlowAmount),
+    DataReliability = weighted.mean(DataReliability, FlowAmount),
     TemporalCorrelation = weighted.mean(TemporalCorrelation, FlowAmount),
-    GeographicalCorrelation = weighted.mean(GeographicCorrelation, FlowAmount),
+    GeographicalCorrelation = weighted.mean(GeographicalCorrelation, FlowAmount),
     TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
     DataCollection = weighted.mean(DataCollection, FlowAmount)
   )
-
-  names(totals_by_sector_BEA_agg)[names(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
-  
+  colnames(totals_by_sector_BEA_agg)[colnames(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
   return(totals_by_sector_BEA_agg)
 }
 
 #' Calculates intensity coefficient (kg/$) for a standard satellite table.
-#'
 #' @param sattable A standardized satellite table with resource and emission names from original sources.
 #' @param outputyear Year of Industry output.
 #' @param referenceyear Year of the currency reference.
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
 #' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#'
 #' @return A dataframe contains intensity coefficient (kg/$).
 generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym, IsRoUS = FALSE, model) {
   # Generate adjusted industry output
