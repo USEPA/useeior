@@ -12,20 +12,22 @@ A list with lists of totals by sector and formatted satellite tables
  \itemize{
    \item totals_by_sector
      \itemize{
-       \item SectorCode {The code of the sector in the model IO schema}
-       \item SectorName
-       \item FlowName
-       \item Year
-       \item FlowAmount
-       \item ReliabilityScore
-       \item GeographicalCorrelation
-       \item TechnologicalCorrelation
-       \item DataCollection
-       \item Location
-       \item Compartment
-       \item Unit
-       \item Location
-       \item MetaSources
+       \item Flowable {Name of the flow}
+       \item Sector {Code of the sector in the model IO schema}
+       \item SectorSourceName {Source of the sector categorization, default is NAICS_2012_Code}
+       \item Context {Full context of the flow, compartment and subcompartment combined}
+       \item Location {Activity location, at a national, state, or county level}
+       \item Unit {SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows.}
+       \item Year {Year of the data}
+       \item DistributionType {Form of the frequency distribution, if given. Acceptable values are 'NORMAL', 'LOGNORMAL', 'TRIANGULAR', 'UNIFORM'.}
+       \item FlowAmount {Amount of the flow}
+       \item Min {The minimum FlowAmount, if provided for the data range.}
+       \item Max {The maximum FlowAmount, if provided for the data range.}
+       \item DataReliability {A 1-5 score of data reliability based on reporting values associated with the amount.}
+       \item TemporalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
+       \item GeographicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
+       \item TechnologicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
+       \item DataCollection {A 1-5 score of data collection based on reporting values associated with the amount.}
      }
    \item coeffs_by_sector
      \itemize{
