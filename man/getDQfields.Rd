@@ -8,10 +8,10 @@ Get DQ fields in existing data frame}
 getDQfields(df)
 }
 \arguments{
-\item{df}{totals data frame}
+\item{df}{A totals_by_sector data frame}
 }
 \value{
-string vector with names of data quality fields
+A string vector with names of data quality fields
 }
 \description{
 Draws from https://github.com/USEPA/ElectricityLCI/blob/master/electricitylci/dqi.py 

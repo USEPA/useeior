@@ -14,7 +14,7 @@ scoreTemporalDQ(data_year, target_year = NA, scoring_bounds)
 \item{scoring_bounds}{global scoring bounds}
 }
 \value{
-an integer data quality score 1-5 or NA
+An integer data quality score 1-5 or NA
 }
 \description{
 Scores temporal data quality using a lookup based on difference between data year and target year
