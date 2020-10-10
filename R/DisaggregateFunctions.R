@@ -50,9 +50,10 @@ disaggregateModel <- function (model){
 #' 
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param sattable A standardized satellite table with resource and emission names from original sources.
+#' @param sat The abbreviation for the satellite table.
 #' 
 #' @return A standardized satellite table with old sectors removed and new sectors added.
-disaggregateSatelliteTable <- function (model, sattable){
+disaggregateSatelliteTable <- function (model, sattable, sat){
   
   # For each disaggregation:
   for (disagg in model$DisaggregationSpecs$Disaggregation){
@@ -61,6 +62,9 @@ disaggregateSatelliteTable <- function (model, sattable){
     if(!is.null(disagg$EnvFile)){
       new_sector_totals <- utils::read.csv(system.file("extdata", disagg$EnvFile, package = "useeior"),
                                              header = TRUE, stringsAsFactors = FALSE, colClasses=c("SectorCode"="character"))
+      # Select only those rows from the disaggregation env file that apply for this satellite table
+      new_sector_totals <- subset(new_sector_totals, SatelliteTable==sat$Abbreviation, colnames(sattable))
+      
       included_sectors <- unique(new_sector_totals[,"SectorCode"])
       if (!identical(sort(included_sectors),sort(disagg$DisaggregatedSectorCodes))){
         logging::loginfo("Error: Satellite table does not include all disaggregated sectors")

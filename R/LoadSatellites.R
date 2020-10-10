@@ -92,7 +92,7 @@ loadsattables <- function(model) {
     
     #Check for disaggregation
     if(!is.null(model$specs$DisaggregationSpecs)){
-      totals_by_sector <- disaggregateSatelliteTable(model, totals_by_sector)
+      totals_by_sector <- disaggregateSatelliteTable(model, totals_by_sector, sat)
     }
     
     #Check that all DQ columns are present
