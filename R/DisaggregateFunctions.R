@@ -14,6 +14,7 @@ disaggregateModel <- function (model){
   #model$Use <- disaggregateUseTable(model)
   model$UseTransactions <- disaggregateUseTable(model)
   model$DomesticUseTransactions <- disaggregateUseTable(model, TRUE)
+  counter = 1
   for (disagg in model$DisaggregationSpecs$Disaggregation){
     model$UseValueAdded <- disaggregateRows(model$UseValueAdded, disagg)
     model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
@@ -35,6 +36,18 @@ disaggregateModel <- function (model){
     model$GDP$BEAGrossOutputIO <- disaggregateCols(model$GDP$BEAGrossOutputIO, disagg)
     model$GDP$BEACPIIO <- disaggregateCols(model$GDP$BEACPIIO, disagg, TRUE)
     
+    if(!is.null(disagg$MakeFile)){
+      disagg$MakeFileDf <- utils::read.csv(system.file("extdata", disagg$MakeFile, package = "useeior"),
+                                           header = TRUE, stringsAsFactors = FALSE)}
+    if(!is.null(disagg$UseFile)){
+      disagg$UseFileDf <- utils::read.csv(system.file("extdata", disagg$UseFile, package = "useeior"),
+                                           header = TRUE, stringsAsFactors = FALSE)}      
+    if(!is.null(disagg$EnvFile)){
+      disagg$EnvFileDf <- utils::read.csv(system.file("extdata", disagg$EnvFile, package = "useeior"),
+                                           header = TRUE, stringsAsFactors = FALSE)}
+    # Need to assign these DFs back to the modelspecs
+    model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
+    counter <- counter + 1
   }
   
   
@@ -59,9 +72,8 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
   for (disagg in model$DisaggregationSpecs$Disaggregation){
     
     # If satellite table data is provided for the new sector assign it here
-    if(!is.null(disagg$EnvFile)){
-      new_sector_totals <- utils::read.csv(system.file("extdata", disagg$EnvFile, package = "useeior"),
-                                             header = TRUE, stringsAsFactors = FALSE, colClasses=c("SectorCode"="character"))
+    if(!is.null(disagg$EnvFileDF)){
+      new_sector_totals <- disagg$EnvFileDF
       # Select only those rows from the disaggregation env file that apply for this satellite table
       new_sector_totals <- subset(new_sector_totals, SatelliteTable==sat$Abbreviation, colnames(sattable))
       
