@@ -409,3 +409,15 @@ disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE)
   
   return(disaggCols)
 }
+
+#' Disaggregate the MasterCrosswalk to include the new sectors for disaggregation
+#' @param crosswalk MasterCrosswalk from NAICS to BEA for the specified detail level. columns = "NAICS" and "BEA"
+#' 
+#' @return crosswalk with new sectors added.
+disaggregateMasterCrosswalk <- function (crosswalk){
+  # check if any new NAICS-like codes need to be added
+  # update the crosswalk by updating the BEA codes for disaggregation
+  
+  return(crosswalk)
+}
+
