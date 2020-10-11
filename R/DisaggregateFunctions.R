@@ -37,14 +37,14 @@ disaggregateModel <- function (model){
     model$GDP$BEACPIIO <- disaggregateCols(model$GDP$BEACPIIO, disagg, TRUE)
     
     if(!is.null(disagg$MakeFile)){
-      disagg$MakeFileDf <- utils::read.csv(system.file("extdata", disagg$MakeFile, package = "useeior"),
+      disagg$MakeFileDF <- utils::read.csv(system.file("extdata", disagg$MakeFile, package = "useeior"),
                                            header = TRUE, stringsAsFactors = FALSE)}
     if(!is.null(disagg$UseFile)){
-      disagg$UseFileDf <- utils::read.csv(system.file("extdata", disagg$UseFile, package = "useeior"),
+      disagg$UseFileDF <- utils::read.csv(system.file("extdata", disagg$UseFile, package = "useeior"),
                                            header = TRUE, stringsAsFactors = FALSE)}      
     if(!is.null(disagg$EnvFile)){
-      disagg$EnvFileDf <- utils::read.csv(system.file("extdata", disagg$EnvFile, package = "useeior"),
-                                           header = TRUE, stringsAsFactors = FALSE)}
+      disagg$EnvFileDF <- utils::read.csv(system.file("extdata", disagg$EnvFile, package = "useeior"),
+                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("SectorCode"="character"))}
     # Need to assign these DFs back to the modelspecs
     model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
     counter <- counter + 1
@@ -59,7 +59,7 @@ disaggregateModel <- function (model){
 
 
 
-#' Disaggregate satellite tables based on specs
+#' Disaggregate satellite tables from static file based on specs
 #' 
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param sattable A standardized satellite table with resource and emission names from original sources.
@@ -71,22 +71,32 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
   # For each disaggregation:
   for (disagg in model$DisaggregationSpecs$Disaggregation){
     
+    default_disaggregation <- FALSE
     # If satellite table data is provided for the new sector assign it here
     if(!is.null(disagg$EnvFileDF)){
       new_sector_totals <- disagg$EnvFileDF
       # Select only those rows from the disaggregation env file that apply for this satellite table
       new_sector_totals <- subset(new_sector_totals, SatelliteTable==sat$Abbreviation, colnames(sattable))
-      
-      included_sectors <- unique(new_sector_totals[,"SectorCode"])
-      if (!identical(sort(included_sectors),sort(disagg$DisaggregatedSectorCodes))){
-        logging::loginfo("Error: Satellite table does not include all disaggregated sectors")
+      if(length(new_sector_totals)==0){
+        logging:loginfo(paste0("Warning: No data found for disaggregation of ",sat))
+        default_disaggregation <- TRUE
       }
-      
-      # Append to the main dataframe
-      sattable <- rbind(sattable,new_sector_totals)
+      else{
+        # Check for errors in sattelite table
+        included_sectors <- unique(new_sector_totals[,"SectorCode"])
+        if (!identical(sort(included_sectors),sort(disagg$DisaggregatedSectorCodes))){
+          logging::loginfo("Error: Satellite table does not include all disaggregated sectors")
+        }
+        
+        # Append to the main dataframe
+        sattable <- rbind(sattable,new_sector_totals)
+      }
+    }
+    else{
+      default_disaggregation <- TRUE
     }
     
-    else{
+    if(default_disaggregation){
       # Subset the totals from the original sector
       old_sector_totals <- subset(sattable, SectorCode==disagg$OriginalSectorCode, colnames(sattable))
       
@@ -98,6 +108,7 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
         new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
 
         # If satellite table is disaggregated proportional to quantity do that here
+        # TODO pull this value from the make table disaggregation (gross output) instead of $NewSectorOutput
         if(!is.null(disagg$NewSectorsOutput)){
           new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount * 
                                              (disagg$NewSectorsOutput[[i]] / Reduce("+",disagg$NewSectorsOutput)))
