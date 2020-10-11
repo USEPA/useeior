@@ -38,7 +38,8 @@ disaggregateModel <- function (model){
     
     if(!is.null(disagg$MakeFile)){
       disagg$MakeFileDF <- utils::read.csv(system.file("extdata", disagg$MakeFile, package = "useeior"),
-                                           header = TRUE, stringsAsFactors = FALSE)}
+                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("IndustryCode"="character",
+                                          "CommodityCode"="character"))}
     if(!is.null(disagg$UseFile)){
       disagg$UseFileDF <- utils::read.csv(system.file("extdata", disagg$UseFile, package = "useeior"),
                                            header = TRUE, stringsAsFactors = FALSE)}      
@@ -77,7 +78,7 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
       new_sector_totals <- disagg$EnvFileDF
       # Select only those rows from the disaggregation env file that apply for this satellite table
       new_sector_totals <- subset(new_sector_totals, SatelliteTable==sat$Abbreviation, colnames(sattable))
-      if(length(new_sector_totals)==0){
+      if(nrow(new_sector_totals)==0){
         logging:loginfo(paste0("Warning: No data found for disaggregation of ",sat))
         default_disaggregation <- TRUE
       }
@@ -107,11 +108,17 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
         new_sector_totals$SectorCode <- disagg$DisaggregatedSectorCodes[[i]]
         new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
 
-        # If satellite table is disaggregated proportional to quantity do that here
-        # TODO pull this value from the make table disaggregation (gross output) instead of $NewSectorOutput
-        if(!is.null(disagg$NewSectorsOutput)){
-          new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount * 
-                                             (disagg$NewSectorsOutput[[i]] / Reduce("+",disagg$NewSectorsOutput)))
+        # If satellite table is disaggregated proportional to gross output do that here
+        if(!is.null(disagg$MakeFileDF)){
+          GrossOutputAlloc <- subset(disagg$MakeFileDF, 
+                                     (IndustryCode == disagg$OriginalSectorCode & CommodityCode == new_sector))
+          if(nrow(GrossOutputAlloc)==0){
+            allocation <- 0
+          }
+          else{
+            allocation <- GrossOutputAlloc$PercentMake
+          }
+          new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount * allocation)
         }
         
         # Else, divide equally across new sectors
