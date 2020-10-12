@@ -91,7 +91,7 @@ loadsattables <- function(model) {
     totals_by_sector <- scoreContextualDQ(totals_by_sector) #just sets TemporalCorrelation for now
     
     #Check for disaggregation
-    if(!is.null(model$specs$DisaggregationSpecs)){
+    if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat$StaticFile)){
       totals_by_sector <- disaggregateSatelliteTable(model, totals_by_sector, sat)
     }
     
