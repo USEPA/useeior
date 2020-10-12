@@ -19,7 +19,7 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   
   #Check for disaggregation
   if(!is.null(model$specs$DisaggregationSpecs)){
-    NAICStoBEA <- diaggregateMasterCrosswalk(NAICStoBEA)
+    NAICStoBEA <- disaggregateMasterCrosswalk(NAICStoBEA)
   }
   # Modify TechnologicalCorrelation score based on the the correspondence between NAICS and BEA code
   # If there is allocation (1 NAICS to 2 or more BEA), add one to score = 2
