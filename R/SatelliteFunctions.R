@@ -92,7 +92,7 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
   # Generate adjusted industry output
   Output_adj <- getAdjustedOutput(outputyear, referenceyear, location_acronym, IsRoUS, model)
   # Merge the satellite table with the adjusted industry output
-  Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "SectorCode", by.y = 0, all.x = TRUE)
+  Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "Sector", by.y = 0, all.x = TRUE)
   # Drop rows where output is zero
   outputcolname <- paste(outputyear, "IndustryOutput", sep = "")
   Sattable_USEEIO_wOutput <- Sattable_USEEIO_wOutput[Sattable_USEEIO_wOutput[, outputcolname] != 0, ]
@@ -106,27 +106,25 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
 
 #' Generate a standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
 #' @param sattable A statellite table contains FlowAmount already aggregated and transformed to coefficients.
-#' @param mapbyname A logical parameter indicating whether to map the satellite table by FlowName.
-#' @param sattablemeta Meta data of the satellite table.
 #' @return A standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
-generateStandardSatelliteTable <- function (sattable, sattablemeta) {
+generateStandardSatelliteTable <- function (sattable) {
   # Get standard sat table format
   Sattable_standardformat <- getStandardSatelliteTableFormat()
   # Make room for new rows
   Sattable_standardformat[nrow(sattable), ] <- NA
   # Transfer values from unformatted table
-  Sattable_standardformat[, "ProcessCode"] <- sattable[, "SectorCode"]
+  Sattable_standardformat[, "ProcessCode"] <- sattable[, "Sector"]
   Sattable_standardformat[, "ProcessName"] <- sattable[, "SectorName"]
   Sattable_standardformat[, "ProcessLocation"] <- sattable[, "Location"]
-  Sattable_standardformat[, "FlowName"] <- sattable[, "FlowName"]
-  Sattable_standardformat[, "FlowCategory"] <- sattable[, "Compartment"]  
+  Sattable_standardformat[, "FlowName"] <- sattable[, "Flowable"]
+  Sattable_standardformat[, "FlowCategory"] <- sattable[, "Context"]  
   Sattable_standardformat[, "FlowSubCategory"] <- NA  
   Sattable_standardformat[, "FlowAmount"] <- sattable[, "FlowAmount"]   
   Sattable_standardformat[, "FlowUnit"] <- sattable[, "Unit"]
 
   
   #Map data quality fields
-  Sattable_standardformat[, "DQReliability"] <- sattable[, "ReliabilityScore"]
+  Sattable_standardformat[, "DQReliability"] <- sattable[, "DataReliability"]
   Sattable_standardformat[, "DQTemporal"] <- sattable[, "TemporalCorrelation"]
   Sattable_standardformat[, "DQGeographical"] <- sattable[, "GeographicalCorrelation"]
   Sattable_standardformat[, "DQTechnological"] <- sattable[, "TechnologicalCorrelation"]

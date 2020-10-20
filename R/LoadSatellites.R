@@ -28,29 +28,28 @@
 #'      }
 #'    \item coeffs_by_sector
 #'      \itemize{
-#'        \item FlowName
+#'        \item Flowable {Name of the flow}
 #'        \item CAS
-#'        \item FlowCategory
-#'        \item FlowSubCategory
+#'        \item Context {Full context of the flow, compartment and subcompartment combined}
 #'        \item FlowUUID
-#'        \item ProcessName
-#'        \item ProcessCode
-#'        \item ProcessLocation
-#'        \item FlowAmount       
-#'        \item UncertaintyDistribution
-#'        \item UncertaintyExpectedValue
-#'        \item UncertaintyDispersion
-#'        \item UncertaintyMin
-#'        \item UncertaintyMax
-#'        \item DQReliability
-#'        \item DQTemporal
-#'        \item DQGeographical
-#'        \item DQTechnological
-#'        \item DQDataCollection
-#'        \item MetaYearofData
+#'        \item SectorName {Name of the sector in the model IO schema}
+#'        \item Sector {Code of the sector in the model IO schema}
+#'        \item Location {Activity location, at a national, state, or county level}
+#'        \item FlowAmount {Amount of the flow}
+#'        \item Unit {SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows.}
+#'        \item DistributionType {Form of the frequency distribution, if given. Acceptable values are 'NORMAL', 'LOGNORMAL', 'TRIANGULAR', 'UNIFORM'.}
+#'        \item ExpectedValue
+#'        \item Dispersion
+#'        \item Min {The minimum FlowAmount, if provided for the data range.}
+#'        \item Max {The maximum FlowAmount, if provided for the data range.}
+#'        \item DataReliability {A 1-5 score of data reliability based on reporting values associated with the amount.}
+#'        \item TemporalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
+#'        \item GeographicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
+#'        \item TechnologicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
+#'        \item DataCollection {A 1-5 score of data collection based on reporting values associated with the amount.}
+#'        \item Year {Year of the data}
 #'        \item MetaTags
-#'        \item MetaSources
-#'        \item MetaYearofData        
+#'        \item MetaSources       
 #'        \item MetaOther
 #'      }
 #'  }
@@ -108,56 +107,53 @@ loadsattables <- function(model) {
     }
     
     # Split table based on regions, begin to generate coeffs_by_sector
-    sattablecoeffs <- data.frame()
+    coeffs_by_sector <- data.frame()
     for (r in model$specs$ModelRegionAcronyms) {
       sattable_r <- totals_by_sector[totals_by_sector$Location==r, ]
       if (r=="RoUS") {
         IsRoUS <- TRUE
       } else {
         IsRoUS <- FALSE
-        #Change label to location
+        # Change Location if model is a state model
         if (model$specs$ModelType=="state") {
-          sattable_r[,  "Location"] <- paste("US-", r, sep = "")
+          sattable_r[, "Location"] <- paste0("US-", r)
         }
       }
-      sattablecoeffs_r <- generateFlowtoDollarCoefficient(totals_by_sector, sat$DataYears[1], model$specs$IOYear, r, IsRoUS=IsRoUS, model)
-      sattablecoeffs <- rbind(sattablecoeffs,sattablecoeffs_r)
+      coeffs_by_sector_r <- generateFlowtoDollarCoefficient(totals_by_sector, sat$DataYears[1],
+                                                            model$specs$IOYear, r, IsRoUS = IsRoUS, model)
+      coeffs_by_sector <- rbind(coeffs_by_sector, coeffs_by_sector_r)
     }
-    #Need to have sector name
-    sattablecoeffs$SectorName <- NULL
-    #! This is incorrect because the coeffs still just have industry names and not model sector 
-    sattablecoeffs_withsectors <- merge(sattablecoeffs, model$SectorNames, by = "SectorCode")
-
-    sattablestandardized <- generateStandardSatelliteTable(sattablecoeffs_withsectors)
+    # Apply standard statellite table format
+    #coeffs_by_sector <- generateStandardSatelliteTable(coeffs_by_sector)
     
-    #If dataset is static, it will use the embedded mapping files to map flows to internal flow names
+    # If the satellite table uses a static file, it will use the embedded mapping files to map flows to internal flow names
     if (!is.null(sat$StaticFile)) {
-      sattablestandardized <- mapListbyName(sattablestandardized, sat)
+      coeffs_by_sector <- mapListbyName(coeffs_by_sector, sat)
     } 
     
-    #append it to list
+    # Append totals_by_sector and coeffs_by_sector to the sattables list
     sattables$totals_by_sector[[sat$Abbreviation]] <- totals_by_sector
-    sattables$coeffs_by_sector[[sat$Abbreviation]] <- sattablestandardized
+    sattables$coeffs_by_sector[[sat$Abbreviation]] <- coeffs_by_sector
   }
   return(sattables)
 }
 
 #' Loads data for all satellite tables as lists in model specs
-#' @param list a model object with IO data loaded
-#' @return list a model object with Satellite tables added 
+#' @param model A model object with IO data loaded
+#' @return A model object with Satellite tables added 
 #' @export
 loadbuildSatelliteTables <- function(model) {
   # Generate satellite tables
   model$SatelliteTables <- loadsattables(model)
   # Combine satellite tables (coeffs_by_sector) into a single df
-  StandardizedSatelliteTable <- data.frame()
-  for (table in model$SatelliteTables$coeffs_by_sector) {
-    StandardizedSatelliteTable <- rbind(StandardizedSatelliteTable, table)
-  }
-  # transform into a flow x sector matrix
-  StandardizedSatelliteTable["Flow"] <- apply(StandardizedSatelliteTable[, c("FlowName", "FlowCategory", "FlowSubCategory", "FlowUnit")],
-                                              1 ,FUN = joinStringswithSlashes)
-  StandardizedSatelliteTable["Sector"] <- apply(StandardizedSatelliteTable[, c("ProcessCode", "ProcessLocation")], 1, FUN = joinStringswithSlashes)
+  StandardizedSatelliteTable <- do.call(rbind, model$SatelliteTables$coeffs_by_sector)
+  # Temporarily keep Sector as SectorCode
+  StandardizedSatelliteTable[, "SectorCode"] <- StandardizedSatelliteTable$Sector
+  # Transform satellite tables into a flow x sector matrix
+  StandardizedSatelliteTable[, "Flow"] <- apply(StandardizedSatelliteTable[, c("Flowable", "Context", "Unit")],
+                                                1, FUN = joinStringswithSlashes)
+  StandardizedSatelliteTable[, "Sector"] <- apply(StandardizedSatelliteTable[, c("Sector", "Location")],
+                                                  1, FUN = joinStringswithSlashes)
   
   #! Needs to be cast and made into matrix, but the problem is that the sectors need to have the order and completness of the model sectors list and not just those in the sat tables
   sattables_cast <- reshape2::dcast(StandardizedSatelliteTable, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount") #! check why aggregation is needed
@@ -165,9 +161,11 @@ loadbuildSatelliteTables <- function(model) {
   rownames(sattables_cast) <- sattables_cast$Flow
   sattables_cast$Flow <- NULL
   # Complete sector list using model$Industries
-  columns_to_add <- tolower(paste(model$Industries[!model$Industries%in%StandardizedSatelliteTable$ProcessCode], model$specs$PrimaryRegionAcronym, sep = "/"))
+  columns_to_add <- tolower(apply(cbind(model$Industries[!model$Industries%in%StandardizedSatelliteTable$SectorCode],
+                                        model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
   sattables_cast[, columns_to_add] <- 0
   # Adjust column order to be the same with V_n rownames
-  model$sattables_cast <- sattables_cast[, tolower(paste(rownames(model$MakeTransactions), model$specs$PrimaryRegionAcronym, sep = "/"))]
+  model$sattables_cast <- sattables_cast[, tolower(apply(cbind(model$Industries, model$specs$PrimaryRegionAcronym,
+                                                               1, FUN = joinStringswithSlashes)))]
   return(model)
 }
