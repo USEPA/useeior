@@ -1,11 +1,50 @@
 
 #' Calls the Python LCIAformatter package's get_mapped_method function
-#' @param indicators List of one or more indicators to include from inventory method
+#' @param parameters List of parameters, must include 'indicators' which is a list of one or 
+#' more indicators to include from inventory method
 #' @return An LCIAmethod with the specified indicators
-getInventoryMethod <- function(indicators) {
+getInventoryMethod <- function(parameters) {
+  # Convert the passed indicators to a list, if none provided all indicators are returned
+  if(length(parameters$indicators)==1){
+    indicators <- list(parameters$indicators)
+  }
+  else{
+    indicators <- parameters$indicators
+  }
   lciafmt <- reticulate::import("lciafmt")
   inv_method <- lciafmt$get_mapped_method(method_id="FEDEFL_INV", indicators=indicators)
   return(inv_method)
+}
+
+#' Calls the Python LCIAformatter package's get_mapped_method function
+#' @param parameters List of parameters, must include method_id
+#' @return An LCIAmethod with the specified indicators
+getImpactMethod <- function(parameters) {
+  method_id <- parameters$method_id #Name of method from LCIAformatter
+  
+  # Convert the passed indicators to a list, if none provided all indicators are returned
+  if(!is.null(parameters$indicators)){ #
+    if(length(parameters$indicators)==1){
+      indicators <- list(parameters$indicators)
+    }
+    else{
+      indicators <- parameters$indicators
+    }}
+  else{indicators <- NULL}
+
+  # Convert the passed methods to a list (e.g. "ReCiPe Midpoint/H"), if none provided all methods are returned
+  if(!is.null(parameters$methods)){
+    if(length(parameters$methods)==1){
+      methods <- list(parameters$methods)
+    }
+    else{
+      methods <- parameters$methods
+    }}
+  else{methods <- NULL}
+
+  lciafmt <- reticulate::import("lciafmt")
+  imp_method <- lciafmt$get_mapped_method(method_id=method_id, indicators=indicators, methods=methods)
+  return(imp_method)
 }
 
 #' Prepares and reformats LCIAmethod data from LCIAformatter for use

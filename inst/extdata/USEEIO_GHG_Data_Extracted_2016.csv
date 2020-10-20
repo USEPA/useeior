@@ -1,4 +1,4 @@
-"SectorCode","SectorName","FlowName","Year","FlowAmount","ReliabilityScore","TechnologicalCorrelation","DataCollection","GeographicalCorrelation","TemporalCorrelation","Location","Compartment","Unit","MetaSources"
+"Sector","SectorName","Flowable","Year","FlowAmount","DataReliability","TechnologicalCorrelation","DataCollection","GeographicalCorrelation","TemporalCorrelation","Location","Context","Unit","MetaSources"
 "1111A0","Oilseed farming","C2F6","2016",0,NA,NA,1,1,1,"US","air","kg","GHG"
 "1111A0","Oilseed farming","C3F8","2016",0,NA,NA,1,1,1,"US","air","kg","GHG"
 "1111A0","Oilseed farming","C4F8","2016",0,NA,NA,1,1,1,"US","air","kg","GHG"

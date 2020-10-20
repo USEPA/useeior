@@ -123,8 +123,12 @@ loadsattables <- function(model) {
                                                             model$specs$IOYear, r, IsRoUS = IsRoUS, model)
       coeffs_by_sector <- rbind(coeffs_by_sector, coeffs_by_sector_r)
     }
-    # Apply standard statellite table format
-    #coeffs_by_sector <- generateStandardSatelliteTable(coeffs_by_sector)
+    #Need to have sector name
+    sattablecoeffs$SectorName <- NULL
+    #! This is incorrect because the coeffs still just have industry names and not model sector 
+    sattablecoeffs_withsectors <- merge(sattablecoeffs, model$SectorNames, by = "Sector")
+
+    sattablestandardized <- generateStandardSatelliteTable(sattablecoeffs_withsectors)
     
     # If the satellite table uses a static file, it will use the embedded mapping files to map flows to internal flow names
     if (!is.null(sat$StaticFile)) {

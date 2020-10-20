@@ -59,7 +59,7 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   }
   # Assign sector names to totals_by_sector_BEA
   totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames,
-                                by.x = "Sector", by.y = "SectorCode", all.x = TRUE)
+                                by.x = "Sector", by.y = "Sector", all.x = TRUE)
   
   # Aggregate to BEA sectors using unique aggregation functions depending on the quantitive variable
   totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA,

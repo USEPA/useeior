@@ -70,7 +70,7 @@ loadIOData <- function(modelname) {
   } else {
     model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   }
-  colnames(model$SectorNames) <- c("SectorCode", "SectorName")
+  colnames(model$SectorNames) <- c("Sector", "SectorName")
   # Get model$IntermediateMargins and model$FinalConsumerMargins
   model$IntermediateMargins <- getMarginsTable(model, "intermediate")
   model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
