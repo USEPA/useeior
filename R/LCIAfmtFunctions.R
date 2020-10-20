@@ -1,11 +1,10 @@
 
-#' Calls the Python flowsa package's getFlowBySector method
-#' @param method_name The name
-#' @return A dataframe for flowsa data in sector by region totals format
-getInventoryMethod <- function(subset) {
+#' Calls the Python LCIAformatter package's get_mapped_method function
+#' @param indicators List of one or more indicators to include from inventory method
+#' @return An LCIAmethod with the specified indicators
+getInventoryMethod <- function(indicators) {
   lciafmt <- reticulate::import("lciafmt")
-  inv_method <- lciafmt$get_method(method_id="FEDEFL Inventory")
-  inv_method <- inv_method[inv_method['Indicator']==subset,]
+  inv_method <- lciafmt$get_mapped_method(method_id="FEDEFL_INV", indicators=indicators)
   return(inv_method)
 }
 
