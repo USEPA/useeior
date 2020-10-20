@@ -59,7 +59,7 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   }
   # Assign sector names to totals_by_sector_BEA
   totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames,
-                                by.x = "Sector", by.y = "SectorCode", all.x = TRUE)
+                                by.x = "Sector", by.y = "Sector", all.x = TRUE)
   
   # Aggregate to BEA sectors using unique aggregation functions depending on the quantitive variable
   totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA,
@@ -92,7 +92,7 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
   # Generate adjusted industry output
   Output_adj <- getAdjustedOutput(outputyear, referenceyear, location_acronym, IsRoUS, model)
   # Merge the satellite table with the adjusted industry output
-  Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "SectorCode", by.y = 0, all.x = TRUE)
+  Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "Sector", by.y = 0, all.x = TRUE)
   # Drop rows where output is zero
   outputcolname <- paste(outputyear, "IndustryOutput", sep = "")
   Sattable_USEEIO_wOutput <- Sattable_USEEIO_wOutput[Sattable_USEEIO_wOutput[, outputcolname] != 0, ]
@@ -115,18 +115,18 @@ generateStandardSatelliteTable <- function (sattable, sattablemeta) {
   # Make room for new rows
   Sattable_standardformat[nrow(sattable), ] <- NA
   # Transfer values from unformatted table
-  Sattable_standardformat[, "ProcessCode"] <- sattable[, "SectorCode"]
+  Sattable_standardformat[, "ProcessCode"] <- sattable[, "Sector"]
   Sattable_standardformat[, "ProcessName"] <- sattable[, "SectorName"]
   Sattable_standardformat[, "ProcessLocation"] <- sattable[, "Location"]
-  Sattable_standardformat[, "FlowName"] <- sattable[, "FlowName"]
-  Sattable_standardformat[, "FlowCategory"] <- sattable[, "Compartment"]  
+  Sattable_standardformat[, "FlowName"] <- sattable[, "Flowable"]
+  Sattable_standardformat[, "FlowCategory"] <- sattable[, "Context"]  
   Sattable_standardformat[, "FlowSubCategory"] <- NA  
   Sattable_standardformat[, "FlowAmount"] <- sattable[, "FlowAmount"]   
   Sattable_standardformat[, "FlowUnit"] <- sattable[, "Unit"]
 
   
   #Map data quality fields
-  Sattable_standardformat[, "DQReliability"] <- sattable[, "ReliabilityScore"]
+  Sattable_standardformat[, "DQReliability"] <- sattable[, "DataReliability"]
   Sattable_standardformat[, "DQTemporal"] <- sattable[, "TemporalCorrelation"]
   Sattable_standardformat[, "DQGeographical"] <- sattable[, "GeographicalCorrelation"]
   Sattable_standardformat[, "DQTechnological"] <- sattable[, "TechnologicalCorrelation"]

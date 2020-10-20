@@ -126,7 +126,7 @@ loadsattables <- function(model) {
     #Need to have sector name
     sattablecoeffs$SectorName <- NULL
     #! This is incorrect because the coeffs still just have industry names and not model sector 
-    sattablecoeffs_withsectors <- merge(sattablecoeffs, model$SectorNames, by = "SectorCode")
+    sattablecoeffs_withsectors <- merge(sattablecoeffs, model$SectorNames, by = "Sector")
 
     sattablestandardized <- generateStandardSatelliteTable(sattablecoeffs_withsectors)
     
