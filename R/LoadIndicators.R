@@ -18,7 +18,11 @@ loadindicators <- function(specs) {
          
          func_to_eval <- i$ScriptFunctionCall
          indloadfunction <- as.name(func_to_eval)
-         factors <- do.call(eval(indloadfunction), list(i$ScriptFunctionParameters))
+         if (length(i$ScriptFunctionParameters)>1) {
+            factors <- do.call(eval(indloadfunction), list(i$ScriptFunctionParameters))
+         } else {
+            factors <- do.call(eval(indloadfunction), list(list(i$ScriptFunctionParameters)))
+         }
          factors <- prepareLCIAmethodforIndicators(factors)
          factors$Code <- i$Abbreviation
       }
