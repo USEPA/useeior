@@ -64,11 +64,12 @@ loadsattables <- function(model) {
 
   for (sat in model$specs$SatelliteTable) {
     logging::loginfo(paste("Adding model satellite tables..."))
+    ### Generate totals_by_sector
     # Check if the satellite table uses a static file. If so, proceed.
     # If not, use specified functions in model metadata to load data from dynamic source
     if(!is.null(sat$StaticFile)) {
       totals_by_sector <- utils::read.table(system.file("extdata", sat$StaticFile, package = "useeior"),
-                                    sep = ",", header = TRUE, stringsAsFactors = FALSE)
+                                            sep = ",", header = TRUE, stringsAsFactors = FALSE)
     } else {
       func_to_eval <- sat$ScriptFunctionCall
       totalsgenfunction <- as.name(func_to_eval)
@@ -81,32 +82,35 @@ loadsattables <- function(model) {
       if (sat$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
         # Apply allocation
       } else if (sat$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
-        totals_by_sector <- aggregateSatelliteTable(totals_by_sector, sat$SectorListLevel, model$specs$BaseIOLevel, model)
+        totals_by_sector <- aggregateSatelliteTable(totals_by_sector,
+                                                    from_level = sat$SectorListLevel,
+                                                    to_level = model$specs$BaseIOLevel,
+                                                    model)
       }
     } else if ("NAICS" %in% sat$SectorListSource) {
       totals_by_sector <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(totals_by_sector, sat$DataYears[1], model)
     }
-    # Add in DQ columns and additional contextual scores not provided
-    # Only setting TemporalCorrelation for now
-    totals_by_sector <- scoreContextualDQ(totals_by_sector) 
-    
     # Check if disaggregation is needed based on model metadata
     if(!is.null(model$specs$disaggregation)){
       totals_by_sector <- disaggregateSatelliteTable(model, totals_by_sector)
     }
     
+    # Add in DQ columns and additional contextual scores not provided
+    # Only setting TemporalCorrelation for now
+    totals_by_sector <- scoreContextualDQ(totals_by_sector) 
     # Check if all DQ columns are present. If not, print error message.
     len_dq_fields <- length(getDQfields(totals_by_sector))
     if(len_dq_fields!=5){
       logging::logerror(paste0('Missing 1 or more data quality fields in satellite data. ', len_dq_fields, " present"))
     }
     
-    # Check if the orginal data comes from multiple years. If so, split table based on data years
+    # Check if the orginal data comes from multiple years.
     if (length(sat$DataYears)>1) {
       print("more than 1 data year")
+      # Split table based on data years here
     }
     
-    # Split table based on regions, begin to generate coeffs_by_sector
+    ### Generate coeffs_by_sector
     coeffs_by_sector <- data.frame()
     for (r in model$specs$ModelRegionAcronyms) {
       sattable_r <- totals_by_sector[totals_by_sector$Location==r, ]
@@ -123,19 +127,13 @@ loadsattables <- function(model) {
                                                             model$specs$IOYear, r, IsRoUS = IsRoUS, model)
       coeffs_by_sector <- rbind(coeffs_by_sector, coeffs_by_sector_r)
     }
-    #Need to have sector name
-    sattablecoeffs$SectorName <- NULL
-    #! This is incorrect because the coeffs still just have industry names and not model sector 
-    sattablecoeffs_withsectors <- merge(sattablecoeffs, model$SectorNames, by = "Sector")
-
-    sattablestandardized <- generateStandardSatelliteTable(sattablecoeffs_withsectors)
-    
+    coeffs_by_sector <- generateStandardSatelliteTable(coeffs_by_sector)
     # If the satellite table uses a static file, it will use the embedded mapping files to map flows to internal flow names
     if (!is.null(sat$StaticFile)) {
       coeffs_by_sector <- mapListbyName(coeffs_by_sector, sat)
     } 
     
-    # Append totals_by_sector and coeffs_by_sector to the sattables list
+    # Add totals_by_sector and coeffs_by_sector to the sattables list
     sattables$totals_by_sector[[sat$Abbreviation]] <- totals_by_sector
     sattables$coeffs_by_sector[[sat$Abbreviation]] <- coeffs_by_sector
   }

@@ -1,9 +1,7 @@
 #' Load the template of standard satellite table.
 #' @return A dataframe with the columns of the standard sat table format from the IO model builder.
 getStandardSatelliteTableFormat <- function () {
-  sat <- utils::read.table(system.file("extdata", "IOMB_Satellite_fields.csv", package = "useeior"),
-                           sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
-  sat[1, ] <- NA
+  sat <- configr::read.config(system.file("extdata/IOMB_Fields.yml", package="useeior"))[["SatelliteTable"]]
   return(sat)
 }
 
@@ -108,33 +106,12 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
 #' @param sattable A statellite table contains FlowAmount already aggregated and transformed to coefficients.
 #' @return A standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
 generateStandardSatelliteTable <- function (sattable) {
-  # Get standard sat table format
-  Sattable_standardformat <- getStandardSatelliteTableFormat()
-  # Make room for new rows
-  Sattable_standardformat[nrow(sattable), ] <- NA
-  # Transfer values from unformatted table
-  Sattable_standardformat[, "ProcessCode"] <- sattable[, "Sector"]
-  Sattable_standardformat[, "ProcessName"] <- sattable[, "SectorName"]
-  Sattable_standardformat[, "ProcessLocation"] <- sattable[, "Location"]
-  Sattable_standardformat[, "FlowName"] <- sattable[, "Flowable"]
-  Sattable_standardformat[, "FlowCategory"] <- sattable[, "Context"]  
-  Sattable_standardformat[, "FlowSubCategory"] <- NA  
-  Sattable_standardformat[, "FlowAmount"] <- sattable[, "FlowAmount"]   
-  Sattable_standardformat[, "FlowUnit"] <- sattable[, "Unit"]
-
-  
-  #Map data quality fields
-  Sattable_standardformat[, "DQReliability"] <- sattable[, "DataReliability"]
-  Sattable_standardformat[, "DQTemporal"] <- sattable[, "TemporalCorrelation"]
-  Sattable_standardformat[, "DQGeographical"] <- sattable[, "GeographicalCorrelation"]
-  Sattable_standardformat[, "DQTechnological"] <- sattable[, "TechnologicalCorrelation"]
-  Sattable_standardformat[, "DQDataCollection"] <- sattable[, "DataCollection"]
-  
-  if("MetaSources" %in% colnames(sattable)) {
-    Sattable_standardformat[, "MetaSources"] <- sattable[, "MetaSources"]
-  }
-  # Sort the satellite table sector code
-  Sattable_standardformat <- Sattable_standardformat[order(Sattable_standardformat$ProcessCode), ]
+  # Get standard sat table fields
+  fields <- getStandardSatelliteTableFormat()
+  # Add missing fields as new columns to sattable
+  sattable[, setdiff(fields, colnames(sattable))] <- ""
+  # Sort by satellite table sector code
+  Sattable_standardformat <- sattable[order(sattable$Sector), fields]
   return(Sattable_standardformat)
 }
 
