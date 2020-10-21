@@ -149,25 +149,21 @@ loadbuildSatelliteTables <- function(model) {
   model$SatelliteTables <- loadsattables(model)
   # Combine satellite tables (coeffs_by_sector) into a single df
   StandardizedSatelliteTable <- do.call(rbind, model$SatelliteTables$coeffs_by_sector)
-  # Temporarily keep Sector as SectorCode
-  StandardizedSatelliteTable[, "SectorCode"] <- StandardizedSatelliteTable$Sector
   # Transform satellite tables into a flow x sector matrix
   StandardizedSatelliteTable[, "Flow"] <- apply(StandardizedSatelliteTable[, c("Flowable", "Context", "Unit")],
                                                 1, FUN = joinStringswithSlashes)
   StandardizedSatelliteTable[, "Sector"] <- apply(StandardizedSatelliteTable[, c("Sector", "Location")],
                                                   1, FUN = joinStringswithSlashes)
-  
-  #! Needs to be cast and made into matrix, but the problem is that the sectors need to have the order and completness of the model sectors list and not just those in the sat tables
-  sattables_cast <- reshape2::dcast(StandardizedSatelliteTable, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount") #! check why aggregation is needed
+  # Cast StandardizedSatelliteTable into a flow x sector matrix
+  sattables_cast <- reshape2::dcast(StandardizedSatelliteTable, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount")
   # Move Flow to rowname so matrix is all numbers
   rownames(sattables_cast) <- sattables_cast$Flow
   sattables_cast$Flow <- NULL
-  # Complete sector list using model$Industries
-  columns_to_add <- tolower(apply(cbind(model$Industries[!model$Industries%in%StandardizedSatelliteTable$SectorCode],
-                                        model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
-  sattables_cast[, columns_to_add] <- 0
+  # Complete sector list according to model$Industries
+  standard_columns <- tolower(apply(cbind(model$Industries, model$specs$PrimaryRegionAcronym),
+                                    1, FUN = joinStringswithSlashes))
+  sattables_cast[, setdiff(standard_columns, colnames(sattables_cast))] <- 0
   # Adjust column order to be the same with V_n rownames
-  model$sattables_cast <- sattables_cast[, tolower(apply(cbind(model$Industries, model$specs$PrimaryRegionAcronym,
-                                                               1, FUN = joinStringswithSlashes)))]
+  model$sattables_cast <- sattables_cast[, standard_columns]
   return(model)
 }
