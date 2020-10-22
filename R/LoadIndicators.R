@@ -1,31 +1,25 @@
 #' Load indicator factors in a list based on model config.
 #' @param specs Specifications of the model.
 #' @return A list of indicator factors not yet formatted for IOMB.
-loadindicators <- function(specs) {
-   
+loadIndicators <- function(specs) {
    logging::loginfo('Getting model indicators...')
    indicators <- data.frame()
-
    for (i in specs$Indicators) {
       if(i$StaticSource) {
+         # Load LCIA factors from static file
          StaticIndicatorFactors <- loadLCIAfactors()
-         
          # Subset LCIA factors list for the abbreviations
          factors <- StaticIndicatorFactors[StaticIndicatorFactors$Code == i$Abbreviation, ]
-
       } else {
-         #Source is dynamic
-         
          func_to_eval <- i$ScriptFunctionCall
          indloadfunction <- as.name(func_to_eval)
          factors <- do.call(eval(indloadfunction), list(i$ScriptFunctionParameters))
          factors <- prepareLCIAmethodforIndicators(factors)
          factors$Code <- i$Abbreviation
       }
-      indicators <- rbind(indicators,factors)
+      indicators <- rbind(indicators, factors)
    }   
    return(indicators)
-   
 }
 
 #' Generating LCIA output formatted for useeiopy using LCIA_indicators static file
@@ -69,7 +63,7 @@ loadLCIAfactors <- function() {
 #' @export
 loadandbuildIndicators <- function(model) {
    # Generate C matrix: LCIA indicators
-   indicators <- loadindicators(model$specs)
+   indicators <- loadIndicators(model$specs)
    #Add flow field
    indicators$Flow <- tolower(paste(indicators$Name, indicators$Category, indicators$Subcategory,indicators$Unit, sep = "/"))
    #Add to model object
