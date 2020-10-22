@@ -55,7 +55,7 @@
 #'  }
 #' }
 #' @description Only works for static national totals by BEA sector in a set format
-loadsattables <- function(model) {
+loadSatTables <- function(model) {
   sattables <- list()
   sattables$totals_by_sector <- list()
   sattables$coeffs_by_sector <- list()
@@ -144,9 +144,9 @@ loadsattables <- function(model) {
 #' @param model A model object with IO data loaded
 #' @return A model object with Satellite tables added 
 #' @export
-loadbuildSatelliteTables <- function(model) {
+loadandbuildSatelliteTables <- function(model) {
   # Generate satellite tables
-  model$SatelliteTables <- loadsattables(model)
+  model$SatelliteTables <- loadSatTables(model)
   # Combine satellite tables (coeffs_by_sector) into a single df
   StandardizedSatelliteTable <- do.call(rbind, model$SatelliteTables$coeffs_by_sector)
   # Transform satellite tables into a flow x sector matrix
