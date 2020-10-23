@@ -2,7 +2,7 @@
 #' @param specs Specifications of the model.
 #' @return A list of indicator factors not yet formatted for IOMB.
 loadIndicators <- function(specs) {
-   logging::loginfo('Getting model indicators...')
+   logging::loginfo("Getting model indicators...")
    indicators <- data.frame()
    for (i in specs$Indicators) {
       if(i$StaticSource) {
@@ -10,6 +10,8 @@ loadIndicators <- function(specs) {
          StaticIndicatorFactors <- loadLCIAfactors()
          # Subset LCIA factors list for the abbreviations
          factors <- StaticIndicatorFactors[StaticIndicatorFactors$Code == i$Abbreviation, ]
+         # Add Indicator column
+         factors <- cbind("Indicator" = tolower(gsub(" ", "_", i$FullName)), factors)
       } else {
          func_to_eval <- i$ScriptFunctionCall
          indloadfunction <- as.name(func_to_eval)
@@ -39,21 +41,22 @@ generateLCIA <- function (model) {
 }
 
 #' Loads all LCIA factors from static source file after melting it to long file
-#' @return A dataframe with "Name""Category""Subcategory""Unit""UUID""Abbreviation""Amount"
+#' @return A dataframe with "Flowable", "UUID", "Context", "Unit", "Amount", "Code".
 loadLCIAfactors <- function() {
+   # Load static LCIA factors
    lciafact <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Factors.csv", package = "useeior"),
                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
-   #Melt these so there is one indicator score per line
-   lciafactlong <- reshape2::melt(lciafact, id.vars = c(1:5))
-   #Convert variable to character
-   lciafactlong$variable <- as.character(lciafactlong$variable)
-   #Convert values to numeric
-   lciafactlong$value <- as.numeric(lciafactlong$value)
-   #drop zeroes
-   lciafactlong <- lciafactlong[lciafactlong$value>0, ]
-   #Change colname for merging later
-   names(lciafactlong)[names(lciafactlong) == "variable"] <- "Code"
-   names(lciafactlong)[names(lciafactlong) == "value"] <- "Amount"
+   # Melt these so there is one indicator score per line
+   lciafactlong <- reshape2::melt(lciafact, id.vars = c("Name", "Category", "Subcategory", "Unit", "UUID"))
+   # Add Flowable, Context, Code and Amount
+   lciafactlong[, "Flowable"] <- lciafactlong$Name
+   lciafactlong[, "Context"] <- apply(lciafactlong[, c("Category", "Subcategory")],
+                                      1, FUN = joinStringswithSlashes)
+   lciafactlong[, "Code"] <- as.character(lciafactlong$variable)
+   lciafactlong[, "Amount"] <- as.numeric(lciafactlong$value)
+   # Drop zeroes and keep wanted columns
+   lciafactlong <- lciafactlong[lciafactlong$value>0,
+                                c("Flowable", "UUID", "Context", "Unit", "Amount", "Code")]
    return(lciafactlong)
 }
 
