@@ -64,10 +64,10 @@ loadLCIAfactors <- function() {
 loadandbuildIndicators <- function(model) {
    # Generate C matrix: LCIA indicators
    indicators <- loadIndicators(model$specs)
-   #Add flow field
-   indicators$Flow <- apply(indicators[, c("Name", "Category", "Subcategory", "Unit")],
-                            1, FUN = joinStringswithSlashes)
-   #Add to model object
+   # Add flow field
+   indicators$Flow <- tolower(apply(indicators[, c("Flowable", "Context", "Unit")],
+                                    1, FUN = joinStringswithSlashes))
+   # Add to model object
    model$indicators <- indicators
    return(model)
 }

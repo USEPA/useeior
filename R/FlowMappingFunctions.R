@@ -21,7 +21,7 @@ mapListbyName <- function (sattable, sattablemeta) {
   sourcemapping <- flowmapping[flowmapping$Source==originalflowsource, ]
   fieldstokeep <- c("OriginalName", "NewName", "CAS", "NewCategory", "NewSubCategory", "NewUnit", "UUID")
   sourcemapping <- sourcemapping[, fieldstokeep]
-
+  # Merge sattable with sourcemapping
   sattablewithmap <- merge(sattable, sourcemapping, by.x = "Flowable", by.y = "OriginalName", all.x = TRUE)
   # Add old flow name as tag is this changes
   if(!identical(sattablewithmap$Flowable, sattablewithmap$NewName)) {
