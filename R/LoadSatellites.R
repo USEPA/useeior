@@ -63,7 +63,7 @@ loadSatTables <- function(model) {
   logging::loginfo("Initializing model satellite tables...")
 
   for (sat in model$specs$SatelliteTable) {
-    logging::loginfo(paste("Adding model satellite tables..."))
+    logging::loginfo(paste("Adding model", tolower(sat$FullName), "satellite tables..."))
     ### Generate totals_by_sector
     # Check if the satellite table uses a static file. If so, proceed.
     # If not, use specified functions in model metadata to load data from dynamic source
@@ -101,7 +101,7 @@ loadSatTables <- function(model) {
     # Check if all DQ columns are present. If not, print error message.
     len_dq_fields <- length(getDQfields(totals_by_sector))
     if(len_dq_fields!=5){
-      logging::logerror(paste0('Missing 1 or more data quality fields in satellite data. ', len_dq_fields, " present"))
+      logging::logerror(paste("Missing 1 or more data quality fields in satellite data.", len_dq_fields, "present"))
     }
     
     # Check if the orginal data comes from multiple years.
