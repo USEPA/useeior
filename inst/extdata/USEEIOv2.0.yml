@@ -32,12 +32,12 @@ SatelliteTable:
         DataYear: 2015
         URL: "https://waterdata.usgs.gov/"
         Primary: TRUE
-  # CHEM:
-  #   FullName: "Chemical releases"
-  #   Abbreviation: "CHEM"
+  # CHAIR:
+  #   FullName: "Criteria and Hazardous Air Emissions"
+  #   Abbreviation: "CHAIR"
   #   StaticSource: FALSE
   #   StaticFile: null
-  #   DataYears: [2014]
+  #   DataYears: [2017]
   #   Locations: ["US"]
   #   SectorListSource: "NAICS"
   #   SectorListYear: 2012
@@ -58,6 +58,58 @@ SatelliteTable:
   #       DataYear: 2017
   #       URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
   #       Primary: TRUE
+  # CHAIR:
+  #   FullName: "Criteria and Hazardous Air Emissions"
+  #   Abbreviation: "CHAIR"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2017]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: ["CAP_HAP_national_2017"] #list of parameters
+  #   DataSources:
+  #     EPA_NEI:
+  #       Title: "National Emissions Inventory"
+  #       Author: "EPA"
+  #       DataYear: 2017
+  #       URL: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei"
+  #       Primary: TRUE
+  #     EPA_TRI:
+  #       Title: "Toxic Release Inventory"
+  #       Author: "EPA"
+  #       DataYear: 2017
+  #       URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
+  #       Primary: TRUE
+  # WATREL:
+  #   FullName: "Point source releases to water"
+  #   Abbreviation: "WATREL"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2017]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: [""] #list of parameters
+  #   DataSources:
+  #     EPA_TRI:
+  #       Title: "Toxic Release Inventory"
+  #       Author: "EPA"
+  #       DataYear: 2017
+  #       URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
+  #       Primary: TRUE
+  #     EPA_DMR:
+  #       Title: "Discharge Monitoring Report"
+  #       Author: "EPA"
+  #       DataYear: 2017
+  #       URL: "https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set"
+  #       Primary: TRUE
   GHG:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
@@ -76,25 +128,105 @@ SatelliteTable:
         DataYear: 2016
         URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
         Primary: TRUE
-  LAND:
-    FullName: "Land use"
-    Abbreviation: "LAND"
-    StaticSource: TRUE
-    StaticFile: "USEEIO_Land_Data_Extracted_2011.csv"
-    DataYears: [2016]
-    Locations: ["US"]
-    SectorListSource: "BEA" # or, NAICS
-    SectorListYear: 2012
-    SectorListLevel: "Detail"
-    OriginalFlowSource: "GHG"
-    DataSources:
-      USEPA_GHG_2018:
-        Title: "GHG Inventory"
-        Author: "USEPA"
-        DataYear: 2016
-        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
-        Primary: TRUE
-
+  # LAND:
+  #   FullName: "Land use"
+  #   Abbreviation: "LAND"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2016]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: [""] #list of parameters
+  #   DataSources:
+  # MINE:
+  #   FullName: "Mineral extraction"
+  #   Abbreviation: "MINE"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_Mineral_Data_Extracted_v1.1.csv"
+  #   DataYears: []
+  #   Locations: ["US"]
+  #   SectorListSource: "BEA"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "Detail"
+  #   OriginalFlowSource: "MINE"
+  #   DataSources:
+  # ENERGY:
+  #   FullName: "Energy extraction"
+  #   Abbreviation: "ENERGY"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_Energy_Data_Extracted_v1.1.csv"
+  #   DataYears: []
+  #   Locations: ["US"]
+  #   SectorListSource: "BEA"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "Detail"
+  #   OriginalFlowSource: "MINE"
+  #   DataSources:
+  # NPAG:
+  #   FullName: "Nitrogen and Phosphorus Releases from Agriculture"
+  #   Abbreviation: "NPAG"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_NP_Ag_Data_Extracted_v1.1.csv"
+  #   DataYears: []
+  #   Locations: ["US"]
+  #   SectorListSource: "BEA"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "Detail"
+  #   OriginalFlowSource: "DMR"
+  #   DataSources:
+  # PEST:
+  #   FullName: "Pesticide releases"
+  #   Abbreviation: "PEST"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_Pest_Extracted_v1.1.csv"
+  #   DataYears: []
+  #   Locations: ["US"]
+  #   SectorListSource: "BEA"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "Detail"
+  #   OriginalFlowSource: "Pesticides"
+  #   DataSources:
+  # CNHW:
+  #   FullName: "Commercial non-hazardous waste excluding construction activities"
+  #   Abbreviation: "CNHW"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_CNHW_Extracted_v1.2.csv"
+  #   DataYears: [2014]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "Waste Characterization Study 2014"
+  #   DataSources:
+  # CNHWC:
+  #   FullName: "Commercial non-hazardous waste from construction activities"
+  #   Abbreviation: "CNHW"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_CNHWC_Extracted_v1.2.csv"
+  #   DataYears: [2014]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "CDDPath"
+  #   DataSources:
+  # CRHW:
+  #   FullName: "ommercial RCRA-defined hazardous waste"
+  #   Abbreviation: "CRHW"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_CNHW_Extracted_v1.2.csv"
+  #   DataYears: [2015]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "Pesticides"
+  #   DataSources:
+  
 
 Demand:
   DemandYear: 2012
