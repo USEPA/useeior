@@ -4,10 +4,12 @@
 \alias{writeModelMatricesforAPI}
 \title{Write model matrices as BIN files for API to output folder.}
 \usage{
-writeModelMatricesforAPI(model)
+writeModelMatricesforAPI(model, modelfolder)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{modelfolder}{Directory to write the model components to}
 }
 \description{
 Writes model matrices, including A, B, C, D, L, U, M, CPI, x (Industry Output), and q (Commodity Output).

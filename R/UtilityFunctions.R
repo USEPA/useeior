@@ -120,3 +120,21 @@ writeMatrixasBinFile <- function(matrix, path) {
   }
   close(out)
 }
+
+#' Maps a vector of FIPS codes to location codes
+#' ! Placeholder only works for '00000' now
+#' @param fipscodes A vector of 5 digit FIPS codes
+#' @return A vector of location codes where matches are found
+mapFIPS5toLocationCodes <- function(fipscodes) {
+  mapping <- c('00000' = 'US')
+  
+  locations <- stringr::str_replace_all(string = fipscodes,pattern = mapping)
+  return(locations)
+}  
+  
+#' Replaces all `None` in a dataframe with the R NULL type NA
+#' 
+replaceNonewithNA <- function(df) {
+  df[df=='None'] <- NA
+  return(df)
+}

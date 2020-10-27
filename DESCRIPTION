@@ -22,7 +22,11 @@ Imports:
     usethis (>= 1.5),
     utils (>= 3.6.1),
     rappdirs (>= 0.3),
-    stringr (>= 1.4)
+    stringr (>= 1.4),
+    dplyr (>= 0.8),
+    ggplot2 (>= 3.0),
+    jsonlite (>= 1.6),
+    reticulate (>= 1.1)
 Depends:
   R (>= 3.6)
 License: file LICENSE

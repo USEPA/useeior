@@ -1,5 +1,6 @@
-#' Build an EEIO form USEEIO model.
-#' @param model Model file loaded with IO tables.
+#' Build an EEIO form USEEIO model. Requires model object with 
+#' loaded IO tables (see loadIOtables), built satellite tables, and built
+#' @param model Model file loaded with IO tables and satellite tables built
 #' @export
 #' @return A list with USEEIO model components and attributes.
 buildEEIOModel <- function(model) {
@@ -20,30 +21,9 @@ buildEEIOModel <- function(model) {
   }
   # Create an imports requirements matrix 
   model$A_m <- model$A - model$A_d
-  # Generate satellite tables
-  model$SatelliteTables <- loadsattables(model)
-  # Combine satellite tables (coeffs_by_sector) into a single df
-  StandardizedSatelliteTable <- data.frame()
-  for (table in model$SatelliteTables$coeffs_by_sector) {
-    StandardizedSatelliteTable <- rbind(StandardizedSatelliteTable, table)
-  }
-  # transform into a flow x sector matrix
-  StandardizedSatelliteTable["Flow"] <- apply(StandardizedSatelliteTable[, c("FlowName", "FlowCategory", "FlowSubCategory", "FlowUnit")],
-                                              1 ,FUN = joinStringswithSlashes)
-  StandardizedSatelliteTable["Sector"] <- apply(StandardizedSatelliteTable[, c("ProcessCode", "ProcessLocation")], 1, FUN = joinStringswithSlashes)
 
-  #! Needs to be cast and made into matrix, but the problem is that the sectors need to have the order and completness of the model sectors list and not just those in the sat tables
-  sattables_cast <- reshape2::dcast(StandardizedSatelliteTable, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount") #! check why aggregation is needed
-  # Move Flow to rowname so matrix is all numbers
-  rownames(sattables_cast) <- sattables_cast$Flow
-  sattables_cast$Flow <- NULL
-  # Complete sector list using model$Industries
-  columns_to_add <- tolower(paste(model$Industries[!model$Industries%in%StandardizedSatelliteTable$ProcessCode], model$specs$PrimaryRegionAcronym, sep = "/"))
-  sattables_cast[, columns_to_add] <- 0
-  # Adjust column order to be the same with V_n rownames
-  sattables_cast <- sattables_cast[, tolower(paste(rownames(model$V_n), model$specs$PrimaryRegionAcronym, sep = "/"))]
   # Generate B matrix
-  model$B <- as.matrix(sattables_cast)
+  model$B <- as.matrix(model$sattables_cast)
 
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
@@ -51,14 +31,16 @@ buildEEIOModel <- function(model) {
     colnames(model$B) <- tolower(paste(colnames(model$B), model$specs$PrimaryRegionAcronym, sep = "/"))
   }
 
-  # Generate C matrix: LCIA indicators
-  factors_from_static <- loadindicators(model$specs)
-  factors_from_static$GHG <- tolower(paste(factors_from_static$Name, factors_from_static$Category, factors_from_static$Subcategory,
-                                           factors_from_static$Unit, sep = "/"))
-  model$C <- reshape2::dcast(factors_from_static, Abbreviation ~ GHG, value.var = "Amount")
-  rownames(model$C) <- model$C$Abbreviation
-  model$C <- as.matrix(model$C[, rownames(model$B)])
+  # Generate C matrix: LCIA indicators in indicator x flow format
+  model$C <- reshape2::dcast(model$indicators, Code ~ Flow, value.var = "Amount")
+  rownames(model$C) <- model$C$Code
+  #Get flows in B not in C and add to C
+  flows_inBnotC <-  rownames(model$B)[-which(rownames(model$B) %in% colnames(model$C))]
+  model$C[,flows_inBnotC] <- 0
   model$C[is.na(model$C)] <- 0
+  #filter and resort model C flows and make it into a matrix
+  model$C <- as.matrix(model$C[, rownames(model$B)])
+
 
   #Add direct impact matrix
   model$D <- model$C %*% model$B 

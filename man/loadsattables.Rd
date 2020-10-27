@@ -2,14 +2,17 @@
 % Please edit documentation in R/LoadSatellites.R
 \name{loadsattables}
 \alias{loadsattables}
-\title{Load satellite tables in a list based on model.}
+\title{Load totals by sector/region and builds satellite tables based on model specs.
+Supports BEA and NAICS based totals. These totals can be provided as static files
+or dynamic function calls are supported. NAICS-based totals are aggregated/allocated to BEA sectors
+as part of the preparation.}
 \format{
 A list with lists of totals by sector and formatted satellite tables
 \describe{
  \itemize{
    \item totals_by_sector
      \itemize{
-       \item {SectorCode} {The code of the sector in the model IO schema}
+       \item SectorCode {The code of the sector in the model IO schema}
        \item SectorName
        \item FlowName
        \item Year
@@ -24,7 +27,7 @@ A list with lists of totals by sector and formatted satellite tables
        \item Location
        \item MetaSources
      }
-   \item tables
+   \item coeffs_by_sector
      \itemize{
        \item FlowName
        \item CAS
@@ -58,7 +61,7 @@ A list with lists of totals by sector and formatted satellite tables
 loadsattables(model)
 }
 \arguments{
-\item{model}{Configuration of the model.}
+\item{model}{A model list object with the specs object listed}
 }
 \value{
 Lists of national totals by sector and formatted satellite tables
