@@ -18,7 +18,7 @@ prepareLCIAmethodforIndicators <- function(lciamethod) {
   lciamethod <- replaceNonewithNA(lciamethod)
   
   #remove unused fields
-  cols_not_used <- c("Method","Method UUID","Indicator UUID", "Indicator unit","CAS No","Location","Location UUID")
+  cols_not_used <- c("Method","Method UUID","Indicator","Indicator UUID", "Indicator unit","CAS No","Location","Location UUID")
   lciamethodt <- lciamethod[,-which(names(lciamethod) %in% cols_not_used)]  
   
   #map cols to match regional and sector totals format

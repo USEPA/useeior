@@ -1,11 +1,11 @@
-SectorCode,SectorName,FlowName,Year,FlowAmount,ReliabilityScore,TechnologicalCorrelation,DataCollection,GeographicalCorrelation,TemporalCorrelation,Location,Compartment,Unit,MetaSources
-221111,Hydroelectric power generation,CO2,2016,25000,NA,NA,1,1,1,US,air,kg,eLCI
-221112,Fossil fuel electric power generation,CH4,2016,5000,NA,NA,1,1,1,US,air,kg,eLCI
-221113,Nuclear electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
-221114,Solar electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
-221115,Wind electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
-221116,Geothermal electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
-221117,Biomass electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
-221118,Other electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
-221121,Electric bulk power transmission and control,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
-221122,Electric power distribution,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
+SatelliteTable,SectorCode,SectorName,FlowName,Year,FlowAmount,ReliabilityScore,TechnologicalCorrelation,DataCollection,GeographicalCorrelation,TemporalCorrelation,Location,Compartment,Unit,MetaSources
+GHG,221111,Hydroelectric power generation,CO2,2016,25000,NA,NA,1,1,1,US,air,kg,eLCI
+GHG,221112,Fossil fuel electric power generation,CH4,2016,5000,NA,NA,1,1,1,US,air,kg,eLCI
+GHG,221113,Nuclear electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
+GHG,221114,Solar electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
+GHG,221115,Wind electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
+GHG,221116,Geothermal electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
+GHG,221117,Biomass electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
+GHG,221118,Other electric power generation,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
+GHG,221121,Electric bulk power transmission and control,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
+GHG,221122,Electric power distribution,CO2,2016,10,NA,NA,1,1,1,US,air,kg,eLCI
