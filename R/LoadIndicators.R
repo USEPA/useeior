@@ -32,9 +32,10 @@ generateLCIA <- function (model) {
    lciafactors <- loadLCIAfactors()
    # Import LCIA indicators
    lciaindicators <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
-                                 sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+                                       sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
    indicators <- as.vector(unlist(lapply(model$specs$Indicators, FUN = `[[`, "Abbreviation")))
    lciaindicators <- lciaindicators[lciaindicators$Code%in%indicators, ]
+   colnames(lciaindicators)[colnames(lciaindicators)=="Unit"] <- "Ref.Unit"
    # Merge LCIA factors and indicators to get meta data
    lcia <- merge(lciafactors, lciaindicators, by = "Code")
    return(lcia)

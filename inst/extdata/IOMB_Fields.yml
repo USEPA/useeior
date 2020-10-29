@@ -23,4 +23,14 @@ SatelliteTable:
   - MetaSources
   - MetaOther
 
-LICA:
+LCIA:
+  - Group
+  - Code
+  - Ref.Unit
+  - Flow
+  - Compartment
+  - Sub-Compartment
+  - Unit
+  - Flow-UUID
+  - Amount
+  - Name

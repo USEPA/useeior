@@ -47,7 +47,7 @@ writeModelMatrices <- function(model, outputfolder) {
 #' @export
 writeModelforUSEEIOPY <- function(model) {
   user_dir <- rappdirs::user_data_dir()
-  modelfolder <- file.path(user_dir, "USEEIO", "Model_Builds",model$specs$Model)
+  modelfolder <- file.path(user_dir, "USEEIO", "Model_Builds", model$specs$Model)
   if (!dir.exists(modelfolder)) {
     dir.create(modelfolder, recursive = TRUE) 
   }

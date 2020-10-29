@@ -51,14 +51,14 @@ formatLCIAforIOMB <- function(model) {
   # Generate LCIA table
   lcia <- generateLCIA(model)
   # Load standard LCIA fields for IOMB
-  lciafields <- utils::read.table(system.file("extdata", "IOMB_LCIA_fields.csv", package = "useeior"),
-                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+  lciafields <- configr::read.config(system.file("extdata/IOMB_Fields.yml", package="useeior"))[["LCIA"]]
   # Change column names to match those in IOMB format
-  colnames(lcia) <- c("Code", "Flow", "Compartment", "Sub-Compartment", "Unit", "Flow-UUID", "Amount", "Name", "Group", "Ref.Unit")
+  colnames(lcia) <- c("Code", "Flowable", "Flow-UUID", "Context", "Unit", "Amount",
+                      "Index", "ID", "Name", "Ref.Unit", "Group", "SimpleUnit","SimpleName")
   # Add LCIA-Method column
   lcia[, "LCIA-Method"] <- "USEEIO-LCIA"
   # format to meet IOMB format
-  formattedlcia <- lcia[, colnames(lciafields)]
+  formattedlcia <- lcia[, lciafields]
   return(formattedlcia)
 }
 
