@@ -135,17 +135,18 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
   from_code <- paste("BEA", model$specs$BaseIOSchema, from_level, "Code", sep = "_")
   to_code <- paste("BEA", model$specs$BaseIOSchema, to_level, "Code", sep = "_")
   # Merge the satellite table with MasterCrosswalk2012
-  sattable <- merge(sattable, unique(useeior::MasterCrosswalk2012[, c(from_code, to_code)]), by.x = "SectorCode", by.y = from_code)
+  sattable <- merge(sattable, unique(useeior::MasterCrosswalk2012[, c(from_code, to_code)]), by.x = "Sector", by.y = from_code)
   # Replace NA in DQ cols with 5
   dq_fields <- getDQfields(sattable)
   for (f in dq_fields) {
     sattable[is.na(sattable[, f]), f] <- 5
   }
   # Aggregate FlowAmount by specified columns
-  DQscores <- c("ReliabilityScore", "TemporalCorrelation", "GeographicalCorrelation", "TechnologicalCorrelation", "DataCollection")
+  aggbycolumns <- c(to_code, "Flowable", "Context", "Unit", dq_fields,
+                    "Year", "MetaSources", "Location")
   # Need particular aggregation functions, e.g. sum, weighted avg on ReliabilityScore
-  sattable_agg <- stats::aggregate(sattable$FlowAmount, by = sattable[, c(to_code, "FlowName", "Compartment", "Unit", DQscores, "Year", "MetaSources", "Location")], sum)
-  colnames(sattable_agg)[c(1, ncol(sattable_agg))] <- c("SectorCode", "FlowAmount")
+  sattable_agg <- stats::aggregate(sattable$FlowAmount, by = sattable[, aggbycolumns], sum)
+  colnames(sattable_agg)[c(1, ncol(sattable_agg))] <- c("Sector", "FlowAmount")
   return(sattable_agg)
 }
 
