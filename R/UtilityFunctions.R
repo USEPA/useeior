@@ -137,3 +137,14 @@ replaceNonewithNA <- function(df) {
   df[df=='None'] <- NA
   return(df)
 }
+
+#' Extract desired columns from SchemaInfo, return vectors with strings of codes.
+#' @param iolevel Level of detail, can be "Sector", "Summary, "Detail".
+#' @param colName A text value specifying desired column name.
+#' @return A vector of codes.
+getVectorOfCodes <- function(ioschema, iolevel, colName) {
+  SchemaInfoFile <- paste(ioschema, iolevel, "Schema_Info.csv", sep = "_")
+  SchemaInfo <- utils::read.table(system.file("extdata", SchemaInfoFile, package = "useeior"),
+                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+  return(as.vector(stats::na.omit(SchemaInfo[, c("Code", colName)])[, "Code"]))
+}
