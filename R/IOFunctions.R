@@ -236,8 +236,11 @@ getMarginsTable <- function (model, marginsource) {
 #' @return A Domestic Use table.
 generatDomesticUse <- function(Use, specs) {
   # Load Import matrix
-  Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
-  if (specs$BaseIOLevel=="Sector") {
+  if (specs$BaseIOLevel!="Sector") {
+    Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+  } else {
+    # Load Summary level Import matrix
+    Import <- get(paste("Summary_Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
     # Aggregate Import from Summary to Sector
     Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", specs))
   }
