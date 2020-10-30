@@ -2,9 +2,10 @@
 #' @param specs Specifications of the model.
 #' @return A list of indicator factors not yet formatted for IOMB.
 loadIndicators <- function(specs) {
-   logging::loginfo("Getting model indicators...")
+   logging::loginfo("Initializing model indicators...")
    indicators <- data.frame()
    for (i in specs$Indicators) {
+      logging::loginfo(paste("Getting", tolower(i$FullName), "indicators..."))
       if(i$StaticSource) {
          # Load LCIA factors from static file
          StaticIndicatorFactors <- loadLCIAfactors()

@@ -63,7 +63,7 @@ loadSatTables <- function(model) {
   logging::loginfo("Initializing model satellite tables...")
 
   for (sat in model$specs$SatelliteTable) {
-    logging::loginfo(paste("Adding model", tolower(sat$FullName), "satellite tables..."))
+    logging::loginfo(paste("Adding", tolower(sat$FullName), "satellite tables..."))
     ### Generate totals_by_sector
     # Check if the satellite table uses a static file. If so, proceed.
     # If not, use specified functions in model metadata to load data from dynamic source
