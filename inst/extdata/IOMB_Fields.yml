@@ -27,9 +27,8 @@ LCIA:
   - Group
   - Code
   - Ref.Unit
-  - Flow
-  - Compartment
-  - Sub-Compartment
+  - Flowable
+  - Context
   - Unit
   - Flow-UUID
   - Amount
