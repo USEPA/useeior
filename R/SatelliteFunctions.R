@@ -158,19 +158,15 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
 #' @param indicator_code The code of the indicator of interest from the model$Indicators
 #' @return a totals_by_sector table with fields from the Indicator table "Code" and "Amount", and calculated "IndicatorScore" added
 calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_name, indicator_code) {
-
-  total_flow_vars <- c("FlowName","Compartment","Unit")
-  
-  indicator_flow_vars <- c("Name","Category","Unit")
-  indicator_vars <- c("Name","Category","Unit","Amount","Code")
+  # Define indicator variables
+  indicator_vars <- c("Flowable", "Context", "Unit", "Amount", "Code")
+  # Extract flows_in_indicator and totals_by_sector from model
   flows_in_indicator <- model$indicators[model$indicators["Code"]==indicator_code, indicator_vars]
-  
-  
   totals_by_sector <-  model$SatelliteTables$totals_by_sector[[totals_by_sector_name]]
-  df  <- merge(totals_by_sector,flows_in_indicator,by.x=total_flow_vars,by.y=indicator_flow_vars) 
+  # Mergeflows_in_indicator and totals_by_sector and calculate IndicatorScore
+  df <- merge(totals_by_sector, flows_in_indicator, by = c("Flowable", "Context", "Unit")) 
   df$IndicatorScore <- df$FlowAmount*df$Amount
   return(df)
-  
 }
 
 
