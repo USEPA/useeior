@@ -231,6 +231,7 @@ getMarginsTable <- function (model, marginsource) {
 }
 
 #' Generate domestic Use table by adjusting Use table based on Import matrix.
+#' @param Use An original Use table.
 #' @param specs Model specifications.
 #' @return A Domestic Use table.
 generatDomesticUse <- function(Use, specs) {
