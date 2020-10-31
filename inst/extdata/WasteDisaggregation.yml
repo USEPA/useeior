@@ -2,7 +2,7 @@ Disaggregation:
   562000:
     OriginalSectorCode: "562000"
     OrignalSectorName: "Waste Management and remediation services"
-    DisaggregationType: "Predefined"
+    DisaggregationType: "Userdefined"
     
     DisaggregatedSectorNames: ["Solid waste collection","Hazardous wate collection treatment and disposal","Solid waste landfilling","Solid waste combustors and incinerators","Remediation services","Material separation/recovery facilities","Other waste collection and treatment services"]
     DisaggregatedSectorCodes: ["562111","562HAZ",'562212', '562213', '562910', '562920', '562OTH']
