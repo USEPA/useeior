@@ -8,15 +8,20 @@ disaggregateModel <- function (model){
     logging::loginfo(paste("Reading disaggregation for", disaggregationConfigFile, sep=" "))
     model$DisaggregationSpecs <- getModelConfiguration(disaggregationConfigFile)
   }
-  logging::loginfo("Initializing Disaggregation of IO tables...")
-  #model$Make <- disaggregateMakeTable(model)
-  model$MakeTransactions <- disaggregateMakeTable(model)
-  #model$Use <- disaggregateUseTable(model)
-  model$UseTransactions <- disaggregateUseTable(model)
-  model$DomesticUseTransactions <- disaggregateUseTable(model, TRUE)
+
   counter = 1
   for (disagg in model$DisaggregationSpecs$Disaggregation){
-    model$UseValueAdded <- disaggregateRows(model$UseValueAdded, disagg)
+   
+    #TODO: Need to make disaggregateMake and disaggregateUse be able to disaggregate these tables, not just the MakeTransactions and UseTransactions.
+    #TODO: Right now, uncommenting the lines to disaggregate the Make and Use tables returns the result of the disaggregatation of the transactions tables.
+    logging::loginfo("Initializing Disaggregation of IO tables...")
+    #model$Make <- disaggregateMakeTable(model) 
+    model$MakeTransactions <- disaggregateMakeTable(model)
+    #model$Use <- disaggregateUseTable(model)
+    model$UseTransactions <- disaggregateUseTable(model)
+    model$DomesticUseTransactions <- disaggregateUseTable(model, TRUE)
+    
+     model$UseValueAdded <- disaggregateRows(model$UseValueAdded, disagg)
     model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
     model$CPI <- disaggregateCols(model$CPI, disagg, TRUE)
     model$FinalDemand <- disaggregateCols(model$FinalDemand, disagg)
@@ -136,6 +141,15 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
   }
   
   return(sattable_disaggregated)
+}
+
+
+#' Disaggregate make table uniformly based on the number of new sectors
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' 
+#' @return A standardized make table with old sectors removed and new, uniformly disaggregated sectors added.
+PredefinedMakeDisagg <- function (model){
+  
 }
 
 #' Disaggregate make table based on specs
