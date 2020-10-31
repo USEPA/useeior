@@ -63,4 +63,4 @@ S00700,562920,0.1,commodity disaggregation
 562910,541700,0.141623784,industry disaggregation
 562920,541700,0.064962231,industry disaggregation
 562OTH,541700,0.088368147,industry disaggregation
-S00401,562920,1,industry disaggregation
+562920,S00401,1,industry disaggregation
