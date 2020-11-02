@@ -514,25 +514,41 @@ SpecifiedMakeDisagg <- function (model, disagg){
     #Copy original row (ind) for disaggregation
     originalRowVector <- originalMake[originalRowIndex,]
     
-    #Create new rows to store allocation values (all other values initiated to 0)
+    #Create new rows to store allocated values (all other values initiated to 0)
     manualAllocRowDF <- ManualDisaggAllocations(originalMake, rowsPercentages, originalRowVector, newSectorCodes, "MakeRow")
     
     
     ####### Assignning "manual" allocation for columns
     originalColVector <- originalMake[,originalColIndex, drop = FALSE]
-    #Create new rows to store allocation values (all other values initiated to 0)
+    #Create new cols to store allocated values (all other values initiated to 0)
     manualAllocColDF <- ManualDisaggAllocations(originalMake, colPercentages, originalColVector, newSectorCodes, "MakeCol")
     
+    
+    ###### Assigning "manual" allocations for intersection
+    originalIntersection <- originalMake[originalRowIndex,originalColIndex, drop=FALSE]
+    #create new inetersection to store allocated values
+    manualAllocIntersection <- ManualDisaggAllocations(originalMake, intersectionPercentages, originalIntersection, newSectorCodes, "Intersection" )
+    
     tempbreak = 1;#placeholder line for debugging
+    
+    #Current TODO: Calculate default percentages, then assemble make, then do all of that for use.
+    
+    #assign default percentages to the rest of the rows and columns.
+    #defaultRowDF <- DefaultDisaggAllocations(originalMake, )
+    
     
   }
   
   
 }
 
-#Current TODO: manually allocate intersection, then calculate default percentages, then assemble make, then do all of that for use.
-#' Allocate values specified by the .yml disaggregation specs to the correct places in a disaggregated row/column. 
-#' @param allocPercentages Dataframe. A subset of the dataframe that contains the specific industry and commodity combinations to assign to percentages. 
+
+#' Allocate values specified by the .yml disaggregation specs to the correct places in a disaggregated row/column of the Use/Make tables. 
+#' @param originalTable Dataframe. The original MakeTransactions or UseTransactions tables before disaggregation.
+#' @param allocPercentages Dataframe. A subset of the dataframe that contains the specific industry and commodity combinations to assign to percentages.
+#' @param originalVector Dataframe. The row, column, or intersection value from either the Make or Use table that will be disaggregated
+#' @param newSectorCodes List. The list of disaggregated sector codes
+#' @param vectorToDisagg String. A parameter to indicate what table and what part of that table is being disaggregated (e.g. "MakeCol" or "Intersection") 
 #' 
 #' @return A dataframe with the values specified in the disaggSpecs assigned to the correct Make or Use table indeces.
 ManualDisaggAllocations <- function (originalTable, allocPercentages, originalVector, newSectorCodes, vectorToDisagg){
@@ -550,13 +566,21 @@ ManualDisaggAllocations <- function (originalTable, allocPercentages, originalVe
     
   }else if(vectorToDisagg == "MakeCol"){
     
-    ##originalVector <- model$MakeTransactions
     #Create new cols to store allocation values (all other values initiated to NA)
     manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = nrow(originalTable)))
     
     #Assign correct column and row names to new rows dataframe
     colnames(manualAllocVector) <- newSectorCodes
-    rownames(manualAllocVector) <- rownames(originalVector)#TRY ORIGINAL VECTOR
+    rownames(manualAllocVector) <- rownames(originalVector)
+    
+  }else if(vectorToDisagg == "Intersection"){
+    
+    #Create new intersection to store allocation values (all other values initiated to NA)
+    manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = length(newSectorCodes)))
+    
+    #Assign correct column and row names to new rows dataframe
+    colnames(manualAllocVector) <- newSectorCodes
+    rownames(manualAllocVector) <- newSectorCodes
     
   }
   
@@ -570,41 +594,57 @@ ManualDisaggAllocations <- function (originalTable, allocPercentages, originalVe
     
     #Get the indeces where the allocated values go in new disaggregated rows
     rowAllocIndex <- which(rownames(manualAllocVector)==rowAlloc)
-    
-    if(length(rowAllocIndex)==0L){
-      logging::loginfo(paste("rowAlloc not found, not allocation made for rowAlloc", rowAlloc, sep=" "))
-    }
-    
     colAllocIndex <- which(colnames(manualAllocVector)==colAlloc)
     
-    if(length(colAllocIndex)==0L){
-      logging::loginfo(paste("colAlloc not found, not allocation made for commdity", colAlloc, sep=" "))
+    #Check for indexing errors
+    if(length(rowAllocIndex)==0L){
+      logging::loginfo(paste("rowAlloc not found, no allocation made for row", rowAlloc, sep=" ", "in table."))
     }
     
+    if(length(colAllocIndex)==0L){
+      logging::loginfo(paste("colAlloc not found, no allocation made for column", colAlloc, sep=" ", "in table."))
+    }
+    
+    
     #Calculate value based on allocation percent
-  
     if(vectorToDisagg == "MakeRow"){
       
       value <- originalVector[colAllocIndex]*allocationValue
+      
     }else if(vectorToDisagg=="MakeCol"){
       
       value <- originalVector[rowAllocIndex, 1, drop = FALSE]*allocationValue #to keep value as a dataframe
+      
+    }else if(vectorToDisagg == "Intersection"){
+      
+      value <- originalVector[1, 1, drop = FALSE]*allocationValue #to keep value as a dataframe. Should be a 1x1 DF
+      
     }
     
+    #If either rowAlloc or column are not valid values, set value to 0 to avoid a runtime error
     if(ncol(value)==0){
-      #if either rowAlloc or column are not valid values, assigning NA to value to avoid a runtime error
-      value <- NA
+      
+      value <- 0
     }
     
     #Assign value to correct index
     manualAllocVector[rowAllocIndex, colAllocIndex] <- value
     
     
-    
   }
   
+  #replace all NAs with 0
+  manualAllocVector[is.na(manualAllocVector)] <-0
   
   return(manualAllocVector)
   
 }
 
+#' ##Untested function
+#' #' @param vectorToDisagg String. A parameter to indicate what table and what part of that table is being disaggregated (e.g. "MakeCol" or "Intersection") 
+#' #' 
+#' #' @return A dataframe with the values specified in the disaggSpecs assigned to the correct Make or Use table indeces.
+#' AssembleTable <- function (originalTable, originalRowIndex, originalColIndex, disaggCols, disaggRows, disaggIntersection){
+#' 
+#'   
+#'   }
