@@ -12,8 +12,7 @@ disaggregateModel <- function (model){
   counter = 1
   for (disagg in model$DisaggregationSpecs$Disaggregation){
    
-    #TODO: Need to make disaggregateMake and disaggregateUse be able to disaggregate these tables, not just the MakeTransactions and UseTransactions.
-    #TODO: Right now, uncommenting the lines to disaggregate the Make and Use tables returns the result of the disaggregatation of the transactions tables.
+    #TODO: Need to make disaggregateMake and disaggregateUse be able to disaggregate these tables, not just the MakeTransactions and UseTransactions.Right now, uncommenting the lines to disaggregate the Make and Use tables returns the result of the disaggregatation of the transactions tables.
     #TODO: Discuss the movmement of the if statment and following block below from outside the for loop to in it. Idea is that the for loop should disaggregate the main tables multiple times, not jsut the "supplementary tables"
     
     if(!is.null(disagg$MakeFile)){
@@ -476,7 +475,7 @@ SpecifiedMakeDisagg <- function (model, disagg){
     makeAllocations <- disagg$MakeFileDF
     
     #Industry allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
-    disaggRowTotals <- subset(makeAllocations, IndustryCode %in% originalSectorCode) #get all rows in makeAllocations that have the OriginalSectorCode in the IndustryCode column
+    defaultRowPercentages <- subset(makeAllocations, IndustryCode %in% originalSectorCode) #get all rows in makeAllocations that have the OriginalSectorCode in the IndustryCode column
     
     #Allocations for make intersection. Get rows of DF where only new sector codes are present in both the industryCode and commodityCode columns. 
     intersectionPercentages <-subset(makeAllocations, IndustryCode %in% newSectorCodes & CommodityCode %in% newSectorCodes)
@@ -529,18 +528,40 @@ SpecifiedMakeDisagg <- function (model, disagg){
     #create new inetersection to store allocated values
     manualAllocIntersection <- ManualDisaggAllocations(originalMake, intersectionPercentages, originalIntersection, newSectorCodes, "Intersection" )
     
+    #Current TODO: Calculate default percentages
+    
+    #-------Code Section: Assign default percentages to the rest of the rows and columns. Need to move to own function. 
+ 
+    #get original row total
+    originalRowSum <- data.frame(rowSums(originalMake[originalRowIndex,]))
+    
+    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
+    if(nrow(defaultRowPercentages)==0){
+
+      defaultRowPercentages <- data.frame(rep(originalRowSum/numNewSectors, numNewSectors))#assigning default values assuming uniform split
+      defaultRowPercentages <- data.frame(t(defaultRowPercentages))#transposing datframe so it's a dataframe of dimensions [numNewSectors, 1]
+      
+    }
+    
+    #calculate the default row totals (i.e. totals as if there was no manual allocation)
+    defaultRowTotals <- data.frame(defaultRowPercentages[,3]*originalRowSum[1,1])
+    
+    #sum of manual allocations by row
+    sumManualAlloc <- data.frame(rowSums(manualAllocRowDF)+rowSums(manualAllocIntersection))
+    
+    remaingAllocAmount <- defaultRowTotals - sumManualAlloc 
+    
+    
+    #defaultRowDF <- DefaultDisaggAllocations(originalMake, manualAllocRowDF, manualAllocColDF, manualAllocIntersection )#need to implement this function
+    
+    
     tempbreak = 1;#placeholder line for debugging
+    #-----End of Code section: Assign default percetnages to rest of row
     
-    #Current TODO: Calculate default percentages, then assemble make, then do all of that for use.
-    
-    #assign default percentages to the rest of the rows and columns.
-    #defaultRowDF <- DefaultDisaggAllocations(originalMake, )
-    
-    
-  }
+  }#End of if(!is.null(disagg$MakeFileDF)) loop
   
   
-}
+}#End of specifiedMakeDisagg Function
 
 
 #' Allocate values specified by the .yml disaggregation specs to the correct places in a disaggregated row/column of the Use/Make tables. 
@@ -640,11 +661,39 @@ ManualDisaggAllocations <- function (originalTable, allocPercentages, originalVe
   
 }
 
-#' ##Untested function
-#' #' @param vectorToDisagg String. A parameter to indicate what table and what part of that table is being disaggregated (e.g. "MakeCol" or "Intersection") 
-#' #' 
-#' #' @return A dataframe with the values specified in the disaggSpecs assigned to the correct Make or Use table indeces.
-#' AssembleTable <- function (originalTable, originalRowIndex, originalColIndex, disaggCols, disaggRows, disaggIntersection){
-#' 
-#'   
-#'   }
+
+#' @param OriginalMake Dataframe. The original Make table before disaggregation
+#' @param originalRowIndex Integer. The row index, in the original Make table, of the sector to be disaggregated
+#' @param OriginalColIndex Integer. The column index, in the original Make table, of the sector to be disaggregated
+#' @param disaggCols Dataframe. Previously disaggregated columns of the Make table.
+#' @param disaggRows Dataframe. Previously disaggregaed rows of the Make table.
+#' @param disaggIntersecion Dataframe. Previously disaggregated intersection of the Make table.
+#'d
+#' @return The Make table as a dataframe with the disaggregated rows, columns, and intersection included
+AssembleMake <- function (originalMake, originalRowIndex, originalColIndex, disaggCols, disaggRows, disaggIntersection){
+  
+  
+  #Assembling all columns above disaggregated rows, including all disaggregated columns
+  disaggTable <- cbind(originalMake[1:originalRowIndex-1,1:originalColIndex-1], #above diagg rows, from 1st col to col right before disaggregation
+                       disaggCols[1:originalRowIndex-1,],                        #insert disaggregated cols before disaggregated rows
+                       originalMake[1:originalRowIndex-1,-(1:originalColIndex)]) #include all cols except from 1st col to disaggregated col
+  
+  #Inserting intersection into disaggregated rows
+  disaggRows <- cbind(disaggRows[,1:originalColIndex-1],  #from 1st col to col right before disaggregation
+                      disaggIntersection,                 #insert disaggregated intersection
+                      disaggRows[,-(1:originalColIndex)]) #include all cols except from 1s col to disaggregated col
+  
+  #Appending rest of original rows to partially assembled DMake
+  disaggTable <- rbind(disaggTable,disaggRows)
+  
+  #Assembling all columns below disaggregated rows, including all disaggregated columns
+  disaggTableBottom <- cbind(originalMake[-(1:originalRowIndex),1:originalColIndex-1],  #below disagg rows, from 1st col to col right before disaggregation
+                             disaggCols[-(1:originalRowIndex),],                        #insert disaggregated cols below disaggregated rows
+                             originalMake[-(1:originalRowIndex),-(1:originalColIndex)]) #below disagg rows, all columns after disagg columns 
+  
+  #Appeding bottom part of the table to top part of the table
+  disaggTable <- rbind(disaggTable, disaggTableBottom)
+
+  return(disaggTable)
+
+  }
