@@ -8,6 +8,12 @@ loadIOData <- function(modelname) {
   model <- list()
   # Get model specs
   model$specs <- getModelConfiguration(modelname)
+  # Get model crosswalk
+  if (is.null(model$specs$DisaggregationSpecs)) {
+    model$crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema))
+  } else {
+    # add crosswalk of disaggregated sectors here
+  }
   # Get BEA IO tables
   model$BEA <- loadBEAtables(model$specs)
   # Get model$Industries and model$Commodities
