@@ -26,6 +26,8 @@ disaggregateModel <- function (model){
     newNames <- data.frame("SectorCode" = disagg$DisaggregatedSectorCodes, "SectorName"=disagg$DisaggregatedSectorNames)
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
 
+    model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
+    
     # margins tables need to be adjusted as the index is not the sector code like other dataframes
     #model$IntermediateMargins <- disaggregateCols(model$IntermediateMargins, disagg)
     #model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
