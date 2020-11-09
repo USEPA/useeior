@@ -22,8 +22,17 @@ disaggregateModel <- function (model){
     model$FinalDemand <- disaggregateCols(model$FinalDemand, disagg)
     model$DomesticFinalDemand <- disaggregateCols(model$DomesticFinalDemand, disagg)
 
+    # Upon merging move this section up to first item in disagg for loop
+    disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata", disagg$SectorFile, package = "useeior"),
+                                            header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
+                                                                                                  "USEEIO_Code"="character"))
+    
     index <- match(disagg$OriginalSectorCode, model$SectorNames$SectorCode)
-    newNames <- data.frame("SectorCode" = disagg$DisaggregatedSectorCodes, "SectorName"=disagg$DisaggregatedSectorNames)
+    newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code, "SectorName"=disagg$NAICSSectorCW$USEEIO_Name))
+    disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
+    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
+    # through here
+    
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
 
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
