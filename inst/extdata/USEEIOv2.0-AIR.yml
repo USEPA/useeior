@@ -12,26 +12,6 @@ CommoditybyIndustryType: "Commodity"
 ScrapIncluded: FALSE
 
 SatelliteTable:
-  WAT:
-    FullName: "Water withdrawals"
-    Abbreviation: "WAT"
-    StaticSource: FALSE
-    StaticFile: null
-    DataYears: [2015]
-    Locations: ["US"]
-    SectorListSource: "NAICS"
-    SectorListYear: 2012
-    SectorListLevel: "6"
-    OriginalFlowSource: "FEDEFLv1.0.4"
-    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["Water_national_2015_m1"] #list of parameters
-    DataSources:
-      USGS_NWIS_WU_2015:
-        Title: "Water Use in the US"
-        Author: "USGS"
-        DataYear: 2015
-        URL: "https://waterdata.usgs.gov/"
-        Primary: TRUE
   AIR:
     FullName: "CAP and HAP emissions"
     Abbreviation: "AIR"
@@ -58,48 +38,12 @@ SatelliteTable:
         DataYear: 2017
         URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
         Primary: TRUE
-  GHG:
-    FullName: "Greenhouse Gases"
-    Abbreviation: "GHG"
-    StaticSource: TRUE
-    StaticFile: "USEEIO_GHG_Data_Extracted_2016.csv"
-    DataYears: [2016]
-    Locations: ["US"]
-    SectorListSource: "BEA" # or, NAICS
-    SectorListYear: 2012
-    SectorListLevel: "Detail"
-    OriginalFlowSource: "GHG"
-    DataSources:
-      USEPA_GHG_2018:
-        Title: "GHG Inventory"
-        Author: "USEPA"
-        DataYear: 2016
-        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
-        Primary: TRUE
 
 Demand:
   DemandYear: 2012
   DemandSubsystems: null
 
 Indicators:
-  GreenhouseGases:
-    FullName: "Greenhouse Gases"
-    Abbreviation: "GHG"
-    Category: "Impact Potential"
-    Unit: "kg CO2 eq"
-    StaticSource: False
-    ScriptFunctionCall: "getImpactMethod" #function to call for script
-    ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
-      indicators: ["Global warming"]
-      methods: 
-    DataSources:
-      USEPA_TRACI_2.1:
-        Title: "TRACI 2.1"
-        Author: "USEPA"
-        DataYear: NA
-        URL: NA
-        Primary: TRUE
   Acidification:
     FullName: "Acidification Potential"
     Abbreviation: "AP"
@@ -118,19 +62,4 @@ Indicators:
         DataYear: NA
         URL: NA
         Primary: TRUE
-  freshwater_withdrawal:
-    FullName: "Freshwater withdrawals"
-    Abbreviation: "WAT"
-    Category: "Resource Use"
-    Unit: "kg"
-    StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
-    ScriptFunctionParameters: 
-      indicators: ["freshwater_resources"]
-    DataSources:
-      LCIAformatter:
-        Title: "LCIAformatter FEDEFL Inventory Methods"
-        Author: "USEPA"
-        DataYear: 2020
-        URL: https://github.com/USEPA/LCIAformatter
-        Primary: TRUE
+
