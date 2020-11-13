@@ -515,18 +515,20 @@ SpecifiedMakeDisagg <- function (model, disagg){
     
     #Create new rows to store allocated values (all other values initiated to 0)
     manualAllocRowDF <- ManualDisaggAllocations(originalMake, rowsPercentages, originalRowVector, newSectorCodes, "MakeRow")
-    
+    ##ALTERNATE FUNCTION CALL: AllocRowDF  <- DisaggAllocations(model,disagg,rowsPercentages,"MakeRow")
     
     ####### Assignning "manual" allocation for columns
     originalColVector <- originalMake[,originalColIndex, drop = FALSE]
     #Create new cols to store allocated values (all other values initiated to 0)
     manualAllocColDF <- ManualDisaggAllocations(originalMake, colPercentages, originalColVector, newSectorCodes, "MakeCol")
-    
+    ##ALTERNATE FUNCTION CALL: AllocColDF <- DisaggAllocations(model,disagg,colPercentages,"MakeCol")
     
     ###### Assigning "manual" allocations for intersection
     originalIntersection <- originalMake[originalRowIndex,originalColIndex, drop=FALSE]
     #create new inetersection to store allocated values
     manualAllocIntersection <- ManualDisaggAllocations(originalMake, intersectionPercentages, originalIntersection, newSectorCodes, "Intersection" )
+    ##ALTERNATE FUNCTION CALL: AllocIntersectionDF <- DisaggAllocations(model,disagg,intersectionPercentages,"Intersection")
+    
     
     #Current TODO: Calculate default percentages
     
@@ -543,17 +545,25 @@ SpecifiedMakeDisagg <- function (model, disagg){
       
     }
     
-    #calculate the default row totals (i.e. totals as if there was no manual allocation)
-    defaultRowTotals <- data.frame(defaultRowPercentages[,3]*originalRowSum[1,1])
+    #Create new rows to store allocation values (all other values initiated to NA)
+    defaultAllocRows <- rbind(originalRowVector, originalRowVector[rep(1,numNewSectors-1),])
     
-    #sum of manual allocations by row
-    sumManualAlloc <- data.frame(rowSums(manualAllocRowDF)+rowSums(manualAllocIntersection))
+    #Assign correct column and row names to new rows dataframe
+    colnames(defaultAllocRows) <- names(originalRowVector)
+    rownames(defaultAllocRows) <- newSectorCodes
+
+    #multiply all elements in row by default percentages
+    defaultAllocRows <- defaultAllocRows*defaultRowPercentages[,3]
     
-    remaingAllocAmount <- defaultRowTotals - sumManualAlloc 
+    #in the default alloc rows, replace default elements with elements that were manually allocated
+    #column indeces with manual allocations
+    manualColIndeces <- data.frame(which(colSums(manualAllocRowDF)!=0))
     
-    
-    #defaultRowDF <- DefaultDisaggAllocations(originalMake, manualAllocRowDF, manualAllocColDF, manualAllocIntersection )#need to implement this function
-    
+    #in the default allocation row, replace 
+    for(i in 1:nrow(manualColIndeces)){
+      
+      #stuff
+    }
     
     tempbreak = 1;#placeholder line for debugging
     #-----End of Code section: Assign default percetnages to rest of row
@@ -605,7 +615,7 @@ ManualDisaggAllocations <- function (originalTable, allocPercentages, originalVe
     
   }
   
-  #Loop to assing the manual allocations
+  #Loop to assign the manual allocations
   for (r in 1:nrow(allocPercentages)){
     
     #Get data from current row of the data imported from the yml file. 
@@ -666,7 +676,7 @@ ManualDisaggAllocations <- function (originalTable, allocPercentages, originalVe
 #' @param originalRowIndex Integer. The row index, in the original Make table, of the sector to be disaggregated
 #' @param OriginalColIndex Integer. The column index, in the original Make table, of the sector to be disaggregated
 #' @param disaggCols Dataframe. Previously disaggregated columns of the Make table.
-#' @param disaggRows Dataframe. Previously disaggregaed rows of the Make table.
+#' @param disaggRows Dataframe. Previously disaggregated rows of the Make table.
 #' @param disaggIntersecion Dataframe. Previously disaggregated intersection of the Make table.
 #'d
 #' @return The Make table as a dataframe with the disaggregated rows, columns, and intersection included
@@ -696,4 +706,137 @@ AssembleMake <- function (originalMake, originalRowIndex, originalColIndex, disa
 
   return(disaggTable)
 
+}
+
+
+
+#' Allocate values specified by the .yml disaggregation specs to the correct places in a disaggregated row/column of the Use/Make tables. 
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' @param allocPercentages Dataframe. A subset of the dataframe that contains the percentages to allocate to specific industry and commodity combinations in the disaggregated vector. Parameter use coordinated with @param VectorToDisagg.
+#' @param vectorToDisagg String. A parameter to indicate what table and what part of that table is being disaggregated (e.g. "MakeCol" or "Intersection") 
+#' 
+#' @return A dataframe with the values specified in the disaggSpecs assigned to the correct Make or Use table indeces.
+DisaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg){
+  
+  #Local variable for new sector codes
+  newSectorCodes <- disagg$DisaggregatedSectorCodes
+  #Local variable for original sector code
+  originalSectorCode <- disagg$OriginalSectorCode
+  
+  if(vectorToDisagg == "MakeRow")
+  {
+    #Determin original table
+    originalTable <- model$MakeTransactions
+    #Determine commodity and/or industry indeces corresponding to the original sector code
+    originalVectorIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
+    #Get original row or column
+    originalVector <- originalTable[originalVectorIndex,]
+    #Get original row or column sum
+    originalVectorSum <- data.frame(rowSums(originalVector))
+  
+      
+    #Create new rows to store allocation values (all other values initiated to NA)
+    manualAllocVector <- data.frame(matrix(ncol = ncol(originalTable), nrow = length(newSectorCodes)))
+    
+    #Assign correct column and row names to new rows dataframe
+    colnames(manualAllocVector) <- names(originalVector)
+    rownames(manualAllocVector) <- newSectorCodes
+    
+  }else if(vectorToDisagg == "MakeCol"){
+    
+    #Determin original table
+    originalTable <- model$MakeTransactions
+    #Determine commodity and/or industry indeces corresponding to the original sector code
+    originalVectorIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
+    #Get original row or column
+    originalVector <- originalTable[,originalVectorIndex, drop = FALSE]
+    #Get original row or column sum
+    originalVectorSum <- data.frame(colSums(originalVector))
+    
+    
+    
+    #Create new cols to store allocation values (all other values initiated to NA)
+    manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = nrow(originalTable)))
+    
+    #Assign correct column and row names to new rows dataframe
+    colnames(manualAllocVector) <- newSectorCodes
+    rownames(manualAllocVector) <- rownames(originalVector)
+    
+  }else if(vectorToDisagg == "Intersection"){
+    
+    #Determin original table
+    originalTable <- model$MakeTransactions
+    #Determine commodity and/or industry indeces corresponding to the original sector code
+    originalRowIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
+    originalColIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
+    #Get original row or column
+    originalVector <- originalTable[originalRowIndex,originalColIndex, drop=FALSE]
+    #Get original row or column sum
+    originalVectorSum <- data.frame(colSums(originalVector))
+    
+    
+    #Create new intersection to store allocation values (all other values initiated to NA)
+    manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = length(newSectorCodes)))
+    
+    #Assign correct column and row names to new rows dataframe
+    colnames(manualAllocVector) <- newSectorCodes
+    rownames(manualAllocVector) <- newSectorCodes
+    
   }
+  
+  #Loop to assign the manual allocations
+  for (r in 1:nrow(allocPercentages)){
+    
+    #Get data from current row of the data imported from the yml file. 
+    rowAlloc <- allocPercentages[r,1]
+    colAlloc <- allocPercentages[r,2]
+    allocationValue <- allocPercentages[r,3]
+    
+    #Get the indeces where the allocated values go in new disaggregated rows
+    rowAllocIndex <- which(rownames(manualAllocVector)==rowAlloc)
+    colAllocIndex <- which(colnames(manualAllocVector)==colAlloc)
+    
+    #Check for indexing errors
+    if(length(rowAllocIndex)==0L){
+      logging::loginfo(paste("rowAlloc not found, no allocation made for row", rowAlloc, sep=" ", "in table."))
+    }
+    
+    if(length(colAllocIndex)==0L){
+      logging::loginfo(paste("colAlloc not found, no allocation made for column", colAlloc, sep=" ", "in table."))
+    }
+    
+    
+    #Calculate value based on allocation percent
+    if(vectorToDisagg == "MakeRow"){
+      
+      value <- originalVector[colAllocIndex]*allocationValue
+      
+    }else if(vectorToDisagg=="MakeCol"){
+      
+      value <- originalVector[rowAllocIndex, 1, drop = FALSE]*allocationValue #to keep value as a dataframe
+      
+    }else if(vectorToDisagg == "Intersection"){
+      
+      value <- originalVector[1, 1, drop = FALSE]*allocationValue #to keep value as a dataframe. Should be a 1x1 DF
+      
+    }
+    
+    #If either rowAlloc or column are not valid values, set value to 0 to avoid a runtime error
+    if(ncol(value)==0){
+      
+      value <- 0
+    }
+    
+    #Assign value to correct index
+    manualAllocVector[rowAllocIndex, colAllocIndex] <- value
+    
+    
+  }
+  
+  #replace all NAs with 0
+  manualAllocVector[is.na(manualAllocVector)] <-0
+  
+  return(manualAllocVector)
+  
+}
