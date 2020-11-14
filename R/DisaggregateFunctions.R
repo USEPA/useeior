@@ -474,6 +474,7 @@ SpecifiedMakeDisagg <- function (model, disagg){
     #Local variable for Make table allocations
     makeAllocations <- disagg$MakeFileDF
     
+    ##Extract data from Disaggregation csv
     #Industry allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
     defaultRowPercentages <- subset(makeAllocations, IndustryCode %in% originalSectorCode) #get all rows in makeAllocations that have the OriginalSectorCode in the IndustryCode column
     
@@ -487,6 +488,17 @@ SpecifiedMakeDisagg <- function (model, disagg){
     
     #Allocations for the row (industry) disaggregation. Get all rows of the DF where new sector codes are in the industryCode column, and neither the original nor new sector codes are in the commodityColumn. 
     rowsPercentages <- subset(makeAllocations, IndustryCode %in% newSectorCodes & !(CommodityCode %in% originalSectorCode) & !(CommodityCode %in% newSectorCodes))
+    
+    
+    ###Disaggregate Make Rows, Columns, and Intersection while using the allocation data extracted from the Disaggregationcsv. 
+    #Assigning allocations for disaggregated rows
+    allocRowDF  <- DisaggAllocations(model,disagg,rowsPercentages,"MakeRow")
+    
+    #Assignning allocation for disaggregated columns
+    AllocColDF <- DisaggAllocations(model,disagg,colPercentages,"MakeCol") 
+    
+    #Assigning allocations for disaggregated intersection
+    AllocIntersectionDF <- DisaggAllocations(model,disagg,intersectionPercentages,"Intersection")
     
     #----------------------- code shared with uniformMakeDisagg
     originalMake<-model$MakeTransactions
@@ -507,69 +519,16 @@ SpecifiedMakeDisagg <- function (model, disagg){
     
     #-----------------------end of code shared with uniformMakeDisagg
     
+  DisaggMake <- AssembleMake(originalMake, originalRowIndex, originalColIndex, AllocColDF, allocRowDF, AllocIntersectionDF)
     
-    ####### Assignning "manual" allocation for rows
+  }else{
     
-    #Copy original row (ind) for disaggregation
-    originalRowVector <- originalMake[originalRowIndex,]
-    
-    #Create new rows to store allocated values (all other values initiated to 0)
-    manualAllocRowDF <- ManualDisaggAllocations(originalMake, rowsPercentages, originalRowVector, newSectorCodes, "MakeRow")
-    ##ALTERNATE FUNCTION CALL: AllocRowDF  <- DisaggAllocations(model,disagg,rowsPercentages,"MakeRow")
-    
-    ####### Assignning "manual" allocation for columns
-    originalColVector <- originalMake[,originalColIndex, drop = FALSE]
-    #Create new cols to store allocated values (all other values initiated to 0)
-    manualAllocColDF <- ManualDisaggAllocations(originalMake, colPercentages, originalColVector, newSectorCodes, "MakeCol")
-    ##ALTERNATE FUNCTION CALL: AllocColDF <- DisaggAllocations(model,disagg,colPercentages,"MakeCol")
-    
-    ###### Assigning "manual" allocations for intersection
-    originalIntersection <- originalMake[originalRowIndex,originalColIndex, drop=FALSE]
-    #create new inetersection to store allocated values
-    manualAllocIntersection <- ManualDisaggAllocations(originalMake, intersectionPercentages, originalIntersection, newSectorCodes, "Intersection" )
-    ##ALTERNATE FUNCTION CALL: AllocIntersectionDF <- DisaggAllocations(model,disagg,intersectionPercentages,"Intersection")
-    
-    
-    #Current TODO: Calculate default percentages
-    
-    #-------Code Section: Assign default percentages to the rest of the rows and columns. Need to move to own function. 
- 
-    #get original row total
-    originalRowSum <- data.frame(rowSums(originalMake[originalRowIndex,]))
-    
-    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
-    if(nrow(defaultRowPercentages)==0){
-
-      defaultRowPercentages <- data.frame(rep(originalRowSum/numNewSectors, numNewSectors))#assigning default values assuming uniform split
-      defaultRowPercentages <- data.frame(t(defaultRowPercentages))#transposing datframe so it's a dataframe of dimensions [numNewSectors, 1]
-      
-    }
-    
-    #Create new rows to store allocation values (all other values initiated to NA)
-    defaultAllocRows <- rbind(originalRowVector, originalRowVector[rep(1,numNewSectors-1),])
-    
-    #Assign correct column and row names to new rows dataframe
-    colnames(defaultAllocRows) <- names(originalRowVector)
-    rownames(defaultAllocRows) <- newSectorCodes
-
-    #multiply all elements in row by default percentages
-    defaultAllocRows <- defaultAllocRows*defaultRowPercentages[,3]
-    
-    #in the default alloc rows, replace default elements with elements that were manually allocated
-    #column indeces with manual allocations
-    manualColIndeces <- data.frame(which(colSums(manualAllocRowDF)!=0))
-    
-    #in the default allocation row, replace 
-    for(i in 1:nrow(manualColIndeces)){
-      
-      #stuff
-    }
-    
-    tempbreak = 1;#placeholder line for debugging
-    #-----End of Code section: Assign default percetnages to rest of row
-    
-  }#End of if(!is.null(disagg$MakeFileDF)) loop
+    #todo: error handling, no csv was read in terminate execution
+    DisaggMake <- NULL;
+  }
+  #End of if(!is.null(disagg$MakeFileDF)) loop
   
+  return(DisaggMake)
   
 }#End of specifiedMakeDisagg Function
 
@@ -721,40 +680,67 @@ DisaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg){
   
   #Local variable for new sector codes
   newSectorCodes <- disagg$DisaggregatedSectorCodes
+  numNewSectors <- length(newSectorCodes)
   #Local variable for original sector code
   originalSectorCode <- disagg$OriginalSectorCode
   
+
+  #These different if blocks are needed because of the different dimensions of the manual and default allocation vectors needed for disaggregating 
+  #the Make and Use rows and columns. Each block initializes the manual and default allocation values for the relevant rows or columns.
   if(vectorToDisagg == "MakeRow")
   {
-    #Determin original table
+    #Set up for manual allocations
+    #Get original table
     originalTable <- model$MakeTransactions
-    #Determine commodity and/or industry indeces corresponding to the original sector code
+    #Get commodity and/or industry indeces corresponding to the original sector code
     originalVectorIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
     originalVector <- originalTable[originalVectorIndex,]
     #Get original row or column sum
     originalVectorSum <- data.frame(rowSums(originalVector))
-  
-      
-    #Create new rows to store allocation values (all other values initiated to NA)
+    
+    #Create new rows to store manual allocation values (all other values initiated to NA)
     manualAllocVector <- data.frame(matrix(ncol = ncol(originalTable), nrow = length(newSectorCodes)))
     
     #Assign correct column and row names to new rows dataframe
     colnames(manualAllocVector) <- names(originalVector)
     rownames(manualAllocVector) <- newSectorCodes
     
+    
+    #Set up for default allocations
+    #Get default percentages (i.e. for non-manual allocation) 
+    #Industry allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
+    defaultPercentages <- subset(disagg$MakeFileDF, IndustryCode %in% originalSectorCode) #get all rows from the MakeFileDF that have the OriginalSectorCode in the IndustryCode column
+
+    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
+    if(nrow(defaultPercentages)==0){
+      
+      defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))#assigning default disaggregation percentage totals assuming uniform split
+     
+    }else{
+      
+      defaultPercentages <- defaultPercentages[, 3, drop=FALSE]#Extracting the column with the percentages
+    }
+    
+    #Create new rows to store default allocation values by copying the original row a number of times equal to the number of new sectors
+    defaultAllocVector <- rbind(originalVector, originalVector[rep(1,numNewSectors-1),])
+    #multiply all elements in row by default percentages to obtain default allocation values
+    defaultAllocVector <- defaultAllocVector*defaultPercentages[,1]
+    
+    #Assign correct column and row names to new rows dataframe
+    colnames(defaultAllocVector) <- names(originalVector)
+    rownames(defaultAllocVector) <- newSectorCodes
+    
   }else if(vectorToDisagg == "MakeCol"){
     
-    #Determin original table
+    #Get original table
     originalTable <- model$MakeTransactions
-    #Determine commodity and/or industry indeces corresponding to the original sector code
+    #Get commodity and/or industry indeces corresponding to the original sector code
     originalVectorIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
     originalVector <- originalTable[,originalVectorIndex, drop = FALSE]
     #Get original row or column sum
     originalVectorSum <- data.frame(colSums(originalVector))
-    
-    
     
     #Create new cols to store allocation values (all other values initiated to NA)
     manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = nrow(originalTable)))
@@ -763,18 +749,41 @@ DisaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg){
     colnames(manualAllocVector) <- newSectorCodes
     rownames(manualAllocVector) <- rownames(originalVector)
     
+    #Set up for default allocations
+    #Get default percentages (i.e. for non-manual allocation) 
+    #Industry allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
+    defaultPercentages <- subset(disagg$MakeFileDF, IndustryCode %in% originalSectorCode) #get all rows from the MakeFileDF that have the OriginalSectorCode in the IndustryCode column
+    
+    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
+    if(nrow(defaultPercentages)==0){
+      
+      defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))#assigning default disaggregation percentage totals assuming uniform split
+      
+    }else{
+      
+      defaultPercentages <- defaultPercentages[, 3, drop=FALSE]#Extracting the column with the percentages
+    }
+    
+    #Create new columns to store default allocation values by copying the original column a number of times equal to the number of new sectors
+    defaultAllocVector <- cbind(originalVector, originalVector[,rep(1,numNewSectors-1)])
+    #multiply all elements in row by default percentages to obtain default allocation values
+    defaultAllocVector <- data.frame(t(t(defaultAllocVector)*defaultPercentages[,1]))
+    
+    #Assign correct column and row names to new rows dataframe
+    colnames(defaultAllocVector) <- newSectorCodes
+    rownames(defaultAllocVector) <- rownames(originalVector)
+    
   }else if(vectorToDisagg == "Intersection"){
     
-    #Determin original table
+    #Get original table
     originalTable <- model$MakeTransactions
-    #Determine commodity and/or industry indeces corresponding to the original sector code
+    #Get commodity and/or industry indeces corresponding to the original sector code
     originalRowIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
     originalColIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
     originalVector <- originalTable[originalRowIndex,originalColIndex, drop=FALSE]
     #Get original row or column sum
     originalVectorSum <- data.frame(colSums(originalVector))
-    
     
     #Create new intersection to store allocation values (all other values initiated to NA)
     manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = length(newSectorCodes)))
@@ -783,7 +792,39 @@ DisaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg){
     colnames(manualAllocVector) <- newSectorCodes
     rownames(manualAllocVector) <- newSectorCodes
     
+    
+    #Set up for default allocations
+    #Get default percentages (i.e. for non-manual allocation) 
+    #Industry allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
+    defaultPercentages <- subset(disagg$MakeFileDF, IndustryCode %in% originalSectorCode) #get all rows from the MakeFileDF that have the OriginalSectorCode in the IndustryCode column
+    
+    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
+    if(nrow(defaultPercentages)==0){
+      
+      defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))#assigning default disaggregation percentage totals assuming uniform split
+      
+    }else{
+      
+      defaultPercentages <- defaultPercentages[, 3, drop=FALSE]#Extracting the column with the percentages
+    }
+    
+    #Create a dataframe to store values for the intersection. This dataframe is of dimensions [numNewSectors, 1]
+    defaultAllocVector <- data.frame(originalVector[rep(1,numNewSectors),])
+    #multiply all elements in row by default percentages to obtain default allocation values
+    defaultAllocVector <- defaultAllocVector*defaultPercentages[,1]
+    
+    #Diagonalize the populated column vector
+    defaultAllocVector <- diag(defaultAllocVector[,1],numNewSectors,numNewSectors)
+    defaultAllocVector <- data.frame(defaultAllocVector)
+
+    
+    #rename rows and columns
+    colnames(defaultAllocVector) <- newSectorCodes
+    rownames(defaultAllocVector) <- newSectorCodes
+    
   }
+  
+  #Assigning the default allocations
   
   #Loop to assign the manual allocations
   for (r in 1:nrow(allocPercentages)){
@@ -837,6 +878,44 @@ DisaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg){
   #replace all NAs with 0
   manualAllocVector[is.na(manualAllocVector)] <-0
   
-  return(manualAllocVector)
+  #Replace values in the default allocation vector with values from the Manual allocation vector to finalize the vector disaggregation.
   
-}
+  if(vectorToDisagg == "MakeRow"|| vectorToDisagg == "Intersection")
+  {
+    #assumption is that all columns where there was a manual allocation sum up to the value in the original row/column index.
+    manualIndeces <- data.frame(which(colSums(manualAllocVector) !=0 ))
+    
+    for (i in 1:nrow(manualIndeces)){
+      
+      #replace values from manual allocation into default allocation
+      tempVector <- manualAllocVector[, manualIndeces[i,1], drop=FALSE]
+      defaultAllocVector[, manualIndeces[i,1]] <- tempVector
+    }
+    
+  }else if(vectorToDisagg == "MakeCol"){
+    
+    #assumption is that all rows where there was a manual allocation sum up to the value in the original row/column index.
+    manualIndeces <- data.frame(which(rowSums(manualAllocVector) !=0 ))
+    
+    for (i in 1:nrow(manualIndeces)){
+      
+      #replace values from manual allocation into default allocation
+      tempVector <- manualAllocVector[manualIndeces[i,1], , drop=FALSE]
+      defaultAllocVector[manualIndeces[i,1],] <- tempVector
+    }
+    
+  }
+  else{
+    
+    manualIndeces <- NA;#temporary values 
+  }
+  
+  
+
+  
+  
+  return(defaultAllocVector)
+  
+}#end of DisaggAllocations function
+
+
