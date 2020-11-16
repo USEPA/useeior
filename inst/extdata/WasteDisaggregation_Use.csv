@@ -1,4 +1,11 @@
 IndustryCode,CommodityCode,PercentUsed,Note
+562111,562000,0.441281953,Gross Output Disaggregation
+562HAZ,562000,0.140947501,Gross Output Disaggregation
+562212,562000,0.073334054,Gross Output Disaggregation
+562213,562000,0.04948233,Gross Output Disaggregation
+562910,562000,0.141623784,Gross Output Disaggregation
+562920,562000,0.064962231,Gross Output Disaggregation
+562OTH,562000,0.088368147,Gross Output Disaggregation
 562111,562111,6.16E-06,Use table intersection
 562HAZ,562111,1.11E-02,Use table intersection
 562212,562111,9.32E-04,Use table intersection
@@ -48,8 +55,5 @@ IndustryCode,CommodityCode,PercentUsed,Note
 562910,562OTH,0.00E+00,Use table intersection
 562920,562OTH,1.03E-05,Use table intersection
 562OTH,562OTH,1.33E-02,Use table intersection
-Business firms and farms,562111,4.40E-01,commodity disaggregation
-Federal government,562111,7.00E-02,commodity disaggregation
-State and local governments,562111,3.90E-01,commodity disaggregation
-Not-for-profit organizations,562111,4.10E-01,commodity disaggregation
-Household consumers and individuals,562111,7.40E-01,commodity disaggregation
+221100,562111,1,commodity disaggregation
+562111,221100,1,industry disaggregation
