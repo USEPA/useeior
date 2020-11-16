@@ -12,16 +12,13 @@ library(useeior)
 # See the versioning scheme for explanation of model names (https://github.com/USEPA/USEEIO/blob/master/VersioningScheme.md)
 useeior::seeAvailableModels()
 model <- useeior::loadIOData('USEEIOv2.0-GHG-D')
+model <- loadbuildSatelliteTables(model)
+model <- loadandbuildIndicators(model)
 model <- useeior::buildEEIOModel(model)
 result <- useeior::calculateEEIOModel(model, perspective='DIRECT')
 
-# output model results in various formats
-##useeior::writeModelComponents(model)
-#useeior::writeModelMatrices(model)
-##useeior::writeModelMatricesforAPI(model)
-##useeior::writeModelDemandstoJSON(model)
-##useeior::writeModelMetadata(model)
-## means temporary comment block, used to run this file for debugging purposes.
+# Write model for API
+#useeior::writeModelforAPI(model) #has follwing error:  Error in file.path(basedir, "build", "data") : argument "basedir" is missing, with no default 
 
-#for testing
-useeior::disaggregateMakeTable(model)
+# Write model matrices to csv for review
+useeior::writeModelMatrices(model,getwd())
