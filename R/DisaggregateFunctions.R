@@ -1,6 +1,6 @@
-
-
-
+#' Disaggregate a model based on specified source file
+#' @param model Model file loaded with IO tables
+#' @return A disaggregated model.
 disaggregateModel <- function (model){
 
   for (disagg in model$specs$DisaggregationSpecs){
@@ -13,7 +13,14 @@ disaggregateModel <- function (model){
   for (disagg in model$DisaggregationSpecs$Disaggregation){
    
     #TODO: Need to make disaggregateMake and disaggregateUse be able to disaggregate these tables, not just the MakeTransactions and UseTransactions.Right now, uncommenting the lines to disaggregate the Make and Use tables returns the result of the disaggregatation of the transactions tables.
-    #TODO: Discuss the movmement of the if statment and following block below from outside the for loop to in it. Idea is that the for loop should disaggregate the main tables multiple times, not jsut the "supplementary tables"
+
+    disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata", disagg$SectorFile, package = "useeior"),
+                                            header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
+                                                                                                  "USEEIO_Code"="character"))
+    index <- match(disagg$OriginalSectorCode, model$SectorNames$SectorCode)
+    newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code, "SectorName"=disagg$NAICSSectorCW$USEEIO_Name))
+    disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
+    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
     
     if(!is.null(disagg$MakeFile)){
       disagg$MakeFileDF <- utils::read.csv(system.file("extdata", disagg$MakeFile, package = "useeior"),
@@ -41,17 +48,6 @@ disaggregateModel <- function (model){
     model$FinalDemand <- disaggregateCols(model$FinalDemand, disagg)
     model$DomesticFinalDemand <- disaggregateCols(model$DomesticFinalDemand, disagg)
 
-    # Upon merging move this section up to first item in disagg for loop
-    disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata", disagg$SectorFile, package = "useeior"),
-                                            header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
-                                                                                                  "USEEIO_Code"="character"))
-    
-    index <- match(disagg$OriginalSectorCode, model$SectorNames$SectorCode)
-    newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code, "SectorName"=disagg$NAICSSectorCW$USEEIO_Name))
-    disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
-    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
-    # through here
-    
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
 
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
@@ -69,11 +65,8 @@ disaggregateModel <- function (model){
     counter <- counter + 1
   }
   
-  
-  
   return(model)
   
-
 }
 
 
