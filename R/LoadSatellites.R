@@ -68,8 +68,13 @@ loadSatTables <- function(model) {
     # Check if the satellite table uses a static file. If so, proceed.
     # If not, use specified functions in model metadata to load data from dynamic source
     if(!is.null(sat$StaticFile)) {
-      totals_by_sector <- utils::read.table(system.file("extdata", sat$StaticFile, package = "useeior"),
-                                            sep = ",", header = TRUE, stringsAsFactors = FALSE)
+      # If the file is a URL tested by the first 4 characters of the string = "http", don't wrap in system.file()
+      if (substring(sat$StaticFile, 0, 4)=="http") {
+        totals_by_sector <- utils::read.table(sat$StaticFile, sep = ",", header = TRUE, stringsAsFactors = FALSE)  
+      } else {
+        totals_by_sector <- utils::read.table(system.file("extdata", sat$StaticFile, package = "useeior"),
+                                              sep = ",", header = TRUE, stringsAsFactors = FALSE)
+      }
     } else {
       func_to_eval <- sat$ScriptFunctionCall
       totalsgenfunction <- as.name(func_to_eval)
