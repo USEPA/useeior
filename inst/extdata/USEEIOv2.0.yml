@@ -12,26 +12,26 @@ CommoditybyIndustryType: "Commodity"
 ScrapIncluded: FALSE
 
 SatelliteTable:
-  WAT:
-    FullName: "Water withdrawals"
-    Abbreviation: "WAT"
-    StaticSource: FALSE
-    StaticFile: null
-    DataYears: [2015]
-    Locations: ["US"]
-    SectorListSource: "NAICS"
-    SectorListYear: 2012
-    SectorListLevel: "6"
-    OriginalFlowSource: "FEDEFLv1.0.4"
-    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["Water_national_2015_m1"] #list of parameters
-    DataSources:
-      USGS_NWIS_WU_2015:
-        Title: "Water Use in the US"
-        Author: "USGS"
-        DataYear: 2015
-        URL: "https://waterdata.usgs.gov/"
-        Primary: TRUE
+  # WAT:
+  #   FullName: "Water withdrawals"
+  #   Abbreviation: "WAT"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2015]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: ["Water_national_2015_m1"] #list of parameters
+  #   DataSources:
+  #     USGS_NWIS_WU_2015:
+  #       Title: "Water Use in the US"
+  #       Author: "USGS"
+  #       DataYear: 2015
+  #       URL: "https://waterdata.usgs.gov/"
+  #       Primary: TRUE
   # CHAIR:
   #   FullName: "Criteria and Hazardous Air Emissions"
   #   Abbreviation: "CHAIR"
@@ -154,18 +154,30 @@ SatelliteTable:
   #   SectorListLevel: "Detail"
   #   OriginalFlowSource: "MINE"
   #   DataSources:
-  # ENERGY:
-  #   FullName: "Energy extraction"
-  #   Abbreviation: "ENERGY"
-  #   StaticSource: FALSE
-  #   StaticFile: "USEEIO_Energy_Data_Extracted_v1.1.csv"
-  #   DataYears: []
-  #   Locations: ["US"]
-  #   SectorListSource: "BEA"
-  #   SectorListYear: 2012
-  #   SectorListLevel: "Detail"
-  #   OriginalFlowSource: "MINE"
-  #   DataSources:
+  ENERGY:
+    FullName: "Energy extraction"
+    Abbreviation: "ENERGY"
+    StaticSource: TRUE
+    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/USEEIO-input/USEEIOv1.1_Energy_TotalsBySector.csv"
+    DataYears: [2014]
+    Locations: ["US"]
+    SectorListSource: "BEA"
+    SectorListYear: 2007
+    SectorListLevel: "Detail"
+    OriginalFlowSource: "ENERGY"
+    DataSources:
+      EIA_MER:
+        Title: "Monthly Energy Review"
+        Author: "EIA"
+        DataYear: 2014
+        URL: "http://www.eia.gov/totalenergy/data/monthly/"
+        Primary: TRUE
+      EIA_923:
+        Title: "Form EIA-923 Detailed"
+        Author: "EIA"
+        DataYear: 2014
+        URL: "https://www.eia.gov/electricity/data/eia923/"
+        Primary: TRUE
   # NPAG:
   #   FullName: "Nitrogen and Phosphorus Releases from Agriculture"
   #   Abbreviation: "NPAG"
