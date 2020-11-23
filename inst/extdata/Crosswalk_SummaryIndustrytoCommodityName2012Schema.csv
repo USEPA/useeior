@@ -5,8 +5,8 @@
 212,"Mining, except oil and gas","Metal ores, dimensional stone, nonmetallic minerals"
 213,Support activities for mining,Well drilling and support activities for mining
 22,Utilities,"Electricity, natural gas, drinking water, and wastewater treatment"
-23,Construction,"Commerical, residential, and industrial facilities"
-321,Wood products,"Saw mills and wood products (e.g. plywood, veneer)"
+23,Construction,"Construction"
+321,Wood products,"Wood products (e.g. plywood, veneer)"
 327,Nonmetallic mineral products,"Clay, glass, cement, concrete, and other nonmetallic mineral products"
 331,Primary metals,Primary and secondary ferrous and nonferrous metals
 332,Fabricated metal products,Fabricated metal products (e.g. architectural and structural metal products)
@@ -50,7 +50,7 @@ HS,Housing,Housing
 ORE,Other real estate,Other real estate
 532RL,Rental and leasing services and lessors of intangible assets,"Renting and leasing of goods, equipment, vehicles and nonfinancial intangible assets"
 5411,Legal services,Legal services
-5415,Computer systems design and related services,"Facilities management, computer programming and systems design"
+5415,Computer systems design and related services,"Computer programming and systems design"
 5412OP,"Miscellaneous professional, scientific, and technical services","Miscellaneous professional, scientific, and technical services"
 55,Management of companies and enterprises,Company and enterprise management
 561,Administrative and support services,Administrative and support services
