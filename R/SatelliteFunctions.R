@@ -13,14 +13,9 @@ getStandardSatelliteTableFormat <- function () {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A satellite table aggregated by the USEEIO model sector codes.
 mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year, model) {
-  # Generate NAICS-to-BEA mapping dataframe based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
-  NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c("NAICS_2012_Code", paste("BEA", model$specs$BaseIOSchema,model$specs$BaseIOLevel, "Code", sep = "_"))])
-  colnames(NAICStoBEA) <- c("NAICS", "BEA")
-  
-  #Check for disaggregation
-  if(!is.null(model$specs$DisaggregationSpecs)){
-    NAICStoBEA <- disaggregateMasterCrosswalk(NAICStoBEA)
-  }
+
+  NAICStoBEA <- model$crosswalk
+
   # Modify TechnologicalCorrelation score based on the the correspondence between NAICS and BEA code
   # If there is allocation (1 NAICS to 2 or more BEA), add one to score = 2
   

@@ -1,6 +1,6 @@
-
-
-
+#' Disaggregate a model based on specified source file
+#' @param model Model file loaded with IO tables
+#' @return A disaggregated model.
 disaggregateModel <- function (model){
 
   for (disagg in model$specs$DisaggregationSpecs){
@@ -13,7 +13,14 @@ disaggregateModel <- function (model){
   for (disagg in model$DisaggregationSpecs$Disaggregation){
    
     #TODO: Need to make disaggregateMake and disaggregateUse be able to disaggregate these tables, not just the MakeTransactions and UseTransactions.Right now, uncommenting the lines to disaggregate the Make and Use tables returns the result of the disaggregatation of the transactions tables.
-    #TODO: Discuss the movmement of the if statment and following block below from outside the for loop to in it. Idea is that the for loop should disaggregate the main tables multiple times, not jsut the "supplementary tables"
+
+    disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata", disagg$SectorFile, package = "useeior"),
+                                            header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
+                                                                                                  "USEEIO_Code"="character"))
+    index <- match(disagg$OriginalSectorCode, model$SectorNames$SectorCode)
+    newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code, "SectorName"=disagg$NAICSSectorCW$USEEIO_Name))
+    disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
+    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
     
     if(!is.null(disagg$MakeFile)){
       disagg$MakeFileDF <- utils::read.csv(system.file("extdata", disagg$MakeFile, package = "useeior"),
@@ -41,10 +48,10 @@ disaggregateModel <- function (model){
     model$FinalDemand <- disaggregateCols(model$FinalDemand, disagg)
     model$DomesticFinalDemand <- disaggregateCols(model$DomesticFinalDemand, disagg)
 
-    index <- match(disagg$OriginalSectorCode, model$SectorNames$SectorCode)
-    newNames <- data.frame("SectorCode" = disagg$DisaggregatedSectorCodes, "SectorName"=disagg$DisaggregatedSectorNames)
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
 
+    model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
+    
     # margins tables need to be adjusted as the index is not the sector code like other dataframes
     #model$IntermediateMargins <- disaggregateCols(model$IntermediateMargins, disagg)
     #model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
@@ -58,11 +65,8 @@ disaggregateModel <- function (model){
     counter <- counter + 1
   }
   
-  
-  
   return(model)
   
-
 }
 
 
@@ -471,16 +475,16 @@ disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE)
 #' @param crosswalk MasterCrosswalk from NAICS to BEA for the specified detail level. columns = "NAICS" and "BEA"
 #' 
 #' @return crosswalk with new sectors added.
-disaggregateMasterCrosswalk <- function (crosswalk){
+disaggregateMasterCrosswalk <- function (crosswalk, disagg){
   # update the crosswalk by updating the BEA codes for disaggregation or adding new NAICS_like codes
-  # tempoary, pull this yaml
-  df <- data.frame(NAICS=c("562111","562112","562211","562212","562213","562910","562920","562119","562219","56299","562112a"), 
-                   BEA=c("562111","562HAZ","562HAZ","562212","562213","562910","562920","562OTH","562OTH","562OTH","562HAZ"),
-                   stringsAsFactors=FALSE)
+    updated_cw <- disagg$NAICSSectorCW[, c("NAICS_2012_Code","USEEIO_Code")]
+    names(updated_cw)[names(updated_cw)=='NAICS_2012_Code'] <- "NAICS"
+    names(updated_cw)[names(updated_cw)=='USEEIO_Code'] <- "BEA"
+
+    crosswalk <- merge(crosswalk, updated_cw, by = "NAICS", all = TRUE)
+    crosswalk$BEA <- ifelse(is.na(crosswalk$BEA.y),crosswalk$BEA.x,crosswalk$BEA.y)
+    crosswalk <- crosswalk[,c("NAICS","BEA")]
   
-  crosswalk <- merge(crosswalk, df, by = "NAICS", all = TRUE)
-  crosswalk$BEA <- ifelse(is.na(crosswalk$BEA.y),crosswalk$BEA.x,crosswalk$BEA.y)
-  crosswalk <- crosswalk[,c("NAICS","BEA")]
   return(crosswalk)
 }
 
