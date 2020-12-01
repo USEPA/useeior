@@ -74,7 +74,7 @@ loadIOData <- function(modelname) {
   } else {
     model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   }
-  colnames(model$SectorNames) <- c("SectorCode", "SectorName")
+  colnames(model$SectorNames) <- c("Sector", "SectorName")
   # Get model$IntermediateMargins and model$FinalConsumerMargins
   model$IntermediateMargins <- getMarginsTable(model, "intermediate")
   model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
@@ -95,32 +95,25 @@ loadBEAtables <- function(specs) {
   BEA <- list()
   logging::loginfo("Initializing IO tables...")
 
-  # Load BEA schema_info based on model BEA
-  SchemaInfoFile <- paste0(specs$BaseIOSchema, "_", specs$BaseIOLevel, "_Schema_Info.csv")
-  SchemaInfo <- utils::read.table(system.file("extdata", SchemaInfoFile, package = "useeior"),
-                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
-  # Extract desired columns from SchemaInfo, return vectors with strings of codes
-  getVectorOfCodes <- function(colName) {
-    return(as.vector(stats::na.omit(SchemaInfo[, c("Code", colName)])[, "Code"]))
-  }
-
   # Get BEA sectors by group
-  BEA$Commodities <-getVectorOfCodes("Commodity")
-  BEA$Industries <- getVectorOfCodes("Industry")
-  BEA$ValueAddedCodes <- getVectorOfCodes("ValueAdded")
-  BEA$HouseholdDemandCodes <- getVectorOfCodes("HouseholdDemand")
-  BEA$InvestmentDemandCodes <- getVectorOfCodes("InvestmentDemand")
-  BEA$ChangeInventoriesCodes <- getVectorOfCodes("ChangeInventories")
-  BEA$ImportCodes <- getVectorOfCodes("Import")
-  BEA$ExportCodes <- getVectorOfCodes("Export")
-  BEA$GovernmentDemandCodes <- getVectorOfCodes("GovernmentDemand")
-  BEA$FinalDemandCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes, BEA$ChangeInventoriesCodes, BEA$ImportCodes, BEA$ExportCodes, BEA$GovernmentDemandCodes)
-  BEA$TotalConsumptionCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes, BEA$GovernmentDemandCodes)
-  BEA$ScrapCodes <- getVectorOfCodes("Scrap")
-  BEA$TransportationCodes <- getVectorOfCodes("Distribution")
-  BEA$WholesaleCodes <- getVectorOfCodes("Wholesale")
-  BEA$RetailCodes <- getVectorOfCodes("Retail")
-  
+  BEA$Commodities <-getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Commodity")
+  BEA$Industries <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Industry")
+  BEA$ValueAddedCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "ValueAdded")
+  BEA$HouseholdDemandCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "HouseholdDemand")
+  BEA$InvestmentDemandCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "InvestmentDemand")
+  BEA$ChangeInventoriesCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "ChangeInventories")
+  BEA$ImportCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")
+  BEA$ExportCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Export")
+  BEA$GovernmentDemandCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "GovernmentDemand")
+  BEA$FinalDemandCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
+                            BEA$ChangeInventoriesCodes, BEA$ImportCodes,
+                            BEA$ExportCodes, BEA$GovernmentDemandCodes)
+  BEA$TotalConsumptionCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
+                                 BEA$GovernmentDemandCodes)
+  BEA$ScrapCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Scrap")
+  BEA$TransportationCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Distribution")
+  BEA$WholesaleCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Wholesale")
+  BEA$RetailCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Retail")
 
   # Load pre-saved Make and Use tables
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
@@ -134,28 +127,10 @@ loadBEAtables <- function(specs) {
   BEA$UseFinalDemand <- BEA$Use[BEA$Commodities, BEA$FinalDemandCodes] * 1E6 # data frame, values are in dollars ($)
   BEA$UseValueAdded <- BEA$Use[BEA$ValueAddedCodes, BEA$Industries] * 1E6 # data frame, values are in dollars ($)
   BEA$UseCommodityOutput <- as.data.frame(rowSums(cbind(BEA$UseTransactions, BEA$UseFinalDemand))) # data frame, values are in dollars ($)
-  if (specs$BaseIOLevel=="Sector") {
-    Import <- get(paste("Summary_Import", specs$IOYear, "BeforeRedef", sep = "_"))
-    # Aggregate ImportTrasactions from Summary to Sector
-    ImportTrasactions <- Import[useeior::Summary_CommodityCodeName_2012$BEA_2012_Summary_Commodity_Code,
-                                useeior::Summary_IndustryCodeName_2012$BEA_2012_Summary_Industry_Code] * 1E6 # data frame, values are in dollars ($)
-    BEA$ImportTransactions <- as.data.frame(aggregateMatrix(as.matrix(ImportTrasactions), "Summary", "Sector", specs))[BEA$Commodities, BEA$Industries]
-    # Aggregate ImportFinalDemand from Summary to Sector
-    SchemaInfo <- utils::read.table(system.file("extdata", "2012_Summary_Schema_Info.csv", package = "useeior"),
-                                    sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
-    SummaryFinalDemandCodes <- c(getVectorOfCodes("HouseholdDemand"), getVectorOfCodes("InvestmentDemand"), getVectorOfCodes("ChangeInventories"),
-                                 getVectorOfCodes("Import"), getVectorOfCodes("Export"), getVectorOfCodes("GovernmentDemand"))
-    ImportFinalDemand <- Import[useeior::Summary_CommodityCodeName_2012$BEA_2012_Summary_Commodity_Code, SummaryFinalDemandCodes] * 1E6 # data frame, values are in dollars ($)
-    BEA$ImportFinalDemand <- as.data.frame(aggregateMatrix(as.matrix(ImportFinalDemand), "Summary", "Sector", specs))[BEA$Commodities, BEA$FinalDemandCodes]
-  } else {
-    # Extract ImportTransactions from Import matrix
-    Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, Redef, sep = "_"))
-    BEA$ImportTransactions <- Import[BEA$Commodities, BEA$Industries] * 1E6 # data frame, values are in dollars ($)
-    # Extract ImportFinalDemand from Import matrix
-    BEA$ImportFinalDemand <- Import[BEA$Commodities, BEA$FinalDemandCodes] * 1E6 # data frame, values are in dollars ($)
-  }
-  BEA$DomesticUseTransactions <- BEA$UseTransactions - BEA$ImportTransactions
-  BEA$DomesticFinalDemand <- BEA$UseFinalDemand - BEA$ImportFinalDemand
+  # Generate domestic Use transaction and final demand
+  DomesticUse <- generatDomesticUse(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
+  BEA$DomesticUseTransactions <- DomesticUse[, BEA$Industries]
+  BEA$DomesticFinalDemand <- DomesticUse[, BEA$FinalDemandCodes]
   # For Detail model, set used goods (S00402) and noncomparable imports (S00300) in UseCommodityOutput to 1 to prevent dividing by zero when creating market shares
   if (specs$BaseIOLevel == "Detail") {
     BEA$UseCommodityOutput[c("S00402", "S00300"), ] <- 1

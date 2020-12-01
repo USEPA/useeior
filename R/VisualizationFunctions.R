@@ -20,26 +20,26 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     modelspecs <- model$specs
     matrix <- matrix[rownames(matrix)==coefficient_name, ]
     matrix <- cbind.data.frame(names(matrix), matrix)
-    colnames(matrix) <- c("SectorCode", "Coeff")
-    matrix$SectorCode <- toupper(gsub("/.*", "", matrix$SectorCode))
+    colnames(matrix) <- c("Sector", "Coeff")
+    matrix$Sector <- toupper(gsub("/.*", "", matrix$Sector))
     df_model <- rbind(matrix, df_model)
     df_model <- merge(df_model, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color")],
-                      by.x = "SectorCode", by.y = paste0(model$specs$BaseIOLevel, "Code"))
-    df_model <- merge(df_model, model$SectorNames, by = "SectorCode")
+                      by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"))
+    df_model <- merge(df_model, model$SectorNames, by = "Sector")
     df_model$modelname <- modelname
     # Remove certain sectors
-    df_model <- df_model[!df_model$SectorCode%in%sector_to_remove, ]
+    df_model <- df_model[!df_model$Sector%in%sector_to_remove, ]
     df <- rbind(df, df_model)
   }
   #! Temp unit hardcoding - should come from flow
   y_unit <- "(kg/$)"
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorCode, levels = rev(intersect(model$SectorNames$SectorCode, SectorCode))),
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Sector, levels = rev(intersect(model$SectorNames$Sector, Sector))),
                                         y = Coeff, group = as.character(modelname))) +
     ggplot2::geom_point(ggplot2::aes(shape = as.character(modelname)), size = 3) +
     ggplot2::scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
     ggplot2::labs(x = "", y = paste(y_title, y_unit)) +
-    ggplot2::scale_x_discrete(breaks = df$SectorCode, labels = df$SectorName) +
+    ggplot2::scale_x_discrete(breaks = df$Sector, labels = df$SectorName) +
     ggplot2::coord_flip() +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
@@ -68,12 +68,12 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
     # Calculate Indicator Scores
     df_model <- calculateIndicatorScoresforTotalsBySector(model, totals_by_sector_name, indicator_code)
     Unit <- unique(df_model$Unit)
-    df_cols_to_keep <- c("FlowName","Compartment","Unit","SectorCode","Code","IndicatorScore")
+    df_cols_to_keep <- c("Flowable", "Context", "Unit", "Sector", "Code", "IndicatorScore")
     df_model <- df_model[,df_cols_to_keep]
     # Assign sector name and colors
-    df_model <- merge(df_model, mapping, by.x = "SectorCode", by.y = paste0(model$specs$BaseIOLevel,"Code"))
+    df_model <- merge(df_model, mapping, by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel,"Code"))
     # Aggregate 
-    df_model <- stats::aggregate(IndicatorScore ~ SectorCode.y + SectorCode + SectorName + color, df_model, sum)
+    df_model <- stats::aggregate(IndicatorScore ~ Sector.y + Sector + SectorName + color, df_model, sum)
     df_model$Model <- modelname
     df <- rbind(df, df_model[order(df_model$SectorName), ])
   }
@@ -82,10 +82,10 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
     p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName)) +
       ggplot2::geom_bar(stat = "identity", width = 0.8)
   } else {
-    df <- df[df$SectorCode.y%in%sector, ]
-    p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName, group = SectorCode)) +
+    df <- df[df$Sector.y%in%sector, ]
+    p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName, group = Sector)) +
       ggplot2::geom_bar(stat = "identity", width = 0.8, color = "white") +
-      ggplot2::geom_label(ggplot2::aes(label = SectorCode),
+      ggplot2::geom_label(ggplot2::aes(label = Sector),
                           position = ggplot2::position_stack(0.5), fill = "white", color = "black", fontface = "bold", size = 5)
   }
   p <- p + ggplot2::scale_fill_manual(breaks = df$SectorName, values = df$color) +
@@ -113,13 +113,13 @@ getBEASectorColorMapping <- function(BaseIOLevel) {
   configfile <- system.file("extdata", "VisualizationEssentials.yml", package = "useeior")
   VisualizationEssentials <- configr::read.config(configfile)
   ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$BEASectorLevel$ColorLabelMapping)))
-  colnames(ColorLabelMapping) <- c("SectorName", "SectorCode")
+  colnames(ColorLabelMapping) <- c("SectorName", "Sector")
   ColorLabelMapping$color <- rownames(ColorLabelMapping)
   # Prepare BEA Sector-BaseIOLevel mapping
   MasterCrosswalk <- useeior::MasterCrosswalk2012
   code_for_model_level <- paste("BEA_2012", BaseIOLevel, "Code", sep = "_")
   mapping <- unique(MasterCrosswalk[, c("BEA_2012_Sector_Code", code_for_model_level)])
-  colnames(mapping) <- c("SectorCode", paste0(BaseIOLevel, "Code"))
+  colnames(mapping) <- c("Sector", paste0(BaseIOLevel, "Code"))
   # Merge BEA mapping with ColorLabelMapping
   mapping <- merge(mapping, ColorLabelMapping)
   return(mapping)

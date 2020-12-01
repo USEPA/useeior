@@ -1,13 +1,11 @@
 # Model Calculations
 
 #' Calculate total emissions/resources (LCI) or total impact for USEEIO model for a given demand vector and perspective.
-#'
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param perspective Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".
 #' @param demand A character value or a matrix: if the former, can be "production" or "consumption"; if the latter, can be demand matrix for one or more sectors.
 #' @param for_imports_using_domestic If TRUE, use total requirements for imports matrix (A)
 #' @param use_domestic A boolean value: if TRUE, use domestic A and FinalDemand matrices; if FALSE, use original A and FinalDemand matrices.
-#'
 #' @export
 #' @return A list with LCI and LCIA results of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "production", use_domestic = FALSE, for_imports_using_domestic=FALSE) {
