@@ -8,7 +8,7 @@ buildEEIOModel <- function(model) {
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
-  model$W <- as.matrix(model$BEA$UseValueAdded)
+  model$W <- as.matrix(model$UseValueAdded)
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     logging::loginfo("Building commodityxcommodity direct requirement matrix ...")
     model$A <- model$U_n %*% model$V_n

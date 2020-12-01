@@ -60,4 +60,5 @@ prepareLCIAmethodforIndicators <- function(lciamethod) {
   # Keep useful fields
   lciamethod <- lciamethod[, c("Indicator", "Flowable", "UUID", "Context", "Unit", "Amount")]
   return(lciamethod)
+
 }
