@@ -47,7 +47,7 @@ writeModelMatrices <- function(model, outputfolder) {
 #' @export
 writeModelforUSEEIOPY <- function(model) {
   user_dir <- rappdirs::user_data_dir()
-  modelfolder <- file.path(user_dir, "USEEIO", "Model_Builds",model$specs$Model)
+  modelfolder <- file.path(user_dir, "USEEIO", "Model_Builds", model$specs$Model)
   if (!dir.exists(modelfolder)) {
     dir.create(modelfolder, recursive = TRUE) 
   }
@@ -198,7 +198,6 @@ writeModelMetadata <- function(model,dirs) {
                                   sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
   indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")],
                          1, FUN = joinStringswithSlashes)
-  #indicators[, c("Name", "Code", "Unit", "Group")] <- indicators[, c("Full name", "Abbreviation", "Units", "Category")]
   indicators$Index <- c(1:nrow(indicators)-1)
   indicators <- indicators[, c("Index", "ID", "Name", "Code", "Unit", "Group", "SimpleUnit", "SimpleName")]
   utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"),

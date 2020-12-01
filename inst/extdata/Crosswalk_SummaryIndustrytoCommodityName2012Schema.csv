@@ -1,0 +1,72 @@
+﻿BEA_2012_Summary_Code,BEA_2012_Summary_Name,USEEIO_Name
+111CA,Farms,"Oilseeds, grains, vegetables, fruits, animal farms and aquaculture"
+113FF,"Forestry, fishing, and related activities","Raw forest products, wild-caught fish and game, agriculture and forestry support"
+211,Oil and gas extraction,Unrefined oil and gas
+212,"Mining, except oil and gas","Metal ores, dimensional stone, nonmetallic minerals"
+213,Support activities for mining,Well drilling and support activities for mining
+22,Utilities,"Electricity, natural gas, drinking water, and wastewater treatment"
+23,Construction,"Construction"
+321,Wood products,"Wood products (e.g. plywood, veneer)"
+327,Nonmetallic mineral products,"Clay, glass, cement, concrete, and other nonmetallic mineral products"
+331,Primary metals,Primary and secondary ferrous and nonferrous metals
+332,Fabricated metal products,Fabricated metal products (e.g. architectural and structural metal products)
+333,Machinery,Machinery (except computers)
+334,Computer and electronic products,"Computers and relevant parts, conductors, measuring devices, communication devices"
+335,"Electrical equipment, appliances, and components","Lights and light fixtures, switch boards, transformers, and home appliances"
+3361MV,"Motor vehicles, bodies and trailers, and parts",On-road vehicles (excluding motorcycles) and accompanying parts
+3364OT,Other transportation equipment,"Other vehicles (e.g. aircraft, water vessels), missiles, and accompanying parts"
+337,Furniture and related products,Furniture and shelving
+339,Miscellaneous manufacturing,"Medical supplies, entertainment and sporting goods, fashion goods, advertising products"
+311FT,Food and beverage and tobacco products,Food and beverage and tobacco products
+313TT,Textile mills and textile product mills,Textiles and textile-dervied products (except clothes)
+315AL,Apparel and leather and allied products,Clothing and leather
+322,Paper products,Paper products and paper production facilities
+323,Printing and related support activities,Print media and printing support
+324,Petroleum and coal products,"Petroleum fuels, asphalt, and other petroleum and coal products"
+325,Chemical products,"Agricultural, pharamceutical, industrial, and commercial chemicals"
+326,Plastics and rubber products,Plastics and rubber products
+42,Wholesale trade,Wholesale trade
+441,Motor vehicle and parts dealers,Vehicles and parts sales
+445,Food and beverage stores,Food and beverage stores
+452,General merchandise stores,General merchandise stores
+4A0,Other retail,Other retail
+481,Air transportation,Air transport
+482,Rail transportation,Rail transport
+483,Water transportation,"Water transport (boats, ships, ferries)"
+484,Truck transportation,Truck transport
+485,Transit and ground passenger transportation,Passenger ground transport
+486,Pipeline transportation,Pipeline transport
+487OS,Other transportation and support activities,"Couriers, messengers, transportation for leisure activities"
+493,Warehousing and storage,Warehouses
+511,"Publishing industries, except internet (includes software)","Media, literature, and software"
+512,Motion picture and sound recording industries,Film and sound-based entertainment
+513,Broadcasting and telecommunications,"Radio, TV, telecommunication"
+514,"Data processing, internet publishing, and other information services","Data processing, internet publishing, and other information services"
+521CI,"Federal Reserve banks, credit intermediation, and related activities","Monetary authorities, depository and nondepository credit intermediation and related activities"
+523,"Securities, commodity contracts, and investments","Financial investments, exchanges, and advising"
+524,Insurance carriers and related activities,"Insurance agencies, carriers, and brokerages"
+525,"Funds, trusts, and other financial vehicles","Funds, trusts, and financial vehicles"
+HS,Housing,Housing
+ORE,Other real estate,Other real estate
+532RL,Rental and leasing services and lessors of intangible assets,"Renting and leasing of goods, equipment, vehicles and nonfinancial intangible assets"
+5411,Legal services,Legal services
+5415,Computer systems design and related services,"Computer programming and systems design"
+5412OP,"Miscellaneous professional, scientific, and technical services","Miscellaneous professional, scientific, and technical services"
+55,Management of companies and enterprises,Company and enterprise management
+561,Administrative and support services,Administrative and support services
+562,Waste management and remediation services,Waste management and remediation services
+61,Educational services,Educational institutions and services
+621,Ambulatory health care services,"Healthcare professions, laboratories, and ambulances"
+622,Hospitals,Hospitals
+623,Nursing and residential care facilities,"Nursing, community, mental health, and substance abuse facilities"
+624,Social assistance,"Child day care, community food services, housing services, and other relief services"
+711AS,"Performing arts, spectator sports, museums, and related activities","Performing arts, spectator sports, museums, and related activities"
+713,"Amusements, gambling, and recreation industries","Amusement facilities, gambling facilities, resort and recreation facilities"
+721,Accommodation,Hotels and campgrounds
+722,Food services and drinking places,Food and beverage establishments
+81,"Other services, except government","Other services, except government"
+GFGD,Federal general government (defense),Federal general government (defense)
+GFGN,Federal general government (nondefense),Federal general government (nondefense)
+GFE,Federal government enterprises,Federal electric utilities and postal service
+GSLG,State and local general government,State and local general government
+GSLE,State and local government enterprises,Other state and local government enterprises including transit and utilities
