@@ -58,16 +58,16 @@ buildEEIOModel <- function(model) {
   model$M_d <- model$B %*% model$L_d
   colnames(model$M_d) <- tolower(paste(colnames(model$M_d), model$specs$PrimaryRegionAcronym, sep = "/"))
   # Calculate total requirements for imports - note different method
-  model$L_m <- model$A_m %*% model$L_d
+  #model$L_m <- model$A_m %*% model$L_d
   # Calculate M_e, the external emissions per dollar using the domestic technology assumption
-  model$M_e <- model$B %*% model$L_m
-  colnames(model$M_e) <- tolower(paste(colnames(model$M_e), model$specs$PrimaryRegionAcronym, sep = "/"))
+  #model$M_e <- model$B %*% model$L_m
+  #colnames(model$M_e) <- tolower(paste(colnames(model$M_e), model$specs$PrimaryRegionAcronym, sep = "/"))
   # Calculate total impacts per dollar (U), impact category x sector
   model$U <- model$C %*% model$M
   # Calculate U_d, the domestic impacts per dollar
   model$U_d <- model$C %*% model$M_d
   #Calculate U_e, the external impacts per dollar using the domestic technology assumption
-  model$U_e <- model$C %*% model$M_e
+  #model$U_e <- model$C %*% model$M_e
   
   logging::loginfo("Model build complete.")
   return(model)
