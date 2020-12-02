@@ -12,7 +12,7 @@ deriveMarginSectorImpacts(model, margin_type = "intermediate")
 \item{margin_type}{A character value: can be "intermediate" or "final consumer".}
 }
 \value{
-A list with M_margin and U_margin
+A list with M_m and U_m
 }
 \description{
 Prepare M and U matrices with sector margin impacts
