@@ -53,6 +53,27 @@ getBEADetailUsePROBeforeRedef2012Schema <- function () {
 Detail_Use_2012_PRO_BeforeRedef <- getBEADetailUsePROBeforeRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Use_2012_PRO_BeforeRedef, overwrite = TRUE)
 
+# Get BEA Detail Use (PUR, Before Redef, 2012 schema) 2012 table from static Excel
+getBEADetailUsePURBeforeRedef2012Schema <- function () {
+  # Download all IO tables from BEA iTable
+  getBEAIOTables()
+  # Load desired excel file
+  DetailUseList <- list()
+  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PUR_2007_2012_Detail.xlsx"
+  for (i in c(2007, 2012)) {
+    tmp <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))
+    DetailUse <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6:408, 3:430]
+    DetailUse <- as.data.frame(apply(DetailUse, 2, as.numeric))
+    rownames(DetailUse) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6:408, 1]
+    colnames(DetailUse) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 3:430]
+    DetailUse[is.na(DetailUse)] <- 0
+    DetailUseList[[as.character(i)]] <- DetailUse
+  }
+  return(DetailUseList)
+}
+Detail_Use_2012_PUR_BeforeRedef <- getBEADetailUsePURBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Detail_Use_2012_PUR_BeforeRedef, overwrite = TRUE)
+
 # Get BEA Detail Make (After Redef, 2012 schema) 2007 and 2012 tables from static Excel
 getBEADetailMakeAfterRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
@@ -172,6 +193,32 @@ Summary_Use_2017_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[[
 usethis::use_data(Summary_Use_2017_PRO_BeforeRedef, overwrite = TRUE)
 Summary_Use_2018_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2018"]]
 usethis::use_data(Summary_Use_2018_PRO_BeforeRedef, overwrite = TRUE)
+
+# Get BEA Summary Use (PUR, Before Redef, 2012 schema) 2012 table from static Excel
+getBEASummaryUsePURBeforeRedef2012Schema <- function () {
+  # Download all IO tables from BEA iTable
+  getBEAIOTables()
+  # Load desired excel file
+  SummaryUseList <- list()
+  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PUR_2007_2012_Summary.xlsx"
+  for (i in c(2007, 2012)) {
+    SummaryUse <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), .name_repair = "minimal"))[7:86, 3:100]
+    SummaryUse <- as.data.frame(apply(SummaryUse, 2, as.numeric))
+    rownames(SummaryUse) <- c(as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[7:76, 1],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[77:79, 2],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[80:82, 1],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[83:86, 2])
+    colnames(SummaryUse) <- c(as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 3:73],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6, 74:76],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 77:96],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6, 97:100])
+    SummaryUse[is.na(SummaryUse)] <- 0
+    SummaryUseList[[as.character(i)]] <- SummaryUse
+  }
+  return(SummaryUseList)
+}
+Summary_Use_2012_PUR_BeforeRedef <- getBEASummaryUsePURBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Summary_Use_2012_PUR_BeforeRedef, overwrite = TRUE)
 
 # Get BEA Summary Make (After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASummaryMakeAfterRedef2012Schema <- function () {
@@ -333,6 +380,7 @@ usethis::use_data(Sector_Use_2017_PRO_BeforeRedef, overwrite = TRUE)
 Sector_Use_2018_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2018"]]
 usethis::use_data(Sector_Use_2018_PRO_BeforeRedef, overwrite = TRUE)
 
+# Get BEA Sector Use (PUR, Before Redef, 2012 schema) 2012 table from static Excel
 getBEASectorUsePURBeforeRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
   getBEAIOTables()
@@ -355,7 +403,8 @@ getBEASectorUsePURBeforeRedef2012Schema <- function () {
   }
   return(SectorUseList)
 }
-
+Sector_Use_2012_PUR_BeforeRedef <- getBEASectorUsePURBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Sector_Use_2012_PUR_BeforeRedef, overwrite = TRUE)
 
 # Get BEA Sector Make (After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASectorMakeAfterRedef2012Schema <- function () {
@@ -420,7 +469,6 @@ Sector_Use_2017_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["201
 usethis::use_data(Sector_Use_2017_PRO_AfterRedef, overwrite = TRUE)
 Sector_Use_2018_PRO_AfterRedef <- getBEASectorUsePROAfterRedef2012Schema()[["2018"]]
 usethis::use_data(Sector_Use_2018_PRO_AfterRedef, overwrite = TRUE)
-
 
 # Get BEA Detail Import (Before Redef, 2012 schema) 2007 and 2012 from static Excel
 getBEADetailImportBeforeRedef2012Schema <- function () {
