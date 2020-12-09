@@ -58,10 +58,10 @@ SatelliteTable:
   #       DataYear: 2017
   #       URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
   #       Primary: TRUE
-  # CHAIR:
-  #   FullName: "Criteria and Hazardous Air Emissions"
-  #   Abbreviation: "CHAIR"
-  #   StaticSource: FALSE
+  # GRDREL:
+  #   FullName: "Point source industrial releases to ground"
+  #   Abbreviation: "GRDREL"
+  #   StaticSource: TRUE
   #   StaticFile: null
   #   DataYears: [2017]
   #   Locations: ["US"]
@@ -70,14 +70,8 @@ SatelliteTable:
   #   SectorListLevel: "6"
   #   OriginalFlowSource: "FEDEFLv1.0.4"
   #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-  #   ScriptFunctionParameters: ["CAP_HAP_national_2017"] #list of parameters
+  #   ScriptFunctionParameters: [""]#list of parameters
   #   DataSources:
-  #     EPA_NEI:
-  #       Title: "National Emissions Inventory"
-  #       Author: "EPA"
-  #       DataYear: 2017
-  #       URL: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei"
-  #       Primary: TRUE
   #     EPA_TRI:
   #       Title: "Toxic Release Inventory"
   #       Author: "EPA"
@@ -227,7 +221,7 @@ SatelliteTable:
   #   OriginalFlowSource: "CDDPath"
   #   DataSources:
   # CRHW:
-  #   FullName: "ommercial RCRA-defined hazardous waste"
+  #   FullName: "Commercial RCRA-defined hazardous waste"
   #   Abbreviation: "CRHW"
   #   StaticSource: FALSE
   #   StaticFile: "USEEIO_CNHW_Extracted_v1.2.csv"
@@ -236,10 +230,45 @@ SatelliteTable:
   #   SectorListSource: "NAICS"
   #   SectorListYear: 2012
   #   SectorListLevel: "6"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: [""] #list of parameters
   #   OriginalFlowSource: "Pesticides"
   #   DataSources:
-  
-
+  # EMP:
+  #   FullName: "Employment"
+  #   Abbreviation: "EMP"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2015]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: [""] #list of parameters
+  #   OriginalFlowSource: "Employment"
+  #   DataSources:
+  # VADD:
+  #   FullName: "Value Added"
+  #   Abbreviation: "VADD"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2015]
+  #   Locations: ["US"]
+  #   SectorListSource: "BEA"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "Detail"
+  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   ScriptFunctionCall: "getValueAddedTotalsbySector" #function to call for script
+  #   ScriptFunctionParameters: [""] #list of parameters
+  #   OriginalFlowSource: "Employment"
+  #   DataSources:
+  #   BEA_USE:
+    #   Title: "Detail Use Before Redefinitions"
+    #   Author: "BEA"
+    #   DataYear: 2012
+    #   URL: "https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"
+    #   Primary: TRUE
 Demand:
   DemandYear: 2012
   DemandSubsystems: null
