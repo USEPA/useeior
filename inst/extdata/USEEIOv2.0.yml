@@ -199,25 +199,25 @@ SatelliteTable:
   # CNHW:
   #   FullName: "Commercial non-hazardous waste excluding construction activities"
   #   Abbreviation: "CNHW"
-  #   StaticSource: FALSE
+  #   StaticSource: True
   #   StaticFile: "USEEIO_CNHW_Extracted_v1.2.csv"
-  #   DataYears: [2014]
+  #   DataYears: [2015]
   #   Locations: ["US"]
-  #   SectorListSource: "NAICS"
-  #   SectorListYear: 2012
-  #   SectorListLevel: "6"
+  #   SectorListSource: "BEA"
+  #   SectorListYear: 2007
+  #   SectorListLevel: "Detail"
   #   OriginalFlowSource: "Waste Characterization Study 2014"
   #   DataSources:
   # CNHWC:
   #   FullName: "Commercial non-hazardous waste from construction activities"
-  #   Abbreviation: "CNHW"
-  #   StaticSource: FALSE
+  #   Abbreviation: "CNHWC"
+  #   StaticSource: TRUE
   #   StaticFile: "USEEIO_CNHWC_Extracted_v1.2.csv"
   #   DataYears: [2014]
   #   Locations: ["US"]
-  #   SectorListSource: "NAICS"
-  #   SectorListYear: 2012
-  #   SectorListLevel: "6"
+  #   SectorListSource: "BEA"
+  #   SectorListYear: 2007
+  #   SectorListLevel: "Detail"
   #   OriginalFlowSource: "CDDPath"
   #   DataSources:
   # CRHW:
