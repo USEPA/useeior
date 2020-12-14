@@ -8,14 +8,27 @@ loadIOData <- function(modelname) {
   model <- list()
   # Get model specs
   model$specs <- getModelConfiguration(modelname)
-  # Get national GDP
+  # Get national GDP (for CPI)
   model$GDP <- loadGDPtables(model$specs)
+  # Get BEA IO tables
+  model$BEA <- loadBEAtables(model$specs)
   # Get model$Industries and model$Commodities
+  model$Commodities <- model$BEA$Commodities
+  model$Industries <- model$BEA$Industries
+  
+  # Get model$SectorNames
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+    USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
+                                     sep = ",", header = TRUE, stringsAsFactors = FALSE)
+    model$SectorNames <- merge(as.data.frame(model$Commodities, stringsAsFactors = FALSE), USEEIONames,
+                               by.x = "model$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
+  } else {
+    model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
+  }
+  colnames(model$SectorNames) <- c("Sector", "SectorName")
+  
+  # Load US or state IO data
   if (model$specs$ModelType=="US") {
-    # Get BEA IO tables
-    model$BEA <- loadBEAtables(model$specs)
-    model$Commodities <- model$BEA$Commodities
-    model$Industries <- model$BEA$Industries
     # Get model$Make, model$Use, model$MakeTransactions, model$UseTransactions, and model$UseValueAdded
     model$Make <- model$BEA$Make
     model$Use <- model$BEA$Use
@@ -58,29 +71,29 @@ loadIOData <- function(modelname) {
       # Transform model$BEA$DomesticFinalDemand with MarketShares
       model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$BEA$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
     }
-    # Get model$SectorNames
-    if (model$specs$CommoditybyIndustryType=="Commodity") {
-      USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
-                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
-      model$SectorNames <- merge(as.data.frame(model$Commodities, stringsAsFactors = FALSE), USEEIONames,
-                                 by.x = "model$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
-    } else {
-      model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
-    }
-    colnames(model$SectorNames) <- c("Sector", "SectorName")
     # Get model$IntermediateMargins and model$FinalConsumerMargins
     model$IntermediateMargins <- getMarginsTable(model, "intermediate")
     model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
+    
+    # Implement disaggregation if specified in model$specs
+    if(!is.null(model$specs$disaggregation)){
+      #! TO DO - point to DisaggregationFunctions.R
+      # model components will be modified by disaggregateModel(model)
+    }
+    
   } else if (model$specs$ModelType=="State2R") {
     # Get IO tables and industry and commodity output from stateior
     model$StateIO <- loadTwoRegionStateIOtables(model$specs)
-    
-  }
-  
-  
-  # Check for disaggregation
-  if(!is.null(model$specs$disaggregation)){
-    #! TO DO - point to DisaggregationFunctions.R
+    # Assign two-region IO tables to model
+    model$MakeTransactions <- model$StateIO$MakeTransactions
+    model$UseTransactions <- model$StateIO$UseTransactions
+    model$DomesticUseTransactions <- model$StateIO$DomesticUseTransactions
+    model$FinalDemand <- model$StateIO$FinalDemand
+    model$DomesticFinalDemand <- model$StateIO$DomesticFinalDemand
+    model$Demand <- model$StateIO$Demand
+    model$MakeIndustryOutput <- model$StateIO$MakeIndustryOutput
+    model$MakeCommodityOutput <- model$StateIO$MakeCommodityOutput
+    # Consider change model$CPI here
     
   }
   
@@ -96,7 +109,7 @@ loadBEAtables <- function(specs) {
   logging::loginfo("Initializing IO tables...")
 
   # Get BEA sectors by group
-  BEA$Commodities <-getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Commodity")
+  BEA$Commodities <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Commodity")
   BEA$Industries <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Industry")
   BEA$ValueAddedCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "ValueAdded")
   BEA$HouseholdDemandCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "HouseholdDemand")
@@ -189,5 +202,10 @@ loadTwoRegionStateIOtables <- function(specs) {
   StateIO$MakeIndustryOutput <- stateior::getTwoRegionIndustryOutput(state, year, iolevel)
   StateIO$MakeCommodityOutput <- stateior::getTwoRegionCommodityOutput(state, year, iolevel)
   StateIO$Demand <- stateior::getTwoRegionDemandTable(state, year, iolevel)
+  # Replace state name with state acronym in row and column names of the IO tables
+  for (i in 1:length(StateIO)) {
+    rownames(StateIO[[i]]) <- gsub(tolower(state), tolower(specs$PrimaryRegionAcronym), rownames(StateIO[[i]]))
+    colnames(StateIO[[i]]) <- gsub(tolower(state), tolower(specs$PrimaryRegionAcronym), colnames(StateIO[[i]]))
+  }
   return(StateIO)
 }
