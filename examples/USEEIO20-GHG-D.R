@@ -8,6 +8,7 @@
 
 devtools::load_all(".")#to avoid re-building each time
 library(useeior)
+library(validate)
 
 # See the versioning scheme for explanation of model names (https://github.com/USEPA/USEEIO/blob/master/VersioningScheme.md)
 useeior::seeAvailableModels()
