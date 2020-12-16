@@ -8,7 +8,10 @@ modeled after prepareFlowBySectorCollapsedforSatellite}
 prepareLCIAmethodforIndicators(lciamethod)
 }
 \arguments{
-\item{df}{A full LCIAmethod from LCIAformatter via getInventoryMethod}
+\item{lciamethod}{A full LCIAmethod data frame from LCIAformatter via getInventoryMethod or getImpactMethod.}
+}
+\value{
+A LCIAmethod data frame formatted for indicators
 }
 \description{
 Prepares and reformats LCIAmethod data from LCIAformatter for use

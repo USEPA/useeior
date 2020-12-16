@@ -1,0 +1,299 @@
+Model: "USEEIOv2.0"
+BaseIOSchema: 2012
+BaseIOLevel: "Detail"
+IOYear: 2012 # Year for IO data
+PrimaryRegionAcronym: "US"
+ModelRegionAcronyms: ["US"]
+ModelType: "US"
+ModelSource: "BEA"
+BasePriceType: "PRO" #producer
+BasewithRedefinitions: FALSE
+CommoditybyIndustryType: "Commodity"
+ScrapIncluded: FALSE
+
+SatelliteTable:
+  # WAT:
+  #   FullName: "Water withdrawals"
+  #   Abbreviation: "WAT"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2015]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: ["Water_national_2015_m1"] #list of parameters
+  #   DataSources:
+  #     USGS_NWIS_WU_2015:
+  #       Title: "Water Use in the US"
+  #       Author: "USGS"
+  #       DataYear: 2015
+  #       URL: "https://waterdata.usgs.gov/"
+  #       Primary: TRUE
+  # CHAIR:
+  #   FullName: "Criteria and Hazardous Air Emissions"
+  #   Abbreviation: "CHAIR"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2017]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: ["CAP_HAP_national_2017"] #list of parameters
+  #   DataSources:
+  #     EPA_NEI:
+  #       Title: "National Emissions Inventory"
+  #       Author: "EPA"
+  #       DataYear: 2017
+  #       URL: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei"
+  #       Primary: TRUE
+  #     EPA_TRI:
+  #       Title: "Toxic Release Inventory"
+  #       Author: "EPA"
+  #       DataYear: 2017
+  #       URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
+  #       Primary: TRUE
+  # CHAIR:
+  #   FullName: "Criteria and Hazardous Air Emissions"
+  #   Abbreviation: "CHAIR"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2017]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: ["CAP_HAP_national_2017"] #list of parameters
+  #   DataSources:
+  #     EPA_NEI:
+  #       Title: "National Emissions Inventory"
+  #       Author: "EPA"
+  #       DataYear: 2017
+  #       URL: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei"
+  #       Primary: TRUE
+  #     EPA_TRI:
+  #       Title: "Toxic Release Inventory"
+  #       Author: "EPA"
+  #       DataYear: 2017
+  #       URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
+  #       Primary: TRUE
+  # WATREL:
+  #   FullName: "Point source releases to water"
+  #   Abbreviation: "WATREL"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2017]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: [""] #list of parameters
+  #   DataSources:
+  #     EPA_TRI:
+  #       Title: "Toxic Release Inventory"
+  #       Author: "EPA"
+  #       DataYear: 2017
+  #       URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
+  #       Primary: TRUE
+  #     EPA_DMR:
+  #       Title: "Discharge Monitoring Report"
+  #       Author: "EPA"
+  #       DataYear: 2017
+  #       URL: "https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set"
+  #       Primary: TRUE
+  GHG:
+    FullName: "Greenhouse Gases"
+    Abbreviation: "GHG"
+    StaticSource: TRUE
+    StaticFile: "USEEIO_GHG_Data_Extracted_2016.csv"
+    DataYears: [2016]
+    Locations: ["US"]
+    SectorListSource: "BEA" # or, NAICS
+    SectorListYear: 2012
+    SectorListLevel: "Detail"
+    OriginalFlowSource: "GHG"
+    DataSources:
+      USEPA_GHG_2018:
+        Title: "GHG Inventory"
+        Author: "USEPA"
+        DataYear: 2016
+        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
+        Primary: TRUE
+  # LAND:
+  #   FullName: "Land use"
+  #   Abbreviation: "LAND"
+  #   StaticSource: FALSE
+  #   StaticFile: null
+  #   DataYears: [2016]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+  #   ScriptFunctionParameters: [""] #list of parameters
+  #   DataSources:
+  # MINE:
+  #   FullName: "Mineral extraction"
+  #   Abbreviation: "MINE"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_Mineral_Data_Extracted_v1.1.csv"
+  #   DataYears: []
+  #   Locations: ["US"]
+  #   SectorListSource: "BEA"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "Detail"
+  #   OriginalFlowSource: "MINE"
+  #   DataSources:
+  ENERGY:
+    FullName: "Energy extraction"
+    Abbreviation: "ENERGY"
+    StaticSource: TRUE
+    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/USEEIO-input/USEEIOv1.1_Energy_TotalsBySector.csv"
+    DataYears: [2014]
+    Locations: ["US"]
+    SectorListSource: "BEA"
+    SectorListYear: 2007
+    SectorListLevel: "Detail"
+    OriginalFlowSource: "ENERGY"
+    DataSources:
+      EIA_MER:
+        Title: "Monthly Energy Review"
+        Author: "EIA"
+        DataYear: 2014
+        URL: "http://www.eia.gov/totalenergy/data/monthly/"
+        Primary: TRUE
+      EIA_923:
+        Title: "Form EIA-923 Detailed"
+        Author: "EIA"
+        DataYear: 2014
+        URL: "https://www.eia.gov/electricity/data/eia923/"
+        Primary: TRUE
+  # NPAG:
+  #   FullName: "Nitrogen and Phosphorus Releases from Agriculture"
+  #   Abbreviation: "NPAG"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_NP_Ag_Data_Extracted_v1.1.csv"
+  #   DataYears: []
+  #   Locations: ["US"]
+  #   SectorListSource: "BEA"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "Detail"
+  #   OriginalFlowSource: "DMR"
+  #   DataSources:
+  # PEST:
+  #   FullName: "Pesticide releases"
+  #   Abbreviation: "PEST"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_Pest_Extracted_v1.1.csv"
+  #   DataYears: []
+  #   Locations: ["US"]
+  #   SectorListSource: "BEA"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "Detail"
+  #   OriginalFlowSource: "Pesticides"
+  #   DataSources:
+  # CNHW:
+  #   FullName: "Commercial non-hazardous waste excluding construction activities"
+  #   Abbreviation: "CNHW"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_CNHW_Extracted_v1.2.csv"
+  #   DataYears: [2014]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "Waste Characterization Study 2014"
+  #   DataSources:
+  # CNHWC:
+  #   FullName: "Commercial non-hazardous waste from construction activities"
+  #   Abbreviation: "CNHW"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_CNHWC_Extracted_v1.2.csv"
+  #   DataYears: [2014]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "CDDPath"
+  #   DataSources:
+  # CRHW:
+  #   FullName: "ommercial RCRA-defined hazardous waste"
+  #   Abbreviation: "CRHW"
+  #   StaticSource: FALSE
+  #   StaticFile: "USEEIO_CNHW_Extracted_v1.2.csv"
+  #   DataYears: [2015]
+  #   Locations: ["US"]
+  #   SectorListSource: "NAICS"
+  #   SectorListYear: 2012
+  #   SectorListLevel: "6"
+  #   OriginalFlowSource: "Pesticides"
+  #   DataSources:
+  
+
+Demand:
+  DemandYear: 2012
+  DemandSubsystems: null
+
+Indicators:
+  GreenhouseGases:
+    FullName: "Greenhouse Gases"
+    Abbreviation: "GHG"
+    Category: "Impact Potential"
+    Unit: "kg CO2 eq"
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Global warming"]
+      methods: 
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
+  Acidification:
+    FullName: "Acidification Potential"
+    Abbreviation: "AP"
+    Category: "Impact Potential"
+    Unit: "kg SO2 eq"
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Acidification"]
+      methods: 
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
+  freshwater_withdrawal:
+    FullName: "Freshwater withdrawals"
+    Abbreviation: "WAT"
+    Category: "Resource Use"
+    Unit: "kg"
+    StaticSource: FALSE
+    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["freshwater_resources"]
+    DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: https://github.com/USEPA/LCIAformatter
+        Primary: TRUE

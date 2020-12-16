@@ -2,16 +2,17 @@
 % Please edit documentation in R/LCIAfmtFunctions.R
 \name{getInventoryMethod}
 \alias{getInventoryMethod}
-\title{Calls the Python flowsa package's getFlowBySector method}
+\title{Get inventory method using the Python LCIAformatter package's get_mapped_method function.}
 \usage{
-getInventoryMethod(subset)
+getInventoryMethod(parameters)
 }
 \arguments{
-\item{method_name}{The name}
+\item{parameters}{List of parameters, must include 'indicators' which is a list of one or 
+more indicators to include from inventory method.}
 }
 \value{
-A dataframe for flowsa data in sector by region totals format
+An LCIAmethod data frame with the specified indicators.
 }
 \description{
-Calls the Python flowsa package's getFlowBySector method
+Get inventory method using the Python LCIAformatter package's get_mapped_method function.
 }
