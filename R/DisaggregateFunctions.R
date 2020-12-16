@@ -17,7 +17,7 @@ disaggregateModel <- function (model){
     disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata", disagg$SectorFile, package = "useeior"),
                                             header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
                                                                                                   "USEEIO_Code"="character"))
-    index <- match(disagg$OriginalSectorCode, model$SectorNames$SectorCode)
+    index <- match(disagg$OriginalSectorCode, model$SectorNames$Sector)
     newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code, "SectorName"=disagg$NAICSSectorCW$USEEIO_Name))
     disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
     disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
@@ -62,7 +62,7 @@ disaggregateModel <- function (model){
     model$CPI <- disaggregateCols(model$CPI, disagg, duplicate = TRUE)
     model$DomesticFinalDemand <- disaggregateFinalDemand(model, domestic = TRUE)
 
-
+    colnames(newNames) <- colnames(model$SectorNames)#TODO: Check that there is consistency throughout the code in the use of either Sector or SectorCode as column headers in the model$SEctorNames object
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
 
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
