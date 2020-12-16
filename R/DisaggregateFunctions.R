@@ -54,15 +54,14 @@ disaggregateModel <- function (model){
     }
     
     model$UseValueAdded <- disaggregateRows(model$UseValueAdded, disagg, notUniform = notUniformFlag)
-    ###model$FinalDemand <- disaggregateCols(model$FinalDemand, disagg, notUniform = notUniformFlag)
 
     #balancedDisaggFullUse <- balanceDisagg(model, disagg)
-    model$DomesticUseTransactions <- disaggregateUseTable(model, domestic = TRUE)
     
+    model$DomesticUseTransactions <- disaggregateUseTable(model, domestic = TRUE)
     model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
     model$CPI <- disaggregateCols(model$CPI, disagg, duplicate = TRUE)
     model$DomesticFinalDemand <- disaggregateFinalDemand(model, domestic = TRUE)
-    #model$DomesticFinalDemand <- disaggregateCols(model$DomesticFinalDemand, disagg)
+
 
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
 
@@ -748,19 +747,11 @@ SpecifiedUseDisagg <- function (model, disagg, domestic = FALSE){
     endColIndex <- originalColIndex + numNewSectors
     
     DisaggUse <- AssembleTable(originalUse, originalRowIndex, originalColIndex, AllocColDF, allocRowDF, AllocIntersectionDF)
-    
-    #------------------Disaggregating Final Demand
-    
-    # #Allocation for FD demand sectors
-    # FDPercentages <- subset(UseAllocations, IndustryCode %in% fdColNames)
-    # #Assigning allocations for FD
-    # DisaggFD <- DisaggAllocations(model, disagg, FDPercentages, "FinalDemand", domestic)
-    
+
   }else{
     
     #todo: error handling, no csv was read in terminate execution
     DisaggUse <- NULL
-    DisaggFD <- NULL
   }
   #End of if(!is.null(disagg$MakeFileDF)) loop
   
