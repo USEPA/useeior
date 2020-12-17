@@ -258,10 +258,9 @@ SatelliteTable:
   #   SectorListSource: "BEA"
   #   SectorListYear: 2012
   #   SectorListLevel: "Detail"
-  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   OriginalFlowSource: "Input-Outpu Tables"
   #   ScriptFunctionCall: "getValueAddedTotalsbySector" #function to call for script
   #   ScriptFunctionParameters: [""] #list of parameters
-  #   OriginalFlowSource: "Employment"
   #   DataSources:
   #   BEA_USE:
     #   Title: "Detail Use Before Redefinitions"
