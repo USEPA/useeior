@@ -169,4 +169,24 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
   return(df)
 }
 
-
+#' Get value added from BEA input-output use table, convert to standard totals_by_sector format.
+#' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
+#' @return A value-added totals_by_sector table with fields of standard totals_by_sector
+getValueAddedTotalsbySector <- function(model) {
+  # Extract ValueAdded from Use table
+  df <- model$Use[model$BEA$ValueAddedCodes, model$Industries] * 1E6 # data frame, values are in dollars ($)
+  # Sum ValueAdded
+  df <- as.data.frame(colSums(df))
+  # Add columns to convert to standard totals_by_sector format
+  colnames(df) <- "FlowAmount"
+  df$Flowable <- "Value Added"
+  df[, "Sector"] <- rownames(df)
+  df[, "Context"] <- ""
+  df[, "Unit"] <- "USD"
+  df[, "Year"] <- model$specs$SatelliteTable$VADD$SectorListYear
+  df[, "MetaSources"] <- model$specs$SatelliteTable$VADD$SectorListSource
+  df[, "Location"] <- model$specs$SatelliteTable$VADD$Locations
+  df[, c("DataReliability", "TemporalCorrelation", "GeographicalCorrelation",
+         "TechnologicalCorrelation", "DataCollection")] <- 1
+  return(df)
+}
