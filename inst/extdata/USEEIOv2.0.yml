@@ -10,6 +10,7 @@ BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommoditybyIndustryType: "Commodity"
 ScrapIncluded: FALSE
+# DisaggregationSpecs: "WasteDisaggregation" #Name of disaggregation yml file.
 
 SatelliteTable:
   # WAT:
@@ -61,7 +62,7 @@ SatelliteTable:
   # GRDREL:
   #   FullName: "Point source industrial releases to ground"
   #   Abbreviation: "GRDREL"
-  #   StaticSource: TRUE
+  #   StaticSource: FALSE
   #   StaticFile: null
   #   DataYears: [2017]
   #   Locations: ["US"]
@@ -70,7 +71,7 @@ SatelliteTable:
   #   SectorListLevel: "6"
   #   OriginalFlowSource: "FEDEFLv1.0.4"
   #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-  #   ScriptFunctionParameters: [""]#list of parameters
+  #   ScriptFunctionParameters: ["GRDREL_national_2017"]#list of parameters
   #   DataSources:
   #     EPA_TRI:
   #       Title: "Toxic Release Inventory"
@@ -88,9 +89,9 @@ SatelliteTable:
   #   SectorListSource: "NAICS"
   #   SectorListYear: 2012
   #   SectorListLevel: "6"
-  #   OriginalFlowSource: "FEDEFLv1.0.4"
+  #   OriginalFlowSource: "FEDEFLv1.0.5"
   #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-  #   ScriptFunctionParameters: [""] #list of parameters
+  #   ScriptFunctionParameters: ["TRI_DMR_national_2017"] #list of parameters
   #   DataSources:
   #     EPA_TRI:
   #       Title: "Toxic Release Inventory"
@@ -108,7 +109,7 @@ SatelliteTable:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "USEEIO_GHG_Data_Extracted_2016.csv"
+    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_GHG_TotalsBySector.csv"
     DataYears: [2016]
     Locations: ["US"]
     SectorListSource: "BEA" # or, NAICS
@@ -127,24 +128,24 @@ SatelliteTable:
   #   Abbreviation: "LAND"
   #   StaticSource: FALSE
   #   StaticFile: null
-  #   DataYears: [2016]
+  #   DataYears: [2012]
   #   Locations: ["US"]
   #   SectorListSource: "NAICS"
   #   SectorListYear: 2012
   #   SectorListLevel: "6"
   #   OriginalFlowSource: "FEDEFLv1.0.4"
   #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-  #   ScriptFunctionParameters: [""] #list of parameters
+  #   ScriptFunctionParameters: ["Land_national_2012"] #list of parameters
   #   DataSources:
   # MINE:
   #   FullName: "Mineral extraction"
   #   Abbreviation: "MINE"
-  #   StaticSource: FALSE
-  #   StaticFile: "USEEIO_Mineral_Data_Extracted_v1.1.csv"
+  #   StaticSource: TRUE
+  #   StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_MINE_TotalsBySector.csv"
   #   DataYears: []
   #   Locations: ["US"]
   #   SectorListSource: "BEA"
-  #   SectorListYear: 2012
+  #   SectorListYear: 2007
   #   SectorListLevel: "Detail"
   #   OriginalFlowSource: "MINE"
   #   DataSources:
@@ -152,7 +153,7 @@ SatelliteTable:
     FullName: "Energy extraction"
     Abbreviation: "ENERGY"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/USEEIO-input/USEEIOv1.1_Energy_TotalsBySector.csv"
+    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_Energy_TotalsBySector.csv"
     DataYears: [2014]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -175,24 +176,24 @@ SatelliteTable:
   # NPAG:
   #   FullName: "Nitrogen and Phosphorus Releases from Agriculture"
   #   Abbreviation: "NPAG"
-  #   StaticSource: FALSE
-  #   StaticFile: "USEEIO_NP_Ag_Data_Extracted_v1.1.csv"
+  #   StaticSource: TRUE
+  #   StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_NPAG_TotalsBySector.csv"
   #   DataYears: []
   #   Locations: ["US"]
   #   SectorListSource: "BEA"
-  #   SectorListYear: 2012
+  #   SectorListYear: 2007
   #   SectorListLevel: "Detail"
-  #   OriginalFlowSource: "DMR"
+  #   OriginalFlowSource: "USDA"
   #   DataSources:
   # PEST:
   #   FullName: "Pesticide releases"
   #   Abbreviation: "PEST"
   #   StaticSource: FALSE
-  #   StaticFile: "USEEIO_Pest_Extracted_v1.1.csv"
+  #   StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_PEST_TotalsBySector.csv"
   #   DataYears: []
   #   Locations: ["US"]
   #   SectorListSource: "BEA"
-  #   SectorListYear: 2012
+  #   SectorListYear: 2007
   #   SectorListLevel: "Detail"
   #   OriginalFlowSource: "Pesticides"
   #   DataSources:
@@ -200,7 +201,7 @@ SatelliteTable:
   #   FullName: "Commercial non-hazardous waste excluding construction activities"
   #   Abbreviation: "CNHW"
   #   StaticSource: True
-  #   StaticFile: "USEEIO_CNHW_Extracted_v1.2.csv"
+  #   StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_CNHW_TotalsBySector.csv"
   #   DataYears: [2015]
   #   Locations: ["US"]
   #   SectorListSource: "BEA"
@@ -212,7 +213,7 @@ SatelliteTable:
   #   FullName: "Commercial non-hazardous waste from construction activities"
   #   Abbreviation: "CNHWC"
   #   StaticSource: TRUE
-  #   StaticFile: "USEEIO_CNHWC_Extracted_v1.2.csv"
+  #   StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_CNHWC_TotalsBySector.csv"
   #   DataYears: [2014]
   #   Locations: ["US"]
   #   SectorListSource: "BEA"
@@ -224,28 +225,28 @@ SatelliteTable:
   #   FullName: "Commercial RCRA-defined hazardous waste"
   #   Abbreviation: "CRHW"
   #   StaticSource: FALSE
-  #   StaticFile: "USEEIO_CNHW_Extracted_v1.2.csv"
-  #   DataYears: [2015]
+  #   StaticFile: null
+  #   DataYears: [2017]
   #   Locations: ["US"]
   #   SectorListSource: "NAICS"
   #   SectorListYear: 2012
   #   SectorListLevel: "6"
   #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-  #   ScriptFunctionParameters: [""] #list of parameters
-  #   OriginalFlowSource: "Pesticides"
+  #   ScriptFunctionParameters: ["CRHW_national_2017"] #list of parameters
+  #   OriginalFlowSource: "RCRAInfo"
   #   DataSources:
   # EMP:
   #   FullName: "Employment"
   #   Abbreviation: "EMP"
   #   StaticSource: FALSE
   #   StaticFile: null
-  #   DataYears: [2015]
+  #   DataYears: [2017]
   #   Locations: ["US"]
   #   SectorListSource: "NAICS"
   #   SectorListYear: 2012
   #   SectorListLevel: "6"
   #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-  #   ScriptFunctionParameters: [""] #list of parameters
+  #   ScriptFunctionParameters: ["Employment_national_2017"] #list of parameters
   #   OriginalFlowSource: "Employment"
   #   DataSources:
   # VADD:
@@ -258,7 +259,7 @@ SatelliteTable:
   #   SectorListSource: "BEA"
   #   SectorListYear: 2012
   #   SectorListLevel: "Detail"
-  #   OriginalFlowSource: "Input-Outpu Tables"
+  #   OriginalFlowSource: "Input-Output Tables"
   #   ScriptFunctionCall: "getValueAddedTotalsbySector" #function to call for script
   #   ScriptFunctionParameters: [""] #list of parameters
   #   DataSources:
@@ -293,7 +294,7 @@ Indicators:
         Primary: TRUE
   Acidification:
     FullName: "Acidification Potential"
-    Abbreviation: "AP"
+    Abbreviation: "ACID"
     Category: "Impact Potential"
     Unit: "kg SO2 eq"
     StaticSource: False
@@ -301,6 +302,132 @@ Indicators:
     ScriptFunctionParameters: 
       method_id: "TRACI 2.1"
       indicators: ["Acidification"]
+      methods: 
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
+  Eutrophication:
+    FullName: "Eutrophication Potential"
+    Abbreviation: "EUTR"
+    Category: "Impact Potential"
+    Unit: "kg N eq"
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Eutrophication"]
+      methods: 
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
+  FreshwaterEcotox:
+    FullName: "Freshwater Ecotoxicity Potential"
+    Abbreviation: "ETOX"
+    Category: "Impact Potential"
+    Unit: "CTUe"
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Ecotoxicity"]
+      methods: 
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
+  HumanHealthCancer:
+    FullName: "Human Health - Cancer"
+    Abbreviation: "HCAN"
+    Category: "Impact Potential"
+    Unit: "CTUh"
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Human Health, cancer"]
+      methods: 
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
+  HumanHealthNonCancer:
+    FullName: "Human Health - Noncancer"
+    Abbreviation: "HNCN"
+    Category: "Impact Potential"
+    Unit: "CTUh"
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Human Health, noncancer"]
+      methods: 
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
+  HumanHealthRespEffects:
+    FullName: "Human Health - Respiratory Effects"
+    Abbreviation: "HRSP"
+    Category: "Impact Potential"
+    Unit: "kg PM2.5 eq"
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Respiratory Effects"]
+      methods: 
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
+  Ozone:
+    FullName: "Ozone Depletion"
+    Abbreviation: "OZON"
+    Category: "Impact Potential"
+    Unit: "kg CFC-11 eq"
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Ozone"]
+      methods: 
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
+  Smog:
+    FullName: "Smog Formation Potential"
+    Abbreviation: "SMOG"
+    Category: "Impact Potential"
+    Unit: "kg O3 eq"
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Smog"]
       methods: 
     DataSources:
       USEPA_TRACI_2.1:
