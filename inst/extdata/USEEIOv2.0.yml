@@ -105,24 +105,24 @@ SatelliteTable:
   #       DataYear: 2017
   #       URL: "https://echo.epa.gov/tools/data-downloads/icis-npdes-dmr-and-limit-data-set"
   #       Primary: TRUE
-  GHG:
-    FullName: "Greenhouse Gases"
-    Abbreviation: "GHG"
-    StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_GHG_TotalsBySector.csv"
-    DataYears: [2016]
-    Locations: ["US"]
-    SectorListSource: "BEA" # or, NAICS
-    SectorListYear: 2012
-    SectorListLevel: "Detail"
-    OriginalFlowSource: "GHG"
-    DataSources:
-      USEPA_GHG_2018:
-        Title: "GHG Inventory"
-        Author: "USEPA"
-        DataYear: 2016
-        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
-        Primary: TRUE
+  # GHG:
+  #   FullName: "Greenhouse Gases"
+  #   Abbreviation: "GHG"
+  #   StaticSource: TRUE
+  #   StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_GHG_TotalsBySector.csv"
+  #   DataYears: [2016]
+  #   Locations: ["US"]
+  #   SectorListSource: "BEA" # or, NAICS
+  #   SectorListYear: 2012
+  #   SectorListLevel: "Detail"
+  #   OriginalFlowSource: "GHG"
+  #   DataSources:
+  #     USEPA_GHG_2018:
+  #       Title: "GHG Inventory"
+  #       Author: "USEPA"
+  #       DataYear: 2016
+  #       URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
+  #       Primary: TRUE
   # LAND:
   #   FullName: "Land use"
   #   Abbreviation: "LAND"
@@ -337,7 +337,7 @@ Indicators:
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       method_id: "TRACI 2.1"
-      indicators: ["Ecotoxicity"]
+      indicators: ["Freshwater ecotoxicity"]
       methods: 
     DataSources:
       USEPA_TRACI_2.1:
@@ -355,7 +355,7 @@ Indicators:
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       method_id: "TRACI 2.1"
-      indicators: ["Human Health, cancer"]
+      indicators: ["Human Health - cancer"]
       methods: 
     DataSources:
       USEPA_TRACI_2.1:
@@ -373,7 +373,7 @@ Indicators:
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       method_id: "TRACI 2.1"
-      indicators: ["Human Health, noncancer"]
+      indicators: ["Human Health - non-cancer"]
       methods: 
     DataSources:
       USEPA_TRACI_2.1:
@@ -391,7 +391,7 @@ Indicators:
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       method_id: "TRACI 2.1"
-      indicators: ["Respiratory Effects"]
+      indicators: ["Human health - particulate matter"]
       methods: 
     DataSources:
       USEPA_TRACI_2.1:
@@ -409,7 +409,7 @@ Indicators:
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       method_id: "TRACI 2.1"
-      indicators: ["Ozone"]
+      indicators: ["Ozone depletion"]
       methods: 
     DataSources:
       USEPA_TRACI_2.1:
@@ -427,7 +427,7 @@ Indicators:
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       method_id: "TRACI 2.1"
-      indicators: ["Smog"]
+      indicators: ["Smog formation"]
       methods: 
     DataSources:
       USEPA_TRACI_2.1:
@@ -452,3 +452,91 @@ Indicators:
         DataYear: 2020
         URL: https://github.com/USEPA/LCIAformatter
         Primary: TRUE
+  land_use:
+    FullName: "Land use"
+    Abbreviation: "LAND"
+    Category: "Resource Use"
+    Unit: "m2*yr"
+    StaticSource: FALSE
+    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["land_use"]
+    DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: https://github.com/USEPA/LCIAformatter
+        Primary: TRUE
+  HAP:
+    FullName: "Hazardous Air Pollutants"
+    Abbreviation: "HAPS"
+    Category: "Chemical Releases"
+    Unit: "kg"
+    StaticSource: FALSE
+    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["HAP"]
+    DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: https://github.com/USEPA/LCIAformatter
+        Primary: TRUE
+  NonRenewableEnergy:
+    FullName: "Nonrenewable Energy Use"
+    Abbreviation: "NNRG"
+    Category: "Resource Use"
+    Unit: "MJ"
+    StaticSource: TRUE
+    DataSources:
+  RenewableEnergy:
+    FullName: "Renewable Energy Use"
+    Abbreviation: "RNRG"
+    Category: "Resource Use"
+    Unit: "MJ"
+    StaticSource: TRUE
+    DataSources:
+  Energy:
+    FullName: "Energy Use"
+    Abbreviation: "ENRG"
+    Category: "Resource Use"
+    Unit: "MJ"
+    StaticSource: TRUE
+    DataSources:
+  MineralsMetals:
+    FullName: "Minerals and Metals Use"
+    Abbreviation: "MNRL"
+    Category: "Resource Use"
+    Unit: "kg"
+    StaticSource: TRUE
+    DataSources:
+  Metals:
+    FullName: "Metals"
+    Abbreviation: "METL"
+    Category: "Chemical Releases"
+    Unit: "kg"
+    StaticSource: TRUE
+    DataSources:
+  Pesticides:
+    FullName: "Pesticides"
+    Abbreviation: "PEST"
+    Category: "Chemical Releases"
+    Unit: "kg"
+    StaticSource: TRUE
+    DataSources:
+  ValueAdded:
+    FullName: "Value Added"
+    Abbreviation: "VADD"
+    Category: "Economic & Social"
+    Unit: "$"
+    StaticSource: TRUE
+    DataSources:
+  Jobs:
+    FullName: "Jobs Supported"
+    Abbreviation: "JOBS"
+    Category: "Economic & Social"
+    Unit: "jobs"
+    StaticSource: TRUE
+    DataSources:
