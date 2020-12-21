@@ -188,7 +188,7 @@ SatelliteTable:
   PEST:
     FullName: "Pesticide releases"
     Abbreviation: "PEST"
-    StaticSource: FALSE
+    StaticSource: TRUE
     StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_PEST_TotalsBySector.csv"
     DataYears: [2014, 2013, 2012, 2011]
     Locations: ["US"]
@@ -249,26 +249,26 @@ SatelliteTable:
   #   ScriptFunctionParameters: ["Employment_national_2017"] #list of parameters
   #   OriginalFlowSource: "Employment"
   #   DataSources:
-  # VADD:
-  #   FullName: "Value Added"
-  #   Abbreviation: "VADD"
-  #   StaticSource: FALSE
-  #   StaticFile: null
-  #   DataYears: [2015]
-  #   Locations: ["US"]
-  #   SectorListSource: "BEA"
-  #   SectorListYear: 2012
-  #   SectorListLevel: "Detail"
-  #   OriginalFlowSource: "Input-Output Tables"
-  #   ScriptFunctionCall: "getValueAddedTotalsbySector" #function to call for script
-  #   ScriptFunctionParameters: [""] #list of parameters
-  #   DataSources:
-  #   BEA_USE:
-  #     Title: "Detail Use Before Redefinitions"
-  #     Author: "BEA"
-  #     DataYear: 2012
-  #     URL: "https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"
-  #     Primary: TRUE
+  VADD:
+   FullName: "Value Added"
+   Abbreviation: "VADD"
+   StaticSource: FALSE
+   StaticFile: null
+   DataYears: [2015]
+   Locations: ["US"]
+   SectorListSource: "BEA"
+   SectorListYear: 2012
+   SectorListLevel: "Detail"
+   OriginalFlowSource: "Input-Output Tables"
+   ScriptFunctionCall: "getValueAddedTotalsbySector" #function to call for script
+   ScriptFunctionParameters: ["model"] #list of parameters
+   DataSources:
+   BEA_USE:
+     Title: "Detail Use Before Redefinitions"
+     Author: "BEA"
+     DataYear: 2012
+     URL: "https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"
+     Primary: TRUE
 Demand:
   DemandYear: 2012
   DemandSubsystems: null

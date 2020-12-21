@@ -188,5 +188,6 @@ getValueAddedTotalsbySector <- function(model) {
   df[, "Location"] <- model$specs$SatelliteTable$VADD$Locations
   df[, c("DataReliability", "TemporalCorrelation", "GeographicalCorrelation",
          "TechnologicalCorrelation", "DataCollection")] <- 1
+  rownames(df) <- NULL
   return(df)
 }

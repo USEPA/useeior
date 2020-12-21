@@ -80,7 +80,12 @@ loadSatTables <- function(model) {
     } else {
       func_to_eval <- sat$ScriptFunctionCall
       totalsgenfunction <- as.name(func_to_eval)
-      totals_by_sector <- do.call(eval(totalsgenfunction), list(sat$ScriptFunctionParameters))
+      if (sat$ScriptFunctionParameters == "model") {
+        params <- model
+      } else {
+        params <- sat$ScriptFunctionParameters
+      }
+      totals_by_sector <- do.call(eval(totalsgenfunction), list(params))
     }
     # Check if the orginal data is BEA-based. If so, apply necessary allocation or aggregation.
     # If not, map data from original sector to BEA.
