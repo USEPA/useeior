@@ -70,10 +70,12 @@ loadSatTables <- function(model) {
     if(!is.null(sat$StaticFile)) {
       # If the file is a URL tested by the first 4 characters of the string = "http", don't wrap in system.file()
       if (substring(sat$StaticFile, 0, 4)=="http") {
-        totals_by_sector <- utils::read.table(sat$StaticFile, sep = ",", header = TRUE, stringsAsFactors = FALSE)  
+        totals_by_sector <- utils::read.table(sat$StaticFile, sep = ",", header = TRUE, stringsAsFactors = FALSE,
+                                              fileEncoding = 'UTF-8-BOM')  
       } else {
         totals_by_sector <- utils::read.table(system.file("extdata", sat$StaticFile, package = "useeior"),
-                                              sep = ",", header = TRUE, stringsAsFactors = FALSE)
+                                              sep = ",", header = TRUE, stringsAsFactors = FALSE,
+                                              fileEncoding = 'UTF-8-BOM')
       }
     } else {
       func_to_eval <- sat$ScriptFunctionCall
