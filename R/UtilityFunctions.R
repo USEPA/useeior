@@ -209,11 +209,11 @@ RAS <- function(m0, t_r, t_c, t, max_itr = 1E6) {
     col_condition <- all.equal(t_c, c_c, tolerance = t)
     i <- i + 1
     
-    if(i %% 100==0){
+    if(i %% (max_itr/1000)==0){
       # Print on the screen some message
-      cat(paste0("iteration: ", i/1E6*100, "%\n"))
+      cat(paste0("iteration: ", i/max_itr*100, "%\n"))
     }
-    if(i %% 1E5 ==0)
+    if(i %% (max_itr/10) ==0)
     {
       readline(prompt="Press [enter] to continue")#pause
     }
