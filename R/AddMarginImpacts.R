@@ -11,9 +11,9 @@ deriveMarginSectorImpacts <- function(model, margin_type = "intermediate") {
     Margins <- model$FinalConsumerMargins
   }
   ## Add in impacts of margin sectors
-  # Calculation fractions of producer price for each margin
-  MarginCoefficients <- as.matrix(Margins[, c("Transportation", "Wholesale", "Retail")]/Margins[, c("ProducersValue")])
-  rownames(MarginCoefficients) <- Margins$CommodityCode
+  # Calculate fractions (in absolute value) of producer price for each margin
+  MarginCoefficients <- abs(as.matrix(Margins[, c("Transportation", "Wholesale", "Retail")]/Margins[, c("ProducersValue")]))
+  rownames(MarginCoefficients) <- Margins$SectorCode
   
   # Create margin_allocation matrix to allocate fractions by margin sector
   # In the matrix, rows are three margin types and columns are margin sectors
