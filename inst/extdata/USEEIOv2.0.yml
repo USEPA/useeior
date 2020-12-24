@@ -195,7 +195,7 @@ SatelliteTable:
     SectorListSource: "BEA"
     SectorListYear: 2007
     SectorListLevel: "Detail"
-    OriginalFlowSource: "Pesticides"
+    OriginalFlowSource: "FEDEFLv1.0.5"
     DataSources:
   CNHW:
     FullName: "Commercial non-hazardous waste excluding construction activities"
