@@ -191,3 +191,28 @@ getValueAddedTotalsbySector <- function(model) {
   rownames(df) <- NULL
   return(df)
 }
+
+
+checkDuplicateFlows <- function(sattable){
+  for (table_name in names(sattable)){
+    sattable[[table_name]] <-
+      sattable[[table_name]] %>% 
+      dplyr::mutate(name = table_name) %>% 
+      dplyr::distinct(Flowable, Context, name)
+  }
+  
+  duplicates <-
+    dplyr::bind_rows(sattable) %>% 
+    dplyr::group_by(Flowable, Context) %>% 
+    dplyr::filter(dplyr::n() >1) %>% 
+    tibble::as_tibble()
+  
+  if (nrow(duplicates)>0){
+    logging::logwarn("Duplicate flows exist across satellite tables.")
+    logging::logwarn(duplicates)
+  }
+  else{
+    logging::loginfo("No duplicate flows exist across satellite tables.")
+  }
+}
+

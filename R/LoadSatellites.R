@@ -159,6 +159,8 @@ loadSatTables <- function(model) {
 loadandbuildSatelliteTables <- function(model) {
   # Generate satellite tables
   model$SatelliteTables <- loadSatTables(model)
+  # Check for duplicate flows across satellite tables
+  checkDuplicateFlows(model$SatelliteTables$coeffs_by_sector)
   # Combine satellite tables (coeffs_by_sector) into a single df
   StandardizedSatelliteTable <- do.call(rbind, model$SatelliteTables$coeffs_by_sector)
   # Transform satellite tables into a flow x sector matrix
