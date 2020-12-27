@@ -32,6 +32,7 @@ buildEEIOModel <- function(model) {
   }
 
   # Generate C matrix: LCIA indicators in indicator x flow format
+  model$indicators <- model$indicators[model$indicators$Flow %in% unique(row.names(model$sattables_cast)),]
   model$C <- reshape2::dcast(model$indicators, Code ~ Flow, value.var = "Amount")
   rownames(model$C) <- model$C$Code
   # Get flows in B not in C and add to C
