@@ -142,7 +142,9 @@ loadSatTables <- function(model) {
     coeffs_by_sector <- generateStandardSatelliteTable(coeffs_by_sector)
     # If the satellite table uses a static file, it will use the embedded mapping files to map flows to internal flow names
     if (!is.null(sat$StaticFile)) {
+      if (!substring(sat$OriginalFlowSource,1,6) == 'FEDEFL') {
       coeffs_by_sector <- mapListbyName(coeffs_by_sector, sat)
+      }
     }
     
     # Add totals_by_sector and coeffs_by_sector to the sattables list
