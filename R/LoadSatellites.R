@@ -167,13 +167,12 @@ loadandbuildSatelliteTables <- function(model) {
   sattables_cast$Flow <- NULL
   # Complete sector list according to model$Industries
  
-  #create model$newIndustries to use in the next line, which is model$industries + new sectors
+  #create newIndustries value to use in the creation of a sattables_cast object that includes the disaggregated sectors.  
   for(disagg in model$DisaggregationSpecs$Disaggregation)
   {
     
-    tempbreak <-1
-    newIndustries <- model$Industries[model$Industries != disagg$OriginalSectorCode]
-    newIndustries <- append(newIndustries, as.character(disagg$DisaggregatedSectorCodes))
+    newIndustries <- model$Industries[model$Industries != disagg$OriginalSectorCode]#remove original sector
+    newIndustries <- append(newIndustries, as.character(disagg$DisaggregatedSectorCodes))#add disaggregated sectors
     
   }
   
