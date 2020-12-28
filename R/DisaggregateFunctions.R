@@ -20,7 +20,7 @@ disaggregateModel <- function (model){
     index <- match(disagg$OriginalSectorCode, model$SectorNames$Sector)
     newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code, "SectorName"=disagg$NAICSSectorCW$USEEIO_Name))
     disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
-    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
+    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))#TODO: Make the order of DisaggregatedSectorCodes and DisaggregatedSectorNames match.
     
     if(!is.null(disagg$MakeFile)){
       disagg$MakeFileDF <- utils::read.csv(system.file("extdata", disagg$MakeFile, package = "useeior"),
@@ -41,24 +41,14 @@ disaggregateModel <- function (model){
     #model$Make <- disaggregateMakeTable(model) 
     model$MakeTransactions <- disaggregateMakeTable(model)
     model$FinalDemand <- disaggregateFinalDemand(model, domestic = FALSE)
-    
-    
-    if(disagg$DisaggregationType == "Userdefined"){
-      
-      notUniformFlag = TRUE
-      
-    }else{
-      
-      notUniformFlag = FALSE
-      
-    }
-    
     model$UseValueAdded <- disaggregateVA(model)
 
 
     if(disagg$DisaggregationType == "Userdefined"){
 
       balancedDisaggFullUse <- balanceDisagg(model, disagg)
+      #todo: split up balancedDisaggFullUse into component parts of FullUse
+      #Todo: calculate domesticUse and DomesticFinalDemand based on disaggregatedFullUse
 
     }
 
@@ -68,7 +58,8 @@ disaggregateModel <- function (model){
     model$CPI <- disaggregateCols(model$CPI, disagg, duplicate = TRUE)
     model$DomesticFinalDemand <- disaggregateFinalDemand(model, domestic = TRUE)
 
-    colnames(newNames) <- colnames(model$SectorNames)#TODO: Check that there is consistency throughout the code in the use of either Sector or SectorCode as column headers in the model$SEctorNames object
+    colnames(newNames) <- colnames(model$SectorNames)#TODO: Check the SectorCode/Code column label inconsistency (model$SectorNames and newNames objects)
+    #colnames(model$SectorNames) <- colnames(newNames)
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
 
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
@@ -131,13 +122,15 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
     
     if(default_disaggregation){
       # Subset the totals from the original sector
-      old_sector_totals <- subset(sattable, SectorCode==disagg$OriginalSectorCode, colnames(sattable))
+      #old_sector_totals <- subset(sattable, SectorCode==disagg$OriginalSectorCode, colnames(sattable))#TODO: Check the SectorCode/Code column label inconsistency (old_sector_totals object via the Env csv file and loadSatTables function)
+      old_sector_totals <- subset(sattable, Sector==disagg$OriginalSectorCode, colnames(sattable))
       
       i<-0
       for (new_sector in disagg$DisaggregatedSectorCodes){
         i<-i+1
         new_sector_totals <- old_sector_totals
-        new_sector_totals$SectorCode <- disagg$DisaggregatedSectorCodes[[i]]
+        #new_sector_totals$SectorCode <- disagg$DisaggregatedSectorCodes[[i]]#TODO: Check the SectorCode/Code column label inconsistency (new_sector_totals object via old_sector_totals object)
+        new_sector_totals$Sector <- disagg$DisaggregatedSectorCodes[[i]]
         new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
 
         # If satellite table is disaggregated proportional to gross output do that here
@@ -164,7 +157,8 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
         sattable <- rbind(sattable,new_sector_totals)
     }}
     # Remove the old_sector_totals
-    sattable_disaggregated <- subset(sattable, SectorCode!=disagg$OriginalSectorCode)
+    #sattable_disaggregated <- subset(sattable, SectorCode!=disagg$OriginalSectorCode)
+    sattable_disaggregated <- subset(sattable, Sector!=disagg$OriginalSectorCode)#TODO: Check the SectorCode/Code column label inconsistency (sattable_disaggregated object via sattable)
   }
   
   return(sattable_disaggregated)
@@ -1470,14 +1464,6 @@ balanceDisagg <- function(model, disagg){
   
   
   #-------------Check for balance------------------------------
-  # disaggFullUse <- rbind(model$UseTransactions, model$UseValueAdded)
-  # 
-  # tempVA <- matrix(0, nrow(model$UseValueAdded), ncol(model$FinalDemand))
-  # colnames(tempVA) <- colnames(model$FinalDemand)
-  # rownames(tempVA) <- rownames(model$UseValueAdded)
-  # fullFD <- rbind(model$FinalDemand, tempVA)
-  # 
-  # disaggFullUse <- cbind(disaggFullUse, fullFD)
   disaggFullUse <-buildDisaggFullUse(model, disagg)
   
   #Get commodity and/or industry indeces corresponding to the original sector code
@@ -1489,17 +1475,24 @@ balanceDisagg <- function(model, disagg){
   #Get Disaggregated Industry totals from both Make and Use tables
   disaggMakeIndTotals <- data.frame(rowSums(model$MakeTransactions[disaggIndustryIndex:disaggIndustryEndIndex,]))
   disaggUseIndTotals <- data.frame(colSums(disaggFullUse[, disaggIndustryIndex:disaggIndustryEndIndex]))
-  
+
   #Get Disaggregated Commodity totals from both Make and Use Tables
   disaggMakeComTotals <- data.frame(colSums(model$MakeTransactions[, disaggCommodityIndex:disaggCommodityEndIndex]))
   disaggUseComTotals <- data.frame(rowSums(disaggFullUse[disaggCommodityIndex:disaggCommodityEndIndex, ]))
   
+  #Calculate final disaggregation allocation percentages for commodities and industries in each table
+  makeIndAllocPercentages <- disaggMakeIndTotals/sum(disaggMakeIndTotals)
+  useIndAllocPercentages <- disaggUseIndTotals/sum(disaggUseIndTotals)
+  
+  makeComAllocPercentages <- disaggMakeComTotals / sum(disaggMakeComTotals)
+  useComAllocPercentages <- disaggUseComTotals / sum(disaggUseComTotals)
+  
   
   #Check Balance of industry totals across tables
-  tolerance <- data.frame(matrix(1, nrow = length(disagg$DisaggregatedSectorCodes)))#initialized to number of disaggregated sectors by 1 col; all elements == 1
-  tolerance <- tolerance*1E8#set all elements to 1E8 (between 0 and 5% for all sectors, depending on the specific sector)
+  ones <- data.frame(matrix(1, nrow = length(disagg$DisaggregatedSectorCodes)))#initialized to number of disaggregated sectors by 1 col; all elements == 1
+  tolerance <- ones*0.05#set all elements to 0.05 (ie 5% for all sectors)
   
-  if(any(abs(disaggUseIndTotals - disaggMakeIndTotals) > tolerance) || any(abs(disaggUseComTotals - disaggMakeComTotals > tolerance))){
+  if(any(abs(useIndAllocPercentages - makeIndAllocPercentages) > tolerance) || any(abs(useComAllocPercentages - makeComAllocPercentages > tolerance))){
     
     #balance. Create FullUse from UseTransanctions, UseValueAdded, and Final Demand, then call ApplyRAS
     
@@ -1517,9 +1510,14 @@ balanceDisagg <- function(model, disagg){
     
     
   }
+  else
+  {
+    balancedDisaggFullUse <- disaggFullUse
+  }
   
   #Check Baalance of commodity totals across tables
   
+  return(balancedDisaggFullUse)
   
   #-------------End of Check for balance-----------------------
 }
