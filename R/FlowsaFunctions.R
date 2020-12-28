@@ -6,7 +6,12 @@
 getFlowbySectorCollapsed <- function(method_name) {
   flowsa <- reticulate::import("flowsa")
   fbsc <- flowsa$getFlowBySector_collapsed(method_name)
-  
+  # checks columns that are all None values and converts to NA
+  for(i in colnames(fbsc)){
+    if(is.list(fbsc[[i]])){
+      fbsc[ , i] <- NA
+    }
+  }
   flows_by_sector_and_region <- prepareFlowBySectorCollapsedforSatellite(fbsc)
   return(flows_by_sector_and_region)
 }
