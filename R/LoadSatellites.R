@@ -166,10 +166,26 @@ loadandbuildSatelliteTables <- function(model) {
   rownames(sattables_cast) <- sattables_cast$Flow
   sattables_cast$Flow <- NULL
   # Complete sector list according to model$Industries
-  standard_columns <- tolower(apply(cbind(model$Industries, model$specs$PrimaryRegionAcronym),
+ 
+  #create model$newIndustries to use in the next line, which is model$industries + new sectors
+  for(disagg in model$DisaggregationSpecs$Disaggregation)
+  {
+    
+    tempbreak <-1
+    newIndustries <- model$Industries[model$Industries != disagg$OriginalSectorCode]
+    newIndustries <- append(newIndustries, as.character(disagg$DisaggregatedSectorCodes))
+    
+  }
+  
+  # #note that model$Industries object does not account for disaggregated sectors due to its use outside of the DisaggregateFunctions.R script
+  # standard_columns <- tolower(apply(cbind(model$Industries, model$specs$PrimaryRegionAcronym),
+  #                                   1, FUN = joinStringswithSlashes))
+  
+  standard_columns <- tolower(apply(cbind(newIndustries, model$specs$PrimaryRegionAcronym),
                                     1, FUN = joinStringswithSlashes))
+   
   sattables_cast[, setdiff(standard_columns, colnames(sattables_cast))] <- 0
   # Adjust column order to be the same with V_n rownames
-  model$sattables_cast <- sattables_cast[, standard_columns]
+  model$sattables_cast <- sattables_cast[, standard_columns]#this is where the disaggregateed sectors get removed from satellite table
   return(model)
 }
