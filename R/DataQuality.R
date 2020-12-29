@@ -73,8 +73,6 @@ scoreContextualDQ <- function(df)  {
   for (year in unique(df$Year)) {
     df[df$Year==year, "TemporalCorrelation"] <- scoreTemporalDQ(year, target_year = NA, scoring_bounds = bounds)
   }
-  # df[, "TemporalCorrelation"] <- vapply(unique(df[, "Year"]), scoreTemporalDQ, target_year = NA,
-  #                                       scoring_bounds = bounds, FUN.VALUE = 0)
   return(df)
 }
 
