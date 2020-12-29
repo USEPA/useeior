@@ -116,12 +116,6 @@ loadSatTables <- function(model) {
       logging::logerror(paste("Missing 1 or more data quality fields in satellite data.", len_dq_fields, "present"))
     }
     
-    # Check if the orginal data comes from multiple years.
-    if (length(sat$DataYears)>1) {
-      print("more than 1 data year")
-      # Split table based on data years here
-    }
-    
     ### Generate coeffs_by_sector
     coeffs_by_sector <- data.frame()
     for (r in model$specs$ModelRegionAcronyms) {
@@ -135,9 +129,11 @@ loadSatTables <- function(model) {
           sattable_r[, "Location"] <- paste0("US-", r)
         }
       }
-      coeffs_by_sector_r <- generateFlowtoDollarCoefficient(totals_by_sector, sat$DataYears[1],
+      for (year in sat$DataYears){
+      coeffs_by_sector_r <- generateFlowtoDollarCoefficient(totals_by_sector[totals_by_sector$Year==year, ], year,
                                                             model$specs$IOYear, r, IsRoUS = IsRoUS, model)
       coeffs_by_sector <- rbind(coeffs_by_sector, coeffs_by_sector_r)
+      }
     }
     coeffs_by_sector <- generateStandardSatelliteTable(coeffs_by_sector)
     # If the satellite table uses a static file, it will use the embedded mapping files to map flows to internal flow names
