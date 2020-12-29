@@ -509,19 +509,19 @@
 "Summary_Import_2017_BeforeRedef"
 
 #' Detail 2007-2018 Gross Output (2012 schema)
-#' @format A dataframe with 405 obs. and 12 variables
+#' @format A dataframe with 405 obs. and 17 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Detail_GrossOutput_IO"
 
 #' Summary 2007-2018 Gross Output (2012 schema)
-#' @format A dataframe with 71 obs. and 12 variables
+#' @format A dataframe with 71 obs. and 17 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Summary_GrossOutput_IO"
 
 #' Sector 2007-2018 Gross Output (2012 schema)
-#' @format A dataframe with 15 obs. and 12 variables
+#' @format A dataframe with 15 obs. and 17 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Sector_GrossOutput_IO"
