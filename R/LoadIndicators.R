@@ -49,11 +49,8 @@ loadLCIAfactors <- function() {
    lciafact <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Factors.csv", package = "useeior"),
                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
    # Melt these so there is one indicator score per line
-   lciafactlong <- reshape2::melt(lciafact, id.vars = c("Name", "Category", "Subcategory", "Unit", "UUID"))
-   # Add Flowable, Context, Code and Amount
-   lciafactlong[, "Flowable"] <- lciafactlong$Name
-   lciafactlong[, "Context"] <- apply(lciafactlong[, c("Category", "Subcategory")],
-                                      1, FUN = joinStringswithSlashes)
+   lciafactlong <- reshape2::melt(lciafact, id.vars = c("Flowable", "Context", "Unit", "UUID"))
+   # Add Code and Amount
    lciafactlong[, "Code"] <- as.character(lciafactlong$variable)
    lciafactlong[, "Amount"] <- as.numeric(lciafactlong$value)
    # Drop zeroes and keep wanted columns

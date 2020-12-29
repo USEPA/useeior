@@ -70,15 +70,22 @@ loadSatTables <- function(model) {
     if(!is.null(sat$StaticFile)) {
       # If the file is a URL tested by the first 4 characters of the string = "http", don't wrap in system.file()
       if (substring(sat$StaticFile, 0, 4)=="http") {
-        totals_by_sector <- utils::read.table(sat$StaticFile, sep = ",", header = TRUE, stringsAsFactors = FALSE)  
+        totals_by_sector <- utils::read.table(sat$StaticFile, sep = ",", header = TRUE, stringsAsFactors = FALSE,
+                                              fileEncoding = 'UTF-8-BOM')  
       } else {
         totals_by_sector <- utils::read.table(system.file("extdata", sat$StaticFile, package = "useeior"),
-                                              sep = ",", header = TRUE, stringsAsFactors = FALSE)
+                                              sep = ",", header = TRUE, stringsAsFactors = FALSE,
+                                              fileEncoding = 'UTF-8-BOM')
       }
     } else {
       func_to_eval <- sat$ScriptFunctionCall
       totalsgenfunction <- as.name(func_to_eval)
-      totals_by_sector <- do.call(eval(totalsgenfunction), list(sat$ScriptFunctionParameters))
+      if (sat$ScriptFunctionParameters == "model") {
+        params <- model
+      } else {
+        params <- sat$ScriptFunctionParameters
+      }
+      totals_by_sector <- do.call(eval(totalsgenfunction), list(params))
     }
     # Check if the orginal data is BEA-based. If so, apply necessary allocation or aggregation.
     # If not, map data from original sector to BEA.
@@ -136,7 +143,9 @@ loadSatTables <- function(model) {
     coeffs_by_sector <- generateStandardSatelliteTable(coeffs_by_sector)
     # If the satellite table uses a static file, it will use the embedded mapping files to map flows to internal flow names
     if (!is.null(sat$StaticFile)) {
+      if (!substring(sat$OriginalFlowSource,1,6) == 'FEDEFL') {
       coeffs_by_sector <- mapListbyName(coeffs_by_sector, sat)
+      }
     }
     
     # Add totals_by_sector and coeffs_by_sector to the sattables list
@@ -153,6 +162,8 @@ loadSatTables <- function(model) {
 loadandbuildSatelliteTables <- function(model) {
   # Generate satellite tables
   model$SatelliteTables <- loadSatTables(model)
+  # Check for duplicate flows across satellite tables
+  checkDuplicateFlows(model$SatelliteTables$coeffs_by_sector)
   # Combine satellite tables (coeffs_by_sector) into a single df
   StandardizedSatelliteTable <- do.call(rbind, model$SatelliteTables$coeffs_by_sector)
   # Transform satellite tables into a flow x sector matrix

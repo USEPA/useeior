@@ -1,4 +1,4 @@
-Model: "USEEIOv2.0-GHG" # 2012 Detail, Commodity
+Model: "USEEIOv2.0-Waste" # 2012 Detail, Commodity
 BaseIOSchema: 2012
 BaseIOLevel: "Detail"
 IOYear: 2012 # Year for IO data
@@ -17,13 +17,13 @@ SatelliteTable:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "USEEIO_GHG_Data_Extracted_2016.csv"
+    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/NGHGIAM_GHG_TotalsBySector.csv"
     DataYears: [2016]
     Locations: ["US"]
     SectorListSource: "BEA" # or, NAICS
     SectorListYear: 2012
     SectorListLevel: "Detail"
-    OriginalFlowSource: "GHG"
+    OriginalFlowSource: "FEDEFLv1.0.4"
     DataSources:
       USEPA_GHG_2018:
         Title: "GHG Inventory"
@@ -42,8 +42,8 @@ SatelliteTable:
     SectorListYear: 2012
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.4"
-    ScriptFunctionCall: 'getFlowbySectorCollapsed' #function to call for script
-    ScriptFunctionParameters: ['Water_national_2015_m1'] #list of parameters e.g. ['year','location']
+    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+    ScriptFunctionParameters: ["Water_national_2015_m1"] #list of parameters
     DataSources:
       USGS_NWIS_WU_2015:
         Title: "Water Use in the US"
@@ -51,7 +51,32 @@ SatelliteTable:
         DataYear: 2015
         URL: "https://waterdata.usgs.gov/"
         Primary: TRUE
-
+  CHAIR:
+    FullName: "Criteria and Hazardous Air Emissions"
+    Abbreviation: "CHAIR"
+    StaticSource: FALSE
+    StaticFile: null
+    DataYears: [2017]
+    Locations: ["US"]
+    SectorListSource: "NAICS"
+    SectorListYear: 2012
+    SectorListLevel: "6"
+    OriginalFlowSource: "FEDEFLv1.0.4"
+    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+    ScriptFunctionParameters: ["CAP_HAP_national_2017"] #list of parameters
+    DataSources:
+      EPA_NEI:
+        Title: "National Emissions Inventory"
+        Author: "EPA"
+        DataYear: 2017
+        URL: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei"
+        Primary: TRUE
+      EPA_TRI:
+        Title: "Toxic Release Inventory"
+        Author: "EPA"
+        DataYear: 2017
+        URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
+        Primary: TRUE
 Demand:
   DemandYear: 2012
   DemandSubsystems: NA
@@ -62,7 +87,30 @@ Indicators:
     Abbreviation: "GHG"
     Category: "Impact Potential"
     Unit: "kg CO2 eq"
-    StaticSource: TRUE
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Global warming"]
+      methods: 
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
+  Acidification:
+    FullName: "Acidification Potential"
+    Abbreviation: "ACID"
+    Category: "Impact Potential"
+    Unit: "kg SO2 eq"
+    StaticSource: False
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Acidification"]
+      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -72,27 +120,13 @@ Indicators:
         Primary: TRUE
   freshwater_withdrawal:
     FullName: "Freshwater withdrawals"
-    Abbreviation: "FWAT"
-    Category: "Resource Use"
-    Unit: "kg"
-    StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
-    ScriptFunctionParameters: ["freshwater_resources"] #list of parameters
-    DataSources:
-      LCIAformatter:
-        Title: "LCIAformatter FEDEFL Inventory Methods"
-        Author: "USEPA"
-        DataYear: 2020
-        URL: https://github.com/USEPA/LCIAformatter
-        Primary: TRUE
-  water_withdrawal:
-    FullName: "Water withdrawals"
     Abbreviation: "WAT"
     Category: "Resource Use"
     Unit: "kg"
     StaticSource: FALSE
     ScriptFunctionCall: "getInventoryMethod" #function to call for script
-    ScriptFunctionParameters: ["water_resources"] #list of parameters
+    ScriptFunctionParameters: 
+      indicators: ["freshwater_resources"]
     DataSources:
       LCIAformatter:
         Title: "LCIAformatter FEDEFL Inventory Methods"
@@ -100,3 +134,4 @@ Indicators:
         DataYear: 2020
         URL: https://github.com/USEPA/LCIAformatter
         Primary: TRUE
+
