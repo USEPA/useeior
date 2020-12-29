@@ -90,10 +90,12 @@ loadSatTables <- function(model) {
     # Check if the orginal data is BEA-based. If so, apply necessary allocation or aggregation.
     # If not, map data from original sector to BEA.
     if (sat$SectorListSource == "BEA") {
-        # If BEA years is not the same as model year, must perform allocation
-      if (sat$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
-        # Apply allocation
-      } else if (sat$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
+      # If BEA years is not the same as model year, must perform allocation
+      if (sat$SectorListLevel == "Detail" && sat$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
+        totals_by_sector <- mapFlowTotalsbySectorfromBEASchema2007to2012(totals_by_sector)
+      }
+      # If the orginal data is at Detail level but model is not, apply aggregation
+      if (sat$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
         totals_by_sector <- aggregateSatelliteTable(totals_by_sector,
                                                     from_level = sat$SectorListLevel,
                                                     to_level = model$specs$BaseIOLevel,
