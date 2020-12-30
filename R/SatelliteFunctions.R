@@ -226,19 +226,26 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
   # Determine sectors that need allocation
   allocation_sectors <- mapping[duplicated(mapping$BEA_2007_Code) | duplicated(mapping$BEA_2007_Code, fromLast = TRUE), ]
   # Calculate allocation factors for the industries of 2012 schema that need allocation
-  for (industry in unique(allocation_sectors$BEA_2007_Code)) {
-    # For each 2007 schema industry, find its corresponding 2012 schema industries
-    industries <- mapping[mapping$BEA_2007_Code==industry, "BEA_2012_Code"]
-    # Use useeior::Detail_GrossOutput_IO as weight to allocate
-    # Do not use model$GDP$BEAGrossOutputIO because model level may not be Detail
-    weight <- useeior::Detail_GrossOutput_IO[industries, as.character(unique(totals_by_sector$Year))]
-    mapping[mapping$BEA_2007_Code==industry, "Ratio"] <- weight/sum(weight)
+  totals_by_sector_new <- data.frame()
+  for (year in unique(totals_by_sector$Year)) {
+    mapping_year <- mapping
+    totals_by_sector_year <- totals_by_sector[totals_by_sector$Year==year, ]
+    for (industry in unique(allocation_sectors$BEA_2007_Code)) {
+      # For each 2007 schema industry, find its corresponding 2012 schema industries
+      industries <- mapping[mapping$BEA_2007_Code==industry, "BEA_2012_Code"]
+      # Use useeior::Detail_GrossOutput_IO as weight to allocate
+      # Do not use model$GDP$BEAGrossOutputIO because model level may not be Detail
+      weight <- useeior::Detail_GrossOutput_IO[industries, as.character(year)]
+      mapping_year[mapping_year$BEA_2007_Code==industry, "Ratio"] <- weight/sum(weight)
+    }
+    mapping_year[is.na(mapping_year$Ratio), "Ratio"] <- 1
+    # Map totals_by_sector from BEA 2007 schema to 2012 schema
+    totals_by_sector_year <- merge(totals_by_sector_year, mapping_year,
+                                   by.x = "Sector", by.y = "BEA_2007_Code", all.x = TRUE)
+    totals_by_sector_year$FlowAmount <- totals_by_sector_year$FlowAmount*totals_by_sector_year$Ratio
+    totals_by_sector_year$Sector <- totals_by_sector_year$BEA_2012_Code
+    totals_by_sector_year[, c("BEA_2012_Code", "Ratio")] <- NULL
+    totals_by_sector_new <- rbind(totals_by_sector_new, totals_by_sector_year)
   }
-  mapping[is.na(mapping$Ratio), "Ratio"] <- 1
-  # Map totals_by_sector from BEA 2007 schema to 2012 schema
-  totals_by_sector <- merge(totals_by_sector, mapping, by.x = "Sector", by.y = "BEA_2007_Code", all.x = TRUE)
-  totals_by_sector$FlowAmount <- totals_by_sector$FlowAmount*totals_by_sector$Ratio
-  totals_by_sector$Sector <- totals_by_sector$BEA_2012_Code
-  totals_by_sector[, c("BEA_2012_Code", "Ratio")] <- NULL
-  return(totals_by_sector)
+  return(totals_by_sector_new)
 }
