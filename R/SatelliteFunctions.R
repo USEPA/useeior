@@ -203,11 +203,12 @@ checkDuplicateFlows <- function(sattable){
     dplyr::bind_rows(sattable) %>% 
     dplyr::group_by(Flowable, Context) %>% 
     dplyr::filter(dplyr::n() >1) %>% 
+    dplyr::arrange(Context, Flowable) %>%
     tibble::as_tibble()
   
   if (nrow(duplicates)>0){
     logging::logwarn("Duplicate flows exist across satellite tables.")
-    logging::logwarn(duplicates)
+    print(duplicates)
   }
   else{
     logging::loginfo("No duplicate flows exist across satellite tables.")
