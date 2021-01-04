@@ -36,6 +36,13 @@ disaggregateModel <- function (model){
     model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
     
     logging::loginfo("Initializing Disaggregation of IO tables...")
+    
+    #disaggregating sector lists 
+    newSectorLists <- disaggregateSectorLists(model, disagg)
+    model$Commodities <- newSectorLists$Commodities
+    model$Industries <- newSectorLists$Industries
+    
+    
     #model$Use <- disaggregateUseTable(model)
     model$UseTransactions <- disaggregateUseTable(model)
     #model$Make <- disaggregateMakeTable(model) 
@@ -81,6 +88,31 @@ disaggregateModel <- function (model){
   
 }
 
+
+#' Disaggregate sector lists in the main model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' 
+#' @return newLists A list of two character arrays which contain the disaggregated commodity and industry codes
+disaggregateSectorLists <- function (model, disagg)
+{
+
+  #Determine the index of the original sectors in the character vectors
+  originalCommodityIndex <- grep(disagg$OriginalSectorCode, model$Commodities)
+  #add new sectors to list
+  newCommodities <- append(model$Commodities, as.character(disagg$DisaggregatedSectorCodes), after = originalCommodityIndex)
+  #remove original sector from list
+  newCommodities <- newCommodities[newCommodities != disagg$OriginalSectorCode]
+  
+  originalIndustryIndex <- grep(disagg$OriginalSectorCode, model$Industries)
+  newIndustries <- append(model$Industries, as.character(disagg$DisaggregatedSectorCodes), after = originalIndustryIndex)
+  newIndustries <- newIndustries[newIndustries != disagg$OriginalSectorCode]
+  
+  newLists <- list("Commodities" = newCommodities, "Industries" = newIndustries)
+
+  return(newLists)
+  
+}
 
 
 #' Disaggregate satellite tables from static file based on specs
