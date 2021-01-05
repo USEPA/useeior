@@ -484,6 +484,22 @@ Indicators:
         DataYear: 2020
         URL: https://github.com/USEPA/LCIAformatter
         Primary: TRUE
+  Pesticides:
+    FullName: "Pesticides"
+    Abbreviation: "PEST"
+    Category: "Chemical Releases"
+    Unit: "kg"
+    StaticSource: FALSE
+    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["USDA_CUS_pesticides"]
+    DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: https://github.com/USEPA/LCIAformatter
+        Primary: TRUE
   NonRenewableEnergy:
     FullName: "Nonrenewable Energy Use"
     Abbreviation: "NNRG"
@@ -515,13 +531,6 @@ Indicators:
   Metals:
     FullName: "Metals"
     Abbreviation: "METL"
-    Category: "Chemical Releases"
-    Unit: "kg"
-    StaticSource: TRUE
-    DataSources:
-  Pesticides:
-    FullName: "Pesticides"
-    Abbreviation: "PEST"
     Category: "Chemical Releases"
     Unit: "kg"
     StaticSource: TRUE
