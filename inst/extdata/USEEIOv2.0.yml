@@ -528,13 +528,6 @@ Indicators:
     Unit: "kg"
     StaticSource: TRUE
     DataSources:
-  Metals:
-    FullName: "Metals"
-    Abbreviation: "METL"
-    Category: "Chemical Releases"
-    Unit: "kg"
-    StaticSource: TRUE
-    DataSources:
   ValueAdded:
     FullName: "Value Added"
     Abbreviation: "VADD"
