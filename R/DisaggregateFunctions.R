@@ -22,6 +22,10 @@ disaggregateModel <- function (model){
     disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
     disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))#TODO: Make the order of DisaggregatedSectorCodes and DisaggregatedSectorNames match.
     
+    #reordering disaggSectorNames and DIsaggSectorCodes to match the mapping in newNames
+    disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
+    disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
+    
     if(!is.null(disagg$MakeFile)){
       disagg$MakeFileDF <- utils::read.csv(system.file("extdata", disagg$MakeFile, package = "useeior"),
                                            header = TRUE, stringsAsFactors = FALSE, colClasses=c("IndustryCode"="character",
