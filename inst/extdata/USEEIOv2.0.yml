@@ -269,9 +269,11 @@ SatelliteTable:
      DataYear: 2012
      URL: "https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"
      Primary: TRUE
+
 Demand:
   DemandYear: 2012
   DemandSubsystems: null
+  DemandVectors: ["Consumption", "Production"]
 
 Indicators:
   GreenhouseGases:
