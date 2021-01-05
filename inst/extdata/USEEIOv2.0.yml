@@ -123,20 +123,20 @@ SatelliteTable:
         DataYear: 2016
         URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
         Primary: TRUE
-  # LAND:
-    # FullName: "Land use"
-    # Abbreviation: "LAND"
-    # StaticSource: FALSE
-    # StaticFile: null
-    # DataYears: [2012]
-    # Locations: ["US"]
-    # SectorListSource: "NAICS"
-    # SectorListYear: 2012
-    # SectorListLevel: "6"
-    # OriginalFlowSource: "FEDEFLv1.0.4"
-    # ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    # ScriptFunctionParameters: ["Land_national_2012"] #list of parameters
-    # DataSources:
+  LAND:
+    FullName: "Land use"
+    Abbreviation: "LAND"
+    StaticSource: FALSE
+    StaticFile: null
+    DataYears: [2012]
+    Locations: ["US"]
+    SectorListSource: "NAICS"
+    SectorListYear: 2012
+    SectorListLevel: "6"
+    OriginalFlowSource: "FEDEFLv1.0.4"
+    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+    ScriptFunctionParameters: ["Land_national_2012"] #list of parameters
+    DataSources:
   MINE:
     FullName: "Mineral extraction"
     Abbreviation: "MINE"
@@ -190,7 +190,7 @@ SatelliteTable:
     Abbreviation: "PEST"
     StaticSource: TRUE
     StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_PEST_TotalsBySector.csv"
-    DataYears: [2014, 2013, 2012, 2011]
+    DataYears: [2004, 2005, 2010, 2011, 2012, 2013, 2014]
     Locations: ["US"]
     SectorListSource: "BEA"
     SectorListYear: 2007
@@ -235,26 +235,26 @@ SatelliteTable:
     ScriptFunctionParameters: ["CRHW_national_2017"] #list of parameters
     OriginalFlowSource: "RCRAInfo"
     DataSources:
-  # EMP:
-  #   FullName: "Employment"
-  #   Abbreviation: "EMP"
-  #   StaticSource: FALSE
-  #   StaticFile: null
-  #   DataYears: [2017]
-  #   Locations: ["US"]
-  #   SectorListSource: "NAICS"
-  #   SectorListYear: 2012
-  #   SectorListLevel: "6"
-  #   ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-  #   ScriptFunctionParameters: ["Employment_national_2017"] #list of parameters
-  #   OriginalFlowSource: "Employment"
-  #   DataSources:
+  EMP:
+    FullName: "Employment"
+    Abbreviation: "EMP"
+    StaticSource: FALSE
+    StaticFile: null
+    DataYears: [2017]
+    Locations: ["US"]
+    SectorListSource: "NAICS"
+    SectorListYear: 2012
+    SectorListLevel: "6"
+    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+    ScriptFunctionParameters: ["Employment_national_2017"] #list of parameters
+    OriginalFlowSource: "Employment"
+    DataSources:
   VADD:
    FullName: "Value Added"
    Abbreviation: "VADD"
    StaticSource: FALSE
    StaticFile: null
-   DataYears: [2015]
+   DataYears: [2012]
    Locations: ["US"]
    SectorListSource: "BEA"
    SectorListYear: 2012

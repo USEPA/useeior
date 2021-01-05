@@ -90,10 +90,12 @@ loadSatTables <- function(model) {
     # Check if the orginal data is BEA-based. If so, apply necessary allocation or aggregation.
     # If not, map data from original sector to BEA.
     if (sat$SectorListSource == "BEA") {
-        # If BEA years is not the same as model year, must perform allocation
-      if (sat$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
-        # Apply allocation
-      } else if (sat$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
+      # If BEA years is not the same as model year, must perform allocation
+      if (sat$SectorListLevel == "Detail" && sat$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
+        totals_by_sector <- mapFlowTotalsbySectorfromBEASchema2007to2012(totals_by_sector)
+      }
+      # If the orginal data is at Detail level but model is not, apply aggregation
+      if (sat$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
         totals_by_sector <- aggregateSatelliteTable(totals_by_sector,
                                                     from_level = sat$SectorListLevel,
                                                     to_level = model$specs$BaseIOLevel,
@@ -117,12 +119,6 @@ loadSatTables <- function(model) {
       logging::logerror(paste("Missing 1 or more data quality fields in satellite data.", len_dq_fields, "present"))
     }
     
-    # Check if the orginal data comes from multiple years.
-    if (length(sat$DataYears)>1) {
-      print("more than 1 data year")
-      # Split table based on data years here
-    }
-    
     ### Generate coeffs_by_sector
     coeffs_by_sector <- data.frame()
     for (r in model$specs$ModelRegionAcronyms) {
@@ -136,9 +132,11 @@ loadSatTables <- function(model) {
           sattable_r[, "Location"] <- paste0("US-", r)
         }
       }
-      coeffs_by_sector_r <- generateFlowtoDollarCoefficient(totals_by_sector, sat$DataYears[1],
+      for (year in sat$DataYears){
+      coeffs_by_sector_r <- generateFlowtoDollarCoefficient(totals_by_sector[totals_by_sector$Year==year, ], year,
                                                             model$specs$IOYear, r, IsRoUS = IsRoUS, model)
       coeffs_by_sector <- rbind(coeffs_by_sector, coeffs_by_sector_r)
+      }
     }
     coeffs_by_sector <- generateStandardSatelliteTable(coeffs_by_sector)
     # If the satellite table uses a static file, it will use the embedded mapping files to map flows to internal flow names
