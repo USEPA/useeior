@@ -1,3 +1,22 @@
+
+dem_vec_fxns = list()
+dem_vec_fxns["Consumption"] = "prepareConsumptionDemand"
+dem_vec_fxns["Production"] = "prepareProductionDemand"
+
+
+for (y in dem_vec_fxns) {
+  func_to_eval <- y
+  demandFunction <- as.name(func_to_eval)
+  dv <- do.call(eval(demandFunction), list(model))
+}
+
+
+prepareProductionDemand <- function (model) {
+  
+  
+}
+
+
 #' Generate a dataframe containing US total consumption and production.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe of US total consumption and production.
