@@ -10,7 +10,7 @@ BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommoditybyIndustryType: "Commodity"
 ScrapIncluded: FALSE
-# DisaggregationSpecs: "WasteDisaggregation" #Name of disaggregation yml file.
+DisaggregationSpecs: "WasteDisaggregation" #Name of disaggregation yml file.
 
 SatelliteTable:
   WAT:
