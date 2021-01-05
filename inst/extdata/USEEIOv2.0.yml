@@ -540,3 +540,24 @@ Indicators:
     Unit: "jobs"
     StaticSource: TRUE
     DataSources:
+  RCRAHazWaste:
+    FullName: "Commercial RCRA Hazardous Waste"
+    Abbreviation: "CRHW"
+    Category: "Waste Generated"
+    Unit: "kg"
+    StaticSource: TRUE
+    DataSources:
+  MunicipalWaste:
+    FullName: "Commercial Municipal Solid Waste"
+    Abbreviation: "CMSW"
+    Category: "Waste Generated"
+    Unit: "kg"
+    StaticSource: TRUE
+    DataSources:
+  ConstructionDebris:
+    FullName: "Commercial Construction and Demolition Debris"
+    Abbreviation: "CCDD"
+    Category: "Waste Generated"
+    Unit: "kg"
+    StaticSource: TRUE
+    DataSources:
