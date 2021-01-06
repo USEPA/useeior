@@ -1,44 +1,52 @@
 
-dem_vec_fxns = list()
-dem_vec_fxns["Consumption"] = "prepareConsumptionDemand"
-dem_vec_fxns["Production"] = "prepareProductionDemand"
+dem_vec_fxns <- list()
+dem_vec_fxns["Consumption"] <- "prepareConsumptionDemand"
+dem_vec_fxns["Production"] <- "prepareProductionDemand"
+
+#Core production and consumption demand formulas
+#y_c <-  Y_h + Y_v + Y_g 
+#y_dc <- Y_dh + Y_dv + Y_dg
+#y_p <- y_dc + y_e + y_delta
 
 
-for (y in dem_vec_fxns) {
-  func_to_eval <- y
+sumDemandCols <- function(Y,codes) {
+  if (length(codes)>1) {
+    y <- rowSums(Y[,codes])
+  } else {
+    y <- Y[,codes]
+    names(y) <- rownames(Y)
+  }
+  return(y)
+}
+
+sumforConsumption <- function(Y) {
+  Y_h <- sumDemandCols(Y,model$BEA$HouseholdDemandCodes)
+  Y_v <- sumDemandCols(Y,model$BEA$InvestmentDemandCodes) 
+  Y_g <- sumDemandCols(Y,model$BEA$GovernmentDemandCodes) 
+  y_c <-  Y_h + Y_v + Y_g 
+  return (y_c) 
+}
+
+prepareProductionDemand <- function(model) {
+  y_dc <- sumforConsumption(model$DomesticFinalDemand)
+  Y <- model$FinalDemand
+  y_e <- sumDemandCols(Y,model$BEA$ExportCodes)
+  y_delta <- sumDemandCols(Y,model$BEA$ChangeInventoriesCodes)
+  y_p <- y_dc + y_e + y_delta
+  return(y_p)
+}
+
+prepareConsumptionDemand <- function(model) {
+  y_c <- sumforConsumption(model$FinalDemand)
+  return(y_c)
+}
+
+
+demands <- list()
+for (y in names(dem_vec_fxns)) {
+
+  func_to_eval <- dem_vec_fxns[[y]]
   demandFunction <- as.name(func_to_eval)
   dv <- do.call(eval(demandFunction), list(model))
+  demands[[y]] <- dv
 }
-
-
-prepareProductionDemand <- function (model) {
-  
-  
-}
-
-
-#' Generate a dataframe containing US total consumption and production.
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return A dataframe of US total consumption and production.
-getUSTotalConsProd <- function (model) {
-  # Generate US total consumption and production
-  USConsProd <- cbind.data.frame(rowSums(model$FinalDemand[, model$BEA$TotalConsumptionCodes]),
-                                 as.matrix(rowSums(model$FinalDemand)))
-  colnames(USConsProd) <- paste(model$specs$IOYear, c("_US_Consumption", "_US_Production"), sep = "")
-  # Merge USConsProd with model$SectorNames
-  USConsProd <- merge(model$SectorNames, USConsProd, by.x = "Sector", by.y = 0)
-  ConsProdcolumns <- paste(model$specs$IOYear, "US", c("Consumption", "Production"), sep = "_")
-  # Add Location column, re-order columns (drop useless columns), and modify colnames
-  USConsProd$Location <- "US"
-  USTotalConsProd <- USConsProd[c("Sector", "SectorName", "Location", ConsProdcolumns)]
-  colnames(USTotalConsProd)[1:2] <- c("BEA_Code", "BEA_Name")
-  # # Remove Scrap row if ScrapIncluded is TRUE in model configuration
-  # if (model$specs$ScrapIncluded == TRUE) {
-  #   USTotalConsProd <- USTotalConsProd[!USTotalConsProd$BEA_Code=="S00401", ]
-  # }
-  # Make BEA Detail Code to "factor"
-  USTotalConsProd$BEA_Code <- as.factor(USTotalConsProd$BEA_Code)
-
-  return(USTotalConsProd)
-}
-
