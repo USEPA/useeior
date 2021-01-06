@@ -1,7 +1,9 @@
+#' Register functions for preset demand vector
+dem_vec_fxn_registry <- list()
+dem_vec_fxn_registry["Consumption"] <- "prepareConsumptionDemand"
+dem_vec_fxn_registry["Production"] <- "prepareProductionDemand"
+dem_vec_fxn_registry["Household"] <- "prepareHouseholdDemand"
 
-dem_vec_fxns <- list()
-dem_vec_fxns["Consumption"] <- "prepareConsumptionDemand"
-dem_vec_fxns["Production"] <- "prepareProductionDemand"
 
 #Core production and consumption demand formulas
 #y_c <-  Y_h + Y_v + Y_g 
@@ -9,6 +11,8 @@ dem_vec_fxns["Production"] <- "prepareProductionDemand"
 #y_p <- y_dc + y_e + y_delta
 
 
+#'Sums across sectors for a given set of BEA codes/cols in a given final demand df
+#'
 sumDemandCols <- function(Y,codes) {
   if (length(codes)>1) {
     y <- rowSums(Y[,codes])
@@ -41,12 +45,7 @@ prepareConsumptionDemand <- function(model) {
   return(y_c)
 }
 
-
-demands <- list()
-for (y in names(dem_vec_fxns)) {
-
-  func_to_eval <- dem_vec_fxns[[y]]
-  demandFunction <- as.name(func_to_eval)
-  dv <- do.call(eval(demandFunction), list(model))
-  demands[[y]] <- dv
+prepareHouseholdDemand <- function(model) {
+  y_h <- sumDemandCols(Y,model$BEA$HouseholdDemandCodes)
+  return(y_h)
 }
