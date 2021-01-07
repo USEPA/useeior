@@ -271,7 +271,7 @@ SatelliteTable:
      Primary: TRUE
 
 Demand:
-  DemandVectors: ["Consumption", "Production"]
+  DemandVectors: ["Consumption", "Production", "Household"]
 
 Indicators:
   GreenhouseGases:
