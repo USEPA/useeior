@@ -53,21 +53,24 @@ disaggregateModel <- function (model){
     model$MakeTransactions <- disaggregateMakeTable(model)
     model$FinalDemand <- disaggregateFinalDemand(model, domestic = FALSE)
     model$UseValueAdded <- disaggregateVA(model)
-
-
+    model$DomesticFinalDemand <- disaggregateFinalDemand(model, domestic = TRUE)
+    model$DomesticUseTransactions <- disaggregateUseTable(model, domestic = TRUE)
+    
+    
     if(disagg$DisaggregationType == "Userdefined"){
 
-      balancedDisaggFullUse <- balanceDisagg(model, disagg)
+      #balancedDisaggFullUse <- balanceDisagg(model, disagg)
       #todo: split up balancedDisaggFullUse into component parts of FullUse
       #Todo: calculate domesticUse and DomesticFinalDemand based on disaggregatedFullUse
+      model <- balanceDisagg(model, disagg)
 
     }
 
     
-    model$DomesticUseTransactions <- disaggregateUseTable(model, domestic = TRUE)
+#    model$DomesticUseTransactions <- disaggregateUseTable(model, domestic = TRUE)
     model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
     model$CPI <- disaggregateCols(model$CPI, disagg, duplicate = TRUE)
-    model$DomesticFinalDemand <- disaggregateFinalDemand(model, domestic = TRUE)
+#    model$DomesticFinalDemand <- disaggregateFinalDemand(model, domestic = TRUE)
 
     colnames(newNames) <- colnames(model$SectorNames)#TODO: Check the SectorCode/Code column label inconsistency (model$SectorNames and newNames objects)
     #colnames(model$SectorNames) <- colnames(newNames)
@@ -1498,7 +1501,11 @@ compareDisaggValues <- function(df0, df1, abs_diff = TRUE, tolerance) {
   return(list("confrontation" = confrontation, "validation" = validation))
 }
 
-
+#' Build a Full Use table using the Use transactions, Use value added, and final demand model objects
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' 
+#' @return model object with RAS-balanced disaggregation sectors 
 balanceDisagg <- function(model, disagg){
   
   
@@ -1551,17 +1558,34 @@ balanceDisagg <- function(model, disagg){
   }
   else
   {
+    #no change in fulluse
     balancedDisaggFullUse <- disaggFullUse
   }
   
-  #Check Baalance of commodity totals across tables
+  #break balancedDisaggFullUse back into model components
   
-  return(balancedDisaggFullUse)
+  domesticTables <- calculateBalancedDomesticTables(model, disagg, balancedDisaggFullUse)
+  
+  model$DomesticUseTransactions <- domesticTables$DomesticUseTransactions
+  model$DomesticFinalDemand <- domesticTables$DomesticFinalDemand
+  
+
+  model$UseTransactions <- balancedDisaggFullUse[1:nrow(model$UseTransactions), 1:ncol(model$UseTransactions)]
+  model$FinalDemand <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
+  model$UseValueAdded <- balancedDisaggFullUse[-(1:nrow(model$UseTransactions)),1:ncol(model$UseTransactions)]
+  
+
+ 
+  return(model)
   
   #-------------End of Check for balance-----------------------
 }
 
-
+#' Build a Full Use table using the Use transactions, Use value added, and final demand model objects
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' 
+#' @return dataframe representing a use table that includes the Use transactions, Use value added, and final demand sectors 
 buildDisaggFullUse <- function(model, disagg){
   
   disaggFullUse <- rbind(model$UseTransactions, model$UseValueAdded)
@@ -1575,4 +1599,36 @@ buildDisaggFullUse <- function(model, disagg){
   
   return(disaggFullUse)
   
+}
+
+
+#' Calculate the domestic use transactions and final demand tables after RAS balancing, if required
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' @param balancedFullUse A fullUse table (including UseTransactions, UseValueAdded, and FinalDemand), created to determine whether RAS balancing is needed
+#' 
+#' @return list containing balanced domesticFinalDemand and domesticUseTransactions dataframes. 
+# Validate df1 against df0 based on specified conditions
+calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse) 
+{
+  #Calculate domestic use transactions and domestic final demand based on balancedfullUse
+  #Idea is to obtain the DomesticUse/UseTransaction ratio before balancing, and apply that to the balanced Use Transactions. 
+  #Same for Domestic Final Demand
+  domesticUseRatios <-  model$DomesticUseTransactions /model$UseTransactions 
+  domesticUseRatios[is.na(domesticUseRatios)] <- 0# means numerator, denominator, or both are 0
+  domesticUseRatios[domesticUseRatios == Inf] <-0 #inf means denominator is 0
+  
+  domesticFDRatios <- model$DomesticFinalDemand / model$FinalDemand
+  domesticFDRatios[is.na(domesticFDRatios)] <-0
+  domesticFDRatios[domesticFDRatios == Inf] <- 0
+
+  balancedDomesticUseTransactions <- balancedFullUse[1:nrow(model$UseTransactions), 1:ncol(model$UseTransactions)]
+  balancedDomesticUseTransactions <- balancedDomesticUseTransactions * domesticUseRatios
+  
+  balancedDomesticFD <- balancedFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
+  balancedDomesticFD <- domesticFDRatios
+  
+  newDomesticTables <- list("DomesticUseTransactions" = balancedDomesticUseTransactions, "DomesticFinalDemand" = balancedDomesticFD)
+  
+  return(newDomesticTables)
 }
