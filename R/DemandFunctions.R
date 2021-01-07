@@ -61,6 +61,7 @@ prepareConsumptionDemand <- function(model) {
 #'@param model, a model
 #'@return a named vector with demand
 prepareHouseholdDemand <- function(model) {
+  Y <- model$FinalDemand
   y_h <- sumDemandCols(Y,model$BEA$HouseholdDemandCodes)
   return(y_h)
 }
