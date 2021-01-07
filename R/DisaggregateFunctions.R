@@ -164,36 +164,39 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
       #old_sector_totals <- subset(sattable, SectorCode==disagg$OriginalSectorCode, colnames(sattable))#TODO: Check the SectorCode/Code column label inconsistency (old_sector_totals object via the Env csv file and loadSatTables function)
       old_sector_totals <- subset(sattable, Sector==disagg$OriginalSectorCode, colnames(sattable))
       
-      i<-0
-      for (new_sector in disagg$DisaggregatedSectorCodes){
-        i<-i+1
-        new_sector_totals <- old_sector_totals
-        #new_sector_totals$SectorCode <- disagg$DisaggregatedSectorCodes[[i]]#TODO: Check the SectorCode/Code column label inconsistency (new_sector_totals object via old_sector_totals object)
-        new_sector_totals$Sector <- disagg$DisaggregatedSectorCodes[[i]]
-        new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
-
-        # If satellite table is disaggregated proportional to gross output do that here
-        if(!is.null(disagg$MakeFileDF)){
-          GrossOutputAlloc <- subset(disagg$MakeFileDF, 
-                                     (IndustryCode == disagg$OriginalSectorCode & CommodityCode == new_sector))
-          if(nrow(GrossOutputAlloc)==0){
-            allocation <- 0
+      if(!nrow(old_sector_totals)==0){
+        i<-0
+        for (new_sector in disagg$DisaggregatedSectorCodes){
+          i<-i+1
+          new_sector_totals <- old_sector_totals
+          #new_sector_totals$SectorCode <- disagg$DisaggregatedSectorCodes[[i]]#TODO: Check the SectorCode/Code column label inconsistency (new_sector_totals object via old_sector_totals object)
+          new_sector_totals$Sector <- disagg$DisaggregatedSectorCodes[[i]]
+          new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
+          
+          # If satellite table is disaggregated proportional to gross output do that here
+          if(!is.null(disagg$MakeFileDF)){
+            GrossOutputAlloc <- subset(disagg$MakeFileDF, 
+                                       (IndustryCode == disagg$OriginalSectorCode & CommodityCode == new_sector))
+            if(nrow(GrossOutputAlloc)==0){
+              allocation <- 0
+            }
+            else{
+              allocation <- GrossOutputAlloc$PercentMake
+            }
+            new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount * allocation)
           }
+          
+          # Else, divide equally across new sectors
           else{
-            allocation <- GrossOutputAlloc$PercentMake
+            new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount / length(disagg$DisaggregatedSectorCodes))
           }
-          new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount * allocation)
-        }
-        
-        # Else, divide equally across new sectors
-        else{
-          new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount / length(disagg$DisaggregatedSectorCodes))
-        }
-        # Modify other metadata or DQI?
-        
-        
-        # Append to the main dataframe
-        sattable <- rbind(sattable,new_sector_totals)
+          # Modify other metadata or DQI?
+          
+          
+          # Append to the main dataframe
+          sattable <- rbind(sattable,new_sector_totals)        
+      }
+
     }}
     # Remove the old_sector_totals
     #sattable_disaggregated <- subset(sattable, SectorCode!=disagg$OriginalSectorCode)
@@ -1629,3 +1632,4 @@ calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse)
   
   return(newDomesticTables)
 }
+
