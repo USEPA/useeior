@@ -271,8 +271,6 @@ SatelliteTable:
      Primary: TRUE
 
 Demand:
-  DemandYear: 2012
-  DemandSubsystems: null
   DemandVectors: ["Consumption", "Production"]
 
 Indicators:
