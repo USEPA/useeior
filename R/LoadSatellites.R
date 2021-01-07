@@ -177,10 +177,8 @@ loadandbuildSatelliteTables <- function(model) {
   # Complete sector list according to model$Industries
   standard_columns <- tolower(apply(cbind(model$Industries, model$specs$PrimaryRegionAcronym),
                                     1, FUN = joinStringswithSlashes))
-
-   
   sattables_cast[, setdiff(standard_columns, colnames(sattables_cast))] <- 0
   # Adjust column order to be the same with V_n rownames
-  model$sattables_cast <- sattables_cast[, standard_columns]#this is where the disaggregateed sectors get removed from satellite table
+  model$sattables_cast <- sattables_cast[, standard_columns]
   return(model)
 }

@@ -1632,3 +1632,4 @@ calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse)
   
   return(newDomesticTables)
 }
+
