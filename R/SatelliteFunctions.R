@@ -190,27 +190,26 @@ getValueAddedTotalsbySector <- function(model) {
   return(df)
 }
 
-
-checkDuplicateFlows <- function(sattable){
-  for (table_name in names(sattable)){
-    sattable[[table_name]] <-
-      sattable[[table_name]] %>% 
-      dplyr::mutate(name = table_name) %>% 
-      dplyr::distinct(Flowable, Context, name)
+#' Check duplicates across satellite tables.
+#' @param sattable_ls A list of satellite tables
+#' @return Messages about whether there are duplicates across satellite tables
+checkDuplicateFlows <- function(sattable_ls) {
+  # Extract unique Flowable and Context combination from each sat table
+  for (table_name in names(sattable_ls)){
+    sattable_ls[[table_name]] <- unique(sattable_ls[[table_name]][, c("Flowable", "Context")])
+    sattable_ls[[table_name]][, "name"] <- table_name
   }
+  unique_flows <- do.call(rbind, sattable_ls)
+  # Check duplicates in all unique flows
+  duplicates <- unique_flows[duplicated(unique_flows[, c("Flowable", "Context")]) |
+                               duplicated(unique_flows[, c("Flowable", "Context")], fromLast = TRUE), ]
+  duplicates <- duplicates[order(duplicates$Context, duplicates$Flowable), ]
+  rownames(duplicates) <- NULL
   
-  duplicates <-
-    dplyr::bind_rows(sattable) %>% 
-    dplyr::group_by(Flowable, Context) %>% 
-    dplyr::filter(dplyr::n() >1) %>% 
-    dplyr::arrange(Context, Flowable) %>%
-    tibble::as_tibble()
-  
-  if (nrow(duplicates)>0){
+  if (nrow(duplicates) > 0){
     logging::logwarn("Duplicate flows exist across satellite tables.")
     print(duplicates)
-  }
-  else{
+  } else {
     logging::loginfo("No duplicate flows exist across satellite tables.")
   }
 }
