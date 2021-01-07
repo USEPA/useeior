@@ -2,6 +2,7 @@
 #' @param model A model list object with the specs object listed
 #' @return eeio model with a list of demand vectors added
 #' @format A list with lists of totals by sector and formatted satellite tables
+#' @export
 loadDemandVectors <- function(model) {
   logging::loginfo("Loading demand vectors from model spec ...")
   model$demands <- list()
