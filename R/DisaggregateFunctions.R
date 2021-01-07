@@ -12,15 +12,13 @@ disaggregateModel <- function (model){
   counter = 1
   for (disagg in model$DisaggregationSpecs$Disaggregation){
    
-    #TODO: Need to make disaggregateMake and disaggregateUse be able to disaggregate these tables, not just the MakeTransactions and UseTransactions.Right now, uncommenting the lines to disaggregate the Make and Use tables returns the result of the disaggregatation of the transactions tables.
-
     disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata", disagg$SectorFile, package = "useeior"),
                                             header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
                                                                                                   "USEEIO_Code"="character"))
     index <- match(disagg$OriginalSectorCode, model$SectorNames$Sector)
     newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code, "SectorName"=disagg$NAICSSectorCW$USEEIO_Name))
     disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
-    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))#TODO: Make the order of DisaggregatedSectorCodes and DisaggregatedSectorNames match.
+    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
     
     #reordering disaggSectorNames and DIsaggSectorCodes to match the mapping in newNames
     disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
@@ -36,20 +34,21 @@ disaggregateModel <- function (model){
     if(!is.null(disagg$EnvFile)){
       disagg$EnvFileDF <- utils::read.csv(system.file("extdata", disagg$EnvFile, package = "useeior"),
                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("SectorCode"="character"))}
-    # Need to assign these DFs back to the modelspecs
+    #Need to assign these DFs back to the modelspecs
     model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
     
     logging::loginfo("Initializing Disaggregation of IO tables...")
     
-    #disaggregating sector lists 
+    #Disaggregating sector lists 
     newSectorLists <- disaggregateSectorLists(model, disagg)
     model$Commodities <- newSectorLists$Commodities
     model$Industries <- newSectorLists$Industries
     
-    
+    #Note that model$Use and model$Make are not disaggregated as they are not used when building the model or calculating results. 
     #model$Use <- disaggregateUseTable(model)
-    model$UseTransactions <- disaggregateUseTable(model)
     #model$Make <- disaggregateMakeTable(model) 
+    
+    model$UseTransactions <- disaggregateUseTable(model)
     model$MakeTransactions <- disaggregateMakeTable(model)
     model$FinalDemand <- disaggregateFinalDemand(model, domestic = FALSE)
     model$UseValueAdded <- disaggregateVA(model)
@@ -59,21 +58,18 @@ disaggregateModel <- function (model){
     
     if(disagg$DisaggregationType == "Userdefined"){
 
-      #balancedDisaggFullUse <- balanceDisagg(model, disagg)
-      #todo: split up balancedDisaggFullUse into component parts of FullUse
-      #Todo: calculate domesticUse and DomesticFinalDemand based on disaggregatedFullUse
+
       model <- balanceDisagg(model, disagg)
 
     }
 
     
-#    model$DomesticUseTransactions <- disaggregateUseTable(model, domestic = TRUE)
+
     model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
     model$CPI <- disaggregateCols(model$CPI, disagg, duplicate = TRUE)
-#    model$DomesticFinalDemand <- disaggregateFinalDemand(model, domestic = TRUE)
 
-    colnames(newNames) <- colnames(model$SectorNames)#TODO: Check the SectorCode/Code column label inconsistency (model$SectorNames and newNames objects)
-    #colnames(model$SectorNames) <- colnames(newNames)
+
+    colnames(newNames) <- colnames(model$SectorNames)
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
 
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
@@ -161,7 +157,6 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
     
     if(default_disaggregation){
       # Subset the totals from the original sector
-      #old_sector_totals <- subset(sattable, SectorCode==disagg$OriginalSectorCode, colnames(sattable))#TODO: Check the SectorCode/Code column label inconsistency (old_sector_totals object via the Env csv file and loadSatTables function)
       old_sector_totals <- subset(sattable, Sector==disagg$OriginalSectorCode, colnames(sattable))
       
       if(!nrow(old_sector_totals)==0){
@@ -169,7 +164,6 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
         for (new_sector in disagg$DisaggregatedSectorCodes){
           i<-i+1
           new_sector_totals <- old_sector_totals
-          #new_sector_totals$SectorCode <- disagg$DisaggregatedSectorCodes[[i]]#TODO: Check the SectorCode/Code column label inconsistency (new_sector_totals object via old_sector_totals object)
           new_sector_totals$Sector <- disagg$DisaggregatedSectorCodes[[i]]
           new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
           
@@ -199,8 +193,7 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
 
     }}
     # Remove the old_sector_totals
-    #sattable_disaggregated <- subset(sattable, SectorCode!=disagg$OriginalSectorCode)
-    sattable_disaggregated <- subset(sattable, Sector!=disagg$OriginalSectorCode)#TODO: Check the SectorCode/Code column label inconsistency (sattable_disaggregated object via sattable)
+    sattable_disaggregated <- subset(sattable, Sector!=disagg$OriginalSectorCode)
   }
   
   return(sattable_disaggregated)
@@ -591,10 +584,7 @@ UniformUseDisagg <- function(model, disagg, domestic = FALSE){
       #Appeding bottom part of the table to top part of the table
       disaggTable <- rbind(disaggTable, disaggTableBottom)
       
-    } else if(disaggType == "UserDefined"){
-      #TODO: perform UserDefined disaggregation
-      
-    } else {
+    }else {
       
       logging::loginfo("Disaggregation not performed, type not defined")
       break
@@ -666,7 +656,7 @@ disaggregateRow <- function (originalRowVector, disagg_specs, duplicate = FALSE,
   return(disaggRows)
 }
 
-#TODO: Double check disagregateRow and disaggreateCol where updated correctly to handle duplicate flag for CPI
+
 disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE, notUniform = FALSE){
   
   numNewSectors <- length(disagg_specs$DisaggregatedSectorCodes)
@@ -716,7 +706,7 @@ disaggregateMasterCrosswalk <- function (crosswalk, disagg){
   return(crosswalk)
 }
 
-##-------------------------------TODO: Move functions below to a new file, specifiedDisaggregateFunctions?
+##-------------------------------TODO: Move functions below to a new file for clarity, perhaps specifiedDisaggregateFunctions?
 
 #' Disaggregate make table based on the allocations specified in the files referenced in the diaggregation specs.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
