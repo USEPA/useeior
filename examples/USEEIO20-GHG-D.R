@@ -8,12 +8,13 @@
 
 devtools::load_all(".")#to avoid re-building each time
 library(useeior)
-library(validate)
+#library(validate)
 
 # See the versioning scheme for explanation of model names (https://github.com/USEPA/USEEIO/blob/master/VersioningScheme.md)
 useeior::seeAvailableModels()
 model <- useeior::loadIOData('USEEIOv2.0-GHG-D')
-model <- loadbuildSatelliteTables(model)
+#model <- loadbuildSatelliteTables(model)
+model <- useeior::loadandbuildSatelliteTables(model)
 model <- loadandbuildIndicators(model)
 model <- useeior::buildEEIOModel(model)
 result <- useeior::calculateEEIOModel(model, perspective='DIRECT')
