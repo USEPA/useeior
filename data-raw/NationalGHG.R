@@ -67,3 +67,43 @@ file_directory <- ""
 # After changing to desired year and saving the Model, execute the function below
 US_GHG <- extractfromNationalGHGIndustryAttributionModel()
 write.csv(US_GHG, paste("inst/extdata/USEEIO_GHG_Data_Extracted_", unique(US_GHG$Year), ".csv", sep = ""), row.names = FALSE)
+
+# Standardize totals_by_sector
+getStandardTotalsBySector <- function(totals_by_sector) {
+  # Define standard column names
+  stdcolnames <- c("Sector", "SectorName", "Flowable", "Year", "FlowAmount",
+                   "DataReliability", "TechnologicalCorrelation", "DataCollection",
+                   "GeographicalCorrelation", "TemporalCorrelation",
+                   "Location", "Context", "Unit", "MetaSources")
+  # Standardize Context column
+  if ("Compartment"%in%colnames(totals_by_sector)) {
+    totals_by_sector$Context <- totals_by_sector$Compartment
+  } else if (isTRUE("Compartment"%in%colnames(totals_by_sector) & "Subcompartment"%in%colnames(totals_by_sector))) {
+    totals_by_sector$Context <- apply(totals_by_sector[, c("Compartment", "Subcompartment")], 1, FUN = joinStringswithSlashes)
+  }
+  # Standardize DQ columns
+  if ("ReliabilityScore"%in%colnames(totals_by_sector)) {
+    totals_by_sector[, "DataReliability"] <- totals_by_sector[, "ReliabilityScore"]
+  }
+  if ("Temporal correlation"%in%colnames(totals_by_sector)) {
+    totals_by_sector[, "TemporalCorrelation"] <- totals_by_sector[, "Temporal correlation"]
+  }
+  if ("Geographical correlation"%in%colnames(totals_by_sector)) {
+    totals_by_sector[, "GeographicalCorrelation"] <- totals_by_sector[, "Geographical correlation"]
+  }
+  if ("Technological Correlation"%in%colnames(totals_by_sector)) {
+    totals_by_sector[, "TechnologicalCorrelation"] <- totals_by_sector[, "Technological Correlation"]
+  }
+  if ("Data Collection Methods"%in%colnames(totals_by_sector)) {
+    totals_by_sector[, "DataCollection"] <- totals_by_sector[, "Data Collection Methods"]
+  }
+  # Standardize all othr columns
+  totals_by_sector$Flowable <- totals_by_sector$FlowName
+  totals_by_sector$Sector <- totals_by_sector$SectorCode
+  totals_by_sector[setdiff(stdcolnames, colnames(totals_by_sector))] <- NA
+  totals_by_sector <- totals_by_sector[, stdcolnames]
+  return(totals_by_sector)
+}
+
+DisaggWaste <- read.csv(".../NGIAM_waste_disagg_extracted_2016.csv", stringsAsFactors = FALSE, header = TRUE, check.names = FALSE)
+DisaggWaste <- getStandardTotalsBySector(DisaggWaste)
