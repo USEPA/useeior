@@ -43,11 +43,7 @@ disaggregateModel <- function (model){
     newSectorLists <- disaggregateSectorLists(model, disagg)
     model$Commodities <- newSectorLists$Commodities
     model$Industries <- newSectorLists$Industries
-    
-    #Note that model$Use and model$Make are not disaggregated as they are not used when building the model or calculating results. 
-    #model$Use <- disaggregateUseTable(model)
-    #model$Make <- disaggregateMakeTable(model) 
-    
+
     model$UseTransactions <- disaggregateUseTable(model)
     model$MakeTransactions <- disaggregateMakeTable(model)
     model$FinalDemand <- disaggregateFinalDemand(model, domestic = FALSE)
@@ -57,17 +53,11 @@ disaggregateModel <- function (model){
     
     
     if(disagg$DisaggregationType == "Userdefined"){
-
-
       model <- balanceDisagg(model, disagg)
-
     }
-
-    
 
     model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
     model$CPI <- disaggregateCols(model$CPI, disagg, duplicate = TRUE)
-
 
     colnames(newNames) <- colnames(model$SectorNames)
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])

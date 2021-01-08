@@ -22,9 +22,7 @@ loadIOData <- function(modelname) {
     # Fork for state model here
   }
   
-  # Get model$Make, model$Use, model$MakeTransactions, model$UseTransactions, and model$UseValueAdded
-  model$Make <- model$BEA$Make
-  model$Use <- model$BEA$Use
+  # Get model$MakeTransactions, model$UseTransactions, and model$UseValueAdded
   model$MakeTransactions <- model$BEA$MakeTransactions
   model$UseTransactions <- model$BEA$UseTransactions
   model$DomesticUseTransactions <- model$BEA$DomesticUseTransactions
