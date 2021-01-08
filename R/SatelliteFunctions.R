@@ -166,7 +166,7 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
 #' @return A value-added totals_by_sector table with fields of standard totals_by_sector
 getValueAddedTotalsbySector <- function(model) {
   # Extract ValueAdded from Use table
-  df <- model$Use[model$BEA$ValueAddedCodes, model$BEA$Industries] * 1E6 # data frame, values are in dollars ($)
+  df <- model$UseValueAdded
   # Sum ValueAdded
   df <- as.data.frame(colSums(df))
   # Add columns to convert to standard totals_by_sector format
