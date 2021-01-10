@@ -33,7 +33,7 @@ disaggregateModel <- function (model){
                                           header = TRUE, stringsAsFactors = FALSE)}      
     if(!is.null(disagg$EnvFile)){
       disagg$EnvFileDF <- utils::read.csv(system.file("extdata", disagg$EnvFile, package = "useeior"),
-                                          header = TRUE, stringsAsFactors = FALSE, colClasses=c("SectorCode"="character"))}
+                                          header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
     #Need to assign these DFs back to the modelspecs
     model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
     
@@ -127,14 +127,14 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
       # Select only those rows from the disaggregation env file that apply for this satellite table
       new_sector_totals <- subset(new_sector_totals, SatelliteTable==sat$Abbreviation, colnames(sattable))
       if(nrow(new_sector_totals)==0){
-        logging:loginfo(paste0("Warning: No data found for disaggregation of ",sat))
+        logging::logwarn(paste0("No data found for disaggregation of ",sat$Abbreviation))
         default_disaggregation <- TRUE
       }
       else{
         # Check for errors in sattelite table
-        included_sectors <- unique(new_sector_totals[,"SectorCode"])
-        if (!identical(sort(included_sectors),sort(disagg$DisaggregatedSectorCodes))){
-          logging::loginfo("Error: Satellite table does not include all disaggregated sectors")
+        included_sectors <- unique(new_sector_totals[,"Sector"])
+        if (!identical(sort(included_sectors),sort(unlist(disagg$DisaggregatedSectorCodes)))){
+          logging::logwarn("Satellite table does not include all disaggregated sectors")
         }
         
         # Append to the main dataframe

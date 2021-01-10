@@ -6,5 +6,5 @@ Disaggregation:
     SectorFile: WasteDisaggregation_Sectors.csv
     MakeFile: WasteDisaggregation_Make.csv
     UseFile: WasteDisaggregation_Use.csv
-    EnvFile: 
+    EnvFile: WasteDisaggregation_Env.csv #Update of GHGs from NGIAM for waste sectors
 
