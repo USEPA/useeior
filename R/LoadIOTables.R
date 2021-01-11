@@ -8,6 +8,10 @@ loadIOData <- function(modelname) {
   model <- list()
   # Get model specs
   model$specs <- getModelConfiguration(modelname)
+  # Get model crosswalk
+  model$crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema))
+  model$crosswalk <- unique(model$crosswalk[, c("NAICS_2012_Code", paste("BEA", model$specs$BaseIOSchema,model$specs$BaseIOLevel, "Code", sep = "_"))])
+  colnames(model$crosswalk) <- c("NAICS", "BEA")
   # Get BEA IO tables
   model$BEA <- loadBEAtables(model$specs)
   # Get model$Industries and model$Commodities
@@ -18,9 +22,7 @@ loadIOData <- function(modelname) {
     # Fork for state model here
   }
   
-  # Get model$Make, model$Use, model$MakeTransactions, model$UseTransactions, and model$UseValueAdded
-  model$Make <- model$BEA$Make
-  model$Use <- model$BEA$Use
+  # Get model$MakeTransactions, model$UseTransactions, and model$UseValueAdded
   model$MakeTransactions <- model$BEA$MakeTransactions
   model$UseTransactions <- model$BEA$UseTransactions
   model$DomesticUseTransactions <- model$BEA$DomesticUseTransactions
@@ -76,10 +78,9 @@ loadIOData <- function(modelname) {
   model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
   
   # Check for disaggregation
-  if(!is.null(model$specs$disaggregation)){
-    #! TO DO - point to DisaggregationFunctions.R
-    
-  }
+  if(!is.null(model$specs$DisaggregationSpecs)){
+    model <- disaggregateModel(model)
+      }
   
   return(model)
 }

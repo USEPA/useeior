@@ -11,13 +11,7 @@ getStandardSatelliteTableFormat <- function () {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A satellite table aggregated by the USEEIO model sector codes.
 mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year, model) {
-  # Generate NAICS-to-BEA mapping data frame based on MasterCrosswalk2012, assuming NAICS are 2012 NAICS.
-  NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c("NAICS_2012_Code",
-                                                        paste("BEA", model$specs$BaseIOSchema,
-                                                              model$specs$BaseIOLevel, "Code", sep = "_"))])
-  # Rename columns and drop any rows without matches between NAICS and BEA in the mapping
-  colnames(NAICStoBEA) <- c("NAICS", "BEA")
-  NAICStoBEA <- na.omit(NAICStoBEA)
+  NAICStoBEA <- model$crosswalk
   # Modify TechnologicalCorrelation score based on the the correspondence between NAICS and BEA code
   # If there is allocation (1 NAICS to 2 or more BEA), add one to score = 2
   # Assign TechnologicalCorrelationAdjustment to NAICS
@@ -172,7 +166,7 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
 #' @return A value-added totals_by_sector table with fields of standard totals_by_sector
 getValueAddedTotalsbySector <- function(model) {
   # Extract ValueAdded from Use table
-  df <- model$Use[model$BEA$ValueAddedCodes, model$Industries] * 1E6 # data frame, values are in dollars ($)
+  df <- model$UseValueAdded
   # Sum ValueAdded
   df <- as.data.frame(colSums(df))
   # Add columns to convert to standard totals_by_sector format

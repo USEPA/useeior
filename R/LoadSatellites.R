@@ -104,9 +104,10 @@ loadSatTables <- function(model) {
     } else if ("NAICS" %in% sat$SectorListSource) {
       totals_by_sector <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(totals_by_sector, sat$DataYears[1], model)
     }
+
     # Check if disaggregation is needed based on model metadata
-    if(!is.null(model$specs$disaggregation)){
-      totals_by_sector <- disaggregateSatelliteTable(model, totals_by_sector)
+    if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat$StaticFile)){
+      totals_by_sector <- disaggregateSatelliteTable(model, totals_by_sector, sat)
     }
     
     # Add in DQ columns and additional contextual scores not provided
