@@ -118,6 +118,8 @@ loadSatTables <- function(model) {
     if(len_dq_fields!=5){
       logging::logerror(paste("Missing 1 or more data quality fields in satellite data.", len_dq_fields, "present"))
     }
+    # Convert totals_by_sector to standard satellite table format
+    totals_by_sector <- generateStandardSatelliteTable(totals_by_sector)
     
     ### Generate coeffs_by_sector
     coeffs_by_sector <- data.frame()
@@ -138,7 +140,6 @@ loadSatTables <- function(model) {
       coeffs_by_sector <- rbind(coeffs_by_sector, coeffs_by_sector_r)
       }
     }
-    coeffs_by_sector <- generateStandardSatelliteTable(coeffs_by_sector)
     # If the satellite table uses a static file, it will use the embedded mapping files to map flows to internal flow names
     if (!is.null(sat$StaticFile)) {
       if (!substring(sat$OriginalFlowSource,1,6) == 'FEDEFL') {
