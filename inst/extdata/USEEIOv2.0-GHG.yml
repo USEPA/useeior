@@ -32,8 +32,7 @@ SatelliteTable:
         Primary: TRUE
 
 Demand:
-  DemandYear: 2012
-  DemandSubsystems: NA
+  DemandVectors: ["Consumption", "Production", "Household"]
 
 Indicators:
   GreenhouseGases:
