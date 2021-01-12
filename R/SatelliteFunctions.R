@@ -105,7 +105,7 @@ generateStandardSatelliteTable <- function (sattable) {
   # Add missing fields as new columns to sattable
   sattable[, setdiff(fields, colnames(sattable))] <- ""
   # Sort by satellite table sector code
-  Sattable_standardformat <- sattable[order(sattable$Sector), fields]
+  Sattable_standardformat <- as.data.frame(sattable[order(sattable$Sector), fields])
   return(Sattable_standardformat)
 }
 
