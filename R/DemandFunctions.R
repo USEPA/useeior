@@ -8,7 +8,7 @@ dem_vec_fxn_registry["Household"] <- "prepareHouseholdDemand"
 #Core production and consumption demand formulas
 #y_c <-  Y_h + Y_v + Y_g 
 #y_dc <- Y_dh + Y_dv + Y_dg
-#y_p <- y_dc + y_e + y_delta
+#y_p <- y_dc + y_e + y_d_delta
 
 
 #'Sums across sectors for a given set of BEA codes/cols in a given final demand df
@@ -42,10 +42,9 @@ sumforConsumption <- function(Y) {
 #'@return a named vector with demand
 prepareProductionDemand <- function(model) {
   y_dc <- sumforConsumption(model$DomesticFinalDemand)
-  Y <- model$FinalDemand
-  y_e <- sumDemandCols(Y,model$BEA$ExportCodes)
-  y_delta <- sumDemandCols(Y,model$BEA$ChangeInventoriesCodes)
-  y_p <- y_dc + y_e + y_delta
+  y_e <- sumDemandCols(model$FinalDemand,model$BEA$ExportCodes)
+  y_d_delta <- sumDemandCols(model$DomesticFinalDemand,model$BEA$ChangeInventoriesCodes)
+  y_p <- y_dc + y_e + y_d_delta
   return(y_p)
 }
 
