@@ -1588,7 +1588,6 @@ buildDisaggFullUse <- function(model, disagg){
 #' @param balancedFullUse A fullUse table (including UseTransactions, UseValueAdded, and FinalDemand), created to determine whether RAS balancing is needed
 #' 
 #' @return list containing balanced domesticFinalDemand and domesticUseTransactions dataframes. 
-# Validate df1 against df0 based on specified conditions
 calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse) 
 {
   #Calculate domestic use transactions and domestic final demand based on balancedfullUse
@@ -1606,7 +1605,7 @@ calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse)
   balancedDomesticUseTransactions <- balancedDomesticUseTransactions * domesticUseRatios
   
   balancedDomesticFD <- balancedFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
-  balancedDomesticFD <- domesticFDRatios
+  balancedDomesticFD <- balancedDomesticFD * domesticFDRatios
   
   newDomesticTables <- list("DomesticUseTransactions" = balancedDomesticUseTransactions, "DomesticFinalDemand" = balancedDomesticFD)
   
