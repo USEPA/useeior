@@ -159,5 +159,5 @@ G,Government,GFGD,Federal general government,S00500,Federal general government (
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92812,International Affairs 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),928120,International Affairs 
 G,Government,GFE,Federal government enterprises,S00101,Federal electric utilities,S00101,Federal electric utilities,,
-G,Government,GSLE,State and local government enterprises,S00201,State and local government passenger transit,S00201,State and local government passenger transit,,
+G,Government,GSLE,State and local government enterprises,S00201,State and local government passenger transit,S00201,State and local government passenger transit,S00201,State and local government passenger transit
 G,Government,GSLE,State and local government enterprises,S00202,State and local government electric utilities,S00202,State and local government electric utilities,,
