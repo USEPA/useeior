@@ -161,17 +161,20 @@ loadSatTables <- function(model) {
 loadandbuildSatelliteTables <- function(model) {
   # Generate satellite tables
   model$SatelliteTables <- loadSatTables(model)
-  # Check for duplicate flows across satellite tables
-  checkDuplicateFlows(model$SatelliteTables$coeffs_by_sector)
   # Combine satellite tables (coeffs_by_sector) into a single df
   StandardizedSatelliteTable <- do.call(rbind, model$SatelliteTables$coeffs_by_sector)
-  # Transform satellite tables into a flow x sector matrix
-  StandardizedSatelliteTable[, "Flow"] <- apply(StandardizedSatelliteTable[, c("Flowable", "Context", "Unit")],
-                                                1, FUN = joinStringswithSlashes)
-  StandardizedSatelliteTable[, "Sector"] <- apply(StandardizedSatelliteTable[, c("Sector", "Location")],
-                                                  1, FUN = joinStringswithSlashes)
-  # Cast StandardizedSatelliteTable into a flow x sector matrix
-  sattables_cast <- reshape2::dcast(StandardizedSatelliteTable, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount")
+  model$sattables_cast <- standardizeandcastSatelliteTable(StandardizedSatelliteTable,model)
+  return(model)
+}
+
+standardizeandcastSatelliteTable <- function(sattable,model) {
+  # Add fields for flows and sectors as combinations of existing fields
+  sattable[, "Flow"] <- apply(sattable[, c("Flowable", "Context", "Unit")],
+                              1, FUN = joinStringswithSlashes)
+  sattable[, "Sector"] <- apply(sattable[, c("Sector", "Location")],
+                                1, FUN = joinStringswithSlashes)
+  # Cast sattable into a flow x sector matrix
+  sattables_cast <- reshape2::dcast(sattable, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount")
   # Move Flow to rowname so matrix is all numbers
   rownames(sattables_cast) <- sattables_cast$Flow
   sattables_cast$Flow <- NULL
@@ -180,6 +183,6 @@ loadandbuildSatelliteTables <- function(model) {
                                     1, FUN = joinStringswithSlashes))
   sattables_cast[, setdiff(standard_columns, colnames(sattables_cast))] <- 0
   # Adjust column order to be the same with V_n rownames
-  model$sattables_cast <- sattables_cast[, standard_columns]
-  return(model)
+  sattables_cast <- sattables_cast[, standard_columns]
+  return(sattables_cast)
 }
