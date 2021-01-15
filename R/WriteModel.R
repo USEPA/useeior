@@ -70,7 +70,7 @@ writeModelforUSEEIOPY <- function(model) {
   utils::write.csv(sattable, paste0(name_pre, "_sat.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8") 
   utils::write.csv(LCIA, paste0(name_pre, "_LCIA.csv"), row.names = FALSE, fileEncoding = "UTF-8")
   utils::write.csv(SectorMetaData, paste0(name_pre, "_sector_meta_data.csv"), row.names = FALSE, fileEncoding = "UTF-8")
-  utils::write.csv(Demand, paste0(name_pre, "_FinalDemand.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(f, paste0(name_pre, "_FinalDemand.csv"), row.names = FALSE, fileEncoding = "UTF-8")
   utils::write.csv(DirectRequirementsCoefficients, paste0(name_pre, "_DRC.csv"), row.names = TRUE, fileEncoding = "UTF-8") #DRC needs row indices
   # Write logs to file in Model Builds folder
   logtimestamp <- Sys.Date()
@@ -140,23 +140,23 @@ writeModelMatricesforAPI <- function(model,modelfolder) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @description Writes model demand vectors, including y and y_d for consumption and production.
 writeModelDemandstoJSON <- function(model,demandsfolder) {
-  # Write model demand vectors as JSON files for API
-  for (demand in c("Consumption", "Production")) {
-    if (demand=="Consumption") {
-      Demand <- as.matrix(rowSums(model[["DomesticFinalDemand"]][, model$BEA$TotalConsumptionCodes]))
-    } else {
-      Demand <- as.matrix(rowSums(model[["DomesticFinalDemand"]]))
-    }
+  #!WARNING: Only works for single region model
+  if (model$specs$ModelType!="US") {
+    logging::logerror("Currently only works for single region US models.")
+    stop()
+  }
+  for (demand in names(model$demands)) {
+    f <- model$demands[[demand]]
     # Change column name
-    colnames(Demand) <- "amount"
+    #colnames(f) <- "amount"
+    f <- data.frame(amount=f)
     # Add sector name
-    Demand <- merge(model$SectorNames, Demand, by.x = "SectorCode", by.y = 0)
-    Demand$sector <- apply(cbind(Demand[, c("SectorCode", "SectorName")], model$specs$PrimaryRegionAcronym),
+    f <- merge(model$SectorNames, f, by.x = "Sector", by.y = 0)
+    f$sector <- apply(cbind(f[, c("Sector", "SectorName")], model$specs$PrimaryRegionAcronym),
                            1, FUN = joinStringswithSlashes)
-    Demand <- Demand[, c("sector", "amount")]
-    filename <- tolower(paste(model$specs$IOYear, model$specs$PrimaryRegionAcronym,
-                              "domestic", demand, sep = "_"))
-    write(jsonlite::toJSON(Demand), paste0(demandsfolder, "/", filename, ".json"))
+    f <- f[, c("sector", "amount")]
+    filename <- tolower(paste(model$specs$IOYear, model$specs$PrimaryRegionAcronym, demand, sep = "_"))
+    write(jsonlite::toJSON(f), paste0(demandsfolder, "/", filename, ".json"))
   }
   logging::loginfo(paste0("Model demand vectors for API written to ", demandsfolder, "."))
 }
