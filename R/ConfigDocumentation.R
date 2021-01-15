@@ -82,6 +82,6 @@
 #'  \item{OriginalSectorName}{string, Name of the original sector}
 #'  \item{OriginalSectorCode}{string, code of the original sector}
 #'  \item{DiaggregatedSectorNames}{list of disaggregated sector names}
-#'  \item{DisaggregatedSectorCodes}{list of disaggregated sector codes} 
+#'  \item{DisaggregatedSectorCodes}{list of disaggregated sector codes}
 #'  }
 "PredefinedSectorsConfiguration"
