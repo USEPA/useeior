@@ -760,7 +760,7 @@ getBEACodeName2012Schema <- function () {
   colnames(BEADetailCommodityCodeName) <- c("BEA_2012_Detail_Commodity_Code", "BEA_2012_Detail_Commodity_Name")
   rownames(BEADetailCommodityCodeName) <- NULL
   ## Summary
-  BEASummary <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2018_Summary.xlsx", sheet = "2012"))
+  BEASummary <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2019_Summary.xlsx", sheet = "2012"))
   # Industry
   BEASummaryIndustryCodeName <- BEASummary[7:77, 1:2]
   colnames(BEASummaryIndustryCodeName) <- c("BEA_2012_Summary_Industry_Code", "BEA_2012_Summary_Industry_Name")
@@ -771,7 +771,7 @@ getBEACodeName2012Schema <- function () {
   rownames(BEASummaryCommodityCodeName) <- NULL
   BEASummaryCommodityCodeName$BEA_2012_Summary_Commodity_Name <- gsub(" /.*", "", BEASummaryCommodityCodeName$BEA_2012_Summary_Commodity_Name)
   ## Sector
-  BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2018_Sector.xlsx", sheet = "2012"))
+  BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2019_Sector.xlsx", sheet = "2012"))
   # Industry
   BEASectorIndustryCodeName <- BEASector[7:21, 1:2]
   colnames(BEASectorIndustryCodeName) <- c("BEA_2012_Sector_Industry_Code", "BEA_2012_Sector_Industry_Name")
