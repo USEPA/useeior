@@ -95,6 +95,7 @@ loadSatTables <- function(model) {
       }
     }
     
+    coeffs_by_sector <- data.frame()
     for (r in model$specs$ModelRegionAcronyms) {
       sattable_r <- tbs[tbs$Location==r, ]
       if (r=="RoUS") {
