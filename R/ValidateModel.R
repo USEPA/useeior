@@ -20,6 +20,14 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   E <- Ec
   LCI <- LCIc
   
+  if(model$specs$CommoditybyIndustryType == "Commodity") {
+    #transform E by market shares
+    Ux_hat <- generateMarketSharesfromMake(model)
+    E <- as.matrix(E)
+    E <-  E %*% Ux_hat
+    E <- data.frame(E)
+  }
+  
   library(validate)
   rule <- validate::validator(abs(LCI - E)/E <= tolerance)
   confrontation <- validate::confront(LCI, rule, E)
