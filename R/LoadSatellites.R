@@ -62,35 +62,41 @@ loadSatTables <- function(model) {
   
   logging::loginfo("Initializing model satellite tables...")
 
-  for (sat in model$specs$SatelliteTable) {
-    logging::loginfo(paste("Adding", tolower(sat$FullName), "satellite tables..."))
+  #Loop through each sat specification
+  for (sat_spec in model$specs$SatelliteTable) {
+    logging::loginfo(paste("Loading", tolower(sat_spec$FullName), "flows..."))
+
     ### Generate totals_by_sector, tbs
-    totals_by_sector <- generateTbSfromSatSpec(sat)
+    tbs0 <- generateTbSfromSatSpec(sat_spec)
     
     ### Make tbs conform to the model schema
-    totals_by_sector <- conformTbStoIOSchema(sat, model)
+    tbs <- conformTbStoIOSchema(tbs0, sat_spec, model)
+    
+    ##Check for any loss of flow data
     
     # Add in DQ columns and additional contextual scores not provided
     # Only setting TemporalCorrelation for now
-    totals_by_sector <- scoreContextualDQ(totals_by_sector) 
+    tbs <- scoreContextualDQ(tbs) 
+    
     # Check if all DQ columns are present. If not, print error message.
-    len_dq_fields <- length(getDQfields(totals_by_sector))
-    if(len_dq_fields!=5){
-      logging::logerror(paste("Missing 1 or more data quality fields in satellite data.", len_dq_fields, "present"))
-    }
+
+    #    len_dq_fields <- length(getDQfields(totals_by_sector))
+#    if(len_dq_fields!=5){
+#      logging::logerror(paste("Missing 1 or more data quality fields in satellite data.", len_dq_fields, "present"))
+#    }
     
     # Convert totals_by_sector to standard satellite table format
-    totals_by_sector <- generateStandardSatelliteTable(totals_by_sector)
+    tbs <- conformTbStoStandardSatTable(tbs)
     
     #Map names for static files not already using FEDEFL
-    if (!is.null(sat$StaticFile)) {
-      if (!substring(sat$OriginalFlowSource,1,6) == 'FEDEFL') {
-        totals_by_sector <- mapListbyName(totals_by_sector, sat)
+    if (!is.null(sat_spec$StaticFile)) {
+      if (!substring(sat_spec$OriginalFlowSource,1,6) == 'FEDEFL') {
+        tbs <- mapListbyName(tbs, sat_spec)
       }
     }
     
     for (r in model$specs$ModelRegionAcronyms) {
-      sattable_r <- totals_by_sector[totals_by_sector$Location==r, ]
+      sattable_r <- tbs[tbs$Location==r, ]
       if (r=="RoUS") {
         IsRoUS <- TRUE
       } else {
@@ -100,17 +106,16 @@ loadSatTables <- function(model) {
           sattable_r[, "Location"] <- paste0("US-", r)
         }
       }
-      for (year in sat$DataYears){
-      coeffs_by_sector_r <- generateFlowtoDollarCoefficient(totals_by_sector[totals_by_sector$Year==year, ], year,
+      for (year in sat_spec$DataYears){
+      coeffs_by_sector_r <- generateFlowtoDollarCoefficient(tbs[tbs$Year==year, ], year,
                                                             model$specs$IOYear, r, IsRoUS = IsRoUS, model)
       coeffs_by_sector <- rbind(coeffs_by_sector, coeffs_by_sector_r)
       }
     }
 
-    
     # Add totals_by_sector and coeffs_by_sector to the sattables list
-    sattables$totals_by_sector[[sat$Abbreviation]] <- totals_by_sector
-    sattables$coeffs_by_sector[[sat$Abbreviation]] <- coeffs_by_sector
+    sattables$totals_by_sector[[sat_spec$Abbreviation]] <- tbs
+    sattables$coeffs_by_sector[[sat_spec$Abbreviation]] <- coeffs_by_sector
   }
   return(sattables)
 }
@@ -128,27 +133,33 @@ loadandbuildSatelliteTables <- function(model) {
   return(model)
 }
 
-standardizeandcastSatelliteTable <- function(sattable,model) {
+#'Converts flows table into flows x sector matrix-like format
+#'@param df a dataframe of flowables, contexts, units, sectors and locations
+#'@param model an EEIO model with IO tables loaded
+#'@return a flows x sector matrix-like dataframe 
+standardizeandcastSatelliteTable <- function(df,model) {
   # Add fields for flows and sectors as combinations of existing fields
-  sattable[, "Flow"] <- apply(sattable[, c("Flowable", "Context", "Unit")],
+  df[, "Flow"] <- apply(df[, c("Flowable", "Context", "Unit")],
                               1, FUN = joinStringswithSlashes)
-  sattable[, "Sector"] <- apply(sattable[, c("Sector", "Location")],
+  df[, "Sector"] <- apply(df[, c("Sector", "Location")],
                                 1, FUN = joinStringswithSlashes)
-  # Cast sattable into a flow x sector matrix
-  sattables_cast <- reshape2::dcast(sattable, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount")
+  # Cast df into a flow x sector matrix
+  df_cast <- reshape2::dcast(df, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount")
   # Move Flow to rowname so matrix is all numbers
-  rownames(sattables_cast) <- sattables_cast$Flow
-  sattables_cast$Flow <- NULL
+  rownames(df_cast) <- df_cast$Flow
+  df_cast$Flow <- NULL
   # Complete sector list according to model$Industries
   standard_columns <- tolower(apply(cbind(model$Industries, model$specs$PrimaryRegionAcronym),
                                     1, FUN = joinStringswithSlashes))
-  sattables_cast[, setdiff(standard_columns, colnames(sattables_cast))] <- 0
+  df_cast[, setdiff(standard_columns, colnames(df_cast))] <- 0
   # Adjust column order to be the same with V_n rownames
-  sattables_cast <- sattables_cast[, standard_columns]
-  return(sattables_cast)
+  df_cast <- df_cast[, standard_columns]
+  return(df_cast)
 }
 
-
+#'Reads a satellite table specification and generates a totals-by-sector table
+#'@param sat_spec, a standard specification for a single satellite table
+#'@return a totals-by-sector dataframe
 generateTbSfromSatSpec <- function(sat_spec) {
   # Check if the satellite table uses a static file. If so, proceed.
   # If not, use specified functions in model metadata to load data from dynamic source
@@ -175,27 +186,29 @@ generateTbSfromSatSpec <- function(sat_spec) {
   return(totals_by_sector)
 }
 
-conformTbStoIOSchema <- function(sat_spec, model) {
-  # Check if the orginal data is BEA-based. If so, apply necessary allocation or aggregation.
+#'Take a totals-by-sector df and maps flows to the model schema
+#'@param tbs, totals-by-sector df
+#'@param sat_spec, a standard specification for a single satellite table
+#'@param model an EEIO model with IO tables loaded
+#'@return a totals-by-sector df with the sectors and flow amounts corresponding to the model schema
+conformTbStoIOSchema <- function(tbs, sat_spec, model) {
+  # Check if the original data is BEA-based. If so, apply necessary allocation or aggregation.
   # If not, map data from original sector to BEA.
   if (sat_spec$SectorListSource == "BEA") {
     # If BEA years is not the same as model year, must perform allocation
     if (sat_spec$SectorListLevel == "Detail" && sat_spec$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
-      totals_by_sector <- mapFlowTotalsbySectorfromBEASchema2007to2012(totals_by_sector)
+      tbs <- mapFlowTotalsbySectorfromBEASchema2007to2012(tbs)
     }
     # If the orginal data is at Detail level but model is not, apply aggregation
     if (sat_spec$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
-      totals_by_sector <- aggregateSatelliteTable(totals_by_sector,
-                                                  from_level = sat_spec$SectorListLevel,
-                                                  to_level = model$specs$BaseIOLevel,
-                                                  model)
+      tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,to_level = model$specs$BaseIOLevel,model)
     }
   } else if ("NAICS" %in% sat_spec$SectorListSource) {
-    totals_by_sector <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(totals_by_sector, sat_spec$DataYears[1], model)
+    tbs <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(tbs, sat_spec$DataYears[1], model)
   }
   # Check if disaggregation is needed based on model metadata
-  if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat$StaticFile)){
-    totals_by_sector <- disaggregateSatelliteTable(model, totals_by_sector, sat)
+  if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat_spec$StaticFile)){
+    tbs <- disaggregateSatelliteTable(model, tbs, sat_spec)
   }
-  return(totals_by_sector)
+  return(tbs)
 }
