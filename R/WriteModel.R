@@ -156,7 +156,8 @@ writeModelDemandstoJSON <- function(model,demandsfolder) {
                            1, FUN = joinStringswithSlashes)
     f <- f[, c("sector", "amount")]
     filename <- tolower(paste(model$specs$IOYear, model$specs$PrimaryRegionAcronym, demand, sep = "_"))
-    write(jsonlite::toJSON(f), paste0(demandsfolder, "/", filename, ".json"))
+    f <- jsonlite::toJSON(f, pretty = TRUE)
+    write(f, paste0(demandsfolder, "/", filename, ".json"))
   }
   logging::loginfo(paste0("Model demand vectors for API written to ", demandsfolder, "."))
 }
