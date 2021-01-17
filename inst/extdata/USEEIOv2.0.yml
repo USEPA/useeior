@@ -277,8 +277,10 @@ Indicators:
   GreenhouseGases:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
-    Category: "Impact Potential"
+    Group: "Impact Potential"
     Unit: "kg CO2 eq"
+    SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
+    SimpleName: "Greenhouse Gases"
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -295,8 +297,10 @@ Indicators:
   Acidification:
     FullName: "Acidification Potential"
     Abbreviation: "ACID"
-    Category: "Impact Potential"
+    Group: "Impact Potential"
     Unit: "kg SO2 eq"
+    SimpleUnit: "Kilograms Sulphur Dioxide (SO2)"
+    SimpleName: "Acid Rain"    
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -313,8 +317,10 @@ Indicators:
   Eutrophication:
     FullName: "Eutrophication Potential"
     Abbreviation: "EUTR"
-    Category: "Impact Potential"
+    Group: "Impact Potential"
     Unit: "kg N eq"
+    SimpleUnit: "Kilograms Nitrogen (N)"
+    SimpleName: "Water Eutrophication" 
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -331,8 +337,10 @@ Indicators:
   FreshwaterEcotox:
     FullName: "Freshwater Ecotoxicity Potential"
     Abbreviation: "ETOX"
-    Category: "Impact Potential"
+    Group: "Impact Potential"
     Unit: "CTUe"
+    SimpleUnit: "Comparative Toxic Unit for Ecosystem (CTUe)"
+    SimpleName: "Freshwater Ecotoxicity" 
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -349,8 +357,10 @@ Indicators:
   HumanHealthCancer:
     FullName: "Human Health - Cancer"
     Abbreviation: "HCAN"
-    Category: "Impact Potential"
+    Group: "Impact Potential"
     Unit: "CTUh"
+    SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
+    SimpleName: "Cancer Disease" 
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -367,8 +377,10 @@ Indicators:
   HumanHealthNonCancer:
     FullName: "Human Health - Noncancer"
     Abbreviation: "HNCN"
-    Category: "Impact Potential"
+    Group: "Impact Potential"
     Unit: "CTUh"
+    SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
+    SimpleName: "Noncancer Disease" 
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -385,8 +397,10 @@ Indicators:
   HumanHealthRespEffects:
     FullName: "Human Health - Respiratory Effects"
     Abbreviation: "HRSP"
-    Category: "Impact Potential"
+    Group: "Impact Potential"
     Unit: "kg PM2.5 eq"
+    SimpleUnit: "Kilograms Particulate Matter"
+    SimpleName: "Respiratory Effects" 
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -403,8 +417,10 @@ Indicators:
   Ozone:
     FullName: "Ozone Depletion"
     Abbreviation: "OZON"
-    Category: "Impact Potential"
+    Group: "Impact Potential"
     Unit: "kg CFC-11 eq"
+    SimpleUnit: "Kilograms ChloroFluoroCarbon-11"
+    SimpleName: "Ozone Depletion" 
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -421,8 +437,10 @@ Indicators:
   Smog:
     FullName: "Smog Formation Potential"
     Abbreviation: "SMOG"
-    Category: "Impact Potential"
+    Group: "Impact Potential"
     Unit: "kg O3 eq"
+    SimpleUnit: "Kilograms Ozone (O3)"
+    SimpleName: "Smog Formation" 
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -439,8 +457,10 @@ Indicators:
   freshwater_withdrawal:
     FullName: "Freshwater withdrawals"
     Abbreviation: "WAT"
-    Category: "Resource Use"
+    Group: "Resource Use"
     Unit: "kg"
+    SimpleUnit: "Cubic Meters"
+    SimpleName: "Water Use" 
     StaticSource: FALSE
     ScriptFunctionCall: "getInventoryMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -455,8 +475,10 @@ Indicators:
   land_use:
     FullName: "Land use"
     Abbreviation: "LAND"
-    Category: "Resource Use"
+    Group: "Resource Use"
     Unit: "m2*yr"
+    SimpleUnit: "Square Meters per Year"
+    SimpleName: "Land Use" 
     StaticSource: FALSE
     ScriptFunctionCall: "getInventoryMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -471,8 +493,10 @@ Indicators:
   HAP:
     FullName: "Hazardous Air Pollutants"
     Abbreviation: "HAPS"
-    Category: "Chemical Releases"
+    Group: "Chemical Releases"
     Unit: "kg"
+    SimpleUnit: "Kilograms"
+    SimpleName: "Hazardous Air Pollutants" 
     StaticSource: FALSE
     ScriptFunctionCall: "getInventoryMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -487,8 +511,10 @@ Indicators:
   Pesticides:
     FullName: "Pesticides"
     Abbreviation: "PEST"
-    Category: "Chemical Releases"
+    Group: "Chemical Releases"
     Unit: "kg"
+    SimpleUnit: "Kilograms"
+    SimpleName: "Pesticides" 
     StaticSource: FALSE
     ScriptFunctionCall: "getInventoryMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -503,63 +529,81 @@ Indicators:
   NonRenewableEnergy:
     FullName: "Nonrenewable Energy Use"
     Abbreviation: "NNRG"
-    Category: "Resource Use"
+    Group: "Resource Use"
     Unit: "MJ"
+    SimpleUnit: "Megajoules (MJ)"
+    SimpleName: "Nonrenewable Energy Use" 
     StaticSource: TRUE
     DataSources:
   RenewableEnergy:
     FullName: "Renewable Energy Use"
     Abbreviation: "RNRG"
-    Category: "Resource Use"
+    Group: "Resource Use"
     Unit: "MJ"
+    SimpleUnit: "Megajoules (MJ)"
+    SimpleName: "Renewable Energy Use" 
     StaticSource: TRUE
     DataSources:
   Energy:
     FullName: "Energy Use"
     Abbreviation: "ENRG"
-    Category: "Resource Use"
+    Group: "Resource Use"
     Unit: "MJ"
+    SimpleUnit: "Megajoules (MJ)"
+    SimpleName: "Energy Use" 
     StaticSource: TRUE
     DataSources:
   MineralsMetals:
     FullName: "Minerals and Metals Use"
     Abbreviation: "MNRL"
-    Category: "Resource Use"
+    Group: "Resource Use"
     Unit: "kg"
+    SimpleUnit: "Kilograms"
+    SimpleName: "Minerals and Metals Use"
     StaticSource: TRUE
     DataSources:
   ValueAdded:
     FullName: "Value Added"
     Abbreviation: "VADD"
-    Category: "Economic & Social"
+    Group: "Economic & Social"
     Unit: "$"
+    SimpleUnit: "US Dollars ($)"
+    SimpleName: "Value Added"
     StaticSource: TRUE
     DataSources:
   Jobs:
     FullName: "Jobs Supported"
     Abbreviation: "JOBS"
-    Category: "Economic & Social"
+    Group: "Economic & Social"
     Unit: "jobs"
+    SimpleUnit: "Employees"
+    SimpleName: "Jobs Supported"
     StaticSource: TRUE
     DataSources:
   RCRAHazWaste:
     FullName: "Commercial RCRA Hazardous Waste"
     Abbreviation: "CRHW"
-    Category: "Waste Generated"
+    Group: "Waste Generated"
     Unit: "kg"
+    SimpleUnit: "Kilograms"
+    SimpleName: "Hazardous Waste" 
     StaticSource: TRUE
     DataSources:
   MunicipalWaste:
     FullName: "Commercial Municipal Solid Waste"
     Abbreviation: "CMSW"
-    Category: "Waste Generated"
+    Group: "Waste Generated"
     Unit: "kg"
+    SimpleUnit: "Kilograms"
+    SimpleName: "Municipal Solid Waste"
     StaticSource: TRUE
     DataSources:
   ConstructionDebris:
     FullName: "Commercial Construction and Demolition Debris"
     Abbreviation: "CCDD"
-    Category: "Waste Generated"
+    Group: "Waste Generated"
     Unit: "kg"
+    SimpleUnit: "Kilograms"
+    SimpleName: "Construction Debris" 
     StaticSource: TRUE
     DataSources:

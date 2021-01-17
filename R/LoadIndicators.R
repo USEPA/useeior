@@ -18,8 +18,11 @@ loadIndicators <- function(specs) {
          indloadfunction <- as.name(func_to_eval)
          factors <- do.call(eval(indloadfunction), list(i$ScriptFunctionParameters))
          factors <- prepareLCIAmethodforIndicators(factors)
-         factors$Code <- i$Abbreviation
       }
+      factors$Code <- i$Abbreviation
+      factors$Group <- i$Group
+      factors$SimpleUnit <- i$SimpleUnit
+      factors$SimpleName <- i$SimpleName
       indicators <- rbind(indicators, factors)
    }   
    return(indicators)
