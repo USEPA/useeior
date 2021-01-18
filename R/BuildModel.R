@@ -31,7 +31,7 @@ buildEEIOModel <- function(model) {
   colnames(model$B) <- tolower(apply(cbind(colnames(model$B), model$specs$PrimaryRegionAcronym),
                                      1, FUN = joinStringswithSlashes))
   
-  model$C <- createCfromFactorsandBflows(model$indicators$factors,rownames(B))
+  model$C <- createCfromFactorsandBflows(model$indicators$factors,rownames(model$B))
 
   # Add direct impact matrix
   model$D <- model$C %*% model$B 
@@ -76,8 +76,8 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
   #Subset factor flows by flows in B matrix
   factors <- factors[factors$Flow %in% unique(B_flows),]
   
-  C <- reshape2::dcast(facs, Code ~ Flow, value.var = "Amount")
-  rownames(C) <- model$C$Code
+  C <- reshape2::dcast(factors, Indicator ~ Flow, value.var = "Amount")
+  rownames(C) <- C$Indicator
   # Get flows in B not in C and add to C
   flows_inBnotC <- setdiff(B_flows, colnames(C))
   C[, flows_inBnotC] <- 0
