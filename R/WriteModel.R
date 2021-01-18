@@ -123,7 +123,7 @@ prepareWriteDirs <- function(dirs,model=NA) {
 #' @description Writes model matrices, including A, B, C, D, L, U, M, CPI, x (Industry Output), and q (Commodity Output).
 writeModelMatricesforAPI <- function(model,modelfolder) {
   # Write model matrices to .bin files for API
-  MatricesforAPI <- c("A", "A_d", "B", "C", "D", "L", "U", "M", "CPI")
+  MatricesforAPI <- c("A", "A_d", "B", "C", "D", "L","L_d","U", "M", "CPI")
   for (matrix in MatricesforAPI) {
     writeMatrixasBinFile(model[[matrix]], paste0(modelfolder, "/", matrix, ".bin"))
   }
@@ -147,8 +147,6 @@ writeModelDemandstoJSON <- function(model,demandsfolder) {
   }
   for (demand in names(model$demands)) {
     f <- model$demands[[demand]]
-    # Change column name
-    #colnames(f) <- "amount"
     f <- data.frame(amount=f)
     # Add sector name
     f <- merge(model$SectorNames, f, by.x = "Sector", by.y = 0)
@@ -156,12 +154,14 @@ writeModelDemandstoJSON <- function(model,demandsfolder) {
                            1, FUN = joinStringswithSlashes)
     f <- f[, c("sector", "amount")]
     filename <- tolower(paste(model$specs$IOYear, model$specs$PrimaryRegionAcronym, demand, sep = "_"))
-    write(jsonlite::toJSON(f), paste0(demandsfolder, "/", filename, ".json"))
+    f <- jsonlite::toJSON(f, pretty = TRUE)
+    write(f, paste0(demandsfolder, "/", filename, ".json"))
   }
   logging::loginfo(paste0("Model demand vectors for API written to ", demandsfolder, "."))
 }
 
-#' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder.
+#' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder
+#' format for file is here https://github.com/USEPA/USEEIO_API/blob/master/doc/data_format.md
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @description Writes model metadata, including indicators and demands.
 writeModelMetadata <- function(model,dirs) {
@@ -193,15 +193,19 @@ writeModelMetadata <- function(model,dirs) {
     }
   }
   utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
+
   # Write indicators to csv
-  indicators <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
-                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
-  indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")],
+  indicators <- model$indicators$meta  
+  indicators$ID <- apply(indicators[, c("Group", "Abbreviation", "Unit")],
                          1, FUN = joinStringswithSlashes)
   indicators$Index <- c(1:nrow(indicators)-1)
-  indicators <- indicators[, c("Index", "ID", "Name", "Code", "Unit", "Group", "SimpleUnit", "SimpleName")]
-  utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"),
+  indicators <- indicators[, c("Index", "ID", "FullName", "Abbreviation", "Unit", "Group", "SimpleUnit", "SimpleName")]
+  
+  api_indicator_fields <- c("Index", "ID", "Name", "Code", "Unit", "Group", "SimpleUnit", "SimpleName")
+  colnames(indicators) <- api_indicator_fields
+  utils::write.csv(indicators, paste0(outputfolder, "indicators.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  
   # Write demands to csv
   demands <- as.data.frame(gsub(".json", "", list.files(paste0(outputfolder, "/demands"))),
                            stringsAsFactors = FALSE)
@@ -224,10 +228,10 @@ writeModelMetadata <- function(model,dirs) {
   sectors$ID <- apply(sectors[, c("Code", "Name", "Location")], 1, FUN = joinStringswithSlashes)
   sectors <- sectors[, c("Index", "ID", "Name", "Code", "Location")]
   sectors$Description <- ""
-  utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"),
+  utils::write.csv(sectors, paste0(outputfolder, "sectors.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write flows to csv
-  flows <- loadLCIAfactors()
+  flows <- row.names(model$B)
   flows$ID <- apply(flows[, c("Category", "Subcategory", "Name", "Unit")],
                     1, FUN = joinStringswithSlashes)
   flows[, "Sub-Category"] <- flows$Subcategory
