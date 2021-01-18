@@ -3,30 +3,42 @@
 #' @return A list of indicator factors not yet formatted for IOMB.
 loadIndicators <- function(specs) {
    logging::loginfo("Initializing model indicators...")
-   indicators <- data.frame()
-   for (i in specs$Indicators) {
-      logging::loginfo(paste("Getting", tolower(i$FullName), "indicators..."))
-      if(i$StaticSource) {
-         # Load LCIA factors from static file
-         StaticIndicatorFactors <- loadLCIAfactors()
-         # Subset LCIA factors list for the abbreviations
-         factors <- StaticIndicatorFactors[StaticIndicatorFactors$Code == i$Abbreviation, ]
-         # Add Indicator column
-         factors <- cbind("Indicator" = tolower(gsub(" ", "_", i$FullName)), factors)
-      } else {
-         func_to_eval <- i$ScriptFunctionCall
-         indloadfunction <- as.name(func_to_eval)
-         factors <- do.call(eval(indloadfunction), list(i$ScriptFunctionParameters))
-         factors <- prepareLCIAmethodforIndicators(factors)
-      }
-      factors$Code <- i$Abbreviation
-      factors$Group <- i$Group
-      factors$SimpleUnit <- i$SimpleUnit
-      factors$SimpleName <- i$SimpleName
-      indicators <- rbind(indicators, factors)
+   meta <- data.frame()
+   metafields <- c("FullName","Abbreviation","Group","Unit","SimpleUnit","SimpleName")
+   factors <- data.frame()
+   for (s in specs$Indicators) {
+      logging::loginfo(paste("Getting", tolower(s$FullName), "indicators..."))
+      # Populate metadata
+      i <- s[metafields]
+      meta <- rbind(meta,data.frame(i)) 
+      #Get factors
+      f <- loadFactors(s)
+      factors <- rbind(factors,f)
    }   
+   indicators <- list(meta=meta,factors=factors)
    return(indicators)
 }
+
+loadFactors <- function(ind_spec) {
+   if(ind_spec$StaticSource) {
+      # Load LCIA factors from static file
+      StaticIndicatorFactors <- loadLCIAfactors()
+      # Subset LCIA factors list for the abbreviations
+      factors <- StaticIndicatorFactors[StaticIndicatorFactors$Code == ind_spec$Abbreviation, ]
+      # Add Indicator column
+      factors <- cbind("Indicator" = tolower(gsub(" ", "_", ind_spec$FullName)), factors)
+   } else {
+      func_to_eval <- ind_spec$ScriptFunctionCall
+      indloadfunction <- as.name(func_to_eval)
+      factors <- do.call(eval(indloadfunction), list(ind_spec$ScriptFunctionParameters))
+      factors <- prepareLCIAmethodforIndicators(factors)
+   }
+   return(factors)
+}
+   
+
+
+
 
 #' Generating LCIA output formatted for useeiopy using LCIA_indicators static file
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
