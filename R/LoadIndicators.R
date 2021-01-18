@@ -1,16 +1,22 @@
 #' Load indicator factors in a list based on model config.
 #' @param specs Specifications of the model.
 #' @return A list of indicator factors not yet formatted for IOMB.
+
+factor_fields <- c("Indicator","Flowable","Context","Unit","Amount")
+meta_fields <- c("FullName","Abbreviation","Group","Unit","SimpleUnit","SimpleName")
+#Indicator and FullName are the same
+
 loadIndicators <- function(specs) {
    logging::loginfo("Initializing model indicators...")
    meta <- data.frame()
-   metafields <- c("FullName","Abbreviation","Group","Unit","SimpleUnit","SimpleName")
    factors <- data.frame()
    for (s in specs$Indicators) {
       logging::loginfo(paste("Getting", tolower(s$FullName), "indicators..."))
+      
       # Populate metadata
-      i <- s[metafields]
-      meta <- rbind(meta,data.frame(i)) 
+      i <- s[meta_fields]
+      meta <- rbind(meta,data.frame(i))
+
       #Get factors
       f <- loadFactors(s)
       factors <- rbind(factors,f)
@@ -26,13 +32,14 @@ loadFactors <- function(ind_spec) {
       # Subset LCIA factors list for the abbreviations
       factors <- StaticIndicatorFactors[StaticIndicatorFactors$Code == ind_spec$Abbreviation, ]
       # Add Indicator column
-      factors <- cbind("Indicator" = tolower(gsub(" ", "_", ind_spec$FullName)), factors)
+      factors <- cbind("Indicator" = ind_spec$FullName, factors)
    } else {
       func_to_eval <- ind_spec$ScriptFunctionCall
       indloadfunction <- as.name(func_to_eval)
       factors <- do.call(eval(indloadfunction), list(ind_spec$ScriptFunctionParameters))
       factors <- prepareLCIAmethodforIndicators(factors)
    }
+   factors <- factors[,factor_fields]
    return(factors)
 }
    
