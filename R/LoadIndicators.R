@@ -45,6 +45,22 @@ loadFactors <- function(ind_spec) {
    return(factors)
 }
 
+#' Loads all LCIA factors from static source file after melting it to long file
+#' @return A dataframe with "Flowable", "UUID", "Context", "Unit", "Amount", "Code".
+loadLCIAfactors <- function() {
+   # Load static LCIA factors
+   lciafact <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Factors.csv", package = "useeior"),
+                                 sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+   # Melt these so there is one indicator score per line
+   lciafactlong <- reshape2::melt(lciafact, id.vars = c("Flowable", "Context", "Unit", "UUID"))
+   # Add Code and Amount
+   lciafactlong[, "Code"] <- as.character(lciafactlong$variable)
+   lciafactlong[, "Amount"] <- as.numeric(lciafactlong$value)
+   # Drop zeroes and keep wanted columns
+   lciafactlong <- lciafactlong[lciafactlong$value>0,
+                                c("Flowable", "UUID", "Context", "Unit", "Amount", "Code")]
+   return(lciafactlong)
+}
 
 #' Loads data for all model indicators as listed in model specs
 #' @param list a model object with IO data loaded
