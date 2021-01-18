@@ -123,7 +123,7 @@ prepareWriteDirs <- function(dirs,model=NA) {
 #' @description Writes model matrices, including A, B, C, D, L, U, M, CPI, x (Industry Output), and q (Commodity Output).
 writeModelMatricesforAPI <- function(model,modelfolder) {
   # Write model matrices to .bin files for API
-  MatricesforAPI <- c("A", "A_d", "B", "C", "D", "L", "U", "M", "CPI")
+  MatricesforAPI <- c("A", "A_d", "B", "C", "D", "L","L_d","U", "M", "CPI")
   for (matrix in MatricesforAPI) {
     writeMatrixasBinFile(model[[matrix]], paste0(modelfolder, "/", matrix, ".bin"))
   }
@@ -147,8 +147,6 @@ writeModelDemandstoJSON <- function(model,demandsfolder) {
   }
   for (demand in names(model$demands)) {
     f <- model$demands[[demand]]
-    # Change column name
-    #colnames(f) <- "amount"
     f <- data.frame(amount=f)
     # Add sector name
     f <- merge(model$SectorNames, f, by.x = "Sector", by.y = 0)
@@ -194,12 +192,19 @@ writeModelMetadata <- function(model,dirs) {
   }
   utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write indicators to csv
-  indicators <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
-                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+  #indicators <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
+     #                             sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+  indicators <- model$indicators  
+
   indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")],
                          1, FUN = joinStringswithSlashes)
   indicators$Index <- c(1:nrow(indicators)-1)
   indicators <- indicators[, c("Index", "ID", "Name", "Code", "Unit", "Group", "SimpleUnit", "SimpleName")]
+  
+  
+  
+  
+  
   utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write demands to csv
