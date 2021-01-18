@@ -769,25 +769,45 @@ getBEACodeName2012Schema <- function () {
   BEASummaryCommodityCodeName <- as.data.frame(t(BEASummary[5:6, 3:75]), stringsAsFactors = FALSE)
   colnames(BEASummaryCommodityCodeName) <- c("BEA_2012_Summary_Commodity_Code", "BEA_2012_Summary_Commodity_Name")
   rownames(BEASummaryCommodityCodeName) <- NULL
-  BEASummaryCommodityCodeName$BEA_2012_Summary_Commodity_Name <- gsub(" /.*", "", BEASummaryCommodityCodeName$BEA_2012_Summary_Commodity_Name)
   ## Sector
   BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2019_Sector.xlsx", sheet = "2012"))
   # Industry
   BEASectorIndustryCodeName <- BEASector[7:21, 1:2]
   colnames(BEASectorIndustryCodeName) <- c("BEA_2012_Sector_Industry_Code", "BEA_2012_Sector_Industry_Name")
-  BEASectorIndustryCodeName$BEA_2012_Sector_Industry_Code <- gsub("\\s", "", BEASectorIndustryCodeName$BEA_2012_Sector_Industry_Code)
   rownames(BEASectorIndustryCodeName) <- NULL
   # Commodity
   BEASectorCommodityCodeName <- as.data.frame(t(BEASector[5:6, 3:19]), stringsAsFactors = FALSE)
   colnames(BEASectorCommodityCodeName) <- c("BEA_2012_Sector_Commodity_Code", "BEA_2012_Sector_Commodity_Name")
   rownames(BEASectorCommodityCodeName) <- NULL
-  BEASectorCommodityCodeName$BEA_2012_Sector_Commodity_Name <- gsub(" /.*", "", BEASectorCommodityCodeName$BEA_2012_Sector_Commodity_Name)
   ### Put the data.frames in a list
   BEACodeNameList <- list(BEADetailIndustryCodeName, BEADetailCommodityCodeName,
                           BEASummaryIndustryCodeName, BEASummaryCommodityCodeName,
                           BEASectorIndustryCodeName, BEASectorCommodityCodeName)
+  BEACodeNameList <- lapply(BEACodeNameList, cleanSectorNames)
+  BEACodeNameList <- lapply(BEACodeNameList, cleanSectorCodes)
   names(BEACodeNameList) <- c("DetailIndustry", "DetailCommodity", "SummaryIndustry", "SummaryCommodity", "SectorIndustry", "SectorCommodity")
   return(BEACodeNameList)
+}
+
+#'Applies string functions to clean BEA codes in a df
+#'@param df, a sector dataframe with codes in col 1
+#'@return df, the same df with cleaned codes
+cleanSectorCodes <- function(df) {
+  codes <- df[,1]
+  codes <- removeExtraSpaces(codes)
+  df[,1] <- codes
+  return(df)
+}
+
+#'Applies string functions to clean BEA names in a df
+#'@param df, a sector dataframe with sector names in col 2
+#'@return df, the same df with cleaned names
+cleanSectorNames <- function(df) {
+  sec_names <- df[,2]
+  sec_names <- removeNumberinSlashes(sec_names)
+  sec_names <- convertStrEncodingLatintoASCII(sec_names)
+  df[,2] <- sec_names
+  return(df)
 }
 
 Detail_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["DetailIndustry"]]
