@@ -69,6 +69,10 @@ buildEEIOModel <- function(model) {
 #' @param B, the model B matrix to use for reference
 #' @return a C matrix in indicator x flow format
 createCfromFactorsandBflows <- function(factors,B_flows) {
+  # Add flow field to factors
+  factors$Flow <- tolower(apply(factors[, c("Flowable", "Context", "Unit")],
+                                   1, FUN = joinStringswithSlashes))
+  
   #Subset factor flows by flows in B matrix
   factors <- factors[factors$Flow %in% unique(B_flows),]
   
