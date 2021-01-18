@@ -1,11 +1,10 @@
-#' Load indicator factors in a list based on model config.
-#' @param specs Specifications of the model.
-#' @return A list of indicator factors not yet formatted for IOMB.
-
 factor_fields <- c("Indicator","Flowable","Context","Unit","Amount")
 meta_fields <- c("FullName","Abbreviation","Group","Unit","SimpleUnit","SimpleName")
 #Indicator and FullName are the same
 
+#' Load indicators and associated factors in a list based on model config.
+#' @param specs Specifications of the model.
+#' @return A list with df for indicators and df for factors.
 loadIndicators <- function(specs) {
    logging::loginfo("Initializing model indicators...")
    meta <- data.frame()
@@ -25,6 +24,9 @@ loadIndicators <- function(specs) {
    return(indicators)
 }
 
+#' Load indicator factors based on spec from static or dynamic source
+#' @param specs Specification of an indicator
+#' @return A dataframe of factors with factor_fields
 loadFactors <- function(ind_spec) {
    if(ind_spec$StaticSource) {
       # Load LCIA factors from static file
@@ -42,44 +44,7 @@ loadFactors <- function(ind_spec) {
    factors <- factors[,factor_fields]
    return(factors)
 }
-   
 
-
-
-
-#' Generating LCIA output formatted for useeiopy using LCIA_indicators static file
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return A dataframe of the LCIA factors for all indicators used in the model
-generateLCIA <- function (model) {
-   # Load LCIA factors
-   lciafactors <- loadLCIAfactors()
-   # Import LCIA indicators
-   lciaindicators <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
-                                       sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
-   indicators <- as.vector(unlist(lapply(model$specs$Indicators, FUN = `[[`, "Abbreviation")))
-   lciaindicators <- lciaindicators[lciaindicators$Code%in%indicators, ]
-   colnames(lciaindicators)[colnames(lciaindicators)=="Unit"] <- "Ref.Unit"
-   # Merge LCIA factors and indicators to get meta data
-   lcia <- merge(lciafactors, lciaindicators, by = "Code")
-   return(lcia)
-}
-
-#' Loads all LCIA factors from static source file after melting it to long file
-#' @return A dataframe with "Flowable", "UUID", "Context", "Unit", "Amount", "Code".
-loadLCIAfactors <- function() {
-   # Load static LCIA factors
-   lciafact <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Factors.csv", package = "useeior"),
-                                 sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
-   # Melt these so there is one indicator score per line
-   lciafactlong <- reshape2::melt(lciafact, id.vars = c("Flowable", "Context", "Unit", "UUID"))
-   # Add Code and Amount
-   lciafactlong[, "Code"] <- as.character(lciafactlong$variable)
-   lciafactlong[, "Amount"] <- as.numeric(lciafactlong$value)
-   # Drop zeroes and keep wanted columns
-   lciafactlong <- lciafactlong[lciafactlong$value>0,
-                                c("Flowable", "UUID", "Context", "Unit", "Amount", "Code")]
-   return(lciafactlong)
-}
 
 #' Loads data for all model indicators as listed in model specs
 #' @param list a model object with IO data loaded
