@@ -120,71 +120,75 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
   # For each disaggregation:
   for (disagg in model$DisaggregationSpecs$Disaggregation){
     
-    default_disaggregation <- FALSE
-    # If satellite table data is provided for the new sector assign it here
-    if(!is.null(disagg$EnvFileDF)){
-      new_sector_totals <- disagg$EnvFileDF
-      # Select only those rows from the disaggregation env file that apply for this satellite table
-      new_sector_totals <- subset(new_sector_totals, SatelliteTable==sat$Abbreviation, colnames(sattable))
-      if(nrow(new_sector_totals)==0){
-        logging::logwarn(paste0("No data found for disaggregation of ",sat$Abbreviation))
-        default_disaggregation <- TRUE
-      }
-      else{
-        # Check for errors in sattelite table
-        included_sectors <- unique(new_sector_totals[,"Sector"])
-        if (!identical(sort(included_sectors),sort(unlist(disagg$DisaggregatedSectorCodes)))){
-          logging::logwarn("Satellite table does not include all disaggregated sectors")
+    if(disagg$OriginalSectorCode %in% sattable$Sector){
+      default_disaggregation <- FALSE
+      # If satellite table data is provided for the new sector assign it here
+      if(!is.null(disagg$EnvFileDF)){
+        new_sector_totals <- disagg$EnvFileDF
+        # Select only those rows from the disaggregation env file that apply for this satellite table
+        new_sector_totals <- subset(new_sector_totals, SatelliteTable==sat$Abbreviation, colnames(sattable))
+        if(nrow(new_sector_totals)==0){
+          logging::logwarn(paste0("No data found for disaggregation of ",sat$Abbreviation," - applying default allocation"))
+          default_disaggregation <- TRUE
         }
-        
-        # Append to the main dataframe
-        sattable <- rbind(sattable,new_sector_totals)
-      }
-    }
-    else{
-      default_disaggregation <- TRUE
-    }
-    
-    if(default_disaggregation){
-      # Subset the totals from the original sector
-      old_sector_totals <- subset(sattable, Sector==disagg$OriginalSectorCode, colnames(sattable))
-      
-      if(!nrow(old_sector_totals)==0){
-        i<-0
-        for (new_sector in disagg$DisaggregatedSectorCodes){
-          i<-i+1
-          new_sector_totals <- old_sector_totals
-          new_sector_totals$Sector <- disagg$DisaggregatedSectorCodes[[i]]
-          new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
-          
-          # If satellite table is disaggregated proportional to gross output do that here
-          if(!is.null(disagg$MakeFileDF)){
-            GrossOutputAlloc <- subset(disagg$MakeFileDF, 
-                                       (IndustryCode == disagg$OriginalSectorCode & CommodityCode == new_sector))
-            if(nrow(GrossOutputAlloc)==0){
-              allocation <- 0
-            }
-            else{
-              allocation <- GrossOutputAlloc$PercentMake
-            }
-            new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount * allocation)
+        else{
+          # Check for errors in sattelite table
+          included_sectors <- unique(new_sector_totals[,"Sector"])
+          if (!identical(sort(included_sectors),sort(unlist(disagg$DisaggregatedSectorCodes)))){
+            logging::logwarn("Satellite table does not include all disaggregated sectors")
           }
-          
-          # Else, divide equally across new sectors
-          else{
-            new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount / length(disagg$DisaggregatedSectorCodes))
-          }
-          # Modify other metadata or DQI?
-          
           
           # Append to the main dataframe
-          sattable <- rbind(sattable,new_sector_totals)        
+          sattable <- rbind(sattable,new_sector_totals)
+        }
       }
-
+      else{
+        default_disaggregation <- TRUE
+      }
+      
+      if(default_disaggregation){
+        # Subset the totals from the original sector
+        old_sector_totals <- subset(sattable, Sector==disagg$OriginalSectorCode, colnames(sattable))
+        
+        if(!nrow(old_sector_totals)==0){
+          i<-0
+          for (new_sector in disagg$DisaggregatedSectorCodes){
+            i<-i+1
+            new_sector_totals <- old_sector_totals
+            new_sector_totals$Sector <- disagg$DisaggregatedSectorCodes[[i]]
+            new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
+            
+            # If satellite table is disaggregated proportional to gross output do that here
+            if(!is.null(disagg$MakeFileDF)){
+              GrossOutputAlloc <- subset(disagg$MakeFileDF, 
+                                         (IndustryCode == disagg$OriginalSectorCode & CommodityCode == new_sector))
+              if(nrow(GrossOutputAlloc)==0){
+                allocation <- 0
+              }
+              else{
+                allocation <- GrossOutputAlloc$PercentMake
+              }
+              new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount * allocation)
+            }
+            
+            # Else, divide equally across new sectors
+            else{
+              new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount / length(disagg$DisaggregatedSectorCodes))
+            }
+            # Modify other metadata or DQI?
+            
+            
+            # Append to the main dataframe
+            sattable <- rbind(sattable,new_sector_totals)        
+        }
+  
+      }}
+      # Remove the old_sector_totals
+      sattable_disaggregated <- subset(sattable, Sector!=disagg$OriginalSectorCode)
+    }
+    else{ # No disaggregation needed
+      sattable_disaggregated <- sattable 
     }}
-    # Remove the old_sector_totals
-    sattable_disaggregated <- subset(sattable, Sector!=disagg$OriginalSectorCode)
-  }
   
   return(sattable_disaggregated)
 }
