@@ -58,8 +58,7 @@
 loadSatTables <- function(model) {
   sattables <- list()
   sattables$totals_by_sector <- list()
-  sattables$coeffs_by_sector <- list()
-  
+
   logging::loginfo("Initializing model satellite tables...")
 
   #Loop through each sat specification
@@ -94,29 +93,9 @@ loadSatTables <- function(model) {
         tbs <- mapListbyName(tbs, sat_spec)
       }
     }
-    
-    coeffs_by_sector <- data.frame()
-    for (r in model$specs$ModelRegionAcronyms) {
-      sattable_r <- tbs[tbs$Location==r, ]
-      if (r=="RoUS") {
-        IsRoUS <- TRUE
-      } else {
-        IsRoUS <- FALSE
-        # Change Location if model is a state model
-        if (model$specs$ModelType=="state") {
-          sattable_r[, "Location"] <- paste0("US-", r)
-        }
-      }
-      for (year in sat_spec$DataYears){
-      coeffs_by_sector_r <- generateFlowtoDollarCoefficient(tbs[tbs$Year==year, ], year,
-                                                            model$specs$IOYear, r, IsRoUS = IsRoUS, model)
-      coeffs_by_sector <- rbind(coeffs_by_sector, coeffs_by_sector_r)
-      }
-    }
-
-    # Add totals_by_sector and coeffs_by_sector to the sattables list
+  
+    # Add totals_by_sector to the sattables list
     sattables$totals_by_sector[[sat_spec$Abbreviation]] <- tbs
-    sattables$coeffs_by_sector[[sat_spec$Abbreviation]] <- coeffs_by_sector
   }
   return(sattables)
 }
@@ -128,9 +107,6 @@ loadSatTables <- function(model) {
 loadandbuildSatelliteTables <- function(model) {
   # Generate satellite tables
   model$SatelliteTables <- loadSatTables(model)
-  # Combine satellite tables (coeffs_by_sector) into a single df
-  StandardizedSatelliteTable <- do.call(rbind, model$SatelliteTables$coeffs_by_sector)
-  model$sattables_cast <- standardizeandcastSatelliteTable(StandardizedSatelliteTable,model)
   return(model)
 }
 
@@ -200,7 +176,7 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
     if (sat_spec$SectorListLevel == "Detail" && sat_spec$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
       tbs <- mapFlowTotalsbySectorfromBEASchema2007to2012(tbs)
     }
-    # If the orginal data is at Detail level but model is not, apply aggregation
+    # If the original data is at Detail level but model is not, apply aggregation
     if (sat_spec$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
       tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,to_level = model$specs$BaseIOLevel,model)
     }
@@ -210,6 +186,14 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
   # Check if disaggregation is needed based on model metadata
   if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat_spec$StaticFile)){
     tbs <- disaggregateSatelliteTable(model, tbs, sat_spec)
+  }
+  
+  for (r in model$specs$ModelRegionAcronyms) {
+    # Change Location if model is a state model
+    if (model$specs$ModelType=="state") {
+      stop("Fix this function for state models before proceesing")
+      tbs[,"Location"] <- vapply(tbs[,"Location"],formatLocationforStateModels)
+    }
   }
   return(tbs)
 }
