@@ -153,7 +153,7 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
   # Define indicator variables
   indicator_vars <- c("Flowable", "Context", "Unit", "Amount", "Code")
   # Extract flows_in_indicator and totals_by_sector from model
-  flows_in_indicator <- model$indicators[model$indicators["Code"]==indicator_code, indicator_vars]
+  flows_in_indicator <- model$Indicators[model$Indicators["Code"]==indicator_code, indicator_vars]
   totals_by_sector <-  model$SatelliteTables$totals_by_sector[[totals_by_sector_name]]
   # Mergeflows_in_indicator and totals_by_sector and calculate IndicatorScore
   df <- merge(totals_by_sector, flows_in_indicator, by = c("Flowable", "Context", "Unit")) 
