@@ -1,25 +1,32 @@
 #CompareModels.R
 
-#' Compare LCI in the form of totals by sector for two models
-#' @param NameModelA Model file to compare
-#' @param NameModelB Model file to compare to
-compareLCI <- function(NameModelA, NameModelB) {
-  modelA <- useeior::loadIOData(NameModelA)
-  modelA <- useeior::loadandbuildSatelliteTables(modelA)
-  LCI_A <- data.frame(do.call("rbind", modelA$SatelliteTables$totals_by_sector))
+#' Compare flow totals for two models
+#' @param TbSA a totals-by-sector list from a model
+#' @param TbSB a totals-by-sector list from a model
+#' @return df, the validate::confrontation result
+compareFlowTotals <- function(TbSA, TbSB) {
+  tbs_A <- groupandsumTbSbyFlowLoc(TbSA)
+  tbs_B <- groupandsumTbSbyFlowLoc(TbSB)
+  list_A_B <- harmonizeDFsbyrowname(tbs_A,tbs_B)
+  A <- list_A_B[[1]]
+  B <- list_A_B[[2]]
   
-  modelB <- useeior::loadIOData(NameModelB)
-  modelB <- useeior::loadandbuildSatelliteTables(modelB)
-  LCI_B <- data.frame(do.call("rbind", modelB$SatelliteTables$totals_by_sector))
-
-  library(validate)
-  rule <- validate::validator(abs(LCI_A - LCI_B)/LCI_B <= 0.05)
-  confrontation <- validate::confront(LCI_A, rule, LCI_B)
-  test <- summary(confrontation)
-  print(test)
+  rule <- validate::validator(abs(A - B)/A <= 0.01)
+  confrontation <- validate::confront(A, rule, B)
+  summary(confrontation)
   df_confrontation <- validate::as.data.frame(confrontation)
-  df_rule <- validate::as.data.frame(rule)
-  validation <- merge(df_confrontation, df_rule)
-  
+  return(df_confrontation)
 }
 
+
+groupandsumTbSbyFlowLoc <- function(TbS) {
+  tbs <- data.frame(do.call("rbind", TbS))
+  fields <- c("Flowable","Context","Unit","Location")
+  tbs$FlowLoc <- apply(tbs[, fields],1,FUN = joinStringswithSlashes)
+  tbs <- dplyr::group_by(tbs,FlowLoc) 
+  tbs <- dplyr::summarize(tbs,FlowAmount = sum(FlowAmount))
+  tbs <- as.data.frame(tbs)
+  rownames(tbs) <- tbs$FlowLoc
+  tbs <- subset(tbs,select="FlowAmount")
+  return(tbs)
+}
