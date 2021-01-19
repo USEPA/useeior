@@ -72,3 +72,24 @@ formatSectorMetaDataforIOMB <- function (model) {
   sectormetadata$Description <- ""
   return(sectormetadata)
 }
+
+#'Formats the location by appending "US-" before models
+#'@param r, string of region name
+#'@return r, "US-r"
+formatLocationforStateModels <- function(r){
+  r <- paste0("US-", r)
+  return(r)
+}
+
+#'Appends name after slash and formats all in lower case
+#'@param v, character vector of names
+#'@param loc, string for location
+#'@return v, the original char v with /loc added
+addSlashandNameItem <- function (v,loc) {
+  name <- tolower(paste(v, loc, sep = "/"))  
+  return(name)
+}
+
+
+
+
