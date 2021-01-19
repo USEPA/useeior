@@ -1,6 +1,6 @@
 #' Load totals by sector/region and prepares them based on model specs.
 #' @param model A model list object with the specs object listed
-#' @return Lists of national totals by sector
+#' @return Lists of totals by sector by region and unique flows
 #' @format A list with lists of totals by sector
 #' \describe{
 #'  \itemize{
@@ -34,7 +34,7 @@
 loadSatTables <- function(model) {
   sattables <- list()
   sattables$totals_by_sector <- list()
-
+  flows <- list()
   logging::loginfo("Initializing model satellite tables...")
 
   #Loop through each sat specification
@@ -69,10 +69,16 @@ loadSatTables <- function(model) {
         tbs <- mapListbyName(tbs, sat_spec)
       }
     }
-  
+    flow_fields <- c("Flowable","Context","Unit","FlowUUID")
+    flows_tbs <- unique(tbs[,flow_fields])
+    flows <- rbind(flows,flows_tbs)
     # Add totals_by_sector to the sattables list
     sattables$totals_by_sector[[sat_spec$Abbreviation]] <- tbs
   }
+  flows <- unique(flows[,flow_fields])
+  #Re-index the flows
+  rownames(flows) <- NULL
+  sattables$flows <- flows
   return(sattables)
 }
 

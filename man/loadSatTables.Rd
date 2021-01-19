@@ -39,7 +39,7 @@ loadSatTables(model)
 \item{model}{A model list object with the specs object listed}
 }
 \value{
-Lists of national totals by sector
+Lists of totals by sector by region and unique flows
 }
 \description{
 Supports BEA and NAICS based totals. These totals can be provided as static files
