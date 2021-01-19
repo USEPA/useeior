@@ -247,8 +247,8 @@ applyRAS <- function(m0, t_r, t_c, relative_diff, absolute_diff, max_itr) {
 }
 
 #' Remove spaces around strings, like "321A "
-#' @param string
-#' @return string
+#' @param s, string
+#' @return s, string with spaces removed
 removeExtraSpaces <- function(s) {
   s <- gsub("\\s", "",s)
   return(s)
@@ -256,16 +256,16 @@ removeExtraSpaces <- function(s) {
 
 
 #' Remove numbers in slashes from a string, like /1/
-#' @param string
-#' @return string
+#' @param s, string
+#' @return s, string with numbers in slashes removed
 removeNumberinSlashes <- function(s) {
   s <- gsub(" /.*", "",s)
   return(s)
 }
 
 #' Forces a string encoding to ASCII from Latin-1
-#' @param string
-#' @return string
+#' @param s, string with Latin-1 encoding
+#' @return s, string with ASCII encoding
 convertStrEncodingLatintoASCII <- function(s) {
   s <- iconv(s, from = 'latin1', to = 'ASCII', sub='')
   return(s)

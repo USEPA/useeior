@@ -6,8 +6,11 @@
 \usage{
 convertStrEncodingLatintoASCII(s)
 }
+\arguments{
+\item{s, }{string with Latin-1 encoding}
+}
 \value{
-string
+s, string with ASCII encoding
 }
 \description{
 Forces a string encoding to ASCII from Latin-1

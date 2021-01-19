@@ -6,8 +6,11 @@
 \usage{
 removeNumberinSlashes(s)
 }
+\arguments{
+\item{s, }{string}
+}
 \value{
-string
+s, string with numbers in slashes removed
 }
 \description{
 Remove numbers in slashes from a string, like /1/

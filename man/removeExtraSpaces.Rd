@@ -6,8 +6,11 @@
 \usage{
 removeExtraSpaces(s)
 }
+\arguments{
+\item{s, }{string}
+}
 \value{
-string
+s, string with spaces removed
 }
 \description{
 Remove spaces around strings, like "321A "
