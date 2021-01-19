@@ -1,7 +1,3 @@
-factor_fields <- c("Indicator","Flowable","Context","Unit","Amount")
-meta_fields <- c("FullName","Abbreviation","Group","Unit","SimpleUnit","SimpleName")
-#Indicator and FullName are the same
-
 #' Load indicators and associated factors in a list based on model config.
 #' @param specs Specifications of the model.
 #' @return A list with df for indicators and df for factors.
@@ -13,6 +9,7 @@ loadIndicators <- function(specs) {
       logging::loginfo(paste("Getting", tolower(s$FullName), "indicators..."))
       
       # Populate metadata
+      meta_fields <- configr::read.config(system.file("extdata/IOMB_Fields.yml", package="useeior"))[["Indicator"]][["Meta"]]
       i <- s[meta_fields]
       meta <- rbind(meta,data.frame(i))
 
@@ -41,6 +38,7 @@ loadFactors <- function(ind_spec) {
       factors <- do.call(eval(indloadfunction), list(ind_spec$ScriptFunctionParameters))
       factors <- prepareLCIAmethodforIndicators(factors)
    }
+   factor_fields <- configr::read.config(system.file("extdata/IOMB_Fields.yml", package="useeior"))[["Indicator"]][["Factor"]]
    factors <- factors[,factor_fields]
    return(factors)
 }
@@ -70,6 +68,6 @@ loadandbuildIndicators <- function(model) {
    # Generate C matrix: LCIA indicators
    indicators <- loadIndicators(model$specs)
    # Add to model object
-   model$indicators <- indicators
+   model$Indicators <- indicators
    return(model)
 }
