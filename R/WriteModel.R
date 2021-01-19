@@ -230,12 +230,11 @@ writeModelMetadata <- function(model,dirs) {
   utils::write.csv(sectors, paste0(outputfolder, "sectors.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write flows to csv
-  flows <- row.names(model$B)
-  flows$ID <- apply(flows[, c("Category", "Subcategory", "Name", "Unit")],
-                    1, FUN = joinStringswithSlashes)
-  flows[, "Sub-Category"] <- flows$Subcategory
+  flows <- model$SatelliteTables$flows
   flows$Index <- c(1:nrow(flows)-1)
-  flows <- flows[, c("Index", "ID", "Name", "Category", "Sub-Category", "Unit", "UUID")]
+  flows$ID <- apply(flows[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
+  names(flows)[names(flows) == 'FlowUUID'] <- 'UUID'
+  flows <- flows[, c("Index", "ID", "Flowable", "Context", "Unit", "UUID")]
   utils::write.csv(flows, paste0(outputfolder, "/flows.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
