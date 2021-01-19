@@ -18,6 +18,8 @@ loadIndicators <- function(specs) {
 
       #Get factors
       f <- loadFactors(s)
+      #Make sure indicator name comes from spec and not factor source data
+      f$Indicator <- s[["FullName"]]
       factors <- rbind(factors,f)
    }   
    indicators <- list(meta=meta,factors=factors)
