@@ -14,56 +14,60 @@ buildEEIOModel <- function(model) {
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
   model$W <- as.matrix(model$UseValueAdded)
   if(model$specs$CommoditybyIndustryType == "Commodity") {
-    logging::loginfo("Building commodityxcommodity direct requirement matrix ...")
+    logging::loginfo("Building commodity-by-commodity A matrix (direct requirement) ...")
     model$A <- model$U_n %*% model$V_n
     model$A_d <- model$U_d_n %*% model$V_n
   } else if(model$specs$CommoditybyIndustryType == "Industry") {
-    logging::loginfo("Building industryxindustry requirement matrix ...")
+    logging::loginfo("Building industry-by-industry A matrix (direct requirement) ...")
     model$A <- model$V_n %*% model$U_n
     model$A_d <- model$V_n %*% model$U_d_n
   }
   # Create an imports requirements matrix 
-  logging::loginfo("Building direct requirements import matrix ...")
+  logging::loginfo("Building A_m matrix (direct requirements import) ...")
   model$A_m <- model$A - model$A_d
 
   # Generate B matrix
-  logging::loginfo("Building B matrix ...")
+  logging::loginfo("Building B matrix (direct emissions and resource use per dollar) ...")
   model$B <- createBfromEnvDataandOutput(model)
     
-  #Generate C matrix
-  logging::loginfo("Building C matrix ...")
-  model$C <- createCfromFactorsandBflows(model$indicators$factors,rownames(model$B))
+  # Generate C matrix
+  logging::loginfo("Building C matrix (characterization factors for model indicators) ...")
+  model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
 
   # Add direct impact matrix
-  logging::loginfo("Calculating D matrix ...")
+  logging::loginfo("Calculating D matrix (direct environmental impacts per dollar) ...")
   model$D <- model$C %*% model$B 
   
   # Calculate total requirements matrix as Leontief inverse of A (L)
-  logging::loginfo("Calculating total requirements matrix...")
+  logging::loginfo("Calculating L matrix (total requirements) ...")
   I <- diag(nrow(model$A))
   I_d <- diag(nrow(model$A_d))
   model$L <- solve(I - model$A)
   model$L_d <- solve(I_d - model$A_d)
+  
   # Calculate total emissions/resource use per dollar (M)
-  logging::loginfo("Calculating total emissions per dollar matrix...")
+  logging::loginfo("Calculating M matrix (total emissions and resource use per dollar) ...")
   model$M <- model$B %*% model$L
-  
-  
   colnames(model$M) <- addSlashandNameItem(colnames(model$M), model$specs$PrimaryRegionAcronym)
   # Calculate M_d, the domestic emissions per dollar using domestic Leontief
   model$M_d <- model$B %*% model$L_d
   colnames(model$M_d) <- colnames(model$M)
+  
   # Calculate total requirements for imports - note different method
   model$L_m <- model$A_m %*% model$L_d
+  
   # Calculate M_e, the external emissions per dollar using the domestic technology assumption
   #model$M_e <- model$B %*% model$L_m
   #colnames(model$M_e) <- tolower(paste(colnames(model$M_e), model$specs$PrimaryRegionAcronym, sep = "/"))
+  
   # Calculate total impacts per dollar (U), impact category x sector
+  logging::loginfo("Calculating U matrix (total environmental impacts per dollar) ...")
   model$U <- model$C %*% model$M
   # Calculate U_d, the domestic impacts per dollar
   model$U_d <- model$C %*% model$M_d
   #Calculate U_e, the external impacts per dollar using the domestic technology assumption
   #model$U_e <- model$C %*% model$M_e
+  
   logging::loginfo("Model build complete.")
   return(model)
 }
@@ -109,7 +113,7 @@ generateCbSfromTbSandModel <- function(model) {
 
 
 #' Generate C matrix from indicator factors and a model B matrix
-#' @param factors, df in model$indicators$factors format
+#' @param factors, df in model$Indicators$factors format
 #' @param B, the model B matrix to use for reference
 #' @return a C matrix in indicator x flow format
 createCfromFactorsandBflows <- function(factors,B_flows) {
