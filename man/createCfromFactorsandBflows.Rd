@@ -7,7 +7,7 @@
 createCfromFactorsandBflows(factors, B_flows)
 }
 \arguments{
-\item{factors, }{df in model$indicators$factors format}
+\item{factors, }{df in model$Indicators$factors format}
 
 \item{B, }{the model B matrix to use for reference}
 }
