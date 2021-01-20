@@ -6,7 +6,7 @@
 loadDemandVectors <- function(model) {
   logging::loginfo("Loading demand vectors from model spec ...")
   model$demands <- list()
-  for (v in model$specs$Demand$DemandVectors) {
+  for (v in names(model$specs$DemandVectors)) {
     #Check if the demand is registered
     if (v %in% names(dem_vec_fxn_registry)) {
        func_to_eval <- dem_vec_fxn_registry[[v]]

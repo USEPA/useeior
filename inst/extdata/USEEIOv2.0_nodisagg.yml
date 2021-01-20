@@ -270,9 +270,6 @@ SatelliteTable:
      URL: "https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"
      Primary: TRUE
 
-Demand:
-  DemandVectors: ["Consumption", "Production", "Household"]
-
 Indicators:
   GreenhouseGases:
     FullName: "Greenhouse Gases"
@@ -607,3 +604,17 @@ Indicators:
     SimpleName: "Construction Debris" 
     StaticSource: TRUE
     DataSources:
+
+DemandVectors:
+    Consumption:
+      Year: 2012
+      System: "Complete"
+      Location: "US"
+    Production:
+      Year: 2012
+      System: "Complete"
+      Location: "US"
+    Household:
+      Year: 2012
+      System: "Complete"
+      Location: "US"
