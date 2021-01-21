@@ -23,7 +23,8 @@ loadDemandVectors <- function(model) {
        model$DemandVectors$vectors[[v]] <- dv
        logging::loginfo(paste("Loaded",v,"demand vector."))
     } else {
-      logging::logwarn(paste(v, "not found in registered demand vector functions. Not including", v))
+      logging::logerror(paste(v, "not found in registered demand vector functions. This vector must be registered or removed from the model spec."))
+      stop()
     }
   }
   model$DemandVectors$meta <- meta
