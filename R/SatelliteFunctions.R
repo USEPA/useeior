@@ -243,3 +243,14 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
   }
   return(totals_by_sector_new)
 }
+
+#'Checks flow amounts are equal in totals by sector after conforming to model schema
+#'@param tbs0, totals-by-sector df in source schema
+#'@param tbs, totals-by-sector df in model schema
+checkSatelliteFlowLoss <- function(tbs0, tbs) {
+  tbs0_flowamount <- colSums(tbs0['FlowAmount'])
+  tbs_flowamount <- colSums(tbs['FlowAmount'])
+  if(abs(tbs0_flowamount - tbs_flowamount)/tbs0_flowamount >= 0.001){
+    logging::logwarn("Data loss on conforming to model schema")    
+  }
+}
