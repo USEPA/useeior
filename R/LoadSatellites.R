@@ -48,7 +48,8 @@ loadSatTables <- function(model) {
     tbs <- conformTbStoIOSchema(tbs0, sat_spec, model)
     
     ##Check for any loss of flow data
-    
+    checkSatelliteFlowLoss(tbs0,tbs)
+
     # Add in DQ columns and additional contextual scores not provided
     # Only setting TemporalCorrelation for now
     tbs <- scoreContextualDQ(tbs) 
