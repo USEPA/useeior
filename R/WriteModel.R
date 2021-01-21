@@ -145,13 +145,11 @@ writeModelDemandstoJSON <- function(model,demandsfolder) {
     logging::logerror("Currently only works for single region US models.")
     stop()
   }
-  for (demand in names(model$demands)) {
-    f <- model$demands[[demand]]
+  
+  for (n in names(model$DemandVectors$vectors)) {
+    f <- model$DemandVectors$vectors[[n]]
     f <- data.frame(amount=f)
     # Add sector name
-    f <- merge(model$SectorNames, f, by.x = "Sector", by.y = 0)
-    f$sector <- apply(cbind(f[, c("Sector", "SectorName")], model$specs$PrimaryRegionAcronym),
-                           1, FUN = joinStringswithSlashes)
     f <- f[, c("sector", "amount")]
     filename <- tolower(paste(model$specs$IOYear, model$specs$PrimaryRegionAcronym, demand, sep = "_"))
     f <- jsonlite::toJSON(f, pretty = TRUE)
@@ -206,8 +204,8 @@ writeModelMetadata <- function(model,dirs) {
   utils::write.csv(indicators, paste0(outputfolder, "indicators.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write demands to csv
-  demands <- as.data.frame(gsub(".json", "", list.files(paste0(outputfolder, "/demands"))),
-                           stringsAsFactors = FALSE)
+  demands <- model$specs$Demand$DemandVectors
+  
   colnames(demands) <- "ID"
   for (n in 1:nrow(demands)) {
     demands[n, "Year"] <- unlist(strsplit(demands[n, "ID"], "_"))[1]
