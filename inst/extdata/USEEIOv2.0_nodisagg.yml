@@ -607,14 +607,17 @@ Indicators:
 
 DemandVectors:
     Consumption:
+      Type: "Consumption"
       Year: 2012
       System: "Complete"
       Location: "US"
     Production:
+      Type: "Production"
       Year: 2012
       System: "Complete"
       Location: "US"
-    Household:
+    HouseholdConsumption:
+      Type: "Consumption"
       Year: 2012
-      System: "Complete"
+      System: "Household"
       Location: "US"
