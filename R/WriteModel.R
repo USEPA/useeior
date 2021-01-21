@@ -145,13 +145,11 @@ writeModelDemandstoJSON <- function(model,demandsfolder) {
     logging::logerror("Currently only works for single region US models.")
     stop()
   }
-  for (demand in names(model$demands)) {
-    f <- model$demands[[demand]]
+  
+  for (n in names(model$DemandVectors$vectors)) {
+    f <- model$DemandVectors$vectors[[n]]
     f <- data.frame(amount=f)
     # Add sector name
-    f <- merge(model$SectorNames, f, by.x = "Sector", by.y = 0)
-    f$sector <- apply(cbind(f[, c("Sector", "SectorName")], model$specs$PrimaryRegionAcronym),
-                           1, FUN = joinStringswithSlashes)
     f <- f[, c("sector", "amount")]
     filename <- tolower(paste(model$specs$IOYear, model$specs$PrimaryRegionAcronym, demand, sep = "_"))
     f <- jsonlite::toJSON(f, pretty = TRUE)
@@ -195,7 +193,7 @@ writeModelMetadata <- function(model,dirs) {
   utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
   # Write indicators to csv
-  indicators <- model$indicators$meta  
+  indicators <- model$Indicators$meta  
   indicators$ID <- apply(indicators[, c("Group", "Abbreviation", "Unit")],
                          1, FUN = joinStringswithSlashes)
   indicators$Index <- c(1:nrow(indicators)-1)
@@ -203,12 +201,11 @@ writeModelMetadata <- function(model,dirs) {
   
   api_indicator_fields <- c("Index", "ID", "Name", "Code", "Unit", "Group", "SimpleUnit", "SimpleName")
   colnames(indicators) <- api_indicator_fields
-  utils::write.csv(indicators, paste0(outputfolder, "indicators.csv"),
-                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(indicators, paste0(outputfolder, "indicators.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write demands to csv
-  demands <- as.data.frame(gsub(".json", "", list.files(paste0(outputfolder, "/demands"))),
-                           stringsAsFactors = FALSE)
+  demands <- model$specs$Demand$DemandVectors
+  
   colnames(demands) <- "ID"
   for (n in 1:nrow(demands)) {
     demands[n, "Year"] <- unlist(strsplit(demands[n, "ID"], "_"))[1]
@@ -231,12 +228,11 @@ writeModelMetadata <- function(model,dirs) {
   utils::write.csv(sectors, paste0(outputfolder, "sectors.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write flows to csv
-  flows <- row.names(model$B)
-  flows$ID <- apply(flows[, c("Category", "Subcategory", "Name", "Unit")],
-                    1, FUN = joinStringswithSlashes)
-  flows[, "Sub-Category"] <- flows$Subcategory
+  flows <- model$SatelliteTables$flows
   flows$Index <- c(1:nrow(flows)-1)
-  flows <- flows[, c("Index", "ID", "Name", "Category", "Sub-Category", "Unit", "UUID")]
+  flows$ID <- apply(flows[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
+  names(flows)[names(flows) == 'FlowUUID'] <- 'UUID'
+  flows <- flows[, c("Index", "ID", "Flowable", "Context", "Unit", "UUID")]
   utils::write.csv(flows, paste0(outputfolder, "/flows.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))

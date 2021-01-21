@@ -245,3 +245,43 @@ applyRAS <- function(m0, t_r, t_c, relative_diff, absolute_diff, max_itr) {
   m <- RAS(m0, t_r, t_c, t, max_itr)
   return(m)
 }
+
+#' Remove spaces around strings, like "321A "
+#' @param s, string
+#' @return s, string with spaces removed
+removeExtraSpaces <- function(s) {
+  s <- gsub("\\s", "",s)
+  return(s)
+}
+
+
+#' Remove numbers in slashes from a string, like /1/
+#' @param s, string
+#' @return s, string with numbers in slashes removed
+removeNumberinSlashes <- function(s) {
+  s <- gsub(" /.*", "",s)
+  return(s)
+}
+
+#' Forces a string encoding to ASCII from Latin-1
+#' @param s, string with Latin-1 encoding
+#' @return s, string with ASCII encoding
+convertStrEncodingLatintoASCII <- function(s) {
+  s <- iconv(s, from = 'latin1', to = 'ASCII', sub='')
+  return(s)
+}
+
+#' Align two dfs by row
+#' @param df1, a dataframe with row names
+#' @param df2, another dataframe with row names matching some of df1
+#' @return, a list with harmonized df1 in position 1 and harmonized df2 in position 2
+harmonizeDFsbyrowname <- function(df1,df2) {
+  rdf1 <- rownames(df1)
+  rdf2 <- rownames(df2)
+  df1c <- data.frame(df1[(rdf1 %in% rdf2),])
+  df2c <- data.frame(df2[(rdf2 %in% rdf1),])
+  colnames(df2c) <- colnames(df2)
+  df1c <- data.frame(df1c[rownames(df2c),])
+  colnames(df1c) <- colnames(df1)
+  return(list(df1c,df2c))
+}

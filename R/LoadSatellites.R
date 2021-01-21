@@ -1,23 +1,23 @@
-#' Load totals by sector/region and builds satellite tables based on model specs.
-#' Supports BEA and NAICS based totals. These totals can be provided as static files
-#' or dynamic function calls are supported. NAICS-based totals are aggregated/allocated to BEA sectors
-#' as part of the preparation.
+#' Load totals by sector/region and prepares them based on model specs.
 #' @param model A model list object with the specs object listed
-#' @return Lists of national totals by sector and formatted satellite tables
-#' @format A list with lists of totals by sector and formatted satellite tables
+#' @return Lists of totals by sector by region and unique flows
+#' @format A list with lists of totals by sector
 #' \describe{
 #'  \itemize{
 #'    \item totals_by_sector
 #'      \itemize{
 #'        \item Flowable {Name of the flow}
-#'        \item Sector {Code of the sector in the model IO schema}
-#'        \item SectorSourceName {Source of the sector categorization, default is NAICS_2012_Code}
 #'        \item Context {Full context of the flow, compartment and subcompartment combined}
-#'        \item Location {Activity location, at a national, state, or county level}
 #'        \item Unit {SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows.}
+#'        \item FlowUUID {unique hex code for flow}
+#'        \item SectorName {Name of the sector}
+#'        \item Sector {Code of the sector in the model IO schema}
+#'        \item FlowAmount {Amount of the flow}
+#'        \item Location {Activity location, at a national, state, or county level}
 #'        \item Year {Year of the data}
 #'        \item DistributionType {Form of the frequency distribution, if given. Acceptable values are 'NORMAL', 'LOGNORMAL', 'TRIANGULAR', 'UNIFORM'.}
-#'        \item FlowAmount {Amount of the flow}
+#'        \item ExpectedValue {Value of midpoint of distribution}
+#'        \item Dispersion {Measure of dispersion from the mean}
 #'        \item Min {The minimum FlowAmount, if provided for the data range.}
 #'        \item Max {The maximum FlowAmount, if provided for the data range.}
 #'        \item DataReliability {A 1-5 score of data reliability based on reporting values associated with the amount.}
@@ -25,41 +25,16 @@
 #'        \item GeographicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
 #'        \item TechnologicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
 #'        \item DataCollection {A 1-5 score of data collection based on reporting values associated with the amount.}
-#'      }
-#'    \item coeffs_by_sector
-#'      \itemize{
-#'        \item Flowable {Name of the flow}
-#'        \item CAS
-#'        \item Context {Full context of the flow, compartment and subcompartment combined}
-#'        \item FlowUUID
-#'        \item SectorName {Name of the sector in the model IO schema}
-#'        \item Sector {Code of the sector in the model IO schema}
-#'        \item Location {Activity location, at a national, state, or county level}
-#'        \item FlowAmount {Amount of the flow}
-#'        \item Unit {SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows.}
-#'        \item DistributionType {Form of the frequency distribution, if given. Acceptable values are 'NORMAL', 'LOGNORMAL', 'TRIANGULAR', 'UNIFORM'.}
-#'        \item ExpectedValue
-#'        \item Dispersion
-#'        \item Min {The minimum FlowAmount, if provided for the data range.}
-#'        \item Max {The maximum FlowAmount, if provided for the data range.}
-#'        \item DataReliability {A 1-5 score of data reliability based on reporting values associated with the amount.}
-#'        \item TemporalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
-#'        \item GeographicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
-#'        \item TechnologicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
-#'        \item DataCollection {A 1-5 score of data collection based on reporting values associated with the amount.}
-#'        \item Year {Year of the data}
-#'        \item MetaTags
-#'        \item MetaSources       
-#'        \item MetaOther
-#'      }
+#'    }
 #'  }
 #' }
-#' @description Only works for static national totals by BEA sector in a set format
+#' @description Supports BEA and NAICS based totals. These totals can be provided as static files
+#' or dynamic function calls are supported. NAICS-based totals are aggregated/allocated to BEA sectors
+#' as part of the preparation.
 loadSatTables <- function(model) {
   sattables <- list()
   sattables$totals_by_sector <- list()
-  sattables$coeffs_by_sector <- list()
-  
+  flows <- list()
   logging::loginfo("Initializing model satellite tables...")
 
   #Loop through each sat specification
@@ -94,30 +69,16 @@ loadSatTables <- function(model) {
         tbs <- mapListbyName(tbs, sat_spec)
       }
     }
-    
-    coeffs_by_sector <- data.frame()
-    for (r in model$specs$ModelRegionAcronyms) {
-      sattable_r <- tbs[tbs$Location==r, ]
-      if (r=="RoUS") {
-        IsRoUS <- TRUE
-      } else {
-        IsRoUS <- FALSE
-        # Change Location if model is a state model
-        if (model$specs$ModelType=="state") {
-          sattable_r[, "Location"] <- paste0("US-", r)
-        }
-      }
-      for (year in sat_spec$DataYears){
-      coeffs_by_sector_r <- generateFlowtoDollarCoefficient(tbs[tbs$Year==year, ], year,
-                                                            model$specs$IOYear, r, IsRoUS = IsRoUS, model)
-      coeffs_by_sector <- rbind(coeffs_by_sector, coeffs_by_sector_r)
-      }
-    }
-
-    # Add totals_by_sector and coeffs_by_sector to the sattables list
+    flow_fields <- c("Flowable","Context","Unit","FlowUUID")
+    flows_tbs <- unique(tbs[,flow_fields])
+    flows <- rbind(flows,flows_tbs)
+    # Add totals_by_sector to the sattables list
     sattables$totals_by_sector[[sat_spec$Abbreviation]] <- tbs
-    sattables$coeffs_by_sector[[sat_spec$Abbreviation]] <- coeffs_by_sector
   }
+  flows <- unique(flows[,flow_fields])
+  #Re-index the flows
+  rownames(flows) <- NULL
+  sattables$flows <- flows
   return(sattables)
 }
 
@@ -128,9 +89,6 @@ loadSatTables <- function(model) {
 loadandbuildSatelliteTables <- function(model) {
   # Generate satellite tables
   model$SatelliteTables <- loadSatTables(model)
-  # Combine satellite tables (coeffs_by_sector) into a single df
-  StandardizedSatelliteTable <- do.call(rbind, model$SatelliteTables$coeffs_by_sector)
-  model$sattables_cast <- standardizeandcastSatelliteTable(StandardizedSatelliteTable,model)
   return(model)
 }
 
@@ -200,7 +158,7 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
     if (sat_spec$SectorListLevel == "Detail" && sat_spec$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
       tbs <- mapFlowTotalsbySectorfromBEASchema2007to2012(tbs)
     }
-    # If the orginal data is at Detail level but model is not, apply aggregation
+    # If the original data is at Detail level but model is not, apply aggregation
     if (sat_spec$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
       tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,to_level = model$specs$BaseIOLevel,model)
     }
@@ -210,6 +168,14 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
   # Check if disaggregation is needed based on model metadata
   if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat_spec$StaticFile)){
     tbs <- disaggregateSatelliteTable(model, tbs, sat_spec)
+  }
+  
+  for (r in model$specs$ModelRegionAcronyms) {
+    # Change Location if model is a state model
+    if (model$specs$ModelType=="state") {
+      stop("Fix this function for state models before proceesing")
+      tbs[,"Location"] <- vapply(tbs[,"Location"],formatLocationforStateModels)
+    }
   }
   return(tbs)
 }

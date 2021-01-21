@@ -10,15 +10,9 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   #clean up
   rm(result_domestic)
   
-  #temp harmonize E and LCI
-  rE <- rownames(E)
-  rL <- rownames(LCI)
-  #rws <- setdiff(,)
-  Ec <- E[(rE %in% rL),]
-  LCIc <- LCI[(rL %in% rE),]      
-  Ec <- Ec[rownames(LCIc),]
-  E <- Ec
-  LCI <- LCIc
+  list_E_LCI <- harmonizeDFsbyrowname(E,LCI)
+  E <- list_E_LCI[[1]]
+  LCI <- list_E_LCI[[1]]
   
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     #transform E by market shares

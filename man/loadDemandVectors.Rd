@@ -2,10 +2,7 @@
 % Please edit documentation in R/LoadDemandVectors.R
 \name{loadDemandVectors}
 \alias{loadDemandVectors}
-\title{Adds demand vectors based on model specs to model object}
-\format{
-A list with lists of totals by sector and formatted satellite tables
-}
+\title{Adds demand vectors and metadata based on model specs to model object}
 \usage{
 loadDemandVectors(model)
 }
@@ -13,8 +10,8 @@ loadDemandVectors(model)
 \item{model}{A model list object with the specs object listed}
 }
 \value{
-eeio model with a list of demand vectors added
+model with a list of demand vectors and a meta file
 }
 \description{
-Adds demand vectors based on model specs to model object
+Adds demand vectors and metadata based on model specs to model object
 }

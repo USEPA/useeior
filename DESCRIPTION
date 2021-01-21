@@ -26,7 +26,8 @@ Imports:
     dplyr (>= 0.8),
     ggplot2 (>= 3.0),
     jsonlite (>= 1.6),
-    reticulate (>= 1.1)
+    reticulate (>= 1.1),
+    validate (>= 1.0)
 Depends:
   R (>= 3.6)
 License: file LICENSE
