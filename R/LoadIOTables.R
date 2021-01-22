@@ -10,8 +10,8 @@ loadIOData <- function(modelname) {
   model$specs <- getModelConfiguration(modelname)
   # Get model crosswalk
   model$crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema))
-  model$crosswalk <- unique(model$crosswalk[, c("NAICS_2012_Code", paste("BEA", model$specs$BaseIOSchema,model$specs$BaseIOLevel, "Code", sep = "_"))])
-  colnames(model$crosswalk) <- c("NAICS", "BEA")
+  model$crosswalk <- unique(model$crosswalk[, c("NAICS_2012_Code", colnames(model$crosswalk)[startsWith(colnames(model$crosswalk), "BEA")])])
+  colnames(model$crosswalk) <- gsub(paste0("_", model$specs$BaseIOSchema, "|_Code"), "", colnames(model$crosswalk))
   # Get BEA IO tables
   model$BEA <- loadBEAtables(model$specs)
   # Get model$Industries and model$Commodities
