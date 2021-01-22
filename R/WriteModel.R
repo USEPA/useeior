@@ -205,6 +205,7 @@ writeModelMetadata <- function(model,dirs) {
   indicators <- indicators[, c("Index", "ID", "FullName", "Abbreviation", "Unit", "Group", "SimpleUnit", "SimpleName")]
   
   colnames(indicators) <- fields$indicators
+  indicators <- indicators[order(indicators$Name), ]
   utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write demands to csv
