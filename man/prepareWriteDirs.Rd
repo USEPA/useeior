@@ -4,7 +4,7 @@
 \alias{prepareWriteDirs}
 \title{Sets directories to write model output data to}
 \usage{
-prepareWriteDirs(dirs, model = NA)
+prepareWriteDirs(dirs, model)
 }
 \arguments{
 \item{dirs}{A named list of directories}
