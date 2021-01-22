@@ -1,11 +1,10 @@
 # Extract national total GHG by gas in physical unit (KT, or thousand metri ton) from the National GHG Industry Attribution Model
-extractfromNationalGHGIndustryAttributionModel <- function() {
-  # Assign National GHG Industry Attribution Model file name
-  GHG_filename <- paste(file_directory, "NationalGHGIndustryAttributionModel.xlsx", sep = "/")
+extractfromNationalGHGIndustryAttributionModel <- function(GHG_file) {
+
   # Extract national total GHG by gas in physical unit (KT, or thousand metri ton)
-  GHG <- readxl::read_excel(GHG_filename, sheet = "RESULTs_KT_gas")
+  GHG <- readxl::read_excel(GHG_file, sheet = "RESULTs_KT_gas")
   # Extract year information
-  GHG$Year <- colnames(readxl::read_excel(GHG_filename, sheet = "Year Input", range = "B1:B1"))
+  GHG$Year <- colnames(readxl::read_excel(GHG_file, sheet = "Year Input", range = "B1:B1"))
   # Reshape the table from wide to long
   GHG_long <- reshape2::melt(GHG, id.vars = c("BEA_2012_Sector_Code", "BEA_2012_Sector_Name", "Year"))
   # Modify column names
@@ -14,27 +13,27 @@ extractfromNationalGHGIndustryAttributionModel <- function() {
   GHG_long$FlowAmount <- GHG_long$FlowAmount*1E6
   
   # Extract ReliabilityScore
-  ReliabilityScore <- readxl::read_excel(GHG_filename, sheet = "RESULTs_ReliabiltyScores")
+  ReliabilityScore <- readxl::read_excel(GHG_file, sheet = "RESULTs_ReliabiltyScores")
   ReliabilityScore_long <- reshape2::melt(ReliabilityScore, id.vars = c("BEA_2012_Sector_Code", "BEA_2012_Sector_Name"))
   colnames(ReliabilityScore_long) <- c("SectorCode", "SectorName", "FlowName", "ReliabilityScore")
   
   # Extract TechnologicalCorrelationScore
-  TechnologicalCorrelation <- readxl::read_excel(GHG_filename, sheet = "RESULTs_TechnologicalCorr", range = "A1:Q407")
+  TechnologicalCorrelation <- readxl::read_excel(GHG_file, sheet = "RESULTs_TechnologicalCorr") #range = "A1:Q407"
   TechnologicalCorrelation_long <- reshape2::melt(TechnologicalCorrelation, id.vars = c("BEA_2012_Sector_Code", "BEA_2012_Sector_Name"))
   colnames(TechnologicalCorrelation_long) <- c("SectorCode", "SectorName", "FlowName", "TechnologicalCorrelation")
   
   # Extract DataCollectionScore
-  DataCollection <- readxl::read_excel(GHG_filename, sheet = "RESULTs_DataCollectionScores", range = "A1:Q407")
+  DataCollection <- readxl::read_excel(GHG_file, sheet = "RESULTs_DataCollectionScores")
   DataCollection_long <- reshape2::melt(DataCollection, id.vars = c("BEA_2012_Sector_Code", "BEA_2012_Sector_Name"))
   colnames(DataCollection_long) <- c("SectorCode", "SectorName", "FlowName", "DataCollection")
   
   # Extract GeographicalCorrelationScore
-  GeographicalCorrelation <- readxl::read_excel(GHG_filename, sheet = "RESULTs_GeographicalCorrScores", range = "A1:Q407")
+  GeographicalCorrelation <- readxl::read_excel(GHG_file, sheet = "RESULTs_GeographicalCorrScores")
   GeographicalCorrelation_long <- reshape2::melt(GeographicalCorrelation, id.vars = c("BEA_2012_Sector_Code", "BEA_2012_Sector_Name"))
   colnames(GeographicalCorrelation_long) <- c("SectorCode", "SectorName", "FlowName", "GeographicalCorrelation")
   
   # Extract TemporalCorrelationScore
-  TemporalCorrelation <- readxl::read_excel(GHG_filename, sheet = "RESULTs_TemporalCorrScores", range = "A1:Q407")
+  TemporalCorrelation <- readxl::read_excel(GHG_file, sheet = "RESULTs_TemporalCorrScores")
   TemporalCorrelation_long <- reshape2::melt(TemporalCorrelation, id.vars = c("BEA_2012_Sector_Code", "BEA_2012_Sector_Name"))
   colnames(TemporalCorrelation_long) <- c("SectorCode", "SectorName", "FlowName", "TemporalCorrelation")
   
@@ -61,9 +60,41 @@ extractfromNationalGHGIndustryAttributionModel <- function() {
   return(US_GHG)
 }
 
-# User needs to define the directory of downlaoded the National GHG Industry Attribution Model
-file_directory <- ""
-# Then user needs to manually change Year input in the Model
-# After changing to desired year and saving the Model, execute the function below
-US_GHG <- extractfromNationalGHGIndustryAttributionModel()
-write.csv(US_GHG, paste("inst/extdata/USEEIO_GHG_Data_Extracted_", unique(US_GHG$Year), ".csv", sep = ""), row.names = FALSE)
+
+# Standardize totals_by_sector
+getStandardTotalsBySector <- function(totals_by_sector) {
+  # Define standard column names
+  stdcolnames <- c("Sector", "SectorName", "Flowable", "Year", "FlowAmount",
+                   "DataReliability", "TechnologicalCorrelation", "DataCollection",
+                   "GeographicalCorrelation", "TemporalCorrelation",
+                   "Location", "Context", "Unit", "MetaSources")
+  # Standardize Context column
+  if ("Compartment"%in%colnames(totals_by_sector)) {
+    totals_by_sector$Context <- totals_by_sector$Compartment
+  } else if (isTRUE("Compartment"%in%colnames(totals_by_sector) & "Subcompartment"%in%colnames(totals_by_sector))) {
+    totals_by_sector$Context <- apply(totals_by_sector[, c("Compartment", "Subcompartment")], 1, FUN = joinStringswithSlashes)
+  }
+  # Standardize DQ columns
+  if ("ReliabilityScore"%in%colnames(totals_by_sector)) {
+    totals_by_sector[, "DataReliability"] <- totals_by_sector[, "ReliabilityScore"]
+  }
+  if ("Temporal correlation"%in%colnames(totals_by_sector)) {
+    totals_by_sector[, "TemporalCorrelation"] <- totals_by_sector[, "Temporal correlation"]
+  }
+  if ("Geographical correlation"%in%colnames(totals_by_sector)) {
+    totals_by_sector[, "GeographicalCorrelation"] <- totals_by_sector[, "Geographical correlation"]
+  }
+  if ("Technological Correlation"%in%colnames(totals_by_sector)) {
+    totals_by_sector[, "TechnologicalCorrelation"] <- totals_by_sector[, "Technological Correlation"]
+  }
+  if ("Data Collection Methods"%in%colnames(totals_by_sector)) {
+    totals_by_sector[, "DataCollection"] <- totals_by_sector[, "Data Collection Methods"]
+  }
+  # Standardize all othr columns
+  totals_by_sector$Flowable <- totals_by_sector$FlowName
+  totals_by_sector$Sector <- totals_by_sector$SectorCode
+  totals_by_sector[setdiff(stdcolnames, colnames(totals_by_sector))] <- NA
+  totals_by_sector <- totals_by_sector[, stdcolnames]
+  return(totals_by_sector)
+}
+

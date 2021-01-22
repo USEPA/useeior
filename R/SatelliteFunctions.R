@@ -99,13 +99,13 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
 #' Generate a standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
 #' @param sattable A statellite table contains FlowAmount already aggregated and transformed to coefficients.
 #' @return A standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
-generateStandardSatelliteTable <- function (sattable) {
+conformTbStoStandardSatTable <- function (sattable) {
   # Get standard sat table fields
   fields <- getStandardSatelliteTableFormat()
   # Add missing fields as new columns to sattable
   sattable[, setdiff(fields, colnames(sattable))] <- ""
   # Sort by satellite table sector code
-  Sattable_standardformat <- sattable[order(sattable$Sector), fields]
+  Sattable_standardformat <- as.data.frame(sattable[order(sattable$Sector), fields])
   return(Sattable_standardformat)
 }
 
@@ -153,7 +153,7 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
   # Define indicator variables
   indicator_vars <- c("Flowable", "Context", "Unit", "Amount", "Code")
   # Extract flows_in_indicator and totals_by_sector from model
-  flows_in_indicator <- model$indicators[model$indicators["Code"]==indicator_code, indicator_vars]
+  flows_in_indicator <- model$Indicators[model$Indicators["Code"]==indicator_code, indicator_vars]
   totals_by_sector <-  model$SatelliteTables$totals_by_sector[[totals_by_sector_name]]
   # Mergeflows_in_indicator and totals_by_sector and calculate IndicatorScore
   df <- merge(totals_by_sector, flows_in_indicator, by = c("Flowable", "Context", "Unit")) 
@@ -184,27 +184,26 @@ getValueAddedTotalsbySector <- function(model) {
   return(df)
 }
 
-
-checkDuplicateFlows <- function(sattable){
-  for (table_name in names(sattable)){
-    sattable[[table_name]] <-
-      sattable[[table_name]] %>% 
-      dplyr::mutate(name = table_name) %>% 
-      dplyr::distinct(Flowable, Context, name)
+#' Check duplicates across satellite tables.
+#' @param sattable_ls A list of satellite tables
+#' @return Messages about whether there are duplicates across satellite tables
+checkDuplicateFlows <- function(sattable_ls) {
+  # Extract unique Flowable and Context combination from each sat table
+  for (table_name in names(sattable_ls)){
+    sattable_ls[[table_name]] <- unique(sattable_ls[[table_name]][, c("Flowable", "Context")])
+    sattable_ls[[table_name]][, "name"] <- table_name
   }
+  unique_flows <- do.call(rbind, sattable_ls)
+  # Check duplicates in all unique flows
+  duplicates <- unique_flows[duplicated(unique_flows[, c("Flowable", "Context")]) |
+                               duplicated(unique_flows[, c("Flowable", "Context")], fromLast = TRUE), ]
+  duplicates <- duplicates[order(duplicates$Context, duplicates$Flowable), ]
+  rownames(duplicates) <- NULL
   
-  duplicates <-
-    dplyr::bind_rows(sattable) %>% 
-    dplyr::group_by(Flowable, Context) %>% 
-    dplyr::filter(dplyr::n() >1) %>% 
-    dplyr::arrange(Context, Flowable) %>%
-    tibble::as_tibble()
-  
-  if (nrow(duplicates)>0){
+  if (nrow(duplicates) > 0){
     logging::logwarn("Duplicate flows exist across satellite tables.")
     print(duplicates)
-  }
-  else{
+  } else {
     logging::loginfo("No duplicate flows exist across satellite tables.")
   }
 }
@@ -243,4 +242,15 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
     totals_by_sector_new <- rbind(totals_by_sector_new, totals_by_sector_year)
   }
   return(totals_by_sector_new)
+}
+
+#'Checks flow amounts are equal in totals by sector after conforming to model schema
+#'@param tbs0, totals-by-sector df in source schema
+#'@param tbs, totals-by-sector df in model schema
+checkSatelliteFlowLoss <- function(tbs0, tbs) {
+  tbs0_flowamount <- colSums(tbs0['FlowAmount'])
+  tbs_flowamount <- colSums(tbs['FlowAmount'])
+  if(abs(tbs0_flowamount - tbs_flowamount)/tbs0_flowamount >= 0.001){
+    logging::logwarn("Data loss on conforming to model schema")    
+  }
 }

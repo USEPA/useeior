@@ -2,7 +2,7 @@
 % Please edit documentation in R/LoadIndicators.R
 \name{loadIndicators}
 \alias{loadIndicators}
-\title{Load indicator factors in a list based on model config.}
+\title{Load indicators and associated factors in a list based on model config.}
 \usage{
 loadIndicators(specs)
 }
@@ -10,8 +10,8 @@ loadIndicators(specs)
 \item{specs}{Specifications of the model.}
 }
 \value{
-A list of indicator factors not yet formatted for IOMB.
+A list with df for indicators and df for factors.
 }
 \description{
-Load indicator factors in a list based on model config.
+Load indicators and associated factors in a list based on model config.
 }
