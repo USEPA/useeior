@@ -693,7 +693,8 @@ disaggregateMasterCrosswalk <- function (crosswalk, disagg){
   names(updated_cw)[names(updated_cw)=='NAICS_2012_Code'] <- "NAICS"
 
   crosswalk <- merge(crosswalk, updated_cw, by = "NAICS", all = TRUE)
-  cols <- c('BEA_Detail','BEA_Summary','BEA_Sector')
+  #cols <- c('BEA_Detail','BEA_Summary','BEA_Sector')
+  cols <- c('BEA_Detail')
   crosswalk[cols] <- as.data.frame(lapply(crosswalk[cols], function(x) ifelse(is.na(crosswalk$USEEIO_Code),x,crosswalk$USEEIO_Code)))
   
   crosswalk$USEEIO_Code <- NULL
