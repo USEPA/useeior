@@ -7,6 +7,7 @@ getNAICStoBEAAllocation <- function (year, model) {
   NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c(paste("NAICS", model$specs$BaseIOSchema, "Code", sep = "_"),
                                                paste("BEA", model$specs$BaseIOSchema, model$specs$BaseIOLevel, 
                                                      "Code", sep = "_"))])
+  NAICStoBEA <- unique(model$crosswalk[, c("NAICS", paste0("BEA_", model$specs$BaseIOLevel))])
   colnames(NAICStoBEA) <- c("NAICS_Code", "BEA_Code")
   # Drop 2-digit NAICS code
   NAICStoBEA <- NAICStoBEA[nchar(NAICStoBEA$NAICS_Code) > 2, ]

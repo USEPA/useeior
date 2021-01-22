@@ -126,10 +126,10 @@ stackSatelliteTables <- function (sattable1, sattable2) {
 #' @return A more aggregated satellite table.
 aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
-  from_code <- paste("BEA", model$specs$BaseIOSchema, from_level, "Code", sep = "_")
-  to_code <- paste("BEA", model$specs$BaseIOSchema, to_level, "Code", sep = "_")
-  # Merge the satellite table with MasterCrosswalk2012
-  sattable <- merge(sattable, unique(useeior::MasterCrosswalk2012[, c(from_code, to_code)]), by.x = "Sector", by.y = from_code)
+  from_code <- paste0("BEA_", from_level)
+  to_code <- paste0("BEA_", to_level)
+  # Merge the satellite table with model$crosswalk
+  sattable <- merge(sattable, unique(model$crosswalk[, c(from_code, to_code)]), by.x = "Sector", by.y = from_code)
   # Replace NA in DQ cols with 5
   dq_fields <- getDQfields(sattable)
   for (f in dq_fields) {

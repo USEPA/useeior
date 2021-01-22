@@ -196,11 +196,11 @@ getMarginsTable <- function (model, marginsource) {
     }
   }
   # Map to Summary and Sector level
-  crosswalk <- unique(useeior::MasterCrosswalk2012[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
-  MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_2012_Detail_Code")
+  crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])
+  MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = paste0("BEA_", model$specs$BaseIOLevel))
   # Aggregate by CommodityCode (dynamic to model BaseIOLevel) and CommodityDescription
   if (!model$specs$BaseIOLevel=="Detail") {
-    MarginsTable$CommodityCode <- MarginsTable[, paste("BEA_2012", model$specs$BaseIOLevel, "Code", sep = "_")]
+    MarginsTable$CommodityCode <- MarginsTable[, paste0("BEA_", model$specs$BaseIOLevel)]
   }
   value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
   MarginsTable <- stats::aggregate(MarginsTable[, value_columns], by = list(MarginsTable$CommodityCode), sum)
