@@ -47,6 +47,27 @@ getImpactMethod <- function(parameters) {
   return(imp_method)
 }
 
+#' Get and combine impact methods using the Python LCIAformatter package's get_mapped_method function.
+#' @param parameters List of parameters, must include 'method_id' and list of two or more 'indicators'
+#' to include from inventory method. Characterization factors for these two indicators are summed by flow.
+#' @return An LCIAmethod with the specified indicators
+getCombinedImpactMethods <- function(parameters) {
+  
+  imp_method = getImpactMethod(parameters)
+  
+  combined_imp_method <- dplyr::group_by(imp_method, Method,Flowable,`Flow UUID`,Context,Unit)
+  combined_imp_method <- dplyr::summarize(
+    combined_imp_method,
+    CF_agg = sum(`Characterization Factor`),
+    .groups = 'drop')
+  colnames(combined_imp_method)[colnames(combined_imp_method)=="CF_agg"] <- "Characterization Factor"
+  # Indicator name will be assigned from satellite spec
+  combined_imp_method[,"Indicator"] <- NA
+  combined_imp_method <- as.data.frame(combined_imp_method)
+  
+  return(combined_imp_method)
+}
+
 #' Prepares and reformats LCIAmethod data from LCIAformatter for use
 #' modeled after prepareFlowBySectorCollapsedforSatellite
 #' @param lciamethod A full LCIAmethod data frame from LCIAformatter via getInventoryMethod or getImpactMethod.
