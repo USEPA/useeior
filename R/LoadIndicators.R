@@ -9,9 +9,9 @@ loadIndicators <- function(specs) {
       logging::loginfo(paste("Getting", tolower(s$FullName), "indicators..."))
       
       # Populate metadata
-      meta_fields <- configr::read.config(system.file("extdata/IOMB_Fields.yml", package="useeior"))[["Indicator"]][["Meta"]]
+      meta_fields <- c("FullName","Abbreviation","Group","Unit","SimpleUnit","SimpleName")
       i <- s[meta_fields]
-      meta <- rbind(meta,data.frame(i))
+      meta <- rbind(meta,data.frame(i, stringsAsFactors = FALSE))
 
       #Get factors
       f <- loadFactors(s)
@@ -40,7 +40,7 @@ loadFactors <- function(ind_spec) {
       factors <- do.call(eval(indloadfunction), list(ind_spec$ScriptFunctionParameters))
       factors <- prepareLCIAmethodforIndicators(factors)
    }
-   factor_fields <- configr::read.config(system.file("extdata/IOMB_Fields.yml", package="useeior"))[["Indicator"]][["Factor"]]
+   factor_fields <- c("Indicator","Flowable","Context","Unit","Amount")
    factors <- factors[,factor_fields]
    return(factors)
 }

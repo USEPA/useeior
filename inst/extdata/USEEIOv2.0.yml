@@ -391,6 +391,19 @@ Indicators:
         DataYear: NA
         URL: NA
         Primary: TRUE
+  HumanHealthToxicity:
+    FullName: "Human Health Toxicity"
+    Abbreviation: "HTOX"
+    Group: "Impact Potential"
+    Unit: "CTUh"
+    SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
+    SimpleName: "Toxic to Humans" 
+    StaticSource: False
+    ScriptFunctionCall: "getCombinedImpactMethods" #function to call for script
+    ScriptFunctionParameters: 
+      method_id: "TRACI 2.1"
+      indicators: ["Human health - cancer", "Human health - non-cancer"]
+      methods: 
   HumanHealthRespEffects:
     FullName: "Human Health - Respiratory Effects"
     Abbreviation: "HRSP"
@@ -607,14 +620,17 @@ Indicators:
 
 DemandVectors:
     Consumption:
+      Type: "Consumption"
       Year: 2012
       System: "Complete"
       Location: "US"
     Production:
+      Type: "Production"
       Year: 2012
       System: "Complete"
       Location: "US"
-    Household:
+    HouseholdConsumption:
+      Type: "Consumption"
       Year: 2012
-      System: "Complete"
+      System: "Household"
       Location: "US"

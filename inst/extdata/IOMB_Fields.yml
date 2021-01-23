@@ -23,21 +23,6 @@ SatelliteTable:
   #- MetaSources
   #- MetaOther
 
-Indicator:
-  Factor:
-    - Indicator
-    - Flowable
-    - Context
-    - Unit
-    - Amount
-  Meta:
-    - FullName
-    - Abbreviation
-    - Group
-    - Unit
-    - SimpleUnit
-    - SimpleName
-
 LCIA:
   - Group
   - Code

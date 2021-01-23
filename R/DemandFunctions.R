@@ -1,8 +1,8 @@
 # Register functions for preset demand vector
 dem_vec_fxn_registry <- list()
-dem_vec_fxn_registry["Consumption"] <- "prepareConsumptionDemand"
-dem_vec_fxn_registry["Production"] <- "prepareProductionDemand"
-dem_vec_fxn_registry["Household"] <- "prepareHouseholdDemand"
+dem_vec_fxn_registry$Consumption$Complete <- "prepareConsumptionDemand"
+dem_vec_fxn_registry$Production$Complete <- "prepareProductionDemand"
+dem_vec_fxn_registry$Consumption$Household <- "prepareHouseholdDemand"
 
 
 #Core production and consumption demand formulas

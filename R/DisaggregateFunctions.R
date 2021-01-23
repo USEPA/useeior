@@ -684,18 +684,20 @@ disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE,
 }
 
 #' Disaggregate the MasterCrosswalk to include the new sectors for disaggregation
-#' @param crosswalk MasterCrosswalk from NAICS to BEA for the specified detail level. columns = "NAICS" and "BEA"
+#' @param crosswalk MasterCrosswalk from NAICS to BEA.
 #' 
 #' @return crosswalk with new sectors added.
 disaggregateMasterCrosswalk <- function (crosswalk, disagg){
   # update the crosswalk by updating the BEA codes for disaggregation or adding new NAICS_like codes
-    updated_cw <- disagg$NAICSSectorCW[, c("NAICS_2012_Code","USEEIO_Code")]
-    names(updated_cw)[names(updated_cw)=='NAICS_2012_Code'] <- "NAICS"
-    names(updated_cw)[names(updated_cw)=='USEEIO_Code'] <- "BEA"
+  updated_cw <- disagg$NAICSSectorCW[, c("NAICS_2012_Code","USEEIO_Code")]
+  names(updated_cw)[names(updated_cw)=='NAICS_2012_Code'] <- "NAICS"
 
-    crosswalk <- merge(crosswalk, updated_cw, by = "NAICS", all = TRUE)
-    crosswalk$BEA <- ifelse(is.na(crosswalk$BEA.y),crosswalk$BEA.x,crosswalk$BEA.y)
-    crosswalk <- crosswalk[,c("NAICS","BEA")]
+  crosswalk <- merge(crosswalk, updated_cw, by = "NAICS", all = TRUE)
+  #cols <- c('BEA_Detail','BEA_Summary','BEA_Sector')
+  cols <- c('BEA_Detail')
+  crosswalk[cols] <- as.data.frame(lapply(crosswalk[cols], function(x) ifelse(is.na(crosswalk$USEEIO_Code),x,crosswalk$USEEIO_Code)))
+  
+  crosswalk$USEEIO_Code <- NULL
   
   return(crosswalk)
 }

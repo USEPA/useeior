@@ -20,8 +20,11 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
   if (class(demand)=="character") {
     #assume this is a model build-in demand 
     #try to load the model vector
-    if (demand %in% names(model$DemandVectors$vectors)) {
-      d <- model$DemandVectors$vectors[[demand]]
+    meta <- model$DemandVectors$meta
+    if (demand %in% meta$Name) {
+      #Get the idea from the meta table, which will be the name of the vector
+      id <- meta[which(meta$Name==demand),"ID"]
+      d <- model$DemandVectors$vectors[[id]]
     } else {
       logging::logerror(paste("The name given for the demand,",demand,"is not in the model list of demand vectors."))
     }

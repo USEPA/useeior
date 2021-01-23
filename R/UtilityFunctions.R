@@ -29,17 +29,17 @@ joinStringswithSlashes <- function(...) {
 #' @param specs       Model specifications
 aggregateMatrix <- function (matrix, from_level, to_level, specs) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
-  from_code <- paste("BEA", specs$BaseIOSchema, from_level, "Code", sep = "_")
-  to_code   <- paste("BEA", specs$BaseIOSchema, to_level, "Code", sep = "_")
+  from_code <- paste0("BEA_", from_level)
+  to_code <- paste0("BEA_", to_level)
   # Aggregate by rows
   value_columns_1 <- colnames(matrix)
-  df_fromlevel <- merge(matrix, unique(useeior::MasterCrosswalk2012[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
+  df_fromlevel <- merge(matrix, unique(model$crosswalk[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
   df_fromlevel_agg <- stats::aggregate(df_fromlevel[, value_columns_1], by = list(df_fromlevel[, to_code]), sum)
   rownames(df_fromlevel_agg) <- df_fromlevel_agg[, 1]
   df_fromlevel_agg[, 1] <- NULL
   # aggregate by columns
   value_columns_2 <- rownames(df_fromlevel_agg)
-  df_fromlevel_agg <- merge(t(df_fromlevel_agg), unique(useeior::MasterCrosswalk2012[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
+  df_fromlevel_agg <- merge(t(df_fromlevel_agg), unique(model$crosswalk[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
   matrix_fromlevel_agg <- stats::aggregate(df_fromlevel_agg[, value_columns_2], by = list(df_fromlevel_agg[, to_code]), sum)
   # reshape back to orginal CxI (IxC) format
   rownames(matrix_fromlevel_agg) <- matrix_fromlevel_agg[, 1]
@@ -67,12 +67,12 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
     }
   }
   # Map CommodityOutput to more aggregated IO levels
-  Crosswalk <- unique(useeior::MasterCrosswalk2012[, c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
-  ratio_table <- merge(Crosswalk, Output, by.x = paste("BEA_2012", model$specs$BaseIOLevel, "Code", sep = "_"), by.y = 0)
+  Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])
+  ratio_table <- merge(Crosswalk, Output, by.x = paste0("BEA_", model$specs$BaseIOLevel), by.y = 0)
   # Calculate output ratios
   for (iolevel in c("Summary", "Sector")) {
     # Generate flexible sector_code
-    sector_code <- paste("BEA_2012", iolevel, "Code", sep = "_")
+    sector_code <- paste0("BEA_", iolevel)
     # Sum Detail output to Summary/Sector
     output_sum <- stats::aggregate(ratio_table[, as.character(model$specs$IOYear)], by = list(ratio_table[, sector_code]), sum)
     colnames(output_sum) <- c(sector_code, paste0(iolevel, "Output"))
@@ -80,7 +80,7 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
     # Calculate DetailSummaryRatio and DetailSectorRatio
     ratio_table[, paste0("to", iolevel, "Ratio")] <- ratio_table[, as.character(model$specs$IOYear)]/ratio_table[, paste0(iolevel, "Output")]
     # Generate SectorCode column
-    ratio_table$SectorCode <- ratio_table[, paste("BEA_2012", model$specs$BaseIOLevel, "Code", sep = "_")]
+    ratio_table$SectorCode <- ratio_table[, paste0("BEA_", model$specs$BaseIOLevel)]
   }
   # Keep ratio columns
   ratio_table <- unique(ratio_table[, c("SectorCode", "toSummaryRatio", "toSectorRatio")])
