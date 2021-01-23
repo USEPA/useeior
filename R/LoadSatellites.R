@@ -93,29 +93,6 @@ loadandbuildSatelliteTables <- function(model) {
   return(model)
 }
 
-#'Converts flows table into flows x sector matrix-like format
-#'@param df a dataframe of flowables, contexts, units, sectors and locations
-#'@param model an EEIO model with IO tables loaded
-#'@return a flows x sector matrix-like dataframe 
-standardizeandcastSatelliteTable <- function(df,model) {
-  # Add fields for flows and sectors as combinations of existing fields
-  df[, "Flow"] <- apply(df[, c("Flowable", "Context", "Unit")],
-                              1, FUN = joinStringswithSlashes)
-  df[, "Sector"] <- apply(df[, c("Sector", "Location")],
-                                1, FUN = joinStringswithSlashes)
-  # Cast df into a flow x sector matrix
-  df_cast <- reshape2::dcast(df, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount")
-  # Move Flow to rowname so matrix is all numbers
-  rownames(df_cast) <- df_cast$Flow
-  df_cast$Flow <- NULL
-  # Complete sector list according to model$Industries
-  standard_columns <- tolower(apply(cbind(model$Industries, model$specs$PrimaryRegionAcronym),
-                                    1, FUN = joinStringswithSlashes))
-  df_cast[, setdiff(standard_columns, colnames(df_cast))] <- 0
-  # Adjust column order to be the same with V_n rownames
-  df_cast <- df_cast[, standard_columns]
-  return(df_cast)
-}
 
 #'Reads a satellite table specification and generates a totals-by-sector table
 #'@param sat_spec, a standard specification for a single satellite table
