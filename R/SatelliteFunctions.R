@@ -250,8 +250,8 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
 #'@param tbs0, totals-by-sector df in source schema
 #'@param tbs, totals-by-sector df in model schema
 checkSatelliteFlowLoss <- function(tbs0, tbs) {
-  tbs0_flowamount <- colSums(tbs0['FlowAmount'])
-  tbs_flowamount <- colSums(tbs['FlowAmount'])
+  tbs0_flowamount <- sum(tbs0[!is.na(tbs0$Sector),]$FlowAmount)
+  tbs_flowamount <- sum(tbs[!is.na(tbs$Sector),]$FlowAmount)
   if(abs(tbs0_flowamount - tbs_flowamount)/tbs0_flowamount >= 0.001){
     logging::logwarn("Data loss on conforming to model schema")    
   }
