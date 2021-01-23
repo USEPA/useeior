@@ -20,7 +20,7 @@ SatelliteTable:
   - DataCollection #A 1-5 score of data collection based on reporting values associated with the amount.
   - Year #Year of the data
   #- MetaTags
-  #- MetaSources
+  - MetaSources
   #- MetaOther
 
 LCIA:
