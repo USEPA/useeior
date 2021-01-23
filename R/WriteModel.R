@@ -1,5 +1,6 @@
 #' Writes all model data and metadata components to the API
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param basedir Base directory to write the model components to
 #' @description Writes all model data and metadata components to the API
 #' @export
 writeModelforAPI <-function(model, basedir){
@@ -11,12 +12,16 @@ writeModelforAPI <-function(model, basedir){
 }
 
 #' Write the master sector crosswalk out for the API
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param basedir Base directory to write the model components to
 #' @description Writes master sector crosswalk out for the API in csv
 #' @export
-writeSectorCrosswalkforAPI <- function(basedir){
+writeSectorCrosswalkforAPI <- function(model, basedir){
   dirs <- setWriteDirsforAPI(NULL,basedir)
   prepareWriteDirs(dirs)
-  utils::write.csv(MasterCrosswalk2012, paste0(dirs$data, "/sectorcrosswalk.csv"),
+  crosswalk <- model$crosswalk
+  crosswalk$ModelSchema <- ""
+  utils::write.csv(crosswalk, paste0(dirs$data, "/sectorcrosswalk.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   logging::loginfo(paste0("Sector crosswalk written to ", dirs$data, "."))
 }
@@ -42,7 +47,6 @@ writeModelMatrices <- function(model, outputfolder) {
 
 #' Write model components to output folder for useeiopy building using IO-Model-Builder format.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param modelfolder Directory to write the model components to
 #' @description Only writes model economic components (DRC, Marketshares, Demand) for now.
 #' @export
 writeModelforUSEEIOPY <- function(model) {
@@ -86,6 +90,7 @@ writeModelforUSEEIOPY <- function(model) {
 
 #' Sets directories to write model output data to
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes. Optional
+#' @param basedir Base directory to write the model components to
 #' @description Sets directories to write model output data to. If model is not passed, just sets data directory. 
 #' @return A named list of directories for model output writing
 setWriteDirsforAPI <- function(model=NULL, basedir) {
