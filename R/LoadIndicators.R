@@ -6,17 +6,17 @@ loadIndicators <- function(specs) {
    meta <- data.frame()
    factors <- data.frame()
    for (s in specs$Indicators) {
-      logging::loginfo(paste("Getting", tolower(s$FullName), "indicators..."))
+      logging::loginfo(paste("Getting", s$Name, "indicator..."))
       
       # Populate metadata
-      meta_fields <- c("FullName","Abbreviation","Group","Unit","SimpleUnit","SimpleName")
+      meta_fields <- c("Name","Code","Group","Unit","SimpleUnit","SimpleName")
       i <- s[meta_fields]
       meta <- rbind(meta,data.frame(i, stringsAsFactors = FALSE))
 
       #Get factors
       f <- loadFactors(s)
       #Make sure indicator name comes from spec and not factor source data
-      f$Indicator <- s[["FullName"]]
+      f$Indicator <- s[["Name"]]
       factors <- rbind(factors,f)
    }   
    indicators <- list(meta=meta,factors=factors)
@@ -31,9 +31,9 @@ loadFactors <- function(ind_spec) {
       # Load LCIA factors from static file
       StaticIndicatorFactors <- loadLCIAfactors()
       # Subset LCIA factors list for the abbreviations
-      factors <- StaticIndicatorFactors[StaticIndicatorFactors$Code == ind_spec$Abbreviation, ]
+      factors <- StaticIndicatorFactors[StaticIndicatorFactors$Code == ind_spec$Code, ]
       # Add Indicator column
-      factors <- cbind("Indicator" = ind_spec$FullName, factors)
+      factors <- cbind("Indicator" = ind_spec$Name, factors)
    } else {
       func_to_eval <- ind_spec$ScriptFunctionCall
       indloadfunction <- as.name(func_to_eval)

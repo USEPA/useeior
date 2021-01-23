@@ -35,7 +35,7 @@ SatelliteTable:
 Indicators:
   GreenhouseGases:
     FullName: "Greenhouse Gases"
-    Abbreviation: "GHG"
+    Code: "GHG"
     Group: "Impact Potential"
     Unit: "kg CO2 eq"
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
@@ -50,7 +50,7 @@ Indicators:
         Primary: TRUE
   GreenhouseGases-Major:
     FullName: "Major Greenhouse Gases"
-    Abbreviation: "MGHG"
+    Code: "MGHG"
     Group: "Impact Potential"
     Unit: "kg CO2 eq"
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
@@ -59,7 +59,7 @@ Indicators:
     DataSources:
   GreenhouseGases-Other:
     FullName: "Other Greenhouse Gases"
-    Abbreviation: "OGHG"
+    Code: "OGHG"
     Group: "Impact Potential"
     Unit: "kg CO2 eq"
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
