@@ -7,7 +7,7 @@
 disaggregateMasterCrosswalk(crosswalk, disagg)
 }
 \arguments{
-\item{crosswalk}{MasterCrosswalk from NAICS to BEA for the specified detail level. columns = "NAICS" and "BEA"}
+\item{crosswalk}{MasterCrosswalk from NAICS to BEA.}
 }
 \value{
 crosswalk with new sectors added.

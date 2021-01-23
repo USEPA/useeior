@@ -11,7 +11,7 @@ loadIndicators <- function(specs) {
       # Populate metadata
       meta_fields <- c("FullName","Abbreviation","Group","Unit","SimpleUnit","SimpleName")
       i <- s[meta_fields]
-      meta <- rbind(meta,data.frame(i))
+      meta <- rbind(meta,data.frame(i, stringsAsFactors = FALSE))
 
       #Get factors
       f <- loadFactors(s)
