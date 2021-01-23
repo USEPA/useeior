@@ -272,8 +272,8 @@ SatelliteTable:
 
 Indicators:
   GreenhouseGases:
-    FullName: "Greenhouse Gases"
-    Abbreviation: "GHG"
+    Name: "Greenhouse Gases"
+    Code: "GHG"
     Group: "Impact Potential"
     Unit: "kg CO2 eq"
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
@@ -292,8 +292,8 @@ Indicators:
         URL: NA
         Primary: TRUE
   Acidification:
-    FullName: "Acidification Potential"
-    Abbreviation: "ACID"
+    Name: "Acidification Potential"
+    Code: "ACID"
     Group: "Impact Potential"
     Unit: "kg SO2 eq"
     SimpleUnit: "Kilograms Sulphur Dioxide (SO2)"
@@ -312,8 +312,8 @@ Indicators:
         URL: NA
         Primary: TRUE
   Eutrophication:
-    FullName: "Eutrophication Potential"
-    Abbreviation: "EUTR"
+    Name: "Eutrophication Potential"
+    Code: "EUTR"
     Group: "Impact Potential"
     Unit: "kg N eq"
     SimpleUnit: "Kilograms Nitrogen (N)"
@@ -332,8 +332,8 @@ Indicators:
         URL: NA
         Primary: TRUE
   FreshwaterEcotox:
-    FullName: "Freshwater Ecotoxicity Potential"
-    Abbreviation: "ETOX"
+    Name: "Freshwater Ecotoxicity Potential"
+    Code: "ETOX"
     Group: "Impact Potential"
     Unit: "CTUe"
     SimpleUnit: "Comparative Toxic Unit for Ecosystem (CTUe)"
@@ -352,8 +352,8 @@ Indicators:
         URL: NA
         Primary: TRUE
   HumanHealthCancer:
-    FullName: "Human Health - Cancer"
-    Abbreviation: "HCAN"
+    Name: "Human Health - Cancer"
+    Code: "HCAN"
     Group: "Impact Potential"
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
@@ -372,8 +372,8 @@ Indicators:
         URL: NA
         Primary: TRUE
   HumanHealthNonCancer:
-    FullName: "Human Health - Noncancer"
-    Abbreviation: "HNCN"
+    Name: "Human Health - Noncancer"
+    Code: "HNCN"
     Group: "Impact Potential"
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
@@ -392,8 +392,8 @@ Indicators:
         URL: NA
         Primary: TRUE
   HumanHealthToxicity:
-    FullName: "Human Health Toxicity"
-    Abbreviation: "HTOX"
+    Name: "Human Health Toxicity"
+    Code: "HTOX"
     Group: "Impact Potential"
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
@@ -405,8 +405,8 @@ Indicators:
       indicators: ["Human health - cancer", "Human health - non-cancer"]
       methods: 
   HumanHealthRespEffects:
-    FullName: "Human Health - Respiratory Effects"
-    Abbreviation: "HRSP"
+    Name: "Human Health - Respiratory Effects"
+    Code: "HRSP"
     Group: "Impact Potential"
     Unit: "kg PM2.5 eq"
     SimpleUnit: "Kilograms Particulate Matter"
@@ -425,8 +425,8 @@ Indicators:
         URL: NA
         Primary: TRUE
   Ozone:
-    FullName: "Ozone Depletion"
-    Abbreviation: "OZON"
+    Name: "Ozone Depletion"
+    Code: "OZON"
     Group: "Impact Potential"
     Unit: "kg CFC-11 eq"
     SimpleUnit: "Kilograms ChloroFluoroCarbon-11"
@@ -445,8 +445,8 @@ Indicators:
         URL: NA
         Primary: TRUE
   Smog:
-    FullName: "Smog Formation Potential"
-    Abbreviation: "SMOG"
+    Name: "Smog Formation Potential"
+    Code: "SMOG"
     Group: "Impact Potential"
     Unit: "kg O3 eq"
     SimpleUnit: "Kilograms Ozone (O3)"
@@ -465,11 +465,11 @@ Indicators:
         URL: NA
         Primary: TRUE
   freshwater_withdrawal:
-    FullName: "Freshwater withdrawals"
-    Abbreviation: "WAT"
+    Name: "Freshwater withdrawals"
+    Code: "WATR"
     Group: "Resource Use"
     Unit: "kg"
-    SimpleUnit: "Cubic Meters"
+    SimpleUnit: "Kilograms"
     SimpleName: "Water Use" 
     StaticSource: FALSE
     ScriptFunctionCall: "getInventoryMethod" #function to call for script
@@ -483,8 +483,8 @@ Indicators:
         URL: https://github.com/USEPA/LCIAformatter
         Primary: TRUE
   land_use:
-    FullName: "Land use"
-    Abbreviation: "LAND"
+    Name: "Land use"
+    Code: "LAND"
     Group: "Resource Use"
     Unit: "m2*yr"
     SimpleUnit: "Square Meters per Year"
@@ -501,8 +501,8 @@ Indicators:
         URL: https://github.com/USEPA/LCIAformatter
         Primary: TRUE
   HAP:
-    FullName: "Hazardous Air Pollutants"
-    Abbreviation: "HAPS"
+    Name: "Hazardous Air Pollutants"
+    Code: "HAPS"
     Group: "Chemical Releases"
     Unit: "kg"
     SimpleUnit: "Kilograms"
@@ -519,8 +519,8 @@ Indicators:
         URL: https://github.com/USEPA/LCIAformatter
         Primary: TRUE
   Pesticides:
-    FullName: "Pesticides"
-    Abbreviation: "PEST"
+    Name: "Pesticides"
+    Code: "PEST"
     Group: "Chemical Releases"
     Unit: "kg"
     SimpleUnit: "Kilograms"
@@ -537,8 +537,8 @@ Indicators:
         URL: https://github.com/USEPA/LCIAformatter
         Primary: TRUE
   NonRenewableEnergy:
-    FullName: "Nonrenewable Energy Use"
-    Abbreviation: "NNRG"
+    Name: "Nonrenewable Energy Use"
+    Code: "NNRG"
     Group: "Resource Use"
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
@@ -546,8 +546,8 @@ Indicators:
     StaticSource: TRUE
     DataSources:
   RenewableEnergy:
-    FullName: "Renewable Energy Use"
-    Abbreviation: "RNRG"
+    Name: "Renewable Energy Use"
+    Code: "RNRG"
     Group: "Resource Use"
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
@@ -555,8 +555,8 @@ Indicators:
     StaticSource: TRUE
     DataSources:
   Energy:
-    FullName: "Energy Use"
-    Abbreviation: "ENRG"
+    Name: "Energy Use"
+    Code: "ENRG"
     Group: "Resource Use"
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
@@ -564,8 +564,8 @@ Indicators:
     StaticSource: TRUE
     DataSources:
   MineralsMetals:
-    FullName: "Minerals and Metals Use"
-    Abbreviation: "MNRL"
+    Name: "Minerals and Metals Use"
+    Code: "MNRL"
     Group: "Resource Use"
     Unit: "kg"
     SimpleUnit: "Kilograms"
@@ -573,8 +573,8 @@ Indicators:
     StaticSource: TRUE
     DataSources:
   ValueAdded:
-    FullName: "Value Added"
-    Abbreviation: "VADD"
+    Name: "Value Added"
+    Code: "VADD"
     Group: "Economic & Social"
     Unit: "$"
     SimpleUnit: "US Dollars ($)"
@@ -582,8 +582,8 @@ Indicators:
     StaticSource: TRUE
     DataSources:
   Jobs:
-    FullName: "Jobs Supported"
-    Abbreviation: "JOBS"
+    Name: "Jobs Supported"
+    Code: "JOBS"
     Group: "Economic & Social"
     Unit: "jobs"
     SimpleUnit: "Employees"
@@ -591,8 +591,8 @@ Indicators:
     StaticSource: TRUE
     DataSources:
   RCRAHazWaste:
-    FullName: "Commercial RCRA Hazardous Waste"
-    Abbreviation: "CRHW"
+    Name: "Commercial RCRA Hazardous Waste"
+    Code: "CRHW"
     Group: "Waste Generated"
     Unit: "kg"
     SimpleUnit: "Kilograms"
@@ -600,8 +600,8 @@ Indicators:
     StaticSource: TRUE
     DataSources:
   MunicipalWaste:
-    FullName: "Commercial Municipal Solid Waste"
-    Abbreviation: "CMSW"
+    Name: "Commercial Municipal Solid Waste"
+    Code: "CMSW"
     Group: "Waste Generated"
     Unit: "kg"
     SimpleUnit: "Kilograms"
@@ -609,8 +609,8 @@ Indicators:
     StaticSource: TRUE
     DataSources:
   ConstructionDebris:
-    FullName: "Commercial Construction and Demolition Debris"
-    Abbreviation: "CCDD"
+    Name: "Commercial Construction and Demolition Debris"
+    Code: "CCDD"
     Group: "Waste Generated"
     Unit: "kg"
     SimpleUnit: "Kilograms"

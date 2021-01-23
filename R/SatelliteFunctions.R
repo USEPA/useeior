@@ -68,7 +68,8 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
     TemporalCorrelation = weighted.mean(TemporalCorrelation, FlowAmount),
     GeographicalCorrelation = weighted.mean(GeographicalCorrelation, FlowAmount),
     TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
-    DataCollection = weighted.mean(DataCollection, FlowAmount)
+    DataCollection = weighted.mean(DataCollection, FlowAmount),
+    .groups = 'drop'
   )
   colnames(totals_by_sector_BEA_agg)[colnames(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
   return(totals_by_sector_BEA_agg)
@@ -250,9 +251,9 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
 #'@param tbs0, totals-by-sector df in source schema
 #'@param tbs, totals-by-sector df in model schema
 checkSatelliteFlowLoss <- function(tbs0, tbs) {
-  tbs0_flowamount <- colSums(tbs0['FlowAmount'])
-  tbs_flowamount <- colSums(tbs['FlowAmount'])
-  if(abs(tbs0_flowamount - tbs_flowamount)/tbs0_flowamount >= 0.001){
+  tbs0_flowamount <- sum(tbs0[!is.na(tbs0$Sector),]$FlowAmount)
+  tbs_flowamount <- sum(tbs[!is.na(tbs$Sector),]$FlowAmount)
+  if(abs(tbs0_flowamount - tbs_flowamount)/tbs0_flowamount >= 0.0001){
     logging::logwarn("Data loss on conforming to model schema")    
   }
 }
