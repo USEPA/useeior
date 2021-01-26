@@ -31,7 +31,8 @@ Imports:
     stringr (>= 1.4),
     usethis (>= 1.5),
     utils (>= 3.6.1),
-    validate (>= 1.0)
+    validate (>= 1.0),
+    digest (>= 0.6.27)
 Depends:
   R (>= 3.6)
 License: file LICENSE
