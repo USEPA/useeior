@@ -47,13 +47,13 @@ SatelliteTable:
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["CAP_HAP_national_2017"] #list of parameters
     DataSources:
-      EPA_NEI:
+      EPA_NEI_2017:
         Title: "National Emissions Inventory"
         Author: "EPA"
         DataYear: 2017
         URL: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei"
         Primary: TRUE
-      EPA_TRI:
+      EPA_TRI_2017:
         Title: "Toxic Release Inventory"
         Author: "EPA"
         DataYear: 2017
@@ -73,7 +73,7 @@ SatelliteTable:
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["GRDREL_national_2017"]#list of parameters
     DataSources:
-      EPA_TRI:
+      EPA_TRI_2017:
         Title: "Toxic Release Inventory"
         Author: "EPA"
         DataYear: 2017
@@ -93,13 +93,13 @@ SatelliteTable:
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["TRI_DMR_national_2017"] #list of parameters
     DataSources:
-      EPA_TRI:
+      EPA_TRI_2017:
         Title: "Toxic Release Inventory"
         Author: "EPA"
         DataYear: 2017
         URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
         Primary: TRUE
-      EPA_DMR:
+      EPA_DMR_2017:
         Title: "Discharge Monitoring Report"
         Author: "EPA"
         DataYear: 2017
@@ -137,6 +137,12 @@ SatelliteTable:
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["Land_national_2012"] #list of parameters
     DataSources:
+      EIA_CBECS_Land:
+        Title: "Commercial Building Energy Consumption Survey"
+        Author: "EIA"
+        DataYear: 2012
+        URL: "https://www.eia.gov/consumption/commercial/data/2012/"
+        Primary: FALSE    
   MINE:
     FullName: "Mineral extraction"
     Abbreviation: "MINE"
@@ -149,6 +155,12 @@ SatelliteTable:
     SectorListLevel: "Detail"
     OriginalFlowSource: "MineralCommoditySurvey"
     DataSources:
+       USGS_MCS:
+        Title: "Mineral Commodity Summary"
+        Author: "USGS"
+        DataYear: 2014
+        URL: "https://www.usgs.gov/centers/nmic/mineral-commodity-summaries"
+        Primary: TRUE    
   ENERGY:
     FullName: "Energy extraction"
     Abbreviation: "ENERGY"
@@ -185,6 +197,12 @@ SatelliteTable:
     SectorListLevel: "Detail"
     OriginalFlowSource: "DMR"
     DataSources:
+      USDA_CUS:
+        Title: "Chemical Use Survey"
+        Author: "USDA"
+        DataYear: 2013
+        URL: "https://www.nass.usda.gov/Surveys/Guide_to_NASS_Surveys/Chemical_Use/"
+        Primary: TRUE      
   PEST:
     FullName: "Pesticide releases"
     Abbreviation: "PEST"
@@ -197,6 +215,12 @@ SatelliteTable:
     SectorListLevel: "Detail"
     OriginalFlowSource: "FEDEFLv1.0.5"
     DataSources:
+      USDA_CUS:
+        Title: "Chemical Use Survey"
+        Author: "USDA"
+        DataYear: 2013
+        URL: "https://www.nass.usda.gov/Surveys/Guide_to_NASS_Surveys/Chemical_Use/"
+        Primary: TRUE 
   CNHW:
     FullName: "Commercial non-hazardous waste excluding construction activities"
     Abbreviation: "CNHW"
@@ -209,6 +233,12 @@ SatelliteTable:
     SectorListLevel: "Detail"
     OriginalFlowSource: "Waste Characterization Study 2014"
     DataSources:
+      CalRecycle_CWCS:
+        Title: "2014 Generator-Based Characterization of Commercial Sector"
+        Author: "CalRecycle"
+        DataYear: 2014
+        URL: "https://www2.calrecycle.ca.gov/WasteCharacterization/PubExtracts/2014/GenSummary.pdf"
+        Primary: TRUE     
   CNHWC:
     FullName: "Commercial non-hazardous waste from construction activities"
     Abbreviation: "CNHWC"
@@ -221,6 +251,12 @@ SatelliteTable:
     SectorListLevel: "Detail"
     OriginalFlowSource: "CDDPath"
     DataSources:
+      USEPA_FF_2014:
+        Title: "Advancing Sustainable Materials Management: 2014 Fact Sheet"
+        Author: "USEPA"
+        DataYear: 2014
+        URL: "https://www.epa.gov/sites/production/files/2016-11/documents/2014_smmfactsheet_508.pdf"
+        Primary: TRUE     
   CRHW:
     FullName: "Commercial RCRA-defined hazardous waste"
     Abbreviation: "CRHW"
@@ -233,8 +269,14 @@ SatelliteTable:
     SectorListLevel: "6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["CRHW_national_2017"] #list of parameters
-    OriginalFlowSource: "RCRAInfo"
+    OriginalFlowSource: "FEDEFLv1.0.5"
     DataSources:
+      USEPA_RCRAInfo_2017:
+        Title: "National Biennial RCRA Hazardous Waste Report"
+        Author: "USEPA"
+        DataYear: 2017
+        URL: "https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/main/broverview"
+        Primary: TRUE       
   EMP:
     FullName: "Employment"
     Abbreviation: "EMP"
@@ -249,26 +291,32 @@ SatelliteTable:
     ScriptFunctionParameters: ["Employment_national_2017"] #list of parameters
     OriginalFlowSource: "Employment"
     DataSources:
+      BLS_QCEW_2017:
+        Title: "Quarterly Census of Employment and Wages"
+        Author: "BLS"
+        DataYear: 2017
+        URL: "https://www.bls.gov/cew/"
+        Primary: TRUE  
   VADD:
-   FullName: "Value Added"
-   Abbreviation: "VADD"
-   StaticSource: FALSE
-   StaticFile: null
-   DataYears: [2012]
-   Locations: ["US"]
-   SectorListSource: "BEA"
-   SectorListYear: 2012
-   SectorListLevel: "Detail"
-   OriginalFlowSource: "Input-Output Tables"
-   ScriptFunctionCall: "getValueAddedTotalsbySector" #function to call for script
-   ScriptFunctionParameters: ["model"] #list of parameters
-   DataSources:
-   BEA_USE:
-     Title: "Detail Use Before Redefinitions"
-     Author: "BEA"
-     DataYear: 2012
-     URL: "https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"
-     Primary: TRUE
+    FullName: "Value Added"
+    Abbreviation: "VADD"
+    StaticSource: FALSE
+    StaticFile: null
+    DataYears: [2012]
+    Locations: ["US"]
+    SectorListSource: "BEA"
+    SectorListYear: 2012
+    SectorListLevel: "Detail"
+    OriginalFlowSource: "Input-Output Tables"
+    ScriptFunctionCall: "getValueAddedTotalsbySector" #function to call for script
+    ScriptFunctionParameters: ["model"] #list of parameters
+    DataSources:
+     BEA_USE:
+       Title: "Detail Use Before Redefinitions"
+       Author: "BEA"
+       DataYear: 2012
+       URL: "https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"
+       Primary: TRUE
 
 Indicators:
   GreenhouseGases:
