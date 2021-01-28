@@ -9,19 +9,21 @@
 #' @param y_title The title of y axis, excluding unit.
 #' @export
 plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title) {
-  # Generate BEA sector color mapping
-  mapping <- getBEASectorColorMapping(model_list[[1]])
-  mapping$GroupName <- mapping$SectorName
   # Prepare data frame for plot
   df <- data.frame()
   for (modelname in names(model_list)) {
-    df_model <- data.frame()
     model <- model_list[[modelname]]
+    # Generate BEA sector color mapping
+    mapping <- getBEASectorColorMapping(model)
+    mapping$GroupName <- mapping$SectorName
+    # Generate matrix
     matrix <- model[[matrix_name]]
     matrix <- matrix[rownames(matrix)==coefficient_name, ]
     matrix <- cbind.data.frame(names(matrix), matrix)
     colnames(matrix) <- c("Sector", "Coeff")
     matrix$Sector <- toupper(gsub("/.*", "", matrix$Sector))
+    # Convert matrix to df
+    df_model <- data.frame()
     df_model <- rbind(matrix, df_model)
     df_model <- merge(df_model, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
                       by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"))
@@ -32,25 +34,31 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     df_model <- df_model[order(df_model$GroupName), ]
     df <- rbind(df, df_model)
   }
-  #! Temp unit hardcoding - should come from flow
+  df_wide <- reshape2::dcast(df, Sector + color + GroupName + SectorName ~ modelname, value.var = "Coeff")
+  df <- reshape2::melt(df_wide, id.vars = c("Sector", "color", "GroupName", "SectorName"),
+                       variable.name = "modelname", value.name = "Coeff")
+  df$Coeff <- as.numeric(df$Coeff)
+  df <- df[order(df$GroupName), ]
+  # Prepare y-axis unit
   y_unit <- paste0("(", model$Indicators$meta[model$Indicators$meta$FullName==coefficient_name, "Unit"], "/$)")
+  # Prepare axis label color
+  label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Sector, levels = rev(df_model$Sector)),
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorName, levels = rev(unique(SectorName))),
                                         y = Coeff, shape = as.character(modelname))) +
     ggplot2::geom_point(ggplot2::aes(color = GroupName), size = 3) +
     ggplot2::scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
     ggplot2::scale_color_manual(values = unique(df$color)) +
     ggplot2::labs(x = "", y = paste(y_title, y_unit)) +
-    ggplot2::scale_x_discrete(breaks = df$Sector, labels = stringr::str_wrap(df$SectorName, width = 100)) +
+    #ggplot2::scale_x_discrete(breaks = df$Sector, labels = df$SectorName) +
     ggplot2::scale_y_continuous(breaks = scales::pretty_breaks()) +
     ggplot2::coord_flip() +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.text.y = ggplot2::element_text(size = 10, color = df_model$color),
+                   axis.text.y = ggplot2::element_text(size = 10, color = label_colors),
                    axis.title.x = ggplot2::element_text(size = 10), legend.title = ggplot2::element_blank(),
-                   legend.justification = c(1, 1), #legend.position = c(0.95, 0.15),
-                   axis.ticks = ggplot2::element_blank(), panel.grid.minor.y = ggplot2::element_blank(),
-                   plot.margin = ggplot2::margin(c(5, 20, 5, 5)))
+                   legend.justification = c(1, 1), axis.ticks = ggplot2::element_blank(),
+                   panel.grid.minor.y = ggplot2::element_blank(), plot.margin = ggplot2::margin(c(5, 20, 5, 5)))
   return(p)
 }
 
