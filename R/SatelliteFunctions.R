@@ -193,6 +193,9 @@ getValueAddedTotalsbySector <- function(model) {
 checkDuplicateFlows <- function(sattable_ls) {
   # Extract unique Flowable and Context combination from each sat table
   for (table_name in names(sattable_ls)){
+    # Update context to reflect only primary context (e.g. emission/air)
+    sattable_ls[[table_name]][, "Context"] <- stringr::str_match(sattable_ls[[table_name]][, "Context"],"\\w*\\/?\\w*")
+    # Store only flow information for each table
     sattable_ls[[table_name]] <- unique(sattable_ls[[table_name]][, c("Flowable", "Context")])
     sattable_ls[[table_name]][, "name"] <- table_name
   }

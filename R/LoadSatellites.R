@@ -76,6 +76,9 @@ loadSatTables <- function(model) {
     # Add totals_by_sector to the sattables list
     sattables$totals_by_sector[[sat_spec$Abbreviation]] <- tbs
   }
+  # Check for duplicate flows across satellite tables
+  checkDuplicateFlows(sattables$totals_by_sector)
+  
   flows <- unique(flows[,flow_fields])
   #Re-index the flows
   rownames(flows) <- NULL
