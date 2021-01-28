@@ -50,8 +50,8 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     ggplot2::scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
     ggplot2::scale_color_manual(values = unique(df$color)) +
     ggplot2::labs(x = "", y = paste(y_title, y_unit)) +
-    #ggplot2::scale_x_discrete(breaks = df$Sector, labels = df$SectorName) +
-    ggplot2::scale_y_continuous(breaks = scales::pretty_breaks()) +
+    ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(),
+                                sec.axis = ggplot2::sec_axis(~., name = paste(y_title, y_unit), breaks = scales::pretty_breaks())) +
     ggplot2::coord_flip() +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
