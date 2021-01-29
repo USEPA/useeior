@@ -269,7 +269,7 @@ SatelliteTable:
     SectorListLevel: "6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["CRHW_national_2017"] #list of parameters
-    OriginalFlowSource: "FEDEFLv1.0.5"
+    OriginalFlowSource: "RCRAInfo"
     DataSources:
       USEPA_RCRAInfo_2017:
         Title: "National Biennial RCRA Hazardous Waste Report"
