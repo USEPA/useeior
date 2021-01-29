@@ -320,7 +320,7 @@ SatelliteTable:
 
 Indicators:
   GreenhouseGases:
-    FullName: "Greenhouse Gases"
+    Name: "Greenhouse Gases"
     Code: "GHG"
     Group: "Impact Potential"
     Unit: "kg CO2 eq"
@@ -337,10 +337,10 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   Acidification:
-    FullName: "Acidification Potential"
+    Name: "Acidification Potential"
     Code: "ACID"
     Group: "Impact Potential"
     Unit: "kg SO2 eq"
@@ -357,10 +357,10 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   Eutrophication:
-    FullName: "Eutrophication Potential"
+    Name: "Eutrophication Potential"
     Code: "EUTR"
     Group: "Impact Potential"
     Unit: "kg N eq"
@@ -377,10 +377,10 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   FreshwaterEcotox:
-    FullName: "Freshwater Ecotoxicity Potential"
+    Name: "Freshwater Ecotoxicity Potential"
     Code: "ETOX"
     Group: "Impact Potential"
     Unit: "CTUe"
@@ -397,10 +397,10 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   HumanHealthCancer:
-    FullName: "Human Health - Cancer"
+    Name: "Human Health - Cancer"
     Code: "HCAN"
     Group: "Impact Potential"
     Unit: "CTUh"
@@ -417,10 +417,10 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   HumanHealthNonCancer:
-    FullName: "Human Health - Noncancer"
+    Name: "Human Health - Noncancer"
     Code: "HNCN"
     Group: "Impact Potential"
     Unit: "CTUh"
@@ -437,10 +437,10 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   HumanHealthToxicity:
-    FullName: "Human Health Toxicity"
+    Name: "Human Health Toxicity"
     Code: "HTOX"
     Group: "Impact Potential"
     Unit: "CTUh"
@@ -451,9 +451,16 @@ Indicators:
     ScriptFunctionParameters: 
       method_id: "TRACI 2.1"
       indicators: ["Human health - cancer", "Human health - non-cancer"]
-      methods: 
+      methods:
+    DataSources:
+      USEEIO_LCIA_Aggregation:
+        Title: "Aggregation of HNCN and HCAN"
+        Author: NA
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
   HumanHealthRespEffects:
-    FullName: "Human Health - Respiratory Effects"
+    Name: "Human Health - Respiratory Effects"
     Code: "HRSP"
     Group: "Impact Potential"
     Unit: "kg PM2.5 eq"
@@ -469,11 +476,10 @@ Indicators:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
         Author: "USEPA"
-        DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   Ozone:
-    FullName: "Ozone Depletion"
+    Name: "Ozone Depletion"
     Code: "OZON"
     Group: "Impact Potential"
     Unit: "kg CFC-11 eq"
@@ -490,10 +496,10 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   Smog:
-    FullName: "Smog Formation Potential"
+    Name: "Smog Formation Potential"
     Code: "SMOG"
     Group: "Impact Potential"
     Unit: "kg O3 eq"
@@ -510,10 +516,10 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   freshwater_withdrawal:
-    FullName: "Freshwater withdrawals"
+    Name: "Freshwater withdrawals"
     Code: "WATR"
     Group: "Resource Use"
     Unit: "kg"
@@ -528,10 +534,10 @@ Indicators:
         Title: "LCIAformatter FEDEFL Inventory Methods"
         Author: "USEPA"
         DataYear: 2020
-        URL: https://github.com/USEPA/LCIAformatter
+        URL: "https://github.com/USEPA/LCIAformatter"
         Primary: TRUE
   land_use:
-    FullName: "Land use"
+    Name: "Land use"
     Code: "LAND"
     Group: "Resource Use"
     Unit: "m2*yr"
@@ -546,10 +552,10 @@ Indicators:
         Title: "LCIAformatter FEDEFL Inventory Methods"
         Author: "USEPA"
         DataYear: 2020
-        URL: https://github.com/USEPA/LCIAformatter
+        URL: "https://github.com/USEPA/LCIAformatter"
         Primary: TRUE
   HAP:
-    FullName: "Hazardous Air Pollutants"
+    Name: "Hazardous Air Pollutants"
     Code: "HAPS"
     Group: "Chemical Releases"
     Unit: "kg"
@@ -564,10 +570,10 @@ Indicators:
         Title: "LCIAformatter FEDEFL Inventory Methods"
         Author: "USEPA"
         DataYear: 2020
-        URL: https://github.com/USEPA/LCIAformatter
+        URL: "https://github.com/USEPA/LCIAformatter"
         Primary: TRUE
   Pesticides:
-    FullName: "Pesticides"
+    Name: "Pesticides"
     Code: "PEST"
     Group: "Chemical Releases"
     Unit: "kg"
@@ -582,10 +588,10 @@ Indicators:
         Title: "LCIAformatter FEDEFL Inventory Methods"
         Author: "USEPA"
         DataYear: 2020
-        URL: https://github.com/USEPA/LCIAformatter
+        URL: "https://github.com/USEPA/LCIAformatter"
         Primary: TRUE
   NonRenewableEnergy:
-    FullName: "Nonrenewable Energy Use"
+    Name: "Nonrenewable Energy Use"
     Code: "NNRG"
     Group: "Resource Use"
     Unit: "MJ"
@@ -593,8 +599,14 @@ Indicators:
     SimpleName: "Nonrenewable Energy Use" 
     StaticSource: TRUE
     DataSources:
+      ingwersen_useeiov11_2017:
+        Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.23719/1368541"
+        Primary: TRUE
   RenewableEnergy:
-    FullName: "Renewable Energy Use"
+    Name: "Renewable Energy Use"
     Code: "RNRG"
     Group: "Resource Use"
     Unit: "MJ"
@@ -602,8 +614,14 @@ Indicators:
     SimpleName: "Renewable Energy Use" 
     StaticSource: TRUE
     DataSources:
+      ingwersen_useeiov11_2017:
+        Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.23719/1368541"
+        Primary: TRUE
   Energy:
-    FullName: "Energy Use"
+    Name: "Energy Use"
     Code: "ENRG"
     Group: "Resource Use"
     Unit: "MJ"
@@ -611,8 +629,14 @@ Indicators:
     SimpleName: "Energy Use" 
     StaticSource: TRUE
     DataSources:
+      ingwersen_useeiov11_2017:
+        Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.23719/1368541"
+        Primary: TRUE
   MineralsMetals:
-    FullName: "Minerals and Metals Use"
+    Name: "Minerals and Metals Use"
     Code: "MNRL"
     Group: "Resource Use"
     Unit: "kg"
@@ -620,8 +644,14 @@ Indicators:
     SimpleName: "Minerals and Metals Use"
     StaticSource: TRUE
     DataSources:
+      ingwersen_useeiov11_2017:
+        Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.23719/1368541"
+        Primary: TRUE
   ValueAdded:
-    FullName: "Value Added"
+    Name: "Value Added"
     Code: "VADD"
     Group: "Economic & Social"
     Unit: "$"
@@ -629,8 +659,14 @@ Indicators:
     SimpleName: "Value Added"
     StaticSource: TRUE
     DataSources:
+      ingwersen_useeiov11_2017:
+        Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.23719/1368541"
+        Primary: TRUE
   Jobs:
-    FullName: "Jobs Supported"
+    Name: "Jobs Supported"
     Code: "JOBS"
     Group: "Economic & Social"
     Unit: "jobs"
@@ -638,8 +674,14 @@ Indicators:
     SimpleName: "Jobs Supported"
     StaticSource: TRUE
     DataSources:
+      ingwersen_useeiov11_2017:
+        Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.23719/1368541"
+        Primary: TRUE
   RCRAHazWaste:
-    FullName: "Commercial RCRA Hazardous Waste"
+    Name: "Commercial RCRA Hazardous Waste"
     Code: "CRHW"
     Group: "Waste Generated"
     Unit: "kg"
@@ -647,8 +689,14 @@ Indicators:
     SimpleName: "Hazardous Waste" 
     StaticSource: TRUE
     DataSources:
+      meyer_analyzing_2020:
+        Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.1016/j.resconrec.2020.104795"
+        Primary: TRUE    
   MunicipalWaste:
-    FullName: "Commercial Municipal Solid Waste"
+    Name: "Commercial Municipal Solid Waste"
     Code: "CMSW"
     Group: "Waste Generated"
     Unit: "kg"
@@ -656,8 +704,14 @@ Indicators:
     SimpleName: "Municipal Solid Waste"
     StaticSource: TRUE
     DataSources:
+      meyer_analyzing_2020:
+        Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.1016/j.resconrec.2020.104795"
+        Primary: TRUE
   ConstructionDebris:
-    FullName: "Commercial Construction and Demolition Debris"
+    Name: "Commercial Construction and Demolition Debris"
     Code: "CCDD"
     Group: "Waste Generated"
     Unit: "kg"
@@ -665,6 +719,12 @@ Indicators:
     SimpleName: "Construction Debris" 
     StaticSource: TRUE
     DataSources:
+      meyer_analyzing_2020:
+        Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.1016/j.resconrec.2020.104795"
+        Primary: TRUE
 
 DemandVectors:
     Consumption:
