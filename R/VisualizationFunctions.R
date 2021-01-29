@@ -13,14 +13,21 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
   df <- data.frame()
   for (modelname in names(model_list)) {
     model <- model_list[[modelname]]
+    # Adjust y_title
+    Y_title <- paste0(y_title, " (", model$Indicators$meta[model$Indicators$meta$Name%in%coefficient_name, "Unit"], "/$)")
     # Generate BEA sector color mapping
     mapping <- getBEASectorColorMapping(model)
     mapping$GroupName <- mapping$SectorName
     # Generate matrix
     matrix <- model[[matrix_name]]
-    matrix <- matrix[rownames(matrix)==coefficient_name, ]
-    matrix <- cbind.data.frame(names(matrix), matrix)
-    colnames(matrix) <- c("Sector", "Coeff")
+    matrix <- matrix[coefficient_name, ]
+    if (length(coefficient_name)==1) {
+      matrix <- cbind.data.frame(Y_title, names(matrix), matrix)
+    } else {
+      rownames(matrix) <- Y_title
+      matrix <- as.data.frame(reshape2::melt(matrix))
+    }
+    colnames(matrix) <- c("CoefficientName", "Sector", "Value")
     matrix$Sector <- toupper(gsub("/.*", "", matrix$Sector))
     # Convert matrix to df
     df_model <- data.frame()
@@ -34,24 +41,21 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     df_model <- df_model[order(df_model$GroupName), ]
     df <- rbind(df, df_model)
   }
-  df_wide <- reshape2::dcast(df, Sector + color + GroupName + SectorName ~ modelname, value.var = "Coeff")
-  df <- reshape2::melt(df_wide, id.vars = c("Sector", "color", "GroupName", "SectorName"),
-                       variable.name = "modelname", value.name = "Coeff")
-  df$Coeff <- as.numeric(df$Coeff)
+  df_wide <- reshape2::dcast(df, CoefficientName + Sector + color + GroupName + SectorName ~ modelname, value.var = "Value")
+  df <- reshape2::melt(df_wide, id.vars = c("CoefficientName", "Sector", "color", "GroupName", "SectorName"),
+                       variable.name = "modelname", value.name = "Value")
   df <- df[order(df$GroupName), ]
-  # Prepare y-axis unit
-  y_unit <- paste0("(", model$Indicators$meta[model$Indicators$meta$FullName==coefficient_name, "Unit"], "/$)")
   # Prepare axis label color
   label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
   # plot
   p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorName, levels = rev(unique(SectorName))),
-                                        y = Coeff, shape = as.character(modelname))) +
+                                        y = Value, shape = as.character(modelname))) +
     ggplot2::geom_point(ggplot2::aes(color = GroupName), size = 3) +
     ggplot2::scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
     ggplot2::scale_color_manual(values = unique(df$color)) +
-    ggplot2::labs(x = "", y = paste(y_title, y_unit)) +
+    ggplot2::labs(x = "", y = Y_title) +
     ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(),
-                                sec.axis = ggplot2::sec_axis(~., name = paste(y_title, y_unit), breaks = scales::pretty_breaks())) +
+                                sec.axis = ggplot2::sec_axis(~., name = Y_title, breaks = scales::pretty_breaks())) +
     ggplot2::coord_flip() +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
@@ -59,6 +63,13 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
                    axis.title.x = ggplot2::element_text(size = 10), legend.title = ggplot2::element_blank(),
                    legend.justification = c(1, 1), axis.ticks = ggplot2::element_blank(),
                    panel.grid.minor.y = ggplot2::element_blank(), plot.margin = ggplot2::margin(c(5, 20, 5, 5)))
+  if (length(coefficient_name)>1) {
+    p <- p + ggplot2::facet_wrap(~CoefficientName, ncol = length(coefficient_name), scales = "free_x") +
+      ggplot2::labs(y = "") + ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(),
+                                                          sec.axis = ggplot2::sec_axis(~., name = "", breaks = scales::pretty_breaks())) +
+      ggplot2::theme(strip.background = ggplot2::element_blank(), strip.placement = "outside",
+                     strip.text = ggplot2::element_text(colour = "black", size = 15))
+  }
   return(p)
 }
 
