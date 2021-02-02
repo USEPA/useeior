@@ -137,12 +137,30 @@ SatelliteTable:
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["Land_national_2012"] #list of parameters
     DataSources:
+      BLM_PLS:
+        Title: "Public Land Statistics"
+        Author: "BLM"
+        DataYear: 2012
+        URL: "https://www.blm.gov/about/data/public-land-statistics"
+        Primary: FALSE
       EIA_CBECS_Land:
         Title: "Commercial Building Energy Consumption Survey"
         Author: "EIA"
         DataYear: 2012
         URL: "https://www.eia.gov/consumption/commercial/data/2012/"
-        Primary: FALSE    
+        Primary: FALSE
+      EIA_MECS_Land:
+        Title: "Manufacturing Energy Consumption Survey"
+        Author: "EIA"
+        DataYear: 2014
+        URL: "https://www.eia.gov/consumption/manufacturing/data/2014/"
+        Primary: FALSE     
+      USDA_ERS_MLU:
+        Title: "Major Uses of Land in the United States"
+        Author: "USDA"
+        DataYear: 2012
+        URL: "https://www.ers.usda.gov/data-products/major-land-uses/"
+        Primary: True  
   MINE:
     FullName: "Mineral extraction"
     Abbreviation: "MINE"
