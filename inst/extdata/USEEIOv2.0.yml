@@ -137,12 +137,30 @@ SatelliteTable:
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["Land_national_2012"] #list of parameters
     DataSources:
+      BLM_PLS:
+        Title: "Public Land Statistics"
+        Author: "BLM"
+        DataYear: 2012
+        URL: "https://www.blm.gov/about/data/public-land-statistics"
+        Primary: FALSE
       EIA_CBECS_Land:
         Title: "Commercial Building Energy Consumption Survey"
         Author: "EIA"
         DataYear: 2012
         URL: "https://www.eia.gov/consumption/commercial/data/2012/"
-        Primary: FALSE    
+        Primary: FALSE
+      EIA_MECS_Land:
+        Title: "Manufacturing Energy Consumption Survey"
+        Author: "EIA"
+        DataYear: 2014
+        URL: "https://www.eia.gov/consumption/manufacturing/data/2014/"
+        Primary: FALSE     
+      USDA_ERS_MLU:
+        Title: "Major Uses of Land in the United States"
+        Author: "USDA"
+        DataYear: 2012
+        URL: "https://www.ers.usda.gov/data-products/major-land-uses/"
+        Primary: True  
   MINE:
     FullName: "Mineral extraction"
     Abbreviation: "MINE"
@@ -197,12 +215,42 @@ SatelliteTable:
     SectorListLevel: "Detail"
     OriginalFlowSource: "DMR"
     DataSources:
-      USDA_CUS:
-        Title: "Chemical Use Survey"
+      USDA_CUS_Corn_Potatoes:
+        Title: "Chemical Use Survey - Corn and Potatoes"
+        Author: "USDA"
+        DataYear: 2014
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Corn_and_Potatoes/"
+        Primary: False 
+      USDA_CUS_Cotton:
+        Title: "Chemical Use Survey - Cotton"
+        Author: "USDA"
+        DataYear: 2010
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2010_Corn_Upland_Cotton_Fall_Potatoes/"
+        Primary: False            
+      USDA_CUS_Fruit:
+        Title: "Chemical Use Survey - Fruit"
+        Author: "USDA"
+        DataYear: 2011
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2011_Fruit_Chem_Usage/"
+        Primary: False   
+      USDA_CUS_Peanuts_Rice:
+        Title: "Chemical Use Survey - Peanuts and Rice"
         Author: "USDA"
         DataYear: 2013
-        URL: "https://www.nass.usda.gov/Surveys/Guide_to_NASS_Surveys/Chemical_Use/"
-        Primary: TRUE      
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2013_Peanuts_and_Rice/"
+        Primary: False    
+      USDA_CUS_Soybeans_Wheat:
+        Title: "Chemical Use Survey - Soybeans and Wheat"
+        Author: "USDA"
+        DataYear: 2012
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2012_Soybeans_and_Wheat/"
+        Primary: False     
+      USDA_CUS_Vegetables:
+        Title: "Chemical Use Survey - Vegetables"
+        Author: "USDA"
+        DataYear: 2014
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Vegetables/"
+        Primary: False  
   PEST:
     FullName: "Pesticide releases"
     Abbreviation: "PEST"
@@ -215,12 +263,42 @@ SatelliteTable:
     SectorListLevel: "Detail"
     OriginalFlowSource: "FEDEFLv1.0.5"
     DataSources:
-      USDA_CUS:
-        Title: "Chemical Use Survey"
+      USDA_CUS_Corn_Potatoes:
+        Title: "Chemical Use Survey - Corn and Potatoes"
+        Author: "USDA"
+        DataYear: 2014
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Corn_and_Potatoes/"
+        Primary: False 
+      USDA_CUS_Cotton:
+        Title: "Chemical Use Survey - Cotton"
+        Author: "USDA"
+        DataYear: 2010
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2010_Corn_Upland_Cotton_Fall_Potatoes/"
+        Primary: False            
+      USDA_CUS_Fruit:
+        Title: "Chemical Use Survey - Fruit"
+        Author: "USDA"
+        DataYear: 2011
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2011_Fruit_Chem_Usage/"
+        Primary: False   
+      USDA_CUS_Peanuts_Rice:
+        Title: "Chemical Use Survey - Peanuts and Rice"
         Author: "USDA"
         DataYear: 2013
-        URL: "https://www.nass.usda.gov/Surveys/Guide_to_NASS_Surveys/Chemical_Use/"
-        Primary: TRUE 
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2013_Peanuts_and_Rice/"
+        Primary: False    
+      USDA_CUS_Soybeans_Wheat:
+        Title: "Chemical Use Survey - Soybeans and Wheat"
+        Author: "USDA"
+        DataYear: 2012
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2012_Soybeans_and_Wheat/"
+        Primary: False     
+      USDA_CUS_Vegetables:
+        Title: "Chemical Use Survey - Vegetables"
+        Author: "USDA"
+        DataYear: 2014
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Vegetables/"
+        Primary: False  
   CNHW:
     FullName: "Commercial non-hazardous waste excluding construction activities"
     Abbreviation: "CNHW"
