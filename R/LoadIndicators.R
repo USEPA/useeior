@@ -18,6 +18,7 @@ loadIndicators <- function(specs) {
       #Make sure indicator name comes from spec and not factor source data
       f$Indicator <- s[["Name"]]
       factors <- rbind(factors,f)
+      checkIndicatorforFlows(f, model$SatelliteTables$flows)
    }   
    indicators <- list(meta=meta,factors=factors)
    return(indicators)
@@ -60,6 +61,19 @@ loadLCIAfactors <- function() {
    lciafactlong <- lciafactlong[lciafactlong$value>0,
                                 c("Flowable", "UUID", "Context", "Unit", "Amount", "Code")]
    return(lciafactlong)
+}
+
+#' Checks an LCIA indicator to ensure that flows exist in the model for that indicator
+#' @param factors a df of indicator characterization factors
+#' @param flows a df of model$SatelliteTables$flows
+checkIndicatorforFlows <- function(factors, flows){
+   factor_list <- tolower(apply(cbind(factors['Context'], factors['Flowable']),
+                                1, FUN = joinStringswithSlashes))
+   flows_list <- tolower(apply(cbind(flows['Context'], flows['Flowable']),
+                               1, FUN = joinStringswithSlashes))
+   if(length(intersect(factor_list,flows_list)) == 0){
+      logging::logwarn("No flows found for this indicator in model")
+   }
 }
 
 #' Loads data for all model indicators as listed in model specs
