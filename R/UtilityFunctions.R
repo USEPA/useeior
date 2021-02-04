@@ -55,7 +55,7 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
   # Generate Output based on output_type and model Commodity/Industry type 
   if (output_type=="Commodity") {
     if (model$specs$CommoditybyIndustryType=="Industry") {
-      Output <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
+      Output <- generateCommodityOutputforYear(model)
     } else {
       Output <- model$CommodityOutput
     }

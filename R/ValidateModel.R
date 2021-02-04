@@ -47,7 +47,7 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
   # Generate ModelYearOutput based on output_type and model Commodity/Industry type 
   if (output_type=="Commodity") {
     if (model$specs$CommoditybyIndustryType=="Industry") {
-      ModelYearOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
+      ModelYearOutput <- generateCommodityOutputforYear(model)
     } else {
       ModelYearOutput <- model$CommodityOutput
     }

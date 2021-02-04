@@ -38,7 +38,7 @@ loadIOData <- function(modelname) {
   # Get Commodity/Industry Output, Commodity/Industry CPI, FinalDemand
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     if (model$specs$PrimaryRegionAcronym=="US") {
-      model$CommodityOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
+      model$CommodityOutput <- generateCommodityOutputforYear(model)
     } else {
       # Add RoUS in CommodityOutput table
       model$CommodityOutput <- getStateCommodityOutputEstimates(model$specs$PrimaryRegionAcronym)
