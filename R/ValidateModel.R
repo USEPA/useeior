@@ -22,12 +22,16 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
     E <- data.frame(E)
   }
   
-  library(validate)
-  rule <- validate::validator(abs(LCI - E)/E <= tolerance)
-  confrontation <- validate::confront(LCI, rule, E)
-  summary(confrontation)
+  #Adjust LCI with Chi
+  Chi <- generateChiMatrix(model)
+  #Dot multiply LCI and Chi
+  LCI_a <- LCI*Chi
+  
+  rule <- validate::validator(abs(LCI_a - E)/E <= tolerance)
+  confrontation <- validate::confront(LCI_a, rule, E)
   confrontation <- validate::as.data.frame(confrontation)
   validation <- merge(confrontation, validate::as.data.frame(rule))
+  return(validation)
 }
 
 
