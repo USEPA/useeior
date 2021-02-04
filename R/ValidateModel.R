@@ -69,9 +69,9 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
       IsRoUS <- FALSE
     }
     # Generate industry output by year
-    IndustryOutputVector <- model$GDP$BEAGrossOutputIO[, as.character(year)]
+    IndustryOutputVector <- model$GDP$BEAGrossOutputIO[model$Industries, as.character(year)]
     # Adjust industry output to model year $
-    DollarRatio <- model$GDP$BEACPIIO[, as.character(model$specs$IOYear)]/model$GDP$BEACPIIO[, as.character(year)]
+    DollarRatio <- model$GDP$BEACPIIO[model$Industries, as.character(model$specs$IOYear)]/model$GDP$BEACPIIO[model$Industries, as.character(year)]
     IndustryOutputVector <- IndustryOutputVector * DollarRatio
     # Generate a commodity x industry CommodityMix matrix
     CommodityMix <- generateCommodityMixMatrix(model)
@@ -86,6 +86,9 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
   # Calculate Chi: divide ModelYearOutput by FlowYearOutput
   Chi <- as.matrix(1/sweep(FlowYearOutput[rownames(model$B), ], 2,
                            ModelYearOutput[colnames(FlowYearOutput), ], "/"))
+  # Replace NA with 0
+  Chi[is.na(Chi)] <- 0
+  # Rename Chi columns to match B and E
   colnames(Chi) <- apply(data.frame(colnames(Chi), model$specs$PrimaryRegionAcronym),
                          1, FUN = joinStringswithSlashes)
   return(Chi)
