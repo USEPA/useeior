@@ -39,6 +39,56 @@ prepareEfromtbs <- function(model) {
   return(E)
 }
 
-
+#' Generate Chi matrix, i.e. ratios of model IO year commodity output over the output of the flow year in model IO year dollar.
+#' @param model A completely built EEIOmodel object
+#' @param output_type Either Commodity or Industry, default is Commodity
+#' @return Chi matrix contains ratios of model IO year commodity output over the output of the flow year in model IO year dollar.
+generateChiMatrix <- function(model, output_type = "Commodity") {
+  # Generate ModelYearOutput based on output_type and model Commodity/Industry type 
+  if (output_type=="Commodity") {
+    if (model$specs$CommoditybyIndustryType=="Industry") {
+      ModelYearOutput <- generateCommodityOutputforYear(model$specs$PrimaryRegionAcronym, IsRoUS = FALSE, model)
+    } else {
+      ModelYearOutput <- model$CommodityOutput
+    }
+  } else {
+    if (model$specs$CommoditybyIndustryType=="Commodity") {
+      ModelYearOutput <- model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear), drop = FALSE]
+    } else {
+      ModelYearOutput <- model$IndustryOutput
+    }
+  }
+  # Generate FlowYearOutput
+  TbS <- do.call(rbind, model$SatelliteTables$totals_by_sector)
+  TbS[, "Flow"] <- apply(TbS[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
+  FlowYearOutput <- data.frame()
+  for (year in unique(TbS$Year)) {
+    if (model$specs$ModelRegionAcronyms=="RoUS") {
+      IsRoUS <- TRUE
+    } else {
+      IsRoUS <- FALSE
+    }
+    # Generate industry output by year
+    IndustryOutputVector <- model$GDP$BEAGrossOutputIO[, as.character(year)]
+    # Adjust industry output to model year $
+    DollarRatio <- model$GDP$BEACPIIO[, as.character(model$specs$IOYear)]/model$GDP$BEACPIIO[, as.character(year)]
+    IndustryOutputVector <- IndustryOutputVector * DollarRatio
+    # Generate a commodity x industry CommodityMix matrix
+    CommodityMix <- generateCommodityMixMatrix(model)
+    # Use CommodityMix to transform IndustryOutput to CommodityOutput
+    CommodityOutput <- as.data.frame(CommodityMix %*% IndustryOutputVector)
+    flows <- unique(TbS[TbS$Year==year, "Flow"])
+    FlowYearOutput_y <- do.call(rbind.data.frame, rep(CommodityOutput, times = length(flows)))
+    rownames(FlowYearOutput_y) <- flows
+    colnames(FlowYearOutput_y) <- rownames(CommodityOutput)
+    FlowYearOutput <- rbind(FlowYearOutput, FlowYearOutput_y)
+  }
+  # Calculate Chi: divide ModelYearOutput by FlowYearOutput
+  Chi <- as.matrix(1/sweep(FlowYearOutput[rownames(model$B), ], 2,
+                           ModelYearOutput[colnames(FlowYearOutput), ], "/"))
+  colnames(Chi) <- apply(data.frame(colnames(Chi), model$specs$PrimaryRegionAcronym),
+                         1, FUN = joinStringswithSlashes)
+  return(Chi)
+}
 
 
