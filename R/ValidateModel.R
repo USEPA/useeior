@@ -32,6 +32,26 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   return(rel_diff)
 }
 
+#'Compares the total sector output against the model result calculation with the domestic demand vector and direct perspective
+#'@param model, EEIOmodel object completely built
+#'@return vector, a vector of relative different in calculation from sector output by sector 
+compareOutputandDomesticResult <- function(model, tolerance=0.05) {
+  y <- as.matrix(formatDemandVector(model$DemandVectors$vectors[["2012_us_production_complete"]],model$L_d))
+  c <- getScalingVector(model$L_d, y)
+  if(model$specs$CommoditybyIndustryType == "Commodity") {
+    #transform E by market shares
+    x <-  model$CommodityOutput
+  } else {
+    x <- model$IndustryOutput
+  }
+  
+  #Row names should be identical
+  identical(rownames(c),rownames(x))
+  
+  rel_diff <- (c - x)/x
+  return(rel_diff)
+}
+
 
 #'Concatenate all satellite flows in model
 #'@param model, EEIOmodel object completely built

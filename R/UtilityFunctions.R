@@ -271,17 +271,3 @@ convertStrEncodingLatintoASCII <- function(s) {
   return(s)
 }
 
-#' Align two dfs by row
-#' @param df1, a dataframe with row names
-#' @param df2, another dataframe with row names matching some of df1
-#' @return, a list with harmonized df1 in position 1 and harmonized df2 in position 2
-harmonizeDFsbyrowname <- function(df1,df2) {
-  rdf1 <- rownames(df1)
-  rdf2 <- rownames(df2)
-  df1c <- data.frame(df1[(rdf1 %in% rdf2),])
-  df2c <- data.frame(df2[(rdf2 %in% rdf1),])
-  colnames(df2c) <- colnames(df2)
-  df1c <- data.frame(df1c[rownames(df2c),])
-  colnames(df1c) <- colnames(df1)
-  return(list(df1c,df2c))
-}
