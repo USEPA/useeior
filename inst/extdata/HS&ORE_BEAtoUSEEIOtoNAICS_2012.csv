@@ -1,0 +1,31 @@
+BEA_2012_Sector_Code,BEA_2012_Sector_Name,BEA_2012_Summary_Code,BEA_2012_Summary_Name,BEA_2012_Detail_Code,BEA_2012_Detail_Name,USEEIO_Code,USEEIO_Industry,NAICS_2012_Code,NAICS_2012_Name
+53,REAL ESTATE AND RENTAL AND LEASING,HS,Housing,531HSO,Owner-occupied housing,531HSO,Owner-occupied housing,53,Real Estate and Rental and Leasing
+53,REAL ESTATE AND RENTAL AND LEASING,HS,Housing,531HST,Tenant-occupied housing,531HST,Tenant-occupied housing,53,Real Estate and Rental and Leasing
+53,REAL ESTATE AND RENTAL AND LEASING,HS,Housing,531HSO,Owner-occupied housing,531HSO,Owner-occupied housing,531,Real Estate
+53,REAL ESTATE AND RENTAL AND LEASING,HS,Housing,531HST,Tenant-occupied housing,531HST,Tenant-occupied housing,531,Real Estate
+53,REAL ESTATE AND RENTAL AND LEASING,HS,Housing,531HSO,Owner-occupied housing,531HSO,Owner-occupied housing,5311,Lessors of Real Estate
+53,REAL ESTATE AND RENTAL AND LEASING,HS,Housing,531HST,Tenant-occupied housing,531HST,Tenant-occupied housing,5311,Lessors of Real Estate
+53,REAL ESTATE AND RENTAL AND LEASING,HS,Housing,531HSO,Owner-occupied housing,531HSO,Owner-occupied housing,53111,Lessors of Residential Buildings and Dwellings
+53,REAL ESTATE AND RENTAL AND LEASING,HS,Housing,531HST,Tenant-occupied housing,531HST,Tenant-occupied housing,53111,Lessors of Residential Buildings and Dwellings
+53,REAL ESTATE AND RENTAL AND LEASING,HS,Housing,531HSO,Owner-occupied housing,531HSO,Owner-occupied housing,531110,Lessors of Residential Buildings and Dwellings
+53,REAL ESTATE AND RENTAL AND LEASING,HS,Housing,531HST,Tenant-occupied housing,531HST,Tenant-occupied housing,531110,Lessors of Residential Buildings and Dwellings
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53,Real Estate and Rental and Leasing
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531,Real Estate
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,5311,Lessors of Real Estate
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,5312,Offices of Real Estate Agents and Brokers
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,5313,Activities Related to Real Estate
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53112,Lessors of Nonresidential Buildings (except Miniwarehouses)
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53113,Lessors of Miniwarehouses and Self-Storage Units
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53119,Lessors of Other Real Estate Property
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53121,Offices of Real Estate Agents and Brokers
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53131,Real Estate Property Managers
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53132,Offices of Real Estate Appraisers
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53139,Other Activities Related to Real Estate
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531120,Lessors of Nonresidential Buildings (except Miniwarehouses)
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531130,Lessors of Miniwarehouses and Self-Storage Units
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531190,Lessors of Other Real Estate Property
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531210,Offices of Real Estate Agents and Brokers
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531311,Residential Property Managers
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531312,Nonresidential Property Managers
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531320,Offices of Real Estate Appraisers
+53,REAL ESTATE AND RENTAL AND LEASING,ORE,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531390,Other Activities Related to Real Estate

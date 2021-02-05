@@ -25,6 +25,8 @@ getFlowbySectorCollapsed <- function(method_name) {
 prepareFlowBySectorCollapsedforSatellite <- function(fbsc) {
   # Replace Python type None with NA
   fbsc <- replaceNonewithNA(fbsc)
+  # If context is NA replace with blank
+  fbsc[,"Context"][is.na(fbsc[,"Context"])] <- ""
   # Filter technosphere flows
   acceptable_types <- c("ELEMENTARY_FLOW", "WASTE_FLOW")
   fbsc <- fbsc[fbsc$FlowType %in% acceptable_types, ]

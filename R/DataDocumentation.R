@@ -673,7 +673,7 @@
 "Sector_Margins_2012_BeforeRedef"
 
 #' Master Crosswalk table (2012 schema)
-#' @format A dataframe with 16838 obs. and 6 variables:
+#' @format A dataframe with 16776 obs. and 6 variables:
 #' \describe{
 #'  \item{BEA_2012_Sector_Code}{text code}
 #'  \item{BEA_2012_Summary_Code}{text code}

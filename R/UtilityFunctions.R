@@ -29,17 +29,17 @@ joinStringswithSlashes <- function(...) {
 #' @param specs       Model specifications
 aggregateMatrix <- function (matrix, from_level, to_level, specs) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
-  from_code <- paste("BEA", specs$BaseIOSchema, from_level, "Code", sep = "_")
-  to_code   <- paste("BEA", specs$BaseIOSchema, to_level, "Code", sep = "_")
+  from_code <- paste0("BEA_", from_level)
+  to_code <- paste0("BEA_", to_level)
   # Aggregate by rows
   value_columns_1 <- colnames(matrix)
-  df_fromlevel <- merge(matrix, unique(useeior::MasterCrosswalk2012[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
+  df_fromlevel <- merge(matrix, unique(model$crosswalk[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
   df_fromlevel_agg <- stats::aggregate(df_fromlevel[, value_columns_1], by = list(df_fromlevel[, to_code]), sum)
   rownames(df_fromlevel_agg) <- df_fromlevel_agg[, 1]
   df_fromlevel_agg[, 1] <- NULL
   # aggregate by columns
   value_columns_2 <- rownames(df_fromlevel_agg)
-  df_fromlevel_agg <- merge(t(df_fromlevel_agg), unique(useeior::MasterCrosswalk2012[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
+  df_fromlevel_agg <- merge(t(df_fromlevel_agg), unique(model$crosswalk[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
   matrix_fromlevel_agg <- stats::aggregate(df_fromlevel_agg[, value_columns_2], by = list(df_fromlevel_agg[, to_code]), sum)
   # reshape back to orginal CxI (IxC) format
   rownames(matrix_fromlevel_agg) <- matrix_fromlevel_agg[, 1]
@@ -67,12 +67,12 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
     }
   }
   # Map CommodityOutput to more aggregated IO levels
-  Crosswalk <- unique(useeior::MasterCrosswalk2012[, c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
-  ratio_table <- merge(Crosswalk, Output, by.x = paste("BEA_2012", model$specs$BaseIOLevel, "Code", sep = "_"), by.y = 0)
+  Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])
+  ratio_table <- merge(Crosswalk, Output, by.x = paste0("BEA_", model$specs$BaseIOLevel), by.y = 0)
   # Calculate output ratios
   for (iolevel in c("Summary", "Sector")) {
     # Generate flexible sector_code
-    sector_code <- paste("BEA_2012", iolevel, "Code", sep = "_")
+    sector_code <- paste0("BEA_", iolevel)
     # Sum Detail output to Summary/Sector
     output_sum <- stats::aggregate(ratio_table[, as.character(model$specs$IOYear)], by = list(ratio_table[, sector_code]), sum)
     colnames(output_sum) <- c(sector_code, paste0(iolevel, "Output"))
@@ -80,7 +80,7 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
     # Calculate DetailSummaryRatio and DetailSectorRatio
     ratio_table[, paste0("to", iolevel, "Ratio")] <- ratio_table[, as.character(model$specs$IOYear)]/ratio_table[, paste0(iolevel, "Output")]
     # Generate SectorCode column
-    ratio_table$SectorCode <- ratio_table[, paste("BEA_2012", model$specs$BaseIOLevel, "Code", sep = "_")]
+    ratio_table$SectorCode <- ratio_table[, paste0("BEA_", model$specs$BaseIOLevel)]
   }
   # Keep ratio columns
   ratio_table <- unique(ratio_table[, c("SectorCode", "toSummaryRatio", "toSectorRatio")])
@@ -244,4 +244,44 @@ applyRAS <- function(m0, t_r, t_c, relative_diff, absolute_diff, max_itr) {
   # Apply RAS
   m <- RAS(m0, t_r, t_c, t, max_itr)
   return(m)
+}
+
+#' Remove spaces around strings, like "321A "
+#' @param s, string
+#' @return s, string with spaces removed
+removeExtraSpaces <- function(s) {
+  s <- gsub("\\s", "",s)
+  return(s)
+}
+
+
+#' Remove numbers in slashes from a string, like /1/
+#' @param s, string
+#' @return s, string with numbers in slashes removed
+removeNumberinSlashes <- function(s) {
+  s <- gsub(" /.*", "",s)
+  return(s)
+}
+
+#' Forces a string encoding to ASCII from Latin-1
+#' @param s, string with Latin-1 encoding
+#' @return s, string with ASCII encoding
+convertStrEncodingLatintoASCII <- function(s) {
+  s <- iconv(s, from = 'latin1', to = 'ASCII', sub='')
+  return(s)
+}
+
+#' Align two dfs by row
+#' @param df1, a dataframe with row names
+#' @param df2, another dataframe with row names matching some of df1
+#' @return, a list with harmonized df1 in position 1 and harmonized df2 in position 2
+harmonizeDFsbyrowname <- function(df1,df2) {
+  rdf1 <- rownames(df1)
+  rdf2 <- rownames(df2)
+  df1c <- data.frame(df1[(rdf1 %in% rdf2),])
+  df2c <- data.frame(df2[(rdf2 %in% rdf1),])
+  colnames(df2c) <- colnames(df2)
+  df1c <- data.frame(df1c[rownames(df2c),])
+  colnames(df1c) <- colnames(df1)
+  return(list(df1c,df2c))
 }

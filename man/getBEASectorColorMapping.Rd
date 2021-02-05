@@ -4,10 +4,10 @@
 \alias{getBEASectorColorMapping}
 \title{Uses VizualizationEssentials.yml to get a mapping of the to the BEA Sector Color scheme}
 \usage{
-getBEASectorColorMapping(BaseIOLevel)
+getBEASectorColorMapping(model)
 }
 \arguments{
-\item{BaseIOLevel}{The model$BaseIOLevel to use}
+\item{model}{A complete EEIO model}
 }
 \value{
 df with mapping with model BaseIOLevel codes to BEA Sector Codes, Names, and colors

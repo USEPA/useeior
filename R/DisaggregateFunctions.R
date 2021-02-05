@@ -33,7 +33,7 @@ disaggregateModel <- function (model){
                                           header = TRUE, stringsAsFactors = FALSE)}      
     if(!is.null(disagg$EnvFile)){
       disagg$EnvFileDF <- utils::read.csv(system.file("extdata", disagg$EnvFile, package = "useeior"),
-                                          header = TRUE, stringsAsFactors = FALSE, colClasses=c("SectorCode"="character"))}
+                                          header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
     #Need to assign these DFs back to the modelspecs
     model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
     
@@ -43,11 +43,7 @@ disaggregateModel <- function (model){
     newSectorLists <- disaggregateSectorLists(model, disagg)
     model$Commodities <- newSectorLists$Commodities
     model$Industries <- newSectorLists$Industries
-    
-    #Note that model$Use and model$Make are not disaggregated as they are not used when building the model or calculating results. 
-    #model$Use <- disaggregateUseTable(model)
-    #model$Make <- disaggregateMakeTable(model) 
-    
+
     model$UseTransactions <- disaggregateUseTable(model)
     model$MakeTransactions <- disaggregateMakeTable(model)
     model$FinalDemand <- disaggregateFinalDemand(model, domestic = FALSE)
@@ -57,17 +53,11 @@ disaggregateModel <- function (model){
     
     
     if(disagg$DisaggregationType == "Userdefined"){
-
-
       model <- balanceDisagg(model, disagg)
-
     }
-
-    
 
     model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
     model$CPI <- disaggregateCols(model$CPI, disagg, duplicate = TRUE)
-
 
     colnames(newNames) <- colnames(model$SectorNames)
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
@@ -130,71 +120,75 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
   # For each disaggregation:
   for (disagg in model$DisaggregationSpecs$Disaggregation){
     
-    default_disaggregation <- FALSE
-    # If satellite table data is provided for the new sector assign it here
-    if(!is.null(disagg$EnvFileDF)){
-      new_sector_totals <- disagg$EnvFileDF
-      # Select only those rows from the disaggregation env file that apply for this satellite table
-      new_sector_totals <- subset(new_sector_totals, SatelliteTable==sat$Abbreviation, colnames(sattable))
-      if(nrow(new_sector_totals)==0){
-        logging:loginfo(paste0("Warning: No data found for disaggregation of ",sat))
-        default_disaggregation <- TRUE
-      }
-      else{
-        # Check for errors in sattelite table
-        included_sectors <- unique(new_sector_totals[,"SectorCode"])
-        if (!identical(sort(included_sectors),sort(disagg$DisaggregatedSectorCodes))){
-          logging::loginfo("Error: Satellite table does not include all disaggregated sectors")
+    if(disagg$OriginalSectorCode %in% sattable$Sector){
+      default_disaggregation <- FALSE
+      # If satellite table data is provided for the new sector assign it here
+      if(!is.null(disagg$EnvFileDF)){
+        new_sector_totals <- disagg$EnvFileDF
+        # Select only those rows from the disaggregation env file that apply for this satellite table
+        new_sector_totals <- subset(new_sector_totals, SatelliteTable==sat$Abbreviation, colnames(sattable))
+        if(nrow(new_sector_totals)==0){
+          logging::logwarn(paste0("No data found for disaggregation of ",sat$Abbreviation," - applying default allocation"))
+          default_disaggregation <- TRUE
         }
-        
-        # Append to the main dataframe
-        sattable <- rbind(sattable,new_sector_totals)
-      }
-    }
-    else{
-      default_disaggregation <- TRUE
-    }
-    
-    if(default_disaggregation){
-      # Subset the totals from the original sector
-      old_sector_totals <- subset(sattable, Sector==disagg$OriginalSectorCode, colnames(sattable))
-      
-      if(!nrow(old_sector_totals)==0){
-        i<-0
-        for (new_sector in disagg$DisaggregatedSectorCodes){
-          i<-i+1
-          new_sector_totals <- old_sector_totals
-          new_sector_totals$Sector <- disagg$DisaggregatedSectorCodes[[i]]
-          new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
-          
-          # If satellite table is disaggregated proportional to gross output do that here
-          if(!is.null(disagg$MakeFileDF)){
-            GrossOutputAlloc <- subset(disagg$MakeFileDF, 
-                                       (IndustryCode == disagg$OriginalSectorCode & CommodityCode == new_sector))
-            if(nrow(GrossOutputAlloc)==0){
-              allocation <- 0
-            }
-            else{
-              allocation <- GrossOutputAlloc$PercentMake
-            }
-            new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount * allocation)
+        else{
+          # Check for errors in sattelite table
+          included_sectors <- unique(new_sector_totals[,"Sector"])
+          if (!identical(sort(included_sectors),sort(unlist(disagg$DisaggregatedSectorCodes)))){
+            logging::logwarn("Satellite table does not include all disaggregated sectors")
           }
-          
-          # Else, divide equally across new sectors
-          else{
-            new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount / length(disagg$DisaggregatedSectorCodes))
-          }
-          # Modify other metadata or DQI?
-          
           
           # Append to the main dataframe
-          sattable <- rbind(sattable,new_sector_totals)        
+          sattable <- rbind(sattable,new_sector_totals)
+        }
       }
-
+      else{
+        default_disaggregation <- TRUE
+      }
+      
+      if(default_disaggregation){
+        # Subset the totals from the original sector
+        old_sector_totals <- subset(sattable, Sector==disagg$OriginalSectorCode, colnames(sattable))
+        
+        if(!nrow(old_sector_totals)==0){
+          i<-0
+          for (new_sector in disagg$DisaggregatedSectorCodes){
+            i<-i+1
+            new_sector_totals <- old_sector_totals
+            new_sector_totals$Sector <- disagg$DisaggregatedSectorCodes[[i]]
+            new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
+            
+            # If satellite table is disaggregated proportional to gross output do that here
+            if(!is.null(disagg$MakeFileDF)){
+              GrossOutputAlloc <- subset(disagg$MakeFileDF, 
+                                         (IndustryCode == disagg$OriginalSectorCode & CommodityCode == new_sector))
+              if(nrow(GrossOutputAlloc)==0){
+                allocation <- 0
+              }
+              else{
+                allocation <- GrossOutputAlloc$PercentMake
+              }
+              new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount * allocation)
+            }
+            
+            # Else, divide equally across new sectors
+            else{
+              new_sector_totals$FlowAmount <- (new_sector_totals$FlowAmount / length(disagg$DisaggregatedSectorCodes))
+            }
+            # Modify other metadata or DQI?
+            
+            
+            # Append to the main dataframe
+            sattable <- rbind(sattable,new_sector_totals)        
+        }
+  
+      }}
+      # Remove the old_sector_totals
+      sattable_disaggregated <- subset(sattable, Sector!=disagg$OriginalSectorCode)
+    }
+    else{ # No disaggregation needed
+      sattable_disaggregated <- sattable 
     }}
-    # Remove the old_sector_totals
-    sattable_disaggregated <- subset(sattable, Sector!=disagg$OriginalSectorCode)
-  }
   
   return(sattable_disaggregated)
 }
@@ -690,18 +684,20 @@ disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE,
 }
 
 #' Disaggregate the MasterCrosswalk to include the new sectors for disaggregation
-#' @param crosswalk MasterCrosswalk from NAICS to BEA for the specified detail level. columns = "NAICS" and "BEA"
+#' @param crosswalk MasterCrosswalk from NAICS to BEA.
 #' 
 #' @return crosswalk with new sectors added.
 disaggregateMasterCrosswalk <- function (crosswalk, disagg){
   # update the crosswalk by updating the BEA codes for disaggregation or adding new NAICS_like codes
-    updated_cw <- disagg$NAICSSectorCW[, c("NAICS_2012_Code","USEEIO_Code")]
-    names(updated_cw)[names(updated_cw)=='NAICS_2012_Code'] <- "NAICS"
-    names(updated_cw)[names(updated_cw)=='USEEIO_Code'] <- "BEA"
+  updated_cw <- disagg$NAICSSectorCW[, c("NAICS_2012_Code","USEEIO_Code")]
+  names(updated_cw)[names(updated_cw)=='NAICS_2012_Code'] <- "NAICS"
 
-    crosswalk <- merge(crosswalk, updated_cw, by = "NAICS", all = TRUE)
-    crosswalk$BEA <- ifelse(is.na(crosswalk$BEA.y),crosswalk$BEA.x,crosswalk$BEA.y)
-    crosswalk <- crosswalk[,c("NAICS","BEA")]
+  crosswalk <- merge(crosswalk, updated_cw, by = "NAICS", all = TRUE)
+  #cols <- c('BEA_Detail','BEA_Summary','BEA_Sector')
+  cols <- c('BEA_Detail')
+  crosswalk[cols] <- as.data.frame(lapply(crosswalk[cols], function(x) ifelse(is.na(crosswalk$USEEIO_Code),x,crosswalk$USEEIO_Code)))
+  
+  crosswalk$USEEIO_Code <- NULL
   
   return(crosswalk)
 }
@@ -1598,7 +1594,6 @@ buildDisaggFullUse <- function(model, disagg){
 #' @param balancedFullUse A fullUse table (including UseTransactions, UseValueAdded, and FinalDemand), created to determine whether RAS balancing is needed
 #' 
 #' @return list containing balanced domesticFinalDemand and domesticUseTransactions dataframes. 
-# Validate df1 against df0 based on specified conditions
 calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse) 
 {
   #Calculate domestic use transactions and domestic final demand based on balancedfullUse
@@ -1616,7 +1611,7 @@ calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse)
   balancedDomesticUseTransactions <- balancedDomesticUseTransactions * domesticUseRatios
   
   balancedDomesticFD <- balancedFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
-  balancedDomesticFD <- domesticFDRatios
+  balancedDomesticFD <- balancedDomesticFD * domesticFDRatios
   
   newDomesticTables <- list("DomesticUseTransactions" = balancedDomesticUseTransactions, "DomesticFinalDemand" = balancedDomesticFD)
   
