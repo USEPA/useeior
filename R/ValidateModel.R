@@ -4,35 +4,32 @@
 #'Compares the total flows against the model result calculation with the domestic demand vector and direct perspective
 #'@param model, EEIOmodel object completely built
 compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
+  
+  ##Prepare right side of the equation
+  #Adjust B with Chi
+  Chi <- generateChiMatrix(model)
+  B_chi <- model$B*Chi 
+  #Prepare calculation
+  #LCI = B_chi diag(L_d y)
+  y <- as.matrix(formatDemandVector(model$DemandVectors$vectors[["2012_us_production_complete"]],model$L_d))
+  c <- getScalingVector(model$L_d, y)
+  LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
+  
+  ##Prepare left side of the equation
   E <- prepareEfromtbs(model)
-  result_domestic <- calculateEEIOModel(model, "DIRECT", demand = "Production", use_domestic = TRUE)
-  LCI <- t(result_domestic$LCI_d)
-  #Converting here to a df changed the column order
-  #LCI <- data.frame(colnames(LCI)=LCI)
-  #clean up
-  rm(result_domestic)
-  
-  inboth <- intersect(row.names(E),row.names(LCI))
-  #list_E_LCI <- harmonizeDFsbyrowname(E,LCI)
-  E <- E[inboth,]
-  LCI <- LCI[inboth,]
-  
+  E <- as.matrix(E[rownames(LCI),])
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     #transform E by market shares
-    E_c <-  as.matrix(E) %*% model$V_n
+    E <-  E %*% model$V_n
   }
   
-  #Adjust LCI with Chi
-  Chi <- generateChiMatrix(model)
-  #Dot multiply LCI and Chi
-  LCI_a <- LCI*Chi
-  
-  diff <- abs(LCI_a - E_c)/E_c
+  rel_diff <- (LCI - E)/E
   #rule <- validate::validator(abs(LCI_a - E_c)/E_c <= tolerance)
   #confrontation <- validate::confront(LCI_a, rule, E_c)
   #confrontation <- validate::as.data.frame(confrontation)
   #validation <- merge(confrontation, validate::as.data.frame(rule))
   #return(validation)
+  return(rel_diff)
 }
 
 
