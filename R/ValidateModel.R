@@ -89,7 +89,7 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
     FlowYearOutput <- rbind(FlowYearOutput, FlowYearOutput_y)
   }
   # Calculate Chi: divide ModelYearOutput by FlowYearOutput
-  Chi <- as.matrix(1/sweep(FlowYearOutput[rownames(model$B), ], 2,
+  Chi <- as.matrix(sweep(FlowYearOutput[rownames(model$B), ], 2,
                            ModelYearOutput[colnames(FlowYearOutput), ], "/"))
   # Replace NA with 0
   Chi[is.na(Chi)] <- 0
