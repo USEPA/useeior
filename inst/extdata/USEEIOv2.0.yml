@@ -678,7 +678,7 @@ Indicators:
     StaticSource: FALSE
     ScriptFunctionCall: "getInventoryMethod" #function to call for script
     ScriptFunctionParameters: 
-      indicators: ["nonrewnewable_energy"]
+      indicators: ["nonrenewable_energy"]
     DataSources:
       LCIAformatter:
         Title: "LCIAformatter FEDEFL Inventory Methods"
@@ -696,7 +696,7 @@ Indicators:
     StaticSource: FALSE
     ScriptFunctionCall: "getInventoryMethod" #function to call for script
     ScriptFunctionParameters: 
-      indicators: ["rewnewable_energy"]
+      indicators: ["renewable_energy"]
     DataSources:
       LCIAformatter:
         Title: "LCIAformatter FEDEFL Inventory Methods"
