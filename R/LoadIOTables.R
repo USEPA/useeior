@@ -39,6 +39,10 @@ loadIOData <- function(modelname) {
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     if (model$specs$PrimaryRegionAcronym=="US") {
       model$CommodityOutput <- generateCommodityOutputforYear(model)
+      # Change commodity output of 'customs duties' (4200ID/42/42) to 0
+      if (model$specs$BaseIOLevel=="Detail") {
+        model$CommodityOutput["4200ID", ] <- 0
+      }
     } else {
       # Add RoUS in CommodityOutput table
       model$CommodityOutput <- getStateCommodityOutputEstimates(model$specs$PrimaryRegionAcronym)
@@ -100,12 +104,12 @@ loadBEAtables <- function(specs) {
   BEA$HouseholdDemandCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "HouseholdDemand")
   BEA$InvestmentDemandCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "InvestmentDemand")
   BEA$ChangeInventoriesCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "ChangeInventories")
-  BEA$ImportCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")
   BEA$ExportCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Export")
+  BEA$ImportCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")
   BEA$GovernmentDemandCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "GovernmentDemand")
   BEA$FinalDemandCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
-                            BEA$ChangeInventoriesCodes, BEA$ImportCodes,
-                            BEA$ExportCodes, BEA$GovernmentDemandCodes)
+                            BEA$ChangeInventoriesCodes, BEA$ExportCodes,
+                            BEA$ImportCodes, BEA$GovernmentDemandCodes)
   BEA$TotalConsumptionCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
                                  BEA$GovernmentDemandCodes)
   BEA$ScrapCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Scrap")
@@ -129,16 +133,13 @@ loadBEAtables <- function(specs) {
   DomesticUse <- generatDomesticUse(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
   BEA$DomesticUseTransactions <- DomesticUse[, BEA$Industries]
   BEA$DomesticFinalDemand <- DomesticUse[, BEA$FinalDemandCodes]
-  # For Detail model, set used goods (S00402) and noncomparable imports (S00300) in UseCommodityOutput to 1 to prevent dividing by zero when creating market shares
-  if (specs$BaseIOLevel == "Detail") {
-    BEA$UseCommodityOutput[c("S00402", "S00300"), ] <- 1
-  }
+  # Replace NA with 0 in IO tables
   if(specs$BaseIOSchema==2007){
     BEA$MakeTransactions[is.na(BEA$MakeTransactions)] <- 0
     BEA$UseTransactions[is.na(BEA$UseTransactions)] <- 0
     BEA$UseFinalDemand[is.na(BEA$UseFinalDemand)] <- 0
   }
-
+  
   return(BEA)
 }
 
