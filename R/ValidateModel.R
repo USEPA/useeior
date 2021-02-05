@@ -52,6 +52,20 @@ compareOutputandDomesticResult <- function(model, tolerance=0.05) {
   return(rel_diff)
 }
 
+#'Compares the total commodity output against the summation of model domestic Use and production demand
+#'@param model, EEIOmodel object completely built
+#'@return vector, a vector of relative different in calculation from sector output by sector 
+compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
+  p <- model$CommodityOutput
+  x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_us_production_complete"]]
+  
+  #Row names should be identical
+  identical(rownames(p), names(x))
+  
+  rel_diff <- (p - x)/p
+  return(rel_diff)
+}
+
 
 #'Concatenate all satellite flows in model
 #'@param model, EEIOmodel object completely built
