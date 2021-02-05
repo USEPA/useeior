@@ -6,20 +6,20 @@
 compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   E <- prepareEfromtbs(model)
   result_domestic <- calculateEEIOModel(model, "DIRECT", demand = "Production", use_domestic = TRUE)
-  LCI <- data.frame(t(result_domestic$LCI_d))
+  LCI <- t(result_domestic$LCI_d)
+  #Converting here to a df changed the column order
+  #LCI <- data.frame(colnames(LCI)=LCI)
   #clean up
   rm(result_domestic)
   
-  list_E_LCI <- harmonizeDFsbyrowname(E,LCI)
-  E <- list_E_LCI[[1]]
-  LCI <- list_E_LCI[[1]]
+  inboth <- intersect(row.names(E),row.names(LCI))
+  #list_E_LCI <- harmonizeDFsbyrowname(E,LCI)
+  E <- E[inboth,]
+  LCI <- LCI[inboth,]
   
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     #transform E by market shares
-    Ux_hat <- generateMarketSharesfromMake(model)
-    E <- as.matrix(E)
-    E <-  E %*% Ux_hat
-    E <- data.frame(E)
+    E_c <-  as.matrix(E) %*% model$V_n
   }
   
   #Adjust LCI with Chi
@@ -27,11 +27,12 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   #Dot multiply LCI and Chi
   LCI_a <- LCI*Chi
   
-  rule <- validate::validator(abs(LCI_a - E)/E <= tolerance)
-  confrontation <- validate::confront(LCI_a, rule, E)
-  confrontation <- validate::as.data.frame(confrontation)
-  validation <- merge(confrontation, validate::as.data.frame(rule))
-  return(validation)
+  diff <- abs(LCI_a - E_c)/E_c
+  #rule <- validate::validator(abs(LCI_a - E_c)/E_c <= tolerance)
+  #confrontation <- validate::confront(LCI_a, rule, E_c)
+  #confrontation <- validate::as.data.frame(confrontation)
+  #validation <- merge(confrontation, validate::as.data.frame(rule))
+  #return(validation)
 }
 
 
