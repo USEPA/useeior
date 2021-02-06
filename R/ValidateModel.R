@@ -130,4 +130,20 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
   return(Chi)
 }
 
+#' Gets industry output from model Use and Make and checks if they are the same
+#'@param model, a built model object
+compareIndustryOutputinMakeandUse <- functions(model) {
+  x_use <- colSums(model$UseTransactions)+colSums(model$UseValueAdded)
+  x_make <-rowSums(model$MakeTransactions)
+  #sort to be the same order
+
+  #usenames <- names(x_use)
+  #x_make <- x_make[order(factor(usenames),levels=usenames)]
+  if (!identical(names(x_make),names(x_use))) {
+    stop("industries in Make and Use do not match")
+  } 
+  rel_diff <- (x_use - x_make)/x_make
+  return(rel_diff)
+}  
+  
 
