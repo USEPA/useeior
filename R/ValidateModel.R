@@ -32,21 +32,30 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   return(rel_diff)
 }
 
-#'Compares the total sector output against the model result calculation with the domestic demand vector and direct perspective
+#'Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
+#'Uses the model$FinalDemand and model$L
+#'Works for the domestic model with the equivalent tables
 #'@param model, EEIOmodel object completely built
 #'@return vector, a vector of relative different in calculation from sector output by sector 
-compareOutputandDomesticResult <- function(model, tolerance=0.05) {
-  y <- as.matrix(formatDemandVector(model$DemandVectors$vectors[["2012_us_production_complete"]],model$L_d))
-  c <- getScalingVector(model$L_d, y)
+compareOutputandLeontiefXDemand <- function(model, domestic=FALSE, tolerance=0.05) {
+  if (domestic) {
+    y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
+    c <- getScalingVector(model$L_d, y)
+  } else {
+    y <- as.matrix(formatDemandVector(rowSums(model$FinalDemand),model$L))
+    c <- getScalingVector(model$L, y)
+  }
   if(model$specs$CommoditybyIndustryType == "Commodity") {
-    #transform E by market shares
+    #determine if output to compare is commodity or industry
     x <-  model$CommodityOutput
   } else {
     x <- model$IndustryOutput
   }
   
   #Row names should be identical
-  identical(rownames(c),rownames(x))
+  if (!identical(rownames(c),rownames(x))) {
+    stop("Sectors not aligned in model ouput variable and calculation result")
+  }
   
   rel_diff <- (c - x)/x
   return(rel_diff)
@@ -131,8 +140,8 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
 }
 
 #' Gets industry output from model Use and Make and checks if they are the same
-#'@param model, a built model object
-compareIndustryOutputinMakeandUse <- functions(model) {
+#' @param model, a built model object
+compareIndustryOutputinMakeandUse <- function(model) { 
   x_use <- colSums(model$UseTransactions)+colSums(model$UseValueAdded)
   x_make <-rowSums(model$MakeTransactions)
   #sort to be the same order
