@@ -683,3 +683,14 @@
 #'  \item{NAICS_2017_Code}{text code}
 #' }
 "MasterCrosswalk2012"
+
+#' Master Crosswalk table (2007 schema)
+#' @format A dataframe with 4185 obs. and 5 variables:
+#' \describe{
+#'  \item{BEA_2012_Sector_Code}{text code}
+#'  \item{BEA_2012_Summary_Code}{text code}
+#'  \item{BEA_2012_Detail_Code}{text code}
+#'  \item{NAICS_2012_Code}{text code}
+#'  \item{NAICS_2007_Code}{text code}
+#' }
+"MasterCrosswalk2007"

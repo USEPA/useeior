@@ -9,45 +9,67 @@
 #' @param y_title The title of y axis, excluding unit.
 #' @export
 plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title) {
-  # Generate BEA sector color mapping
-  mapping <- getBEASectorColorMapping(model_list[[1]]$specs$BaseIOLevel)
   # Prepare data frame for plot
   df <- data.frame()
   for (modelname in names(model_list)) {
-    df_model <- data.frame()
     model <- model_list[[modelname]]
+    # Adjust y_title
+    Y_title <- paste0(y_title, " (", model$Indicators$meta[model$Indicators$meta$Name%in%coefficient_name, "Unit"], "/$)")
+    # Generate BEA sector color mapping
+    mapping <- getBEASectorColorMapping(model)
+    mapping$GroupName <- mapping$SectorName
+    # Generate matrix
     matrix <- model[[matrix_name]]
-    modelspecs <- model$specs
-    matrix <- matrix[rownames(matrix)==coefficient_name, ]
-    matrix <- cbind.data.frame(names(matrix), matrix)
-    colnames(matrix) <- c("Sector", "Coeff")
+    matrix <- matrix[coefficient_name, ]
+    if (length(coefficient_name)==1) {
+      matrix <- cbind.data.frame(Y_title, names(matrix), matrix)
+    } else {
+      rownames(matrix) <- Y_title
+      matrix <- as.data.frame(reshape2::melt(matrix))
+    }
+    colnames(matrix) <- c("CoefficientName", "Sector", "Value")
     matrix$Sector <- toupper(gsub("/.*", "", matrix$Sector))
+    # Convert matrix to df
+    df_model <- data.frame()
     df_model <- rbind(matrix, df_model)
-    df_model <- merge(df_model, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color")],
+    df_model <- merge(df_model, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
                       by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"))
     df_model <- merge(df_model, model$SectorNames, by = "Sector")
     df_model$modelname <- modelname
     # Remove certain sectors
     df_model <- df_model[!df_model$Sector%in%sector_to_remove, ]
+    df_model <- df_model[order(df_model$GroupName), ]
     df <- rbind(df, df_model)
   }
-  #! Temp unit hardcoding - should come from flow
-  y_unit <- "(kg/$)"
+  df_wide <- reshape2::dcast(df, CoefficientName + Sector + color + GroupName + SectorName ~ modelname, value.var = "Value")
+  df <- reshape2::melt(df_wide, id.vars = c("CoefficientName", "Sector", "color", "GroupName", "SectorName"),
+                       variable.name = "modelname", value.name = "Value")
+  df <- df[order(df$GroupName), ]
+  # Prepare axis label color
+  label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Sector, levels = rev(intersect(model$SectorNames$Sector, Sector))),
-                                        y = Coeff, group = as.character(modelname))) +
-    ggplot2::geom_point(ggplot2::aes(shape = as.character(modelname)), size = 3) +
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorName, levels = rev(unique(SectorName))),
+                                        y = Value, shape = as.character(modelname))) +
+    ggplot2::geom_point(ggplot2::aes(color = GroupName), size = 3) +
     ggplot2::scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
-    ggplot2::labs(x = "", y = paste(y_title, y_unit)) +
-    ggplot2::scale_x_discrete(breaks = df$Sector, labels = df$SectorName) +
+    ggplot2::scale_color_manual(values = unique(df$color)) +
+    ggplot2::labs(x = "", y = Y_title) +
+    ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(),
+                                sec.axis = ggplot2::sec_axis(~., name = Y_title, breaks = scales::pretty_breaks())) +
     ggplot2::coord_flip() +
     ggplot2::theme_linedraw(base_size = 15) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.text.y = ggplot2::element_text(size = 12, color = df_model$color),
-                   axis.title.x = ggplot2::element_text(size = 15), legend.title = ggplot2::element_blank(),
-                   legend.justification = c(1, 1), legend.position = c(0.95, 0.15),
-                   axis.ticks = ggplot2::element_blank(), panel.grid.minor.y = ggplot2::element_blank(),
-                   plot.margin = ggplot2::margin(c(5, 20, 5, 5)))
+                   axis.text.y = ggplot2::element_text(size = 10, color = label_colors),
+                   axis.title.x = ggplot2::element_text(size = 10), legend.title = ggplot2::element_blank(),
+                   legend.justification = c(1, 1), axis.ticks = ggplot2::element_blank(),
+                   panel.grid.minor.y = ggplot2::element_blank(), plot.margin = ggplot2::margin(c(5, 20, 5, 5)))
+  if (length(coefficient_name)>1) {
+    p <- p + ggplot2::facet_wrap(~CoefficientName, ncol = length(coefficient_name), scales = "free_x") +
+      ggplot2::labs(y = "") + ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(),
+                                                          sec.axis = ggplot2::sec_axis(~., name = "", breaks = scales::pretty_breaks())) +
+      ggplot2::theme(strip.background = ggplot2::element_blank(), strip.placement = "outside",
+                     strip.text = ggplot2::element_text(colour = "black", size = 15))
+  }
   return(p)
 }
 
@@ -106,22 +128,27 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
 ## Helper functions for plotting
 
 #' Uses VizualizationEssentials.yml to get a mapping of the to the BEA Sector Color scheme
-#' @param BaseIOLevel The model$BaseIOLevel to use
+#' @param model A complete EEIO model
 #' @return df with mapping with model BaseIOLevel codes to BEA Sector Codes, Names, and colors
-getBEASectorColorMapping <- function(BaseIOLevel) {
+getBEASectorColorMapping <- function(model) {
   # Load VisualizationEssentials.yml and convert it to a data frame ColorLabelMapping
   configfile <- system.file("extdata", "VisualizationEssentials.yml", package = "useeior")
   VisualizationEssentials <- configr::read.config(configfile)
-  ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$BEASectorLevel$ColorLabelMapping)))
+  ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$BEASectorLevel$ColorLabelMapping)),
+                                     stringsAsFactors = FALSE)
   colnames(ColorLabelMapping) <- c("SectorName", "Sector")
   ColorLabelMapping$color <- rownames(ColorLabelMapping)
-  # Prepare BEA Sector-BaseIOLevel mapping
-  MasterCrosswalk <- useeior::MasterCrosswalk2012
-  code_for_model_level <- paste("BEA_2012", BaseIOLevel, "Code", sep = "_")
-  mapping <- unique(MasterCrosswalk[, c("BEA_2012_Sector_Code", code_for_model_level)])
-  colnames(mapping) <- c("Sector", paste0(BaseIOLevel, "Code"))
+  # Add Households, Used and Other
+  ColorLabelMapping["#FFE119", ] <- c("Households", "F010", "#FFE119") # yellow
+  ColorLabelMapping["#42D4F4", ] <- c("Used", "Used", "#42D4F4") # cyan (bright blue)
+  ColorLabelMapping["#469990", ] <- c("Other", "Other", "#469990") # teal
+  # Prepare BEA Sector-modelIOLevel mapping
+  mapping <- unique(model$crosswalk[, c("BEA_Sector", paste0("BEA_", model$specs$BaseIOLevel))])
+  colnames(mapping) <- c("Sector", paste0(model$specs$BaseIOLevel, "Code"))
   # Merge BEA mapping with ColorLabelMapping
   mapping <- merge(mapping, ColorLabelMapping)
+  mapping$SectorName <- factor(mapping$SectorName, levels = ColorLabelMapping$SectorName)
+  mapping <- mapping[order(mapping$SectorName), ]
   return(mapping)
 }
 

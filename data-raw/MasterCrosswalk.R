@@ -13,7 +13,7 @@ extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
     BEA <- BEAtable[-c(1:5), c(1:2, 4:5)]
     BEAtoNAICS <- BEAtable[-c(1:5), c(4:5, 7)]
   } else { #year = 2007
-    BEAtable <- as.data.frame(readxl::read_excel(paste(BEApath, "2007Schema/IOUse_Before_Redefinitions_PRO_2007_Detail.xlsx", sep = ""),
+    BEAtable <- as.data.frame(readxl::read_excel("inst/extdata/IOUse_Before_Redefinitions_PRO_2007_Detail.xlsx",
                                                  sheet = "NAICS codes", col_names = FALSE))
     # Split to BEA and BEAtoNAICS
     BEA <- BEAtable[-c(1:4), 1:4]
@@ -175,7 +175,7 @@ getMasterCrosswalk <- function (year) {
   BEAyearSectorCode <- c(paste("BEA_", year, "_Sector_Code", sep = ""))
   BEAyearSummaryCode <- c(paste("BEA_", year, "_Summary_Code", sep = ""))
   BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[!BEAtoUSEEIOtoNAICS[, BEAyearSectorCode] %in% c("23", "G"), ]
-  BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[!BEAtoUSEEIOtoNAICS[, BEAyearSummaryCode] %in% c("HS", "ORE"), ]
+  BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[!BEAtoUSEEIOtoNAICS[, BEAyearSummaryCode] %in% c("HS", "ORE", "531"), ]
   # Load pre-created tables for 23, G, F, and V sectors
   # 23
   Crosswalk23 <- utils::read.table(paste0("inst/extdata/23_BEAtoUSEEIOtoNAICS_", year, ".csv"), sep = ",", header = TRUE, stringsAsFactors = FALSE)
@@ -265,3 +265,7 @@ MasterCrosswalk2012 <- MasterCrosswalk2012[, c(paste("BEA_2012", c("Sector", "Su
                                                paste("NAICS", c(2012, 2007, 2017), "Code", sep = "_"))]
 usethis::use_data(MasterCrosswalk2012, overwrite = T)
 
+MasterCrosswalk2007 <- getMasterCrosswalk(2007)
+MasterCrosswalk2007 <- MasterCrosswalk2007[, c(paste("BEA_2007", c("Sector", "Summary", "Detail"), "Code", sep = "_"),
+                                               paste("NAICS", c(2012, 2007), "Code", sep = "_"))]
+usethis::use_data(MasterCrosswalk2007, overwrite = T)

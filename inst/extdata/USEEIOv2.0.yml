@@ -47,13 +47,13 @@ SatelliteTable:
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["CAP_HAP_national_2017"] #list of parameters
     DataSources:
-      EPA_NEI:
+      EPA_NEI_2017:
         Title: "National Emissions Inventory"
         Author: "EPA"
         DataYear: 2017
         URL: "https://www.epa.gov/air-emissions-inventories/national-emissions-inventory-nei"
         Primary: TRUE
-      EPA_TRI:
+      EPA_TRI_2017:
         Title: "Toxic Release Inventory"
         Author: "EPA"
         DataYear: 2017
@@ -73,7 +73,7 @@ SatelliteTable:
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["GRDREL_national_2017"]#list of parameters
     DataSources:
-      EPA_TRI:
+      EPA_TRI_2017:
         Title: "Toxic Release Inventory"
         Author: "EPA"
         DataYear: 2017
@@ -93,13 +93,13 @@ SatelliteTable:
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["TRI_DMR_national_2017"] #list of parameters
     DataSources:
-      EPA_TRI:
+      EPA_TRI_2017:
         Title: "Toxic Release Inventory"
         Author: "EPA"
         DataYear: 2017
         URL: "https://www.epa.gov/toxics-release-inventory-tri-program"
         Primary: TRUE
-      EPA_DMR:
+      EPA_DMR_2017:
         Title: "Discharge Monitoring Report"
         Author: "EPA"
         DataYear: 2017
@@ -137,29 +137,59 @@ SatelliteTable:
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: ["Land_national_2012"] #list of parameters
     DataSources:
+      BLM_PLS:
+        Title: "Public Land Statistics"
+        Author: "BLM"
+        DataYear: 2012
+        URL: "https://www.blm.gov/about/data/public-land-statistics"
+        Primary: FALSE
+      EIA_CBECS_Land:
+        Title: "Commercial Building Energy Consumption Survey"
+        Author: "EIA"
+        DataYear: 2012
+        URL: "https://www.eia.gov/consumption/commercial/data/2012/"
+        Primary: FALSE
+      EIA_MECS_Land:
+        Title: "Manufacturing Energy Consumption Survey"
+        Author: "EIA"
+        DataYear: 2014
+        URL: "https://www.eia.gov/consumption/manufacturing/data/2014/"
+        Primary: FALSE     
+      USDA_ERS_MLU:
+        Title: "Major Uses of Land in the United States"
+        Author: "USDA"
+        DataYear: 2012
+        URL: "https://www.ers.usda.gov/data-products/major-land-uses/"
+        Primary: True  
   MINE:
     FullName: "Mineral extraction"
     Abbreviation: "MINE"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_MINE_TotalsBySector.csv"
+    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_MINE_TotalsBySector_FEDEFL.csv"
     DataYears: [2014]
     Locations: ["US"]
     SectorListSource: "BEA"
     SectorListYear: 2007
     SectorListLevel: "Detail"
-    OriginalFlowSource: "MineralCommoditySurvey"
+    OriginalFlowSource: "FEDEFLv1.0.5"
     DataSources:
+       USGS_MCS:
+        Title: "Mineral Commodity Summary"
+        Author: "USGS"
+        DataYear: 2014
+        URL: "https://www.usgs.gov/centers/nmic/mineral-commodity-summaries"
+        Primary: TRUE    
   ENERGY:
     FullName: "Energy extraction"
     Abbreviation: "ENERGY"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_Energy_TotalsBySector.csv"
+    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_Energy_TotalsBySector_FEDEFL.csv"
     DataYears: [2014]
     Locations: ["US"]
     SectorListSource: "BEA"
     SectorListYear: 2007
     SectorListLevel: "Detail"
-    OriginalFlowSource: "ENERGY"
+    OriginalFlowSource: "FEDEFLv1.0.5"
     DataSources:
       EIA_MER:
         Title: "Monthly Energy Review"
@@ -183,8 +213,44 @@ SatelliteTable:
     SectorListSource: "BEA"
     SectorListYear: 2007
     SectorListLevel: "Detail"
-    OriginalFlowSource: "DMR"
+    OriginalFlowSource: "FEDEFLv1.0.5"
     DataSources:
+      USDA_CUS_Corn_Potatoes:
+        Title: "Chemical Use Survey - Corn and Potatoes"
+        Author: "USDA"
+        DataYear: 2014
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Corn_and_Potatoes/"
+        Primary: False 
+      USDA_CUS_Cotton:
+        Title: "Chemical Use Survey - Cotton"
+        Author: "USDA"
+        DataYear: 2010
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2010_Corn_Upland_Cotton_Fall_Potatoes/"
+        Primary: False            
+      USDA_CUS_Fruit:
+        Title: "Chemical Use Survey - Fruit"
+        Author: "USDA"
+        DataYear: 2011
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2011_Fruit_Chem_Usage/"
+        Primary: False   
+      USDA_CUS_Peanuts_Rice:
+        Title: "Chemical Use Survey - Peanuts and Rice"
+        Author: "USDA"
+        DataYear: 2013
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2013_Peanuts_and_Rice/"
+        Primary: False    
+      USDA_CUS_Soybeans_Wheat:
+        Title: "Chemical Use Survey - Soybeans and Wheat"
+        Author: "USDA"
+        DataYear: 2012
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2012_Soybeans_and_Wheat/"
+        Primary: False     
+      USDA_CUS_Vegetables:
+        Title: "Chemical Use Survey - Vegetables"
+        Author: "USDA"
+        DataYear: 2014
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Vegetables/"
+        Primary: False  
   PEST:
     FullName: "Pesticide releases"
     Abbreviation: "PEST"
@@ -197,6 +263,42 @@ SatelliteTable:
     SectorListLevel: "Detail"
     OriginalFlowSource: "FEDEFLv1.0.5"
     DataSources:
+      USDA_CUS_Corn_Potatoes:
+        Title: "Chemical Use Survey - Corn and Potatoes"
+        Author: "USDA"
+        DataYear: 2014
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Corn_and_Potatoes/"
+        Primary: False 
+      USDA_CUS_Cotton:
+        Title: "Chemical Use Survey - Cotton"
+        Author: "USDA"
+        DataYear: 2010
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2010_Corn_Upland_Cotton_Fall_Potatoes/"
+        Primary: False            
+      USDA_CUS_Fruit:
+        Title: "Chemical Use Survey - Fruit"
+        Author: "USDA"
+        DataYear: 2011
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2011_Fruit_Chem_Usage/"
+        Primary: False   
+      USDA_CUS_Peanuts_Rice:
+        Title: "Chemical Use Survey - Peanuts and Rice"
+        Author: "USDA"
+        DataYear: 2013
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2013_Peanuts_and_Rice/"
+        Primary: False    
+      USDA_CUS_Soybeans_Wheat:
+        Title: "Chemical Use Survey - Soybeans and Wheat"
+        Author: "USDA"
+        DataYear: 2012
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2012_Soybeans_and_Wheat/"
+        Primary: False     
+      USDA_CUS_Vegetables:
+        Title: "Chemical Use Survey - Vegetables"
+        Author: "USDA"
+        DataYear: 2014
+        URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Vegetables/"
+        Primary: False  
   CNHW:
     FullName: "Commercial non-hazardous waste excluding construction activities"
     Abbreviation: "CNHW"
@@ -209,6 +311,12 @@ SatelliteTable:
     SectorListLevel: "Detail"
     OriginalFlowSource: "Waste Characterization Study 2014"
     DataSources:
+      CalRecycle_CWCS:
+        Title: "2014 Generator-Based Characterization of Commercial Sector"
+        Author: "CalRecycle"
+        DataYear: 2014
+        URL: "https://www2.calrecycle.ca.gov/WasteCharacterization/PubExtracts/2014/GenSummary.pdf"
+        Primary: TRUE     
   CNHWC:
     FullName: "Commercial non-hazardous waste from construction activities"
     Abbreviation: "CNHWC"
@@ -221,6 +329,12 @@ SatelliteTable:
     SectorListLevel: "Detail"
     OriginalFlowSource: "CDDPath"
     DataSources:
+      USEPA_FF_2014:
+        Title: "Advancing Sustainable Materials Management: 2014 Fact Sheet"
+        Author: "USEPA"
+        DataYear: 2014
+        URL: "https://www.epa.gov/sites/production/files/2016-11/documents/2014_smmfactsheet_508.pdf"
+        Primary: TRUE     
   CRHW:
     FullName: "Commercial RCRA-defined hazardous waste"
     Abbreviation: "CRHW"
@@ -235,6 +349,12 @@ SatelliteTable:
     ScriptFunctionParameters: ["CRHW_national_2017"] #list of parameters
     OriginalFlowSource: "RCRAInfo"
     DataSources:
+      USEPA_RCRAInfo_2017:
+        Title: "National Biennial RCRA Hazardous Waste Report"
+        Author: "USEPA"
+        DataYear: 2017
+        URL: "https://rcrapublic.epa.gov/rcrainfoweb/action/modules/br/main/broverview"
+        Primary: TRUE       
   EMP:
     FullName: "Employment"
     Abbreviation: "EMP"
@@ -249,31 +369,37 @@ SatelliteTable:
     ScriptFunctionParameters: ["Employment_national_2017"] #list of parameters
     OriginalFlowSource: "Employment"
     DataSources:
+      BLS_QCEW_2017:
+        Title: "Quarterly Census of Employment and Wages"
+        Author: "BLS"
+        DataYear: 2017
+        URL: "https://www.bls.gov/cew/"
+        Primary: TRUE  
   VADD:
-   FullName: "Value Added"
-   Abbreviation: "VADD"
-   StaticSource: FALSE
-   StaticFile: null
-   DataYears: [2012]
-   Locations: ["US"]
-   SectorListSource: "BEA"
-   SectorListYear: 2012
-   SectorListLevel: "Detail"
-   OriginalFlowSource: "Input-Output Tables"
-   ScriptFunctionCall: "getValueAddedTotalsbySector" #function to call for script
-   ScriptFunctionParameters: ["model"] #list of parameters
-   DataSources:
-   BEA_USE:
-     Title: "Detail Use Before Redefinitions"
-     Author: "BEA"
-     DataYear: 2012
-     URL: "https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"
-     Primary: TRUE
+    FullName: "Value Added"
+    Abbreviation: "VADD"
+    StaticSource: FALSE
+    StaticFile: null
+    DataYears: [2012]
+    Locations: ["US"]
+    SectorListSource: "BEA"
+    SectorListYear: 2012
+    SectorListLevel: "Detail"
+    OriginalFlowSource: "Input-Output Tables"
+    ScriptFunctionCall: "getValueAddedTotalsbySector" #function to call for script
+    ScriptFunctionParameters: ["model"] #list of parameters
+    DataSources:
+     BEA_USE:
+       Title: "Detail Use Before Redefinitions"
+       Author: "BEA"
+       DataYear: 2012
+       URL: "https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip"
+       Primary: TRUE
 
 Indicators:
   GreenhouseGases:
-    FullName: "Greenhouse Gases"
-    Abbreviation: "GHG"
+    Name: "Greenhouse Gases"
+    Code: "GHG"
     Group: "Impact Potential"
     Unit: "kg CO2 eq"
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
@@ -289,11 +415,11 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   Acidification:
-    FullName: "Acidification Potential"
-    Abbreviation: "ACID"
+    Name: "Acidification Potential"
+    Code: "ACID"
     Group: "Impact Potential"
     Unit: "kg SO2 eq"
     SimpleUnit: "Kilograms Sulphur Dioxide (SO2)"
@@ -309,11 +435,11 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   Eutrophication:
-    FullName: "Eutrophication Potential"
-    Abbreviation: "EUTR"
+    Name: "Eutrophication Potential"
+    Code: "EUTR"
     Group: "Impact Potential"
     Unit: "kg N eq"
     SimpleUnit: "Kilograms Nitrogen (N)"
@@ -329,11 +455,11 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   FreshwaterEcotox:
-    FullName: "Freshwater Ecotoxicity Potential"
-    Abbreviation: "ETOX"
+    Name: "Freshwater Ecotoxicity Potential"
+    Code: "ETOX"
     Group: "Impact Potential"
     Unit: "CTUe"
     SimpleUnit: "Comparative Toxic Unit for Ecosystem (CTUe)"
@@ -349,11 +475,11 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   HumanHealthCancer:
-    FullName: "Human Health - Cancer"
-    Abbreviation: "HCAN"
+    Name: "Human Health - Cancer"
+    Code: "HCAN"
     Group: "Impact Potential"
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
@@ -369,11 +495,11 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   HumanHealthNonCancer:
-    FullName: "Human Health - Noncancer"
-    Abbreviation: "HNCN"
+    Name: "Human Health - Noncancer"
+    Code: "HNCN"
     Group: "Impact Potential"
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
@@ -389,11 +515,11 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   HumanHealthToxicity:
-    FullName: "Human Health Toxicity"
-    Abbreviation: "HTOX"
+    Name: "Human Health Toxicity"
+    Code: "HTOX"
     Group: "Impact Potential"
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
@@ -403,10 +529,17 @@ Indicators:
     ScriptFunctionParameters: 
       method_id: "TRACI 2.1"
       indicators: ["Human health - cancer", "Human health - non-cancer"]
-      methods: 
+      methods:
+    DataSources:
+      USEEIO_LCIA_Aggregation:
+        Title: "Aggregation of HNCN and HCAN"
+        Author: NA
+        DataYear: NA
+        URL: NA
+        Primary: TRUE
   HumanHealthRespEffects:
-    FullName: "Human Health - Respiratory Effects"
-    Abbreviation: "HRSP"
+    Name: "Human Health - Respiratory Effects"
+    Code: "HRSP"
     Group: "Impact Potential"
     Unit: "kg PM2.5 eq"
     SimpleUnit: "Kilograms Particulate Matter"
@@ -421,12 +554,11 @@ Indicators:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
         Author: "USEPA"
-        DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   Ozone:
-    FullName: "Ozone Depletion"
-    Abbreviation: "OZON"
+    Name: "Ozone Depletion"
+    Code: "OZON"
     Group: "Impact Potential"
     Unit: "kg CFC-11 eq"
     SimpleUnit: "Kilograms ChloroFluoroCarbon-11"
@@ -442,11 +574,11 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   Smog:
-    FullName: "Smog Formation Potential"
-    Abbreviation: "SMOG"
+    Name: "Smog Formation Potential"
+    Code: "SMOG"
     Group: "Impact Potential"
     Unit: "kg O3 eq"
     SimpleUnit: "Kilograms Ozone (O3)"
@@ -462,14 +594,14 @@ Indicators:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
   freshwater_withdrawal:
-    FullName: "Freshwater withdrawals"
-    Abbreviation: "WAT"
+    Name: "Freshwater withdrawals"
+    Code: "WATR"
     Group: "Resource Use"
     Unit: "kg"
-    SimpleUnit: "Cubic Meters"
+    SimpleUnit: "Kilograms"
     SimpleName: "Water Use" 
     StaticSource: FALSE
     ScriptFunctionCall: "getInventoryMethod" #function to call for script
@@ -480,11 +612,11 @@ Indicators:
         Title: "LCIAformatter FEDEFL Inventory Methods"
         Author: "USEPA"
         DataYear: 2020
-        URL: https://github.com/USEPA/LCIAformatter
+        URL: "https://github.com/USEPA/LCIAformatter"
         Primary: TRUE
   land_use:
-    FullName: "Land use"
-    Abbreviation: "LAND"
+    Name: "Land use"
+    Code: "LAND"
     Group: "Resource Use"
     Unit: "m2*yr"
     SimpleUnit: "Square Meters per Year"
@@ -498,11 +630,11 @@ Indicators:
         Title: "LCIAformatter FEDEFL Inventory Methods"
         Author: "USEPA"
         DataYear: 2020
-        URL: https://github.com/USEPA/LCIAformatter
+        URL: "https://github.com/USEPA/LCIAformatter"
         Primary: TRUE
   HAP:
-    FullName: "Hazardous Air Pollutants"
-    Abbreviation: "HAPS"
+    Name: "Hazardous Air Pollutants"
+    Code: "HAPS"
     Group: "Chemical Releases"
     Unit: "kg"
     SimpleUnit: "Kilograms"
@@ -516,11 +648,11 @@ Indicators:
         Title: "LCIAformatter FEDEFL Inventory Methods"
         Author: "USEPA"
         DataYear: 2020
-        URL: https://github.com/USEPA/LCIAformatter
+        URL: "https://github.com/USEPA/LCIAformatter"
         Primary: TRUE
   Pesticides:
-    FullName: "Pesticides"
-    Abbreviation: "PEST"
+    Name: "Pesticides"
+    Code: "PEST"
     Group: "Chemical Releases"
     Unit: "kg"
     SimpleUnit: "Kilograms"
@@ -534,89 +666,155 @@ Indicators:
         Title: "LCIAformatter FEDEFL Inventory Methods"
         Author: "USEPA"
         DataYear: 2020
-        URL: https://github.com/USEPA/LCIAformatter
+        URL: "https://github.com/USEPA/LCIAformatter"
         Primary: TRUE
   NonRenewableEnergy:
-    FullName: "Nonrenewable Energy Use"
-    Abbreviation: "NNRG"
+    Name: "Nonrenewable Energy Use"
+    Code: "NNRG"
     Group: "Resource Use"
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Nonrenewable Energy Use" 
-    StaticSource: TRUE
+    StaticSource: FALSE
+    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["nonrenewable_energy"]
     DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "https://github.com/USEPA/LCIAformatter"
+        Primary: TRUE
   RenewableEnergy:
-    FullName: "Renewable Energy Use"
-    Abbreviation: "RNRG"
+    Name: "Renewable Energy Use"
+    Code: "RNRG"
     Group: "Resource Use"
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Renewable Energy Use" 
-    StaticSource: TRUE
+    StaticSource: FALSE
+    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["renewable_energy"]
     DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "https://github.com/USEPA/LCIAformatter"
+        Primary: TRUE
   Energy:
-    FullName: "Energy Use"
-    Abbreviation: "ENRG"
+    Name: "Energy Use"
+    Code: "ENRG"
     Group: "Resource Use"
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Energy Use" 
-    StaticSource: TRUE
+    StaticSource: FALSE
+    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["energy"]
     DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "https://github.com/USEPA/LCIAformatter"
+        Primary: TRUE
   MineralsMetals:
-    FullName: "Minerals and Metals Use"
-    Abbreviation: "MNRL"
+    Name: "Minerals and Metals Use"
+    Code: "MNRL"
     Group: "Resource Use"
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Minerals and Metals Use"
-    StaticSource: TRUE
+    StaticSource: FALSE
+    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["USGS_mineral_resources"]
     DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "https://github.com/USEPA/LCIAformatter"
+        Primary: TRUE
   ValueAdded:
-    FullName: "Value Added"
-    Abbreviation: "VADD"
+    Name: "Value Added"
+    Code: "VADD"
     Group: "Economic & Social"
     Unit: "$"
     SimpleUnit: "US Dollars ($)"
     SimpleName: "Value Added"
     StaticSource: TRUE
     DataSources:
+      ingwersen_useeiov11_2017:
+        Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.23719/1368541"
+        Primary: TRUE
   Jobs:
-    FullName: "Jobs Supported"
-    Abbreviation: "JOBS"
+    Name: "Jobs Supported"
+    Code: "JOBS"
     Group: "Economic & Social"
     Unit: "jobs"
     SimpleUnit: "Employees"
     SimpleName: "Jobs Supported"
     StaticSource: TRUE
     DataSources:
+      ingwersen_useeiov11_2017:
+        Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.23719/1368541"
+        Primary: TRUE
   RCRAHazWaste:
-    FullName: "Commercial RCRA Hazardous Waste"
-    Abbreviation: "CRHW"
+    Name: "Commercial RCRA Hazardous Waste"
+    Code: "CRHW"
     Group: "Waste Generated"
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Hazardous Waste" 
     StaticSource: TRUE
     DataSources:
+      meyer_analyzing_2020:
+        Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.1016/j.resconrec.2020.104795"
+        Primary: TRUE    
   MunicipalWaste:
-    FullName: "Commercial Municipal Solid Waste"
-    Abbreviation: "CMSW"
+    Name: "Commercial Municipal Solid Waste"
+    Code: "CMSW"
     Group: "Waste Generated"
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Municipal Solid Waste"
     StaticSource: TRUE
     DataSources:
+      meyer_analyzing_2020:
+        Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.1016/j.resconrec.2020.104795"
+        Primary: TRUE
   ConstructionDebris:
-    FullName: "Commercial Construction and Demolition Debris"
-    Abbreviation: "CCDD"
+    Name: "Commercial Construction and Demolition Debris"
+    Code: "CCDD"
     Group: "Waste Generated"
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Construction Debris" 
     StaticSource: TRUE
     DataSources:
+      meyer_analyzing_2020:
+        Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "http://doi.org/10.1016/j.resconrec.2020.104795"
+        Primary: TRUE
 
 DemandVectors:
     Consumption:

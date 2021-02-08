@@ -15,6 +15,6 @@ model <- useeior::buildEEIOModel(model)
 result <- useeior::calculateEEIOModel(model, perspective='DIRECT',demand="Consumption")
 
 # Write model for API
-useeior::writeModelforAPI(model)
+useeior::writeModelforAPI(model,"../useeio_api/")
 
 

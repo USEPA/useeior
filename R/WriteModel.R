@@ -204,13 +204,14 @@ writeModelMetadata <- function(model,dirs) {
   
   # Write indicators to csv
   indicators <- model$Indicators$meta  
-  indicators$ID <- apply(indicators[, c("Group", "Abbreviation", "Unit")],
+  indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")],
                          1, FUN = joinStringswithSlashes)
-  indicators$Index <- c(1:nrow(indicators)-1)
-  indicators <- indicators[, c("Index", "ID", "FullName", "Abbreviation", "Unit", "Group", "SimpleUnit", "SimpleName")]
+  #indicators <- indicators[, c("Index", "ID", "FullName", "Abbreviation", "Unit", "Group", "SimpleUnit", "SimpleName")]
   
-  colnames(indicators) <- fields$indicators
   indicators <- indicators[order(indicators$Name), ]
+  indicators$Index <- c(1:nrow(indicators)-1)
+  indicators <- indicators[,fields$indicators]
+  checkNamesandOrdering(indicators$Name,rownames(model$C),"code in sectors.csv and rows in L matrix")
   utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write demands to csv
@@ -223,20 +224,44 @@ writeModelMetadata <- function(model,dirs) {
   sectors <- model$SectorNames
   colnames(sectors) <- c("Code", "Name")
   sectors$Location <- model$specs$PrimaryRegionAcronym
-  sectors$Index <- c(1:nrow(sectors)-1)
   sectors$ID <- apply(sectors[, c("Code", "Name", "Location")], 1, FUN = joinStringswithSlashes)
   sectors$Description <- ""
+  sectors$Index <- c(1:nrow(sectors)-1)
   sectors <- sectors[, fields$sectors]
+  checkNamesandOrdering(sectors$Code,rownames(model$L),"code in sectors.csv and rows in L matrix")
   utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write flows to csv
   flows <- model$SatelliteTables$flows
-  flows$Index <- c(1:nrow(flows)-1)
   flows$ID <- apply(flows[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
   names(flows)[names(flows) == 'FlowUUID'] <- 'UUID'
+  flows <- flows[order(flows$ID),]
+  flows$Index <- c(1:nrow(flows)-1)
   flows <- flows[, fields$flows]
+  #checkNamesandOrdering(flows$ID,rownames(model$B),"flows in flows.csv and rows in B matrix")
   utils::write.csv(flows, paste0(outputfolder, "/flows.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
 }
+
+
+checkNamesandOrdering <- function(n1,n2,note) {
+  if (!all.equal(n1,n2)) {
+    logging::logerror(paste(note, "not the same or not in the same order"))
+    stop()
+  }
+}
+
+#'Create a unique hash identifier for a model
+#'@param model, any model object
+#'@return char string
+generateModelIdentifier <- function(model) {
+  id <- digest::digest(model, algo="sha256")
+  return(id)
+}
+
+  
+  
+  
+  
 

@@ -68,7 +68,8 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
     TemporalCorrelation = weighted.mean(TemporalCorrelation, FlowAmount),
     GeographicalCorrelation = weighted.mean(GeographicalCorrelation, FlowAmount),
     TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
-    DataCollection = weighted.mean(DataCollection, FlowAmount)
+    DataCollection = weighted.mean(DataCollection, FlowAmount),
+    .groups = 'drop'
   )
   colnames(totals_by_sector_BEA_agg)[colnames(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
   return(totals_by_sector_BEA_agg)
@@ -175,6 +176,7 @@ getValueAddedTotalsbySector <- function(model) {
   colnames(df) <- "FlowAmount"
   df$Flowable <- "Value Added"
   df[, "Sector"] <- rownames(df)
+  df <- merge(df, model$SectorNames, by = "Sector", all.x = TRUE)
   df[, "Context"] <- ""
   df[, "Unit"] <- "USD"
   df[, "Year"] <- model$specs$SatelliteTable$VADD$SectorListYear
@@ -192,6 +194,9 @@ getValueAddedTotalsbySector <- function(model) {
 checkDuplicateFlows <- function(sattable_ls) {
   # Extract unique Flowable and Context combination from each sat table
   for (table_name in names(sattable_ls)){
+    # Update context to reflect only primary context (e.g. emission/air)
+    sattable_ls[[table_name]][, "Context"] <- stringr::str_match(sattable_ls[[table_name]][, "Context"],"\\w*\\/?\\w*")
+    # Store only flow information for each table
     sattable_ls[[table_name]] <- unique(sattable_ls[[table_name]][, c("Flowable", "Context")])
     sattable_ls[[table_name]][, "name"] <- table_name
   }
@@ -250,9 +255,21 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
 #'@param tbs0, totals-by-sector df in source schema
 #'@param tbs, totals-by-sector df in model schema
 checkSatelliteFlowLoss <- function(tbs0, tbs) {
-  tbs0_flowamount <- colSums(tbs0['FlowAmount'])
-  tbs_flowamount <- colSums(tbs['FlowAmount'])
-  if(abs(tbs0_flowamount - tbs_flowamount)/tbs0_flowamount >= 0.001){
+  tbs0 <- tbs0[!is.na(tbs0$Sector), ]
+  tbs <- tbs[!is.na(tbs$Sector), ]
+  tbs0_flowamount <- sum(tbs0$FlowAmount)
+  tbs_flowamount <- sum(tbs$FlowAmount)
+  if(abs(tbs0_flowamount - tbs_flowamount)/tbs0_flowamount >= 0.0001){
     logging::logwarn("Data loss on conforming to model schema")    
+  }
+  flows_tbs0 <- unique(tbs0[,c('Flowable','Context')])
+  flows_tbs0 <- tolower(apply(cbind(flows_tbs0['Context'], flows_tbs0['Flowable']),
+                               1, FUN = joinStringswithSlashes))
+  flows_tbs <- unique(tbs[,c('Flowable','Context')])
+  flows_tbs <- tolower(apply(cbind(flows_tbs['Context'], flows_tbs['Flowable']),
+                              1, FUN = joinStringswithSlashes))
+  if(length(setdiff(flows_tbs0, flows_tbs)) > 0){
+    logging::logwarn("Flows lost upon conforming to model schema:")
+    print(setdiff(flows_tbs0, flows_tbs))
   }
 }

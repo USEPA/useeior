@@ -88,11 +88,9 @@ generateCommodityMixMatrix <- function (model) {
 }
 
 #' Generate Commodity output by transforming Industry output using Commodity Mix matrix.
-#' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
-#' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Commodity output.
-generateCommodityOutputforYear <- function(location_acronym, IsRoUS, model) {
+generateCommodityOutputforYear <- function(model) {
   # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
   CommodityMix <- generateCommodityMixMatrix(model)
   # Generate adjusted industry output by location
