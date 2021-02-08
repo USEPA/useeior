@@ -56,7 +56,6 @@ compareOutputandLeontiefXDemand <- function(model, domestic=FALSE, tolerance=0.0
   if (!identical(rownames(c),rownames(x))) {
     stop("Sectors not aligned in model ouput variable and calculation result")
   }
-  
   rel_diff <- (c - x)/x
   return(rel_diff)
 }
@@ -141,18 +140,19 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
 
 #' Gets industry output from model Use and Make and checks if they are the same
 #' @param model, a built model object
-compareIndustryOutputinMakeandUse <- function(model) { 
-  x_use <- colSums(model$UseTransactions)+colSums(model$UseValueAdded)
+compareIndustryOutputinMakeandUse <- function(model) {
+  # Calculate Industry Output (x) from Make and Use tables
   x_make <-rowSums(model$MakeTransactions)
-  #sort to be the same order
-
-  #usenames <- names(x_use)
-  #x_make <- x_make[order(factor(usenames),levels=usenames)]
-  if (!identical(names(x_make),names(x_use))) {
+  x_use <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+  # Sort x_make and x_use to have the same industry order (default model$Industries)
+  x_make <- x_make[order(model$Industries)]
+  x_use <- x_use[order(model$Industries)]
+  # Check if x_make and x_use have the same industry order
+  if (!identical(names(x_make), names(x_use))) {
     stop("industries in Make and Use do not match")
-  } 
+  }
+  # Calculate relative differences in x_make and x_use
   rel_diff <- (x_use - x_make)/x_make
   return(rel_diff)
-}  
-  
+}
 
