@@ -29,54 +29,40 @@ loadIOData <- function(modelname) {
   model$UseValueAdded <- model$BEA$UseValueAdded
   # Get GDP tables
   model$GDP <- loadGDPtables(model$specs)
-  # Replace Gross Output with Industry Output from Make if modellevel is "Detail"
-  if (model$specs$BaseIOLevel=="Detail") {
-    MakeIndustryOutput <- model$BEA$MakeIndustryOutput
-    MakeIndustryOutput <- MakeIndustryOutput[rownames(model$GDP$BEAGrossOutputIO), colnames(MakeIndustryOutput), drop = FALSE]
-    model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear)] <- MakeIndustryOutput[, 1]
-  }
-  # Get Commodity/Industry Output, Commodity/Industry CPI, FinalDemand
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
-    if (model$specs$PrimaryRegionAcronym=="US") {
-      model$CommodityOutput <- generateCommodityOutputforYear(model)
-      # Change commodity output of 'customs duties' (4200ID/42/42) to 0
-      if (model$specs$BaseIOLevel=="Detail") {
-        model$CommodityOutput["4200ID", ] <- 0
-      }
-    } else {
-      # Add RoUS in CommodityOutput table
-      model$CommodityOutput <- getStateCommodityOutputEstimates(model$specs$PrimaryRegionAcronym)
-    }
-    model$CPI <- generateCommodityCPIforYear(model$specs$IOYear, model) # return a one-column table for IOYear
-    # Get model$FinalDemand
-    model$FinalDemand <- model$BEA$UseFinalDemand
-    # Get model$DomesticFinalDemand
-    model$DomesticFinalDemand <- model$BEA$DomesticFinalDemand
+  # Get Commodity Output and Industry Output
+  if (model$specs$PrimaryRegionAcronym=="US") {
+    model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$BEA$UseFinalDemand)
+    model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
   } else {
-    # Get model$IndustryOutput from GDP tables
-    if (model$specs$PrimaryRegionAcronym=="US") {
-      model$IndustryOutput <- model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear), drop = FALSE]
-    } else {
-      # Add RoUS in IndustryOutput table
-      model$IndustryOutput <- getStateIndustryOutput(model$specs$PrimaryRegionAcronym)
-    }
-    # Get model$IndustryCPI from GDP tables
-    model$CPI <- model$GDP$BEACPIIO[, as.character(model$specs$IOYear), drop = FALSE]
-    # Transform model$BEA$UseFinalDemand with MarketShares
-    model$FinalDemand <- transformFinalDemandwithMarketShares(model$BEA$UseFinalDemand, model)#This output needs to be tested - producing strange results
-    # Transform model$BEA$DomesticFinalDemand with MarketShares
-    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$BEA$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
+    # Add RoUS in Commodity and Industry Output tables
+    model$CommodityOutput <- getStateCommodityOutputEstimates(model$specs$PrimaryRegionAcronym)
+    model$IndustryOutput <- getStateIndustryOutput(model$specs$PrimaryRegionAcronym)
   }
-  # Get model$SectorNames
+  # Get Commodity/Industry CPI, FinalDemand
   if (model$specs$CommoditybyIndustryType=="Commodity") {
+    # Transform CPI-by-industry to CPI-by-commodity
+    model$CPI <- generateCommodityCPIforYear(model$specs$IOYear, model) # return a one-column table for IOYear
+    # Get model$FinalDemand from BEA Use
+    model$FinalDemand <- model$BEA$UseFinalDemand
+    # Get model$DomesticFinalDemand from BEA Use
+    model$DomesticFinalDemand <- model$BEA$DomesticFinalDemand
+    # Get model$SectorNames
     USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
                                      sep = ",", header = TRUE, stringsAsFactors = FALSE)
     model$SectorNames <- merge(as.data.frame(model$Commodities, stringsAsFactors = FALSE), USEEIONames,
                                by.x = "model$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
   } else {
+    # Get model$IndustryCPI from GDP tables
+    model$CPI <- model$GDP$BEACPIIO[model$Industries, as.character(model$specs$IOYear), drop = FALSE]
+    # Transform model$BEA$UseFinalDemand with MarketShares
+    model$FinalDemand <- transformFinalDemandwithMarketShares(model$BEA$UseFinalDemand, model)#This output needs to be tested - producing strange results
+    # Transform model$BEA$DomesticFinalDemand with MarketShares
+    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$BEA$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
+    # Get model$SectorNames
     model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   }
   colnames(model$SectorNames) <- c("Sector", "SectorName")
+  
   # Get model$IntermediateMargins and model$FinalConsumerMargins
   model$IntermediateMargins <- getMarginsTable(model, "intermediate")
   model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
@@ -84,7 +70,7 @@ loadIOData <- function(modelname) {
   # Check for disaggregation
   if(!is.null(model$specs$DisaggregationSpecs)){
     model <- disaggregateModel(model)
-      }
+  }
   
   return(model)
 }

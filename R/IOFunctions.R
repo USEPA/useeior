@@ -54,9 +54,9 @@ normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
 generateDirectRequirementsfromUse <- function (model, domestic) {
   # Generate direct requirments matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
   if (domestic==TRUE) {
-    B <- normalizeIOTransactions(model$DomesticUseTransactions, model$BEA$MakeIndustryOutput) # B = U %*% solve(x_hat)
+    B <- normalizeIOTransactions(model$DomesticUseTransactions, model$IndustryOutput) # B = U %*% solve(x_hat)
   } else {
-    B <- normalizeIOTransactions(model$UseTransactions, model$BEA$MakeIndustryOutput) # B = U %*% solve(x_hat)
+    B <- normalizeIOTransactions(model$UseTransactions, model$IndustryOutput) # B = U %*% solve(x_hat)
   }
   return(B)
 }
@@ -66,7 +66,7 @@ generateDirectRequirementsfromUse <- function (model, domestic) {
 #' @return Market Shares matrix of the model.
 generateMarketSharesfromMake <- function(model) {
   # Generate market shares matrix (industry x commodity) from Make, see Miller and Blair section 5.3.1
-  D <- normalizeIOTransactions(model$MakeTransactions, model$BEA$UseCommodityOutput) # D = V %*% solve(q_hat)
+  D <- normalizeIOTransactions(model$MakeTransactions, model$CommodityOutput) # D = V %*% solve(q_hat)
   # Put in code here for adjusting marketshares to remove scrap
   return(D)
 }
@@ -76,29 +76,15 @@ generateMarketSharesfromMake <- function(model) {
 #' @return Commodity Mix matrix of the model.
 generateCommodityMixMatrix <- function (model) {
   # Generate commodity mix matrix (commodity x industry), see Miller and Blair section 5.3.2
-  C <- normalizeIOTransactions(t(model$MakeTransactions), model$BEA$MakeIndustryOutput) # C = V' %*% solve(x_hat)
+  C <- normalizeIOTransactions(t(model$MakeTransactions), model$IndustryOutput) # C = V' %*% solve(x_hat)
   # Validation: check if column sums equal to 1
   industryoutputfractions <- colSums(C)
   for (s in industryoutputfractions) {
     if (abs(1-s)>0.01) {
-      print("Error in commoditymix")
+      stop("Error in commoditymix")
     }
   }
   return(C)
-}
-
-#' Generate Commodity output by transforming Industry output using Commodity Mix matrix.
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return A dataframe contains adjusted Commodity output.
-generateCommodityOutputforYear <- function(model) {
-  # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
-  CommodityMix <- generateCommodityMixMatrix(model)
-  # Generate adjusted industry output by location
-  IndustryOutputVector <- as.matrix(model$BEA$MakeIndustryOutput)
-  # Use CommodityMix to transform IndustryOutput to CommodityOutput
-  CommodityOutput <- as.data.frame(CommodityMix %*% IndustryOutputVector)
-  colnames(CommodityOutput) <- as.character(model$specs$IOYear)
-  return(CommodityOutput)
 }
 
 #' Generate Commodity CPI by transforming Industry CPI using Commodity Mix matrix.
@@ -109,9 +95,9 @@ generateCommodityCPIforYear <- function(year, model) {
   # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
   CommodityMix <- generateCommodityMixMatrix(model)
   # Generate adjusted industry CPI by location
-  IndustryCPIVector <- as.matrix(model$GDP$BEACPIIO[, as.character(year)])
+  IndustryCPI <- as.matrix(model$GDP$BEACPIIO[, as.character(year)])
   # Use CommodityMix to transform IndustryCPI to CommodityCPI
-  CommodityCPI <- as.data.frame(CommodityMix %*% IndustryCPIVector)
+  CommodityCPI <- as.data.frame(CommodityMix %*% IndustryCPI)
   colnames(CommodityCPI) <- as.character(year)
 
   return(CommodityCPI)
