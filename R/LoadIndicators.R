@@ -67,6 +67,11 @@ loadLCIAfactors <- function() {
 #' @param factors a df of indicator characterization factors
 #' @param flows a df of model$SatelliteTables$flows
 checkIndicatorforFlows <- function(factors, flows){
+   if(is.null(flows)){
+      logging::logwarn("No flows found in model")
+      return()
+   }
+   
    factor_list <- tolower(apply(cbind(factors['Context'], factors['Flowable']),
                                 1, FUN = joinStringswithSlashes))
    flows_list <- tolower(apply(cbind(flows['Context'], flows['Flowable']),
