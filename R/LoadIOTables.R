@@ -12,48 +12,49 @@ loadIOData <- function(modelname) {
   model$crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema))
   model$crosswalk <- unique(model$crosswalk[, c("NAICS_2012_Code", colnames(model$crosswalk)[startsWith(colnames(model$crosswalk), "BEA")])])
   colnames(model$crosswalk) <- gsub(paste0("_", model$specs$BaseIOSchema, "|_Code"), "", colnames(model$crosswalk))
-  # Get BEA IO tables
+  # Get BEA IO tables and GDP tables
   model$BEA <- loadBEAtables(model$specs)
-  # Get model$Industries and model$Commodities
+  model$GDP <- loadGDPtables(model$specs)
+  # Declare model IO objects
   if (model$specs$ModelType=="US") {
-    model$Commodities <- model$BEA$Commodities
     model$Industries <- model$BEA$Industries
+    model$Commodities <- model$BEA$Commodities
+    
+    model$MakeTransactions <- model$BEA$MakeTransactions
+    model$UseTransactions <- model$BEA$UseTransactions
+    model$DomesticUseTransactions <- model$BEA$DomesticUseTransactions
+    model$UseValueAdded <- model$BEA$UseValueAdded
+    model$FinalDemand <- model$BEA$UseFinalDemand
+    model$DomesticFinalDemand <- model$BEA$DomesticFinalDemand
+    
+    model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+    model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
+    
+    
+    model$MultiYearIndustryOutput <- model$GDP$BEAGrossOutputIO[model$Industries, ]
+    model$MultiYearIndustryOutput[, as.character(model$specs$IOYear)] <- model$IndustryOutput
+    # Transform multi-year industry output to commodity output
+    for (year_col in colnames(model$MultiYearIndustryOutput)) {
+      model$MultiYearCommodityOutput[, year_col] <- transformIndustryOutputtoCommodityOutputforYear(as.numeric(year_col), model)
+    }
+    
+    model$MultiYearCPI <- model$GDP$BEACPIIO[model$Industries, ]
   } else if (model$specs$ModelType=="State2R") {
     # Fork for state model here
   }
   
-  # Get model$MakeTransactions, model$UseTransactions, and model$UseValueAdded
-  model$MakeTransactions <- model$BEA$MakeTransactions
-  model$UseTransactions <- model$BEA$UseTransactions
-  model$DomesticUseTransactions <- model$BEA$DomesticUseTransactions
-  model$UseValueAdded <- model$BEA$UseValueAdded
-  # Get GDP tables
-  model$GDP <- loadGDPtables(model$specs)
-  # Get Commodity Output and Industry Output
-  if (model$specs$PrimaryRegionAcronym=="US") {
-    model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$BEA$UseFinalDemand)
-    model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
-  } else {
-    # Add RoUS in Commodity and Industry Output tables
-    model$CommodityOutput <- getStateCommodityOutputEstimates(model$specs$PrimaryRegionAcronym)
-    model$IndustryOutput <- getStateIndustryOutput(model$specs$PrimaryRegionAcronym)
-  }
-  # Get Commodity/Industry CPI, FinalDemand
+  # Transform model objects from by-industry to by-commodity, or vice versa
   if (model$specs$CommoditybyIndustryType=="Commodity") {
-    # Transform CPI-by-industry to CPI-by-commodity
-    model$CPI <- generateCommodityCPIforYear(model$specs$IOYear, model) # return a one-column table for IOYear
-    # Get model$FinalDemand from BEA Use
-    model$FinalDemand <- model$BEA$UseFinalDemand
-    # Get model$DomesticFinalDemand from BEA Use
-    model$DomesticFinalDemand <- model$BEA$DomesticFinalDemand
+    # Transform industry CPI to commodity CPI
+    for (year_col in colnames(model$MultiYearCPI)) {
+      model$MultiYearCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
+    }
     # Get model$SectorNames
     USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
                                      sep = ",", header = TRUE, stringsAsFactors = FALSE)
     model$SectorNames <- merge(as.data.frame(model$Commodities, stringsAsFactors = FALSE), USEEIONames,
                                by.x = "model$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
   } else {
-    # Get model$IndustryCPI from GDP tables
-    model$CPI <- model$GDP$BEACPIIO[model$Industries, as.character(model$specs$IOYear), drop = FALSE]
     # Transform model$BEA$UseFinalDemand with MarketShares
     model$FinalDemand <- transformFinalDemandwithMarketShares(model$BEA$UseFinalDemand, model)#This output needs to be tested - producing strange results
     # Transform model$BEA$DomesticFinalDemand with MarketShares
