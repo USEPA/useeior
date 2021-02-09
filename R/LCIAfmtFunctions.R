@@ -1,23 +1,6 @@
-#' Get inventory method using the Python LCIAformatter package's get_mapped_method function.
-#' @param parameters List of parameters, must include 'indicators' which is a list of one or 
-#' more indicators to include from inventory method.
-#' @return An LCIAmethod data frame with the specified indicators.
-getInventoryMethod <- function(parameters) {
-  # Convert the passed indicators to a list, if none provided all indicators are returned
-  if(length(parameters$indicators)==1){
-    indicators <- list(parameters$indicators)
-  } else {
-    indicators <- parameters$indicators
-  }
-  # Generate inventory method table
-  lciafmt <- reticulate::import("lciafmt")
-  inv_method <- lciafmt$get_mapped_method(method_id = "FEDEFL_INV", indicators = indicators)
-  return(inv_method)
-}
-
-#' Get impact method using the Python LCIAformatter package's get_mapped_method function.
-#' @param parameters List of parameters, must include 'method_id' and 'indicators'
-#' which is a list of one or more indicators to include from inventory method.
+#' Get impact method in the format of the Python LCIAformatter package's get_mapped_method function.
+#' @param parameters List of parameters, must include 'filename', 'methods' and 'indicators' are optional
+#' which are a list of one or more indicators to include from the specified method.
 #' @return An LCIAmethod with the specified indicators
 getImpactMethod <- function(parameters) {
   
