@@ -407,9 +407,8 @@ Indicators:
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
+      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Global warming"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -427,9 +426,8 @@ Indicators:
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
+      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Acidification"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -447,9 +445,8 @@ Indicators:
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
+      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Eutrophication"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -467,9 +464,8 @@ Indicators:
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
+      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Freshwater ecotoxicity"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -487,9 +483,8 @@ Indicators:
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
+      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Human health - cancer"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -507,9 +502,8 @@ Indicators:
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
+      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Human health - non-cancer"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -527,9 +521,8 @@ Indicators:
     StaticSource: False
     ScriptFunctionCall: "getCombinedImpactMethods" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
+      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Human health - cancer", "Human health - non-cancer"]
-      methods:
     DataSources:
       USEEIO_LCIA_Aggregation:
         Title: "Aggregation of HNCN and HCAN"
@@ -547,9 +540,8 @@ Indicators:
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
+      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Human health - particulate matter"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -566,9 +558,8 @@ Indicators:
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
+      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Ozone depletion"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -586,9 +577,8 @@ Indicators:
     StaticSource: False
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
+      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Smog formation"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -604,8 +594,9 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Water Use" 
     StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
+      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
       indicators: ["freshwater_resources"]
     DataSources:
       LCIAformatter:
@@ -622,8 +613,9 @@ Indicators:
     SimpleUnit: "Square Meters per Year"
     SimpleName: "Land Use" 
     StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
+      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
       indicators: ["land_use"]
     DataSources:
       LCIAformatter:
@@ -640,8 +632,9 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Hazardous Air Pollutants" 
     StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
+      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
       indicators: ["HAP"]
     DataSources:
       LCIAformatter:
@@ -658,8 +651,9 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Pesticides" 
     StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
+      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
       indicators: ["USDA_CUS_pesticides"]
     DataSources:
       LCIAformatter:
@@ -676,8 +670,9 @@ Indicators:
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Nonrenewable Energy Use" 
     StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
+      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet" 
       indicators: ["nonrenewable_energy"]
     DataSources:
       LCIAformatter:
@@ -694,8 +689,9 @@ Indicators:
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Renewable Energy Use" 
     StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
+      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet" 
       indicators: ["renewable_energy"]
     DataSources:
       LCIAformatter:
@@ -712,8 +708,9 @@ Indicators:
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Energy Use" 
     StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
+      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet" 
       indicators: ["energy"]
     DataSources:
       LCIAformatter:
@@ -730,8 +727,9 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Minerals and Metals Use"
     StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
+      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet" 
       indicators: ["USGS_mineral_resources"]
     DataSources:
       LCIAformatter:
