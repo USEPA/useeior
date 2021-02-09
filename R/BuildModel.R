@@ -17,7 +17,7 @@ buildEEIOModel <- function(model) {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements) ...")
     model$A <- model$U_n %*% model$V_n
     logging::loginfo("Building commodity-by-commodity A_d matrix (direct domestic requirements) ...")
-        model$A_d <- model$U_d_n %*% model$V_n
+    model$A_d <- model$U_d_n %*% model$V_n
   } else if(model$specs$CommoditybyIndustryType == "Industry") {
     logging::loginfo("Building industry-by-industry A matrix (direct requirements) ...")
     model$A <- model$V_n %*% model$U_n
@@ -95,7 +95,7 @@ generateCbSfromTbSandModel <- function(model) {
       data_years <- sort(unique(tbs_r$Year))
       for (year in data_years){
         cbs_r_y <- generateFlowtoDollarCoefficient(tbs_r[tbs_r$Year==year, ], year,
-                                                              model$specs$IOYear, r, IsRoUS = IsRoUS, model)
+                                                   model$specs$IOYear, r, IsRoUS = IsRoUS, model)
         cbs_r <- rbind(cbs_r,cbs_r_y)
       }
       CbS <- rbind(CbS,cbs_r)

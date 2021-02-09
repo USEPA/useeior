@@ -51,9 +51,8 @@ compareOutputandLeontiefXDemand <- function(model, domestic=FALSE, tolerance=0.0
   } else {
     x <- model$IndustryOutput
   }
-  
-  #Row names should be identical
-  if (!identical(rownames(c),rownames(x))) {
+  # Row names should be identical
+  if (!identical(rownames(c), names(x))) {
     stop("Sectors not aligned in model ouput variable and calculation result")
   }
   rel_diff <- (c - x)/x
@@ -90,17 +89,9 @@ prepareEfromtbs <- function(model) {
 generateChiMatrix <- function(model, output_type = "Commodity") {
   # Generate ModelYearOutput based on output_type and model Commodity/Industry type 
   if (output_type=="Commodity") {
-    if (model$specs$CommoditybyIndustryType=="Industry") {
-      ModelYearOutput <- generateCommodityOutputforYear(model)
-    } else {
-      ModelYearOutput <- model$CommodityOutput
-    }
+    ModelYearOutput <- model$CommodityOutput
   } else {
-    if (model$specs$CommoditybyIndustryType=="Commodity") {
-      ModelYearOutput <- model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear), drop = FALSE]
-    } else {
-      ModelYearOutput <- model$IndustryOutput
-    }
+    ModelYearOutput <- model$IndustryOutput
   }
   # Generate FlowYearOutput
   TbS <- do.call(rbind, model$SatelliteTables$totals_by_sector)
@@ -113,14 +104,14 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
       IsRoUS <- FALSE
     }
     # Generate industry output by year
-    IndustryOutputVector <- model$GDP$BEAGrossOutputIO[model$Industries, as.character(year)]
+    IndustryOutput <- model$GDP$BEAGrossOutputIO[model$Industries, as.character(year)]
     # Adjust industry output to model year $
     DollarRatio <- model$GDP$BEACPIIO[model$Industries, as.character(model$specs$IOYear)]/model$GDP$BEACPIIO[model$Industries, as.character(year)]
-    IndustryOutputVector <- IndustryOutputVector * DollarRatio
+    IndustryOutput <- IndustryOutput * DollarRatio
     # Generate a commodity x industry CommodityMix matrix
     CommodityMix <- generateCommodityMixMatrix(model)
     # Use CommodityMix to transform IndustryOutput to CommodityOutput
-    CommodityOutput <- as.data.frame(CommodityMix %*% IndustryOutputVector)
+    CommodityOutput <- as.data.frame(CommodityMix %*% IndustryOutput)
     flows <- unique(TbS[TbS$Year==year, "Flow"])
     FlowYearOutput_y <- do.call(rbind.data.frame, rep(CommodityOutput, times = length(flows)))
     rownames(FlowYearOutput_y) <- flows
@@ -128,8 +119,7 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
     FlowYearOutput <- rbind(FlowYearOutput, FlowYearOutput_y)
   }
   # Calculate Chi: divide ModelYearOutput by FlowYearOutput
-  Chi <- as.matrix(sweep(FlowYearOutput[rownames(model$B), ], 2,
-                           ModelYearOutput[colnames(FlowYearOutput), ], "/"))
+  Chi <- as.matrix(sweep(FlowYearOutput[rownames(model$B), ], 2, ModelYearOutput, "/"))
   # Replace NA with 0
   Chi[is.na(Chi)] <- 0
   # Rename Chi columns to match B and E
