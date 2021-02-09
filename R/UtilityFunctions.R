@@ -121,6 +121,34 @@ writeMatrixasBinFile <- function(matrix, path) {
   close(out)
 }
 
+#' downloads files from the Data Commons and stores in a local temporary data directory
+#' @param source The name of the source file incluidng any subfolders (e.g. "traci_2_1/TRACI_2.1_v1.parquet")
+#' @param subdirectory The name of the package where the source file is stored on Data Commons (e.g. "lciafmt")
+downloadfiles <- function(source, subdirectory) {
+  url <- "https://edap-ord-data-commons.s3.amazonaws.com/"
+  directory <- paste0(rappdirs::user_data_dir(), "/", subdirectory)
+  # Check for and create subdirectory if necessary
+  if(!file.exists(directory)){
+    dir.create(directory)
+  }
+  # Extract the subfolder if necessary
+  if(grepl("/",source)){
+    subfolder <- strsplit(source, "/")[[1]][1]
+    file <- strsplit(source, "/")[[1]][2]
+    directory <- paste0(directory,"/", subfolder)
+    if(!file.exists(directory)){
+      dir.create(directory)
+      }
+    }
+  else{
+    file <- source
+    }
+  # Download file
+  download.file(paste0(url, subdirectory, "/", source), paste0(directory, "\\", file), mode = "wb", quiet = TRUE)
+  
+}
+
+
 #' Maps a vector of FIPS codes to location codes
 #' ! Placeholder only works for '00000' now
 #' @param fipscodes A vector of 5 digit FIPS codes
@@ -149,8 +177,6 @@ getVectorOfCodes <- function(ioschema, iolevel, colName) {
                                   sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
   return(as.vector(stats::na.omit(SchemaInfo[, c("Code", colName)])[, "Code"]))
 }
-
-#-----added for disaggregation
 
 #' Calculate tolerance for RAS. Takes a target row sum vector and target colsum vector.
 #' Specify either relative difference or absolute difference.

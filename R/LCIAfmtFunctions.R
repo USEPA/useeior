@@ -20,16 +20,21 @@ getInventoryMethod <- function(parameters) {
 #' which is a list of one or more indicators to include from inventory method.
 #' @return An LCIAmethod with the specified indicators
 getImpactMethod <- function(parameters) {
-  # Convert the passed indicators to a list, if none provided all indicators are returned
-  if(!is.null(parameters$indicators)){ #
-    if(length(parameters$indicators)==1){
-      indicators <- list(parameters$indicators)
-    } else {
-      indicators <- parameters$indicators
+  
+  directory <- paste0(rappdirs::user_data_dir(), "\\lciafmt")
+  debug_url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=lciafmt/"
+
+  # file must be saved in the local directory
+  f <- paste0(directory,'\\', parameters$filename)
+
+  if(!file.exists(f)){
+    logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
+    downloadfiles(parameters$filename, 'lciafmt')
     }
-  } else {
-    indicators <- NULL
-  }
+
+  imp_method <- as.data.frame(arrow::read_parquet(f))
+  
+  # Subset the method by method
   # Convert the passed methods to a list (e.g. "ReCiPe Midpoint/H"), if none provided all methods are returned
   if(!is.null(parameters$methods)){
     if(length(parameters$methods)==1){
@@ -37,13 +42,21 @@ getImpactMethod <- function(parameters) {
     } else {
       methods <- parameters$methods
     }
-  } else {
-    methods <- NULL
+    imp_method <- imp_method[imp_method$Method %in% methods, ]
   }
-  # Generate impact method table
-  lciafmt <- reticulate::import("lciafmt")
-  imp_method <- lciafmt$get_mapped_method(method_id = parameters$method_id,
-                                          indicators = indicators, methods = methods)
+
+  # Subset the method by indicator
+  # Convert the passed indicators to a list, if none provided all indicators are returned
+  if(!is.null(parameters$indicators)){ #
+    if(length(parameters$indicators)==1){
+      indicators <- list(parameters$indicators)
+    } else {
+      indicators <- parameters$indicators
+    }
+    imp_method <- imp_method[imp_method$Indicator %in% indicators, ]
+    
+  }
+
   return(imp_method)
 }
 
