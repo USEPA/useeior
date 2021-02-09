@@ -197,7 +197,7 @@ getMarginsTable <- function (model, marginsource) {
   if (model$specs$CommoditybyIndustryType=="Industry") {
     # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
     CommodityMix <- generateCommodityMixMatrix(model)
-    MarginsTable_Industry <- as.data.frame(model$BEA$Industries)
+    MarginsTable_Industry <- as.data.frame(model$Industries)
     colnames(MarginsTable_Industry) <- "IndustryCode"
     # Transform ProducerValue from Commodity to Industry format
     # ! Not transforming Transportation, Wholesale and Retail to Industry format now
