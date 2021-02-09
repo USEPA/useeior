@@ -2,17 +2,17 @@
 % Please edit documentation in R/LCIAfmtFunctions.R
 \name{getImpactMethod}
 \alias{getImpactMethod}
-\title{Get impact method using the Python LCIAformatter package's get_mapped_method function.}
+\title{Get impact method in the format of the Python LCIAformatter package's get_mapped_method function.}
 \usage{
 getImpactMethod(parameters)
 }
 \arguments{
-\item{parameters}{List of parameters, must include 'method_id' and 'indicators'
-which is a list of one or more indicators to include from inventory method.}
+\item{parameters}{List of parameters, must include 'filename', 'methods' and 'indicators' are optional
+which are a list of one or more indicators to include from the specified method.}
 }
 \value{
 An LCIAmethod with the specified indicators
 }
 \description{
-Get impact method using the Python LCIAformatter package's get_mapped_method function.
+Get impact method in the format of the Python LCIAformatter package's get_mapped_method function.
 }
