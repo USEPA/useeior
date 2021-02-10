@@ -4,11 +4,10 @@
 \alias{getImpactMethod}
 \title{Get impact method in the format of the Python LCIAformatter package's get_mapped_method function.}
 \usage{
-getImpactMethod(parameters)
+getImpactMethod(ind_spec)
 }
 \arguments{
-\item{parameters}{List of parameters, must include 'filename', 'methods' and 'indicators' are optional
-which are a list of one or more indicators to include from the specified method.}
+\item{ind_spec}{Specification of an indicator}
 }
 \value{
 An LCIAmethod with the specified indicators

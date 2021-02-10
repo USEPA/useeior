@@ -7,11 +7,17 @@
 \format{
 A list of indicator attributes
 \describe{
- \item{FullName}{string, Name of the indicator}
- \item{Abbreviation}{string, Name of the indicator}
- \item{Category}{string, Impact category of the indicator}
+ \item{Name}{string, Name of the indicator}
+ \item{Code}{string, Abbreviation for the indicator}
+ \item{Group}{string, Impact category of the indicator}
  \item{Unit}{string, unit of the indicator}
- \item{SatticSource}{boolean, TRUE if this is a static source}
+ \item{SimpleUnit}{string, simple unit of the indicator}
+ \item{SimpleName}{string, simple name of the indicator}
+ \item{StaticSource}{boolean, TRUE if this is a static source}
+ \item{StaticFile}{string, name of the source file}
+ \item{FileLocation}{string, description of the location of the source file}
+ \item{ScriptFunctionCall}{string, the function used to process the indicator data}
+ \item{ScriptFunctionParameters}{list, parameters passed to ScriptFunctionCall}
  \item{DataSources}{list of data sources, @seealso [DataSourceConfiguration]}
  }
 }
