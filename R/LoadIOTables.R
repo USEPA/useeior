@@ -30,12 +30,12 @@ loadIOData <- function(modelname) {
     model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
     model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
     
-    
     model$MultiYearIndustryOutput <- model$GDP$BEAGrossOutputIO[model$Industries, ]
     model$MultiYearIndustryOutput[, as.character(model$specs$IOYear)] <- model$IndustryOutput
     # Transform multi-year industry output to commodity output
+    model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
     for (year_col in colnames(model$MultiYearIndustryOutput)) {
-      model$MultiYearCommodityOutput[, year_col] <- transformIndustryOutputtoCommodityOutputforYear(as.numeric(year_col), model)
+      model$MultiYearCommodityOutput[, year_col] <- transformIndustryOutputtoCommodityOutputforYear(as.numeric(year_col), model)[, year_col]
     }
     
     model$MultiYearCPI <- model$GDP$BEACPIIO[model$Industries, ]
@@ -47,7 +47,7 @@ loadIOData <- function(modelname) {
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     # Transform industry CPI to commodity CPI
     for (year_col in colnames(model$MultiYearCPI)) {
-      model$MultiYearCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
+      model$MultiYearCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)[, year_col]
     }
     # Get model$SectorNames
     USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
@@ -56,9 +56,9 @@ loadIOData <- function(modelname) {
                                by.x = "model$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
   } else {
     # Transform model$BEA$UseFinalDemand with MarketShares
-    model$FinalDemand <- transformFinalDemandwithMarketShares(model$BEA$UseFinalDemand, model)#This output needs to be tested - producing strange results
+    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
     # Transform model$BEA$DomesticFinalDemand with MarketShares
-    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$BEA$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
+    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
     # Get model$SectorNames
     model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   }
