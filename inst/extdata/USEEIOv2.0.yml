@@ -303,7 +303,7 @@ SatelliteTable:
     FullName: "Commercial non-hazardous waste excluding construction activities"
     Abbreviation: "CNHW"
     StaticSource: True
-    StaticFile: "useeior/USEEIOv1.1_CNHW_TotalsBySector.csv"
+    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_CNHW_TotalsBySector.csv"
     DataYears: [2015]
     Locations: ["US"]
     SectorListSource: "BEA"
