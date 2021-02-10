@@ -124,7 +124,7 @@ writeMatrixasBinFile <- function(matrix, path) {
 #' downloads files from the Data Commons and stores in a local temporary data directory
 #' @param source The name of the source file incluidng any subfolders (e.g. "traci_2_1/TRACI_2.1_v1.parquet")
 #' @param subdirectory The name of the package where the source file is stored on Data Commons (e.g. "lciafmt")
-downloadfiles <- function(source, subdirectory) {
+downloadDataCommonsfile <- function(source, subdirectory) {
   url <- "https://edap-ord-data-commons.s3.amazonaws.com/"
   directory <- paste0(rappdirs::user_data_dir(), "/", subdirectory)
   # Check for and create subdirectory if necessary

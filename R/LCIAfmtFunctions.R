@@ -12,7 +12,7 @@ getImpactMethod <- function(ind_spec) {
 
   if(!file.exists(f)){
     logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
-    downloadfiles(ind_spec$StaticFile, 'lciafmt')
+    downloadDataCommonsfile(ind_spec$StaticFile, 'lciafmt')
     }
 
   imp_method <- as.data.frame(arrow::read_parquet(f))
