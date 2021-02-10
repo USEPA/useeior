@@ -35,20 +35,21 @@ loadIOData <- function(modelname) {
     # Transform multi-year industry output to commodity output
     model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
     for (year_col in colnames(model$MultiYearIndustryOutput)) {
-      model$MultiYearCommodityOutput[, year_col] <- transformIndustryOutputtoCommodityOutputforYear(as.numeric(year_col), model)[, year_col]
+      model$MultiYearCommodityOutput[, year_col] <- transformIndustryOutputtoCommodityOutputforYear(as.numeric(year_col), model)
     }
     
-    model$MultiYearCPI <- model$GDP$BEACPIIO[model$Industries, ]
+    model$MultiYearIndustryCPI <- model$GDP$BEACPIIO[model$Industries, ]
+    # Transform industry CPI to commodity CPI
+    model$MultiYearCommodityCPI <- as.data.frame(model$MultiYearIndustryCPI)[, FALSE]
+    for (year_col in colnames(model$MultiYearIndustryCPI)) {
+      model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
+    }
   } else if (model$specs$ModelType=="State2R") {
     # Fork for state model here
   }
   
   # Transform model objects from by-industry to by-commodity, or vice versa
   if (model$specs$CommoditybyIndustryType=="Commodity") {
-    # Transform industry CPI to commodity CPI
-    for (year_col in colnames(model$MultiYearCPI)) {
-      model$MultiYearCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)[, year_col]
-    }
     # Get model$SectorNames
     USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
                                      sep = ",", header = TRUE, stringsAsFactors = FALSE)
