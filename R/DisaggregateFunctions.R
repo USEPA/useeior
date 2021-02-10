@@ -56,7 +56,10 @@ disaggregateModel <- function (model){
       model <- balanceDisagg(model, disagg)
     }
 
-    model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
+
+    #updating model output totals 
+    model <- disaggregateOutputs(model)
+
     model$CPI <- disaggregateCols(model$CPI, disagg, duplicate = TRUE)
 
     colnames(newNames) <- colnames(model$SectorNames)
@@ -64,20 +67,79 @@ disaggregateModel <- function (model){
 
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
     
-    # margins tables need to be adjusted as the index is not the sector code like other dataframes
+    #MARGINS DISAGGREGATION (TODO) Margins tables need to be adjusted as the index is not the sector code like other dataframes
     #model$IntermediateMargins <- disaggregateCols(model$IntermediateMargins, disagg)
     #model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
+
+    #PLACEHOLDER FOR MultiyearIndustryOutput, MultiYearCommodityOutput, MultiYearCPI
+    #model <- disaggregateMultiYearOutputs #disaggregates the MultiyearCommodityOutput and MultiYearIndustryOutput objects #TO BE IMPLEMENTED
     
-    # Need to disaggregate original BEA vectors for use later
-    model$BEA$UseCommodityOutput <- disaggregateCols(model$BEA$UseCommodityOutput, disagg)
-    model$BEA$MakeIndustryOutput <- disaggregateCols(model$BEA$MakeIndustryOutput, disagg)
-    model$GDP$BEAGrossOutputIO <- disaggregateCols(model$GDP$BEAGrossOutputIO, disagg)
-    model$GDP$BEACPIIO <- disaggregateCols(model$GDP$BEACPIIO, disagg, duplicate = TRUE)
+    #IMPLEMENTED BUT COMMENTED OUT FOR TESTING PURPOSES
+    #model$GDP$BEAGrossOutputIO <- disaggregateGDPGrossOutputIO(model, disagg)
+    #model$GDP$BEACPIIO <- disaggregateCols(model$GDP$BEACPIIO, disagg, duplicate = TRUE)
     
     counter <- counter + 1
   }
   
   return(model)
+  
+}
+
+#' Disaggregate Commodity and Industry Output model objects
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#'
+#' @return model A complete EEIO model: a list with USEEIO model components and attributes.
+disaggregateOutputs <- function(model)
+{
+
+  if(!is.null(model$CommodityOutput))
+  {
+    model$CommodityOutput <- data.frame(rowSums(model$UseTransactions)+rowSums(model$FinalDemand))
+    
+  }
+  if(!is.null(model$IndustryOutput))
+  {
+    model$IndustryOutput <- data.frame(colSums(model$UseTransactions)+colSums(model$UseValueAdded))
+  }
+
+  return(model)
+
+}
+
+#' Disaggregate Commodity Output model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#'
+#' @return model A dataframe with the disaggregated GDPGrossOutputIO by year
+disaggregateGDPGrossOutputIO <- function(model, disagg)
+{
+  
+  #Determine the index of the first disaggregated sector
+  originalGDPIndex <- which(rownames(model$GDP$BEAGrossOutputIO)==disagg$OriginalSectorCode)
+  #Obtain row with original vector in GDPGrossOutput object
+  originalGDPVector <- model$GDP$BEAGrossOutputIO[originalGDPIndex,]
+  #Create new rows where disaggregated values will be stored
+  disaggGDPBEAGrossOutputIOSectors <-originalGDPVector[rep(seq_len(nrow(originalGDPVector)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]
+  
+  
+  #Get Index for Disaggregated Industries in the use table
+  disaggUseIndIndex <- which(colnames(model$UseTransactions)==disagg$DisaggregatedSectorCodes[1])
+  disaggUseEndIndex <- disaggUseIndIndex+length(disagg$DisaggregatedSectorCodes)-1
+  
+  #calculate industry ratios after disaggregation from Use table
+  disaggIndRatios <- colSums(model$UseTransactions[,disaggUseIndIndex:disaggUseEndIndex]) + colSums(model$UseValueAdded[,disaggUseIndIndex:disaggUseEndIndex])
+  disaggIndRatios <- disaggIndRatios / sum(disaggIndRatios) 
+  
+  #apply ratios to GDP values
+  disaggGDPBEAGrossOutputIOSectors <- disaggGDPBEAGrossOutputIOSectors *t(disaggIndRatios)
+  #rename rows
+  rownames(disaggGDPBEAGrossOutputIOSectors) <- disagg$DisaggregatedSectorCodes
+  
+  #bind new values to original table
+  newGDPBEAGrossOutputIO <- rbind(model$GDP$BEAGrossOutputIO[1:originalGDPIndex-1,], disaggGDPBEAGrossOutputIOSectors, model$GDP$BEAGrossOutputIO[-(1:originalGDPIndex),])
+  
+  
+  return(newGDPBEAGrossOutputIO)
   
 }
 
