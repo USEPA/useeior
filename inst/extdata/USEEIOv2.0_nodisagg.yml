@@ -404,10 +404,11 @@ Indicators:
     Unit: "kg CO2 eq"
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
     SimpleName: "Greenhouse Gases"
-    StaticSource: False
+    StaticSource: True
+    StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Global warming"]
     DataSources:
       USEPA_TRACI_2.1:
@@ -423,10 +424,11 @@ Indicators:
     Unit: "kg SO2 eq"
     SimpleUnit: "Kilograms Sulphur Dioxide (SO2)"
     SimpleName: "Acid Rain"    
-    StaticSource: False
+    StaticSource: True
+    StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Acidification"]
     DataSources:
       USEPA_TRACI_2.1:
@@ -442,10 +444,11 @@ Indicators:
     Unit: "kg N eq"
     SimpleUnit: "Kilograms Nitrogen (N)"
     SimpleName: "Water Eutrophication" 
-    StaticSource: False
+    StaticSource: True
+    StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Eutrophication"]
     DataSources:
       USEPA_TRACI_2.1:
@@ -461,10 +464,11 @@ Indicators:
     Unit: "CTUe"
     SimpleUnit: "Comparative Toxic Unit for Ecosystem (CTUe)"
     SimpleName: "Freshwater Ecotoxicity" 
-    StaticSource: False
+    StaticSource: True
+    StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Freshwater ecotoxicity"]
     DataSources:
       USEPA_TRACI_2.1:
@@ -480,10 +484,11 @@ Indicators:
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Cancer Disease" 
-    StaticSource: False
+    StaticSource: True
+    StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Human health - cancer"]
     DataSources:
       USEPA_TRACI_2.1:
@@ -499,10 +504,11 @@ Indicators:
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Noncancer Disease" 
-    StaticSource: False
+    StaticSource: True
+    StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Human health - non-cancer"]
     DataSources:
       USEPA_TRACI_2.1:
@@ -518,10 +524,11 @@ Indicators:
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Toxic to Humans" 
-    StaticSource: False
+    StaticSource: True
+    StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getCombinedImpactMethods" #function to call for script
     ScriptFunctionParameters: 
-      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Human health - cancer", "Human health - non-cancer"]
     DataSources:
       USEEIO_LCIA_Aggregation:
@@ -537,10 +544,11 @@ Indicators:
     Unit: "kg PM2.5 eq"
     SimpleUnit: "Kilograms Particulate Matter"
     SimpleName: "Respiratory Effects" 
-    StaticSource: False
+    StaticSource: True
+    StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Human health - particulate matter"]
     DataSources:
       USEPA_TRACI_2.1:
@@ -555,10 +563,11 @@ Indicators:
     Unit: "kg CFC-11 eq"
     SimpleUnit: "Kilograms ChloroFluoroCarbon-11"
     SimpleName: "Ozone Depletion" 
-    StaticSource: False
+    StaticSource: True
+    StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Ozone depletion"]
     DataSources:
       USEPA_TRACI_2.1:
@@ -574,10 +583,11 @@ Indicators:
     Unit: "kg O3 eq"
     SimpleUnit: "Kilograms Ozone (O3)"
     SimpleName: "Smog Formation" 
-    StaticSource: False
+    StaticSource: True
+    StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
       indicators: ["Smog formation"]
     DataSources:
       USEPA_TRACI_2.1:
@@ -593,10 +603,11 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Water Use" 
-    StaticSource: FALSE
+    StaticSource: True
+    StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
       indicators: ["freshwater_resources"]
     DataSources:
       LCIAformatter:
@@ -612,10 +623,11 @@ Indicators:
     Unit: "m2*yr"
     SimpleUnit: "Square Meters per Year"
     SimpleName: "Land Use" 
-    StaticSource: FALSE
+    StaticSource: True
+    StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
       indicators: ["land_use"]
     DataSources:
       LCIAformatter:
@@ -631,10 +643,11 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Hazardous Air Pollutants" 
-    StaticSource: FALSE
+    StaticSource: True
+    StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
       indicators: ["HAP"]
     DataSources:
       LCIAformatter:
@@ -650,10 +663,11 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Pesticides" 
-    StaticSource: FALSE
+    StaticSource: True
+    StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
       indicators: ["USDA_CUS_pesticides"]
     DataSources:
       LCIAformatter:
@@ -669,10 +683,11 @@ Indicators:
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Nonrenewable Energy Use" 
-    StaticSource: FALSE
+    StaticSource: True
+    FileLocation: "DataCommons"
+    StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
-    ScriptFunctionParameters: 
-      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet" 
+    ScriptFunctionParameters:  
       indicators: ["nonrenewable_energy"]
     DataSources:
       LCIAformatter:
@@ -688,10 +703,11 @@ Indicators:
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Renewable Energy Use" 
-    StaticSource: FALSE
+    StaticSource: True
+    StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
-    ScriptFunctionParameters: 
-      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet" 
+    ScriptFunctionParameters:  
       indicators: ["renewable_energy"]
     DataSources:
       LCIAformatter:
@@ -707,10 +723,11 @@ Indicators:
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Energy Use" 
-    StaticSource: FALSE
+    StaticSource: True
+    StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet" 
       indicators: ["energy"]
     DataSources:
       LCIAformatter:
@@ -726,10 +743,11 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Minerals and Metals Use"
-    StaticSource: FALSE
+    StaticSource: True
+    StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
-    ScriptFunctionParameters: 
-      filename: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet" 
+    ScriptFunctionParameters:  
       indicators: ["USGS_mineral_resources"]
     DataSources:
       LCIAformatter:
@@ -746,6 +764,8 @@ Indicators:
     SimpleUnit: "US Dollars ($)"
     SimpleName: "Value Added"
     StaticSource: TRUE
+    StaticFile: "USEEIO_LCIA_Factors.csv"
+    FileLocation: "useeior"
     DataSources:
       ingwersen_useeiov11_2017:
         Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
@@ -761,6 +781,8 @@ Indicators:
     SimpleUnit: "Employees"
     SimpleName: "Jobs Supported"
     StaticSource: TRUE
+    StaticFile: "USEEIO_LCIA_Factors.csv"
+    FileLocation: "useeior"
     DataSources:
       ingwersen_useeiov11_2017:
         Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
@@ -776,6 +798,8 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Hazardous Waste" 
     StaticSource: TRUE
+    StaticFile: "USEEIO_LCIA_Factors.csv"
+    FileLocation: "useeior"
     DataSources:
       meyer_analyzing_2020:
         Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
@@ -791,6 +815,8 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Municipal Solid Waste"
     StaticSource: TRUE
+    StaticFile: "USEEIO_LCIA_Factors.csv"
+    FileLocation: "useeior"
     DataSources:
       meyer_analyzing_2020:
         Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
@@ -806,6 +832,8 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Construction Debris" 
     StaticSource: TRUE
+    StaticFile: "USEEIO_LCIA_Factors.csv"
+    FileLocation: "useeior"
     DataSources:
       meyer_analyzing_2020:
         Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"

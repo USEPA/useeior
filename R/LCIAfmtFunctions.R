@@ -1,18 +1,18 @@
 #' Get impact method in the format of the Python LCIAformatter package's get_mapped_method function.
-#' @param parameters List of parameters, must include 'filename', 'methods' and 'indicators' are optional
-#' which are a list of one or more indicators to include from the specified method.
+#' @param ind_spec Specification of an indicator
 #' @return An LCIAmethod with the specified indicators
-getImpactMethod <- function(parameters) {
+getImpactMethod <- function(ind_spec) {
   
   directory <- paste0(rappdirs::user_data_dir(), "\\lciafmt")
   debug_url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=lciafmt/"
-
+  parameters <- ind_spec$ScriptFunctionParameters
+  
   # file must be saved in the local directory
-  f <- paste0(directory,'\\', parameters$filename)
+  f <- paste0(directory,'\\', ind_spec$StaticFile)
 
   if(!file.exists(f)){
     logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
-    downloadfiles(parameters$filename, 'lciafmt')
+    downloadfiles(ind_spec$StaticFile, 'lciafmt')
     }
 
   imp_method <- as.data.frame(arrow::read_parquet(f))
@@ -44,12 +44,11 @@ getImpactMethod <- function(parameters) {
 }
 
 #' Get and combine impact methods using the Python LCIAformatter package's get_mapped_method function.
-#' @param parameters List of parameters, must include 'method_id' and list of two or more 'indicators'
-#' to include from inventory method. Characterization factors for these two indicators are summed by flow.
+#' @param ind_spec Specification of an indicator
 #' @return An LCIAmethod with the specified indicators
-getCombinedImpactMethods <- function(parameters) {
+getCombinedImpactMethods <- function(ind_spec) {
   
-  imp_method = getImpactMethod(parameters)
+  imp_method = getImpactMethod(ind_spec)
   
   combined_imp_method <- dplyr::group_by(imp_method, Method,Flowable,`Flow UUID`,Context,Unit)
   combined_imp_method <- dplyr::summarize(

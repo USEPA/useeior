@@ -6,7 +6,7 @@ loadIndicators <- function(specs) {
    meta <- data.frame()
    factors <- data.frame()
    for (s in specs$Indicators) {
-      logging::loginfo(paste("Getting", s$Name, "indicator..."))
+      logging::loginfo(paste0("Getting ", s$Name, " indicator from ", s$FileLocation, "..."))
       
       # Populate metadata
       meta_fields <- c("Name","Code","Group","Unit","SimpleUnit","SimpleName")
@@ -28,8 +28,8 @@ loadIndicators <- function(specs) {
 #' @param specs Specification of an indicator
 #' @return A dataframe of factors with factor_fields
 loadFactors <- function(ind_spec) {
-   if(ind_spec$StaticSource) {
-      # Load LCIA factors from static file
+   if(is.null(ind_spec$ScriptFunctionCall)) {
+      # Load static LCIA factors from useeio respository data
       StaticIndicatorFactors <- loadLCIAfactors()
       # Subset LCIA factors list for the abbreviations
       factors <- StaticIndicatorFactors[StaticIndicatorFactors$Code == ind_spec$Code, ]
@@ -38,7 +38,7 @@ loadFactors <- function(ind_spec) {
    } else {
       func_to_eval <- ind_spec$ScriptFunctionCall
       indloadfunction <- as.name(func_to_eval)
-      factors <- do.call(eval(indloadfunction), list(ind_spec$ScriptFunctionParameters))
+      factors <- do.call(eval(indloadfunction), list(ind_spec))
       factors <- prepareLCIAmethodforIndicators(factors)
    }
    factor_fields <- c("Indicator","Flowable","Context","Unit","Amount")
