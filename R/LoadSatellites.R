@@ -39,7 +39,11 @@ loadSatTables <- function(model) {
 
   #Loop through each sat specification
   for (sat_spec in model$specs$SatelliteTable) {
-    logging::loginfo(paste("Loading", tolower(sat_spec$FullName), "flows..."))
+    if(sat_spec$FileLocation == 'None'){
+      logging::loginfo(paste0("Generating ", tolower(sat_spec$FullName), " flows..."))      
+    } else {
+      logging::loginfo(paste0("Loading ", tolower(sat_spec$FullName), " flows from ", sat_spec$FileLocation, "..."))
+    }
 
     ### Generate totals_by_sector, tbs
     tbs0 <- generateTbSfromSatSpec(sat_spec)
