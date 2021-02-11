@@ -1,19 +1,44 @@
 # Functions for handling data from flowsa
 
-#' Calls the Python flowsa package's getFlowBySector method
+#' Load flowsa's FlowBySector df and collapse sector columns
 #' @param method_name The name
 #' @return A data frame for flowsa data in sector by region totals format
 getFlowbySectorCollapsed <- function(method_name) {
-  flowsa <- reticulate::import("flowsa")
-  fbsc <- flowsa$getFlowBySector_collapsed(method_name)
-  # checks columns that are all None values and converts to NA
-  for(i in colnames(fbsc)){
-    if(is.list(fbsc[[i]])){
-      fbsc[ , i] <- NA
-    }
+  directory <- paste0(rappdirs::user_data_dir(), "\\flowsa\\FlowBySector")
+  debug_url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=flowsa/FlowBySector/"
+  # parameters <- ind_spec$ScriptFunctionParameters
+  
+  # file must be saved in the local directory
+  f <- paste0(directory,'\\', method_name)
+  
+  if(!file.exists(f)){
+    logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
+    downloadDataCommonsfile(method_name, 'flowsa/FlowBySector')
   }
-  flows_by_sector_and_region <- prepareFlowBySectorCollapsedforSatellite(fbsc)
-  return(flows_by_sector_and_region)
+  
+  fbs <- as.data.frame(arrow::read_parquet(f))
+  
+  # collapse the FBS sector columns into one column based on FlowType
+  fbs$Sector <- NA
+  fbs$Sector <- ifelse(fbs$FlowType=='TECHNOSPHERE_FLOW', fbs$SectorConsumedBy, fbs$Sector)
+  fbs$Sector <- ifelse(fbs$FlowType=='WASTE_FLOW', fbs$SectorProducedBy, fbs$Sector)
+  fbs$Sector <- ifelse((fbs$FlowType=='WASTE_FLOW') & (is.na(fbs$SectorProducedBy)), fbs$SectorConsumedBy, fbs$Sector)
+  fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (is.na(fbs$SectorProducedBy)), fbs$SectorConsumedBy, fbs$Sector)
+  fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (is.na(fbs$SectorConsumedBy)), fbs$SectorProducedBy, fbs$Sector)
+  fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (fbs$SectorConsumedBy %in% c('F010', 'F0100', 'F01000')) &
+                         (fbs$SectorProducedBy %in% c('22', '221', '2213', '22131', '221310')), fbs$SectorConsumedBy, fbs$Sector)
+  
+  # reorder col
+  fbs <- fbs[,c(1:4, 23, 5:22)]
+  
+  # drop sector consumed/produced by columns
+  fbs_collapsed <- fbs[,!(names(fbs) %in% c('SectorProducedBy', 'SectorConsumedBy'))]
+  # aggregate
+  # TODO: use aggregator fxn (below fxn is placeholder python code)
+  # fbs_collapsed = aggregator(fbs_collapsed, fbs_collapsed_default_grouping_fields)
+  
+
+  return(fbs_collapsed)
 }
 
 
