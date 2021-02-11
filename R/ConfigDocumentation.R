@@ -27,6 +27,7 @@
 #'  \item{Abbreviation}{string, Abbreviation for table}
 #'  \item{StaticSource}{boolean, TRUE if loading table from static source}
 #'  \item{StaticFile}{string, path to static file}
+#'  \item{FileLocation}{string, description of the location of the source file}
 #'  \item{DataYears}{list of data years}
 #'  \item{Locations}{list of location acyronyms}
 #'  \item{SectorListSource}{string, name of source "NAICS" or "BEA" accepted}
