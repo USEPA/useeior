@@ -54,21 +54,12 @@ loadSatTables <- function(model) {
     # Only setting TemporalCorrelation for now
     tbs <- scoreContextualDQ(tbs) 
     
-    # Check if all DQ columns are present. If not, print error message.
-
-    #    len_dq_fields <- length(getDQfields(totals_by_sector))
-#    if(len_dq_fields!=5){
-#      logging::logerror(paste("Missing 1 or more data quality fields in satellite data.", len_dq_fields, "present"))
-#    }
-    
     # Convert totals_by_sector to standard satellite table format
     tbs <- conformTbStoStandardSatTable(tbs)
     
-    #Map names for static files not already using FEDEFL
-    if (!is.null(sat_spec$StaticFile)) {
-      if (!substring(sat_spec$OriginalFlowSource,1,6) == 'FEDEFL') {
-        tbs <- mapListbyName(tbs, sat_spec)
-      }
+    #Map names for files not already using FEDEFL
+    if (!substring(sat_spec$OriginalFlowSource,1,6) == 'FEDEFL') {
+      tbs <- mapListbyName(tbs, sat_spec)
     }
     flow_fields <- c("Flowable","Context","Unit","FlowUUID")
     flows_tbs <- unique(tbs[,flow_fields])
