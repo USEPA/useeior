@@ -37,6 +37,7 @@ loadIOData <- function(modelname) {
     for (year_col in colnames(model$MultiYearIndustryOutput)) {
       model$MultiYearCommodityOutput[, year_col] <- transformIndustryOutputtoCommodityOutputforYear(as.numeric(year_col), model)
     }
+    model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
     
     model$MultiYearIndustryCPI <- model$GDP$BEACPIIO[model$Industries, ]
     # Transform industry CPI to commodity CPI
