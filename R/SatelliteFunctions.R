@@ -69,6 +69,7 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
     GeographicalCorrelation = weighted.mean(GeographicalCorrelation, FlowAmount),
     TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
     DataCollection = weighted.mean(DataCollection, FlowAmount),
+    MetaSources = dplyr::nth(MetaSources, which.max(nchar(MetaSources))),
     .groups = 'drop'
   )
   colnames(totals_by_sector_BEA_agg)[colnames(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
