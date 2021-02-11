@@ -100,10 +100,8 @@ transformIndustryOutputtoCommodityOutputforYear <- function(year, model) {
   # Generate adjusted industry output by location
   IndustryOutput <- model$MultiYearIndustryOutput[, as.character(year)]
   # Use CommodityMix to transform IndustryOutput to CommodityOutput
-  # CommodityMix <- generateCommodityMixMatrix(model)
-  # CommodityOutput <- as.numeric(CommodityMix %*% IndustryOutput)
-  D <- generateMarketSharesfromMake(model)
-  CommodityOutput <- as.numeric(IndustryOutput %*% D)
+  CommodityMix <- generateCommodityMixMatrix(model)
+  CommodityOutput <- as.numeric(CommodityMix %*% IndustryOutput)
   return(CommodityOutput)
 }
 
@@ -115,10 +113,8 @@ transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
   # Generate adjusted industry CPI by location
   IndustryCPI <- model$GDP$BEACPIIO[, as.character(year)]
   # Use CommodityMix to transform IndustryCPI to CommodityCPI
-  # CommodityMix <- generateCommodityMixMatrix(model)
-  # CommodityCPI <- as.numeric(CommodityMix %*% IndustryCPI)
-  D <- generateMarketSharesfromMake(model)
-  CommodityCPI <- as.numeric(IndustryCPI %*% D)
+  CommodityMix <- generateCommodityMixMatrix(model)
+  CommodityCPI <- as.numeric(CommodityMix %*% IndustryCPI)
   return(CommodityCPI)
 }
 
