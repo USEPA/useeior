@@ -7,11 +7,11 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   
   ##Prepare right side of the equation
   #Adjust B with Chi
-  Chi <- generateChiMatrix(model)
-  B_chi <- model$B*Chi 
+  Chi <- generateChiMatrix(model, output_type = model$specs$CommoditybyIndustryType)
+  B_chi <- model$B*Chi
   #Prepare calculation
   #LCI = B_chi diag(L_d y)
-  y <- as.matrix(formatDemandVector(model$DemandVectors$vectors[["2012_us_production_complete"]],model$L_d))
+  y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
   c <- getScalingVector(model$L_d, y)
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
   
@@ -19,8 +19,9 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   E <- prepareEfromtbs(model)
   E <- as.matrix(E[rownames(LCI),])
   if(model$specs$CommoditybyIndustryType == "Commodity") {
-    #transform E by market shares
-    E <-  E %*% model$V_n
+    #transform E with commodity mix
+    C <- generateCommodityMixMatrix(model)
+    E <-  t(C %*% t(E))
   }
   
   rel_diff <- (LCI - E)/E
@@ -31,7 +32,8 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   #return(validation)
   return(rel_diff)
 }
-
+# max(rel_diff, na.rm = T)
+# min(rel_diff, na.rm = T)
 #'Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
 #'Uses the model$FinalDemand and model$L
 #'Works for the domestic model with the equivalent tables
@@ -87,13 +89,9 @@ prepareEfromtbs <- function(model) {
 #' @param output_type Either Commodity or Industry, default is Commodity
 #' @return Chi matrix contains ratios of model IO year commodity output over the output of the flow year in model IO year dollar.
 generateChiMatrix <- function(model, output_type = "Commodity") {
-  # Generate ModelYearOutput based on output_type and model Commodity/Industry type 
-  if (output_type=="Commodity") {
-    ModelYearOutput <- model$CommodityOutput
-  } else {
-    ModelYearOutput <- model$IndustryOutput
-  }
-  # Generate FlowYearOutput
+  # Extract ModelYearOutput from model based on output_type
+  ModelYearOutput <- model[[paste0(output_type, "Output")]]
+  # Generate FlowYearOutput, convert it to model IOYear $
   TbS <- do.call(rbind, model$SatelliteTables$totals_by_sector)
   TbS[, "Flow"] <- apply(TbS[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
   FlowYearOutput <- data.frame()
@@ -103,27 +101,20 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
     } else {
       IsRoUS <- FALSE
     }
-    # Generate industry output by year
-    IndustryOutput <- model$MultiYearIndustryOutput[, as.character(year)]
+    output <- model[[paste0("MultiYear", output_type, "Output")]][, as.character(year), drop = FALSE]
     # Adjust industry output to model year $
-    DollarRatio <- model$MultiYearCPI[, as.character(model$specs$IOYear)]/model$MultiYearCPI[, as.character(year)]
-    IndustryOutput <- IndustryOutput * DollarRatio
-    # Generate FlowYearOutput_y
-    if (output_type=="Commodity") {
-      # Generate a commodity x industry CommodityMix matrix
-      CommodityMix <- generateCommodityMixMatrix(model)
-      # Use CommodityMix to transform IndustryOutput to CommodityOutput
-      CommodityOutput <- as.data.frame(CommodityMix %*% IndustryOutput)
-      flows <- unique(TbS[TbS$Year==year, "Flow"])
-      FlowYearOutput_y <- do.call(rbind.data.frame, rep(CommodityOutput, times = length(flows)))
-      rownames(FlowYearOutput_y) <- flows
-      colnames(FlowYearOutput_y) <- rownames(CommodityOutput)
-    } else {
-      FlowYearOutput_y <- IndustryOutput
-    }
+    CPI_df <- model[[paste0("MultiYear", output_type, "CPI")]][, as.character(c(model$specs$IOYear, year))]
+    DollarRatio <- CPI_df[, as.character(model$specs$IOYear)]/CPI_df[, as.character(year)]
+    # Replace NA with 1 in DollarRatio
+    DollarRatio[is.na(DollarRatio)] <- 1
+    output <- output * DollarRatio
+    flows <- unique(TbS[TbS$Year==year, "Flow"])
+    FlowYearOutput_y <- do.call(rbind, rep(output, times = length(flows)))
+    rownames(FlowYearOutput_y) <- flows
+    colnames(FlowYearOutput_y) <- rownames(output)
     FlowYearOutput <- rbind(FlowYearOutput, FlowYearOutput_y)
   }
-  # Calculate Chi: divide ModelYearOutput by FlowYearOutput
+  # Calculate Chi: divide FlowYearOutput by ModelYearOutput
   Chi <- as.matrix(sweep(FlowYearOutput[rownames(model$B), ], 2, ModelYearOutput, "/"))
   # Replace NA with 0
   Chi[is.na(Chi)] <- 0

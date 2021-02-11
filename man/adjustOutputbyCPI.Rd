@@ -4,7 +4,14 @@
 \alias{adjustOutputbyCPI}
 \title{Adjust Industry output based on CPI.}
 \usage{
-adjustOutputbyCPI(outputyear, referenceyear, location_acronym, IsRoUS, model)
+adjustOutputbyCPI(
+  outputyear,
+  referenceyear,
+  location_acronym,
+  IsRoUS,
+  model,
+  output_type
+)
 }
 \arguments{
 \item{outputyear}{Year of Industry output.}
@@ -16,6 +23,8 @@ adjustOutputbyCPI(outputyear, referenceyear, location_acronym, IsRoUS, model)
 \item{IsRoUS}{A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).}
 
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{output_type}{Type of the output, e.g. "Commodity" or "Industry"}
 }
 \value{
 A dataframe contains adjusted Industry output with row names being BEA sector code.

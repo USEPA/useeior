@@ -82,14 +82,15 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
 #' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param output_type Type of the output, e.g. "Commodity" or "Industry"
 #' @return A dataframe contains intensity coefficient (kg/$).
-generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym, IsRoUS = FALSE, model) {
+generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym, IsRoUS = FALSE, model, output_type = "Industry") {
   # Generate adjusted industry output
-  Output_adj <- adjustOutputbyCPI(outputyear, referenceyear, location_acronym, IsRoUS, model)
+  Output_adj <- adjustOutputbyCPI(outputyear, referenceyear, location_acronym, IsRoUS, model, output_type)
   # Merge the satellite table with the adjusted industry output
   Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "Sector", by.y = 0, all.x = TRUE)
   # Drop rows where output is zero
-  outputcolname <- paste(outputyear, "IndustryOutput", sep = "")
+  outputcolname <- paste0(outputyear, output_type, "Output")
   Sattable_USEEIO_wOutput <- Sattable_USEEIO_wOutput[Sattable_USEEIO_wOutput[, outputcolname] != 0, ]
   # Drop rows where output is NA
   Sattable_USEEIO_wOutput <- Sattable_USEEIO_wOutput[!is.na(Sattable_USEEIO_wOutput[, outputcolname]), ]

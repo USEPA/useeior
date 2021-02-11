@@ -5,9 +5,10 @@
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
 #' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param output_type Type of the output, e.g. "Commodity" or "Industry"
 #'
 #' @return A dataframe contains adjusted Industry output with row names being BEA sector code.
-adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRoUS, model) {
+adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRoUS, model, output_type) {
   # Load Industry Gross Output
   if (model$specs$PrimaryRegionAcronym == "US") {
     Output <- cbind.data.frame(rownames(model$MultiYearIndustryOutput),
@@ -24,13 +25,15 @@ adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRo
     }
   }
   colnames(Output) <- c("SectorCode", "Output")
-  # Adjust Industry output based on CPI
-  AdjustedOutput <- merge(Output, model$MultiYearCPI[, as.character(c(referenceyear, outputyear))], by.x = "SectorCode", by.y = 0)
+  # Adjust output based on CPI
+  AdjustedOutput <- merge(Output, model[[paste0("MultiYear", output_type, "CPI")]][, as.character(c(referenceyear, outputyear))],
+                          by.x = "SectorCode", by.y = 0)
   AdjustedOutput$DollarRatio <- AdjustedOutput[, as.character(referenceyear)]/AdjustedOutput[, as.character(outputyear)]
   AdjustedOutput[, paste(outputyear, "IndustryOutput", sep = "")] <- AdjustedOutput$Output * AdjustedOutput$DollarRatio
   # Assign rownames and keep wanted column
   rownames(AdjustedOutput) <- AdjustedOutput$SectorCode
-  AdjustedOutput <- AdjustedOutput[rownames(model$MultiYearCPI), paste(outputyear, "IndustryOutput", sep = ""), drop = FALSE]
+  AdjustedOutput <- AdjustedOutput[rownames(model[[paste0("MultiYear", output_type, "CPI")]]),
+                                   paste(outputyear, "IndustryOutput", sep = ""), drop = FALSE]
   return(AdjustedOutput)
 }
 
@@ -94,13 +97,11 @@ generateCommodityMixMatrix <- function (model) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Commodity output.
 transformIndustryOutputtoCommodityOutputforYear <- function(year, model) {
-  # Generate a commodity x industry commodity mix matrix
-  CommodityMix <- generateCommodityMixMatrix(model)
   # Generate adjusted industry output by location
-  IndustryOutputVector <- as.matrix(model$MultiYearIndustryOutput[, as.character(year)])
+  IndustryOutput <- model$MultiYearIndustryOutput[, as.character(year)]
   # Use CommodityMix to transform IndustryOutput to CommodityOutput
-  CommodityOutput <- as.data.frame(CommodityMix %*% IndustryOutputVector)
-  colnames(CommodityOutput) <- as.character(year)
+  CommodityMix <- generateCommodityMixMatrix(model)
+  CommodityOutput <- as.numeric(CommodityMix %*% IndustryOutput)
   return(CommodityOutput)
 }
 
@@ -109,14 +110,11 @@ transformIndustryOutputtoCommodityOutputforYear <- function(year, model) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Commodity CPI.
 transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
-  # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
-  CommodityMix <- generateCommodityMixMatrix(model)
   # Generate adjusted industry CPI by location
-  IndustryCPI <- as.matrix(model$GDP$BEACPIIO[, as.character(year)])
+  IndustryCPI <- model$GDP$BEACPIIO[, as.character(year)]
   # Use CommodityMix to transform IndustryCPI to CommodityCPI
-  CommodityCPI <- as.data.frame(CommodityMix %*% IndustryCPI)
-  colnames(CommodityCPI) <- as.character(year)
-
+  CommodityMix <- generateCommodityMixMatrix(model)
+  CommodityCPI <- as.numeric(CommodityMix %*% IndustryCPI)
   return(CommodityCPI)
 }
 
