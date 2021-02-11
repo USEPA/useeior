@@ -11,7 +11,7 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   B_chi <- model$B*Chi 
   #Prepare calculation
   #LCI = B_chi diag(L_d y)
-  y <- as.matrix(formatDemandVector(model$DemandVectors$vectors[["2012_us_production_complete"]],model$L_d))
+  y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
   c <- getScalingVector(model$L_d, y)
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
   
@@ -19,8 +19,9 @@ compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
   E <- prepareEfromtbs(model)
   E <- as.matrix(E[rownames(LCI),])
   if(model$specs$CommoditybyIndustryType == "Commodity") {
-    #transform E by market shares
-    E <-  E %*% model$V_n
+    #transform E with commodity mix
+    C <- generateCommodityMixMatrix(model)
+    E <-  t(C %*% t(E))
   }
   
   rel_diff <- (LCI - E)/E
