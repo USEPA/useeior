@@ -101,27 +101,31 @@ loadandbuildSatelliteTables <- function(model) {
 #'@param sat_spec, a standard specification for a single satellite table
 #'@return a totals-by-sector dataframe
 generateTbSfromSatSpec <- function(sat_spec) {
-  # Check if the satellite table uses a static file. If so, proceed.
+  # Check if the satellite table uses a file from within useeior. If so, proceed.
   # If not, use specified functions in model metadata to load data from dynamic source
-  if(!is.null(sat_spec$StaticFile)) {
-    # If the file is a URL tested by the first 4 characters of the string = "http", don't wrap in system.file()
+  if(sat_spec$FileLocation == "useeior") {
+    totals_by_sector <- utils::read.table(system.file("extdata", sat_spec$StaticFile, package = "useeior"),
+                                            sep = ",", header = TRUE, stringsAsFactors = FALSE,
+                                            fileEncoding = 'UTF-8-BOM')
+
+  } 
+  else if(!is.null(sat_spec$ScriptFunctionCall)) {
+    func_to_eval <- sat_spec$ScriptFunctionCall
+    totalsgenfunction <- as.name(func_to_eval)
+    if (!is.null(sat_spec$ScriptFunctionParameters)){
+      if (sat_spec$ScriptFunctionParameters == "model") {
+        params <- model
+      }
+    } else {
+      params <- sat_spec
+    }
+    totals_by_sector <- do.call(eval(totalsgenfunction), list(params))
+  }
+  else{
     if (substring(sat_spec$StaticFile, 0, 4)=="http") {
       totals_by_sector <- utils::read.table(sat_spec$StaticFile, sep = ",", header = TRUE, stringsAsFactors = FALSE,
                                             fileEncoding = 'UTF-8-BOM')  
-    } else {
-      totals_by_sector <- utils::read.table(system.file("extdata", sat_spec$StaticFile, package = "useeior"),
-                                            sep = ",", header = TRUE, stringsAsFactors = FALSE,
-                                            fileEncoding = 'UTF-8-BOM')
-    }
-  } else {
-    func_to_eval <- sat_spec$ScriptFunctionCall
-    totalsgenfunction <- as.name(func_to_eval)
-    if (sat_spec$ScriptFunctionParameters == "model") {
-      params <- model
-    } else {
-      params <- sat_spec$ScriptFunctionParameters
-    }
-    totals_by_sector <- do.call(eval(totalsgenfunction), list(params))
+    }   
   }
   return(totals_by_sector)
 }

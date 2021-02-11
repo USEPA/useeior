@@ -1,12 +1,12 @@
 # Functions for handling data from flowsa
 
 #' Load flowsa's FlowBySector df and collapse sector columns
-#' @param method_name The name
+#' @param sat_spec, a standard specification for a single satellite table
 #' @return A data frame for flowsa data in sector by region totals format
-getFlowbySectorCollapsed <- function(method_name) {
+getFlowbySectorCollapsed <- function(sat_spec) {
   directory <- paste0(rappdirs::user_data_dir(), "\\flowsa\\FlowBySector")
   debug_url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=flowsa/FlowBySector/"
-  # parameters <- ind_spec$ScriptFunctionParameters
+  method_name <- sat_spec$StaticFile
   
   # file must be saved in the local directory
   f <- paste0(directory,'\\', method_name)
@@ -28,15 +28,15 @@ getFlowbySectorCollapsed <- function(method_name) {
   fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (fbs$SectorConsumedBy %in% c('F010', 'F0100', 'F01000')) &
                          (fbs$SectorProducedBy %in% c('22', '221', '2213', '22131', '221310')), fbs$SectorConsumedBy, fbs$Sector)
   
-  # reorder col
-  fbs <- fbs[,c(1:4, 23, 5:22)]
-  
   # drop sector consumed/produced by columns
   fbs_collapsed <- fbs[,!(names(fbs) %in% c('SectorProducedBy', 'SectorConsumedBy'))]
+  
+  # reorder col
+  fbs_collapsed <- prepareFlowBySectorCollapsedforSatellite(fbs_collapsed)
+  
   # aggregate
   # TODO: use aggregator fxn (below fxn is placeholder python code)
   # fbs_collapsed = aggregator(fbs_collapsed, fbs_collapsed_default_grouping_fields)
-  
 
   return(fbs_collapsed)
 }
