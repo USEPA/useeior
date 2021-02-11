@@ -67,7 +67,7 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
   x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_us_production_complete"]]
   
   #Row names should be identical
-  identical(rownames(p), names(x))
+  identical(names(p), names(x))
   
   rel_diff <- (p - x)/p
   return(rel_diff)
@@ -104,18 +104,23 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
       IsRoUS <- FALSE
     }
     # Generate industry output by year
-    IndustryOutput <- model$GDP$BEAGrossOutputIO[model$Industries, as.character(year)]
+    IndustryOutput <- model$MultiYearIndustryOutput[, as.character(year)]
     # Adjust industry output to model year $
-    DollarRatio <- model$GDP$BEACPIIO[model$Industries, as.character(model$specs$IOYear)]/model$GDP$BEACPIIO[model$Industries, as.character(year)]
+    DollarRatio <- model$MultiYearCPI[, as.character(model$specs$IOYear)]/model$MultiYearCPI[, as.character(year)]
     IndustryOutput <- IndustryOutput * DollarRatio
-    # Generate a commodity x industry CommodityMix matrix
-    CommodityMix <- generateCommodityMixMatrix(model)
-    # Use CommodityMix to transform IndustryOutput to CommodityOutput
-    CommodityOutput <- as.data.frame(CommodityMix %*% IndustryOutput)
-    flows <- unique(TbS[TbS$Year==year, "Flow"])
-    FlowYearOutput_y <- do.call(rbind.data.frame, rep(CommodityOutput, times = length(flows)))
-    rownames(FlowYearOutput_y) <- flows
-    colnames(FlowYearOutput_y) <- rownames(CommodityOutput)
+    # Generate FlowYearOutput_y
+    if (output_type=="Commodity") {
+      # Generate a commodity x industry CommodityMix matrix
+      CommodityMix <- generateCommodityMixMatrix(model)
+      # Use CommodityMix to transform IndustryOutput to CommodityOutput
+      CommodityOutput <- as.data.frame(CommodityMix %*% IndustryOutput)
+      flows <- unique(TbS[TbS$Year==year, "Flow"])
+      FlowYearOutput_y <- do.call(rbind.data.frame, rep(CommodityOutput, times = length(flows)))
+      rownames(FlowYearOutput_y) <- flows
+      colnames(FlowYearOutput_y) <- rownames(CommodityOutput)
+    } else {
+      FlowYearOutput_y <- IndustryOutput
+    }
     FlowYearOutput <- rbind(FlowYearOutput, FlowYearOutput_y)
   }
   # Calculate Chi: divide ModelYearOutput by FlowYearOutput
