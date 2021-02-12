@@ -291,6 +291,7 @@ setCommonYearforFlow <- function(tbs) {
   for (flow in rownames(flow_year_df[rowSums(flow_year_df != 0) > 1, ])) {
     year <- colnames(flow_year_df[flow, ])[max.col(flow_year_df[flow, ])]
     tbs[tbs$Flow==flow, "Year"] <- year
+    logging::loginfo(paste("Flow year of", flow, "changed to", year))
   }
   return(tbs)
 }
