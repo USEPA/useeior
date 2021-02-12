@@ -280,20 +280,17 @@ checkSatelliteFlowLoss <- function(tbs0, tbs) {
 #' @param tbs, a model total by sector file
 #' @return df, the tbs
 setCommonYearforFlow <- function(tbs) {
-  
-  #will have to add flow first
-  tbs$Flow <- apply(tbs[, c("Flowable", "Context", "Unit")],1, FUN = joinStringswithSlashes)
-  
-  tbs_agg <- dplyr::group_by(tbs,Flow,Year) 
-  
-  #Not working yet
-  tbs_counts <- dplyr::summarize(tbs_agg,length(Year))
-  
-  #Filter the counts where >1
-  tbs_counts <- tbs_counts[tbs_counts$countofYears>1,]
-  
-  #Get the year
-  
-  #In the original tbs, set Year to this year for these rows
-  
+  # Add new column Flow to tbs
+  tbs$Flow <- apply(tbs[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
+  # Create flow_year_df to determine whether each flow has single year
+  flow_year_df <- reshape2::dcast(tbs[, c("Year", "Flow")], Flow ~ Year, value.var = "Flow", length)
+  rownames(flow_year_df) <- flow_year_df$Flow
+  flow_year_df$Flow <- NULL
+  # For each flow with multiple years, get the year that has the highest frequency
+  # Then in the original tbs, set Year to this year for these rows
+  for (flow in rownames(flow_year_df[rowSums(flow_year_df != 0) > 1, ])) {
+    year <- colnames(flow_year_df[flow, ])[max.col(flow_year_df[flow, ])]
+    tbs[tbs$Flow==flow, "Year"] <- year
+  }
+  return(tbs)
 }
