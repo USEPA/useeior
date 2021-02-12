@@ -292,5 +292,8 @@ setCommonYearforFlow <- function(tbs) {
   #Filter the counts where >1
   tbs_counts <- tbs_counts[tbs_counts$countofYears>1,]
   
+  #Get the year
+  
+  #In the original tbs, set Year to this year for these rows
   
 }
