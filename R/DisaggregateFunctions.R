@@ -51,33 +51,150 @@ disaggregateModel <- function (model){
     model$DomesticFinalDemand <- disaggregateFinalDemand(model, domestic = TRUE)
     model$DomesticUseTransactions <- disaggregateUseTable(model, domestic = TRUE)
     
-    
+    #Balancing model
     if(disagg$DisaggregationType == "Userdefined"){
       model <- balanceDisagg(model, disagg)
     }
 
-    model$CommodityOutput <- disaggregateCols(model$CommodityOutput, disagg)
-    model$CPI <- disaggregateCols(model$CPI, disagg, duplicate = TRUE)
+    #Disaggregating model$CommodityOutput and model$IndustryOutput objects 
+    model <- disaggregateOutputs(model)
+    
+    #Disaggregating MultiyearIndustryOutput and MultiYearCommodityOutput 
+    model$MultiYearCommodityOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
+    model$MultiYearIndustryOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Industry")
 
+    #Disaggregating CPI model objects. Assumption is that the disaggregated sectors have the same CPI values as the original sector. 
+    model$MultiYearCommodityCPI <- disaggregateCols(model$MultiYearCommodityCPI, disagg, duplicate = TRUE)
+    model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
+
+    #Disaggregating model$SectorNames model object
     colnames(newNames) <- colnames(model$SectorNames)
     model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
 
+    #Disaggregating Crosswalk
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
     
-    # margins tables need to be adjusted as the index is not the sector code like other dataframes
+    #MARGINS DISAGGREGATION (TODO) Margins tables need to be adjusted as the index is not the sector code like other dataframes
     #model$IntermediateMargins <- disaggregateCols(model$IntermediateMargins, disagg)
     #model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
-    
-    # Need to disaggregate original BEA vectors for use later
-    model$BEA$UseCommodityOutput <- disaggregateCols(model$BEA$UseCommodityOutput, disagg)
-    model$BEA$MakeIndustryOutput <- disaggregateCols(model$BEA$MakeIndustryOutput, disagg)
-    model$GDP$BEAGrossOutputIO <- disaggregateCols(model$GDP$BEAGrossOutputIO, disagg)
-    model$GDP$BEACPIIO <- disaggregateCols(model$GDP$BEACPIIO, disagg, duplicate = TRUE)
+
     
     counter <- counter + 1
   }
   
   return(model)
+  
+}
+
+#' Disaggregate Commodity and Industry Output model objects
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#'
+#' @return model A complete EEIO model: a list with USEEIO model components and attributes.
+disaggregateOutputs <- function(model)
+{
+
+  if(!is.null(model$CommodityOutput))
+  {
+    model$CommodityOutput <- rowSums(model$UseTransactions)+rowSums(model$FinalDemand)
+    
+  }
+  if(!is.null(model$IndustryOutput))
+  {
+    model$IndustryOutput <- colSums(model$UseTransactions)+colSums(model$UseValueAdded)
+  }
+
+  return(model)
+
+}
+
+#' #' Disaggregate Commodity Output model object
+#' #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' #' @param disagg Specifications for disaggregating the current Table
+#' #'
+#' #' @return model A dataframe with the disaggregated GDPGrossOutputIO by year
+#' disaggregateGDPGrossOutputIO <- function(model, disagg)
+#' {
+#'   
+#'   #Determine the index of the first disaggregated sector
+#'   originalGDPIndex <- which(rownames(model$GDP$BEAGrossOutputIO)==disagg$OriginalSectorCode)
+#'   #Obtain row with original vector in GDPGrossOutput object
+#'   originalGDPVector <- model$GDP$BEAGrossOutputIO[originalGDPIndex,]
+#'   #Create new rows where disaggregated values will be stored
+#'   disaggGDPBEAGrossOutputIOSectors <-originalGDPVector[rep(seq_len(nrow(originalGDPVector)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]
+#'   
+#'   
+#'   #Get Index for Disaggregated Industries in the use table
+#'   disaggUseIndIndex <- which(colnames(model$UseTransactions)==disagg$DisaggregatedSectorCodes[1])
+#'   disaggUseEndIndex <- disaggUseIndIndex+length(disagg$DisaggregatedSectorCodes)-1
+#'   
+#'   #calculate industry ratios after disaggregation from Use table
+#'   disaggIndRatios <- colSums(model$UseTransactions[,disaggUseIndIndex:disaggUseEndIndex]) + colSums(model$UseValueAdded[,disaggUseIndIndex:disaggUseEndIndex])
+#'   disaggIndRatios <- disaggIndRatios / sum(disaggIndRatios) 
+#'   
+#'   #apply ratios to GDP values
+#'   disaggGDPBEAGrossOutputIOSectors <- disaggGDPBEAGrossOutputIOSectors *t(disaggIndRatios)
+#'   #rename rows
+#'   rownames(disaggGDPBEAGrossOutputIOSectors) <- disagg$DisaggregatedSectorCodes
+#'   
+#'   #bind new values to original table
+#'   newGDPBEAGrossOutputIO <- rbind(model$GDP$BEAGrossOutputIO[1:originalGDPIndex-1,], disaggGDPBEAGrossOutputIOSectors, model$GDP$BEAGrossOutputIO[-(1:originalGDPIndex),])
+#'   
+#'   
+#'   return(newGDPBEAGrossOutputIO)
+#'   
+#' }
+#' Disaggregate Commodity Output model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' @param output_type A string that indicates whether the Commodity or Industry output should be disaggregated
+#'
+#' @return model A dataframe with the disaggregated GDPGrossOutputIO by year
+disaggregateMultiYearOutput <- function(model, disagg, output_type = "Commodity")
+{
+ 
+  if(output_type == "Industry")
+  {
+    originalOutput = model$MultiYearIndustryOutput
+    
+    #Get Index for Disaggregated Industries in the use table
+    disaggUseStartIndex <- which(colnames(model$UseTransactions)==disagg$DisaggregatedSectorCodes[1])
+    disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
+    
+    #calculate industry ratios after disaggregation from Use table
+    disaggRatios <- colSums(model$UseTransactions[,disaggUseStartIndex:disaggUseEndIndex]) + colSums(model$UseValueAdded[,disaggUseStartIndex:disaggUseEndIndex])
+    disaggRatios <- disaggRatios / sum(disaggRatios) 
+  }
+  else #assume commodity if industry is not specified
+  {
+    originalOutput = model$MultiYearCommodityOutput
+    
+    #Get Index for Disaggregated Commodities in the use table
+    disaggUseStartIndex <- which(rownames(model$UseTransactions)==disagg$DisaggregatedSectorCodes[1])
+    disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
+    
+    #calculate industry ratios after disaggregation from Use table
+    disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemand[disaggUseStartIndex:disaggUseEndIndex,])
+    disaggRatios <- disaggRatios / sum(disaggRatios) 
+  }
+    
+   
+  #Determine the index of the first disaggregated sector
+  originalVectorIndex <- which(rownames(originalOutput)==disagg$OriginalSectorCode)
+  #Obtain row with original vector in GDPGrossOutput object
+  originalVector <- originalOutput[originalVectorIndex,]
+  #Create new rows where disaggregated values will be stored
+  disaggOutput <-originalVector[rep(seq_len(nrow(originalVector)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]
+  
+  #apply ratios to values
+  disaggOutput <- disaggOutput *t(disaggRatios)
+  #rename rows
+  rownames(disaggOutput) <- disagg$DisaggregatedSectorCodes
+  
+  #bind new values to original table
+  newOutputTotals <- rbind(originalOutput[1:originalVectorIndex-1,], disaggOutput, originalOutput[-(1:originalVectorIndex),])
+  
+  
+  return(newOutputTotals)
   
 }
 
