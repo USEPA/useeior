@@ -1,46 +1,61 @@
 #ValidateModel.R
 
 
-#'Compares the total flows against the model result calculation with the domestic demand vector and direct perspective
+#'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built
-compareEandDomesticLCIResult <- function(model, tolerance=0.05) {
+compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance=0.05) {
   
-  ##Prepare right side of the equation
-  #Adjust B with Chi
-  Chi <- generateChiMatrix(model, output_type = model$specs$CommoditybyIndustryType)
-  B_chi <- model$B*Chi
-  #Prepare calculation
-  #LCI = B_chi diag(L_d y)
-  y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
-  c <- getScalingVector(model$L_d, y)
-  LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
-  
-  ##Prepare left side of the equation
-  E <- prepareEfromtbs(model)
-  E <- as.matrix(E[rownames(LCI), ])
-  if(model$specs$CommoditybyIndustryType == "Commodity") {
-    #transform E with commodity mix
-    C <- generateCommodityMixMatrix(model)
-    E <-  t(C %*% t(E))
+  #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
+  #c = diag(L%*%y)
+  if (use_domestic) {
+    y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
+    c <- getScalingVector(model$L_d, y)
+  } else {
+    y <- as.matrix(formatDemandVector(rowSums(model$FinalDemand),model$L_d))
+    c <- getScalingVector(model$L, y)
   }
-  
+
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+
+    if (output_type=="Commodity") {
+      B <- model$B 
+      
+    } else {
+      #industry approach
+      CbS <- generateCbSfromTbSandModel(model)
+      CbS_cast <- standardizeandcastSatelliteTable(CbS,model)
+      B <- as.matrix(CbS_cast)
+    } 
+
+    
+    ##Prepare left side of the equation
+    E <- prepareEfromtbs(model)
+    E <- as.matrix(E[rownames(B), ])
+        #transform E with commodity mix
+    C <- generateCommodityMixMatrix(model)
+    E <-  t(C %*% t(E))  
+    
+  } else {
+    stop("This function cannot yet handle industry type models")
+  }
+
+  #Prepare calculation
+  #LCI = B dot Chi %*% c 
+  Chi <- generateChiMatrix(model, output_type)
+  B_chi <- B*Chi
+  LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
+
   rel_diff <- (LCI - E)/E
-  #rule <- validate::validator(abs(LCI_a - E_c)/E_c <= tolerance)
-  #confrontation <- validate::confront(LCI_a, rule, E_c)
-  #confrontation <- validate::as.data.frame(confrontation)
-  #validation <- merge(confrontation, validate::as.data.frame(rule))
-  #return(validation)
   return(rel_diff)
 }
-# max(rel_diff, na.rm = T)
-# min(rel_diff, na.rm = T)
+
 #'Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
 #'Uses the model$FinalDemand and model$L
 #'Works for the domestic model with the equivalent tables
 #'@param model, EEIOmodel object completely built
 #'@return vector, a vector of relative different in calculation from sector output by sector 
-compareOutputandLeontiefXDemand <- function(model, domestic=FALSE, tolerance=0.05) {
-  if (domestic) {
+compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
+  if (use_domestic) {
     y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
