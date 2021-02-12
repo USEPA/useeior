@@ -274,3 +274,23 @@ checkSatelliteFlowLoss <- function(tbs0, tbs) {
     print(setdiff(flows_tbs0, flows_tbs))
   }
 }
+
+#' Sets the Year in a tbs to be the year of the highest frequency for a given flow when that flow is reported
+#' in more than a single year
+#' @param tbs, a model total by sector file
+#' @return df, the tbs
+setCommonYearforFlow <- function(tbs) {
+  
+  #will have to add flow first
+  tbs$Flow <- apply(tbs[, c("Flowable", "Context", "Unit")],1, FUN = joinStringswithSlashes)
+  
+  tbs_agg <- dplyr::group_by(tbs,Flow,Year) 
+  
+  #Not working yet
+  tbs_counts <- dplyr::summarize(tbs_agg,length(Year))
+  
+  #Filter the counts where >1
+  tbs_counts <- tbs_counts[tbs_counts$countofYears>1,]
+  
+  
+}
