@@ -27,7 +27,7 @@ buildEEIOModel <- function(model) {
 
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar) ...")
-  model$B <- createBfromEnvDataandOutput(model)
+  model$B <- createBfromFlowDataandOutput(model)
     
   # Generate C matrix
   logging::loginfo("Building C matrix (characterization factors for model indicators) ...")
