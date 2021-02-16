@@ -6,7 +6,7 @@
 Uses the model$FinalDemand and model$L
 Works for the domestic model with the equivalent tables}
 \usage{
-compareOutputandLeontiefXDemand(model, domestic = FALSE, tolerance = 0.05)
+compareOutputandLeontiefXDemand(model, use_domestic = FALSE, tolerance = 0.05)
 }
 \arguments{
 \item{model, }{EEIOmodel object completely built}
