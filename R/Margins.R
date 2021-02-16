@@ -15,19 +15,9 @@ deriveMarginSectorImpacts <- function(model, margin_type = "intermediate") {
   MarginCoefficients <- abs(as.matrix(Margins[, c("Transportation", "Wholesale", "Retail")]/Margins[, c("ProducersValue")]))
   rownames(MarginCoefficients) <- Margins$SectorCode
   
-  # Create margin_allocation matrix to allocate fractions by margin sector
-  # In the matrix, rows are three margin types and columns are margin sectors
+  # Allocate coefficients to margin sectors using margin allocation matrix
   all_margin_sectors <- c(model$BEA$TransportationCodes, model$BEA$WholesaleCodes, model$BEA$RetailCodes)
-  margin_allocation <- matrix(nrow = 3, ncol = length(all_margin_sectors), 0)
-  rownames(margin_allocation) <- colnames(MarginCoefficients)
-  colnames(margin_allocation) <- all_margin_sectors
-  # Assign allocation factors to margin sectors based on total Commodity output
-  output_ratio <- calculateOutputRatio(model, output_type="Commodity")
-  margin_allocation["Transportation", model$BEA$TransportationCodes] <- output_ratio[output_ratio$SectorCode%in%model$BEA$TransportationCodes, "toSectorRatio"]
-  margin_allocation["Wholesale", model$BEA$WholesaleCodes] <- output_ratio[output_ratio$SectorCode%in%model$BEA$WholesaleCodes, "toSectorRatio"]
-  margin_allocation["Retail", model$BEA$RetailCodes] <- output_ratio[output_ratio$SectorCode%in%model$BEA$RetailCodes, "toSectorRatio"]
-  
-  # Multiply fractions by allocation matrix to get a fraction per margin sector for each commodity
+  margin_allocation <- buildMarginAllocationMatrix(all_margin_sectors, model)
   margins_by_sector <- MarginCoefficients %*% margin_allocation
   
   # Put margins_by_sector into a matrix in the form of A
@@ -46,3 +36,24 @@ deriveMarginSectorImpacts <- function(model, margin_type = "intermediate") {
   return(model)
 }
 
+#'Create margin_allocation matrix to allocate fractions by margin sector
+#'Currently uses sector output to provide that allocation
+#'@param all_margin_sectors, vector of sector codes
+#'@param model, a fully built model
+#'@return matrix, margin types x margin sectors with values being fractions of type to each sector
+buildMarginAllocationMatrix <- function(all_margin_sectors, model) {
+  
+  margin_allocation <- matrix(nrow = 3, ncol = length(all_margin_sectors), 0)
+  rownames(margin_allocation) <- colnames(MarginCoefficients)
+  colnames(margin_allocation) <- all_margin_sectors
+  # Assign allocation factors to margin sectors based on total Commodity output
+  output_ratio <- calculateOutputRatio(model, output_type="Commodity")
+  margin_allocation["Transportation", model$BEA$TransportationCodes] <- output_ratio[output_ratio$SectorCode%in%model$BEA$TransportationCodes, "toSectorRatio"]
+  margin_allocation["Wholesale", model$BEA$WholesaleCodes] <- output_ratio[output_ratio$SectorCode%in%model$BEA$WholesaleCodes, "toSectorRatio"]
+  margin_allocation["Retail", model$BEA$RetailCodes] <- output_ratio[output_ratio$SectorCode%in%model$BEA$RetailCodes, "toSectorRatio"]
+  return(margin_allocation)
+  
+}
+
+
+ 
