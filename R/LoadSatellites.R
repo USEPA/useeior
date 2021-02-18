@@ -107,12 +107,11 @@ generateTbSfromSatSpec <- function(sat_spec) {
   else if(!is.null(sat_spec$ScriptFunctionCall)) {
     func_to_eval <- sat_spec$ScriptFunctionCall
     totalsgenfunction <- as.name(func_to_eval)
+    params <- sat_spec
     if (!is.null(sat_spec$ScriptFunctionParameters)){
       if (sat_spec$ScriptFunctionParameters == "model") {
         params <- model
       }
-    } else {
-      params <- sat_spec
     }
     totals_by_sector <- do.call(eval(totalsgenfunction), list(params))
   }

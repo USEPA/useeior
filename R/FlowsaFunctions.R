@@ -4,39 +4,55 @@
 #' @param sat_spec, a standard specification for a single satellite table
 #' @return A data frame for flowsa data in sector by region totals format
 getFlowbySectorCollapsed <- function(sat_spec) {
-  directory <- paste0(rappdirs::user_data_dir(), "\\flowsa\\FlowBySector")
-  debug_url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=flowsa/FlowBySector/"
-  method_name <- sat_spec$StaticFile
-  
-  # file must be saved in the local directory
-  f <- paste0(directory,'\\', method_name)
-  
-  if(!file.exists(f)){
-    logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
-    downloadDataCommonsfile(method_name, 'flowsa/FlowBySector')
+
+  # Access flowsa getFlowBySector_collapsed using method name as ScriptFunctionParameter eg ["Water_national_2017"]
+  if(!is.null(sat_spec$ScriptFunctionParameter)){
+    method_name <- sat_spec$ScriptFunctionParameter
+    flowsa <- reticulate::import("flowsa")
+    fbs_collapsed <- flowsa$getFlowBySector_collapsed(method_name)
+    # checks columns that are all None values and converts to NA
+    for(i in colnames(fbs_collapsed)){
+      if(is.list(fbs_collapsed[[i]])){
+        if(i == 'MetaSources'){
+          fbs_collapsed[ , i] <- ""
+        }
+        else{
+          fbs_collapsed[ , i] <- NA
+        }
+      }
+    }
   }
   
-  fbs <- as.data.frame(arrow::read_parquet(f))
-  
-  # collapse the FBS sector columns into one column based on FlowType
-  fbs$Sector <- NA
-  fbs$Sector <- ifelse(fbs$FlowType=='TECHNOSPHERE_FLOW', fbs$SectorConsumedBy, fbs$Sector)
-  fbs$Sector <- ifelse(fbs$FlowType=='WASTE_FLOW', fbs$SectorProducedBy, fbs$Sector)
-  fbs$Sector <- ifelse((fbs$FlowType=='WASTE_FLOW') & (is.na(fbs$SectorProducedBy)), fbs$SectorConsumedBy, fbs$Sector)
-  fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (is.na(fbs$SectorProducedBy)), fbs$SectorConsumedBy, fbs$Sector)
-  fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (is.na(fbs$SectorConsumedBy)), fbs$SectorProducedBy, fbs$Sector)
-  fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (fbs$SectorConsumedBy %in% c('F010', 'F0100', 'F01000')) &
-                         (fbs$SectorProducedBy %in% c('22', '221', '2213', '22131', '221310')), fbs$SectorConsumedBy, fbs$Sector)
-  
-  # drop sector consumed/produced by columns
-  fbs_collapsed <- fbs[,!(names(fbs) %in% c('SectorProducedBy', 'SectorConsumedBy'))]
-  
+  else{
+    directory <- paste0(rappdirs::user_data_dir(), "\\flowsa\\FlowBySector")
+    debug_url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=flowsa/FlowBySector/"
+    method_name <- sat_spec$StaticFile
+      
+    # file must be saved in the local directory
+    f <- paste0(directory,'\\', method_name)
+    
+    if(!file.exists(f)){
+      logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
+      downloadDataCommonsfile(method_name, 'flowsa/FlowBySector')
+    }
+    
+    fbs <- as.data.frame(arrow::read_parquet(f))
+    
+    # collapse the FBS sector columns into one column based on FlowType
+    fbs$Sector <- NA
+    fbs$Sector <- ifelse(fbs$FlowType=='TECHNOSPHERE_FLOW', fbs$SectorConsumedBy, fbs$Sector)
+    fbs$Sector <- ifelse(fbs$FlowType=='WASTE_FLOW', fbs$SectorProducedBy, fbs$Sector)
+    fbs$Sector <- ifelse((fbs$FlowType=='WASTE_FLOW') & (is.na(fbs$SectorProducedBy)), fbs$SectorConsumedBy, fbs$Sector)
+    fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (is.na(fbs$SectorProducedBy)), fbs$SectorConsumedBy, fbs$Sector)
+    fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (is.na(fbs$SectorConsumedBy)), fbs$SectorProducedBy, fbs$Sector)
+    fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (fbs$SectorConsumedBy %in% c('F010', 'F0100', 'F01000')) &
+                           (fbs$SectorProducedBy %in% c('22', '221', '2213', '22131', '221310')), fbs$SectorConsumedBy, fbs$Sector)
+    
+    # drop sector consumed/produced by columns
+    fbs_collapsed <- fbs[,!(names(fbs) %in% c('SectorProducedBy', 'SectorConsumedBy'))]
+  }
   # reorder col
   fbs_collapsed <- prepareFlowBySectorCollapsedforSatellite(fbs_collapsed)
-  
-  # aggregate
-  # TODO: use aggregator fxn (below fxn is placeholder python code)
-  # fbs_collapsed = aggregator(fbs_collapsed, fbs_collapsed_default_grouping_fields)
 
   return(fbs_collapsed)
 }
