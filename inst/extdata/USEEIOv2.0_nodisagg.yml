@@ -166,7 +166,7 @@ SatelliteTable:
         Author: "USDA"
         DataYear: 2012
         URL: "https://www.ers.usda.gov/data-products/major-land-uses/"
-        Primary: True  
+        Primary: TRUE  
   MINE:
     FullName: "Mineral extraction"
     Abbreviation: "MINE"
@@ -229,37 +229,37 @@ SatelliteTable:
         Author: "USDA"
         DataYear: 2014
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Corn_and_Potatoes/"
-        Primary: False 
+        Primary: FALSE 
       USDA_CUS_Cotton:
         Title: "Chemical Use Survey - Cotton"
         Author: "USDA"
         DataYear: 2010
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2010_Corn_Upland_Cotton_Fall_Potatoes/"
-        Primary: False            
+        Primary: FALSE            
       USDA_CUS_Fruit:
         Title: "Chemical Use Survey - Fruit"
         Author: "USDA"
         DataYear: 2011
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2011_Fruit_Chem_Usage/"
-        Primary: False   
+        Primary: FALSE   
       USDA_CUS_Peanuts_Rice:
         Title: "Chemical Use Survey - Peanuts and Rice"
         Author: "USDA"
         DataYear: 2013
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2013_Peanuts_and_Rice/"
-        Primary: False    
+        Primary: FALSE    
       USDA_CUS_Soybeans_Wheat:
         Title: "Chemical Use Survey - Soybeans and Wheat"
         Author: "USDA"
         DataYear: 2012
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2012_Soybeans_and_Wheat/"
-        Primary: False     
+        Primary: FALSE     
       USDA_CUS_Vegetables:
         Title: "Chemical Use Survey - Vegetables"
         Author: "USDA"
         DataYear: 2014
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Vegetables/"
-        Primary: False  
+        Primary: FALSE  
   PEST:
     FullName: "Pesticide releases"
     Abbreviation: "PEST"
@@ -278,37 +278,37 @@ SatelliteTable:
         Author: "USDA"
         DataYear: 2014
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Corn_and_Potatoes/"
-        Primary: False 
+        Primary: FALSE 
       USDA_CUS_Cotton:
         Title: "Chemical Use Survey - Cotton"
         Author: "USDA"
         DataYear: 2010
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2010_Corn_Upland_Cotton_Fall_Potatoes/"
-        Primary: False            
+        Primary: FALSE            
       USDA_CUS_Fruit:
         Title: "Chemical Use Survey - Fruit"
         Author: "USDA"
         DataYear: 2011
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2011_Fruit_Chem_Usage/"
-        Primary: False   
+        Primary: FALSE   
       USDA_CUS_Peanuts_Rice:
         Title: "Chemical Use Survey - Peanuts and Rice"
         Author: "USDA"
         DataYear: 2013
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2013_Peanuts_and_Rice/"
-        Primary: False    
+        Primary: FALSE    
       USDA_CUS_Soybeans_Wheat:
         Title: "Chemical Use Survey - Soybeans and Wheat"
         Author: "USDA"
         DataYear: 2012
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2012_Soybeans_and_Wheat/"
-        Primary: False     
+        Primary: FALSE     
       USDA_CUS_Vegetables:
         Title: "Chemical Use Survey - Vegetables"
         Author: "USDA"
         DataYear: 2014
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Vegetables/"
-        Primary: False  
+        Primary: FALSE  
   CNHW:
     FullName: "Commercial non-hazardous waste excluding construction activities"
     Abbreviation: "CNHW"
@@ -419,7 +419,7 @@ Indicators:
     Unit: "kg CO2 eq"
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
     SimpleName: "Greenhouse Gases"
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -439,7 +439,7 @@ Indicators:
     Unit: "kg SO2 eq"
     SimpleUnit: "Kilograms Sulphur Dioxide (SO2)"
     SimpleName: "Acid Rain"    
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -459,7 +459,7 @@ Indicators:
     Unit: "kg N eq"
     SimpleUnit: "Kilograms Nitrogen (N)"
     SimpleName: "Water Eutrophication" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -479,7 +479,7 @@ Indicators:
     Unit: "CTUe"
     SimpleUnit: "Comparative Toxic Unit for Ecosystem (CTUe)"
     SimpleName: "Freshwater Ecotoxicity" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -499,7 +499,7 @@ Indicators:
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Cancer Disease" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -519,7 +519,7 @@ Indicators:
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Noncancer Disease" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -539,7 +539,7 @@ Indicators:
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Toxic to Humans" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getCombinedImpactMethods" #function to call for script
@@ -559,7 +559,7 @@ Indicators:
     Unit: "kg PM2.5 eq"
     SimpleUnit: "Kilograms Particulate Matter"
     SimpleName: "Respiratory Effects" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -578,7 +578,7 @@ Indicators:
     Unit: "kg CFC-11 eq"
     SimpleUnit: "Kilograms ChloroFluoroCarbon-11"
     SimpleName: "Ozone Depletion" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -598,7 +598,7 @@ Indicators:
     Unit: "kg O3 eq"
     SimpleUnit: "Kilograms Ozone (O3)"
     SimpleName: "Smog Formation" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -618,7 +618,7 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Water Use" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -638,7 +638,7 @@ Indicators:
     Unit: "m2*yr"
     SimpleUnit: "Square Meters per Year"
     SimpleName: "Land Use" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -658,7 +658,7 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Hazardous Air Pollutants" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -678,7 +678,7 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Pesticides" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -698,7 +698,7 @@ Indicators:
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Nonrenewable Energy Use" 
-    StaticSource: True
+    StaticSource: TRUE
     FileLocation: "DataCommons"
     StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -718,7 +718,7 @@ Indicators:
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Renewable Energy Use" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -738,7 +738,7 @@ Indicators:
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Energy Use" 
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
@@ -758,7 +758,7 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Minerals and Metals Use"
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
