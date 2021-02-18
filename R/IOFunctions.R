@@ -205,14 +205,15 @@ getMarginsTable <- function (model, marginsource) {
   MarginsTable <- stats::aggregate(MarginsTable[, value_columns], by = list(MarginsTable$CommodityCode), sum)
   colnames(MarginsTable)[1] <- "CommodityCode"
   # Keep the Commodities specified in model
-  MarginsTable <- merge(MarginsTable, as.data.frame(model$Commodities), by.x = "CommodityCode", by.y = "model$Commodities", all.y = TRUE)
+  MarginsTable <- merge(MarginsTable, as.data.frame(model$BEA$Commodities),
+                        by.x = "CommodityCode", by.y = "model$BEA$Commodities", all.y = TRUE)
   MarginsTable[is.na(MarginsTable)] <- 0
-  MarginsTable <- MarginsTable[match(model$Commodities, MarginsTable$CommodityCode), ]
+  MarginsTable <- MarginsTable[match(model$BEA$Commodities, MarginsTable$CommodityCode), ]
   # Transform MarginsTable from Commodity to Industry format
   if (model$specs$CommoditybyIndustryType=="Industry") {
     # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
     CommodityMix <- generateCommodityMixMatrix(model)
-    MarginsTable_Industry <- as.data.frame(model$Industries)
+    MarginsTable_Industry <- as.data.frame(model$BEA$Industries)
     colnames(MarginsTable_Industry) <- "IndustryCode"
     # Transform ProducerValue from Commodity to Industry format
     # ! Not transforming Transportation, Wholesale and Retail to Industry format now
