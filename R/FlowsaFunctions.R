@@ -5,15 +5,16 @@
 #' @return A data frame for flowsa data in sector by region totals format
 getFlowbySectorCollapsed <- function(sat_spec) {
 
-  # Access flowsa getFlowBySector_collapsed using method name as ScriptFunctionParameter eg ["Water_national_2017"]
-  if(!is.null(sat_spec$ScriptFunctionParameter)){
-    method_name <- sat_spec$ScriptFunctionParameter
+  # Access flowsa getFlowBySector_collapsed by indicating StaticSource: False
+  if(!(sat_spec$StaticSource)){
+    method_name <- sub(".parquet$", "", sat_spec$StaticFile)
     flowsa <- reticulate::import("flowsa")
     fbs_collapsed <- flowsa$getFlowBySector_collapsed(method_name)
     # checks columns that are all None values and converts to NA
     for(i in colnames(fbs_collapsed)){
       if(is.list(fbs_collapsed[[i]])){
         if(i == 'MetaSources'){
+          # MetaSources must be a string if all None
           fbs_collapsed[ , i] <- ""
         }
         else{
