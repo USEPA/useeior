@@ -73,9 +73,9 @@ createBfromEnvDataandOutput <- function(model) {
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     B <- B %*% model$V_n
+    colnames(B) <- tolower(model$Commodities)
   }
-  colnames(B) <- tolower(apply(cbind(colnames(B), model$specs$PrimaryRegionAcronym),
-                                     1, FUN = joinStringswithSlashes))
+  colnames(B) <- tolower()
   return(B)
 }
 
@@ -121,11 +121,9 @@ standardizeandcastSatelliteTable <- function(df,model) {
   rownames(df_cast) <- df_cast$Flow
   df_cast$Flow <- NULL
   # Complete sector list according to model$Industries
-  standard_columns <- tolower(apply(cbind(model$Industries, model$specs$PrimaryRegionAcronym),
-                                    1, FUN = joinStringswithSlashes))
-  df_cast[, setdiff(standard_columns, colnames(df_cast))] <- 0
+  df_cast[, setdiff(model$Industries, colnames(df_cast))] <- 0
   # Adjust column order to be the same with V_n rownames
-  df_cast <- df_cast[, standard_columns]
+  df_cast <- df_cast[, model$Industries]
   return(df_cast)
 }
 
