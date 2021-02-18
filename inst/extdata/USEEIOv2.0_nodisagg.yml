@@ -16,8 +16,9 @@ SatelliteTable:
   WAT:
     FullName: "Water withdrawals"
     Abbreviation: "WAT"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "Water_national_2015_m1_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2015]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -25,7 +26,7 @@ SatelliteTable:
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.4"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["Water_national_2015_m1"] #list of parameters
+    ScriptFunctionParameters: null
     DataSources:
       USGS_NWIS_WU_2015:
         Title: "Water Use in the US"
@@ -36,8 +37,9 @@ SatelliteTable:
   CHAIR:
     FullName: "Criteria and Hazardous Air Emissions"
     Abbreviation: "CHAIR"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "CAP_HAP_national_2017_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -45,7 +47,7 @@ SatelliteTable:
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.4"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["CAP_HAP_national_2017"] #list of parameters
+    ScriptFunctionParameters: null
     DataSources:
       EPA_NEI_2017:
         Title: "National Emissions Inventory"
@@ -62,8 +64,9 @@ SatelliteTable:
   GRDREL:
     FullName: "Point source industrial releases to ground"
     Abbreviation: "GRDREL"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "GRDREL_national_2017_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -71,7 +74,7 @@ SatelliteTable:
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.4"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["GRDREL_national_2017"]#list of parameters
+    ScriptFunctionParameters: null
     DataSources:
       EPA_TRI_2017:
         Title: "Toxic Release Inventory"
@@ -82,8 +85,9 @@ SatelliteTable:
   WATREL:
     FullName: "Point source releases to water"
     Abbreviation: "WATREL"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "TRI_DMR_national_2017_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -91,7 +95,7 @@ SatelliteTable:
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.5"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["TRI_DMR_national_2017"] #list of parameters
+    ScriptFunctionParameters: null
     DataSources:
       EPA_TRI_2017:
         Title: "Toxic Release Inventory"
@@ -110,6 +114,7 @@ SatelliteTable:
     Abbreviation: "GHG"
     StaticSource: TRUE
     StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/NGHGIAM_GHG_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2016]
     Locations: ["US"]
     SectorListSource: "BEA" # or, NAICS
@@ -126,8 +131,9 @@ SatelliteTable:
   LAND:
     FullName: "Land use"
     Abbreviation: "LAND"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "Land_national_2012_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2012]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -135,7 +141,7 @@ SatelliteTable:
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.4"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["Land_national_2012"] #list of parameters
+    ScriptFunctionParameters: null
     DataSources:
       BLM_PLS:
         Title: "Public Land Statistics"
@@ -160,12 +166,13 @@ SatelliteTable:
         Author: "USDA"
         DataYear: 2012
         URL: "https://www.ers.usda.gov/data-products/major-land-uses/"
-        Primary: True    
+        Primary: True  
   MINE:
     FullName: "Mineral extraction"
     Abbreviation: "MINE"
     StaticSource: TRUE
     StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_MINE_TotalsBySector_FEDEFL.csv"
+    FileLocation: "DataCommons"
     DataYears: [2014]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -184,6 +191,7 @@ SatelliteTable:
     Abbreviation: "ENERGY"
     StaticSource: TRUE
     StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_Energy_TotalsBySector_FEDEFL.csv"
+    FileLocation: "DataCommons"
     DataYears: [2014]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -208,6 +216,7 @@ SatelliteTable:
     Abbreviation: "NPAG"
     StaticSource: TRUE
     StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_NPAG_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2013, 2015]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -256,6 +265,7 @@ SatelliteTable:
     Abbreviation: "PEST"
     StaticSource: TRUE
     StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_PEST_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2004, 2005, 2010, 2011, 2012, 2013, 2014]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -302,8 +312,9 @@ SatelliteTable:
   CNHW:
     FullName: "Commercial non-hazardous waste excluding construction activities"
     Abbreviation: "CNHW"
-    StaticSource: True
+    StaticSource: TRUE
     StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_CNHW_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2015]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -322,6 +333,7 @@ SatelliteTable:
     Abbreviation: "CNHWC"
     StaticSource: TRUE
     StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_CNHWC_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2014]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -338,15 +350,16 @@ SatelliteTable:
   CRHW:
     FullName: "Commercial RCRA-defined hazardous waste"
     Abbreviation: "CRHW"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "CRHW_national_2017_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
     SectorListSource: "NAICS"
     SectorListYear: 2012
     SectorListLevel: "6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["CRHW_national_2017"] #list of parameters
+    ScriptFunctionParameters: null
     OriginalFlowSource: "RCRAInfo"
     DataSources:
       USEPA_RCRAInfo_2017:
@@ -358,16 +371,17 @@ SatelliteTable:
   EMP:
     FullName: "Employment"
     Abbreviation: "EMP"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "Employment_national_2017_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
     SectorListSource: "NAICS"
     SectorListYear: 2012
     SectorListLevel: "6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["Employment_national_2017"] #list of parameters
-    OriginalFlowSource: "Employment"
+    ScriptFunctionParameters: null
+    OriginalFlowSource: "National Employment Matrix"
     DataSources:
       BLS_QCEW_2017:
         Title: "Quarterly Census of Employment and Wages"
@@ -380,6 +394,7 @@ SatelliteTable:
     Abbreviation: "VADD"
     StaticSource: FALSE
     StaticFile: null
+    FileLocation: None
     DataYears: [2012]
     Locations: ["US"]
     SectorListSource: "BEA"
