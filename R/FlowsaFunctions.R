@@ -25,18 +25,8 @@ getFlowbySectorCollapsed <- function(sat_spec) {
   }
   
   else{
-    directory <- paste0(rappdirs::user_data_dir(), "\\flowsa\\FlowBySector")
-    debug_url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=flowsa/FlowBySector/"
-    method_name <- sat_spec$StaticFile
-      
-    # file must be saved in the local directory
-    f <- paste0(directory,'\\', method_name)
     
-    if(!file.exists(f)){
-      logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
-      downloadDataCommonsfile(method_name, 'flowsa/FlowBySector')
-    }
-    
+    f <- loadDataCommonsfile(sat_spec$StaticFile)
     fbs <- as.data.frame(arrow::read_parquet(f))
     
     # collapse the FBS sector columns into one column based on FlowType

@@ -39,17 +39,8 @@ getImpactMethod <- function(ind_spec) {
   }
   
   else{
-    directory <- paste0(rappdirs::user_data_dir(), "\\lciafmt")
-    debug_url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=lciafmt/"
     
-    # file must be saved in the local directory
-    f <- paste0(directory,'\\', ind_spec$StaticFile)
-    
-    if(!file.exists(f)){
-      logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
-      downloadDataCommonsfile(ind_spec$StaticFile, 'lciafmt')
-    }
-    
+    f <- loadDataCommonsfile(ind_spec$StaticFile)
     imp_method <- as.data.frame(arrow::read_parquet(f))
   }
   
