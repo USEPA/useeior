@@ -115,46 +115,19 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
   # Generate FlowYearOutput, convert it to model IOYear $
   TbS <- model$TbS
   FlowYearOutput <- data.frame()
-  for (flow in unique(TbS$Flow)) {
-    output <- as.data.frame(model[[paste0("MultiYear", output_type, "Output")]])[, FALSE]
-    #output <- as.data.frame(model[["MultiYearIndustryOutput"]])[, FALSE]
-    # Determine sector-year combination
-    sector_year <- unique(cbind.data.frame(TbS[TbS$Flow==flow, "Sector"], TbS[TbS$Flow==flow, "Year"], stringsAsFactors = FALSE))
-    colnames(sector_year) <- c("Sector", "Year")
-    sector_year <- na.omit(sector_year)
-    if (nrow(sector_year)>0) {
-      # Get output for each sector-year combination
-      for (i in 1:nrow(sector_year)) {
-        sector <- sector_year[i, "Sector"]
-        year <- sector_year[i, "Year"]
-        output[sector, as.character(year)] <- model[[paste0("MultiYear", output_type, "Output")]][sector, as.character(year)]
-        #output[sector, as.character(year)] <- model[["MultiYearIndustryOutput"]][sector, as.character(year)]
-        # Adjust output to model year $ by CPI
-        CPI_df <- model[[paste0("MultiYear", output_type, "CPI")]][sector, as.character(c(model$specs$IOYear, year))]
-        #CPI_df <- model[["MultiYearIndustryCPI"]][sector, as.character(c(model$specs$IOYear, year))]
-        DollarRatio <- CPI_df[, as.character(model$specs$IOYear)]/CPI_df[, as.character(year)]
-        # Replace NA with 1 in DollarRatio
-        DollarRatio[is.na(DollarRatio)] <- 1
-        output[sector, as.character(year)] <- output[sector, as.character(year)] * DollarRatio
-      }
-    } else {
-      output[, 1] <- 0
-    }
-    # Average over the years to get FlowYearOutput_f
-    FlowYearOutput_f <- as.data.frame(t(rowMeans(output, na.rm = TRUE)))[, rownames(model[[paste0("MultiYear", output_type, "Output")]])]
-    # Replace NaN with model year industry output
-    for (column in colnames(FlowYearOutput_f)) {
-      if (FlowYearOutput_f[, column]=="NaN") {
-        FlowYearOutput_f[, column] <- ModelYearOutput[column]
-      }
-    }
-    rownames(FlowYearOutput_f) <- flow
-    # if (output_type=="Commodity") {
-    #   # Use CommodityMix to transform IndustryOutput to CommodityOutput
-    #   CommodityMix <- generateCommodityMixMatrix(model)
-    #   FlowYearOutput_f[flow, ] <- as.numeric(CommodityMix %*% as.numeric(FlowYearOutput_f[flow, ]))
-    # }
-    FlowYearOutput <- rbind(FlowYearOutput, FlowYearOutput_f)
+  for (year in unique(TbS$Year)) {
+    output <- model[[paste0("MultiYear", output_type, "Output")]][, as.character(year), drop = FALSE]
+    # Adjust industry output to model year $
+    CPI_df <- model[[paste0("MultiYear", output_type, "CPI")]][, as.character(c(model$specs$IOYear, year))]
+    DollarRatio <- CPI_df[, as.character(model$specs$IOYear)]/CPI_df[, as.character(year)]
+    # Replace NA with 1 in DollarRatio
+    DollarRatio[is.na(DollarRatio)] <- 1
+    output <- output * DollarRatio
+    flows <- unique(TbS[TbS$Year==year, "Flow"])
+    FlowYearOutput_y <- do.call(rbind, rep(output, times = length(flows)))
+    rownames(FlowYearOutput_y) <- flows
+    colnames(FlowYearOutput_y) <- rownames(output)
+    FlowYearOutput <- rbind(FlowYearOutput, FlowYearOutput_y)
   }
   # Calculate Chi: divide FlowYearOutput by ModelYearOutput
   Chi <- as.matrix(sweep(FlowYearOutput[rownames(model$B), ], 2, ModelYearOutput, "/"))
