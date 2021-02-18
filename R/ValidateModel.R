@@ -95,6 +95,7 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
 #'@param model, EEIOmodel object completely built
 prepareEfromtbs <- function(model) {
   df <- do.call(rbind,model$SatelliteTables$totals_by_sector)
+  df$Flow <- apply(df[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
   E <- standardizeandcastSatelliteTable(df,model)
   return(E)
 }
