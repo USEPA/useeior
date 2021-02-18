@@ -27,8 +27,17 @@ buildEEIOModel <- function(model) {
 
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar) ...")
+  
+  # Combine data into a single totals by sector df
+  model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
+  # Set common year for flow when more than one year exists
+  model$TbS <- setCommonYearforFlow(model$TbS)
+  # Generate coefficients 
+  model$CbS <- generateCbSfromTbSandModel(model)
   model$B <- createBfromFlowDataandOutput(model)
-    
+  
+  
+  
   # Generate C matrix
   logging::loginfo("Building C matrix (characterization factors for model indicators) ...")
   model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
@@ -69,13 +78,8 @@ buildEEIOModel <- function(model) {
 #'@param model, a model with econ and flow data loaded
 #'@result B, a matrix in flow x sector format with values of flow per $ output sector
 createBfromFlowDataandOutput <- function(model) {
-  # Combine data into a single totals by sector df
-  TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
-  # Set common year for flow when more than one year exists
-  TbS <- setCommonYearforFlow(TbS)
-  # Generate coefficients 
-  CbS <- generateCbSfromTbSandModel(TbS, model)
-  CbS_cast <- standardizeandcastSatelliteTable(CbS,model)
+
+  CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
@@ -90,11 +94,12 @@ createBfromFlowDataandOutput <- function(model) {
 #'@param TbS, a totals by sector dataframe
 #'@param model, a model with econ and flow data loaded
 #'@return df, a Coefficients-by-sector table
-generateCbSfromTbSandModel <- function(TbS, model) {
+generateCbSfromTbSandModel <- function(model) {
   CbS <- data.frame()
+    
     #Loop through model regions to get regional output
     for (r in model$specs$ModelRegionAcronyms) {
-      tbs_r <- TbS[TbS$Location==r, ]
+      tbs_r <- model$TbS[model$TbS$Location==r, ]
       cbs_r <- data.frame()
       if (r=="RoUS") {
         IsRoUS <- TRUE

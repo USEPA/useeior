@@ -22,8 +22,7 @@ compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance
       
     } else {
       #industry approach
-      CbS <- generateCbSfromTbSandModel(model)
-      CbS_cast <- standardizeandcastSatelliteTable(CbS,model)
+      B <- createBfromFlowDataandOutput(model)
       B <- as.matrix(CbS_cast)
     } 
 
@@ -108,8 +107,7 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
   # Extract ModelYearOutput from model based on output_type
   ModelYearOutput <- model[[paste0(output_type, "Output")]]
   # Generate FlowYearOutput, convert it to model IOYear $
-  TbS <- do.call(rbind, model$SatelliteTables$totals_by_sector)
-  TbS[, "Flow"] <- apply(TbS[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
+  TbS <- model$TbS
   FlowYearOutput <- data.frame()
   for (flow in unique(TbS$Flow)) {
     output <- as.data.frame(model[[paste0("MultiYear", output_type, "Output")]])[, FALSE]
