@@ -2,22 +2,20 @@
 #' @param ind_spec Specification of an indicator
 #' @return An LCIAmethod with the specified indicators
 getImpactMethod <- function(ind_spec) {
-  
-  directory <- paste0(rappdirs::user_data_dir(), "\\lciafmt")
-  debug_url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=lciafmt/"
-  parameters <- ind_spec$ScriptFunctionParameters
-  
-  # file must be saved in the local directory
-  f <- paste0(directory,'\\', ind_spec$StaticFile)
+  parameters <- ind_spec[["ScriptFunctionParameters"]]
 
-  if(!file.exists(f)){
-    logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
-    downloadDataCommonsfile(ind_spec$StaticFile, 'lciafmt')
+  # Convert the passed indicators to a list, if none provided all indicators are returned
+  if(!is.null(parameters$indicators)){
+    if(length(parameters$indicators)==1){
+      indicators <- list(parameters$indicators)
+    } else {
+      indicators <- parameters$indicators
     }
-
-  imp_method <- as.data.frame(arrow::read_parquet(f))
+  }
+  else {
+    indicators <- NULL
+  }
   
-  # Subset the method by method
   # Convert the passed methods to a list (e.g. "ReCiPe Midpoint/H"), if none provided all methods are returned
   if(!is.null(parameters$methods)){
     if(length(parameters$methods)==1){
@@ -25,19 +23,44 @@ getImpactMethod <- function(ind_spec) {
     } else {
       methods <- parameters$methods
     }
+  }
+  else {
+    methods <- NULL
+  }
+  
+  if(!ind_spec$StaticSource){
+    # Generate impact method in lciafmt, requires method_id to be included in ScriptFunctionParameters
+    if(is.null(parameters$method_id)){
+      logging::logwarn("method_id must be passed in ScriptFunctionParameters to access LCIAfmt")
+    }
+    lciafmt <- reticulate::import("lciafmt")
+    imp_method <- lciafmt$get_mapped_method(method_id = parameters$method_id,
+                                            indicators = indicators, methods = methods)
+  }
+  
+  else{
+    directory <- paste0(rappdirs::user_data_dir(), "\\lciafmt")
+    debug_url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=lciafmt/"
+    
+    # file must be saved in the local directory
+    f <- paste0(directory,'\\', ind_spec$StaticFile)
+    
+    if(!file.exists(f)){
+      logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
+      downloadDataCommonsfile(ind_spec$StaticFile, 'lciafmt')
+    }
+    
+    imp_method <- as.data.frame(arrow::read_parquet(f))
+  }
+  
+  # Subset the method by method
+  if(!is.null(methods)){  
     imp_method <- imp_method[imp_method$Method %in% methods, ]
   }
 
   # Subset the method by indicator
-  # Convert the passed indicators to a list, if none provided all indicators are returned
-  if(!is.null(parameters$indicators)){ #
-    if(length(parameters$indicators)==1){
-      indicators <- list(parameters$indicators)
-    } else {
-      indicators <- parameters$indicators
-    }
+  if(!is.null(indicators)){
     imp_method <- imp_method[imp_method$Indicator %in% indicators, ]
-    
   }
 
   return(imp_method)
