@@ -42,6 +42,14 @@ compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance
   #LCI = B dot Chi %*% c 
   Chi <- generateChiMatrix(model, output_type)
   B_chi <- B*Chi
+  
+  if (model$specs$CommoditybyIndustryType=="Commodity" && output_type=="Industry") {
+    #Need to transform B_Chi to be in commodity form
+    B_chi <- B_chi  %*% model$V_n
+  }
+  
+  
+  
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
 
   rel_diff <- (LCI - E)/E
