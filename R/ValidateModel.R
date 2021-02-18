@@ -22,7 +22,7 @@ compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance
       
     } else {
       #industry approach
-      B <- createBfromFlowDataandOutput(model)
+      CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
       B <- as.matrix(CbS_cast)
     } 
 
@@ -93,9 +93,7 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
 #'Concatenate all satellite flows in model
 #'@param model, EEIOmodel object completely built
 prepareEfromtbs <- function(model) {
-  df <- do.call(rbind,model$SatelliteTables$totals_by_sector)
-  df$Flow <- apply(df[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
-  E <- standardizeandcastSatelliteTable(df,model)
+  E <- standardizeandcastSatelliteTable(model$TbS,model)
   return(E)
 }
 
