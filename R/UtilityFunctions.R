@@ -122,8 +122,9 @@ writeMatrixasBinFile <- function(matrix, path) {
 }
 
 #' downloads files from the Data Commons and stores in a local temporary data directory
-#' @param source The name of the source file incluidng any subfolders (e.g. "traci_2_1/TRACI_2.1_v1.parquet")
-#' @param subdirectory The name of the package where the source file is stored on Data Commons (e.g. "lciafmt")
+#' @param source The name of the source file (e.g. "TRACI_2.1_v1.parquet")
+#' @param subdirectory The name of the package where the source file is stored on Data Commons including any subfolders (e.g. "lciafmt/traci_2_1")
+#' @param debug_url The Data Commons base url, including directory and subdirectories
 downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
   
   directory <- paste0(rappdirs::user_data_dir(), "\\", subdirectory)
@@ -131,11 +132,9 @@ downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
   if(!file.exists(directory)){
     dir.create(directory, recursive = TRUE)
   }
-  else{
-    file <- source
-  }
+  
   # Download file
-  download.file(paste0(debug_url, "/", source), paste0(directory, "\\", file), mode = "wb")
+  download.file(paste0(debug_url, "/", source), paste0(directory, "\\", source), mode = "wb", quiet = TRUE)
 }
 
 #' Load the static file originating from Data Commons either by loading from local directory or downloading from Data Commons and 
