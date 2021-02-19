@@ -48,7 +48,7 @@ buildEEIOModel <- function(model) {
   # Calculate total emissions/resource use per dollar (M)
   logging::loginfo("Calculating M matrix (total emissions and resource use per dollar) ...")
   model$M <- model$B %*% model$L
-  colnames(model$M) <- addSlashandNameItem(colnames(model$M), model$specs$PrimaryRegionAcronym)
+  colnames(model$M) <- tolower(colnames(model$M))
   # Calculate M_d, the domestic emissions per dollar using domestic Leontief
   logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity) ...")
   model$M_d <- model$B %*% model$L_d
@@ -75,7 +75,6 @@ createBfromEnvDataandOutput <- function(model) {
     B <- B %*% model$V_n
     colnames(B) <- tolower(model$Commodities)
   }
-  colnames(B) <- tolower()
   return(B)
 }
 
