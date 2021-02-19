@@ -124,9 +124,8 @@ writeMatrixasBinFile <- function(matrix, path) {
 #' downloads files from the Data Commons and stores in a local temporary data directory
 #' @param source The name of the source file incluidng any subfolders (e.g. "traci_2_1/TRACI_2.1_v1.parquet")
 #' @param subdirectory The name of the package where the source file is stored on Data Commons (e.g. "lciafmt")
-downloadDataCommonsfile <- function(source, subdirectory) {
+downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
   
-  url <- "https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix="
   directory <- paste0(rappdirs::user_data_dir(), "\\", subdirectory)
   # Check for and create subdirectory if necessary
   if(!file.exists(directory)){
@@ -135,11 +134,8 @@ downloadDataCommonsfile <- function(source, subdirectory) {
   else{
     file <- source
   }
-  
   # Download file
-  web_subdirectory <- gsub("\\\\", "/", subdirectory)
-  download.file(paste0(url, web_subdirectory, "/", source), paste0(directory, "\\", file), mode = "wb", quiet = TRUE)
-  
+  download.file(paste0(debug_url, "/", source), paste0(directory, "\\", file), mode = "wb")
 }
 
 #' Load the static file originating from Data Commons either by loading from local directory or downloading from Data Commons and 
@@ -147,7 +143,6 @@ downloadDataCommonsfile <- function(source, subdirectory) {
 #' @param static_file The name of a static file, including the subdirectories
 #' @return The static file originating from Data Commons
 loadDataCommonsfile <- function(static_file) {
-  
   # load method name
   method_name <- static_file
   # define symbol to split method name
@@ -158,7 +153,7 @@ loadDataCommonsfile <- function(static_file) {
   file_name <- sub(pat, "\\2", method_name)
   
   # url for data commons
-  debug_url <- paste("https://edap-ord-data-commons.s3.amazonaws.com/index.html?prefix=", subdirectory, sep="")
+  debug_url <- paste("https://edap-ord-data-commons.s3.amazonaws.com/", subdirectory, sep="")
   
   
   user_subdirectory <- gsub("/", "\\\\", subdirectory)
@@ -169,7 +164,7 @@ loadDataCommonsfile <- function(static_file) {
   
   if(!file.exists(f)){
     logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
-    downloadDataCommonsfile(file_name, subdirectory)
+    downloadDataCommonsfile(file_name, subdirectory, debug_url)
   }
   return(f)
 }
