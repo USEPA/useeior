@@ -26,6 +26,19 @@ loadIOData <- function(modelname) {
     model$UseValueAdded <- model$BEA$UseValueAdded
     model$FinalDemand <- model$BEA$UseFinalDemand
     model$DomesticFinalDemand <- model$BEA$DomesticFinalDemand
+    ## Modify row and column names in the IO tables
+    # Use model$Industries
+    rownames(model$MakeTransactions) <- colnames(model$UseTransactions) <- colnames(model$DomesticUseTransactions) <-
+      colnames(model$UseValueAdded) <- model$Industries
+    # Use model$Commodities
+    colnames(model$MakeTransactions) <- rownames(model$UseTransactions) <- rownames(model$DomesticUseTransactions) <- 
+      rownames(model$FinalDemand) <- rownames(model$DomesticFinalDemand) <- model$Commodities
+    # Apply joinStringswithSlashes based on original row/column names
+    rownames(model$UseValueAdded) <- toupper(apply(cbind(rownames(model$UseValueAdded), model$specs$PrimaryRegionAcronym),
+                                                   1, FUN = joinStringswithSlashes))
+    colnames(model$FinalDemand) <- colnames(model$DomesticFinalDemand) <- toupper(apply(cbind(colnames(model$FinalDemand),
+                                                                                              model$specs$PrimaryRegionAcronym),
+                                                                                        1, FUN = joinStringswithSlashes))
     
     model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
     model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
