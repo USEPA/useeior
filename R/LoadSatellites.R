@@ -42,7 +42,7 @@ loadSatTables <- function(model) {
     logging::loginfo(paste("Loading", tolower(sat_spec$FullName), "flows..."))
 
     ### Generate totals_by_sector, tbs
-    tbs0 <- generateTbSfromSatSpec(sat_spec)
+    tbs0 <- generateTbSfromSatSpec(sat_spec, model)
     
     ### Make tbs conform to the model schema
     tbs <- conformTbStoIOSchema(tbs0, sat_spec, model)
@@ -100,7 +100,7 @@ loadandbuildSatelliteTables <- function(model) {
 #'Reads a satellite table specification and generates a totals-by-sector table
 #'@param sat_spec, a standard specification for a single satellite table
 #'@return a totals-by-sector dataframe
-generateTbSfromSatSpec <- function(sat_spec) {
+generateTbSfromSatSpec <- function(sat_spec, model) {
   # Check if the satellite table uses a static file. If so, proceed.
   # If not, use specified functions in model metadata to load data from dynamic source
   if(!is.null(sat_spec$StaticFile)) {
