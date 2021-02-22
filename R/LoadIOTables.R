@@ -44,6 +44,7 @@ loadIOData <- function(modelname) {
     model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
     
     model$MultiYearIndustryOutput <- model$GDP$BEAGrossOutputIO[model$BEA$Industries, ]
+    rownames(model$MultiYearIndustryOutput) <- model$Industries
     model$MultiYearIndustryOutput[, as.character(model$specs$IOYear)] <- model$IndustryOutput
     # Transform multi-year industry output to commodity output
     model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
@@ -53,6 +54,7 @@ loadIOData <- function(modelname) {
     model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
     
     model$MultiYearIndustryCPI <- model$GDP$BEACPIIO[model$BEA$Industries, ]
+    rownames(model$MultiYearIndustryCPI) <- model$Industries
     # Transform industry CPI to commodity CPI
     model$MultiYearCommodityCPI <- as.data.frame(model$MultiYearIndustryCPI)[, FALSE]
     for (year_col in colnames(model$MultiYearIndustryCPI)) {
