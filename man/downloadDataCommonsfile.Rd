@@ -4,12 +4,14 @@
 \alias{downloadDataCommonsfile}
 \title{downloads files from the Data Commons and stores in a local temporary data directory}
 \usage{
-downloadDataCommonsfile(source, subdirectory)
+downloadDataCommonsfile(source, subdirectory, debug_url)
 }
 \arguments{
-\item{source}{The name of the source file incluidng any subfolders (e.g. "traci_2_1/TRACI_2.1_v1.parquet")}
+\item{source}{The name of the source file (e.g. "TRACI_2.1_v1.parquet")}
 
-\item{subdirectory}{The name of the package where the source file is stored on Data Commons (e.g. "lciafmt")}
+\item{subdirectory}{The name of the package where the source file is stored on Data Commons including any subfolders (e.g. "lciafmt/traci_2_1")}
+
+\item{debug_url}{The Data Commons base url, including directory and subdirectories}
 }
 \description{
 downloads files from the Data Commons and stores in a local temporary data directory
