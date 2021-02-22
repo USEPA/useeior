@@ -77,6 +77,9 @@ loadIOData <- function(modelname) {
       model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
     }
     colnames(model$SectorNames) <- c("Sector", "SectorName")
+    model$SectorNames[,1] <- toupper(apply(cbind(model$SectorNames[,1],
+                                                 model$specs$PrimaryRegionAcronym),
+                                           1, FUN = joinStringswithSlashes))
     
     # Get model$IntermediateMargins and model$FinalConsumerMargins
     model$IntermediateMargins <- getMarginsTable(model, "intermediate")
