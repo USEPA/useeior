@@ -15,7 +15,6 @@ disaggregateModel <- function (model){
     disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata", disagg$SectorFile, package = "useeior"),
                                             header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
                                                                                                   "USEEIO_Code"="character"))
-    index <- match(disagg$OriginalSectorCode, model$SectorNames$Sector)
     newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code, "SectorName"=disagg$NAICSSectorCW$USEEIO_Name))
     disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
     disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
@@ -68,8 +67,12 @@ disaggregateModel <- function (model){
     model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
 
     #Disaggregating model$SectorNames model object
-    colnames(newNames) <- colnames(model$SectorNames)
-    model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
+    # index <- match(substr(disagg$OriginalSectorCode, start=1, stop = nchar(model$SectorNames$Sector[1])), model$SectorNames$Sector)
+    # colnames(newNames) <- colnames(model$SectorNames)
+    # newSectorNames <- newNames
+    # newSectorNames <- substr(newSectorNames[,1], start =1, stop = nchar(model$SectorNames$Sector[1]))
+    # model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
+    model$SectorNames <- disaggregateSectorNames(model, disagg, newNames)
 
     #Disaggregating Crosswalk
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
@@ -83,6 +86,26 @@ disaggregateModel <- function (model){
   }
   
   return(model)
+  
+}
+
+#' Disaggregate SectorNames model objects
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' @param newNames Dataframe contaning the sector codes and names for the disaggregated sectors
+#' 
+#' @return newSectorNames A dataframe the disaggregated sector names without the location component
+disaggregateSectorNames <- function(model, disagg, newNames)
+{
+  
+  index <- match(substr(disagg$OriginalSectorCode, start=1, stop = nchar(model$SectorNames$Sector[1])), model$SectorNames$Sector)
+  colnames(newNames) <- colnames(model$SectorNames)
+  newSectorNames <- newNames
+  newSectorNames[,1] <- substr(newSectorNames[,1], start =1, stop = nchar(model$SectorNames$Sector[1]))
+  newSectorNames <- rbind(model$SectorNames[1:index-1,],newSectorNames,model$SectorNames[-(1:index),])
+  rownames(newSectorNames) <- 1:nrow(newSectorNames)
+  
+  return(newSectorNames)
   
 }
 
