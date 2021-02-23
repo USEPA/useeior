@@ -67,11 +67,6 @@ disaggregateModel <- function (model){
     model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
 
     #Disaggregating model$SectorNames model object
-    # index <- match(substr(disagg$OriginalSectorCode, start=1, stop = nchar(model$SectorNames$Sector[1])), model$SectorNames$Sector)
-    # colnames(newNames) <- colnames(model$SectorNames)
-    # newSectorNames <- newNames
-    # newSectorNames <- substr(newSectorNames[,1], start =1, stop = nchar(model$SectorNames$Sector[1]))
-    # model$SectorNames <- rbind(model$SectorNames[1:index-1,],newNames,model$SectorNames[-(1:index),])
     model$SectorNames <- disaggregateSectorNames(model, disagg, newNames)
 
     #Disaggregating Crosswalk
