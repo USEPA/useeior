@@ -7,6 +7,10 @@ buildEEIOModel <- function(model) {
   if(model$specs$ModelType!="US"){
     stop("This function needs to be revised before it is suitable for multi-regional models")
   }
+  # Modify model$SectorNames to include location info
+  model$SectorNames$Sector <- toupper(apply(cbind(model$SectorNames$Sector,
+                                                  model$specs$PrimaryRegionAcronym),
+                                            1, FUN = joinStringswithSlashes))
   
   # Generate matrices
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
