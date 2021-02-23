@@ -40,8 +40,6 @@ buildEEIOModel <- function(model) {
   model$CbS <- generateCbSfromTbSandModel(model)
   model$B <- createBfromFlowDataandOutput(model)
   
-  
-  
   # Generate C matrix
   logging::loginfo("Building C matrix (characterization factors for model indicators) ...")
   model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
