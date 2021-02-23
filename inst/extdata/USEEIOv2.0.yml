@@ -113,7 +113,7 @@ SatelliteTable:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/NGHGIAM_GHG_TotalsBySector.csv"
+    StaticFile: "useeior/NGHGIAM_GHG_TotalsBySector.csv"
     FileLocation: "DataCommons"
     DataYears: [2016]
     Locations: ["US"]
@@ -171,7 +171,7 @@ SatelliteTable:
     FullName: "Mineral extraction"
     Abbreviation: "MINE"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_MINE_TotalsBySector_FEDEFL.csv"
+    StaticFile: "useeior/USEEIOv1.1_MINE_TotalsBySector_FEDEFL.csv"
     FileLocation: "DataCommons"
     DataYears: [2014]
     Locations: ["US"]
@@ -190,7 +190,7 @@ SatelliteTable:
     FullName: "Energy extraction"
     Abbreviation: "ENERGY"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_Energy_TotalsBySector_FEDEFL.csv"
+    StaticFile: "useeior/USEEIOv1.1_Energy_TotalsBySector_FEDEFL.csv"
     FileLocation: "DataCommons"
     DataYears: [2014]
     Locations: ["US"]
@@ -215,7 +215,7 @@ SatelliteTable:
     FullName: "Nitrogen and Phosphorus Releases from Agriculture"
     Abbreviation: "NPAG"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_NPAG_TotalsBySector.csv"
+    StaticFile: "useeior/USEEIOv1.1_NPAG_TotalsBySector.csv"
     FileLocation: "DataCommons"
     DataYears: [2013, 2015]
     Locations: ["US"]
@@ -264,7 +264,7 @@ SatelliteTable:
     FullName: "Pesticide releases"
     Abbreviation: "PEST"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_PEST_TotalsBySector.csv"
+    StaticFile: "useeior/USEEIOv1.1_PEST_TotalsBySector.csv"
     FileLocation: "DataCommons"
     DataYears: [2004, 2005, 2010, 2011, 2012, 2013, 2014]
     Locations: ["US"]
@@ -313,7 +313,7 @@ SatelliteTable:
     FullName: "Commercial non-hazardous waste excluding construction activities"
     Abbreviation: "CNHW"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_CNHW_TotalsBySector.csv"
+    StaticFile: "useeior/USEEIOv1.1_CNHW_TotalsBySector.csv"
     FileLocation: "DataCommons"
     DataYears: [2015]
     Locations: ["US"]
@@ -332,7 +332,7 @@ SatelliteTable:
     FullName: "Commercial non-hazardous waste from construction activities"
     Abbreviation: "CNHWC"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_CNHWC_TotalsBySector.csv"
+    StaticFile: "useeior/USEEIOv1.1_CNHWC_TotalsBySector.csv"
     FileLocation: "DataCommons"
     DataYears: [2014]
     Locations: ["US"]
