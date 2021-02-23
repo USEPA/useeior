@@ -83,14 +83,15 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
 #' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param output_type Type of the output, e.g. "Commodity" or "Industry"
 #' @return A dataframe contains intensity coefficient (kg/$).
-generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym, IsRoUS = FALSE, model) {
+generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym, IsRoUS = FALSE, model, output_type = "Industry") {
   # Generate adjusted industry output
-  Output_adj <- getAdjustedOutput(outputyear, referenceyear, location_acronym, IsRoUS, model)
+  Output_adj <- adjustOutputbyCPI(outputyear, referenceyear, location_acronym, IsRoUS, model, output_type)
   # Merge the satellite table with the adjusted industry output
   Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "Sector", by.y = 0, all.x = TRUE)
   # Drop rows where output is zero
-  outputcolname <- paste(outputyear, "IndustryOutput", sep = "")
+  outputcolname <- paste0(outputyear, output_type, "Output")
   Sattable_USEEIO_wOutput <- Sattable_USEEIO_wOutput[Sattable_USEEIO_wOutput[, outputcolname] != 0, ]
   # Drop rows where output is NA
   Sattable_USEEIO_wOutput <- Sattable_USEEIO_wOutput[!is.na(Sattable_USEEIO_wOutput[, outputcolname]), ]
@@ -273,4 +274,25 @@ checkSatelliteFlowLoss <- function(tbs0, tbs) {
     logging::logwarn("Flows lost upon conforming to model schema:")
     print(setdiff(flows_tbs0, flows_tbs))
   }
+}
+
+#' Sets the Year in a tbs to be the year of the highest frequency for a given flow when that flow is reported
+#' in more than a single year
+#' @param tbs, a model total by sector file
+#' @return df, the tbs
+setCommonYearforFlow <- function(tbs) {
+  # Add new column Flow to tbs
+  tbs$Flow <- apply(tbs[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
+  # Create flow_year_df to determine whether each flow has single year
+  flow_year_df <- reshape2::dcast(tbs[, c("Year", "Flow")], Flow ~ Year, value.var = "Flow", length)
+  rownames(flow_year_df) <- flow_year_df$Flow
+  flow_year_df$Flow <- NULL
+  # For each flow with multiple years, get the year that has the highest frequency
+  # Then in the original tbs, set Year to this year for these rows
+  for (flow in rownames(flow_year_df[rowSums(flow_year_df != 0) > 1, ])) {
+    year <- colnames(flow_year_df[flow, ])[max.col(flow_year_df[flow, ])]
+    tbs[tbs$Flow==flow, "Year"] <- year
+    logging::loginfo(paste("Flow year of", flow, "changed to", year))
+  }
+  return(tbs)
 }

@@ -54,17 +54,9 @@ aggregateMatrix <- function (matrix, from_level, to_level, specs) {
 calculateOutputRatio <- function (model, output_type="Commodity") {
   # Generate Output based on output_type and model Commodity/Industry type 
   if (output_type=="Commodity") {
-    if (model$specs$CommoditybyIndustryType=="Industry") {
-      Output <- generateCommodityOutputforYear(model)
-    } else {
-      Output <- model$CommodityOutput
-    }
+    Output <- model$CommodityOutput
   } else {
-    if (model$specs$CommoditybyIndustryType=="Commodity") {
-      Output <- model$GDP$BEAGrossOutputIO[, as.character(model$specs$IOYear), drop = FALSE]
-    } else {
-      Output <- model$IndustryOutput
-    }
+    Output <- model$IndustryOutput
   }
   # Map CommodityOutput to more aggregated IO levels
   Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])

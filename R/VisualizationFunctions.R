@@ -1,4 +1,4 @@
-# Functions for visualizing matrices
+## Functions for visualizing matrices
 
 #' Plot specified matrix coefficients as points to compare coefficient across models
 #' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
@@ -82,8 +82,8 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
 #' @export
 barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code, sector, y_title) {
   # Generate BEA sector color mapping
-  mapping <- getBEASectorColorMapping(model_list[[1]]$specs$BaseIOLevel)
-  #Create totals_by_sector dfs with indicator scores added and combine in a single df
+  mapping <- getBEASectorColorMapping(model)
+  # Create totals_by_sector dfs with indicator scores added and combine in a single df
   df <- data.frame()
   for (modelname in names(model_list)) {
     model <- model_list[[modelname]]
@@ -124,6 +124,43 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
   return(p)
 }
 
+#' Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level to compare scores across models
+#' @param model A complete EEIO model
+#' @export
+heatmapSatelliteTableCoverage <- function(model) {
+  # Generate BEA sector color mapping
+  mapping <- getBEASectorColorMapping(model)
+  # Create totals_by_sector dfs
+  TbS <- do.call(rbind, model$SatelliteTables$totals_by_sector)
+  TbS$Impact <- gsub("\\..*", "", rownames(TbS))
+  df <- stats::aggregate(FlowAmount ~ Impact + Sector, TbS, sum)
+  df_wide <- reshape2::dcast(df, Impact ~ Sector, value.var = "FlowAmount")
+  df <- reshape2::melt(df_wide, id.vars = "Impact", variable.name = "Sector", value.name = "FlowAmount")
+  df[is.na(df$FlowAmount), "Value"] <- 0
+  df[!is.na(df$FlowAmount), "Value"] <- 1
+  df <- merge(df, mapping, by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel,"Code"))
+  # Prepare axis label and fill colors
+  colors <- unique(df[, c("SectorName", "color")])[, "color"]
+  # plot
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = Sector, y = factor(Impact, levels = unique(Impact)),
+                                        alpha = Value, fill = SectorName)) + 
+    ggplot2::geom_tile(color = "white", size = 0.2) +
+    ggplot2::scale_fill_manual(values = colors) +
+    ggplot2::labs(x = "", y = "") +
+    ggplot2::scale_y_discrete(expand = c(0, 0)) + ggplot2::coord_flip() +
+    ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
+                   axis.title.x = ggplot2::element_text(size = 12),
+                   axis.text.y = ggplot2::element_blank(), 
+                   legend.position = "none",
+                   axis.ticks = ggplot2::element_blank(),
+                   plot.margin = ggplot2::margin(c(5, 20, 5, 5)),
+                   strip.placement = "outside",
+                   strip.background = ggplot2::element_rect(fill = "white"),
+                   axis.title = ggplot2::element_blank(),
+                   strip.text.y.left = ggplot2::element_text(angle = 0, size = 15)) +
+    ggplot2::facet_grid(SectorName~., scales = "free_y", space = "free_y", switch = "y")
+  return(p)
+}
 
 ## Helper functions for plotting
 

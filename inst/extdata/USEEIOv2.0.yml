@@ -873,3 +873,9 @@ DemandVectors:
       Year: 2012
       System: "Household"
       Location: "US"
+    DomesticConsumption:
+      Type: "Consumption"
+      Year: 2012
+      System: "Domestic"
+      Location: "US"    
+

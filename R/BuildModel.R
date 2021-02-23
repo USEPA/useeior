@@ -17,7 +17,7 @@ buildEEIOModel <- function(model) {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements) ...")
     model$A <- model$U_n %*% model$V_n
     logging::loginfo("Building commodity-by-commodity A_d matrix (direct domestic requirements) ...")
-        model$A_d <- model$U_d_n %*% model$V_n
+    model$A_d <- model$U_d_n %*% model$V_n
   } else if(model$specs$CommoditybyIndustryType == "Industry") {
     logging::loginfo("Building industry-by-industry A matrix (direct requirements) ...")
     model$A <- model$V_n %*% model$U_n
@@ -27,8 +27,17 @@ buildEEIOModel <- function(model) {
 
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar) ...")
-  model$B <- createBfromEnvDataandOutput(model)
-    
+  
+  # Combine data into a single totals by sector df
+  model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
+  # Set common year for flow when more than one year exists
+  model$TbS <- setCommonYearforFlow(model$TbS)
+  # Generate coefficients 
+  model$CbS <- generateCbSfromTbSandModel(model)
+  model$B <- createBfromFlowDataandOutput(model)
+  
+  
+  
   # Generate C matrix
   logging::loginfo("Building C matrix (characterization factors for model indicators) ...")
   model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
@@ -65,10 +74,12 @@ buildEEIOModel <- function(model) {
   return(model)
 }
 
-createBfromEnvDataandOutput <- function(model) {
-  # Generate coefficients 
-  CbS <- generateCbSfromTbSandModel(model)
-  CbS_cast <- standardizeandcastSatelliteTable(CbS,model)
+#'Creates the B matrix from the flow data
+#'@param model, a model with econ and flow data loaded
+#'@result B, a matrix in flow x sector format with values of flow per $ output sector
+createBfromFlowDataandOutput <- function(model) {
+
+  CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
@@ -79,12 +90,16 @@ createBfromEnvDataandOutput <- function(model) {
   return(B)
 }
 
+#'Prepare coefficients (x unit/$) from the totals by flow and sector (x unit)
+#'@param TbS, a totals by sector dataframe
+#'@param model, a model with econ and flow data loaded
+#'@return df, a Coefficients-by-sector table
 generateCbSfromTbSandModel <- function(model) {
-  TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
   CbS <- data.frame()
+    
     #Loop through model regions to get regional output
     for (r in model$specs$ModelRegionAcronyms) {
-      tbs_r <- TbS[TbS$Location==r, ]
+      tbs_r <- model$TbS[model$TbS$Location==r, ]
       cbs_r <- data.frame()
       if (r=="RoUS") {
         IsRoUS <- TRUE
@@ -95,7 +110,8 @@ generateCbSfromTbSandModel <- function(model) {
       data_years <- sort(unique(tbs_r$Year))
       for (year in data_years){
         cbs_r_y <- generateFlowtoDollarCoefficient(tbs_r[tbs_r$Year==year, ], year,
-                                                              model$specs$IOYear, r, IsRoUS = IsRoUS, model)
+                                                   model$specs$IOYear, r, IsRoUS = IsRoUS,
+                                                   model, output_type = "Industry")
         cbs_r <- rbind(cbs_r,cbs_r_y)
       }
       CbS <- rbind(CbS,cbs_r)
@@ -109,9 +125,7 @@ generateCbSfromTbSandModel <- function(model) {
 #'@param model an EEIO model with IO tables loaded
 #'@return a flows x sector matrix-like dataframe 
 standardizeandcastSatelliteTable <- function(df,model) {
-  # Add fields for flows and sectors as combinations of existing fields
-  df[, "Flow"] <- apply(df[, c("Flowable", "Context", "Unit")],
-                        1, FUN = joinStringswithSlashes)
+  # Add fields for sector as combinations of existing fields
   df[, "Sector"] <- apply(df[, c("Sector", "Location")],
                           1, FUN = joinStringswithSlashes)
   # Cast df into a flow x sector matrix
