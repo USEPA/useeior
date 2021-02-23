@@ -3,7 +3,7 @@ dem_vec_fxn_registry <- list()
 dem_vec_fxn_registry$Consumption$Complete <- "prepareConsumptionDemand"
 dem_vec_fxn_registry$Production$Complete <- "prepareProductionDemand"
 dem_vec_fxn_registry$Consumption$Household <- "prepareHouseholdDemand"
-
+dem_vec_fxn_registry$Consumption$Domestic <- "prepareDomesticConsumptionDemand"
 
 #Core production and consumption demand formulas
 #y_c <-  Y_h + Y_v + Y_g 
@@ -76,6 +76,12 @@ prepareHouseholdDemand <- function(model) {
   y_h <- sumDemandCols(Y, household_code)
   return(y_h)
 }
+
+prepareDomesticConsumptionDemand <- function(model) {
+  y_c_d <- sumforConsumption(model$DomesticFinalDemand)
+  return(y_c_d)
+}
+
 
 #'A function to validate a user provided demand vector
 #' @param dv a user provided demand vector

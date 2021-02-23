@@ -69,6 +69,7 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
     GeographicalCorrelation = weighted.mean(GeographicalCorrelation, FlowAmount),
     TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
     DataCollection = weighted.mean(DataCollection, FlowAmount),
+    MetaSources = dplyr::nth(MetaSources, which.max(nchar(MetaSources))),
     .groups = 'drop'
   )
   colnames(totals_by_sector_BEA_agg)[colnames(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
@@ -273,4 +274,25 @@ checkSatelliteFlowLoss <- function(tbs0, tbs) {
     logging::logwarn("Flows lost upon conforming to model schema:")
     print(setdiff(flows_tbs0, flows_tbs))
   }
+}
+
+#' Sets the Year in a tbs to be the year of the highest frequency for a given flow when that flow is reported
+#' in more than a single year
+#' @param tbs, a model total by sector file
+#' @return df, the tbs
+setCommonYearforFlow <- function(tbs) {
+  # Add new column Flow to tbs
+  tbs$Flow <- apply(tbs[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
+  # Create flow_year_df to determine whether each flow has single year
+  flow_year_df <- reshape2::dcast(tbs[, c("Year", "Flow")], Flow ~ Year, value.var = "Flow", length)
+  rownames(flow_year_df) <- flow_year_df$Flow
+  flow_year_df$Flow <- NULL
+  # For each flow with multiple years, get the year that has the highest frequency
+  # Then in the original tbs, set Year to this year for these rows
+  for (flow in rownames(flow_year_df[rowSums(flow_year_df != 0) > 1, ])) {
+    year <- colnames(flow_year_df[flow, ])[max.col(flow_year_df[flow, ])]
+    tbs[tbs$Flow==flow, "Year"] <- year
+    logging::loginfo(paste("Flow year of", flow, "changed to", year))
+  }
+  return(tbs)
 }

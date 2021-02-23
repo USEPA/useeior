@@ -39,10 +39,14 @@ loadSatTables <- function(model) {
 
   #Loop through each sat specification
   for (sat_spec in model$specs$SatelliteTable) {
-    logging::loginfo(paste("Loading", tolower(sat_spec$FullName), "flows..."))
+    if(sat_spec$FileLocation == 'None'){
+      logging::loginfo(paste0("Generating ", tolower(sat_spec$FullName), " flows..."))      
+    } else {
+      logging::loginfo(paste0("Loading ", tolower(sat_spec$FullName), " flows from ", sat_spec$FileLocation, "..."))
+    }
 
     ### Generate totals_by_sector, tbs
-    tbs0 <- generateTbSfromSatSpec(sat_spec)
+    tbs0 <- generateTbSfromSatSpec(sat_spec, model)
     
     ### Make tbs conform to the model schema
     tbs <- conformTbStoIOSchema(tbs0, sat_spec, model)
@@ -54,21 +58,12 @@ loadSatTables <- function(model) {
     # Only setting TemporalCorrelation for now
     tbs <- scoreContextualDQ(tbs) 
     
-    # Check if all DQ columns are present. If not, print error message.
-
-    #    len_dq_fields <- length(getDQfields(totals_by_sector))
-#    if(len_dq_fields!=5){
-#      logging::logerror(paste("Missing 1 or more data quality fields in satellite data.", len_dq_fields, "present"))
-#    }
-    
     # Convert totals_by_sector to standard satellite table format
     tbs <- conformTbStoStandardSatTable(tbs)
     
-    #Map names for static files not already using FEDEFL
-    if (!is.null(sat_spec$StaticFile)) {
-      if (!substring(sat_spec$OriginalFlowSource,1,6) == 'FEDEFL') {
-        tbs <- mapListbyName(tbs, sat_spec)
-      }
+    #Map names for files not already using FEDEFL
+    if (!substring(sat_spec$OriginalFlowSource,1,6) == 'FEDEFL') {
+      tbs <- mapListbyName(tbs, sat_spec)
     }
     flow_fields <- c("Flowable","Context","Unit","FlowUUID")
     flows_tbs <- unique(tbs[,flow_fields])
@@ -100,28 +95,31 @@ loadandbuildSatelliteTables <- function(model) {
 #'Reads a satellite table specification and generates a totals-by-sector table
 #'@param sat_spec, a standard specification for a single satellite table
 #'@return a totals-by-sector dataframe
-generateTbSfromSatSpec <- function(sat_spec) {
-  # Check if the satellite table uses a static file. If so, proceed.
+
+generateTbSfromSatSpec <- function(sat_spec, model) {
+  # Check if the satellite table uses a file from within useeior. If so, proceed.
   # If not, use specified functions in model metadata to load data from dynamic source
-  if(!is.null(sat_spec$StaticFile)) {
-    # If the file is a URL tested by the first 4 characters of the string = "http", don't wrap in system.file()
-    if (substring(sat_spec$StaticFile, 0, 4)=="http") {
-      totals_by_sector <- utils::read.table(sat_spec$StaticFile, sep = ",", header = TRUE, stringsAsFactors = FALSE,
-                                            fileEncoding = 'UTF-8-BOM')  
-    } else {
-      totals_by_sector <- utils::read.table(system.file("extdata", sat_spec$StaticFile, package = "useeior"),
+  if(sat_spec$FileLocation == "useeior") {
+    totals_by_sector <- utils::read.table(system.file("extdata", sat_spec$StaticFile, package = "useeior"),
                                             sep = ",", header = TRUE, stringsAsFactors = FALSE,
                                             fileEncoding = 'UTF-8-BOM')
-    }
-  } else {
+
+  } 
+  else if(!is.null(sat_spec$ScriptFunctionCall)) {
     func_to_eval <- sat_spec$ScriptFunctionCall
     totalsgenfunction <- as.name(func_to_eval)
-    if (sat_spec$ScriptFunctionParameters == "model") {
-      params <- model
-    } else {
-      params <- sat_spec$ScriptFunctionParameters
+    params <- sat_spec
+    if (!is.null(sat_spec$ScriptFunctionParameters)){
+      if (sat_spec$ScriptFunctionParameters == "model") {
+        params <- model
+      }
     }
     totals_by_sector <- do.call(eval(totalsgenfunction), list(params))
+  }
+  else{
+      f <- loadDataCommonsfile(sat_spec$StaticFile)
+      totals_by_sector <- utils::read.table(f, sep = ",", header = TRUE, stringsAsFactors = FALSE,
+                                            fileEncoding = 'UTF-8-BOM')
   }
   return(totals_by_sector)
 }

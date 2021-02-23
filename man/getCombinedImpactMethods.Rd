@@ -4,11 +4,10 @@
 \alias{getCombinedImpactMethods}
 \title{Get and combine impact methods using the Python LCIAformatter package's get_mapped_method function.}
 \usage{
-getCombinedImpactMethods(parameters)
+getCombinedImpactMethods(ind_spec)
 }
 \arguments{
-\item{parameters}{List of parameters, must include 'method_id' and list of two or more 'indicators'
-to include from inventory method. Characterization factors for these two indicators are summed by flow.}
+\item{ind_spec}{Specification of an indicator}
 }
 \value{
 An LCIAmethod with the specified indicators
