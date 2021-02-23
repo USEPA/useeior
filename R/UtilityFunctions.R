@@ -162,7 +162,7 @@ loadDataCommonsfile <- function(static_file) {
   f <- paste0(directory,'\\', file_name)
   
   if(!file.exists(f)){
-    logging::loginfo(paste0("parquet not found, downloading from ", debug_url))
+    logging::loginfo(paste0("file not found, downloading from ", debug_url))
     downloadDataCommonsfile(file_name, subdirectory, debug_url)
   }
   return(f)
