@@ -113,6 +113,53 @@ writeMatrixasBinFile <- function(matrix, path) {
   close(out)
 }
 
+#' downloads files from the Data Commons and stores in a local temporary data directory
+#' @param source The name of the source file (e.g. "TRACI_2.1_v1.parquet")
+#' @param subdirectory The name of the package where the source file is stored on Data Commons including any subfolders (e.g. "lciafmt/traci_2_1")
+#' @param debug_url The Data Commons base url, including directory and subdirectories
+downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
+  
+  directory <- paste0(rappdirs::user_data_dir(), "\\", subdirectory)
+  # Check for and create subdirectory if necessary
+  if(!file.exists(directory)){
+    dir.create(directory, recursive = TRUE)
+  }
+  
+  # Download file
+  download.file(paste0(debug_url, "/", source), paste0(directory, "\\", source), mode = "wb", quiet = TRUE)
+}
+
+#' Load the static file originating from Data Commons either by loading from local directory or downloading from Data Commons and 
+#' saving to local directory
+#' @param static_file The name of a static file, including the subdirectories
+#' @return The static file originating from Data Commons
+loadDataCommonsfile <- function(static_file) {
+  # load method name
+  method_name <- static_file
+  # define symbol to split method name
+  pat <- "(.*)/(.*)"
+  # subdirectory is the string of the method name prior to the last "/"
+  subdirectory <- sub(pat, "\\1", method_name)
+  # file name is the string of the method name after the last "/"
+  file_name <- sub(pat, "\\2", method_name)
+  
+  # url for data commons
+  debug_url <- paste("https://edap-ord-data-commons.s3.amazonaws.com/", subdirectory, sep="")
+  
+  
+  user_subdirectory <- gsub("/", "\\\\", subdirectory)
+  directory <- paste0(rappdirs::user_data_dir(), "\\", user_subdirectory)
+  
+  # file must be saved in the local directory
+  f <- paste0(directory,'\\', file_name)
+  
+  if(!file.exists(f)){
+    logging::loginfo(paste0("file not found, downloading from ", debug_url))
+    downloadDataCommonsfile(file_name, subdirectory, debug_url)
+  }
+  return(f)
+}
+
 #' Maps a vector of FIPS codes to location codes
 #' ! Placeholder only works for '00000' now
 #' @param fipscodes A vector of 5 digit FIPS codes
@@ -141,8 +188,6 @@ getVectorOfCodes <- function(ioschema, iolevel, colName) {
                                   sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
   return(as.vector(stats::na.omit(SchemaInfo[, c("Code", colName)])[, "Code"]))
 }
-
-#-----added for disaggregation
 
 #' Calculate tolerance for RAS. Takes a target row sum vector and target colsum vector.
 #' Specify either relative difference or absolute difference.

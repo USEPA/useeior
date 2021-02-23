@@ -16,8 +16,9 @@ SatelliteTable:
   WAT:
     FullName: "Water withdrawals"
     Abbreviation: "WAT"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/Water_national_2015_m1_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2015]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -25,7 +26,7 @@ SatelliteTable:
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.4"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["Water_national_2015_m1"] #list of parameters
+    ScriptFunctionParameters: null
     DataSources:
       USGS_NWIS_WU_2015:
         Title: "Water Use in the US"
@@ -36,8 +37,9 @@ SatelliteTable:
   CHAIR:
     FullName: "Criteria and Hazardous Air Emissions"
     Abbreviation: "CHAIR"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/CAP_HAP_national_2017_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -45,7 +47,7 @@ SatelliteTable:
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.4"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["CAP_HAP_national_2017"] #list of parameters
+    ScriptFunctionParameters: null
     DataSources:
       EPA_NEI_2017:
         Title: "National Emissions Inventory"
@@ -62,8 +64,9 @@ SatelliteTable:
   GRDREL:
     FullName: "Point source industrial releases to ground"
     Abbreviation: "GRDREL"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/GRDREL_national_2017_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -71,7 +74,7 @@ SatelliteTable:
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.4"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["GRDREL_national_2017"]#list of parameters
+    ScriptFunctionParameters: null
     DataSources:
       EPA_TRI_2017:
         Title: "Toxic Release Inventory"
@@ -82,8 +85,9 @@ SatelliteTable:
   WATREL:
     FullName: "Point source releases to water"
     Abbreviation: "WATREL"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/TRI_DMR_national_2017_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -91,7 +95,7 @@ SatelliteTable:
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.5"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["TRI_DMR_national_2017"] #list of parameters
+    ScriptFunctionParameters: null
     DataSources:
       EPA_TRI_2017:
         Title: "Toxic Release Inventory"
@@ -109,7 +113,8 @@ SatelliteTable:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/NGHGIAM_GHG_TotalsBySector.csv"
+    StaticFile: "useeior/NGHGIAM_GHG_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2016]
     Locations: ["US"]
     SectorListSource: "BEA" # or, NAICS
@@ -126,8 +131,9 @@ SatelliteTable:
   LAND:
     FullName: "Land use"
     Abbreviation: "LAND"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/Land_national_2012_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2012]
     Locations: ["US"]
     SectorListSource: "NAICS"
@@ -135,7 +141,7 @@ SatelliteTable:
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.4"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["Land_national_2012"] #list of parameters
+    ScriptFunctionParameters: null
     DataSources:
       BLM_PLS:
         Title: "Public Land Statistics"
@@ -160,12 +166,13 @@ SatelliteTable:
         Author: "USDA"
         DataYear: 2012
         URL: "https://www.ers.usda.gov/data-products/major-land-uses/"
-        Primary: True  
+        Primary: TRUE  
   MINE:
     FullName: "Mineral extraction"
     Abbreviation: "MINE"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_MINE_TotalsBySector_FEDEFL.csv"
+    StaticFile: "useeior/USEEIOv1.1_MINE_TotalsBySector_FEDEFL.csv"
+    FileLocation: "DataCommons"
     DataYears: [2014]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -183,7 +190,8 @@ SatelliteTable:
     FullName: "Energy extraction"
     Abbreviation: "ENERGY"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_Energy_TotalsBySector_FEDEFL.csv"
+    StaticFile: "useeior/USEEIOv1.1_Energy_TotalsBySector_FEDEFL.csv"
+    FileLocation: "DataCommons"
     DataYears: [2014]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -207,7 +215,8 @@ SatelliteTable:
     FullName: "Nitrogen and Phosphorus Releases from Agriculture"
     Abbreviation: "NPAG"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_NPAG_TotalsBySector.csv"
+    StaticFile: "useeior/USEEIOv1.1_NPAG_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2013, 2015]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -220,42 +229,43 @@ SatelliteTable:
         Author: "USDA"
         DataYear: 2014
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Corn_and_Potatoes/"
-        Primary: False 
+        Primary: FALSE 
       USDA_CUS_Cotton:
         Title: "Chemical Use Survey - Cotton"
         Author: "USDA"
         DataYear: 2010
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2010_Corn_Upland_Cotton_Fall_Potatoes/"
-        Primary: False            
+        Primary: FALSE            
       USDA_CUS_Fruit:
         Title: "Chemical Use Survey - Fruit"
         Author: "USDA"
         DataYear: 2011
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2011_Fruit_Chem_Usage/"
-        Primary: False   
+        Primary: FALSE   
       USDA_CUS_Peanuts_Rice:
         Title: "Chemical Use Survey - Peanuts and Rice"
         Author: "USDA"
         DataYear: 2013
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2013_Peanuts_and_Rice/"
-        Primary: False    
+        Primary: FALSE    
       USDA_CUS_Soybeans_Wheat:
         Title: "Chemical Use Survey - Soybeans and Wheat"
         Author: "USDA"
         DataYear: 2012
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2012_Soybeans_and_Wheat/"
-        Primary: False     
+        Primary: FALSE     
       USDA_CUS_Vegetables:
         Title: "Chemical Use Survey - Vegetables"
         Author: "USDA"
         DataYear: 2014
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Vegetables/"
-        Primary: False  
+        Primary: FALSE  
   PEST:
     FullName: "Pesticide releases"
     Abbreviation: "PEST"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_PEST_TotalsBySector.csv"
+    StaticFile: "useeior/USEEIOv1.1_PEST_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2004, 2005, 2010, 2011, 2012, 2013, 2014]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -268,42 +278,43 @@ SatelliteTable:
         Author: "USDA"
         DataYear: 2014
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Corn_and_Potatoes/"
-        Primary: False 
+        Primary: FALSE 
       USDA_CUS_Cotton:
         Title: "Chemical Use Survey - Cotton"
         Author: "USDA"
         DataYear: 2010
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2010_Corn_Upland_Cotton_Fall_Potatoes/"
-        Primary: False            
+        Primary: FALSE            
       USDA_CUS_Fruit:
         Title: "Chemical Use Survey - Fruit"
         Author: "USDA"
         DataYear: 2011
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2011_Fruit_Chem_Usage/"
-        Primary: False   
+        Primary: FALSE   
       USDA_CUS_Peanuts_Rice:
         Title: "Chemical Use Survey - Peanuts and Rice"
         Author: "USDA"
         DataYear: 2013
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2013_Peanuts_and_Rice/"
-        Primary: False    
+        Primary: FALSE    
       USDA_CUS_Soybeans_Wheat:
         Title: "Chemical Use Survey - Soybeans and Wheat"
         Author: "USDA"
         DataYear: 2012
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2012_Soybeans_and_Wheat/"
-        Primary: False     
+        Primary: FALSE     
       USDA_CUS_Vegetables:
         Title: "Chemical Use Survey - Vegetables"
         Author: "USDA"
         DataYear: 2014
         URL: "https://www.nass.usda.gov/Data_and_Statistics/Pre-Defined_Queries/2014_Vegetables/"
-        Primary: False  
+        Primary: FALSE  
   CNHW:
     FullName: "Commercial non-hazardous waste excluding construction activities"
     Abbreviation: "CNHW"
-    StaticSource: True
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_CNHW_TotalsBySector.csv"
+    StaticSource: TRUE
+    StaticFile: "useeior/USEEIOv1.1_CNHW_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2015]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -321,7 +332,8 @@ SatelliteTable:
     FullName: "Commercial non-hazardous waste from construction activities"
     Abbreviation: "CNHWC"
     StaticSource: TRUE
-    StaticFile: "https://edap-ord-data-commons.s3.amazonaws.com/useeior/USEEIOv1.1_CNHWC_TotalsBySector.csv"
+    StaticFile: "useeior/USEEIOv1.1_CNHWC_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2014]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -338,15 +350,16 @@ SatelliteTable:
   CRHW:
     FullName: "Commercial RCRA-defined hazardous waste"
     Abbreviation: "CRHW"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/CRHW_national_2017_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
     SectorListSource: "NAICS"
     SectorListYear: 2012
     SectorListLevel: "6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["CRHW_national_2017"] #list of parameters
+    ScriptFunctionParameters: null
     OriginalFlowSource: "RCRAInfo"
     DataSources:
       USEPA_RCRAInfo_2017:
@@ -358,16 +371,17 @@ SatelliteTable:
   EMP:
     FullName: "Employment"
     Abbreviation: "EMP"
-    StaticSource: FALSE
-    StaticFile: null
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/Employment_national_2017_v0_0_2_4b362ba.parquet"
+    FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
     SectorListSource: "NAICS"
     SectorListYear: 2012
     SectorListLevel: "6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
-    ScriptFunctionParameters: ["Employment_national_2017"] #list of parameters
-    OriginalFlowSource: "Employment"
+    ScriptFunctionParameters: null
+    OriginalFlowSource: "National Employment Matrix"
     DataSources:
       BLS_QCEW_2017:
         Title: "Quarterly Census of Employment and Wages"
@@ -380,6 +394,7 @@ SatelliteTable:
     Abbreviation: "VADD"
     StaticSource: FALSE
     StaticFile: null
+    FileLocation: None
     DataYears: [2012]
     Locations: ["US"]
     SectorListSource: "BEA"
@@ -404,12 +419,12 @@ Indicators:
     Unit: "kg CO2 eq"
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
     SimpleName: "Greenhouse Gases"
-    StaticSource: False
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
       indicators: ["Global warming"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -424,12 +439,12 @@ Indicators:
     Unit: "kg SO2 eq"
     SimpleUnit: "Kilograms Sulphur Dioxide (SO2)"
     SimpleName: "Acid Rain"    
-    StaticSource: False
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
       indicators: ["Acidification"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -444,12 +459,12 @@ Indicators:
     Unit: "kg N eq"
     SimpleUnit: "Kilograms Nitrogen (N)"
     SimpleName: "Water Eutrophication" 
-    StaticSource: False
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
       indicators: ["Eutrophication"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -464,12 +479,12 @@ Indicators:
     Unit: "CTUe"
     SimpleUnit: "Comparative Toxic Unit for Ecosystem (CTUe)"
     SimpleName: "Freshwater Ecotoxicity" 
-    StaticSource: False
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
       indicators: ["Freshwater ecotoxicity"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -484,12 +499,12 @@ Indicators:
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Cancer Disease" 
-    StaticSource: False
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
       indicators: ["Human health - cancer"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -504,12 +519,12 @@ Indicators:
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Noncancer Disease" 
-    StaticSource: False
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
       indicators: ["Human health - non-cancer"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -524,12 +539,12 @@ Indicators:
     Unit: "CTUh"
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Toxic to Humans" 
-    StaticSource: False
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getCombinedImpactMethods" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
       indicators: ["Human health - cancer", "Human health - non-cancer"]
-      methods:
     DataSources:
       USEEIO_LCIA_Aggregation:
         Title: "Aggregation of HNCN and HCAN"
@@ -544,12 +559,12 @@ Indicators:
     Unit: "kg PM2.5 eq"
     SimpleUnit: "Kilograms Particulate Matter"
     SimpleName: "Respiratory Effects" 
-    StaticSource: False
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
       indicators: ["Human health - particulate matter"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -563,12 +578,12 @@ Indicators:
     Unit: "kg CFC-11 eq"
     SimpleUnit: "Kilograms ChloroFluoroCarbon-11"
     SimpleName: "Ozone Depletion" 
-    StaticSource: False
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
       indicators: ["Ozone depletion"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -583,12 +598,12 @@ Indicators:
     Unit: "kg O3 eq"
     SimpleUnit: "Kilograms Ozone (O3)"
     SimpleName: "Smog Formation" 
-    StaticSource: False
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
-      method_id: "TRACI 2.1"
       indicators: ["Smog formation"]
-      methods: 
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
@@ -603,8 +618,10 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Water Use" 
-    StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    StaticSource: TRUE
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       indicators: ["freshwater_resources"]
     DataSources:
@@ -621,8 +638,10 @@ Indicators:
     Unit: "m2*yr"
     SimpleUnit: "Square Meters per Year"
     SimpleName: "Land Use" 
-    StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    StaticSource: TRUE
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       indicators: ["land_use"]
     DataSources:
@@ -639,8 +658,10 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Hazardous Air Pollutants" 
-    StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    StaticSource: TRUE
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       indicators: ["HAP"]
     DataSources:
@@ -657,8 +678,10 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Pesticides" 
-    StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    StaticSource: TRUE
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       indicators: ["USDA_CUS_pesticides"]
     DataSources:
@@ -675,9 +698,11 @@ Indicators:
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Nonrenewable Energy Use" 
-    StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
-    ScriptFunctionParameters: 
+    StaticSource: TRUE
+    FileLocation: "DataCommons"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters:  
       indicators: ["nonrenewable_energy"]
     DataSources:
       LCIAformatter:
@@ -693,9 +718,11 @@ Indicators:
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Renewable Energy Use" 
-    StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
-    ScriptFunctionParameters: 
+    StaticSource: TRUE
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters:  
       indicators: ["renewable_energy"]
     DataSources:
       LCIAformatter:
@@ -711,8 +738,10 @@ Indicators:
     Unit: "MJ"
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Energy Use" 
-    StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
+    StaticSource: TRUE
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
       indicators: ["energy"]
     DataSources:
@@ -729,9 +758,11 @@ Indicators:
     Unit: "kg"
     SimpleUnit: "Kilograms"
     SimpleName: "Minerals and Metals Use"
-    StaticSource: FALSE
-    ScriptFunctionCall: "getInventoryMethod" #function to call for script
-    ScriptFunctionParameters: 
+    StaticSource: TRUE
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters:  
       indicators: ["USGS_mineral_resources"]
     DataSources:
       LCIAformatter:
@@ -748,6 +779,8 @@ Indicators:
     SimpleUnit: "US Dollars ($)"
     SimpleName: "Value Added"
     StaticSource: TRUE
+    StaticFile: "USEEIO_LCIA_Factors.csv"
+    FileLocation: "useeior"
     DataSources:
       ingwersen_useeiov11_2017:
         Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
@@ -763,6 +796,8 @@ Indicators:
     SimpleUnit: "Employees"
     SimpleName: "Jobs Supported"
     StaticSource: TRUE
+    StaticFile: "USEEIO_LCIA_Factors.csv"
+    FileLocation: "useeior"
     DataSources:
       ingwersen_useeiov11_2017:
         Title: "USEEIOv1.1 - Elementary Flows and Life Cycle Impact Assessment (LCIA) Characterization Factors"
@@ -778,6 +813,8 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Hazardous Waste" 
     StaticSource: TRUE
+    StaticFile: "USEEIO_LCIA_Factors.csv"
+    FileLocation: "useeior"
     DataSources:
       meyer_analyzing_2020:
         Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
@@ -793,6 +830,8 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Municipal Solid Waste"
     StaticSource: TRUE
+    StaticFile: "USEEIO_LCIA_Factors.csv"
+    FileLocation: "useeior"
     DataSources:
       meyer_analyzing_2020:
         Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
@@ -808,6 +847,8 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Construction Debris" 
     StaticSource: TRUE
+    StaticFile: "USEEIO_LCIA_Factors.csv"
+    FileLocation: "useeior"
     DataSources:
       meyer_analyzing_2020:
         Title: "Analyzing economy-scale solid waste generation using the United States environmentally-extended input-output model"
