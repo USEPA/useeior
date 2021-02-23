@@ -63,12 +63,12 @@ buildEEIOModel <- function(model) {
   model$M_d <- model$B %*% model$L_d
   colnames(model$M_d) <- colnames(model$M)
   
-  # Calculate total impacts per dollar (U), impact category x sector
-  logging::loginfo("Calculating U matrix (total environmental impacts per dollar) ...")
-  model$U <- model$C %*% model$M
+  # Calculate total impacts per dollar (N), impact category x sector
+  logging::loginfo("Calculating N matrix (total environmental impacts per dollar) ...")
+  model$N <- model$C %*% model$M
   # Calculate U_d, the domestic impacts per dollar
-  logging::loginfo("Calculating U matrix (total environmental impacts per dollar from domestic activity) ...")
-  model$U_d <- model$C %*% model$M_d
+  logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity) ...")
+  model$N_d <- model$C %*% model$M_d
 
   logging::loginfo("Model build complete.")
   return(model)

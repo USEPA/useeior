@@ -37,7 +37,7 @@ writeModelMatrices <- function(model, outputfolder) {
   if (!dir.exists(modelfolder)) {
     dir.create(modelfolder, recursive = TRUE) 
   }
-  for (matrix in c("A", "A_d", "B", "C", "D", "L", "L_d", "U", "M", "CPI")) {
+  for (matrix in c("A", "A_d", "B", "C", "D", "L", "L_d", "M","M_d","N","N_d","CPI")) {
     utils::write.csv(model[[matrix]], paste0(modelfolder,"/",matrix, ".csv"),
                      na = "", row.names = TRUE, fileEncoding = "UTF-8")
   }

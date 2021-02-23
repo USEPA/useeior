@@ -1,8 +1,8 @@
-#' Prepare M and U matrices with sector margin impacts
+#' Prepare M and N matrices with sector margin impacts
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param margin_type A character value: can be "intermediate" or "final consumer".
 #' @export
-#' @return A list with M_margin and U_margin
+#' @return A list with M_margin and N_margin
 deriveMarginSectorImpacts <- function(model, margin_type = "intermediate") {
   # Determine Margins table
   if (margin_type=="intermediate") {
@@ -27,11 +27,11 @@ deriveMarginSectorImpacts <- function(model, margin_type = "intermediate") {
   for (s in all_margin_sectors) {
     A_margin[s, ] <- margins_by_sector[, s]
   }
-  # Multiply M and U by margins_by_sector to derive M_margin and U_margin
+  # Multiply M and N by margins_by_sector to derive M_margin and U_margin
   model$M_margin <- model$M %*% A_margin
   colnames(model$M_margin) <- tolower(paste(colnames(model$M_margin), model$specs$PrimaryRegionAcronym, sep = "/"))
-  model$U_margin <- model$U %*% A_margin
-  colnames(model$U_margin) <- tolower(paste(colnames(model$U_margin), model$specs$PrimaryRegionAcronym, sep = "/"))
+  model$N_margin <- model$N %*% A_margin
+  colnames(model$N_margin) <- tolower(paste(colnames(model$N_margin), model$specs$PrimaryRegionAcronym, sep = "/"))
   logging::loginfo("Model margin impacts derived")
   return(model)
 }
