@@ -78,7 +78,6 @@ disaggregateModel <- function (model){
     #model$IntermediateMargins <- disaggregateCols(model$IntermediateMargins, disagg)
     #model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
 
-    
     counter <- counter + 1
   }
   
