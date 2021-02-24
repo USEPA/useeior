@@ -154,10 +154,10 @@ calculateDirectPerspectiveLCI <- function(B, c) {
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 8.
 calculateDirectPerspectiveLCIA <- function(B, C, c) {
-  u_d <-  C %*% (B %*% diag(as.vector(c), nrow(c)))
-  colnames(u_d) <- rownames(c)
-  u_d <- t(u_d)
-  return(u_d)
+  lcia_d <-  C %*% (B %*% diag(as.vector(c), nrow(c)))
+  colnames(lcia_d) <- rownames(c)
+  lcia_d <- t(lcia_d)
+  return(lcia_d)
 }
 
 #' Divide/Normalize a sector x flows matrix by the total of respective flow (column sum)
