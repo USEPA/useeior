@@ -17,8 +17,8 @@ loadIOData <- function(modelname) {
   model$GDP <- loadGDPtables(model$specs)
   # Declare model IO objects
   if (model$specs$ModelType=="US") {
-    model$Industries <- model$BEA$Industries
-    model$Commodities <- model$BEA$Commodities
+    model$Industries <- toupper(apply(cbind(model$BEA$Industries, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
+    model$Commodities <- toupper(apply(cbind(model$BEA$Commodities, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
     
     model$MakeTransactions <- model$BEA$MakeTransactions
     model$UseTransactions <- model$BEA$UseTransactions
@@ -26,11 +26,25 @@ loadIOData <- function(modelname) {
     model$UseValueAdded <- model$BEA$UseValueAdded
     model$FinalDemand <- model$BEA$UseFinalDemand
     model$DomesticFinalDemand <- model$BEA$DomesticFinalDemand
+    ## Modify row and column names in the IO tables
+    # Use model$Industries
+    rownames(model$MakeTransactions) <- colnames(model$UseTransactions) <- colnames(model$DomesticUseTransactions) <-
+      colnames(model$UseValueAdded) <- model$Industries
+    # Use model$Commodities
+    colnames(model$MakeTransactions) <- rownames(model$UseTransactions) <- rownames(model$DomesticUseTransactions) <- 
+      rownames(model$FinalDemand) <- rownames(model$DomesticFinalDemand) <- model$Commodities
+    # Apply joinStringswithSlashes based on original row/column names
+    rownames(model$UseValueAdded) <- toupper(apply(cbind(rownames(model$UseValueAdded), model$specs$PrimaryRegionAcronym),
+                                                   1, FUN = joinStringswithSlashes))
+    colnames(model$FinalDemand) <- colnames(model$DomesticFinalDemand) <- toupper(apply(cbind(colnames(model$FinalDemand),
+                                                                                              model$specs$PrimaryRegionAcronym),
+                                                                                        1, FUN = joinStringswithSlashes))
     
     model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
     model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
     
-    model$MultiYearIndustryOutput <- model$GDP$BEAGrossOutputIO[model$Industries, ]
+    model$MultiYearIndustryOutput <- model$GDP$BEAGrossOutputIO[model$BEA$Industries, ]
+    rownames(model$MultiYearIndustryOutput) <- model$Industries
     model$MultiYearIndustryOutput[, as.character(model$specs$IOYear)] <- model$IndustryOutput
     # Transform multi-year industry output to commodity output
     model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
@@ -39,36 +53,38 @@ loadIOData <- function(modelname) {
     }
     model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
     
-    model$MultiYearIndustryCPI <- model$GDP$BEACPIIO[model$Industries, ]
+    model$MultiYearIndustryCPI <- model$GDP$BEACPIIO[model$BEA$Industries, ]
+    rownames(model$MultiYearIndustryCPI) <- model$Industries
     # Transform industry CPI to commodity CPI
     model$MultiYearCommodityCPI <- as.data.frame(model$MultiYearIndustryCPI)[, FALSE]
     for (year_col in colnames(model$MultiYearIndustryCPI)) {
       model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
     }
+    
+    # Transform model objects from by-industry to by-commodity, or vice versa
+    if (model$specs$CommoditybyIndustryType=="Commodity") {
+      # Get model$SectorNames
+      USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
+                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
+      model$SectorNames <- merge(as.data.frame(model$BEA$Commodities, stringsAsFactors = FALSE), USEEIONames,
+                                 by.x = "model$BEA$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
+    } else {
+      # Transform model$BEA$UseFinalDemand with MarketShares
+      model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
+      # Transform model$BEA$DomesticFinalDemand with MarketShares
+      model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
+      # Get model$SectorNames
+      model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
+    }
+    colnames(model$SectorNames) <- c("Sector", "SectorName")
+    
+    # Get model$IntermediateMargins and model$FinalConsumerMargins
+    model$IntermediateMargins <- getMarginsTable(model, "intermediate")
+    model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
+    
   } else if (model$specs$ModelType=="State2R") {
     # Fork for state model here
   }
-  
-  # Transform model objects from by-industry to by-commodity, or vice versa
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
-    # Get model$SectorNames
-    USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
-                                     sep = ",", header = TRUE, stringsAsFactors = FALSE)
-    model$SectorNames <- merge(as.data.frame(model$Commodities, stringsAsFactors = FALSE), USEEIONames,
-                               by.x = "model$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
-  } else {
-    # Transform model$BEA$UseFinalDemand with MarketShares
-    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
-    # Transform model$BEA$DomesticFinalDemand with MarketShares
-    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
-    # Get model$SectorNames
-    model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
-  }
-  colnames(model$SectorNames) <- c("Sector", "SectorName")
-  
-  # Get model$IntermediateMargins and model$FinalConsumerMargins
-  model$IntermediateMargins <- getMarginsTable(model, "intermediate")
-  model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
   
   # Check for disaggregation
   if(!is.null(model$specs$DisaggregationSpecs)){

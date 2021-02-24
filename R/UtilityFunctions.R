@@ -119,14 +119,14 @@ writeMatrixasBinFile <- function(matrix, path) {
 #' @param debug_url The Data Commons base url, including directory and subdirectories
 downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
   
-  directory <- paste0(rappdirs::user_data_dir(), "\\", subdirectory)
+  directory <- paste0(rappdirs::user_data_dir(), "/", subdirectory)
   # Check for and create subdirectory if necessary
   if(!file.exists(directory)){
     dir.create(directory, recursive = TRUE)
   }
   
   # Download file
-  download.file(paste0(debug_url, "/", source), paste0(directory, "\\", source), mode = "wb", quiet = TRUE)
+  download.file(paste0(debug_url, "/", source), paste0(directory, "/", source), mode = "wb", quiet = TRUE)
 }
 
 #' Load the static file originating from Data Commons either by loading from local directory or downloading from Data Commons and 
@@ -144,14 +144,12 @@ loadDataCommonsfile <- function(static_file) {
   file_name <- sub(pat, "\\2", method_name)
   
   # url for data commons
-  debug_url <- paste("https://edap-ord-data-commons.s3.amazonaws.com/", subdirectory, sep="")
+  debug_url <- paste0("https://edap-ord-data-commons.s3.amazonaws.com/", subdirectory)
   
-  
-  user_subdirectory <- gsub("/", "\\\\", subdirectory)
-  directory <- paste0(rappdirs::user_data_dir(), "\\", user_subdirectory)
+  directory <- paste0(rappdirs::user_data_dir(), "/", subdirectory)
   
   # file must be saved in the local directory
-  f <- paste0(directory,'\\', file_name)
+  f <- paste0(directory,'/', file_name)
   
   if(!file.exists(f)){
     logging::loginfo(paste0("file not found, downloading from ", debug_url))
