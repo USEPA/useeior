@@ -111,7 +111,7 @@ transformIndustryOutputtoCommodityOutputforYear <- function(year, model) {
 #' @return A dataframe contains adjusted Commodity CPI.
 transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
   # Generate adjusted industry CPI by location
-  IndustryCPI <- model$GDP$BEACPIIO[, as.character(year)]
+  IndustryCPI <- model$MultiYearIndustryCPI[, as.character(year)]
   # Use CommodityMix to transform IndustryCPI to CommodityCPI
   CommodityMix <- generateCommodityMixMatrix(model)
   CommodityCPI <- as.numeric(CommodityMix %*% IndustryCPI)
