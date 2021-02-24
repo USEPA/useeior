@@ -7,6 +7,10 @@ buildEEIOModel <- function(model) {
   if(model$specs$ModelType!="US"){
     stop("This function needs to be revised before it is suitable for multi-regional models")
   }
+  # Modify model$SectorNames to include location info
+  model$SectorNames$Sector <- toupper(apply(cbind(model$SectorNames$Sector,
+                                                  model$specs$PrimaryRegionAcronym),
+                                            1, FUN = joinStringswithSlashes))
   
   # Generate matrices
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
@@ -36,8 +40,6 @@ buildEEIOModel <- function(model) {
   model$CbS <- generateCbSfromTbSandModel(model)
   model$B <- createBfromFlowDataandOutput(model)
   
-  
-  
   # Generate C matrix
   logging::loginfo("Building C matrix (characterization factors for model indicators) ...")
   model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
@@ -57,7 +59,7 @@ buildEEIOModel <- function(model) {
   # Calculate total emissions/resource use per dollar (M)
   logging::loginfo("Calculating M matrix (total emissions and resource use per dollar) ...")
   model$M <- model$B %*% model$L
-  colnames(model$M) <- addSlashandNameItem(colnames(model$M), model$specs$PrimaryRegionAcronym)
+  colnames(model$M) <- tolower(colnames(model$M))
   # Calculate M_d, the domestic emissions per dollar using domestic Leontief
   logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity) ...")
   model$M_d <- model$B %*% model$L_d
@@ -84,9 +86,8 @@ createBfromFlowDataandOutput <- function(model) {
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     B <- B %*% model$V_n
+    colnames(B) <- tolower(model$Commodities)
   }
-  colnames(B) <- tolower(apply(cbind(colnames(B), model$specs$PrimaryRegionAcronym),
-                                     1, FUN = joinStringswithSlashes))
   return(B)
 }
 
@@ -134,11 +135,9 @@ standardizeandcastSatelliteTable <- function(df,model) {
   rownames(df_cast) <- df_cast$Flow
   df_cast$Flow <- NULL
   # Complete sector list according to model$Industries
-  standard_columns <- tolower(apply(cbind(model$Industries, model$specs$PrimaryRegionAcronym),
-                                    1, FUN = joinStringswithSlashes))
-  df_cast[, setdiff(standard_columns, colnames(df_cast))] <- 0
+  df_cast[, setdiff(tolower(model$Industries), colnames(df_cast))] <- 0
   # Adjust column order to be the same with V_n rownames
-  df_cast <- df_cast[, standard_columns]
+  df_cast <- df_cast[, tolower(model$Industries)]
   return(df_cast)
 }
 

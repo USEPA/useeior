@@ -1,6 +1,6 @@
 Disaggregation:
-  562000:
-    OriginalSectorCode: "562000"
+  562000/US:
+    OriginalSectorCode: "562000/US"
     OrignalSectorName: "Waste Management and remediation services"
     DisaggregationType: "Userdefined"
     SectorFile: WasteDisaggregation_Sectors.csv
