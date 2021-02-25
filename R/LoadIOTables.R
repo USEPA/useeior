@@ -83,14 +83,25 @@ loadIOData <- function(modelname) {
     model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
     
   } else if (model$specs$ModelType=="State2R") {
-    # Fork for state model here
+    # Get IO tables and industry and commodity output from stateior
+    model$StateIO <- loadTwoRegionStateIOtables(model$specs)
+    # Assign two-region IO tables to model
+    model$MakeTransactions <- model$StateIO$MakeTransactions
+    model$UseTransactions <- model$StateIO$UseTransactions
+    model$DomesticUseTransactions <- model$StateIO$DomesticUseTransactions
+    model$FinalDemand <- model$StateIO$FinalDemand
+    model$DomesticFinalDemand <- model$StateIO$DomesticFinalDemand
+    model$Demand <- model$StateIO$Demand
+    model$MakeIndustryOutput <- model$StateIO$MakeIndustryOutput
+    model$MakeCommodityOutput <- model$StateIO$MakeCommodityOutput
+    # Consider change model$CPI here
   }
   
   # Check for disaggregation
   if(!is.null(model$specs$DisaggregationSpecs)){
     model <- disaggregateModel(model)
-  }
-  
+  } else if (model$specs$ModelType=="State2R") {
+
   return(model)
 }
 
@@ -103,7 +114,7 @@ loadBEAtables <- function(specs) {
   logging::loginfo("Initializing IO tables...")
 
   # Get BEA sectors by group
-  BEA$Commodities <-getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Commodity")
+  BEA$Commodities <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Commodity")
   BEA$Industries <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Industry")
   BEA$ValueAddedCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "ValueAdded")
   BEA$HouseholdDemandCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "HouseholdDemand")
@@ -170,4 +181,33 @@ loadBEAMakeorUseTable <- function (iolevel, makeoruse, year, redef){
 }
 
 
-
+#' Load two-region state IO tables in a list based on model config.
+#' @param specs Model specifications.
+#' @return A list with state IO tables.
+loadTwoRegionStateIOtables <- function(specs) {
+  StateIO <- list()
+  logging::loginfo("Initializing two-region state IO tables...")
+  # Define state, year and iolevel
+  if (specs$PrimaryRegionAcronym!="DC") {
+    state <- state.name[state.abb==specs$PrimaryRegionAcronym]
+  } else {
+    state <- "District of Columbia"
+  }
+  year <- specs$IOYear
+  iolevel <- specs$BaseIOLevel
+  # Load IO tables from stateior
+  StateIO$MakeTransactions <- stateior::getTwoRegionMakeTransactions(state, year, iolevel)
+  StateIO$UseTransactions <- stateior::getTwoRegionUseTransactions(state, year, iolevel)
+  StateIO$DomesticUseTransactions <- stateior::getTwoRegionDomesticUseTransactions(state, year, iolevel)
+  StateIO$FinalDemand <- stateior::getTwoRegionFinalDemand(state, year, iolevel)
+  StateIO$DomesticFinalDemand <- stateior::getTwoRegionDomesticFinalDemand(state, year, iolevel)
+  StateIO$MakeIndustryOutput <- stateior::getTwoRegionIndustryOutput(state, year, iolevel)
+  StateIO$MakeCommodityOutput <- stateior::getTwoRegionCommodityOutput(state, year, iolevel)
+  StateIO$Demand <- stateior::getTwoRegionDemandTable(state, year, iolevel)
+  # Replace state name with state acronym in row and column names of the IO tables
+  for (i in 1:length(StateIO)) {
+    rownames(StateIO[[i]]) <- gsub(tolower(state), tolower(specs$PrimaryRegionAcronym), rownames(StateIO[[i]]))
+    colnames(StateIO[[i]]) <- gsub(tolower(state), tolower(specs$PrimaryRegionAcronym), colnames(StateIO[[i]]))
+  }
+  return(StateIO)
+}
