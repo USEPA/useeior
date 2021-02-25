@@ -1,6 +1,6 @@
 SatelliteTable:
   - Flowable #Name of the flow
-  - CAS
+  #- CAS
   - Context #Full context of the flow, compartment and subcompartment combined
   - FlowUUID
   - SectorName #Name of the sector in the model IO schema
@@ -19,9 +19,9 @@ SatelliteTable:
   - TechnologicalCorrelation #A 1-5 score of data collection based on reporting values associated with the amount.
   - DataCollection #A 1-5 score of data collection based on reporting values associated with the amount.
   - Year #Year of the data
-  - MetaTags
+  #- MetaTags
   - MetaSources
-  - MetaOther
+  #- MetaOther
 
 LCIA:
   - Group

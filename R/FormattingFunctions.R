@@ -72,3 +72,11 @@ formatSectorMetaDataforIOMB <- function (model) {
   sectormetadata$Description <- ""
   return(sectormetadata)
 }
+
+#'Formats the location by appending "US-" before models
+#'@param r, string of region name
+#'@return r, "US-r"
+formatLocationforStateModels <- function(r){
+  r <- paste0("US-", r)
+  return(r)
+}

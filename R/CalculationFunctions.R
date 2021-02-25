@@ -3,43 +3,49 @@
 #' Calculate total emissions/resources (LCI) or total impact for USEEIO model for a given demand vector and perspective.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param perspective Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".
-#' @param demand A character value or a matrix: if the former, can be "production" or "consumption"; if the latter, can be demand matrix for one or more sectors.
-#' @param for_imports_using_domestic If TRUE, use total requirements for imports matrix (A)
-#' @param use_domestic A boolean value: if TRUE, use domestic A and FinalDemand matrices; if FALSE, use original A and FinalDemand matrices.
+#' @param demand A name of a built in model demand vector or a named vector with names as one or more model sectors and numeric values in USD with the same dollar year as model
+#' @param use_domestic_requirements A boolean value: if TRUE, use domestic A_d; if FALSE, use A matrices.
 #' @export
 #' @return A list with LCI and LCIA results of the EEIO model.
-calculateEEIOModel <- function(model, perspective, demand = "production", use_domestic = FALSE, for_imports_using_domestic=FALSE) {
+calculateEEIOModel <- function(model, perspective, demand = "Production", use_domestic_requirements = FALSE) {
   result <- list()
   # Generate Direct Requirements (A) matrix and Demand dataframe flexibly based on "use_domestic"
-  if (use_domestic) {
-    Demand <- model$DomesticFinalDemand
+  if (use_domestic_requirements) {
     L <- model$L_d
-    #If this is for the imports
-    if (for_imports_using_domestic) {
-      L <- model$L_m
-    }
   } else {
-    Demand <- model$FinalDemand
     L <- model$L
   }
-  # Generate f (vector) matrix based on "demand"
-  if (demand=="production") {
-    f <- as.matrix(rowSums(Demand))
-  } else if (demand=="consumption") {
-    f <- as.matrix(rowSums(Demand[, model$BEA$TotalConsumptionCodes]))
-  } else if (class(demand)=="matrix") {
-    if (ncol(demand)==ncol(Demand)) {
-      # Replace sectors in Demand with the sectors from demand
-      Demand_adj <- rbind(Demand[!rownames(Demand)%in%rownames(demand), ], demand)
-      f <- as.matrix(rowSums(Demand_adj))
-    } else if (ncol(demand)==1) {
-      # Replace sectors in Demand with the sectors from demand
-      f <- rbind(as.matrix(rowSums(Demand[!rownames(Demand)%in%rownames(demand), ])), demand)
+  
+  #Try to load demand
+  if (class(demand)=="character") {
+    #assume this is a model build-in demand 
+    #try to load the model vector
+    meta <- model$DemandVectors$meta
+    if (demand %in% meta$Name) {
+      #Get the idea from the meta table, which will be the name of the vector
+      id <- meta[which(meta$Name==demand),"ID"]
+      d <- model$DemandVectors$vectors[[id]]
+    } else {
+      logging::logerror(paste("The name given for the demand,",demand,"is not in the model list of demand vectors."))
     }
-    # Order row sequence of f to be the same with that of Demand
-    f <- as.matrix(f[match(rownames(Demand), rownames(f)), ])
-  }
-  # DirectPerspectiveLCI and DirectPerspectiveLCIA
+    
+  } else { 
+    #! Need to check that the given demand 
+    
+    if (isDemandVectorValid(demand,L)) {
+      
+      d <-formatDemandVector(demand,L)
+      
+    } else {
+      logging::logerror("Format of the demand vector is invalid. Cannot calculate result.")
+    }
+    
+  } 
+  
+  #convert it into a matrix
+  f <- as.matrix(d)  
+
+  # DirectPerspective LCI and DirectPerspective LCIA
   if (perspective=="DIRECT") {
     # Calculate DirectPerspectiveLCI (transposed m_d with total impacts in form of sectorxflows)
     logging::loginfo("Calculating Direct Perspective LCI...")
@@ -66,12 +72,13 @@ adjustMultiplierPrice <- function(matrix, currency_year, purchaser_price=TRUE, m
   price_adjusted_result <- list()
   # Generate CPI_ratio based on currency_year and model$specs$IOYear
   if (model$specs$CommoditybyIndustryType=="Commodity") {
-    currency_year_CPI <- generateCommodityCPIforYear(currency_year, model)
-    CPI_ratio <- as.data.frame(currency_year_CPI[, as.character(currency_year)]/model$CPI[, as.character(model$specs$IOYear)])
+    currency_year_CPI <- transformIndustryCPItoCommodityCPIforYear(currency_year, model)
+    CPI_ratio <- as.data.frame(currency_year_CPI/model$MultiYearCommodityCPI[, as.character(model$specs$IOYear)])
+    rownames(CPI_ratio) <- rownames(model$MultiYearCommodityCPI)
   } else {
-    CPI_ratio <- as.data.frame(model$GDP$BEACPIIO[, as.character(currency_year)]/model$CPI[, as.character(model$specs$IOYear)])
+    CPI_ratio <- as.data.frame(model$MultiYearIndustryCPI[, as.character(currency_year)]/model$MultiYearIndustryCPI[, as.character(model$specs$IOYear)])
+    rownames(CPI_ratio) <- rownames(model$MultiYearIndustryCPI)
   }
-  rownames(CPI_ratio) <- rownames(model$CPI)
   colnames(CPI_ratio) <- "Ratio"
   # Adjust from producer's to purchaser's price
   if (purchaser_price) {
@@ -148,10 +155,10 @@ calculateDirectPerspectiveLCI <- function(B, c) {
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 8.
 calculateDirectPerspectiveLCIA <- function(B, C, c) {
-  u_d <-  C %*% (B %*% diag(as.vector(c), nrow(c)))
-  colnames(u_d) <- rownames(c)
-  u_d <- t(u_d)
-  return(u_d)
+  lcia_d <-  C %*% (B %*% diag(as.vector(c), nrow(c)))
+  colnames(lcia_d) <- rownames(c)
+  lcia_d <- t(lcia_d)
+  return(lcia_d)
 }
 
 #' Divide/Normalize a sector x flows matrix by the total of respective flow (column sum)

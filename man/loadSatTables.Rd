@@ -2,25 +2,25 @@
 % Please edit documentation in R/LoadSatellites.R
 \name{loadSatTables}
 \alias{loadSatTables}
-\title{Load totals by sector/region and builds satellite tables based on model specs.
-Supports BEA and NAICS based totals. These totals can be provided as static files
-or dynamic function calls are supported. NAICS-based totals are aggregated/allocated to BEA sectors
-as part of the preparation.}
+\title{Load totals by sector/region and prepares them based on model specs.}
 \format{
-A list with lists of totals by sector and formatted satellite tables
+A list with lists of totals by sector
 \describe{
  \itemize{
    \item totals_by_sector
      \itemize{
        \item Flowable {Name of the flow}
-       \item Sector {Code of the sector in the model IO schema}
-       \item SectorSourceName {Source of the sector categorization, default is NAICS_2012_Code}
        \item Context {Full context of the flow, compartment and subcompartment combined}
-       \item Location {Activity location, at a national, state, or county level}
        \item Unit {SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows.}
+       \item FlowUUID {unique hex code for flow}
+       \item SectorName {Name of the sector}
+       \item Sector {Code of the sector in the model IO schema}
+       \item FlowAmount {Amount of the flow}
+       \item Location {Activity location, at a national, state, or county level}
        \item Year {Year of the data}
        \item DistributionType {Form of the frequency distribution, if given. Acceptable values are 'NORMAL', 'LOGNORMAL', 'TRIANGULAR', 'UNIFORM'.}
-       \item FlowAmount {Amount of the flow}
+       \item ExpectedValue {Value of midpoint of distribution}
+       \item Dispersion {Measure of dispersion from the mean}
        \item Min {The minimum FlowAmount, if provided for the data range.}
        \item Max {The maximum FlowAmount, if provided for the data range.}
        \item DataReliability {A 1-5 score of data reliability based on reporting values associated with the amount.}
@@ -28,33 +28,7 @@ A list with lists of totals by sector and formatted satellite tables
        \item GeographicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
        \item TechnologicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
        \item DataCollection {A 1-5 score of data collection based on reporting values associated with the amount.}
-     }
-   \item coeffs_by_sector
-     \itemize{
-       \item Flowable {Name of the flow}
-       \item CAS
-       \item Context {Full context of the flow, compartment and subcompartment combined}
-       \item FlowUUID
-       \item SectorName {Name of the sector in the model IO schema}
-       \item Sector {Code of the sector in the model IO schema}
-       \item Location {Activity location, at a national, state, or county level}
-       \item FlowAmount {Amount of the flow}
-       \item Unit {SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows.}
-       \item DistributionType {Form of the frequency distribution, if given. Acceptable values are 'NORMAL', 'LOGNORMAL', 'TRIANGULAR', 'UNIFORM'.}
-       \item ExpectedValue
-       \item Dispersion
-       \item Min {The minimum FlowAmount, if provided for the data range.}
-       \item Max {The maximum FlowAmount, if provided for the data range.}
-       \item DataReliability {A 1-5 score of data reliability based on reporting values associated with the amount.}
-       \item TemporalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
-       \item GeographicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
-       \item TechnologicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
-       \item DataCollection {A 1-5 score of data collection based on reporting values associated with the amount.}
-       \item Year {Year of the data}
-       \item MetaTags
-       \item MetaSources       
-       \item MetaOther
-     }
+   }
  }
 }
 }
@@ -65,8 +39,10 @@ loadSatTables(model)
 \item{model}{A model list object with the specs object listed}
 }
 \value{
-Lists of national totals by sector and formatted satellite tables
+Lists of totals by sector by region and unique flows
 }
 \description{
-Only works for static national totals by BEA sector in a set format
+Supports BEA and NAICS based totals. These totals can be provided as static files
+or dynamic function calls are supported. NAICS-based totals are aggregated/allocated to BEA sectors
+as part of the preparation.
 }

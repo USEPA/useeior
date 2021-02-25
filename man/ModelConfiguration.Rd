@@ -22,6 +22,7 @@ A list of main model attributes.
  \item{SatelliteTable}{named list of satellite table objects named by table acynonyms. @seealso [SatelliteTableConfiguration]}
  \item{Demand}{list. @seealso [DemandConfiguration]}
  \item{Indicators}{named list of indicators by indicator acronym.  @seealso [IndicatorConfiguration]}
+ \item{DisaggregationSpecs}{string, name of YML file with disaggregation specs}
 }
 }
 \usage{

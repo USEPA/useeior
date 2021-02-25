@@ -509,37 +509,37 @@
 "Summary_Import_2017_BeforeRedef"
 
 #' Detail 2007-2018 Gross Output (2012 schema)
-#' @format A dataframe with 405 obs. and 12 variables
+#' @format A dataframe with 405 obs. and 17 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Detail_GrossOutput_IO"
 
 #' Summary 2007-2018 Gross Output (2012 schema)
-#' @format A dataframe with 71 obs. and 12 variables
+#' @format A dataframe with 71 obs. and 17 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Summary_GrossOutput_IO"
 
 #' Sector 2007-2018 Gross Output (2012 schema)
-#' @format A dataframe with 15 obs. and 12 variables
+#' @format A dataframe with 15 obs. and 17 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Sector_GrossOutput_IO"
 
 #' Detail 2007-2018 CPI (2012 schema)
-#' @format A dataframe with 405 obs. and 12 variables
+#' @format A dataframe with 405 obs. and 17 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Detail_CPI_IO"
 
 #' Summary 2007-2018 CPI (2012 schema)
-#' @format A dataframe with 71 obs. and 12 variables
+#' @format A dataframe with 71 obs. and 17 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Summary_CPI_IO"
 
 #' Sector 2007-2018 CPI (2012 schema)
-#' @format A dataframe with 15 obs. and 12 variables
+#' @format A dataframe with 15 obs. and 17 variables
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
 "Sector_CPI_IO"
@@ -673,7 +673,7 @@
 "Sector_Margins_2012_BeforeRedef"
 
 #' Master Crosswalk table (2012 schema)
-#' @format A dataframe with 16838 obs. and 6 variables:
+#' @format A dataframe with 16611 obs. and 6 variables:
 #' \describe{
 #'  \item{BEA_2012_Sector_Code}{text code}
 #'  \item{BEA_2012_Summary_Code}{text code}
@@ -683,3 +683,14 @@
 #'  \item{NAICS_2017_Code}{text code}
 #' }
 "MasterCrosswalk2012"
+
+#' Master Crosswalk table (2007 schema)
+#' @format A dataframe with 3908 obs. and 5 variables:
+#' \describe{
+#'  \item{BEA_2012_Sector_Code}{text code}
+#'  \item{BEA_2012_Summary_Code}{text code}
+#'  \item{BEA_2012_Detail_Code}{text code}
+#'  \item{NAICS_2012_Code}{text code}
+#'  \item{NAICS_2007_Code}{text code}
+#' }
+"MasterCrosswalk2007"

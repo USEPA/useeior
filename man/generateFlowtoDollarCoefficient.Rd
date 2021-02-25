@@ -10,7 +10,8 @@ generateFlowtoDollarCoefficient(
   referenceyear,
   location_acronym,
   IsRoUS = FALSE,
-  model
+  model,
+  output_type = "Industry"
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ generateFlowtoDollarCoefficient(
 \item{IsRoUS}{A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).}
 
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{output_type}{Type of the output, e.g. "Commodity" or "Industry"}
 }
 \value{
 A dataframe contains intensity coefficient (kg/$).

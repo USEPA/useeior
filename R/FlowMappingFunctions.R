@@ -30,11 +30,21 @@ mapListbyName <- function (sattable, sattablemeta) {
   sattablewithmap$Flowable <- sattablewithmap$NewName
   sattablewithmap$Context <- apply(sattablewithmap[, c("NewCategory", "NewSubCategory")],
                                    1, FUN = joinStringswithSlashes)
+  # If context is "/" replace with blank
+  sattablewithmap$Context[sattablewithmap$Context == "/"] <- ""
+  
   sattablewithmap$CAS <- sattablewithmap$CAS.y
   sattablewithmap$Unit <- sattablewithmap$NewUnit
   # Get column names from standard satellite table
   standardnames <- getStandardSatelliteTableFormat()
   sattable <- sattablewithmap[, standardnames]
+  # Check for unmapped flows
+  unmapped <- apply(sattable['Flowable'], 1, function(x){any(is.na(x))})
+  if(sum(unmapped)>0){
+    logging::logwarn("Some flows not mapped, they will be removed")
+    sattable <- sattable[!unmapped, ]
+  }
+  
   return(sattable)
 }
 

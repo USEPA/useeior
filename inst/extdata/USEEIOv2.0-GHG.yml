@@ -10,6 +10,7 @@ BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommoditybyIndustryType: "Commodity"
 ScrapIncluded: FALSE
+DisaggregationSpecs: null
 
 SatelliteTable:
   GHG:
@@ -19,7 +20,7 @@ SatelliteTable:
     StaticFile: "USEEIO_GHG_Data_Extracted_2016.csv"
     DataYears: [2016]
     Locations: ["US"]
-    SectorListSource: "BEA" # or, NAICS
+    SectorListSource: "BEA"
     SectorListYear: 2012
     SectorListLevel: "Detail"
     OriginalFlowSource: "GHG"
@@ -31,16 +32,14 @@ SatelliteTable:
         URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
         Primary: TRUE
 
-Demand:
-  DemandYear: 2012
-  DemandSubsystems: NA
-
 Indicators:
   GreenhouseGases:
     FullName: "Greenhouse Gases"
-    Abbreviation: "GHG"
-    Category: "Impact Potential"
+    Code: "GHG"
+    Group: "Impact Potential"
     Unit: "kg CO2 eq"
+    SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
+    SimpleName: "Greenhouse Gases"
     StaticSource: TRUE
     DataSources:
       USEPA_TRACI_2.1:
@@ -51,15 +50,37 @@ Indicators:
         Primary: TRUE
   GreenhouseGases-Major:
     FullName: "Major Greenhouse Gases"
-    Abbreviation: "MGHG"
-    Category: "Impact Potential"
+    Code: "MGHG"
+    Group: "Impact Potential"
     Unit: "kg CO2 eq"
+    SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
+    SimpleName: "Major Greenhouse Gases"
     StaticSource: TRUE
     DataSources:
   GreenhouseGases-Other:
     FullName: "Other Greenhouse Gases"
-    Abbreviation: "OGHG"
-    Category: "Impact Potential"
+    Code: "OGHG"
+    Group: "Impact Potential"
     Unit: "kg CO2 eq"
+    SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
+    SimpleName: "Other Greenhouse Gases"
     StaticSource: TRUE
     DataSources:
+
+
+DemandVectors:
+    Consumption:
+      Type: "Consumption"
+      Year: 2012
+      System: "Complete"
+      Location: "US"
+    Production:
+      Type: "Production"
+      Year: 2012
+      System: "Complete"
+      Location: "US"
+    HouseholdConsumption:
+      Type: "Consumption"
+      Year: 2012
+      System: "Household"
+      Location: "US"
