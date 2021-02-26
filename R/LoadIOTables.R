@@ -100,8 +100,8 @@ loadIOData <- function(modelname) {
   # Check for disaggregation
   if(!is.null(model$specs$DisaggregationSpecs)){
     model <- disaggregateModel(model)
-  } else if (model$specs$ModelType=="State2R") {
-
+  }
+  
   return(model)
 }
 
@@ -112,7 +112,7 @@ loadIOData <- function(modelname) {
 loadBEAtables <- function(specs) {
   BEA <- list()
   logging::loginfo("Initializing IO tables...")
-
+  
   # Get BEA sectors by group
   BEA$Commodities <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Commodity")
   BEA$Industries <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Industry")
@@ -132,7 +132,7 @@ loadBEAtables <- function(specs) {
   BEA$TransportationCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Distribution")
   BEA$WholesaleCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Wholesale")
   BEA$RetailCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Retail")
-
+  
   # Load pre-saved Make and Use tables
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
   BEA$Make <- get(paste(specs$BaseIOLevel, "Make", specs$IOYear, Redef, sep = "_"))
@@ -211,3 +211,4 @@ loadTwoRegionStateIOtables <- function(specs) {
   }
   return(StateIO)
 }
+
