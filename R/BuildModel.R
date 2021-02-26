@@ -78,7 +78,7 @@ buildEEIOModel <- function(model) {
 
 #'Creates the B matrix from the flow data
 #'@param model, a model with econ and flow data loaded
-#'@result B, a matrix in flow x sector format with values of flow per $ output sector
+#'@return B, a matrix in flow x sector format with values of flow per $ output sector
 createBfromFlowDataandOutput <- function(model) {
 
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
