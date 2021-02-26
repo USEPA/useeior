@@ -2,7 +2,7 @@
 % Please edit documentation in R/Margins.R
 \name{deriveMarginSectorImpacts}
 \alias{deriveMarginSectorImpacts}
-\title{Prepare M and U matrices with sector margin impacts}
+\title{Prepare M and N matrices with sector margin impacts}
 \usage{
 deriveMarginSectorImpacts(model, margin_type = "intermediate")
 }
@@ -12,8 +12,8 @@ deriveMarginSectorImpacts(model, margin_type = "intermediate")
 \item{margin_type}{A character value: can be "intermediate" or "final consumer".}
 }
 \value{
-A list with M_margin and U_margin
+A list with M_margin and N_margin
 }
 \description{
-Prepare M and U matrices with sector margin impacts
+Prepare M and N matrices with sector margin impacts
 }
