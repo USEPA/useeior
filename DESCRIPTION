@@ -29,15 +29,12 @@ Imports:
     reticulate (>= 1.1),
     scales (>= 1.1.1),
     stats (>= 3.6.1),
-    stateior,
     stringr (>= 1.4),
     usethis (>= 1.5),
     utils (>= 3.6.1),
     validate (>= 1.0)
 Depends:
   R (>= 3.6)
-Remotes:
-  github::USEPA/stateior@master
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
