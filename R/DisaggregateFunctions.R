@@ -16,8 +16,8 @@ disaggregateModel <- function (model){
                                             header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
                                                                                                   "USEEIO_Code"="character"))
     newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code, "SectorName"=disagg$NAICSSectorCW$USEEIO_Name))
-    disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
-    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
+    disagg$DisaggregatedSectorNames <- as.list(levels(as.factor(newNames[, 'SectorName'])))
+    disagg$DisaggregatedSectorCodes <- as.list(levels(as.factor(newNames[, 'SectorCode'])))
     
     #reordering disaggSectorNames and DIsaggSectorCodes to match the mapping in newNames
     disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
