@@ -9,6 +9,9 @@ createBfromFlowDataandOutput(model)
 \arguments{
 \item{model, }{a model with econ and flow data loaded}
 }
+\value{
+B, a matrix in flow x sector format with values of flow per $ output sector
+}
 \description{
 Creates the B matrix from the flow data
 }
