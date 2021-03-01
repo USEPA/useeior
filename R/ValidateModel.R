@@ -45,19 +45,13 @@ compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance
   
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
   
-  # Generate Pass/Fail comparison results
+  # Calculate relative differences
   rel_diff <- (LCI - E)/E
   rel_diff[is.na(rel_diff)] <- 0
-  df1 <- as.data.frame(rel_diff)
-  # Compare rel_diff against tolerance
-  comparison <- compareModelResult(0, df1, abs_diff = TRUE, tolerance = tolerance)
-  # Extract passes and failures
-  passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
-  failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
-  colnames(passes) <- colnames(failures) <- c("Flow", "Sector")
-  N_passes <- nrow(passes)
-  N_failures <- nrow(failures)
-  return(list("Pass" = passes, "N_Pass" = N_passes, "Failure" = failures, "N_Failure" = N_failures))
+  
+  # Generate Pass/Fail comparison results
+  validation <- formatValidationResult(as.data.frame(rel_diff), tolerance)
+  return(validation)
 }
 
 #'Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
@@ -83,16 +77,13 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
   if (!identical(rownames(c), names(x))) {
     stop("Sectors not aligned in model ouput variable and calculation result")
   }
+  # Calculate relative differences
   rel_diff <- (c - x)/x
-  # Generate Pass/Fail comparison results
   rel_diff[is.na(rel_diff)] <- 0
-  df1 <- as.data.frame(rel_diff)
-  # Compare rel_diff against tolerance
-  comparison <- compareModelResult(0, df1, abs_diff = TRUE, tolerance = tolerance)
-  # Extract passes and failures
-  passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
-  failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
-  return(list("Pass" = passes, "Failure" = failures))
+  
+  # Generate Pass/Fail comparison results
+  validation <- formatValidationResult(as.data.frame(rel_diff), tolerance)
+  return(validation)
 }
 
 #'Compares the total commodity output against the summation of model domestic Use and production demand
@@ -105,17 +96,13 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
   #Row names should be identical
   identical(names(p), names(x))
   
+  # Calculate relative differences
   rel_diff <- (p - x)/p
-  # Generate Pass/Fail comparison results
-  rel_diff <- (LCI - E)/E
   rel_diff[is.na(rel_diff)] <- 0
-  df1 <- as.data.frame(rel_diff)
-  # Compare rel_diff against tolerance
-  comparison <- compareModelResult(0, df1, abs_diff = TRUE, tolerance = tolerance)
-  # Extract passes and failures
-  passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
-  failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
-  return(list("Pass" = passes, "Failure" = failures))
+  
+  # Generate Pass/Fail comparison results
+  validation <- formatValidationResult(as.data.frame(rel_diff), tolerance)
+  return(validation)
 }
 
 
@@ -175,16 +162,11 @@ compareIndustryOutputinMakeandUse <- function(model) {
   }
   # Calculate relative differences in x_make and x_use
   rel_diff <- (x_use - x_make)/x_make
-  # Generate Pass/Fail comparison results
-  rel_diff <- (LCI - E)/E
   rel_diff[is.na(rel_diff)] <- 0
-  df1 <- as.data.frame(rel_diff)
-  # Compare rel_diff against tolerance
-  comparison <- compareModelResult(0, df1, abs_diff = TRUE, tolerance = tolerance)
-  # Extract passes and failures
-  passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
-  failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
-  return(list("Pass" = passes, "Failure" = failures))
+  
+  # Generate Pass/Fail comparison results
+  validation <- formatValidationResult(as.data.frame(rel_diff), tolerance)
+  return(validation)
 }
 
 #' Validate df1 against df0 based on specified conditions
@@ -223,4 +205,19 @@ extractValidationResult <- function(confrontation, failure = TRUE) {
   result <- as.data.frame(lapply(result, function(x) gsub("value.", "", x)))
   result[] <- sapply(result, as.character)
   return(result)
+}
+
+#' Format validation result
+#' @param df A data.frame to be validated
+#' @param tolerance A numeric value setting tolerance of the comparison
+#' @return A list contains formatted validation results
+formatValidationResult <- function(df, tolerance) {
+  # Compare rel_diff against tolerance
+  comparison <- compareModelResult(0, df, abs_diff = TRUE, tolerance = tolerance)
+  # Extract passes and failures
+  passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
+  failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
+  N_passes <- nrow(passes)
+  N_failures <- nrow(failures)
+  return(list("Pass" = passes, "N_Pass" = N_passes, "Failure" = failures, "N_Failure" = N_failures))
 }
