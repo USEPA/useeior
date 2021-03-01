@@ -85,7 +85,6 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
   }
   rel_diff <- (c - x)/x
   # Generate Pass/Fail comparison results
-  rel_diff <- (LCI - E)/E
   rel_diff[is.na(rel_diff)] <- 0
   df1 <- as.data.frame(rel_diff)
   # Compare rel_diff against tolerance
