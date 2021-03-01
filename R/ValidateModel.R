@@ -4,7 +4,6 @@
 #'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built
 compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance=0.05) {
-  
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
   if (use_domestic) {
@@ -16,16 +15,13 @@ compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance
   }
 
   if (model$specs$CommoditybyIndustryType=="Commodity") {
-
     if (output_type=="Commodity") {
-      B <- model$B 
-      
+      B <- model$B
     } else {
       #industry approach
       CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
       B <- as.matrix(CbS_cast)
-    } 
-
+    }
     
     ##Prepare left side of the equation
     E <- prepareEfromtbs(model)
@@ -33,7 +29,6 @@ compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance
         #transform E with commodity mix
     C <- generateCommodityMixMatrix(model)
     E <-  t(C %*% t(E))  
-    
   } else {
     stop("This function cannot yet handle industry type models")
   }
@@ -45,15 +40,24 @@ compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance
   
   if (model$specs$CommoditybyIndustryType=="Commodity" && output_type=="Industry") {
     #Need to transform B_Chi to be in commodity form
-    B_chi <- B_chi  %*% model$V_n
+    B_chi <- B_chi %*% model$V_n
   }
   
-  
-  
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
-
+  
+  # Generate Pass/Fail comparison results
   rel_diff <- (LCI - E)/E
-  return(rel_diff)
+  rel_diff[is.na(rel_diff)] <- 0
+  df1 <- as.data.frame(rel_diff)
+  # Compare rel_diff against tolerance
+  comparison <- compareModelResult(0, df1, abs_diff = TRUE, tolerance = tolerance)
+  # Extract passes and failures
+  passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
+  failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
+  colnames(passes) <- colnames(failures) <- c("Flow", "Sector")
+  N_passes <- nrow(passes)
+  N_failures <- nrow(failures)
+  return(list("Pass" = passes, "N_Pass" = N_passes, "Failure" = failures, "N_Failure" = N_failures))
 }
 
 #'Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
@@ -80,7 +84,16 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
     stop("Sectors not aligned in model ouput variable and calculation result")
   }
   rel_diff <- (c - x)/x
-  return(rel_diff)
+  # Generate Pass/Fail comparison results
+  rel_diff <- (LCI - E)/E
+  rel_diff[is.na(rel_diff)] <- 0
+  df1 <- as.data.frame(rel_diff)
+  # Compare rel_diff against tolerance
+  comparison <- compareModelResult(0, df1, abs_diff = TRUE, tolerance = tolerance)
+  # Extract passes and failures
+  passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
+  failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
+  return(list("Pass" = passes, "Failure" = failures))
 }
 
 #'Compares the total commodity output against the summation of model domestic Use and production demand
@@ -94,7 +107,16 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
   identical(names(p), names(x))
   
   rel_diff <- (p - x)/p
-  return(rel_diff)
+  # Generate Pass/Fail comparison results
+  rel_diff <- (LCI - E)/E
+  rel_diff[is.na(rel_diff)] <- 0
+  df1 <- as.data.frame(rel_diff)
+  # Compare rel_diff against tolerance
+  comparison <- compareModelResult(0, df1, abs_diff = TRUE, tolerance = tolerance)
+  # Extract passes and failures
+  passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
+  failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
+  return(list("Pass" = passes, "Failure" = failures))
 }
 
 
@@ -154,6 +176,45 @@ compareIndustryOutputinMakeandUse <- function(model) {
   }
   # Calculate relative differences in x_make and x_use
   rel_diff <- (x_use - x_make)/x_make
-  return(rel_diff)
+  # Generate Pass/Fail comparison results
+  rel_diff <- (LCI - E)/E
+  rel_diff[is.na(rel_diff)] <- 0
+  df1 <- as.data.frame(rel_diff)
+  # Compare rel_diff against tolerance
+  comparison <- compareModelResult(0, df1, abs_diff = TRUE, tolerance = tolerance)
+  # Extract passes and failures
+  passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
+  failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
+  return(list("Pass" = passes, "Failure" = failures))
 }
 
+#' Validate df1 against df0 based on specified conditions
+#' 
+compareModelResult <- function(df0, df1, abs_diff = TRUE, tolerance) {
+  # Define comparison rule
+  if (abs_diff) {
+    rule <- validate::validator(abs(df1 - df0) <= tolerance)
+  } else {
+    rule <- validate::validator(df1 - df0 <= tolerance)
+  }
+  # Compare df1 against df0
+  confrontation <- validate::confront(df1, rule, ref = list(df0 = df0))
+  confrontation <- validate::as.data.frame(confrontation)
+  validation <- merge(confrontation, validate::as.data.frame(rule))
+  rownames(validation) <- confrontation$rownames <- rownames(confrontation)
+  validation$name <- NULL
+  return(list("confrontation" = confrontation, "validation" = validation))
+}
+
+# Extract validation passes or failures
+extractValidationResult <- function(confrontation, failure = TRUE) {
+  df <- reshape2::melt(confrontation, id.vars = c("rownames", "name", "expression"))
+  if (failure) {
+    result <- df[df$value==FALSE, c("rownames", "variable")]
+  } else {
+    result <- df[df$value==TRUE, c("rownames", "variable")]
+  }
+  result <- as.data.frame(lapply(result, function(x) gsub("value.", "", x)))
+  result[] <- sapply(result, as.character)
+  return(result)
+}
