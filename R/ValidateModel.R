@@ -189,7 +189,11 @@ compareIndustryOutputinMakeandUse <- function(model) {
 }
 
 #' Validate df1 against df0 based on specified conditions
-#' 
+#' @param df0 A data.frame to be compared against
+#' @param df1 A data.frame to be validated
+#' @param abs_diff A boolean value indicating whether to compare the absolute difference between df1 and df0
+#' @param tolerance A numeric value setting tolerance of the comparison
+#' @return A list contains confrontation details and validation results
 compareModelResult <- function(df0, df1, abs_diff = TRUE, tolerance) {
   # Define comparison rule
   if (abs_diff) {
@@ -206,7 +210,10 @@ compareModelResult <- function(df0, df1, abs_diff = TRUE, tolerance) {
   return(list("confrontation" = confrontation, "validation" = validation))
 }
 
-# Extract validation passes or failures
+#' Extract validation passes or failures
+#' @param confrontation A data.frame contains confrontation details
+#' @param failure A boolean value indicating whether to report failure or not
+#' @return A data.frame contains validation results
 extractValidationResult <- function(confrontation, failure = TRUE) {
   df <- reshape2::melt(confrontation, id.vars = c("rownames", "name", "expression"))
   if (failure) {
