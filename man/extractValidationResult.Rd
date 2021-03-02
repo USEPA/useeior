@@ -4,10 +4,10 @@
 \alias{extractValidationResult}
 \title{Extract validation passes or failures}
 \usage{
-extractValidationResult(confrontation, failure = TRUE)
+extractValidationResult(validation, failure = TRUE)
 }
 \arguments{
-\item{confrontation}{A data.frame contains confrontation details}
+\item{validation}{A data.frame contains validation details}
 
 \item{failure}{A boolean value indicating whether to report failure or not}
 }

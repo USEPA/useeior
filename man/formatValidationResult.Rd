@@ -4,12 +4,14 @@
 \alias{formatValidationResult}
 \title{Format validation result}
 \usage{
-formatValidationResult(df, tolerance)
+formatValidationResult(result, abs_diff = TRUE, tolerance)
 }
 \arguments{
-\item{df}{A data.frame to be validated}
+\item{abs_diff}{A boolean value indicating whether to validate absolute values}
 
 \item{tolerance}{A numeric value setting tolerance of the comparison}
+
+\item{df}{A data.frame to be validated}
 }
 \value{
 A list contains formatted validation results

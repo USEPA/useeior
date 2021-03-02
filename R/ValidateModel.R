@@ -43,10 +43,9 @@ compareEandLCIResult <- function(model,use_domestic=FALSE, tolerance=0.05) {
   
   # Calculate relative differences
   rel_diff <- (LCI - E)/E
-  rel_diff[is.na(rel_diff)] <- 0
   
   # Generate Pass/Fail comparison results
-  validation <- formatValidationResult(as.data.frame(rel_diff), tolerance)
+  validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
   return(validation)
 }
 
@@ -75,10 +74,9 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
   }
   # Calculate relative differences
   rel_diff <- (c - x)/x
-  rel_diff[is.na(rel_diff)] <- 0
   
   # Generate Pass/Fail comparison results
-  validation <- formatValidationResult(as.data.frame(rel_diff), tolerance)
+  validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
   return(validation)
 }
 
@@ -94,10 +92,9 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
   
   # Calculate relative differences
   rel_diff <- (p - x)/p
-  rel_diff[is.na(rel_diff)] <- 0
   
   # Generate Pass/Fail comparison results
-  validation <- formatValidationResult(as.data.frame(rel_diff), tolerance)
+  validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
   return(validation)
 }
 
@@ -158,63 +155,58 @@ compareIndustryOutputinMakeandUse <- function(model) {
   }
   # Calculate relative differences in x_make and x_use
   rel_diff <- (x_use - x_make)/x_make
-  rel_diff[is.na(rel_diff)] <- 0
   
   # Generate Pass/Fail comparison results
-  validation <- formatValidationResult(as.data.frame(rel_diff), tolerance)
+  validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
   return(validation)
 }
 
-#' Validate df1 against df0 based on specified conditions
-#' @param df0 A data.frame to be compared against
-#' @param df1 A data.frame to be validated
-#' @param abs_diff A boolean value indicating whether to compare the absolute difference between df1 and df0
+#' Validate result based on specified tolerance
+#' @param result A data object to be validated
+#' @param abs_diff A boolean value indicating whether to validate absolute values
 #' @param tolerance A numeric value setting tolerance of the comparison
 #' @return A list contains confrontation details and validation results
-compareModelResult <- function(df0, df1, abs_diff = TRUE, tolerance) {
-  # Define comparison rule
+validateResult <- function(result, abs_diff = TRUE, tolerance) {
+  result[is.na(result)] <- 0
+  # Validate result
   if (abs_diff) {
-    rule <- validate::validator(abs(df1 - df0) <= tolerance)
+    validation <- as.data.frame(abs(result) <= tolerance)
   } else {
-    rule <- validate::validator(df1 - df0 <= tolerance)
+    validation <- as.data.frame(result <= tolerance)
   }
-  # Compare df1 against df0
-  confrontation <- validate::confront(df1, rule, ref = list(df0 = df0))
-  #confrontation_df <- validate::as.data.frame(confrontation)
-  confrontation_df <- as.data.frame(confrontation[["._value"]][["V1"]])
-  validation <- merge(confrontation_df, validate::as.data.frame(rule))
-  rownames(validation) <- confrontation_df$rownames <- rownames(confrontation_df)
-  validation$name <- NULL
-  return(list("confrontation" = confrontation_df, "validation" = validation))
+  validation$rownames <- rownames(validation)
+  return(validation)
 }
 
 #' Extract validation passes or failures
-#' @param confrontation A data.frame contains confrontation details
+#' @param validation A data.frame contains validation details
 #' @param failure A boolean value indicating whether to report failure or not
 #' @return A data.frame contains validation results
-extractValidationResult <- function(confrontation, failure = TRUE) {
-  df <- reshape2::melt(confrontation, id.vars = c("rownames", "name", "expression"))
+extractValidationResult <- function(validation, failure = TRUE) {
+  df <- reshape2::melt(validation, id.vars = "rownames")
   if (failure) {
     result <- df[df$value==FALSE, c("rownames", "variable")]
   } else {
     result <- df[df$value==TRUE, c("rownames", "variable")]
   }
-  result <- as.data.frame(lapply(result, function(x) gsub("value.", "", x)))
   result[] <- sapply(result, as.character)
   return(result)
 }
 
 #' Format validation result
 #' @param df A data.frame to be validated
+#' @param abs_diff A boolean value indicating whether to validate absolute values
 #' @param tolerance A numeric value setting tolerance of the comparison
 #' @return A list contains formatted validation results
-formatValidationResult <- function(df, tolerance) {
-  # Compare rel_diff against tolerance
-  comparison <- compareModelResult(df0 = 0, df, abs_diff = TRUE, tolerance = tolerance)
+formatValidationResult <- function(result, abs_diff = TRUE, tolerance) {
+  # Validate result
+  validation <- validateResult(result, abs_diff, tolerance)
   # Extract passes and failures
-  passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
-  failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
+  passes <- extractValidationResult(validation, failure = FALSE)
+  failures <- extractValidationResult(validation, failure = TRUE)
   N_passes <- nrow(passes)
   N_failures <- nrow(failures)
-  return(list("Pass" = passes, "N_Pass" = N_passes, "Failure" = failures, "N_Failure" = N_failures))
+  return(list("RelativeDifference" = as.data.frame(result),
+              "Pass" = passes, "N_Pass" = N_passes,
+              "Failure" = failures, "N_Failure" = N_failures))
 }
