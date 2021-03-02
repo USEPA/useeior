@@ -3,7 +3,8 @@
 
 #'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built
-compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance=0.05) {
+#'@return, list with pass/fail validation result and the cell-by-cell relative diff matrxi
+compareEandLCIResult <- function(model,use_domestic=FALSE, tolerance=0.05) {
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
   if (use_domestic) {
@@ -15,14 +16,9 @@ compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance
   }
 
   if (model$specs$CommoditybyIndustryType=="Commodity") {
-    if (output_type=="Commodity") {
-      B <- model$B
-    } else {
-      #industry approach
-      CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
-      B <- as.matrix(CbS_cast)
-    }
-    
+    CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
+    B <- as.matrix(CbS_cast)
+
     ##Prepare left side of the equation
     E <- prepareEfromtbs(model)
     E <- as.matrix(E[rownames(B), ])
@@ -35,10 +31,10 @@ compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance
 
   #Prepare calculation
   #LCI = B dot Chi %*% c 
-  Chi <- generateChiMatrix(model, output_type)
+  Chi <- generateChiMatrix(model, "Industry")
   B_chi <- B*Chi
   
-  if (model$specs$CommoditybyIndustryType=="Commodity" && output_type=="Industry") {
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
     #Need to transform B_Chi to be in commodity form
     B_chi <- B_chi %*% model$V_n
   }
