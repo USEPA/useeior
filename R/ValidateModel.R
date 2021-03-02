@@ -184,11 +184,12 @@ compareModelResult <- function(df0, df1, abs_diff = TRUE, tolerance) {
   }
   # Compare df1 against df0
   confrontation <- validate::confront(df1, rule, ref = list(df0 = df0))
-  confrontation <- validate::as.data.frame(confrontation)
-  validation <- merge(confrontation, validate::as.data.frame(rule))
-  rownames(validation) <- confrontation$rownames <- rownames(confrontation)
+  #confrontation_df <- validate::as.data.frame(confrontation)
+  confrontation_df <- as.data.frame(confrontation[["._value"]][["V1"]])
+  validation <- merge(confrontation_df, validate::as.data.frame(rule))
+  rownames(validation) <- confrontation_df$rownames <- rownames(confrontation_df)
   validation$name <- NULL
-  return(list("confrontation" = confrontation, "validation" = validation))
+  return(list("confrontation" = confrontation_df, "validation" = validation))
 }
 
 #' Extract validation passes or failures
@@ -213,7 +214,7 @@ extractValidationResult <- function(confrontation, failure = TRUE) {
 #' @return A list contains formatted validation results
 formatValidationResult <- function(df, tolerance) {
   # Compare rel_diff against tolerance
-  comparison <- compareModelResult(0, df, abs_diff = TRUE, tolerance = tolerance)
+  comparison <- compareModelResult(df0 = 0, df, abs_diff = TRUE, tolerance = tolerance)
   # Extract passes and failures
   passes <- extractValidationResult(comparison$confrontation, failure = FALSE)
   failures <- extractValidationResult(comparison$confrontation, failure = TRUE)
