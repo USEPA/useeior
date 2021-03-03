@@ -318,7 +318,7 @@ disaggregateMakeTable <- function (model){
       
     } else {
       
-      logging::loginfo("Disaggregation not performed, type not defined")
+      logging::logwarn("Disaggregation not performed, type not defined")
       break
     }
   }
@@ -350,7 +350,7 @@ disaggregateUseTable <- function (model, domestic = FALSE){
       
     } else {
       
-      logging::loginfo("Disaggregation not performed, type not defined")
+      logging::logwarn("Disaggregation not performed, type not defined")
       break
     }
   }
@@ -427,7 +427,7 @@ disaggregateFinalDemand <- function(model, domestic = FALSE)
       
     } else {
       
-      logging::loginfo("Disaggregation not performed, type not defined")
+      logging::logwarn("Disaggregation not performed, type not defined")
       break
     }
   }
@@ -494,7 +494,7 @@ disaggregateVA <- function(model)
       
     } else {
       
-      logging::loginfo("Disaggregation not performed, type not defined")
+      logging::logwarn("Disaggregation not performed, type not defined")
       break
     }
   }
@@ -681,7 +681,7 @@ UniformUseDisagg <- function(model, disagg, domestic = FALSE){
       
     }else {
       
-      logging::loginfo("Disaggregation not performed, type not defined")
+      logging::logwarn("Disaggregation not performed, type not defined")
       break
     }
   }
@@ -1454,12 +1454,12 @@ DisaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
       
       #Check for indexing errors
       if(length(rowAllocIndex)==0L){
-        logging::loginfo(paste("rowAlloc not found, no allocation made for row", rowAlloc, sep=" ", "in table."))
+        logging::logdebug(paste("rowAlloc not found, no allocation made for row", rowAlloc, sep=" ", "in table."))
         
       }
       
       if(length(colAllocIndex)==0L){
-        logging::loginfo(paste("colAlloc not found, no allocation made for column", colAlloc, sep=" ", "in table."))
+        logging::logdebug(paste("colAlloc not found, no allocation made for column", colAlloc, sep=" ", "in table."))
         
       }
       
@@ -1492,7 +1492,7 @@ DisaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
     }
   }else
   {
-    logging::loginfo(paste("rowAlloc not found, no allocation made for", vectorToDisagg, sep=" "))
+    logging::logdebug(paste("rowAlloc not found, no allocation made for", vectorToDisagg, sep=" "))
     
   }
 

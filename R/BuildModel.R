@@ -20,12 +20,12 @@ buildEEIOModel <- function(model) {
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements) ...")
     model$A <- model$U_n %*% model$V_n
-    logging::loginfo("Building commodity-by-commodity A_d matrix (direct domestic requirements) ...")
+    logging::loginfo("Building commodity-by-commodity A_d matrix (domestic direct requirements) ...")
     model$A_d <- model$U_d_n %*% model$V_n
   } else if(model$specs$CommoditybyIndustryType == "Industry") {
     logging::loginfo("Building industry-by-industry A matrix (direct requirements) ...")
     model$A <- model$V_n %*% model$U_n
-    logging::loginfo("Building industry-by-industry A_d matrix (direct domestic requirements) ...")
+    logging::loginfo("Building industry-by-industry A_d matrix (domestic direct requirements) ...")
     model$A_d <- model$V_n %*% model$U_d_n
   }
 
@@ -53,7 +53,7 @@ buildEEIOModel <- function(model) {
   I <- diag(nrow(model$A))
   I_d <- diag(nrow(model$A_d))
   model$L <- solve(I - model$A)
-  logging::loginfo("Calculating L_d matrix (total domestic requirements) ...")
+  logging::loginfo("Calculating L_d matrix (domestic total requirements) ...")
   model$L_d <- solve(I_d - model$A_d)
   
   # Calculate total emissions/resource use per dollar (M)
