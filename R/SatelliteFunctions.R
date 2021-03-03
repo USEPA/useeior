@@ -212,7 +212,7 @@ checkDuplicateFlows <- function(sattable_ls) {
   
   if (nrow(duplicates) > 0){
     logging::logwarn("Duplicate flows exist across satellite tables.")
-    print(duplicates)
+    logging::logdebug(duplicates)
   } else {
     logging::loginfo("No duplicate flows exist across satellite tables.")
   }
@@ -263,7 +263,7 @@ checkSatelliteFlowLoss <- function(tbs0, tbs) {
   tbs0_flowamount <- sum(tbs0$FlowAmount)
   tbs_flowamount <- sum(tbs$FlowAmount)
   if(abs(tbs0_flowamount - tbs_flowamount)/tbs0_flowamount >= 0.0001){
-    logging::logwarn("Data loss on conforming to model schema")    
+    logging::logdebug("Data loss on conforming to model schema")    
   }
   flows_tbs0 <- unique(tbs0[,c('Flowable','Context')])
   flows_tbs0 <- tolower(apply(cbind(flows_tbs0['Context'], flows_tbs0['Flowable']),
@@ -271,9 +271,10 @@ checkSatelliteFlowLoss <- function(tbs0, tbs) {
   flows_tbs <- unique(tbs[,c('Flowable','Context')])
   flows_tbs <- tolower(apply(cbind(flows_tbs['Context'], flows_tbs['Flowable']),
                               1, FUN = joinStringswithSlashes))
-  if(length(setdiff(flows_tbs0, flows_tbs)) > 0){
-    logging::logwarn("Flows lost upon conforming to model schema:")
-    print(setdiff(flows_tbs0, flows_tbs))
+  lost_flows <- setdiff(flows_tbs0, flows_tbs)
+  if(length(lost_flows) > 0){
+    logging::logdebug("Flows lost upon conforming to model schema  :")
+    logging::logdebug(lost_flows)
   }
 }
 
