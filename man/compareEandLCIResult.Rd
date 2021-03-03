@@ -4,15 +4,13 @@
 \alias{compareEandLCIResult}
 \title{Compares the total flows against the model flow totals result calculation with the total demand}
 \usage{
-compareEandLCIResult(
-  model,
-  output_type,
-  use_domestic = FALSE,
-  tolerance = 0.05
-)
+compareEandLCIResult(model, use_domestic = FALSE, tolerance = 0.05)
 }
 \arguments{
 \item{model, }{EEIOmodel object completely built}
+}
+\value{
+, list with pass/fail validation result and the cell-by-cell relative diff matrxi
 }
 \description{
 Compares the total flows against the model flow totals result calculation with the total demand
