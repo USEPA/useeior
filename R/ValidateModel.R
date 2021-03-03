@@ -3,7 +3,8 @@
 
 #'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built
-#'@return, list with pass/fail validation result and the cell-by-cell relative diff matrxi
+#'@return list with pass/fail validation result and the cell-by-cell relative diff matrix
+#'@export
 compareEandLCIResult <- function(model,use_domestic=FALSE, tolerance=0.05) {
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
@@ -53,7 +54,8 @@ compareEandLCIResult <- function(model,use_domestic=FALSE, tolerance=0.05) {
 #'Uses the model$FinalDemand and model$L
 #'Works for the domestic model with the equivalent tables
 #'@param model, EEIOmodel object completely built
-#'@return vector, a vector of relative different in calculation from sector output by sector 
+#'@return  a vector of relative different in calculation from sector output by sector 
+#'@export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   if (use_domestic) {
     y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
@@ -82,7 +84,8 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 
 #'Compares the total commodity output against the summation of model domestic Use and production demand
 #'@param model, EEIOmodel object completely built
-#'@return vector, a vector of relative different in calculation from sector output by sector 
+#'@return vector, a vector of relative different in calculation from sector output by sector
+#'@export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   p <- model$CommodityOutput
   x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_us_production_complete"]]
