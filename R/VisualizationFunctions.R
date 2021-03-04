@@ -132,47 +132,57 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
 heatmapSatelliteTableCoverage <- function(model) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
-  # Create totals_by_sector dfs
-  TbS <- do.call(rbind, model$SatelliteTables$totals_by_sector)
+  # Create df based on totals_by_sector
+  TbS <- model$TbS
   TbS$Impact <- gsub("\\..*", "", rownames(TbS))
-  df <- stats::aggregate(FlowAmount ~ Impact + Sector, TbS, sum)
-  df_wide <- reshape2::dcast(df, Impact ~ Sector, value.var = "FlowAmount")
-  df <- reshape2::melt(df_wide, id.vars = "Impact", variable.name = "Sector", value.name = "FlowAmount")
+  # Assign category to impact
+  TbS$ImpactCategory <- gsub("/.*", "", TbS$Context)
+  df <- stats::aggregate(FlowAmount ~ Impact + Sector + ImpactCategory, TbS, sum)
+  df_wide <- reshape2::dcast(df, Impact + ImpactCategory ~ Sector, value.var = "FlowAmount")
+  df_wide[df_wide$Impact%in%c("EMP", "VADD"), "ImpactCategory"] <- "Economic"
+  df_wide$ImpactCategory <- toupper(df_wide$ImpactCategory)
+  df <- reshape2::melt(df_wide, id.vars = c("Impact", "ImpactCategory"), variable.name = "Sector", value.name = "FlowAmount")
   df[is.na(df$FlowAmount), "Value"] <- 0
   df[!is.na(df$FlowAmount), "Value"] <- 1
+  df$Sector <- as.character(df$Sector)
   df <- merge(df, mapping, by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel,"Code"))
+  df <- df[order(df$SectorName), ]
   # Prepare axis label and fill colors
   colors <- unique(df[, c("SectorName", "color")])[, "color"]
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = Sector, y = factor(Impact, levels = unique(Impact)),
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Impact, levels = sort(unique(Impact))),
+                                        y = factor(Sector, levels = rev(unique(Sector))),
                                         alpha = Value, fill = SectorName)) + 
     ggplot2::geom_tile(color = "white", size = 0.1) +
     ggplot2::scale_fill_manual(values = colors) +
     ggplot2::labs(x = "", y = "") +
-    ggplot2::scale_y_discrete(expand = c(0, 0)) + ggplot2::coord_flip() +
+    ggplot2::scale_x_discrete(expand = c(0, 0), position = "top") +
+    ggplot2::scale_y_discrete(expand = c(0, 0)) +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
                    axis.title.x = ggplot2::element_text(size = 12), axis.text.y = ggplot2::element_blank(),
                    legend.title = ggplot2::element_blank(), legend.text = ggplot2::element_text(size = 15),
                    legend.key.size = ggplot2::unit(1, "cm"), axis.ticks = ggplot2::element_blank(),
-                   plot.margin = ggplot2::margin(c(5, 20, 5, 5)), strip.text.y = ggplot2::element_blank(),
+                   plot.margin = ggplot2::margin(c(5, 20, 5, 5)), #strip.background = ggplot2::element_blank(),
+                   strip.text = ggplot2::element_text(colour = "black", size = 15), strip.placement = "outside",
                    axis.title = ggplot2::element_blank(), panel.spacing = ggplot2::unit(0.1, "lines")) +
     ggplot2::guides(alpha = FALSE) +
-    ggplot2::facet_grid(SectorName~., scales = "free_y", space = "free_y", switch = "y")
+    ggplot2::facet_grid(~ImpactCategory, scales = "free_x", space = "free_x")
   return(p)
 }
 
 #' SMM tool like heatmap showing ranking of sectors
 #' @param model A complete EEIO model
+#' @param matrix A matrix from model result
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
 #' @param y_title The title of y axis, excluding unit.
 #' @param N_sector A numeric value indicating number of sectors to show in the ranking
 #' @export
-heatmapSectorRanking <- function(model, sector_to_remove, y_title, N_sector) {
+heatmapSectorRanking <- function(model, matrix, sector_to_remove, y_title, N_sector) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
   mapping$GroupName <- mapping$SectorName
   # Prepare data frame for plot
-  df <- as.data.frame(proportions(model$LCIA_d, margin = 2))
+  df <- as.data.frame(proportions(matrix, margin = 2))
   df$Score <- rowSums(df)
   df$Sector <- gsub("/.*", "", rownames(df))
   df <- merge(df, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
@@ -201,7 +211,7 @@ heatmapSectorRanking <- function(model, sector_to_remove, y_title, N_sector) {
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
                    axis.title.x = ggplot2::element_text(size = 15),
                    axis.text.y = ggplot2::element_text(size = 15, color = label_colors),
-                   legend.position = "none", aspect.ratio = 10/1,
+                   legend.position = "none", aspect.ratio = 12/1,
                    axis.ticks = ggplot2::element_blank(),
                    plot.margin = ggplot2::margin(c(5, 20, 5, 5)),
                    strip.placement = "outside",
