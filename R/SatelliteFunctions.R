@@ -257,25 +257,41 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
 #'Checks flow amounts are equal in totals by sector after conforming to model schema
 #'@param tbs0, totals-by-sector df in source schema
 #'@param tbs, totals-by-sector df in model schema
-checkSatelliteFlowLoss <- function(tbs0, tbs) {
+#'@param tolerance, tolerance level for data loss
+checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.005) {
   tbs0 <- tbs0[!is.na(tbs0$Sector), ]
   tbs <- tbs[!is.na(tbs$Sector), ]
-  tbs0_flowamount <- sum(tbs0$FlowAmount)
-  tbs_flowamount <- sum(tbs$FlowAmount)
-  if(abs(tbs0_flowamount - tbs_flowamount)/tbs0_flowamount >= 0.0001){
-    logging::logdebug("Data loss on conforming to model schema")    
-  }
-  flows_tbs0 <- unique(tbs0[,c('Flowable','Context')])
-  flows_tbs0 <- tolower(apply(cbind(flows_tbs0['Context'], flows_tbs0['Flowable']),
-                               1, FUN = joinStringswithSlashes))
-  flows_tbs <- unique(tbs[,c('Flowable','Context')])
-  flows_tbs <- tolower(apply(cbind(flows_tbs['Context'], flows_tbs['Flowable']),
-                              1, FUN = joinStringswithSlashes))
-  lost_flows <- setdiff(flows_tbs0, flows_tbs)
+  
+  tbs0 <- tbs0[, c("Flowable", "Context", "FlowAmount")]
+  tbs <- tbs[, c("Flowable", "Context", "FlowAmount")]
+  tbs0_agg <- dplyr::group_by(tbs0, Flowable, Context)   
+  tbs0_agg <- dplyr::summarize(tbs0_agg,
+                               FlowAmount = sum(FlowAmount)
+                               )
+  tbs_agg <- dplyr::group_by(tbs, Flowable, Context)   
+  tbs_agg <- dplyr::summarize(tbs_agg,
+                               FlowAmount = sum(FlowAmount)
+                              )
+  tbs0_agg$Flow <- tolower(apply(tbs0_agg[, c('Context', 'Flowable')],
+                                1, FUN = joinStringswithSlashes))
+  tbs_agg$Flow <- tolower(apply(tbs_agg[, c('Context', 'Flowable')],
+                                   1, FUN = joinStringswithSlashes))
+  lost_flows <- setdiff(tbs0_agg$Flow, tbs_agg$Flow)
+
   if(length(lost_flows) > 0){
+    tbs_agg[, lost_flows] <- 0
     logging::logdebug("Flows lost upon conforming to model schema  :")
     logging::logdebug(lost_flows)
   }
+
+  tbs_agg[order(match(tbs_agg$Flow, tbs0_agg$Flow)),1, drop=FALSE]
+  rel_diff <- abs((tbs_agg$FlowAmount - tbs0_agg$FlowAmount)/tbs0_agg$FlowAmount)
+  n <- length(subset(rel_diff, rel_diff > tolerance))
+
+  if(n > 0){
+    logging::logdebug("Data loss on conforming to model schema")    
+  }
+
 }
 
 #' Sets the Year in a tbs to be the year of the highest frequency for a given flow when that flow is reported
