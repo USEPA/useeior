@@ -54,6 +54,13 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
     # Calculate DirectPerspectiveLCIA (transposed u_d with total impacts in form of sectorximpact categories)
     logging::loginfo("Calculating Direct Perspective LCIA...")
     result$LCIA_d <- calculateDirectPerspectiveLCIA(model$B, model$C, c)
+  } else if (perspective=="FINAL") {
+    # Calculate FinalPerspectiveLCI 
+    logging::loginfo("Calculating Final Perspective LCI...")
+    result$LCI_f <- calculateFinalPerspectiveLCI(model$M, f)
+    # Calculate FinalPerspectiveLCIA 
+    logging::loginfo("Calculating Final Perspective LCIA...")
+    result$LCIA_f <- calculateFinalPerspectiveLCIA(model$N, f)
   }
   
   logging::loginfo("Result calculation complete.")
