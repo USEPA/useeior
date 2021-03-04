@@ -791,6 +791,7 @@ disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE,
 disaggregateMasterCrosswalk <- function (crosswalk, disagg){
   # update the crosswalk by updating the BEA codes for disaggregation or adding new NAICS_like codes
   updated_cw <- disagg$NAICSSectorCW[, c("NAICS_2012_Code","USEEIO_Code")]
+  updated_cw$USEEIO_Code <- gsub("/.*", "", updated_cw$USEEIO_Code)
   names(updated_cw)[names(updated_cw)=='NAICS_2012_Code'] <- "NAICS"
 
   crosswalk <- merge(crosswalk, updated_cw, by = "NAICS", all = TRUE)
