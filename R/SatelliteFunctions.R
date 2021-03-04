@@ -178,8 +178,8 @@ getValueAddedTotalsbySector <- function(model) {
   # Add columns to convert to standard totals_by_sector format
   colnames(df) <- "FlowAmount"
   df$Flowable <- "Value Added"
-  df[, "Sector"] <- rownames(df)
-  df <- merge(df, model$SectorNames, by = "Sector", all.x = TRUE)
+  df[, "Sector"] <- gsub("/.*", "", rownames(df))
+  df <- merge(df, model$SectorNames, by.x = 0, by.y = "Sector", all.x = TRUE)
   df[, "Context"] <- ""
   df[, "Unit"] <- "USD"
   df[, "Year"] <- model$specs$SatelliteTable$VADD$SectorListYear
