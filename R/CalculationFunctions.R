@@ -54,6 +54,13 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
     # Calculate DirectPerspectiveLCIA (transposed u_d with total impacts in form of sectorximpact categories)
     logging::loginfo("Calculating Direct Perspective LCIA...")
     result$LCIA_d <- calculateDirectPerspectiveLCIA(model$B, model$C, c)
+  } else if (perspective=="FINAL") {
+    # Calculate FinalPerspectiveLCI 
+    logging::loginfo("Calculating Final Perspective LCI...")
+    result$LCI_f <- calculateFinalPerspectiveLCI(model$M, f)
+    # Calculate FinalPerspectiveLCIA 
+    logging::loginfo("Calculating Final Perspective LCIA...")
+    result$LCIA_f <- calculateFinalPerspectiveLCIA(model$N, f)
   }
   
   logging::loginfo("Result calculation complete.")
@@ -145,6 +152,23 @@ calculateDirectPerspectiveLCI <- function(B, c) {
   return(m_d)
 }
 
+#' The final perspective LCI aligns flows with sectors consumed by final users
+#' Multiply the M matrix and the diagonal of demand, y.
+#' @param M, a model M matrix, direct + indirect flows per $ output of sector.
+#' @param y, a model demand vector
+#' @return matrix, model sectors x model flows with total flows per sector
+#' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
+#' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
+#' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
+#' SI1, Equation 8.
+calculateFinalPerspectiveLCI <- function(M, y) {
+  lci_f <-  M %*% diag(as.vector(y))
+  lci_f <- t(lci_f)
+  colnames(lci_f) <- rownames(M)
+  rownames(lci_f) <- colnames(M)
+  return(lci_f)
+}
+
 #' Multiply the C matrix and the product of B matrix and scaling vector c.
 #' @param B Marginal impact per unit of the environmental flows.
 #' @param C LCIA indicators.
@@ -160,6 +184,24 @@ calculateDirectPerspectiveLCIA <- function(B, C, c) {
   lcia_d <- t(lcia_d)
   return(lcia_d)
 }
+
+#' The final perspective aligns impacts with sectors consumed by final users
+#' Multiply the N matrix and the diagonal of demand, y.
+#' @param N, a model N matrix, direct + indirect impact per unit of the environmental flows.
+#' @param y, a model demand vector
+#' @return Transposed u_d with total impacts in form of sector x impact categories.
+#' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
+#' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
+#' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
+#' SI1, Equation 8.
+calculateFinalPerspectiveLCIA <- function(N, y) {
+  lcia_f <-  N %*% diag(as.vector(y))
+  lcia_f <- t(lcia_f)
+  colnames(lcia_f) <- rownames(N)
+  rownames(lcia_f) <- colnames(N)
+  return(lcia_f)
+}
+
 
 #' Divide/Normalize a sector x flows matrix by the total of respective flow (column sum)
 #' @param m A sector x flows matrix.
