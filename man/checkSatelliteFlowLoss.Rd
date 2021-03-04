@@ -4,12 +4,14 @@
 \alias{checkSatelliteFlowLoss}
 \title{Checks flow amounts are equal in totals by sector after conforming to model schema}
 \usage{
-checkSatelliteFlowLoss(tbs0, tbs)
+checkSatelliteFlowLoss(tbs0, tbs, tolerance = 0.005)
 }
 \arguments{
 \item{tbs0, }{totals-by-sector df in source schema}
 
 \item{tbs, }{totals-by-sector df in model schema}
+
+\item{tolerance, }{tolerance level for data loss}
 }
 \description{
 Checks flow amounts are equal in totals by sector after conforming to model schema

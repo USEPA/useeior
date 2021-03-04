@@ -4,10 +4,12 @@
 \alias{heatmapSectorRanking}
 \title{SMM tool like heatmap showing ranking of sectors}
 \usage{
-heatmapSectorRanking(model, sector_to_remove, y_title, N_sector)
+heatmapSectorRanking(model, matrix, sector_to_remove, y_title, N_sector)
 }
 \arguments{
 \item{model}{A complete EEIO model}
+
+\item{matrix}{A matrix from model result}
 
 \item{sector_to_remove}{Code of one or more BEA sectors that will be removed from the plot. Can be "".}
 
