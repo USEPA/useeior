@@ -194,20 +194,20 @@ getValueAddedTotalsbySector <- function(model) {
 #' Check duplicates across satellite tables.
 #' @param sattable_ls A list of satellite tables
 #' @return Messages about whether there are duplicates across satellite tables
-checkDuplicateFlows <- function(sattable_ls) {
+checkDuplicateFlowsBySector <- function(sattable_ls) {
   # Extract unique Flowable and Context combination from each sat table
   for (table_name in names(sattable_ls)){
     # Update context to reflect only primary context (e.g. emission/air)
     sattable_ls[[table_name]][, "Context"] <- stringr::str_match(sattable_ls[[table_name]][, "Context"],"\\w*\\/?\\w*")
     # Store only flow information for each table
-    sattable_ls[[table_name]] <- unique(sattable_ls[[table_name]][, c("Flowable", "Context")])
+    sattable_ls[[table_name]] <- unique(sattable_ls[[table_name]][, c("Flowable", "Context", "Sector")])
     sattable_ls[[table_name]][, "name"] <- table_name
   }
   unique_flows <- do.call(rbind, sattable_ls)
   # Check duplicates in all unique flows
-  duplicates <- unique_flows[duplicated(unique_flows[, c("Flowable", "Context")]) |
-                               duplicated(unique_flows[, c("Flowable", "Context")], fromLast = TRUE), ]
-  duplicates <- duplicates[order(duplicates$Context, duplicates$Flowable), ]
+  duplicates <- unique_flows[duplicated(unique_flows[, c("Flowable", "Context", "Sector")]) |
+                               duplicated(unique_flows[, c("Flowable", "Context", "Sector")], fromLast = TRUE), ]
+  duplicates <- duplicates[order(duplicates$Context, duplicates$Flowable, duplicates$Sector), ]
   rownames(duplicates) <- NULL
   
   if (nrow(duplicates) > 0){
