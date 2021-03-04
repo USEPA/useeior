@@ -45,6 +45,7 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   
   # Add in BEA industry/commodity names
   sectornames <- model$SectorNames
+  sectornames$Sector <- gsub("/.*", "", sectornames$Sector)
   # Add F01000 or F010 to sectornames
   if (model$specs$BaseIOLevel=="Detail") {
     sectornames <- rbind.data.frame(sectornames, c("F01000", "Household"))
@@ -178,8 +179,8 @@ getValueAddedTotalsbySector <- function(model) {
   # Add columns to convert to standard totals_by_sector format
   colnames(df) <- "FlowAmount"
   df$Flowable <- "Value Added"
-  df[, "Sector"] <- rownames(df)
-  df <- merge(df, model$SectorNames, by = "Sector", all.x = TRUE)
+  df[, "Sector"] <- gsub("/.*", "", rownames(df))
+  df <- merge(df, model$SectorNames, by.x = 0, by.y = "Sector", all.x = TRUE)
   df[, "Context"] <- ""
   df[, "Unit"] <- "USD"
   df[, "Year"] <- model$specs$SatelliteTable$VADD$SectorListYear
