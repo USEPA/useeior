@@ -315,3 +315,17 @@ setCommonYearforFlow <- function(tbs) {
   }
   return(tbs)
 }
+
+#' Removes flow data where sectors are NA after mapping. Should only be used after checkSatelliteFlowLoss
+#' @param tbs, totals-by-sector df in model schema
+#' @return df, the modified tbs
+removeMissingSectors <- function(tbs) {
+  df <- tbs[!is.na(tbs$Sector), ]
+  n <- nrow(tbs) - nrow(df)
+  if(n > 0){
+    logging::logdebug(paste0(n, "records dropped with no sector"))
+  }
+  
+  return(df)
+  
+}
