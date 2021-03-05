@@ -180,7 +180,7 @@ getValueAddedTotalsbySector <- function(model) {
   colnames(df) <- "FlowAmount"
   df$Flowable <- "Value Added"
   df[, "Sector"] <- gsub("/.*", "", rownames(df))
-  df <- merge(df, model$SectorNames, by.x = 0, by.y = "Sector", all.x = TRUE)
+  df <- merge(df, model$SectorNames, by = "Sector", all.x = TRUE)
   df[, "Context"] <- ""
   df[, "Unit"] <- "USD"
   df[, "Year"] <- model$specs$SatelliteTable$VADD$SectorListYear
