@@ -325,7 +325,5 @@ removeMissingSectors <- function(tbs) {
   if(n > 0){
     logging::logdebug(paste0(n, "records dropped with no sector"))
   }
-  
   return(df)
-  
 }
