@@ -4,7 +4,14 @@
 \alias{heatmapSectorRanking}
 \title{SMM tool like heatmap showing ranking of sectors}
 \usage{
-heatmapSectorRanking(model, matrix, sector_to_remove, y_title, N_sector)
+heatmapSectorRanking(
+  model,
+  matrix,
+  indicators,
+  sector_to_remove,
+  y_title,
+  N_sector
+)
 }
 \arguments{
 \item{model}{A complete EEIO model}

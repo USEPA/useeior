@@ -177,21 +177,26 @@ heatmapSatelliteTableCoverage <- function(model) {
 #' @param y_title The title of y axis, excluding unit.
 #' @param N_sector A numeric value indicating number of sectors to show in the ranking
 #' @export
-heatmapSectorRanking <- function(model, matrix, sector_to_remove, y_title, N_sector) {
+heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_title, N_sector) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
   mapping$GroupName <- mapping$SectorName
   # Prepare data frame for plot
   df <- as.data.frame(proportions(matrix, margin = 2))
-  df$Score <- rowSums(df)
+  colnames(df) <- model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
   df$Sector <- gsub("/.*", "", rownames(df))
   df <- merge(df, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
               by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"))
   SectorName <- model$SectorNames
   SectorName$Sector <- gsub("/.*", "", SectorName$Sector)
   df <- merge(df, SectorName, by = "Sector")
-  # Remove certain sectors
+  # Subset df to keep specified indicators and remove unwanted sectors
   df <- df[!df$Sector%in%sector_to_remove, ]
+  if(length(indicators)>1) {
+    df$Score <- rowSums(df[, indicators])
+  } else {
+    df$Score <- df[, indicators]
+  }
   # Rank by value
   df$ranking <- rank(-df$Score)
   df <- df[order(df$ranking), ][1:N_sector, ]
