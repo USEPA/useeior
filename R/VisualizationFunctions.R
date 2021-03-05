@@ -182,7 +182,7 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
   mapping <- getBEASectorColorMapping(model)
   mapping$GroupName <- mapping$SectorName
   # Prepare data frame for plot
-  df <- as.data.frame(proportions(matrix, margin = 2))
+  df <- as.data.frame(prop.table(matrix, margin = 2))
   colnames(df) <- model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
   df$Sector <- gsub("/.*", "", rownames(df))
   df <- merge(df, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
