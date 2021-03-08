@@ -4,12 +4,12 @@
 \alias{generateCbSfromTbSandModel}
 \title{Prepare coefficients (x unit/$) from the totals by flow and sector (x unit)}
 \usage{
-generateCbSfromTbSandModel(TbS, model)
+generateCbSfromTbSandModel(model)
 }
 \arguments{
-\item{TbS, }{a totals by sector dataframe}
-
 \item{model, }{a model with econ and flow data loaded}
+
+\item{TbS, }{a totals by sector dataframe}
 }
 \value{
 df, a Coefficients-by-sector table

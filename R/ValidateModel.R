@@ -3,8 +3,9 @@
 
 #'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built
-compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance=0.05) {
-  
+#'@return list with pass/fail validation result and the cell-by-cell relative diff matrix
+#'@export
+compareEandLCIResult <- function(model,use_domestic=FALSE, tolerance=0.05) {
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
   if (use_domestic) {
@@ -16,51 +17,45 @@ compareEandLCIResult <- function(model,output_type,use_domestic=FALSE, tolerance
   }
 
   if (model$specs$CommoditybyIndustryType=="Commodity") {
+    CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
+    B <- as.matrix(CbS_cast)
 
-    if (output_type=="Commodity") {
-      B <- model$B 
-      
-    } else {
-      #industry approach
-      CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
-      B <- as.matrix(CbS_cast)
-    } 
-
-    
     ##Prepare left side of the equation
     E <- prepareEfromtbs(model)
     E <- as.matrix(E[rownames(B), ])
         #transform E with commodity mix
     C <- generateCommodityMixMatrix(model)
     E <-  t(C %*% t(E))  
-    
   } else {
     stop("This function cannot yet handle industry type models")
   }
 
   #Prepare calculation
   #LCI = B dot Chi %*% c 
-  Chi <- generateChiMatrix(model, output_type)
+  Chi <- generateChiMatrix(model, "Industry")
   B_chi <- B*Chi
   
-  if (model$specs$CommoditybyIndustryType=="Commodity" && output_type=="Industry") {
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
     #Need to transform B_Chi to be in commodity form
-    B_chi <- B_chi  %*% model$V_n
+    B_chi <- B_chi %*% model$V_n
   }
   
-  
-  
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
-
+  
+  # Calculate relative differences
   rel_diff <- (LCI - E)/E
-  return(rel_diff)
+  
+  # Generate Pass/Fail comparison results
+  validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  return(validation)
 }
 
 #'Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
 #'Uses the model$FinalDemand and model$L
 #'Works for the domestic model with the equivalent tables
 #'@param model, EEIOmodel object completely built
-#'@return vector, a vector of relative different in calculation from sector output by sector 
+#'@return  a vector of relative different in calculation from sector output by sector 
+#'@export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   if (use_domestic) {
     y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
@@ -79,13 +74,18 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
   if (!identical(rownames(c), names(x))) {
     stop("Sectors not aligned in model ouput variable and calculation result")
   }
+  # Calculate relative differences
   rel_diff <- (c - x)/x
-  return(rel_diff)
+  
+  # Generate Pass/Fail comparison results
+  validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  return(validation)
 }
 
 #'Compares the total commodity output against the summation of model domestic Use and production demand
 #'@param model, EEIOmodel object completely built
-#'@return vector, a vector of relative different in calculation from sector output by sector 
+#'@return vector, a vector of relative different in calculation from sector output by sector
+#'@export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   p <- model$CommodityOutput
   x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_us_production_complete"]]
@@ -93,8 +93,12 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
   #Row names should be identical
   identical(names(p), names(x))
   
+  # Calculate relative differences
   rel_diff <- (p - x)/p
-  return(rel_diff)
+  
+  # Generate Pass/Fail comparison results
+  validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  return(validation)
 }
 
 
@@ -154,6 +158,58 @@ compareIndustryOutputinMakeandUse <- function(model) {
   }
   # Calculate relative differences in x_make and x_use
   rel_diff <- (x_use - x_make)/x_make
-  return(rel_diff)
+  
+  # Generate Pass/Fail comparison results
+  validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  return(validation)
 }
 
+#' Validate result based on specified tolerance
+#' @param result A data object to be validated
+#' @param abs_diff A boolean value indicating whether to validate absolute values
+#' @param tolerance A numeric value setting tolerance of the comparison
+#' @return A list contains confrontation details and validation results
+validateResult <- function(result, abs_diff = TRUE, tolerance) {
+  result[is.na(result)] <- 0
+  # Validate result
+  if (abs_diff) {
+    validation <- as.data.frame(abs(result) <= tolerance)
+  } else {
+    validation <- as.data.frame(result <= tolerance)
+  }
+  validation$rownames <- rownames(validation)
+  return(validation)
+}
+
+#' Extract validation passes or failures
+#' @param validation A data.frame contains validation details
+#' @param failure A boolean value indicating whether to report failure or not
+#' @return A data.frame contains validation results
+extractValidationResult <- function(validation, failure = TRUE) {
+  df <- reshape2::melt(validation, id.vars = "rownames")
+  if (failure) {
+    result <- df[df$value==FALSE, c("rownames", "variable")]
+  } else {
+    result <- df[df$value==TRUE, c("rownames", "variable")]
+  }
+  result[] <- sapply(result, as.character)
+  return(result)
+}
+
+#' Format validation result
+#' @param df A data.frame to be validated
+#' @param abs_diff A boolean value indicating whether to validate absolute values
+#' @param tolerance A numeric value setting tolerance of the comparison
+#' @return A list contains formatted validation results
+formatValidationResult <- function(result, abs_diff = TRUE, tolerance) {
+  # Validate result
+  validation <- validateResult(result, abs_diff, tolerance)
+  # Extract passes and failures
+  passes <- extractValidationResult(validation, failure = FALSE)
+  failures <- extractValidationResult(validation, failure = TRUE)
+  N_passes <- nrow(passes)
+  N_failures <- nrow(failures)
+  return(list("RelativeDifference" = as.data.frame(result),
+              "Pass" = passes, "N_Pass" = N_passes,
+              "Failure" = failures, "N_Failure" = N_failures))
+}

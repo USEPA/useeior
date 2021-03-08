@@ -1,0 +1,26 @@
+BEA_2007_Sector_Code,BEA_2007_Sector_Name,BEA_2007_Summary_Code,BEA_2007_Summary_Name,BEA_2007_Detail_Code,BEA_2007_Detail_Name,USEEIO_Code,USEEIO_Industry,NAICS_2007_Code,NAICS_2007_Name
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Housing,5310HS,Housing,5310HS,Housing,53,Real Estate and Rental and Leasing
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Housing,5310HS,Housing,5310HS,Housing,531,Real Estate
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Housing,5310HS,Housing,5310HS,Housing,5311,Lessors of Real Estate
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Housing,5310HS,Housing,5310HS,Housing,53111,Lessors of Residential Buildings and Dwellings
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Housing,5310HS,Housing,5310HS,Housing,531110,Lessors of Residential Buildings and Dwellings
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53,Real Estate and Rental and Leasing
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531,Real Estate
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,5311,Lessors of Real Estate
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,5312,Offices of Real Estate Agents and Brokers
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,5313,Activities Related to Real Estate
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53112,Lessors of Nonresidential Buildings (except Miniwarehouses)
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53113,Lessors of Miniwarehouses and Self-Storage Units
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53119,Lessors of Other Real Estate Property
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53121,Offices of Real Estate Agents and Brokers
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53131,Real Estate Property Managers
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53132,Offices of Real Estate Appraisers
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,53139,Other Activities Related to Real Estate
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531120,Lessors of Nonresidential Buildings (except Miniwarehouses)
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531130,Lessors of Miniwarehouses and Self-Storage Units
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531190,Lessors of Other Real Estate Property
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531210,Offices of Real Estate Agents and Brokers
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531311,Residential Property Managers
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531312,Nonresidential Property Managers
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531320,Offices of Real Estate Appraisers
+FIRE,REAL ESTATE AND RENTAL AND LEASING,531,Other real estate,531ORE,Other real estate,531ORE,Other real estate,531390,Other Activities Related to Real Estate

@@ -90,7 +90,7 @@ loadIOData <- function(modelname) {
   if(!is.null(model$specs$DisaggregationSpecs)){
     model <- disaggregateModel(model)
   }
-  
+
   return(model)
 }
 
@@ -103,7 +103,7 @@ loadBEAtables <- function(specs) {
   logging::loginfo("Initializing IO tables...")
 
   # Get BEA sectors by group
-  BEA$Commodities <-getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Commodity")
+  BEA$Commodities <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Commodity")
   BEA$Industries <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Industry")
   BEA$ValueAddedCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "ValueAdded")
   BEA$HouseholdDemandCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "HouseholdDemand")
@@ -168,6 +168,4 @@ loadBEAMakeorUseTable <- function (iolevel, makeoruse, year, redef){
   
   return(BEA_Table)
 }
-
-
 

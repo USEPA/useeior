@@ -12,7 +12,7 @@ compareOutputandLeontiefXDemand(model, use_domestic = FALSE, tolerance = 0.05)
 \item{model, }{EEIOmodel object completely built}
 }
 \value{
-vector, a vector of relative different in calculation from sector output by sector
+a vector of relative different in calculation from sector output by sector
 }
 \description{
 Compares the total sector output against the model result calculation with the demand vector. and direct perspective.

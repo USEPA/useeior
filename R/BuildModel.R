@@ -20,12 +20,12 @@ buildEEIOModel <- function(model) {
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements) ...")
     model$A <- model$U_n %*% model$V_n
-    logging::loginfo("Building commodity-by-commodity A_d matrix (direct domestic requirements) ...")
+    logging::loginfo("Building commodity-by-commodity A_d matrix (domestic direct requirements) ...")
     model$A_d <- model$U_d_n %*% model$V_n
   } else if(model$specs$CommoditybyIndustryType == "Industry") {
     logging::loginfo("Building industry-by-industry A matrix (direct requirements) ...")
     model$A <- model$V_n %*% model$U_n
-    logging::loginfo("Building industry-by-industry A_d matrix (direct domestic requirements) ...")
+    logging::loginfo("Building industry-by-industry A_d matrix (domestic direct requirements) ...")
     model$A_d <- model$V_n %*% model$U_d_n
   }
 
@@ -53,7 +53,7 @@ buildEEIOModel <- function(model) {
   I <- diag(nrow(model$A))
   I_d <- diag(nrow(model$A_d))
   model$L <- solve(I - model$A)
-  logging::loginfo("Calculating L_d matrix (total domestic requirements) ...")
+  logging::loginfo("Calculating L_d matrix (domestic total requirements) ...")
   model$L_d <- solve(I_d - model$A_d)
   
   # Calculate total emissions/resource use per dollar (M)
@@ -65,12 +65,12 @@ buildEEIOModel <- function(model) {
   model$M_d <- model$B %*% model$L_d
   colnames(model$M_d) <- colnames(model$M)
   
-  # Calculate total impacts per dollar (U), impact category x sector
-  logging::loginfo("Calculating U matrix (total environmental impacts per dollar) ...")
-  model$U <- model$C %*% model$M
+  # Calculate total impacts per dollar (N), impact category x sector
+  logging::loginfo("Calculating N matrix (total environmental impacts per dollar) ...")
+  model$N <- model$C %*% model$M
   # Calculate U_d, the domestic impacts per dollar
-  logging::loginfo("Calculating U matrix (total environmental impacts per dollar from domestic activity) ...")
-  model$U_d <- model$C %*% model$M_d
+  logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity) ...")
+  model$N_d <- model$C %*% model$M_d
 
   logging::loginfo("Model build complete.")
   return(model)
@@ -78,7 +78,7 @@ buildEEIOModel <- function(model) {
 
 #'Creates the B matrix from the flow data
 #'@param model, a model with econ and flow data loaded
-#'@result B, a matrix in flow x sector format with values of flow per $ output sector
+#'@return B, a matrix in flow x sector format with values of flow per $ output sector
 createBfromFlowDataandOutput <- function(model) {
 
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
