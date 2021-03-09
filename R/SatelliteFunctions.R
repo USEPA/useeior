@@ -43,9 +43,9 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   # Rename BEA to Sector
   colnames(totals_by_sector_BEA)[colnames(totals_by_sector_BEA)=="BEA"] <- "Sector"
   
-  # Add in BEA industry/commodity names
-  sectornames <- model$SectorNames
-  sectornames$Sector <- gsub("/.*", "", sectornames$Sector)
+  # Add in BEA industry names
+  sectornames <- model$Industries[, c("Code", "Name")]
+  colnames(sectornames) <- c("Sector", "SectorName")
   # Add F01000 or F010 to sectornames
   if (model$specs$BaseIOLevel=="Detail") {
     sectornames <- rbind.data.frame(sectornames, c("F01000", "Household"))
@@ -53,10 +53,9 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
     sectornames <- rbind.data.frame(sectornames, c("F010", "Household"))
   }
   # Assign sector names to totals_by_sector_BEA
-  totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames,
-                                by.x = "Sector", by.y = "Sector", all.x = TRUE)
+  totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames, by = "Sector", all.x = TRUE)
   
-  # Aggregate to BEA sectors using unique aggregation functions depending on the quantitive variable
+  # Aggregate to BEA sectors using unique aggregation functions depending on the quantatitive variable
   totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA,
                                               Flowable, Context, Sector, SectorName,
                                               Location, Unit, Year, DistributionType) 
@@ -180,7 +179,8 @@ getValueAddedTotalsbySector <- function(model) {
   colnames(df) <- "FlowAmount"
   df$Flowable <- "Value Added"
   df[, "Sector"] <- gsub("/.*", "", rownames(df))
-  df <- merge(df, model$SectorNames, by = "Sector", all.x = TRUE)
+  df <- merge(df, model$Industries[, c("Code", "Name")],
+              by.x = "Sector", by.y = "Code", all.x = TRUE)
   df[, "Context"] <- ""
   df[, "Unit"] <- "USD"
   df[, "Year"] <- model$specs$SatelliteTable$VADD$SectorListYear

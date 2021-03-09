@@ -17,9 +17,23 @@ loadIOData <- function(modelname) {
   model$GDP <- loadGDPtables(model$specs)
   # Declare model IO objects
   if (model$specs$ModelType=="US") {
-    model$Industries <- toupper(apply(cbind(model$BEA$Industries, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
-    model$Commodities <- toupper(apply(cbind(model$BEA$Commodities, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
+    # model$Industries
+    model$Industries <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
+    colnames(model$Industries) <- c("Code", "Name")
+    model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
+    model$Industries <- model$Industries[order(match(model$BEA$Industries, model$Industries$Code)), ]
+    model$Industries$Code_Loc <- toupper(apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
     
+    # model$Commodities
+    model$Commodities <- merge(as.data.frame(model$BEA$Commodities, stringsAsFactors = FALSE),
+                               utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
+                                                 sep = ",", header = TRUE, stringsAsFactors = FALSE),
+                               by.x = "model$BEA$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
+    colnames(model$Commodities) <- c("Code", "Name")
+    model$Commodities <- model$Commodities[order(match(model$BEA$Commodities, model$Commodities$Code)), ]
+    model$Commodities$Code_Loc <- toupper(apply(cbind(model$Commodities$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
+    
+    # IO tables
     model$MakeTransactions <- model$BEA$MakeTransactions
     model$UseTransactions <- model$BEA$UseTransactions
     model$DomesticUseTransactions <- model$BEA$DomesticUseTransactions
@@ -29,10 +43,10 @@ loadIOData <- function(modelname) {
     ## Modify row and column names in the IO tables
     # Use model$Industries
     rownames(model$MakeTransactions) <- colnames(model$UseTransactions) <- colnames(model$DomesticUseTransactions) <-
-      colnames(model$UseValueAdded) <- model$Industries
+      colnames(model$UseValueAdded) <- model$Industries$Code_Loc
     # Use model$Commodities
     colnames(model$MakeTransactions) <- rownames(model$UseTransactions) <- rownames(model$DomesticUseTransactions) <- 
-      rownames(model$FinalDemand) <- rownames(model$DomesticFinalDemand) <- model$Commodities
+      rownames(model$FinalDemand) <- rownames(model$DomesticFinalDemand) <- model$Commodities$Code_Loc
     # Apply joinStringswithSlashes based on original row/column names
     rownames(model$UseValueAdded) <- toupper(apply(cbind(rownames(model$UseValueAdded), model$specs$PrimaryRegionAcronym),
                                                    1, FUN = joinStringswithSlashes))
@@ -44,7 +58,7 @@ loadIOData <- function(modelname) {
     model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
     
     model$MultiYearIndustryOutput <- model$GDP$BEAGrossOutputIO[model$BEA$Industries, ]
-    rownames(model$MultiYearIndustryOutput) <- model$Industries
+    rownames(model$MultiYearIndustryOutput) <- model$Industries$Code_Loc
     model$MultiYearIndustryOutput[, as.character(model$specs$IOYear)] <- model$IndustryOutput
     # Transform multi-year industry output to commodity output
     model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
@@ -54,33 +68,22 @@ loadIOData <- function(modelname) {
     model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
     
     model$MultiYearIndustryCPI <- model$GDP$BEACPIIO[model$BEA$Industries, ]
-    rownames(model$MultiYearIndustryCPI) <- model$Industries
+    rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
     # Transform industry CPI to commodity CPI
     model$MultiYearCommodityCPI <- as.data.frame(model$MultiYearIndustryCPI)[, FALSE]
     for (year_col in colnames(model$MultiYearIndustryCPI)) {
       model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
     }
     
-    # Transform model objects from by-industry to by-commodity, or vice versa
-    if (model$specs$CommoditybyIndustryType=="Commodity") {
-      # Get model$SectorNames
-      USEEIONames <- utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
-                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
-      model$SectorNames <- merge(as.data.frame(model$BEA$Commodities, stringsAsFactors = FALSE), USEEIONames,
-                                 by.x = "model$BEA$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
-    } else {
-      # Transform model$BEA$UseFinalDemand with MarketShares
+    # Transform model FinalDemand and DomesticFinalDemand to by-industry form
+    if (model$specs$CommoditybyIndustryType=="Industry") {
       model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
-      # Transform model$BEA$DomesticFinalDemand with MarketShares
       model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
-      # Get model$SectorNames
-      model$SectorNames <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
     }
-    colnames(model$SectorNames) <- c("Sector", "SectorName")
     
     # Get model$IntermediateMargins and model$FinalConsumerMargins
-    model$IntermediateMargins <- getMarginsTable(model, "intermediate")
-    model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
+    # model$IntermediateMargins <- getMarginsTable(model, "intermediate")
+    # model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
     
   } else if (model$specs$ModelType=="State2R") {
     # Fork for state model here

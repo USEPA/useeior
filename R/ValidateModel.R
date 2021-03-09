@@ -150,8 +150,8 @@ compareIndustryOutputinMakeandUse <- function(model) {
   x_make <-rowSums(model$MakeTransactions)
   x_use <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
   # Sort x_make and x_use to have the same industry order (default model$Industries)
-  x_make <- x_make[order(model$Industries)]
-  x_use <- x_use[order(model$Industries)]
+  x_make <- x_make[order(model$Industries$Code_Loc)]
+  x_use <- x_use[order(model$Industries$Code_Loc)]
   # Check if x_make and x_use have the same industry order
   if (!identical(names(x_make), names(x_use))) {
     stop("industries in Make and Use do not match")
