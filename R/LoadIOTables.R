@@ -90,7 +90,7 @@ loadNationalIOData <- function(model) {
   model$MultiYearIndustryCPI <- model$GDP$BEACPIIO[model$Industries$Code, ]
   rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
   # Transform industry CPI to commodity CPI
-  model$MultiYearCommodityCPI <- as.data.frame(model$MultiYearIndustryCPI)[, FALSE]
+  model$MultiYearCommodityCPI <- as.data.frame(model$CommodityOutput)[, FALSE]
   for (year_col in colnames(model$MultiYearIndustryCPI)) {
     model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
   }
