@@ -4,7 +4,7 @@
 #' @export
 loadIOData <- function(modelname) {
   startLogging()
-  logging::loginfo('Begin model initialization...')
+  logging::loginfo("Begin model initialization...")
   model <- list()
   # Get model specs
   model$specs <- getModelConfiguration(modelname)
@@ -12,79 +12,12 @@ loadIOData <- function(modelname) {
   model$crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema))
   model$crosswalk <- unique(model$crosswalk[, c("NAICS_2012_Code", colnames(model$crosswalk)[startsWith(colnames(model$crosswalk), "BEA")])])
   colnames(model$crosswalk) <- gsub(paste0("_", model$specs$BaseIOSchema, "|_Code"), "", colnames(model$crosswalk))
-  # Get BEA IO tables and GDP tables
-  model$BEA <- loadBEAtables(model$specs)
+  # Get GDP tables, because Chain Price indexes are useful for both national and state models.
   model$GDP <- loadGDPtables(model$specs)
   # Declare model IO objects
+  logging::loginfo("Initializing IO tables...")
   if (model$specs$ModelType=="US") {
-    # model$Industries
-    model$Industries <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
-    colnames(model$Industries) <- c("Code", "Name")
-    model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
-    model$Industries <- model$Industries[order(match(model$BEA$Industries, model$Industries$Code)), ]
-    model$Industries$Code_Loc <- toupper(apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
-    
-    # model$Commodities
-    model$Commodities <- merge(as.data.frame(model$BEA$Commodities, stringsAsFactors = FALSE),
-                               utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
-                                                 sep = ",", header = TRUE, stringsAsFactors = FALSE),
-                               by.x = "model$BEA$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
-    colnames(model$Commodities) <- c("Code", "Name")
-    model$Commodities <- model$Commodities[order(match(model$BEA$Commodities, model$Commodities$Code)), ]
-    model$Commodities$Code_Loc <- toupper(apply(cbind(model$Commodities$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
-    
-    # IO tables
-    model$MakeTransactions <- model$BEA$MakeTransactions
-    model$UseTransactions <- model$BEA$UseTransactions
-    model$DomesticUseTransactions <- model$BEA$DomesticUseTransactions
-    model$UseValueAdded <- model$BEA$UseValueAdded
-    model$FinalDemand <- model$BEA$UseFinalDemand
-    model$DomesticFinalDemand <- model$BEA$DomesticFinalDemand
-    ## Modify row and column names in the IO tables
-    # Use model$Industries
-    rownames(model$MakeTransactions) <- colnames(model$UseTransactions) <- colnames(model$DomesticUseTransactions) <-
-      colnames(model$UseValueAdded) <- model$Industries$Code_Loc
-    # Use model$Commodities
-    colnames(model$MakeTransactions) <- rownames(model$UseTransactions) <- rownames(model$DomesticUseTransactions) <- 
-      rownames(model$FinalDemand) <- rownames(model$DomesticFinalDemand) <- model$Commodities$Code_Loc
-    # Apply joinStringswithSlashes based on original row/column names
-    rownames(model$UseValueAdded) <- toupper(apply(cbind(rownames(model$UseValueAdded), model$specs$PrimaryRegionAcronym),
-                                                   1, FUN = joinStringswithSlashes))
-    colnames(model$FinalDemand) <- colnames(model$DomesticFinalDemand) <- toupper(apply(cbind(colnames(model$FinalDemand),
-                                                                                              model$specs$PrimaryRegionAcronym),
-                                                                                        1, FUN = joinStringswithSlashes))
-    
-    model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
-    model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
-    
-    model$MultiYearIndustryOutput <- model$GDP$BEAGrossOutputIO[model$BEA$Industries, ]
-    rownames(model$MultiYearIndustryOutput) <- model$Industries$Code_Loc
-    model$MultiYearIndustryOutput[, as.character(model$specs$IOYear)] <- model$IndustryOutput
-    # Transform multi-year industry output to commodity output
-    model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
-    for (year_col in colnames(model$MultiYearIndustryOutput)) {
-      model$MultiYearCommodityOutput[, year_col] <- transformIndustryOutputtoCommodityOutputforYear(as.numeric(year_col), model)
-    }
-    model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
-    
-    model$MultiYearIndustryCPI <- model$GDP$BEACPIIO[model$BEA$Industries, ]
-    rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
-    # Transform industry CPI to commodity CPI
-    model$MultiYearCommodityCPI <- as.data.frame(model$MultiYearIndustryCPI)[, FALSE]
-    for (year_col in colnames(model$MultiYearIndustryCPI)) {
-      model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
-    }
-    
-    # Transform model FinalDemand and DomesticFinalDemand to by-industry form
-    if (model$specs$CommoditybyIndustryType=="Industry") {
-      model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
-      model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
-    }
-    
-    # Get model$IntermediateMargins and model$FinalConsumerMargins
-    # model$IntermediateMargins <- getMarginsTable(model, "intermediate")
-    # model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
-    
+    model <- loadNationalIOData(model)
   } else if (model$specs$ModelType=="State2R") {
     # Fork for state model here
   }
@@ -97,14 +30,89 @@ loadIOData <- function(modelname) {
   return(model)
 }
 
+#' Prepare economic components of a national EEIO form USEEIO model.
+#' @param model A model object with model specs loaded.
+#' @return A list with USEEIO model economic components.
+loadNationalIOData <- function(model) {
+  # Load BEA IO tables
+  model$BEA <- loadBEAtables(model$specs)
+  
+  # model$Industries
+  model$Industries <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
+  colnames(model$Industries) <- c("Code", "Name")
+  model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
+  model$Industries <- model$Industries[order(match(model$BEA$Industries, model$Industries$Code)), ]
+  model$Industries$Code_Loc <- toupper(apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
+  
+  # model$Commodities
+  model$Commodities <- merge(as.data.frame(model$BEA$Commodities, stringsAsFactors = FALSE),
+                             utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
+                                               sep = ",", header = TRUE, stringsAsFactors = FALSE),
+                             by.x = "model$BEA$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
+  colnames(model$Commodities) <- c("Code", "Name")
+  model$Commodities <- model$Commodities[order(match(model$BEA$Commodities, model$Commodities$Code)), ]
+  model$Commodities$Code_Loc <- toupper(apply(cbind(model$Commodities$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
+  
+  # IO tables
+  model$MakeTransactions <- model$BEA$MakeTransactions
+  model$UseTransactions <- model$BEA$UseTransactions
+  model$DomesticUseTransactions <- model$BEA$DomesticUseTransactions
+  model$UseValueAdded <- model$BEA$UseValueAdded
+  model$FinalDemand <- model$BEA$UseFinalDemand
+  model$DomesticFinalDemand <- model$BEA$DomesticFinalDemand
+  ## Modify row and column names in the IO tables
+  # Use model$Industries
+  rownames(model$MakeTransactions) <- colnames(model$UseTransactions) <- colnames(model$DomesticUseTransactions) <-
+    colnames(model$UseValueAdded) <- model$Industries$Code_Loc
+  # Use model$Commodities
+  colnames(model$MakeTransactions) <- rownames(model$UseTransactions) <- rownames(model$DomesticUseTransactions) <- 
+    rownames(model$FinalDemand) <- rownames(model$DomesticFinalDemand) <- model$Commodities$Code_Loc
+  # Apply joinStringswithSlashes based on original row/column names
+  rownames(model$UseValueAdded) <- toupper(apply(cbind(rownames(model$UseValueAdded), model$specs$PrimaryRegionAcronym),
+                                                 1, FUN = joinStringswithSlashes))
+  colnames(model$FinalDemand) <- colnames(model$DomesticFinalDemand) <- toupper(apply(cbind(colnames(model$FinalDemand),
+                                                                                            model$specs$PrimaryRegionAcronym),
+                                                                                      1, FUN = joinStringswithSlashes))
+  
+  model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+  model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
+  
+  model$MultiYearIndustryOutput <- model$GDP$BEAGrossOutputIO[model$Industries$Code, ]
+  rownames(model$MultiYearIndustryOutput) <- model$Industries$Code_Loc
+  model$MultiYearIndustryOutput[, as.character(model$specs$IOYear)] <- model$IndustryOutput
+  # Transform multi-year industry output to commodity output
+  model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
+  for (year_col in colnames(model$MultiYearIndustryOutput)) {
+    model$MultiYearCommodityOutput[, year_col] <- transformIndustryOutputtoCommodityOutputforYear(as.numeric(year_col), model)
+  }
+  model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
+  
+  model$MultiYearIndustryCPI <- model$GDP$BEACPIIO[model$Industries$Code, ]
+  rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
+  # Transform industry CPI to commodity CPI
+  model$MultiYearCommodityCPI <- as.data.frame(model$MultiYearIndustryCPI)[, FALSE]
+  for (year_col in colnames(model$MultiYearIndustryCPI)) {
+    model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
+  }
+  
+  # Transform model FinalDemand and DomesticFinalDemand to by-industry form
+  if (model$specs$CommoditybyIndustryType=="Industry") {
+    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
+    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
+  }
+  
+  # Get model$IntermediateMargins and model$FinalConsumerMargins
+  # model$IntermediateMargins <- getMarginsTable(model, "intermediate")
+  # model$FinalConsumerMargins <- getMarginsTable(model, "final consumer")
+  return(model)
+}
 
 #' Load BEA IO tables in a list based on model config.
 #' @param specs Model specifications.
 #' @return A list with BEA IO tables.
 loadBEAtables <- function(specs) {
   BEA <- list()
-  logging::loginfo("Initializing IO tables...")
-
+  
   # Get BEA sectors by group
   BEA$Commodities <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Commodity")
   BEA$Industries <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Industry")
