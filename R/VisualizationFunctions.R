@@ -34,8 +34,12 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     df_model <- rbind(matrix, df_model)
     df_model <- merge(df_model, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
                       by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"))
-    SectorName <- model$SectorNames
-    SectorName$Sector <- gsub("/.*", "", SectorName$Sector)
+    if (model$specs$CommoditybyIndustryType=="Commodity") {
+      SectorName <- model$Commodities[, c("Code", "Name")]
+    } else {
+      SectorName <- model$Industries[, c("Code", "Name")]
+    }
+    colnames(SectorName) <- c("Sector", "SectorName")
     df_model <- merge(df_model, SectorName, by = "Sector")
     df_model$modelname <- modelname
     # Remove certain sectors
@@ -189,8 +193,12 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
   df$Sector <- toupper(gsub("/.*", "", rownames(df)))
   df <- merge(df, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
               by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"), all.x = TRUE)
-  SectorName <- model$SectorNames
-  SectorName$Sector <- gsub("/.*", "", SectorName$Sector)
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+    SectorName <- model$Commodities[, c("Code", "Name")]
+  } else {
+    SectorName <- model$Industries[, c("Code", "Name")]
+  }
+  colnames(SectorName) <- c("Sector", "SectorName")
   df <- merge(df, SectorName, by = "Sector")
   # Subset df to keep specified indicators and remove unwanted sectors
   df <- df[!df$Sector%in%sector_to_remove, ]

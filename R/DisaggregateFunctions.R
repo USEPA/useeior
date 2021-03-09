@@ -41,9 +41,8 @@ disaggregateModel <- function (model){
     logging::loginfo("Initializing Disaggregation of IO tables...")
     
     #Disaggregating sector lists 
-    newSectorLists <- disaggregateSectorLists(model, disagg)
-    model$Commodities <- newSectorLists$Commodities
-    model$Industries <- newSectorLists$Industries
+    model$Commodities <- disaggregateSectorDFs(model, disagg, "Commodity")
+    model$Industries <- disaggregateSectorDFs(model, disagg, "Industry")
 
     model$UseTransactions <- disaggregateUseTable(model)
     model$MakeTransactions <- disaggregateMakeTable(model)
@@ -68,9 +67,6 @@ disaggregateModel <- function (model){
     model$MultiYearCommodityCPI <- disaggregateCols(model$MultiYearCommodityCPI, disagg, duplicate = TRUE)
     model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
 
-    #Disaggregating model$SectorNames model object
-    model$SectorNames <- disaggregateSectorNames(model, disagg, newNames)
-
     #Disaggregating Crosswalk
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
     
@@ -82,26 +78,6 @@ disaggregateModel <- function (model){
   }
   
   return(model)
-  
-}
-
-#' Disaggregate SectorNames model objects
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param disagg Specifications for disaggregating the current Table
-#' @param newNames Dataframe contaning the sector codes and names for the disaggregated sectors
-#' 
-#' @return newSectorNames A dataframe the disaggregated sector names without the location component
-disaggregateSectorNames <- function(model, disagg, newNames)
-{
-  
-  index <- match(substr(disagg$OriginalSectorCode, start=1, stop = nchar(model$SectorNames$Sector[1])), model$SectorNames$Sector)
-  colnames(newNames) <- colnames(model$SectorNames)
-  newSectorNames <- newNames
-  newSectorNames[,1] <- substr(newSectorNames[,1], start =1, stop = nchar(model$SectorNames$Sector[1]))
-  newSectorNames <- rbind(model$SectorNames[1:index-1,],newSectorNames,model$SectorNames[-(1:index),])
-  rownames(newSectorNames) <- 1:nrow(newSectorNames)
-  
-  return(newSectorNames)
   
 }
 
@@ -183,31 +159,41 @@ disaggregateMultiYearOutput <- function(model, disagg, output_type = "Commodity"
 }
 
 
-#' Disaggregate sector lists in the main model object
+#' Disaggregate model$Commodity or model$Industry dataframes in the main model object
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
+#' @param list_type string indicating whether to disaggregate model$Industry or model$Commodity dataframe. 
 #' 
-#' @return newLists A list of two character arrays which contain the disaggregated commodity and industry codes
-disaggregateSectorLists <- function (model, disagg)
+#' @return newSectors A dataframe which contain the disaggregated model$Commodity or model$Industry objects
+disaggregateSectorDFs <- function(model, disagg, list_type)
 {
 
-  #Determine the index of the original sectors in the character vectors
-  originalCommodityIndex <- grep(disagg$OriginalSectorCode, model$Commodities)
-  #add new sectors to list
-  newCommodities <- append(model$Commodities, as.character(disagg$DisaggregatedSectorCodes), after = originalCommodityIndex)
-  #remove original sector from list
-  newCommodities <- newCommodities[newCommodities != disagg$OriginalSectorCode]
-  
-  originalIndustryIndex <- grep(disagg$OriginalSectorCode, model$Industries)
-  newIndustries <- append(model$Industries, as.character(disagg$DisaggregatedSectorCodes), after = originalIndustryIndex)
-  newIndustries <- newIndustries[newIndustries != disagg$OriginalSectorCode]
-  
-  newLists <- list("Commodities" = newCommodities, "Industries" = newIndustries)
+  if(list_type == "Commodity")
+  {
+    originalList <- model$Commodities
+    originalIndex <- grep(disagg$OriginalSectorCode, model$Commodities$Code_Loc)
+    newSectors <- data.frame(matrix(ncol = ncol(model$Commodities), nrow = length(disagg$DisaggregatedSectorCodes)))
+    names(newSectors) <- names(model$Commodities)#rename colums for the df
+  }
+  else #assume industry if not specified
+  {
+    originalList <- model$Industries
+    originalIndex <- grep(disagg$OriginalSectorCode, model$Industries$Code_Loc)
+    newSectors <- data.frame(matrix(ncol = ncol(model$Industries), nrow = length(disagg$DisaggregatedSectorCodes)))
+    names(newSectors) <- names(model$Industries)#rename colums for the df
+  }
 
-  return(newLists)
+  #variable to determine length of Code substring, i.e., code length minus geographic identifer and separator character (e.g. "/US")
+  codeLength <- nchar(disagg$DisaggregatedSectorCodes[1])-nchar(model$specs$PrimaryRegionAcronym) - 1
+  newSectors$Code <- substr(disagg$DisaggregatedSectorCodes,1,codeLength)
+  newSectors$Code_Loc <- sapply(disagg$DisaggregatedSectorCodes, paste0, collapse = "")#sapply needed to convert DisaggregatedSectorCodes from list to char vector
+  newSectors$Name <- sapply(disagg$DisaggregatedSectorNames, paste0, collapse = "")
   
+  newSectors <- rbind(originalList[1:originalIndex-1,],newSectors,originalList[-(1:originalIndex),])
+  rownames(newSectors) <- 1:nrow(newSectors)
+  
+  return(newSectors)
 }
-
 
 #' Disaggregate satellite tables from static file based on specs
 #' 

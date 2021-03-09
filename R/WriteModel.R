@@ -219,8 +219,11 @@ writeModelMetadata <- function(model,dirs) {
   utils::write.csv(demands, paste0(outputfolder, "/demands.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write sectors to csv
-  sectors <- model$SectorNames
-  colnames(sectors) <- c("Code", "Name")
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+    sectors <- model$Commodities[, c("Code", "Name")]
+  } else {
+    sectors <- model$Industries[, c("Code", "Name")]
+  }
   sectors$Location <- model$specs$PrimaryRegionAcronym
   sectors$ID <- apply(sectors[, c("Code", "Name", "Location")], 1, FUN = joinStringswithSlashes)
   sectors$Description <- ""
