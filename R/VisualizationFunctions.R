@@ -210,29 +210,29 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
   # Rank by value
   df$ranking <- rank(-df$Score)
   df <- df[order(df$ranking), ][1:N_sector, ]
-  df$modelname <- model$specs$Model
+  # Reshape df
+  df <- reshape2::melt(df, id.vars = c("ranking", "Sector", "SectorName", "GroupName", "color"),
+                       variable.name = "Indicator", value.name = "Value")
+  df <- df[df$Indicator%in%c("Score", indicators), ]
   
   # Prepare axis label color
   label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
   
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorName, levels = rev(unique(SectorName))),
-                                        y = modelname, fill = Score)) + 
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Indicator, levels = c("Score", indicators)),
+                                        y = factor(SectorName, levels = rev(unique(SectorName))),
+                                        fill = Value)) +
     ggplot2::geom_tile(color = "white", size = 0.2) +
     ggplot2::scale_fill_gradient(low = "white", high = "black") +
-    ggplot2::scale_x_discrete(expand = c(0, 0)) +
-    ggplot2::scale_y_discrete(expand = c(0, 0), position = "right") +
-    ggplot2::labs(x = "", y = "", fill = y_title) + ggplot2::coord_flip() + ggplot2::theme_bw() +
+    ggplot2::scale_x_discrete(expand = c(0, 0), position = "top") +
+    ggplot2::scale_y_discrete(expand = c(0, 0), labels = function(x) stringr::str_wrap(x, 30)) +
+    ggplot2::labs(x = model$specs$Model, y = "", fill = y_title) + ggplot2::theme_bw() +
     ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.title.x = ggplot2::element_text(size = 15),
+                   axis.title.x = ggplot2::element_text(size = 20),
+                   axis.text.x = ggplot2::element_text(angle = 45, hjust = 0, vjust = 1),
                    axis.text.y = ggplot2::element_text(size = 15, color = label_colors),
-                   legend.position = "none", aspect.ratio = 12/1,
-                   axis.ticks = ggplot2::element_blank(),
-                   plot.margin = ggplot2::margin(c(5, 20, 5, 5)),
-                   strip.placement = "outside",
-                   strip.background = ggplot2::element_rect(fill = "white"),
-                   axis.title = ggplot2::element_blank(),
-                   strip.text.y.left = ggplot2::element_text(angle = 0, size = 15))
+                   legend.position = "none", axis.ticks = ggplot2::element_blank(),
+                   plot.margin = ggplot2::margin(c(5, 20, 5, 5)))
   return(p)
 }
 
