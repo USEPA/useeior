@@ -309,7 +309,7 @@ setCommonYearforFlow <- function(tbs) {
   # For each flow with multiple years, get the year that has the highest frequency
   # Then in the original tbs, set Year to this year for these rows
   for (flow in rownames(flow_year_df[rowSums(flow_year_df != 0) > 1, ])) {
-    year <- colnames(flow_year_df[flow, ])[max.col(flow_year_df[flow, ])]
+    year <- colnames(flow_year_df[flow, ])[max.col(as.matrix(flow_year_df[flow, ]), ties.method = c("last"))]
     tbs[tbs$Flow==flow, "Year"] <- year
     logging::logdebug(paste("Flow year of", flow, "changed to", year))
   }
