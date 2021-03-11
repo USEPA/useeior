@@ -26,19 +26,12 @@ sumDemandCols <- function(Y,codes) {
 }
 
 #'Sums the demand cols representing final consumption
-#'@param Y, a model Demand df 
+#'@param model, a model
 #'@return a named vector with model sectors and demand amounts
-sumforConsumption <- function(Y) {
-  household_code <- toupper(apply(cbind(model$BEA$HouseholdDemandCodes, model$specs$PrimaryRegionAcronym),
-                                  1, FUN = joinStringswithSlashes))
-  investment_code <- toupper(apply(cbind(model$BEA$InvestmentDemandCodes, model$specs$PrimaryRegionAcronym),
-                                   1, FUN = joinStringswithSlashes))
-  government_code <- toupper(apply(cbind(model$BEA$GovernmentDemandCodes, model$specs$PrimaryRegionAcronym),
-                                   1, FUN = joinStringswithSlashes))
-  Y_h <- sumDemandCols(Y, household_code)
-  Y_v <- sumDemandCols(Y, investment_code) 
-  Y_g <- sumDemandCols(Y, government_code) 
-  y_c <-  Y_h + Y_v + Y_g 
+sumforConsumption <- function(model) {
+  Y <- model$FinalDemand
+  codes <- unlist(model$FinalDemandSectors[c("Household", "Investment", "Government")])
+  y_c <- sumDemandCols(Y, codes)
   return (y_c) 
 }
 
@@ -47,12 +40,10 @@ sumforConsumption <- function(Y) {
 #'@param model, a model
 #'@return a named vector with demand
 prepareProductionDemand <- function(model) {
-  y_dc <- sumforConsumption(model$DomesticFinalDemand)
-  export_code <- toupper(apply(cbind(model$BEA$ExportCodes, model$specs$PrimaryRegionAcronym),
-                               1, FUN = joinStringswithSlashes))
+  y_dc <- sumforConsumption(model)
+  export_code <- model$FinalDemandSectors$Export
   y_e <- sumDemandCols(model$FinalDemand, export_code)
-  changeinventories_code <- toupper(apply(cbind(model$BEA$ChangeInventoriesCodes, model$specs$PrimaryRegionAcronym),
-                                          1, FUN = joinStringswithSlashes))
+  changeinventories_code <- model$FinalDemandSectors$ChangeInventories
   y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
   y_p <- y_dc + y_e + y_d_delta
   return(y_p)
@@ -71,8 +62,7 @@ prepareConsumptionDemand <- function(model) {
 #'@return a named vector with demand
 prepareHouseholdDemand <- function(model) {
   Y <- model$FinalDemand
-  household_code <- toupper(apply(cbind(model$BEA$HouseholdDemandCodes, model$specs$PrimaryRegionAcronym),
-                                  1, FUN = joinStringswithSlashes))
+  household_code <- model$FinalDemandSectors[["Household"]]
   y_h <- sumDemandCols(Y, household_code)
   return(y_h)
 }

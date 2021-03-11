@@ -4,10 +4,10 @@
 \alias{sumforConsumption}
 \title{Sums the demand cols representing final consumption}
 \usage{
-sumforConsumption(Y)
+sumforConsumption(model)
 }
 \arguments{
-\item{Y, }{a model Demand df}
+\item{model, }{a model}
 }
 \value{
 a named vector with model sectors and demand amounts
