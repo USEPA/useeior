@@ -53,7 +53,7 @@ prepareProductionDemand <- function(model) {
 #'@param model, a model
 #'@return a named vector with demand
 prepareConsumptionDemand <- function(model) {
-  y_c <- sumforConsumption(model$FinalDemand)
+  y_c <- sumforConsumption(model)
   return(y_c)
 }
 
@@ -68,7 +68,7 @@ prepareHouseholdDemand <- function(model) {
 }
 
 prepareDomesticConsumptionDemand <- function(model) {
-  y_c_d <- sumforConsumption(model$DomesticFinalDemand)
+  y_c_d <- sumforConsumption(model)
   return(y_c_d)
 }
 
