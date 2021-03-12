@@ -25,22 +25,21 @@ sumDemandCols <- function(Y,codes) {
   return(y)
 }
 
-#'Sums the demand cols representing final consumption
+#'Sums the demand cols representing final consumption, i.e. household, investment, and government
 #'@param model, a model
+#'@param Y, a model Demand df.
 #'@return a named vector with model sectors and demand amounts
-sumforConsumption <- function(model) {
-  Y <- model$FinalDemand
+sumforConsumption <- function(model, Y) {
   codes <- unlist(model$FinalDemandSectors[c("Household", "Investment", "Government")])
   y_c <- sumDemandCols(Y, codes)
   return (y_c) 
 }
 
-
 #'Prepares a demand vector representing production
 #'@param model, a model
 #'@return a named vector with demand
 prepareProductionDemand <- function(model) {
-  y_dc <- sumforConsumption(model)
+  y_dc <- sumforConsumption(model, model$DomesticFinalDemand)
   export_code <- model$FinalDemandSectors$Export
   y_e <- sumDemandCols(model$FinalDemand, export_code)
   changeinventories_code <- model$FinalDemandSectors$ChangeInventories
@@ -49,15 +48,23 @@ prepareProductionDemand <- function(model) {
   return(y_p)
 }
 
-#'Prepares a demand vector representing household consumption
+#'Prepares a demand vector representing consumption
 #'@param model, a model
 #'@return a named vector with demand
 prepareConsumptionDemand <- function(model) {
-  y_c <- sumforConsumption(model)
+  y_c <- sumforConsumption(model, model$FinalDemand)
   return(y_c)
 }
 
-#'Prepares a demand vector representing consumption
+#'Prepares a demand vector representing domestic consumption
+#'@param model, a model
+#'@return a named vector with demand
+prepareDomesticConsumptionDemand <- function(model) {
+  y_c_d <- sumforConsumption(model, model$DomesticFinalDemand)
+  return(y_c_d)
+}
+
+#'Prepares a demand vector representing household consumption
 #'@param model, a model
 #'@return a named vector with demand
 prepareHouseholdDemand <- function(model) {
@@ -67,16 +74,10 @@ prepareHouseholdDemand <- function(model) {
   return(y_h)
 }
 
-prepareDomesticConsumptionDemand <- function(model) {
-  y_c_d <- sumforConsumption(model)
-  return(y_c_d)
-}
-
-
 #'A function to validate a user provided demand vector
 #' @param dv a user provided demand vector
 #' @param L, the L matrix for the given model, used as a reference
-#' 
+#' @retun A boolean value indicating demand vector is valid or not.
 isDemandVectorValid <- function(dv,L){
   #should be a format like this
   # >dv <- c("1111A0"=1,"1111B0"=2,"327100"=30)
