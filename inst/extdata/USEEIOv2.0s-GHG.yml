@@ -1,6 +1,6 @@
-Model: "USEEIOv2.0-GHG" # 2012 Detail, Commodity
+Model: "USEEIOv2.0s-GHG"
 BaseIOSchema: 2012
-BaseIOLevel: "Detail"
+BaseIOLevel: "Summary"
 IOYear: 2012 # Year for IO data
 PrimaryRegionAcronym: "US"
 ModelRegionAcronyms: ["US"]
