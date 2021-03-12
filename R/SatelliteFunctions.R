@@ -239,7 +239,7 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
       # For each 2007 schema industry, find its corresponding 2012 schema industries
       industries <- mapping[mapping$BEA_2007_Code==industry, "BEA_2012_Code"]
       # Use useeior::Detail_GrossOutput_IO as weight to allocate
-      # Do not use model$GDP$BEAGrossOutputIO because model level may not be Detail
+      # Do not use model$MultiYearIndustryOutput because model level may not be Detail
       weight <- useeior::Detail_GrossOutput_IO[industries, as.character(year)]
       mapping_year[mapping_year$BEA_2007_Code==industry, "Ratio"] <- weight/sum(weight)
     }

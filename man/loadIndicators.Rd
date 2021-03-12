@@ -4,13 +4,13 @@
 \alias{loadIndicators}
 \title{Load indicators and associated factors in a list based on model config.}
 \usage{
-loadIndicators(specs)
+loadIndicators(model)
 }
 \arguments{
-\item{specs}{Specifications of the model.}
+\item{model}{A model object with IO tables and satellite tables loaded.}
 }
 \value{
-A list with df for indicators and df for factors.
+A list with data.frame for indicators and data.frame for factors.
 }
 \description{
 Load indicators and associated factors in a list based on model config.

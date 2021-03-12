@@ -2,7 +2,7 @@
 % Please edit documentation in R/LoadIOTables.R
 \name{loadNationalIOData}
 \alias{loadNationalIOData}
-\title{Prepare economic components of a national EEIO form USEEIO model.}
+\title{Prepare economic components of an EEIO form USEEIO model.}
 \usage{
 loadNationalIOData(model)
 }
@@ -13,5 +13,5 @@ loadNationalIOData(model)
 A list with USEEIO model economic components.
 }
 \description{
-Prepare economic components of a national EEIO form USEEIO model.
+Prepare economic components of an EEIO form USEEIO model.
 }

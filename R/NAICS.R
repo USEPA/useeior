@@ -1,4 +1,4 @@
-#' Determine allocation factors between NAICS and BEA sectors based on IO output.
+#' Determine allocation factors between NAICS and BEA sectors based on Industry output.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param year Year of model Industry output.
 #' @return A table of allocation factors between NAICS and BEA sectors.
@@ -12,7 +12,7 @@ getNAICStoBEAAllocation <- function (year, model) {
   AllocationCodes <- NAICStoBEA[duplicated(NAICStoBEA$NAICS_Code) | duplicated(NAICStoBEA$NAICS_Code, fromLast = TRUE), ]
   AllocationCodes <- na.omit(AllocationCodes)
   # Merge AllocationCodes with Gross Output table to calculate allocation factors
-  AllocationTable <- merge(AllocationCodes, model$GDP$BEAGrossOutputIO[, as.character(year), drop = FALSE], 
+  AllocationTable <- merge(AllocationCodes, model$MultiYearIndustryOutput[, as.character(year), drop = FALSE], 
                            by.x = "BEA_Code", by.y = 0, all.x = TRUE)
   colnames(AllocationTable)[3] <- "Output"
   # Insert placeholders for NAs in the "Output" column

@@ -1,9 +1,23 @@
-#' Build an EEIO form USEEIO model. Requires model object with 
-#' loaded IO tables (see loadIOtables), built satellite tables, and built
-#' @param model Model file loaded with IO tables and satellite tables built
+#' Build an EEIO model.
+#' @param modelname Name of the model from a config file.
 #' @export
-#' @return A list with USEEIO model components and attributes.
-buildEEIOModel <- function(model) {
+#' @return A list of EEIO model components and attributes
+buildModel <- function(modelname) {
+  model <- initializeModel(modelname)
+  model <- loadIOData(model)
+  model <- loadandbuildSatelliteTables(model)
+  model <- loadandbuildIndicators(model)
+  model <- loadDemandVectors(model)
+  model <- constructEEIOMatrices(model)
+  return(model)
+}
+
+#' Construct EEIO matrices based on loaded IO tables, built satellite tables,
+#' and indicator tables.
+#' @param model Model file loaded with IO tables, satellite tables, and indicator tables.
+#' @export
+#' @return A list with EEIO matrices..
+constructEEIOMatrices <- function(model) {
   if(model$specs$ModelType!="US"){
     stop("This function needs to be revised before it is suitable for multi-regional models")
   }
