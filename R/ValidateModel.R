@@ -16,30 +16,24 @@ compareEandLCIResult <- function(model,use_domestic=FALSE, tolerance=0.05) {
     c <- getScalingVector(model$L, y)
   }
 
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
-    CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
-    B <- as.matrix(CbS_cast)
-
-    ##Prepare left side of the equation
-    E <- prepareEfromtbs(model)
-    E <- as.matrix(E[rownames(B), ])
-        #transform E with commodity mix
-    C <- generateCommodityMixMatrix(model)
-    E <-  t(C %*% t(E))  
-  } else {
-    stop("This function cannot yet handle industry type models")
-  }
-
-  #Prepare calculation
-  #LCI = B dot Chi %*% c 
+  CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
+  B <- as.matrix(CbS_cast)
   Chi <- generateChiMatrix(model, "Industry")
   B_chi <- B*Chi
   
+  ##Prepare left side of the equation
+  E <- prepareEfromtbs(model)
+  E <- as.matrix(E[rownames(B), ])
+  
   if (model$specs$CommoditybyIndustryType=="Commodity") {
+    #transform E with commodity mix to put in commodity form
+    C <- generateCommodityMixMatrix(model)
+    E <-  t(C %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
     B_chi <- B_chi %*% model$V_n
   }
   
+  #LCI = B dot Chi %*% c   
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
   
   # Calculate relative differences
