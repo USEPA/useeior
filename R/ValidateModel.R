@@ -3,9 +3,11 @@
 
 #'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built
-#'@return list with pass/fail validation result and the cell-by-cell relative diff matrix
+#'@param use_domestic, a boolean value indicating whether to use domestic demand vector
+#'@param tolerance, a numeric value, tolerance level of the comparison
+#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export
-compareEandLCIResult <- function(model,use_domestic=FALSE, tolerance=0.05) {
+compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) {
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
   if (use_domestic) {
@@ -48,7 +50,9 @@ compareEandLCIResult <- function(model,use_domestic=FALSE, tolerance=0.05) {
 #'Uses the model$FinalDemand and model$L
 #'Works for the domestic model with the equivalent tables
 #'@param model, EEIOmodel object completely built
-#'@return  a vector of relative different in calculation from sector output by sector 
+#'@param use_domestic, a boolean value indicating whether to use domestic demand vector
+#'@param tolerance, a numeric value, tolerance level of the comparison
+#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   if (use_domestic) {
@@ -78,7 +82,8 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 
 #'Compares the total commodity output against the summation of model domestic Use and production demand
 #'@param model, EEIOmodel object completely built
-#'@return vector, a vector of relative different in calculation from sector output by sector
+#'@param tolerance, a numeric value, tolerance level of the comparison
+#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   p <- model$CommodityOutput
@@ -95,6 +100,30 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
   return(validation)
 }
 
+#'Compares the total commodity output multiplied by Market Share matrix and transformed by commodity CPI
+#'against the total industry output transformed by industry CPI
+#'@param model, EEIOmodel object completely built
+#'@param tolerance, a numeric value, tolerance level of the comparison
+#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
+#'@export 
+compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- function(model, tolerance=0.05) {
+  commodityCPI_ratio <- model$MultiYearCommodityCPI[, "2017"]/model$MultiYearCommodityCPI[, "2012"]
+  commodityCPI_ratio[is.na(commodityCPI_ratio)] <- 0
+  
+  industryCPI_ratio <- model$MultiYearIndustryCPI[, "2017"]/model$MultiYearIndustryCPI[, "2012"]
+  industryCPI_ratio[is.na(industryCPI_ratio)] <- 0
+  
+  q <- as.numeric(model$CommodityOutput * commodityCPI_ratio %*% model$V_n)
+  
+  x <- model$IndustryOutput * industryCPI_ratio
+  
+  # Calculate relative differences
+  rel_diff <- (q - x)/x
+  
+  # Generate Pass/Fail comparison results
+  validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  return(validation)
+}
 
 #'Concatenate all satellite flows in model
 #'@param model, EEIOmodel object completely built
