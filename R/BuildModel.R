@@ -1,17 +1,26 @@
-#' Build an EEIO form USEEIO model. Requires model object with 
-#' loaded IO tables (see loadIOtables), built satellite tables, and built
-#' @param model Model file loaded with IO tables and satellite tables built
+#' Build an EEIO model.
+#' @param modelname Name of the model from a config file.
 #' @export
-#' @return A list with USEEIO model components and attributes.
-buildEEIOModel <- function(model) {
+#' @return A list of EEIO model components and attributes
+buildModel <- function(modelname) {
+  model <- initializeModel(modelname)
+  model <- loadIOData(model)
+  model <- loadandbuildSatelliteTables(model)
+  model <- loadandbuildIndicators(model)
+  model <- loadDemandVectors(model)
+  model <- constructEEIOMatrices(model)
+  return(model)
+}
+
+#' Construct EEIO matrices based on loaded IO tables, built satellite tables,
+#' and indicator tables.
+#' @param model Model file loaded with IO tables, satellite tables, and indicator tables.
+#' @export
+#' @return A list with EEIO matrices..
+constructEEIOMatrices <- function(model) {
   if(model$specs$ModelType!="US"){
     stop("This function needs to be revised before it is suitable for multi-regional models")
   }
-  # Modify model$SectorNames to include location info
-  model$SectorNames$Sector <- toupper(apply(cbind(model$SectorNames$Sector,
-                                                  model$specs$PrimaryRegionAcronym),
-                                            1, FUN = joinStringswithSlashes))
-  
   # Generate matrices
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
@@ -20,12 +29,12 @@ buildEEIOModel <- function(model) {
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements) ...")
     model$A <- model$U_n %*% model$V_n
-    logging::loginfo("Building commodity-by-commodity A_d matrix (direct domestic requirements) ...")
+    logging::loginfo("Building commodity-by-commodity A_d matrix (domestic direct requirements) ...")
     model$A_d <- model$U_d_n %*% model$V_n
   } else if(model$specs$CommoditybyIndustryType == "Industry") {
     logging::loginfo("Building industry-by-industry A matrix (direct requirements) ...")
     model$A <- model$V_n %*% model$U_n
-    logging::loginfo("Building industry-by-industry A_d matrix (direct domestic requirements) ...")
+    logging::loginfo("Building industry-by-industry A_d matrix (domestic direct requirements) ...")
     model$A_d <- model$V_n %*% model$U_d_n
   }
 
@@ -53,7 +62,7 @@ buildEEIOModel <- function(model) {
   I <- diag(nrow(model$A))
   I_d <- diag(nrow(model$A_d))
   model$L <- solve(I - model$A)
-  logging::loginfo("Calculating L_d matrix (total domestic requirements) ...")
+  logging::loginfo("Calculating L_d matrix (domestic total requirements) ...")
   model$L_d <- solve(I_d - model$A_d)
   
   # Calculate total emissions/resource use per dollar (M)
@@ -65,12 +74,12 @@ buildEEIOModel <- function(model) {
   model$M_d <- model$B %*% model$L_d
   colnames(model$M_d) <- colnames(model$M)
   
-  # Calculate total impacts per dollar (U), impact category x sector
-  logging::loginfo("Calculating U matrix (total environmental impacts per dollar) ...")
-  model$U <- model$C %*% model$M
+  # Calculate total impacts per dollar (N), impact category x sector
+  logging::loginfo("Calculating N matrix (total environmental impacts per dollar) ...")
+  model$N <- model$C %*% model$M
   # Calculate U_d, the domestic impacts per dollar
-  logging::loginfo("Calculating U matrix (total environmental impacts per dollar from domestic activity) ...")
-  model$U_d <- model$C %*% model$M_d
+  logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity) ...")
+  model$N_d <- model$C %*% model$M_d
 
   logging::loginfo("Model build complete.")
   return(model)
@@ -78,7 +87,7 @@ buildEEIOModel <- function(model) {
 
 #'Creates the B matrix from the flow data
 #'@param model, a model with econ and flow data loaded
-#'@result B, a matrix in flow x sector format with values of flow per $ output sector
+#'@return B, a matrix in flow x sector format with values of flow per $ output sector
 createBfromFlowDataandOutput <- function(model) {
 
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
@@ -86,7 +95,7 @@ createBfromFlowDataandOutput <- function(model) {
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     B <- B %*% model$V_n
-    colnames(B) <- tolower(model$Commodities)
+    colnames(B) <- tolower(model$Commodities$Code_Loc)
   }
   return(B)
 }
@@ -135,9 +144,9 @@ standardizeandcastSatelliteTable <- function(df,model) {
   rownames(df_cast) <- df_cast$Flow
   df_cast$Flow <- NULL
   # Complete sector list according to model$Industries
-  df_cast[, setdiff(tolower(model$Industries), colnames(df_cast))] <- 0
+  df_cast[, setdiff(tolower(model$Industries$Code_Loc), colnames(df_cast))] <- 0
   # Adjust column order to be the same with V_n rownames
-  df_cast <- df_cast[, tolower(model$Industries)]
+  df_cast <- df_cast[, tolower(model$Industries$Code_Loc)]
   return(df_cast)
 }
 

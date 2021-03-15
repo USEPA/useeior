@@ -53,7 +53,8 @@ loadSatTables <- function(model) {
     
     ##Check for any loss of flow data
     checkSatelliteFlowLoss(tbs0,tbs)
-
+    tbs <- removeMissingSectors(tbs)
+    
     # Add in DQ columns and additional contextual scores not provided
     # Only setting TemporalCorrelation for now
     tbs <- scoreContextualDQ(tbs) 
@@ -72,7 +73,7 @@ loadSatTables <- function(model) {
     sattables$totals_by_sector[[sat_spec$Abbreviation]] <- tbs
   }
   # Check for duplicate flows across satellite tables
-  checkDuplicateFlows(sattables$totals_by_sector)
+  checkDuplicateFlowsBySector(sattables$totals_by_sector)
   
   flows <- unique(flows[,flow_fields])
   #Re-index the flows

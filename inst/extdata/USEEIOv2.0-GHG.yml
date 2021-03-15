@@ -17,13 +17,14 @@ SatelliteTable:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "USEEIO_GHG_Data_Extracted_2016.csv"
+    StaticFile: "useeior/NGHGIAM_GHG_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2016]
     Locations: ["US"]
-    SectorListSource: "BEA"
+    SectorListSource: "BEA" # or, NAICS
     SectorListYear: 2012
     SectorListLevel: "Detail"
-    OriginalFlowSource: "GHG"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     DataSources:
       USEPA_GHG_2018:
         Title: "GHG Inventory"
@@ -34,39 +35,25 @@ SatelliteTable:
 
 Indicators:
   GreenhouseGases:
-    FullName: "Greenhouse Gases"
+    Name: "Greenhouse Gases"
     Code: "GHG"
     Group: "Impact Potential"
     Unit: "kg CO2 eq"
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
     SimpleName: "Greenhouse Gases"
     StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["Global warming"]
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
-  GreenhouseGases-Major:
-    FullName: "Major Greenhouse Gases"
-    Code: "MGHG"
-    Group: "Impact Potential"
-    Unit: "kg CO2 eq"
-    SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
-    SimpleName: "Major Greenhouse Gases"
-    StaticSource: TRUE
-    DataSources:
-  GreenhouseGases-Other:
-    FullName: "Other Greenhouse Gases"
-    Code: "OGHG"
-    Group: "Impact Potential"
-    Unit: "kg CO2 eq"
-    SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
-    SimpleName: "Other Greenhouse Gases"
-    StaticSource: TRUE
-    DataSources:
-
 
 DemandVectors:
     Consumption:
@@ -84,3 +71,8 @@ DemandVectors:
       Year: 2012
       System: "Household"
       Location: "US"
+    DomesticConsumption:
+      Type: "Consumption"
+      Year: 2012
+      System: "Domestic"
+      Location: "US"    

@@ -4,7 +4,7 @@
 \alias{generateTbSfromSatSpec}
 \title{Reads a satellite table specification and generates a totals-by-sector table}
 \usage{
-generateTbSfromSatSpec(sat_spec)
+generateTbSfromSatSpec(sat_spec, model)
 }
 \arguments{
 \item{sat_spec, }{a standard specification for a single satellite table}

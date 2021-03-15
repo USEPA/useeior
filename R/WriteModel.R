@@ -37,7 +37,7 @@ writeModelMatrices <- function(model, outputfolder) {
   if (!dir.exists(modelfolder)) {
     dir.create(modelfolder, recursive = TRUE) 
   }
-  for (matrix in c("A", "A_d", "B", "C", "D", "L", "L_d", "U", "M", "CPI")) {
+  for (matrix in c("A", "A_d", "B", "C", "D", "L", "L_d", "M","M_d","N","N_d","CPI")) {
     utils::write.csv(model[[matrix]], paste0(modelfolder,"/",matrix, ".csv"),
                      na = "", row.names = TRUE, fileEncoding = "UTF-8")
   }
@@ -219,8 +219,11 @@ writeModelMetadata <- function(model,dirs) {
   utils::write.csv(demands, paste0(outputfolder, "/demands.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write sectors to csv
-  sectors <- model$SectorNames
-  colnames(sectors) <- c("Code", "Name")
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+    sectors <- model$Commodities[, c("Code", "Name")]
+  } else {
+    sectors <- model$Industries[, c("Code", "Name")]
+  }
   sectors$Location <- model$specs$PrimaryRegionAcronym
   sectors$ID <- apply(sectors[, c("Code", "Name", "Location")], 1, FUN = joinStringswithSlashes)
   sectors$Description <- ""

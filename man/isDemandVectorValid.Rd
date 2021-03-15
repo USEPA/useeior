@@ -11,6 +11,9 @@ isDemandVectorValid(dv, L)
 
 \item{L, }{the L matrix for the given model, used as a reference}
 }
+\value{
+A boolean value indicating demand vector is valid or not.
+}
 \description{
 A function to validate a user provided demand vector
 }

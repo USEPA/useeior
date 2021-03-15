@@ -2,7 +2,7 @@
 % Please edit documentation in R/VisualizationFunctions.R
 \name{heatmapSatelliteTableCoverage}
 \alias{heatmapSatelliteTableCoverage}
-\title{Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level to compare scores across models}
+\title{Heatmap showing coverage of satellite tables}
 \usage{
 heatmapSatelliteTableCoverage(model)
 }
@@ -10,5 +10,5 @@ heatmapSatelliteTableCoverage(model)
 \item{model}{A complete EEIO model}
 }
 \description{
-Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level to compare scores across models
+Heatmap showing coverage of satellite tables
 }
