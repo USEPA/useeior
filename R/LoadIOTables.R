@@ -51,18 +51,11 @@ loadNationalIOData <- function(model) {
   model$Commodities$Code_Loc <- toupper(apply(cbind(model$Commodities$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
   
   # model$FinalDemandSectors
-  model$FinalDemandSectors <- list("Household" = toupper(apply(cbind(BEA$HouseholdDemandCodes, model$specs$PrimaryRegionAcronym),
-                                                               1, FUN = joinStringswithSlashes)),
-                                   "Investment" = toupper(apply(cbind(BEA$InvestmentDemandCodes, model$specs$PrimaryRegionAcronym),
-                                                                1, FUN = joinStringswithSlashes)),
-                                   "ChangeInventories" = toupper(apply(cbind(BEA$ChangeInventoriesCodes, model$specs$PrimaryRegionAcronym),
-                                                                       1, FUN = joinStringswithSlashes)),
-                                   "Export" = toupper(apply(cbind(BEA$ExportCodes, model$specs$PrimaryRegionAcronym),
-                                                            1, FUN = joinStringswithSlashes)),
-                                   "Import" = toupper(apply(cbind(BEA$ImportCodes, model$specs$PrimaryRegionAcronym),
-                                                            1, FUN = joinStringswithSlashes)),
-                                   "Government" = toupper(apply(cbind(BEA$GovernmentDemandCodes, model$specs$PrimaryRegionAcronym),
-                                                                1, FUN = joinStringswithSlashes)))
+  model$FinalDemandSectors <- cbind.data.frame(BEA$FinalDemandCodes,
+                                               c("Household", rep("Investment", 4), "ChangeInventories", "Export", "Import", rep("Government", 12)))
+  colnames(model$FinalDemandSectors) <- c("Code", "Name")
+  model$FinalDemandSectors$Code_Loc <- toupper(apply(cbind(model$FinalDemandSectors$Code, model$specs$PrimaryRegionAcronym),
+                                                     1, FUN = joinStringswithSlashes))
   
   # IO tables
   model$MakeTransactions <- BEA$MakeTransactions

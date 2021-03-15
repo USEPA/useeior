@@ -30,7 +30,8 @@ sumDemandCols <- function(Y,codes) {
 #'@param Y, a model Demand df.
 #'@return a named vector with model sectors and demand amounts
 sumforConsumption <- function(model, Y) {
-  codes <- unlist(model$FinalDemandSectors[c("Household", "Investment", "Government")])
+  codes <- model$FinalDemandSectors[model$FinalDemandSectors$Name%in%c("Household", "Investment", "Government"),
+                                    "Code_Loc"]
   y_c <- sumDemandCols(Y, codes)
   return (y_c) 
 }
@@ -40,9 +41,9 @@ sumforConsumption <- function(model, Y) {
 #'@return a named vector with demand
 prepareProductionDemand <- function(model) {
   y_dc <- sumforConsumption(model, model$DomesticFinalDemand)
-  export_code <- model$FinalDemandSectors$Export
+  export_code <- model$FinalDemandSectors[model$FinalDemandSectors$Name=="Export", "Code_Loc"]
   y_e <- sumDemandCols(model$FinalDemand, export_code)
-  changeinventories_code <- model$FinalDemandSectors$ChangeInventories
+  changeinventories_code <- model$FinalDemandSectors[model$FinalDemandSectors$Name=="ChangeInventories", "Code_Loc"]
   y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
   y_p <- y_dc + y_e + y_d_delta
   return(y_p)
@@ -69,7 +70,7 @@ prepareDomesticConsumptionDemand <- function(model) {
 #'@return a named vector with demand
 prepareHouseholdDemand <- function(model) {
   Y <- model$FinalDemand
-  household_code <- model$FinalDemandSectors[["Household"]]
+  household_code <- model$FinalDemandSectors[model$FinalDemandSectors$Name=="Household", "Code_Loc"]
   y_h <- sumDemandCols(Y, household_code)
   return(y_h)
 }
