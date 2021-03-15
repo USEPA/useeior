@@ -11,9 +11,11 @@ compareCommodityOutputandDomesticUseplusProductionDemand(
 }
 \arguments{
 \item{model, }{EEIOmodel object completely built}
+
+\item{tolerance, }{a numeric value, tolerance level of the comparison}
 }
 \value{
-vector, a vector of relative different in calculation from sector output by sector
+A list with pass/fail validation result and the cell-by-cell relative diff matrix
 }
 \description{
 Compares the total commodity output against the summation of model domestic Use and production demand

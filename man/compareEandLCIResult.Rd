@@ -8,9 +8,13 @@ compareEandLCIResult(model, use_domestic = FALSE, tolerance = 0.05)
 }
 \arguments{
 \item{model, }{EEIOmodel object completely built}
+
+\item{use_domestic, }{a boolean value indicating whether to use domestic demand vector}
+
+\item{tolerance, }{a numeric value, tolerance level of the comparison}
 }
 \value{
-list with pass/fail validation result and the cell-by-cell relative diff matrix
+A list with pass/fail validation result and the cell-by-cell relative diff matrix
 }
 \description{
 Compares the total flows against the model flow totals result calculation with the total demand
