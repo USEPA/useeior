@@ -1,0 +1,40 @@
+#From https://github.com/USEPA/USEEIO_API/blob/master/doc/data_format.md
+models:
+  - ID
+  - Name
+  - Location
+  - Description
+  - Sector_Schema
+
+indicators:
+  - Index
+  - ID
+  - Name
+  - Code
+  - Unit
+  - Group
+  - SimpleUnit
+  - SimpleName
+
+demands:
+  - ID
+  - Year
+  - Type
+  - System
+  - Location
+
+flows:
+  - Index
+  - ID
+  - Flowable
+  - Context
+  - Unit
+  - UUID
+
+sectors:
+  - Index
+  - ID
+  - Name
+  - Code
+  - Location
+  - Description

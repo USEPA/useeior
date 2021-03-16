@@ -1,35 +1,21 @@
-#' Get inventory method using the Python LCIAformatter package's get_mapped_method function.
-#' @param parameters List of parameters, must include 'indicators' which is a list of one or 
-#' more indicators to include from inventory method.
-#' @return An LCIAmethod data frame with the specified indicators.
-getInventoryMethod <- function(parameters) {
-  # Convert the passed indicators to a list, if none provided all indicators are returned
-  if(length(parameters$indicators)==1){
-    indicators <- list(parameters$indicators)
-  } else {
-    indicators <- parameters$indicators
-  }
-  # Generate inventory method table
-  lciafmt <- reticulate::import("lciafmt")
-  inv_method <- lciafmt$get_mapped_method(method_id = "FEDEFL_INV", indicators = indicators)
-  return(inv_method)
-}
-
-#' Get impact method using the Python LCIAformatter package's get_mapped_method function.
-#' @param parameters List of parameters, must include 'method_id' and 'indicators'
-#' which is a list of one or more indicators to include from inventory method.
+#' Get impact method in the format of the Python LCIAformatter package's get_mapped_method function.
+#' @param ind_spec Specification of an indicator
 #' @return An LCIAmethod with the specified indicators
-getImpactMethod <- function(parameters) {
+getImpactMethod <- function(ind_spec) {
+  parameters <- ind_spec[["ScriptFunctionParameters"]]
+
   # Convert the passed indicators to a list, if none provided all indicators are returned
-  if(!is.null(parameters$indicators)){ #
+  if(!is.null(parameters$indicators)){
     if(length(parameters$indicators)==1){
       indicators <- list(parameters$indicators)
     } else {
       indicators <- parameters$indicators
     }
-  } else {
+  }
+  else {
     indicators <- NULL
   }
+  
   # Convert the passed methods to a list (e.g. "ReCiPe Midpoint/H"), if none provided all methods are returned
   if(!is.null(parameters$methods)){
     if(length(parameters$methods)==1){
@@ -37,14 +23,58 @@ getImpactMethod <- function(parameters) {
     } else {
       methods <- parameters$methods
     }
-  } else {
+  }
+  else {
     methods <- NULL
   }
-  # Generate impact method table
-  lciafmt <- reticulate::import("lciafmt")
-  imp_method <- lciafmt$get_mapped_method(method_id = parameters$method_id,
-                                          indicators = indicators, methods = methods)
+  
+  if(!ind_spec$StaticSource){
+    # Generate impact method in lciafmt, requires method_id to be included in ScriptFunctionParameters
+    if(is.null(parameters$method_id)){
+      logging::logwarn("method_id must be passed in ScriptFunctionParameters to access LCIAfmt")
+    }
+    lciafmt <- reticulate::import("lciafmt")
+    imp_method <- lciafmt$get_mapped_method(method_id = parameters$method_id,
+                                            indicators = indicators, methods = methods)
+  }
+  
+  else{
+    
+    f <- loadDataCommonsfile(ind_spec$StaticFile)
+    imp_method <- as.data.frame(arrow::read_parquet(f))
+  }
+  
+  # Subset the method by method
+  if(!is.null(methods)){  
+    imp_method <- imp_method[imp_method$Method %in% methods, ]
+  }
+
+  # Subset the method by indicator
+  if(!is.null(indicators)){
+    imp_method <- imp_method[imp_method$Indicator %in% indicators, ]
+  }
+
   return(imp_method)
+}
+
+#' Get and combine impact methods using the Python LCIAformatter package's get_mapped_method function.
+#' @param ind_spec Specification of an indicator
+#' @return An LCIAmethod with the specified indicators
+getCombinedImpactMethods <- function(ind_spec) {
+  
+  imp_method = getImpactMethod(ind_spec)
+  
+  combined_imp_method <- dplyr::group_by(imp_method, Method,Flowable,`Flow UUID`,Context,Unit)
+  combined_imp_method <- dplyr::summarize(
+    combined_imp_method,
+    CF_agg = sum(`Characterization Factor`),
+    .groups = 'drop')
+  colnames(combined_imp_method)[colnames(combined_imp_method)=="CF_agg"] <- "Characterization Factor"
+  # Indicator name will be assigned from satellite spec
+  combined_imp_method[,"Indicator"] <- NA
+  combined_imp_method <- as.data.frame(combined_imp_method)
+  
+  return(combined_imp_method)
 }
 
 #' Prepares and reformats LCIAmethod data from LCIAformatter for use
@@ -60,4 +90,5 @@ prepareLCIAmethodforIndicators <- function(lciamethod) {
   # Keep useful fields
   lciamethod <- lciamethod[, c("Indicator", "Flowable", "UUID", "Context", "Unit", "Amount")]
   return(lciamethod)
+
 }

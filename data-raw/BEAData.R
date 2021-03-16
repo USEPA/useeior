@@ -552,8 +552,8 @@ getBEADetailGrossOutput2012Schema <- function () {
   getBEAUnderlyingTables()
   # Load desired excel file
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual_Detail.xls"
-  DetailGrossOutput <- readxl::read_excel(FileName, sheet = "GO")[6:422, c(2, 13:24)]
-  colnames(DetailGrossOutput) <- c("Gross_Output_Detail_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "GO"))[5, 13:24])
+  DetailGrossOutput <- readxl::read_excel(FileName, sheet = "GO")[6:422, c(2, 8:24)]
+  colnames(DetailGrossOutput) <- c("Gross_Output_Detail_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "GO"))[5, 8:24])
   return(DetailGrossOutput)
 }
 # Get Summary BEA Gross Output (2012 schema) 2007-2017 tables from static Excel
@@ -562,8 +562,8 @@ getBEASummaryGrossOutput2012Schema <- function () {
   getBEAUnderlyingTables()
   # Load desired excel file
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
-  SummaryGrossOutput <- readxl::read_excel(FileName, sheet = "GO")[6:197, c(2, 13:24)]
-  colnames(SummaryGrossOutput) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "GO"))[5, 13:24])
+  SummaryGrossOutput <- readxl::read_excel(FileName, sheet = "GO")[6:197, c(2, 8:24)]
+  colnames(SummaryGrossOutput) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "GO"))[5, 8:24])
   return(SummaryGrossOutput)
 }
 # Get Sector BEA Gross Output (2012 schema) 2007-2017 tables from static Excel
@@ -572,8 +572,8 @@ getBEASectorGrossOutput2012Schema <- function () {
   getBEAUnderlyingTables()
   # Load desired excel file
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
-  SectorGrossOutput <- readxl::read_excel(FileName, sheet = "GO")[6:197, c(2, 13:24)]
-  colnames(SectorGrossOutput) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "GO"))[5, 13:24])
+  SectorGrossOutput <- readxl::read_excel(FileName, sheet = "GO")[6:197, c(2, 8:24)]
+  colnames(SectorGrossOutput) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "GO"))[5, 8:24])
   return(SectorGrossOutput)
 }
 
@@ -647,8 +647,8 @@ getBEADetailCPI2012Schema <- function () {
   getBEAUnderlyingTables()
   # Load desired excel file
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual_Detail.xls"
-  DetailCPI <- readxl::read_excel(FileName, sheet = "ChainPriceIndexes")[6:422, c(2, 13:24)]
-  colnames(DetailCPI) <- c("Gross_Output_Detail_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 13:24])
+  DetailCPI <- readxl::read_excel(FileName, sheet = "ChainPriceIndexes")[6:422, c(2, 8:24)]
+  colnames(DetailCPI) <- c("Gross_Output_Detail_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 8:24])
   return(DetailCPI)
 }
 # Get Summary BEA Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
@@ -657,8 +657,8 @@ getBEASummaryCPI2012Schema <- function () {
   getBEAUnderlyingTables()
   # Load desired excel file
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
-  SummaryCPI <- readxl::read_excel(FileName, sheet = "ChainPriceIndexes")[6:197, c(2, 13:24)]
-  colnames(SummaryCPI) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 13:24])
+  SummaryCPI <- readxl::read_excel(FileName, sheet = "ChainPriceIndexes")[6:197, c(2, 8:24)]
+  colnames(SummaryCPI) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 8:24])
   return(SummaryCPI)
 }
 # Get Sector BEA Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
@@ -667,8 +667,8 @@ getBEASectorCPI2012Schema <- function () {
   getBEAUnderlyingTables()
   # Load desired excel file
   FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
-  SectorCPI <- readxl::read_excel(FileName, sheet = "ChainPriceIndexes")[6:197, c(2, 13:24)]
-  colnames(SectorCPI) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 13:24])
+  SectorCPI <- readxl::read_excel(FileName, sheet = "ChainPriceIndexes")[6:197, c(2, 8:24)]
+  colnames(SectorCPI) <- c("Gross_Output_Industry", as.data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes"))[5, 8:24])
   return(SectorCPI)
 }
 
@@ -833,7 +833,7 @@ getBEACodeName2012Schema <- function () {
   colnames(BEADetailCommodityCodeName) <- c("BEA_2012_Detail_Commodity_Code", "BEA_2012_Detail_Commodity_Name")
   rownames(BEADetailCommodityCodeName) <- NULL
   ## Summary
-  BEASummary <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2018_Summary.xlsx", sheet = "2012"))
+  BEASummary <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2019_Summary.xlsx", sheet = "2012"))
   # Industry
   BEASummaryIndustryCodeName <- BEASummary[7:77, 1:2]
   colnames(BEASummaryIndustryCodeName) <- c("BEA_2012_Summary_Industry_Code", "BEA_2012_Summary_Industry_Name")
@@ -842,25 +842,45 @@ getBEACodeName2012Schema <- function () {
   BEASummaryCommodityCodeName <- as.data.frame(t(BEASummary[5:6, 3:75]), stringsAsFactors = FALSE)
   colnames(BEASummaryCommodityCodeName) <- c("BEA_2012_Summary_Commodity_Code", "BEA_2012_Summary_Commodity_Name")
   rownames(BEASummaryCommodityCodeName) <- NULL
-  BEASummaryCommodityCodeName$BEA_2012_Summary_Commodity_Name <- gsub(" /.*", "", BEASummaryCommodityCodeName$BEA_2012_Summary_Commodity_Name)
   ## Sector
-  BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2018_Sector.xlsx", sheet = "2012"))
+  BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2019_Sector.xlsx", sheet = "2012"))
   # Industry
   BEASectorIndustryCodeName <- BEASector[7:21, 1:2]
   colnames(BEASectorIndustryCodeName) <- c("BEA_2012_Sector_Industry_Code", "BEA_2012_Sector_Industry_Name")
-  BEASectorIndustryCodeName$BEA_2012_Sector_Industry_Code <- gsub("\\s", "", BEASectorIndustryCodeName$BEA_2012_Sector_Industry_Code)
   rownames(BEASectorIndustryCodeName) <- NULL
   # Commodity
   BEASectorCommodityCodeName <- as.data.frame(t(BEASector[5:6, 3:19]), stringsAsFactors = FALSE)
   colnames(BEASectorCommodityCodeName) <- c("BEA_2012_Sector_Commodity_Code", "BEA_2012_Sector_Commodity_Name")
   rownames(BEASectorCommodityCodeName) <- NULL
-  BEASectorCommodityCodeName$BEA_2012_Sector_Commodity_Name <- gsub(" /.*", "", BEASectorCommodityCodeName$BEA_2012_Sector_Commodity_Name)
   ### Put the data.frames in a list
   BEACodeNameList <- list(BEADetailIndustryCodeName, BEADetailCommodityCodeName,
                           BEASummaryIndustryCodeName, BEASummaryCommodityCodeName,
                           BEASectorIndustryCodeName, BEASectorCommodityCodeName)
+  BEACodeNameList <- lapply(BEACodeNameList, cleanSectorNames)
+  BEACodeNameList <- lapply(BEACodeNameList, cleanSectorCodes)
   names(BEACodeNameList) <- c("DetailIndustry", "DetailCommodity", "SummaryIndustry", "SummaryCommodity", "SectorIndustry", "SectorCommodity")
   return(BEACodeNameList)
+}
+
+#'Applies string functions to clean BEA codes in a df
+#'@param df, a sector dataframe with codes in col 1
+#'@return df, the same df with cleaned codes
+cleanSectorCodes <- function(df) {
+  codes <- df[,1]
+  codes <- removeExtraSpaces(codes)
+  df[,1] <- codes
+  return(df)
+}
+
+#'Applies string functions to clean BEA names in a df
+#'@param df, a sector dataframe with sector names in col 2
+#'@return df, the same df with cleaned names
+cleanSectorNames <- function(df) {
+  sec_names <- df[,2]
+  sec_names <- removeNumberinSlashes(sec_names)
+  sec_names <- convertStrEncodingLatintoASCII(sec_names)
+  df[,2] <- sec_names
+  return(df)
 }
 
 Detail_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["DetailIndustry"]]

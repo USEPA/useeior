@@ -8,8 +8,6 @@ writeModelforUSEEIOPY(model)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
-
-\item{modelfolder}{Directory to write the model components to}
 }
 \description{
 Only writes model economic components (DRC, Marketshares, Demand) for now.

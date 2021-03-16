@@ -4,7 +4,12 @@
 \alias{writeSectorCrosswalkforAPI}
 \title{Write the master sector crosswalk out for the API}
 \usage{
-writeSectorCrosswalkforAPI(basedir)
+writeSectorCrosswalkforAPI(model, basedir)
+}
+\arguments{
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{basedir}{Base directory to write the model components to}
 }
 \description{
 Writes master sector crosswalk out for the API in csv
