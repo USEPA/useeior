@@ -80,7 +80,15 @@ constructEEIOMatrices <- function(model) {
   # Calculate U_d, the domestic impacts per dollar
   logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity) ...")
   model$N_d <- model$C %*% model$M_d
-
+  
+  # Calculate year over model IO year price ratio
+  logging::loginfo("Calculating price year ratio ...")
+  model$PriceYearRatio <- calculateYearbyModelIOYearPriceRatio(model)
+  
+  # Calculate producer over purchaser price ratio.
+  logging::loginfo("Calculating producer over purchaser price ratio ...")
+  model$PriceTypeRatio <- calculateProducerbyPurchaserPriceRatio(model)
+  
   logging::loginfo("Model build complete.")
   return(model)
 }
