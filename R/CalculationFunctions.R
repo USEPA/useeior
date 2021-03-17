@@ -137,7 +137,7 @@ calculateProducerbyPurchaserPriceRatio <- function(model) {
 adjustMultiplierPriceYear <- function(matrix_name, currency_year, model) {
   #price_adjusted_result <- list()
   CPI_ratio <- model$PriceYearRatio[, as.character(currency_year)]
-  logging::loginfo(paste("Adjusting multipliers from", model$specs$IOYear, "to", currency_year, "dollars..."))
+  logging::loginfo(paste("Adjusting multiplier from", model$specs$IOYear, "to", currency_year, "dollars..."))
   # Apply the adjustment in each row of the matrix
   matrix <- model[[matrix_name]] %*% diag(CPI_ratio)
   colnames(matrix) <- colnames(model[[matrix_name]])
@@ -150,7 +150,7 @@ adjustMultiplierPriceYear <- function(matrix_name, currency_year, model) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A matrix representing the multiplier that is adjusted to purchaser price.
 adjustMultiplierPriceType <- function(matrix, currency_year, model) {
-  logging::loginfo("Adjusting total emissions per dollar from producer to purchaser prices...")
+  logging::loginfo("Adjusting multiplier from producer to purchaser price...")
   matrix_new <- matrix %*% diag(model$PriceTypeRatio[, as.character(currency_year)])
   colnames(matrix_new) <- colnames(matrix)
   return(matrix_new)
