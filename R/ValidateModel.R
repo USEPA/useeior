@@ -108,14 +108,14 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
 #'@export 
 compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- function(model, tolerance=0.05) {
   commodityCPI_ratio <- model$MultiYearCommodityCPI[, "2017"]/model$MultiYearCommodityCPI[, "2012"]
-  commodityCPI_ratio[is.na(commodityCPI_ratio)] <- 0
+  commodityCPI_ratio[is.na(commodityCPI_ratio)] <- 1
   
   industryCPI_ratio <- model$MultiYearIndustryCPI[, "2017"]/model$MultiYearIndustryCPI[, "2012"]
-  industryCPI_ratio[is.na(industryCPI_ratio)] <- 0
+  industryCPI_ratio[is.na(industryCPI_ratio)] <- 1
   
-  q <- as.numeric(model$CommodityOutput * commodityCPI_ratio %*% model$V_n)
-  
-  x <- model$IndustryOutput * industryCPI_ratio
+  q <- model$CommodityOutput * commodityCPI_ratio
+  CommodityMix <- generateCommodityMixMatrix(model)
+  x <- as.numeric(CommodityMix %*% (model$IndustryOutput * industryCPI_ratio))
   
   # Calculate relative differences
   rel_diff <- (q - x)/x
