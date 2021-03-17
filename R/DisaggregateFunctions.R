@@ -71,7 +71,6 @@ disaggregateModel <- function (model){
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
     
     #MARGINS DISAGGREGATION (TODO) Margins tables need to be adjusted as the index is not the sector code like other dataframes
-    #model$IntermediateMargins <- disaggregateCols(model$IntermediateMargins, disagg)
     #model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
 
     counter <- counter + 1

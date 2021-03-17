@@ -1,6 +1,5 @@
 #' Prepare M and N matrices with sector margin impacts
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param margin_type A character value: can be "intermediate" or "final consumer".
 #' @export
 #' @return A list with M_margin and N_margin
 deriveFinalConsumerMarginSectorImpacts <- function(model) {
@@ -56,7 +55,6 @@ buildMarginAllocationMatrix <- function(all_margin_sectors, model) {
 
 #' Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param marginsource A character indicating the source of Margins, either "Industry" or "FinalConsumer".
 #' @return A dataframe containing CommodityCode, and margins for ProducersValue, Transportation, Wholesale, Retail and PurchasersValue.
 getFinalConsumerMarginsTable <- function (model) {
   # Use PCE and PEQ Bridge tables

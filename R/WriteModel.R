@@ -136,7 +136,7 @@ writeModelMatricesforAPI <- function(model,modelfolder) {
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     writeMatrixasBinFile(model$CommodityOutput, paste0(modelfolder, "/q.bin"))
   } else {
-    writeMatrixasBinFile(model$CommodityOutput, paste0(modelfolder, "/x.bin"))
+    writeMatrixasBinFile(model$IndustryOutput, paste0(modelfolder, "/x.bin"))
   }
   logging::loginfo(paste0("Model matrices for API written to ", modelfolder, "."))
 }
