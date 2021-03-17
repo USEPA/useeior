@@ -5,21 +5,18 @@
 \title{Adjust multipliers based on currency year, price type, and margin type.}
 \usage{
 adjustMultiplierPrice(
-  matrix,
+  matrix_name,
   currency_year,
   purchaser_price = TRUE,
-  margin_type = "intermediate",
   model
 )
 }
 \arguments{
-\item{matrix}{A matrix representing the multiplier that needs price adjustment.}
+\item{matrix_name}{Name of matrix representing the multiplier that needs price adjustment.}
 
 \item{currency_year}{An integer representing the currency year.}
 
 \item{purchaser_price}{A boolean value indicating whether to adjust producer's price to purchaser's price.}
-
-\item{margin_type}{A character value: can be "intermediate" or "final consumer".}
 
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }

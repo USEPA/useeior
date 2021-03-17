@@ -68,60 +68,93 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
 }
 
 #' Adjust multipliers based on currency year, price type, and margin type.
-#' @param matrix A matrix representing the multiplier that needs price adjustment.
+#' @param matrix_name Name of matrix representing the multiplier that needs price adjustment.
 #' @param currency_year An integer representing the currency year.
 #' @param purchaser_price A boolean value indicating whether to adjust producer's price to purchaser's price.
-#' @param margin_type A character value: can be "intermediate" or "final consumer".
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @export
 #' @return A list of price-adjusted multipliers.
-adjustMultiplierPrice <- function(matrix, currency_year, purchaser_price=TRUE, margin_type="intermediate", model) {
+adjustMultiplierPrice <- function(matrix_name, currency_year, purchaser_price=TRUE, model) {
   price_adjusted_result <- list()
-  # Generate CPI_ratio based on currency_year and model$specs$IOYear
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
-    currency_year_CPI <- transformIndustryCPItoCommodityCPIforYear(currency_year, model)
-    CPI_ratio <- as.data.frame(currency_year_CPI/model$MultiYearCommodityCPI[, as.character(model$specs$IOYear)])
-    rownames(CPI_ratio) <- rownames(model$MultiYearCommodityCPI)
+  # Adjust price year of multiplier
+  if (currency_year!=model$specs$IOYear) {
+    matrix <- adjustMultiplierPriceYear(matrix_name, currency_year, model)
   } else {
-    CPI_ratio <- as.data.frame(model$MultiYearIndustryCPI[, as.character(currency_year)]/model$MultiYearIndustryCPI[, as.character(model$specs$IOYear)])
-    rownames(CPI_ratio) <- rownames(model$MultiYearIndustryCPI)
+    logging::loginfo(paste("Keeping multipliers in", model$specs$IOYear, "dollar..."))
+    matrix <- model[[matrix_name]]
   }
-  colnames(CPI_ratio) <- "Ratio"
-  # Adjust from producer's to purchaser's price
+  # Adjust price type of multiplier
   if (purchaser_price) {
-    # Get Margins table based on margin_type
-    if (margin_type=="intermediate") {
-      Margins <- model$IntermediateMargins
-    } else {
-      Margins <- model$FinalConsumerMargins
-    }
-    logging::loginfo("Adjusting margins from IO year to currency year dollars...")
-    # Adjust ProducersValue using CPI_ratio
-    Margins <- merge(Margins, CPI_ratio, by.x = "SectorCode", by.y = 0, all.y = TRUE)
-    Margins$ProducersValue <- Margins$ProducersValue * Margins$Ratio
-    # Adjust Transportation, Wholesale and Retail using corresponding CPI_ratio
-    TWR_CPI_ratio <- useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), as.character(currency_year)]/useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), as.character(model$specs$IOYear)]
-    Margins[, c("Transportation", "Wholesale", "Retail")] <- sweep(Margins[, c("Transportation", "Wholesale", "Retail")], 2, TWR_CPI_ratio, "*")
-    # Generate PRObyPURRatios vector
-    Margins$PRObyPURRatios <- Margins$ProducersValue/rowSums(Margins[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
-    Margins[is.na(Margins$PRObyPURRatios), "PRObyPURRatios"] <- 1
-    PHI <- Margins$PRObyPURRatios
-    logging::loginfo("Adjusting total emissions per dollar from producer to purchaser prices...")
-    matrix_name <- paste(matrix, "pur", currency_year, sep = "_")
-    price_adjusted_result[[matrix_name]] <- model[[matrix]] %*% diag(PHI)
-    colnames(price_adjusted_result[[matrix_name]]) <- colnames(model[[matrix]])
+    price_adjusted_result[[paste(matrix_name, "pur", currency_year, sep = "_")]] <- adjustMultiplierPriceType(matrix, currency_year, model)
   } else {
-    # Adjust from IOYear to currency_year dollars
-    if (!currency_year==model$specs$IOYear) {
-      logging::loginfo("Adjusting multipliers from IO year to currency year dollars...")
-      # Apply the adjustment in each row of the matrix
-      matrix_name <- paste(matrix, "pro", currency_year, sep = "_")
-      price_adjusted_result[[matrix_name]] <- model[[matrix]] %*% diag(CPI_ratio$Ratio)
-      colnames(price_adjusted_result[[matrix_name]]) <- colnames(model[[matrix]])
-    }
+    logging::loginfo("Keeping total emissions per dollar in producer prices...")
+    price_adjusted_result[[paste(matrix_name, "pro", currency_year, sep = "_")]] <- matrix
   }
   logging::loginfo("Result price adjustment complete.")
   return(price_adjusted_result)
+}
+
+#' Calculate year by model IO year price ratio.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return A data.frame of year by model IO year price ratio.
+calculateYearbyModelIOYearPriceRatio <- function(model) {
+  CPI_df <- model[[paste0("MultiYear", model$specs$CommoditybyIndustryType, "CPI")]]
+  CPI_ratio <- CPI_df/CPI_df[, as.character(model$specs$IOYear)]
+  return(CPI_ratio)
+}
+
+#' Calculate producer to purchaser price ratio.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return A vector of producer to purchaser price ratio.
+calculateProducerbyPurchaserPriceRatio <- function(model) {
+  # Get Margins table
+  Margins <- model$FinalConsumerMargins
+  Margins <- merge(Margins, model$PriceYearRatio, by.x = "Code_Loc", by.y = 0, all.y = TRUE)
+  # Prepare ratio table PHI
+  PHI <- model$PriceYearRatio
+  for (year in colnames(model$PriceYearRatio)) {
+    # Because year of model$FinalConsumerMargins is model$specs$BaseIOSchema
+    # Adjust ProducersValue from model$specs$BaseIOSchema to currency year using model$PriceYearRatio
+    ProducersValue <- Margins$ProducersValue * (Margins[, year]/Margins[, as.character(model$specs$BaseIOSchema)])
+    # Adjust Transportation, Wholesale and Retail using corresponding CPI_ratio
+    TWR_CPI <- useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), ]
+    TWR_CPI_ratio <- TWR_CPI[, year]/TWR_CPI[, as.character(model$specs$BaseIOSchema)]
+    TWRValue <- sweep(Margins[, c("Transportation", "Wholesale", "Retail")], 2, TWR_CPI_ratio, "*")
+    # Re-calculate PurchasersValue
+    PurchasersValue <- rowSums(Margins[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
+    # Generate PRObyPURRatios, or phi vector
+    PHI[, year] <- ProducersValue/(ProducersValue + rowSums(TWRValue))
+  }
+  PHI[is.na(PHI)] <- 1
+  return(PHI)
+}
+
+#' Adjust multipliers from IO year to currency year price.
+#' @param matrix_name Name of matrix representing the multiplier that needs price year adjustment.
+#' @param currency_year An integer representing the currency year.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return A matrix representing the multiplier that is adjusted to currency year price.
+adjustMultiplierPriceYear <- function(matrix_name, currency_year, model) {
+  #price_adjusted_result <- list()
+  CPI_ratio <- model$PriceYearRatio[, as.character(currency_year)]
+  logging::loginfo(paste("Adjusting multipliers from", model$specs$IOYear, "to", currency_year, "dollars..."))
+  # Apply the adjustment in each row of the matrix
+  matrix <- model[[matrix_name]] %*% diag(CPI_ratio)
+  colnames(matrix) <- colnames(model[[matrix_name]])
+  #price_adjusted_result[[paste(matrix_name, "pro", currency_year, sep = "_")]] <- matrix
+  return(matrix)
+}
+
+#' Adjust multipliers from producer to purchaser price.
+#' @param matrix A matrix representing the multiplier that needs price type adjustment.
+#' @param currency_year An integer representing the currency year.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return A matrix representing the multiplier that is adjusted to purchaser price.
+adjustMultiplierPriceType <- function(matrix, currency_year, model) {
+  logging::loginfo("Adjusting total emissions per dollar from producer to purchaser prices...")
+  matrix_new <- matrix %*% diag(model$PriceTypeRatio[, as.character(currency_year)])
+  colnames(matrix_new) <- colnames(matrix)
+  return(matrix_new)
 }
 
 #' Multiply the Leontief inverse L and the demand vector.
@@ -201,7 +234,6 @@ calculateFinalPerspectiveLCIA <- function(N, y) {
   rownames(lcia_f) <- colnames(N)
   return(lcia_f)
 }
-
 
 #' Divide/Normalize a sector x flows matrix by the total of respective flow (column sum)
 #' @param m A sector x flows matrix.
