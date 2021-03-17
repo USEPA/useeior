@@ -10,7 +10,7 @@ calculateProducerbyPurchaserPriceRatio(model)
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
-A vector of producer to purchaser price ratio.
+A data.frame of producer to purchaser price ratio.
 }
 \description{
 Calculate producer to purchaser price ratio.

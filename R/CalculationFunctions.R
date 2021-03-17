@@ -105,7 +105,7 @@ calculateYearbyModelIOYearPriceRatio <- function(model) {
 
 #' Calculate producer to purchaser price ratio.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return A vector of producer to purchaser price ratio.
+#' @return A data.frame of producer to purchaser price ratio.
 calculateProducerbyPurchaserPriceRatio <- function(model) {
   # Get Margins table
   Margins <- model$FinalConsumerMargins
@@ -141,7 +141,6 @@ adjustMultiplierPriceYear <- function(matrix_name, currency_year, model) {
   # Apply the adjustment in each row of the matrix
   matrix <- model[[matrix_name]] %*% diag(CPI_ratio)
   colnames(matrix) <- colnames(model[[matrix_name]])
-  #price_adjusted_result[[paste(matrix_name, "pro", currency_year, sep = "_")]] <- matrix
   return(matrix)
 }
 
