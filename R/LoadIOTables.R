@@ -51,16 +51,19 @@ loadNationalIOData <- function(model) {
   model$Industries$Code_Loc <- toupper(apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
   
   # model$FinalDemandSectors
-  model$FinalDemandSectors <- cbind.data.frame(BEA$FinalDemandCodes,
-                                               c("Household", rep("Investment", 4), "ChangeInventories", "Export", "Import", rep("Government", 12)), stringsAsFactors=FALSE)
+  model$FinalDemandSectors <- utils::stack(BEA[c("HouseholdDemandCodes", "InvestmentDemandCodes", "ChangeInventoriesCodes",
+                                                 "ExportCodes", "ImportCodes", "GovernmentDemandCodes")])
+  model$FinalDemandSectors[] <- lapply(model$FinalDemandSectors, as.character)
   colnames(model$FinalDemandSectors) <- c("Code", "Name")
+  model$FinalDemandSectors$Name <- gsub(c("Codes|DemandCodes"), "", model$FinalDemandSectors$Name)
   model$FinalDemandSectors$Code_Loc <- toupper(apply(cbind(model$FinalDemandSectors$Code, model$specs$PrimaryRegionAcronym),
                                                      1, FUN = joinStringswithSlashes))
   
   # model$MarginSectors
-  model$MarginSectors <- as.data.frame(lapply(utils::stack(BEA[c("TransportationCodes", "WholesaleCodes", "RetailCodes")]),
-                                              as.character), col.names = c("Code", "Name"), stringsAsFactors=FALSE)
-  model$MarginSectors$Name <- gsub("Codes", "", model$MarginSectors$Name)
+  model$MarginSectors <- utils::stack(BEA[c("TransportationCodes", "WholesaleCodes", "RetailCodes")])
+  model$MarginSectors[] <- lapply(model$MarginSectors, as.character)
+  colnames(model$MarginSectors) <- c("Code", "Name")
+  model$MarginSectors$Name <- gsub(c("Codes"), "", model$MarginSectors$Name)
   model$MarginSectors$Code_Loc <- toupper(apply(cbind(model$MarginSectors$Code, model$specs$PrimaryRegionAcronym),
                                                 1, FUN = joinStringswithSlashes))
   
