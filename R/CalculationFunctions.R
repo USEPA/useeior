@@ -109,12 +109,12 @@ calculateYearbyModelIOYearPriceRatio <- function(model) {
 calculateProducerbyPurchaserPriceRatio <- function(model) {
   # Get Margins table
   Margins <- model$FinalConsumerMargins
-  Margins <- merge(Margins, model$PriceYearRatio, by.x = "Code_Loc", by.y = 0, all.y = TRUE)
+  Margins <- merge(Margins, model$Rho, by.x = "Code_Loc", by.y = 0, all.y = TRUE)
   # Prepare ratio table PHI
-  PHI <- model$PriceYearRatio
-  for (year in colnames(model$PriceYearRatio)) {
+  PHI <- model$Rho
+  for (year in colnames(model$Rho)) {
     # Because year of model$FinalConsumerMargins is model$specs$BaseIOSchema
-    # Adjust ProducersValue from model$specs$BaseIOSchema to currency year using model$PriceYearRatio
+    # Adjust ProducersValue from model$specs$BaseIOSchema to currency year using model$Rho
     ProducersValue <- Margins$ProducersValue * (Margins[, year]/Margins[, as.character(model$specs$BaseIOSchema)])
     # Adjust Transportation, Wholesale and Retail using corresponding CPI_ratio
     TWR_CPI <- useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), ]
@@ -136,7 +136,7 @@ calculateProducerbyPurchaserPriceRatio <- function(model) {
 #' @return A matrix representing the multiplier that is adjusted to currency year price.
 adjustMultiplierPriceYear <- function(matrix_name, currency_year, model) {
   #price_adjusted_result <- list()
-  CPI_ratio <- model$PriceYearRatio[, as.character(currency_year)]
+  CPI_ratio <- model$Rho[, as.character(currency_year)]
   logging::loginfo(paste("Adjusting multiplier from", model$specs$IOYear, "to", currency_year, "dollars..."))
   # Apply the adjustment in each row of the matrix
   matrix <- model[[matrix_name]] %*% diag(CPI_ratio)
@@ -151,7 +151,7 @@ adjustMultiplierPriceYear <- function(matrix_name, currency_year, model) {
 #' @return A matrix representing the multiplier that is adjusted to purchaser price.
 adjustMultiplierPriceType <- function(matrix, currency_year, model) {
   logging::loginfo("Adjusting multiplier from producer to purchaser price...")
-  matrix_new <- matrix %*% diag(model$PriceTypeRatio[, as.character(currency_year)])
+  matrix_new <- matrix %*% diag(model$Phi[, as.character(currency_year)])
   colnames(matrix_new) <- colnames(matrix)
   return(matrix_new)
 }
