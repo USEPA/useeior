@@ -3,7 +3,7 @@
 #' @return model with a list of demand vectors and a meta file
 #' @export
 loadDemandVectors <- function(model) {
-  logging::loginfo("Loading demand vectors from model spec ...")
+  logging::loginfo("Loading demand vectors from model spec...")
   model$DemandVectors <- list()
   meta <- data.frame()
   model$DemandVectors$vectors <- list()
@@ -18,7 +18,7 @@ loadDemandVectors <- function(model) {
 
     #Check if the demand is registered
     if (!is.null(dem_vec_fxn_registry[[i$Type]][[i$System]])) {
-      logging::loginfo(paste("Loading", v, "demand vector ..."))
+      logging::loginfo(paste("Loading", v, "demand vector..."))
       func_to_eval <- dem_vec_fxn_registry[[i$Type]][[i$System]]
       demandFunction <- as.name(func_to_eval)
       dv <- do.call(eval(demandFunction), list(model))

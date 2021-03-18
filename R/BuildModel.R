@@ -27,19 +27,19 @@ constructEEIOMatrices <- function(model) {
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
   model$W <- as.matrix(model$UseValueAdded)
   if(model$specs$CommoditybyIndustryType == "Commodity") {
-    logging::loginfo("Building commodity-by-commodity A matrix (direct requirements) ...")
+    logging::loginfo("Building commodity-by-commodity A matrix (direct requirements)...")
     model$A <- model$U_n %*% model$V_n
-    logging::loginfo("Building commodity-by-commodity A_d matrix (domestic direct requirements) ...")
+    logging::loginfo("Building commodity-by-commodity A_d matrix (domestic direct requirements)...")
     model$A_d <- model$U_d_n %*% model$V_n
   } else if(model$specs$CommoditybyIndustryType == "Industry") {
-    logging::loginfo("Building industry-by-industry A matrix (direct requirements) ...")
+    logging::loginfo("Building industry-by-industry A matrix (direct requirements)...")
     model$A <- model$V_n %*% model$U_n
-    logging::loginfo("Building industry-by-industry A_d matrix (domestic direct requirements) ...")
+    logging::loginfo("Building industry-by-industry A_d matrix (domestic direct requirements)...")
     model$A_d <- model$V_n %*% model$U_d_n
   }
 
   # Generate B matrix
-  logging::loginfo("Building B matrix (direct emissions and resource use per dollar) ...")
+  logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
   
   # Combine data into a single totals by sector df
   model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
@@ -50,37 +50,45 @@ constructEEIOMatrices <- function(model) {
   model$B <- createBfromFlowDataandOutput(model)
   
   # Generate C matrix
-  logging::loginfo("Building C matrix (characterization factors for model indicators) ...")
+  logging::loginfo("Building C matrix (characterization factors for model indicators)...")
   model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
 
   # Add direct impact matrix
-  logging::loginfo("Calculating D matrix (direct environmental impacts per dollar) ...")
+  logging::loginfo("Calculating D matrix (direct environmental impacts per dollar)...")
   model$D <- model$C %*% model$B 
   
   # Calculate total requirements matrix as Leontief inverse of A (L)
-  logging::loginfo("Calculating L matrix (total requirements) ...")
+  logging::loginfo("Calculating L matrix (total requirements)...")
   I <- diag(nrow(model$A))
   I_d <- diag(nrow(model$A_d))
   model$L <- solve(I - model$A)
-  logging::loginfo("Calculating L_d matrix (domestic total requirements) ...")
+  logging::loginfo("Calculating L_d matrix (domestic total requirements)...")
   model$L_d <- solve(I_d - model$A_d)
   
   # Calculate total emissions/resource use per dollar (M)
-  logging::loginfo("Calculating M matrix (total emissions and resource use per dollar) ...")
+  logging::loginfo("Calculating M matrix (total emissions and resource use per dollar)...")
   model$M <- model$B %*% model$L
   colnames(model$M) <- tolower(colnames(model$M))
   # Calculate M_d, the domestic emissions per dollar using domestic Leontief
-  logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity) ...")
+  logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
   model$M_d <- model$B %*% model$L_d
   colnames(model$M_d) <- colnames(model$M)
   
   # Calculate total impacts per dollar (N), impact category x sector
-  logging::loginfo("Calculating N matrix (total environmental impacts per dollar) ...")
+  logging::loginfo("Calculating N matrix (total environmental impacts per dollar)...")
   model$N <- model$C %*% model$M
   # Calculate U_d, the domestic impacts per dollar
-  logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity) ...")
+  logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity)...")
   model$N_d <- model$C %*% model$M_d
-
+  
+  # Calculate year over model IO year price ratio
+  logging::loginfo("Calculating Rho matrix (price year ratio)...")
+  model$Rho <- calculateYearbyModelIOYearPriceRatio(model)
+  
+  # Calculate producer over purchaser price ratio.
+  logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
+  model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
+  
   logging::loginfo("Model build complete.")
   return(model)
 }

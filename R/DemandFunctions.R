@@ -105,4 +105,3 @@ formatDemandVector <- function(dv,L) {
   d[match(names(dv),names(d))] <- dv
   return(d)
 }
-

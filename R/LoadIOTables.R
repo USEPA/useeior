@@ -34,13 +34,6 @@ loadIOData <- function(model) {
 loadNationalIOData <- function(model) {
   # Load BEA IO and gross output tables
   BEA <- loadBEAtables(model$specs)
-  # model$Industries
-  model$Industries <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
-  colnames(model$Industries) <- c("Code", "Name")
-  model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
-  model$Industries <- model$Industries[order(match(BEA$Industries, model$Industries$Code)), ]
-  model$Industries$Code_Loc <- toupper(apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
-  
   # model$Commodities
   model$Commodities <- merge(as.data.frame(BEA$Commodities, stringsAsFactors = FALSE),
                              utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
@@ -50,12 +43,29 @@ loadNationalIOData <- function(model) {
   model$Commodities <- model$Commodities[order(match(BEA$Commodities, model$Commodities$Code)), ]
   model$Commodities$Code_Loc <- toupper(apply(cbind(model$Commodities$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
   
+  # model$Industries
+  model$Industries <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
+  colnames(model$Industries) <- c("Code", "Name")
+  model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
+  model$Industries <- model$Industries[order(match(BEA$Industries, model$Industries$Code)), ]
+  model$Industries$Code_Loc <- toupper(apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
+  
   # model$FinalDemandSectors
-  model$FinalDemandSectors <- cbind.data.frame(BEA$FinalDemandCodes,
-                                               c("Household", rep("Investment", 4), "ChangeInventories", "Export", "Import", rep("Government", 12)))
+  model$FinalDemandSectors <- utils::stack(BEA[c("HouseholdDemandCodes", "InvestmentDemandCodes", "ChangeInventoriesCodes",
+                                                 "ExportCodes", "ImportCodes", "GovernmentDemandCodes")])
+  model$FinalDemandSectors[] <- lapply(model$FinalDemandSectors, as.character)
   colnames(model$FinalDemandSectors) <- c("Code", "Name")
+  model$FinalDemandSectors$Name <- gsub(c("Codes|DemandCodes"), "", model$FinalDemandSectors$Name)
   model$FinalDemandSectors$Code_Loc <- toupper(apply(cbind(model$FinalDemandSectors$Code, model$specs$PrimaryRegionAcronym),
                                                      1, FUN = joinStringswithSlashes))
+  
+  # model$MarginSectors
+  model$MarginSectors <- utils::stack(BEA[c("TransportationCodes", "WholesaleCodes", "RetailCodes")])
+  model$MarginSectors[] <- lapply(model$MarginSectors, as.character)
+  colnames(model$MarginSectors) <- c("Code", "Name")
+  model$MarginSectors$Name <- gsub(c("Codes"), "", model$MarginSectors$Name)
+  model$MarginSectors$Code_Loc <- toupper(apply(cbind(model$MarginSectors$Code, model$specs$PrimaryRegionAcronym),
+                                                1, FUN = joinStringswithSlashes))
   
   # IO tables
   model$MakeTransactions <- BEA$MakeTransactions
@@ -96,6 +106,9 @@ loadNationalIOData <- function(model) {
     model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
     model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
   }
+  
+  # Add Final Consumer Margins table
+  model$FinalConsumerMargins <- getFinalConsumerMarginsTable(model)
   
   return(model)
 }

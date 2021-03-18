@@ -112,7 +112,7 @@ transformIndustryOutputtoCommodityOutputforYear <- function(year, model) {
 transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
   # Generate adjusted industry CPI by location
   IndustryCPI <- model$MultiYearIndustryCPI[, as.character(year)]
-  # Use MarketShares to transform IndustryCPI to CommodityCPI
+  # Use MarketShares (of model IO year) to transform IndustryCPI to CommodityCPI
   MarketShares <- generateMarketSharesfromMake(model)
   # The transformation is essentially a I x 1 matrix %*% a C x I matrix which yields a C x 1 matrix
   CommodityCPI <- as.numeric(IndustryCPI %*% MarketShares)
