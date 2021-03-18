@@ -82,11 +82,11 @@ constructEEIOMatrices <- function(model) {
   model$N_d <- model$C %*% model$M_d
   
   # Calculate year over model IO year price ratio
-  logging::loginfo("Calculating price year ratio...")
+  logging::loginfo("Calculating Rho matrix (price year ratio)...")
   model$Rho <- calculateYearbyModelIOYearPriceRatio(model)
   
   # Calculate producer over purchaser price ratio.
-  logging::loginfo("Calculating producer over purchaser price ratio...")
+  logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
   model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
   
   logging::loginfo("Model build complete.")
