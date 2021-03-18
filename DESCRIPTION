@@ -17,7 +17,7 @@ Description: The United States Environmentally-Extended Input-Output model
 URL: https://github.com/USEPA/useeior
 BugReports: https://github.com/USEPA/useeior/issues
 Imports:
-    arrow (>= 3.0.0),
+    arrow (>= 2.0.0),
     configr (>= 0.3.4),
     digest (>= 0.6.27),
     dplyr (>= 0.8),
