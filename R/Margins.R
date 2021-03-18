@@ -65,7 +65,7 @@ getFinalConsumerMarginsTable <- function (model) {
   }
   # Map to Summary and Sector level
   crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])
-  MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = paste0("BEA_", model$specs$BaseIOLevel))
+  MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_Detail")
   # Aggregate by CommodityCode (dynamic to model BaseIOLevel) and CommodityDescription
   if (!model$specs$BaseIOLevel=="Detail") {
     MarginsTable$CommodityCode <- MarginsTable[, paste0("BEA_", model$specs$BaseIOLevel)]
