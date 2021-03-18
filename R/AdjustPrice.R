@@ -9,16 +9,18 @@ adjustMultiplierPrice <- function(matrix_name, currency_year, purchaser_price=TR
   price_adjusted_result <- list()
   # Adjust price year of multiplier
   if (currency_year!=model$specs$IOYear) {
+    logging::loginfo(paste("Adjusting", matrix_name, "matrix from", model$specs$IOYear, "to", currency_year, "dollars..."))
     matrix <- adjustMultiplierPriceYear(matrix_name, currency_year, model)
   } else {
-    logging::loginfo(paste("Keeping multipliers in", model$specs$IOYear, "dollar..."))
+    logging::loginfo(paste("Keeping", matrix_name, "matrix in", model$specs$IOYear, "dollar..."))
     matrix <- model[[matrix_name]]
   }
   # Adjust price type of multiplier
   if (purchaser_price) {
+    logging::loginfo(paste("Adjusting", matrix_name, "matrix from producer to purchaser price..."))
     price_adjusted_result[[paste(matrix_name, "pur", currency_year, sep = "_")]] <- adjustMultiplierPriceType(matrix, currency_year, model)
   } else {
-    logging::loginfo("Keeping total emissions per dollar in producer prices...")
+    logging::loginfo(paste("Keeping", matrix_name, "matrix in producer prices..."))
     price_adjusted_result[[paste(matrix_name, "pro", currency_year, sep = "_")]] <- matrix
   }
   logging::loginfo("Result price adjustment complete.")
@@ -68,7 +70,6 @@ calculateProducerbyPurchaserPriceRatio <- function(model) {
 adjustMultiplierPriceYear <- function(matrix_name, currency_year, model) {
   #price_adjusted_result <- list()
   CPI_ratio <- model$Rho[, as.character(currency_year)]
-  logging::loginfo(paste("Adjusting multiplier from", model$specs$IOYear, "to", currency_year, "dollars..."))
   # Apply the adjustment in each row of the matrix
   matrix <- model[[matrix_name]] %*% diag(CPI_ratio)
   colnames(matrix) <- colnames(model[[matrix_name]])
@@ -81,7 +82,6 @@ adjustMultiplierPriceYear <- function(matrix_name, currency_year, model) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A matrix representing the multiplier that is adjusted to purchaser price.
 adjustMultiplierPriceType <- function(matrix, currency_year, model) {
-  logging::loginfo("Adjusting multiplier from producer to purchaser price...")
   matrix_new <- matrix %*% diag(model$Phi[, as.character(currency_year)])
   colnames(matrix_new) <- colnames(matrix)
   return(matrix_new)
