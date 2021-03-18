@@ -52,14 +52,14 @@ loadNationalIOData <- function(model) {
   
   # model$FinalDemandSectors
   model$FinalDemandSectors <- cbind.data.frame(BEA$FinalDemandCodes,
-                                               c("Household", rep("Investment", 4), "ChangeInventories", "Export", "Import", rep("Government", 12)))
+                                               c("Household", rep("Investment", 4), "ChangeInventories", "Export", "Import", rep("Government", 12)), stringsAsFactors=FALSE)
   colnames(model$FinalDemandSectors) <- c("Code", "Name")
   model$FinalDemandSectors$Code_Loc <- toupper(apply(cbind(model$FinalDemandSectors$Code, model$specs$PrimaryRegionAcronym),
                                                      1, FUN = joinStringswithSlashes))
   
   # model$MarginSectors
   model$MarginSectors <- as.data.frame(lapply(utils::stack(BEA[c("TransportationCodes", "WholesaleCodes", "RetailCodes")]),
-                                              as.character), col.names = c("Code", "Name"))
+                                              as.character), col.names = c("Code", "Name"), stringsAsFactors=FALSE)
   model$MarginSectors$Name <- gsub("Codes", "", model$MarginSectors$Name)
   model$MarginSectors$Code_Loc <- toupper(apply(cbind(model$MarginSectors$Code, model$specs$PrimaryRegionAcronym),
                                                 1, FUN = joinStringswithSlashes))
