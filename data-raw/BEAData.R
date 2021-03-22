@@ -4,7 +4,7 @@ getBEAIOTables <- function () {
   AllTablesIO <- "inst/extdata/AllTablesIO.zip"
   # Download all BEA IO tables into the placeholder file
   if(!file.exists(AllTablesIO)) {
-    utils::download.file("https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip", AllTablesIO, mode = "wb")
+    utils::download.file("https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip", AllTablesIO, mode = "wb")
   }
   # Get the name of all files in the zip archive
   fname <- unzip(AllTablesIO, list = TRUE)[unzip(AllTablesIO, list = TRUE)$Length > 0, ]$Name
@@ -538,7 +538,7 @@ getBEAUnderlyingTables <- function () {
   AllTablesUnderlying <- "inst/extdata/AllTablesUnderlying.zip"
   # Download all BEA IO tables into the placeholder file
   if(!file.exists(AllTablesUnderlying)) {
-    utils::download.file("https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesUnderlying.zip", AllTablesUnderlying, mode = "wb")
+    utils::download.file("https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesUnderlying.zip", AllTablesUnderlying, mode = "wb")
   }
   # Get the name of all files in the zip archive
   fname <- unzip(AllTablesUnderlying, list = TRUE)[unzip(AllTablesUnderlying, list = TRUE)$Length > 0, ]$Name
