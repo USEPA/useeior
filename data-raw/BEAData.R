@@ -476,7 +476,7 @@ getBEADetailImportBeforeRedef2012Schema <- function () {
   # read excel sheet
   FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx"
   if(!file.exists(FileName)) {
-    utils::download.file(paste("https://apps.bea.gov/industry/xls/io-annual", FileName, sep = "/"), FileName, mode = "wb")
+    utils::download.file("https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx", FileName, mode = "wb")
   }
   for (i in c(2007, 2012)) {
     DetailImport <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:411, 3:429]
@@ -490,8 +490,6 @@ getBEADetailImportBeforeRedef2012Schema <- function () {
 }
 Detail_Import_2012_BeforeRedef <- getBEADetailImportBeforeRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Import_2012_BeforeRedef, overwrite = TRUE)
-
-
 
 # Get BEA Summary Import (Before Redef, 2012 schema) 2010:2018 from static Excel
 getBEASummaryImportBeforeRedef2012Schema <- function () {
