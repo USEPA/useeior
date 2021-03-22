@@ -2,7 +2,8 @@
 % Please edit documentation in R/WriteModel.R
 \name{writeModelMetadata}
 \alias{writeModelMetadata}
-\title{Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder.}
+\title{Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder
+format for file is here https://github.com/USEPA/USEEIO_API/blob/master/doc/data_format.md}
 \usage{
 writeModelMetadata(model, dirs)
 }

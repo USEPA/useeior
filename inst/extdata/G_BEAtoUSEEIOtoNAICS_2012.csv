@@ -96,14 +96,19 @@ G,Government,GFGN,Federal general government,S00600,Federal general government (
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),92512,Administration of Urban Planning and Community and Rural Development 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922110,Courts 
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),922110,Courts 
+G,Government,GFE,Federal government enterprises,S00102,Other federal government enterprises,S00102,Other federal government enterprises,922120,Police Protection 
+G,Government,GSLE,State and local government enterprises,S00203,Other state and local government enterprises,S00203,Other state and local government enterprises,922120,Police Protection 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922120,Police Protection 
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),922120,Police Protection 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922130,Legal Counsel and Prosecution 
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),922130,Legal Counsel and Prosecution 
+G,Government,GFE,Federal government enterprises,S00102,Other federal government enterprises,S00102,Other federal government enterprises,922140,Correctional Institutions 
+G,Government,GSLE,State and local government enterprises,S00203,Other state and local government enterprises,S00203,Other state and local government enterprises,922140,Correctional Institutions 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922140,Correctional Institutions 
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),922140,Correctional Institutions 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922150,Parole Offices and Probation Offices 
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),922150,Parole Offices and Probation Offices 
+G,Government,GSLE,State and local government enterprises,S00203,Other state and local government enterprises,S00203,Other state and local government enterprises,922160,Fire Protection 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922160,Fire Protection 
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),922160,Fire Protection 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),922190,"Other Justice, Public Order, and Safety Activities "
@@ -136,6 +141,7 @@ G,Government,GFGN,Federal general government,S00600,Federal general government (
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),926120,Regulation and Administration of Transportation Programs 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92613,"Regulation and Administration of Communications, Electric, Gas, and Other Utilities "
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),92613,"Regulation and Administration of Communications, Electric, Gas, and Other Utilities "
+G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),926120,Regulation and Administration of Transportation Programs
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),926130,"Regulation and Administration of Communications, Electric, Gas, and Other Utilities "
 G,Government,GSLG,State and local general government,GSLGO,State and local government (other services),GSLGO,State and local government (other services),926130,"Regulation and Administration of Communications, Electric, Gas, and Other Utilities "
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92614,Regulation of Agricultural Marketing and Commodities 
@@ -159,5 +165,5 @@ G,Government,GFGD,Federal general government,S00500,Federal general government (
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),92812,International Affairs 
 G,Government,GFGN,Federal general government,S00600,Federal general government (nondefense),S00600,Federal general government (nondefense),928120,International Affairs 
 G,Government,GFE,Federal government enterprises,S00101,Federal electric utilities,S00101,Federal electric utilities,,
-G,Government,GSLE,State and local government enterprises,S00201,State and local government passenger transit,S00201,State and local government passenger transit,,
+G,Government,GSLE,State and local government enterprises,S00201,State and local government passenger transit,S00201,State and local government passenger transit,S00201,State and local government passenger transit
 G,Government,GSLE,State and local government enterprises,S00202,State and local government electric utilities,S00202,State and local government electric utilities,,

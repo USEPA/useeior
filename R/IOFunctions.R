@@ -5,12 +5,14 @@
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
 #' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param output_type Type of the output, e.g. "Commodity" or "Industry"
 #'
 #' @return A dataframe contains adjusted Industry output with row names being BEA sector code.
-getAdjustedOutput <- function (outputyear, referenceyear, location_acronym, IsRoUS, model) {
+adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRoUS, model, output_type) {
   # Load Industry Gross Output
   if (model$specs$PrimaryRegionAcronym == "US") {
-    Output <- cbind.data.frame(rownames(model$GDP$BEAGrossOutputIO), model$GDP$BEAGrossOutputIO[, as.character(outputyear)])
+    Output <- cbind.data.frame(rownames(model$MultiYearIndustryOutput),
+                               model$MultiYearIndustryOutput[, as.character(outputyear)])
   } else {
     if(model$specs$ModelSource=="WinDC") {
       if(IsRoUS == TRUE) {
@@ -23,13 +25,15 @@ getAdjustedOutput <- function (outputyear, referenceyear, location_acronym, IsRo
     }
   }
   colnames(Output) <- c("SectorCode", "Output")
-  # Adjust Industry output based on CPI
-  model$GDP$BEACPIIO$ReferenceYeartoOutputYearRatio <- model$GDP$BEACPIIO[, as.character(referenceyear)]/model$GDP$BEACPIIO[, as.character(outputyear)]
-  AdjustedOutput <- merge(Output, model$GDP$BEACPIIO[, "ReferenceYeartoOutputYearRatio", drop = FALSE], by.x = "SectorCode", by.y = 0)
-  AdjustedOutput[, paste(outputyear, "IndustryOutput", sep = "")] <- AdjustedOutput$Output * AdjustedOutput$ReferenceYeartoOutputYearRatio
+  # Adjust output based on CPI
+  AdjustedOutput <- merge(Output, model[[paste0("MultiYear", output_type, "CPI")]][, as.character(c(referenceyear, outputyear))],
+                          by.x = "SectorCode", by.y = 0)
+  AdjustedOutput$DollarRatio <- AdjustedOutput[, as.character(referenceyear)]/AdjustedOutput[, as.character(outputyear)]
+  AdjustedOutput[, paste(outputyear, "IndustryOutput", sep = "")] <- AdjustedOutput$Output * AdjustedOutput$DollarRatio
   # Assign rownames and keep wanted column
   rownames(AdjustedOutput) <- AdjustedOutput$SectorCode
-  AdjustedOutput <- AdjustedOutput[, paste(outputyear, "IndustryOutput", sep = ""), drop = FALSE]
+  AdjustedOutput <- AdjustedOutput[rownames(model[[paste0("MultiYear", output_type, "CPI")]]),
+                                   paste(outputyear, "IndustryOutput", sep = ""), drop = FALSE]
   return(AdjustedOutput)
 }
 
@@ -54,9 +58,9 @@ normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
 generateDirectRequirementsfromUse <- function (model, domestic) {
   # Generate direct requirments matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
   if (domestic==TRUE) {
-    B <- normalizeIOTransactions(model$DomesticUseTransactions, model$BEA$MakeIndustryOutput) # B = U %*% solve(x_hat)
+    B <- normalizeIOTransactions(model$DomesticUseTransactions, model$IndustryOutput) # B = U %*% solve(x_hat)
   } else {
-    B <- normalizeIOTransactions(model$UseTransactions, model$BEA$MakeIndustryOutput) # B = U %*% solve(x_hat)
+    B <- normalizeIOTransactions(model$UseTransactions, model$IndustryOutput) # B = U %*% solve(x_hat)
   }
   return(B)
 }
@@ -66,7 +70,7 @@ generateDirectRequirementsfromUse <- function (model, domestic) {
 #' @return Market Shares matrix of the model.
 generateMarketSharesfromMake <- function(model) {
   # Generate market shares matrix (industry x commodity) from Make, see Miller and Blair section 5.3.1
-  D <- normalizeIOTransactions(model$MakeTransactions, model$BEA$UseCommodityOutput) # D = V %*% solve(q_hat)
+  D <- normalizeIOTransactions(model$MakeTransactions, model$CommodityOutput) # D = V %*% solve(q_hat)
   # Put in code here for adjusting marketshares to remove scrap
   return(D)
 }
@@ -76,12 +80,12 @@ generateMarketSharesfromMake <- function(model) {
 #' @return Commodity Mix matrix of the model.
 generateCommodityMixMatrix <- function (model) {
   # Generate commodity mix matrix (commodity x industry), see Miller and Blair section 5.3.2
-  C <- normalizeIOTransactions(t(model$MakeTransactions), model$BEA$MakeIndustryOutput) # C = V' %*% solve(x_hat)
+  C <- normalizeIOTransactions(t(model$MakeTransactions), model$IndustryOutput) # C = V' %*% solve(x_hat)
   # Validation: check if column sums equal to 1
   industryoutputfractions <- colSums(C)
   for (s in industryoutputfractions) {
     if (abs(1-s)>0.01) {
-      print("Error in commoditymix")
+      stop("Error in commoditymix")
     }
   }
   return(C)
@@ -92,14 +96,12 @@ generateCommodityMixMatrix <- function (model) {
 #' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Commodity output.
-generateCommodityOutputforYear <- function(location_acronym, IsRoUS, model) {
-  # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
-  CommodityMix <- generateCommodityMixMatrix(model)
+transformIndustryOutputtoCommodityOutputforYear <- function(year, model) {
   # Generate adjusted industry output by location
-  IndustryOutputVector <- as.matrix(model$BEA$MakeIndustryOutput)
+  IndustryOutput <- model$MultiYearIndustryOutput[, as.character(year)]
   # Use CommodityMix to transform IndustryOutput to CommodityOutput
-  CommodityOutput <- as.data.frame(CommodityMix %*% IndustryOutputVector)
-  colnames(CommodityOutput) <- as.character(model$specs$IOYear)
+  CommodityMix <- generateCommodityMixMatrix(model)
+  CommodityOutput <- as.numeric(CommodityMix %*% IndustryOutput)
   return(CommodityOutput)
 }
 
@@ -107,15 +109,24 @@ generateCommodityOutputforYear <- function(location_acronym, IsRoUS, model) {
 #' @param year Year of Industry CPI.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Commodity CPI.
-generateCommodityCPIforYear <- function(year, model) {
-  # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
-  CommodityMix <- generateCommodityMixMatrix(model)
+transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
   # Generate adjusted industry CPI by location
-  IndustryCPIVector <- as.matrix(model$GDP$BEACPIIO[, as.character(year)])
-  # Use CommodityMix to transform IndustryCPI to CommodityCPI
-  CommodityCPI <- as.data.frame(CommodityMix %*% IndustryCPIVector)
-  colnames(CommodityCPI) <- as.character(year)
-
+  IndustryCPI <- model$MultiYearIndustryCPI[, as.character(year)]
+  # Use MarketShares (of model IO year) to transform IndustryCPI to CommodityCPI
+  MarketShares <- generateMarketSharesfromMake(model)
+  # The transformation is essentially a I x 1 matrix %*% a C x I matrix which yields a C x 1 matrix
+  CommodityCPI <- as.numeric(IndustryCPI %*% MarketShares)
+  # Non-industry sectors would have CommodityCPI of 0
+  # To avoid interruption in later calculations, they are forced to 100
+  CommodityCPI[CommodityCPI==0] <- 100
+  # Validation: check if IO year CommodityCPI is 100
+  if (year==2012) {
+    for (s in CommodityCPI) {
+      if (abs(100-s)>0.3) {
+        stop("Error in CommodityCPI")
+      }
+    }
+  }
   return(CommodityCPI)
 }
 
@@ -179,56 +190,6 @@ calculateLeontiefInverse <- function(A) {
   return(L)
 }
 
-#' Generate Margins table using either Industry Margins (BEA Margins) or Final Consumer Margins (BEA PCE and PEQ Bridge data).
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param marginsource A character indicating the source of Margins, either "Industry" or "FinalConsumer".
-#' @return A dataframe containing CommodityCode, and margins for ProducersValue, Transportation, Wholesale, Retail and PurchasersValue.
-getMarginsTable <- function (model, marginsource) {
-  # Load Margins or PCE and PEQ Bridge data
-  if (model$specs$BaseIOSchema==2012) {
-    if (marginsource=="intermediate") {
-      MarginsTable <- useeior::Detail_Margins_2012_BeforeRedef[, 3:9]
-    } else {
-      # Use PCE and PEQ Bridge tables
-      PCE <- useeior::Detail_PCE_2012[, 3:9]
-      PEQ <- useeior::Detail_PEQ_2012[, 3:9]
-      MarginsTable <- rbind(PCE, PEQ)
-    }
-  }
-  # Map to Summary and Sector level
-  crosswalk <- unique(useeior::MasterCrosswalk2012[,c("BEA_2012_Sector_Code", "BEA_2012_Summary_Code", "BEA_2012_Detail_Code")])
-  MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_2012_Detail_Code")
-  # Aggregate by CommodityCode (dynamic to model BaseIOLevel) and CommodityDescription
-  if (!model$specs$BaseIOLevel=="Detail") {
-    MarginsTable$CommodityCode <- MarginsTable[, paste("BEA_2012", model$specs$BaseIOLevel, "Code", sep = "_")]
-  }
-  value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
-  MarginsTable <- stats::aggregate(MarginsTable[, value_columns], by = list(MarginsTable$CommodityCode), sum)
-  colnames(MarginsTable)[1] <- "CommodityCode"
-  # Keep the Commodities specified in model
-  MarginsTable <- merge(MarginsTable, as.data.frame(model$Commodities), by.x = "CommodityCode", by.y = "model$Commodities", all.y = TRUE)
-  MarginsTable[is.na(MarginsTable)] <- 0
-  MarginsTable <- MarginsTable[match(model$Commodities, MarginsTable$CommodityCode), ]
-  # Transform MarginsTable from Commodity to Industry format
-  if (model$specs$CommoditybyIndustryType=="Industry") {
-    # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
-    CommodityMix <- generateCommodityMixMatrix(model)
-    MarginsTable_Industry <- as.data.frame(model$Industries)
-    colnames(MarginsTable_Industry) <- "IndustryCode"
-    # Transform ProducerValue from Commodity to Industry format
-    # ! Not transforming Transportation, Wholesale and Retail to Industry format now
-    MarginsTable_Industry[, "ProducersValue"] <- as.vector(MarginsTable[, "ProducersValue"]%*%CommodityMix)
-    # Merge Industry Margins Table with Commodity Margins Table
-    MarginsTable <- merge(MarginsTable_Industry, MarginsTable[, -which(names(MarginsTable)=="ProducersValue")],
-                          by.x = "IndustryCode", by.y = "CommodityCode", all.x = TRUE)
-    # Replace NA with zero
-    MarginsTable[is.na(MarginsTable)] <- 0
-  }
-  MarginsTable$PurchasersValue <- rowSums(MarginsTable[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
-  # Rename code column from CommodityCode/IndustryCode to SectorCode
-  colnames(MarginsTable)[1] <- "SectorCode"
-  return(MarginsTable)
-}
 
 #' Generate domestic Use table by adjusting Use table based on Import matrix.
 #' @param Use An original Use table.

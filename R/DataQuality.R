@@ -69,9 +69,10 @@ lookupDQBoundScore <- function(raw_score,dqi,scoring_bounds) {
 #' @return A data frame with contextual data quality scores added in columns
 #' with names of the indicators. Only 'TemporalCorrelation' currently added.
 scoreContextualDQ <- function(df)  {
-  bounds <- setDQScoringBounds()    
-  df[, "TemporalCorrelation"] <- vapply(unique(df[, "Year"]), scoreTemporalDQ, target_year = NA,
-                                        scoring_bounds = bounds, FUN.VALUE = 0)
+  bounds <- setDQScoringBounds()
+  for (year in unique(df$Year)) {
+    df[df$Year==year, "TemporalCorrelation"] <- scoreTemporalDQ(year, target_year = NA, scoring_bounds = bounds)
+  }
   return(df)
 }
 

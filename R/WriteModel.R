@@ -1,5 +1,6 @@
 #' Writes all model data and metadata components to the API
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param basedir Base directory to write the model components to
 #' @description Writes all model data and metadata components to the API
 #' @export
 writeModelforAPI <-function(model, basedir){
@@ -11,14 +12,18 @@ writeModelforAPI <-function(model, basedir){
 }
 
 #' Write the master sector crosswalk out for the API
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param basedir Base directory to write the model components to
 #' @description Writes master sector crosswalk out for the API in csv
 #' @export
-writeSectorCrosswalkforAPI <- function(basedir){
-  dirs <- setWriteDirsforAPI(model=NA,basedir)
+writeSectorCrosswalkforAPI <- function(model, basedir){
+  dirs <- setWriteDirsforAPI(NULL,basedir)
   prepareWriteDirs(dirs)
-  utils::write.csv(MasterCrosswalk2012, paste0(dirs$data, "/sectorcrosswalk.csv"),
+  crosswalk <- model$crosswalk
+  crosswalk$ModelSchema <- ""
+  utils::write.csv(crosswalk, paste0(dirs$data, "/sectorcrosswalk.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
-  logging::loginfo(paste0("Sector crosswalk written to ", basedir, "."))
+  logging::loginfo(paste0("Sector crosswalk written to ", dirs$data, "."))
 }
 
 #' Write model matrices as CSV files to output folder.
@@ -32,7 +37,7 @@ writeModelMatrices <- function(model, outputfolder) {
   if (!dir.exists(modelfolder)) {
     dir.create(modelfolder, recursive = TRUE) 
   }
-  for (matrix in c("A", "B", "C", "D", "L", "U", "M")) {
+  for (matrix in c("A", "A_d", "B", "C", "D", "L", "L_d", "M","M_d","N","N_d","CPI")) {
     utils::write.csv(model[[matrix]], paste0(modelfolder,"/",matrix, ".csv"),
                      na = "", row.names = TRUE, fileEncoding = "UTF-8")
   }
@@ -42,7 +47,6 @@ writeModelMatrices <- function(model, outputfolder) {
 
 #' Write model components to output folder for useeiopy building using IO-Model-Builder format.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param modelfolder Directory to write the model components to
 #' @description Only writes model economic components (DRC, Marketshares, Demand) for now.
 #' @export
 writeModelforUSEEIOPY <- function(model) {
@@ -70,7 +74,7 @@ writeModelforUSEEIOPY <- function(model) {
   utils::write.csv(sattable, paste0(name_pre, "_sat.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8") 
   utils::write.csv(LCIA, paste0(name_pre, "_LCIA.csv"), row.names = FALSE, fileEncoding = "UTF-8")
   utils::write.csv(SectorMetaData, paste0(name_pre, "_sector_meta_data.csv"), row.names = FALSE, fileEncoding = "UTF-8")
-  utils::write.csv(Demand, paste0(name_pre, "_FinalDemand.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(f, paste0(name_pre, "_FinalDemand.csv"), row.names = FALSE, fileEncoding = "UTF-8")
   utils::write.csv(DirectRequirementsCoefficients, paste0(name_pre, "_DRC.csv"), row.names = TRUE, fileEncoding = "UTF-8") #DRC needs row indices
   # Write logs to file in Model Builds folder
   logtimestamp <- Sys.Date()
@@ -86,12 +90,13 @@ writeModelforUSEEIOPY <- function(model) {
 
 #' Sets directories to write model output data to
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes. Optional
+#' @param basedir Base directory to write the model components to
 #' @description Sets directories to write model output data to. If model is not passed, just sets data directory. 
 #' @return A named list of directories for model output writing
-setWriteDirsforAPI <- function(model=NA, basedir) {
+setWriteDirsforAPI <- function(model=NULL, basedir) {
   dirs <- list()
   dirs$data <-  file.path(basedir,"build","data")
-  if (!is.na(model)) {
+  if (!is.null(model)) {
     dirs$model <- file.path(dirs$data, model$specs$Model)
     dirs$demands <- file.path(dirs$model,"demands")    
   }
@@ -102,8 +107,8 @@ setWriteDirsforAPI <- function(model=NA, basedir) {
 #' @param dirs A named list of directories
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @description Sets directories to write model output data to. If model is not passed, just uses data directory 
-prepareWriteDirs <- function(dirs,model=NA) {
-  if (is.na(model)) {
+prepareWriteDirs <- function(dirs,model) {
+  if (missing(model)) {
     if (!dir.exists(dirs$data)) {
       dir.create(dirs$data, recursive = TRUE) 
     }
@@ -123,7 +128,7 @@ prepareWriteDirs <- function(dirs,model=NA) {
 #' @description Writes model matrices, including A, B, C, D, L, U, M, CPI, x (Industry Output), and q (Commodity Output).
 writeModelMatricesforAPI <- function(model,modelfolder) {
   # Write model matrices to .bin files for API
-  MatricesforAPI <- c("A", "A_d", "B", "C", "D", "L", "U", "M", "CPI")
+  MatricesforAPI <- c("A", "A_d", "B", "C", "D", "L","L_d","U", "M", "CPI")
   for (matrix in MatricesforAPI) {
     writeMatrixasBinFile(model[[matrix]], paste0(modelfolder, "/", matrix, ".bin"))
   }
@@ -131,7 +136,7 @@ writeModelMatricesforAPI <- function(model,modelfolder) {
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     writeMatrixasBinFile(model$CommodityOutput, paste0(modelfolder, "/q.bin"))
   } else {
-    writeMatrixasBinFile(model$CommodityOutput, paste0(modelfolder, "/x.bin"))
+    writeMatrixasBinFile(model$IndustryOutput, paste0(modelfolder, "/x.bin"))
   }
   logging::loginfo(paste0("Model matrices for API written to ", modelfolder, "."))
 }
@@ -140,47 +145,48 @@ writeModelMatricesforAPI <- function(model,modelfolder) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @description Writes model demand vectors, including y and y_d for consumption and production.
 writeModelDemandstoJSON <- function(model,demandsfolder) {
-  # Write model demand vectors as JSON files for API
-  for (demand in c("Consumption", "Production")) {
-    if (demand=="Consumption") {
-      Demand <- as.matrix(rowSums(model[["DomesticFinalDemand"]][, model$BEA$TotalConsumptionCodes]))
-    } else {
-      Demand <- as.matrix(rowSums(model[["DomesticFinalDemand"]]))
-    }
-    # Change column name
-    colnames(Demand) <- "amount"
-    # Add sector name
-    Demand <- merge(model$SectorNames, Demand, by.x = "SectorCode", by.y = 0)
-    Demand$sector <- apply(cbind(Demand[, c("SectorCode", "SectorName")], model$specs$PrimaryRegionAcronym),
-                           1, FUN = joinStringswithSlashes)
-    Demand <- Demand[, c("sector", "amount")]
-    filename <- tolower(paste(model$specs$IOYear, model$specs$PrimaryRegionAcronym,
-                              "domestic", demand, sep = "_"))
-    write(jsonlite::toJSON(Demand), paste0(demandsfolder, "/", filename, ".json"))
+  #!WARNING: Only works for single region model
+  if (model$specs$ModelType!="US") {
+    logging::logerror("Currently only works for single region US models.")
+    stop()
+  }
+  
+  for (n in names(model$DemandVectors$vectors)) {
+    f <- model$DemandVectors$vectors[[n]]
+    f <- data.frame(amount=f)
+    f$sector <- tolower(rownames(f))
+    rownames(f) <- NULL
+    f <- f[, c("sector", "amount")]
+    f <- jsonlite::toJSON(f, pretty = TRUE)
+    write(f, paste0(demandsfolder, "/", n, ".json"))
   }
   logging::loginfo(paste0("Model demand vectors for API written to ", demandsfolder, "."))
 }
 
-#' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder.
+#' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder
+#' format for file is here https://github.com/USEPA/USEEIO_API/blob/master/doc/data_format.md
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @description Writes model metadata, including indicators and demands.
 writeModelMetadata <- function(model,dirs) {
+  #!WARNING: Only works for single region model
+  if (model$specs$ModelType!="US") {
+    logging::logerror("Currently only works for single region US models.")
+    stop()
+  }
+  
+  #Load metadata fields for API
+  fields <- configr::read.config(system.file("extdata/USEEIO_API_fields.yml", package="useeior"))
+  
   outputfolder <- dirs$model
+  
+  
+  
   # Write model description to models.csv
   model_desc <- file.path(dirs$data, "models.csv")
   ID <- model$specs$Model
-  Name <- paste("A", substr(ID, 8, 10), "version", model$specs$PrimaryRegionAcronym,
-                "EEIO model in", tolower(model$specs$CommoditybyIndustryType),
-                "form at the BEA", tolower(model$specs$BaseIOLevel), "level with",
-                model$specs$SatelliteTable$GHG$DataYears, 
-                names(model$specs$SatelliteTable), "data")
+  Name <- model$specs$Model
   Location <- model$specs$PrimaryRegionAcronym
-  Description <- paste("A", substr(ID, 8, 10), "version", model$specs$PrimaryRegionAcronym,
-                       "EEIO model in", tolower(model$specs$CommoditybyIndustryType),
-                       "form at the BEA", tolower(model$specs$BaseIOLevel), "level with",
-                       model$specs$SatelliteTable$GHG$DataYears, 
-                       names(model$specs$SatelliteTable), "table and customzied",
-                       names(model$specs$SatelliteTable), "indicators")
+  Description <- ""
   #Add in sector schema for model
   Sector_Schema <- paste0("BEA_",model$specs$BaseIOSchema,"_",model$specs$BaseIOLevel,"_Code")
   if (!file.exists(model_desc)) {
@@ -193,48 +199,70 @@ writeModelMetadata <- function(model,dirs) {
     }
   }
   utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  
   # Write indicators to csv
-  indicators <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Indicators.csv", package = "useeior"),
-                                  sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+  indicators <- model$Indicators$meta  
   indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")],
                          1, FUN = joinStringswithSlashes)
+  #indicators <- indicators[, c("Index", "ID", "FullName", "Abbreviation", "Unit", "Group", "SimpleUnit", "SimpleName")]
+  
+  indicators <- indicators[order(indicators$Name), ]
   indicators$Index <- c(1:nrow(indicators)-1)
-  indicators <- indicators[, c("Index", "ID", "Name", "Code", "Unit", "Group", "SimpleUnit", "SimpleName")]
-  utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"),
-                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  indicators <- indicators[,fields$indicators]
+  checkNamesandOrdering(indicators$Name,rownames(model$C),"code in sectors.csv and rows in L matrix")
+  utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  
   # Write demands to csv
-  demands <- as.data.frame(gsub(".json", "", list.files(paste0(outputfolder, "/demands"))),
-                           stringsAsFactors = FALSE)
-  colnames(demands) <- "ID"
-  for (n in 1:nrow(demands)) {
-    demands[n, "Year"] <- unlist(strsplit(demands[n, "ID"], "_"))[1]
-    demands[n, "Type"] <- unlist(strsplit(demands[n, "ID"], "_"))[4]
-    demands[n, "System"] <- ifelse(is.na(unlist(strsplit(demands[n, "ID"], "_"))[5]),
-                                   "complete", unlist(strsplit(demands[n, "ID"], "_"))[5])
-    demands[n, "Location"] <- toupper(unlist(strsplit(demands[n, "ID"], "_"))[2])
-    demands[n, "Scope"] <- unlist(strsplit(demands[n, "ID"], "_"))[4]
-  }
+  demands <- model$DemandVectors$meta
+  demands$Index <- c(1:nrow(demands)-1)
+  demands <- demands[,fields$demands]
   utils::write.csv(demands, paste0(outputfolder, "/demands.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write sectors to csv
-  sectors <- model$SectorNames
-  colnames(sectors) <- c("Code", "Name")
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+    sectors <- model$Commodities[, c("Code", "Name")]
+  } else {
+    sectors <- model$Industries[, c("Code", "Name")]
+  }
   sectors$Location <- model$specs$PrimaryRegionAcronym
-  sectors$Index <- c(1:nrow(sectors)-1)
   sectors$ID <- apply(sectors[, c("Code", "Name", "Location")], 1, FUN = joinStringswithSlashes)
-  sectors <- sectors[, c("Index", "ID", "Name", "Code", "Location")]
   sectors$Description <- ""
+  sectors$Index <- c(1:nrow(sectors)-1)
+  sectors <- sectors[, fields$sectors]
+  checkNamesandOrdering(sectors$Code,rownames(model$L),"code in sectors.csv and rows in L matrix")
   utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   # Write flows to csv
-  flows <- loadLCIAfactors()
-  flows$ID <- apply(flows[, c("Category", "Subcategory", "Name", "Unit")],
-                    1, FUN = joinStringswithSlashes)
-  flows[, "Sub-Category"] <- flows$Subcategory
+  flows <- model$SatelliteTables$flows
+  flows$ID <- apply(flows[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
+  names(flows)[names(flows) == 'FlowUUID'] <- 'UUID'
+  flows <- flows[order(flows$ID),]
   flows$Index <- c(1:nrow(flows)-1)
-  flows <- flows[, c("Index", "ID", "Name", "Category", "Sub-Category", "Unit", "UUID")]
+  flows <- flows[, fields$flows]
+  #checkNamesandOrdering(flows$ID,rownames(model$B),"flows in flows.csv and rows in B matrix")
   utils::write.csv(flows, paste0(outputfolder, "/flows.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
 }
+
+
+checkNamesandOrdering <- function(n1,n2,note) {
+  if (!all.equal(n1,n2)) {
+    logging::logerror(paste(note, "not the same or not in the same order"))
+    stop()
+  }
+}
+
+#'Create a unique hash identifier for a model
+#'@param model, any model object
+#'@return char string
+generateModelIdentifier <- function(model) {
+  id <- digest::digest(model, algo="sha256")
+  return(id)
+}
+
+  
+  
+  
+  
 

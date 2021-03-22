@@ -2,16 +2,16 @@
 % Please edit documentation in R/FlowsaFunctions.R
 \name{getFlowbySectorCollapsed}
 \alias{getFlowbySectorCollapsed}
-\title{Calls the Python flowsa package's getFlowBySector method}
+\title{Load flowsa's FlowBySector df and collapse sector columns}
 \usage{
-getFlowbySectorCollapsed(method_name)
+getFlowbySectorCollapsed(sat_spec)
 }
 \arguments{
-\item{method_name}{The name}
+\item{sat_spec, }{a standard specification for a single satellite table}
 }
 \value{
 A data frame for flowsa data in sector by region totals format
 }
 \description{
-Calls the Python flowsa package's getFlowBySector method
+Load flowsa's FlowBySector df and collapse sector columns
 }
