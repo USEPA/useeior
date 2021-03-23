@@ -125,10 +125,11 @@ prepareWriteDirs <- function(dirs,model) {
 #' Write model matrices as BIN files for API to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param modelfolder Directory to write the model components to
-#' @description Writes model matrices, including A, A_d, B, C, D, L, L_d, M, N, Rho (CPI ratio matrix), x (Industry Output), and q (Commodity Output).
+#' @description Writes model matrices, including Make, Use, A, A_d, B, C, D, L, L_d, M, N, Rho (CPI ratio matrix), x (Industry Output), and q (Commodity Output).
 writeModelMatricesforAPI <- function(model,modelfolder) {
   # Write model matrices to .bin files for API
-  MatricesforAPI <- c("A", "A_d", "B", "C", "D", "L", "L_d", "M", "N", "Rho")
+  MatricesforAPI <- c("MakeTransactions", "UseTransactions", "A", "A_d",
+                      "B", "C", "D", "L", "L_d", "M", "N", "Rho")
   for (matrix in MatricesforAPI) {
     writeMatrixasBinFile(as.matrix(model[[matrix]]), paste0(modelfolder, "/", matrix, ".bin"))
   }
