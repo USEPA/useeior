@@ -1,30 +1,30 @@
-#' Adjust multipliers based on currency year, price type, and margin type.
-#' @param matrix_name Name of matrix representing the multiplier that needs price adjustment.
-#' @param currency_year An integer representing the currency year.
+#' Adjust a model result matrix based on currency year, price type, and margin type.
+#' Model result matrices are M, M_d, N, N_d
+#' Year adjustments from 2007-2018 supported
+#' @param matrix_name Name of the result matrix that needs price adjustment, e.g. "N"
+#' @param currency_year An integer representing the currency year, e.g. 2018.
 #' @param purchaser_price A boolean value indicating whether to adjust producer's price to purchaser's price.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @export
-#' @return A list of price-adjusted multipliers.
-adjustMultiplierPrice <- function(matrix_name, currency_year, purchaser_price=TRUE, model) {
-  price_adjusted_result <- list()
-  # Adjust price year of multiplier
+#' @return A model result matrix after price adjustment
+adjustResultMatrixPrice <- function(matrix_name, currency_year, purchaser_price=TRUE, model) {
+  # Adjust price year of matrix
   if (currency_year!=model$specs$IOYear) {
     logging::loginfo(paste("Adjusting", matrix_name, "matrix from", model$specs$IOYear, "to", currency_year, "dollars..."))
-    matrix <- adjustMultiplierPriceYear(matrix_name, currency_year, model)
+    mat <- adjustMultiplierPriceYear(matrix_name, currency_year, model)
   } else {
     logging::loginfo(paste("Keeping", matrix_name, "matrix in", model$specs$IOYear, "dollar..."))
-    matrix <- model[[matrix_name]]
+    mat <- model[[matrix_name]]
   }
   # Adjust price type of multiplier
   if (purchaser_price) {
     logging::loginfo(paste("Adjusting", matrix_name, "matrix from producer to purchaser price..."))
-    price_adjusted_result[[paste(matrix_name, "pur", currency_year, sep = "_")]] <- adjustMultiplierPriceType(matrix, currency_year, model)
+    mat <- adjustMultiplierPriceType(mat, currency_year, model)
   } else {
     logging::loginfo(paste("Keeping", matrix_name, "matrix in producer prices..."))
-    price_adjusted_result[[paste(matrix_name, "pro", currency_year, sep = "_")]] <- matrix
   }
   logging::loginfo("Result price adjustment complete.")
-  return(price_adjusted_result)
+  return(mat)
 }
 
 #' Calculate year by model IO year price ratio.
