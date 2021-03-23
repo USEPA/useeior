@@ -22,6 +22,7 @@ constructEEIOMatrices <- function(model) {
     stop("This function needs to be revised before it is suitable for multi-regional models")
   }
   # Generate matrices
+  model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
