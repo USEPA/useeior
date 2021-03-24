@@ -10,6 +10,12 @@
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Detail_Use_2012_PRO_BeforeRedef"
 
+#' Detail 2012 Use Purchaser's Value Before Redefinition (2012 schema)
+#' @format A dataframe with 403 obs. and 428 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Detail_Use_2012_PUR_BeforeRedef"
+
 #' Detail 2012 Make After Redefinition (2012 schema)
 #' @format A dataframe with 406 obs. and 406 variables
 #' @description TBD
@@ -129,6 +135,13 @@
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Summary_Use_2018_PRO_BeforeRedef"
+
+
+#' Summary 2012 Use Purchaser's Value Before Redefinition (2012 schema)
+#' @format A dataframe with 80 obs. and 98 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2012_PUR_BeforeRedef"
 
 #' Summary 2010 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
@@ -345,6 +358,13 @@
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Sector_Use_2018_PRO_BeforeRedef"
+
+
+#' Sector 2012 Use Purchaser's Value Before Redefinition (2012 schema)
+#' @format A dataframe with 27 obs. and 28 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Sector_Use_2012_PUR_BeforeRedef"
 
 #' Sector 2010 Make After Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
@@ -623,54 +643,6 @@
 #' }
 #' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/PEQBridge_2007_2012_DET.xlsx}
 "Detail_PEQ_2012"
-
-#' Detail Margins (Before Redef) table for 2012 (2012 schema)
-#' @format A dataframe with 61844 obs. and 9 variables:
-#' \describe{
-#'  \item{NIPACode}{text code}
-#'  \item{MarginsCategory}{text category name, like 'Therapeutic medical equipment'}
-#'  \item{CommodityCode}{BEA_2012_Detail_Code}
-#'  \item{CommodityDescription}{BEA_2012_Detail_Name}
-#'  \item{ProducersValue}{USD2012}
-#'  \item{Transportation}{USD2012}
-#'  \item{Wholesale}{USD2012}
-#'  \item{Retail}{USD2012}
-#'  \item{PurchasersValue}{USD2012}
-#' }
-#' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_DET.xlsx}
-"Detail_Margins_2012_BeforeRedef"
-
-#' Summary Margins (Before Redef) table for 2012 (2012 schema)
-#' @format A dataframe with 4632 obs. and 9 variables:
-#' \describe{
-#'  \item{NIPACode}{text code}
-#'  \item{MarginsCategory}{text category name, like 'Therapeutic medical equipment'}
-#'  \item{CommodityCode}{BEA_2012_Detail_Code}
-#'  \item{CommodityDescription}{BEA_2012_Detail_Name}
-#'  \item{ProducersValue}{USD2012}
-#'  \item{Transportation}{USD2012}
-#'  \item{Wholesale}{USD2012}
-#'  \item{Retail}{USD2012}
-#'  \item{PurchasersValue}{USD2012}
-#' }
-#' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SUM.xlsx}
-"Summary_Margins_2012_BeforeRedef"
-
-#' Sector Margins (Before Redef) table for 2012 (2012 schema)
-#' @format A dataframe with 4632 obs. and 9 variables:
-#' \describe{
-#'  \item{NIPACode}{text code}
-#'  \item{MarginsCategory}{text category name, like 'Therapeutic medical equipment'}
-#'  \item{CommodityCode}{BEA_2012_Detail_Code}
-#'  \item{CommodityDescription}{BEA_2012_Detail_Name}
-#'  \item{ProducersValue}{USD2012}
-#'  \item{Transportation}{USD2012}
-#'  \item{Wholesale}{USD2012}
-#'  \item{Retail}{USD2012}
-#'  \item{PurchasersValue}{USD2012}
-#' }
-#' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SECT.xlsx}
-"Sector_Margins_2012_BeforeRedef"
 
 #' Master Crosswalk table (2012 schema)
 #' @format A dataframe with 16611 obs. and 6 variables:

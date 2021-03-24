@@ -43,8 +43,9 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   # Rename BEA to Sector
   colnames(totals_by_sector_BEA)[colnames(totals_by_sector_BEA)=="BEA"] <- "Sector"
   
-  # Add in BEA industry/commodity names
-  sectornames <- model$SectorNames
+  # Add in BEA industry names
+  sectornames <- model$Industries[, c("Code", "Name")]
+  colnames(sectornames) <- c("Sector", "SectorName")
   # Add F01000 or F010 to sectornames
   if (model$specs$BaseIOLevel=="Detail") {
     sectornames <- rbind.data.frame(sectornames, c("F01000", "Household"))
@@ -52,10 +53,9 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
     sectornames <- rbind.data.frame(sectornames, c("F010", "Household"))
   }
   # Assign sector names to totals_by_sector_BEA
-  totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames,
-                                by.x = "Sector", by.y = "Sector", all.x = TRUE)
+  totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames, by = "Sector", all.x = TRUE)
   
-  # Aggregate to BEA sectors using unique aggregation functions depending on the quantitive variable
+  # Aggregate to BEA sectors using unique aggregation functions depending on the quantatitive variable
   totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA,
                                               Flowable, Context, Sector, SectorName,
                                               Location, Unit, Year, DistributionType) 
@@ -178,8 +178,9 @@ getValueAddedTotalsbySector <- function(model) {
   # Add columns to convert to standard totals_by_sector format
   colnames(df) <- "FlowAmount"
   df$Flowable <- "Value Added"
-  df[, "Sector"] <- rownames(df)
-  df <- merge(df, model$SectorNames, by = "Sector", all.x = TRUE)
+  df[, "Sector"] <- gsub("/.*", "", rownames(df))
+  df <- merge(df, model$Industries[, c("Code", "Name")],
+              by.x = "Sector", by.y = "Code", all.x = TRUE)
   df[, "Context"] <- ""
   df[, "Unit"] <- "USD"
   df[, "Year"] <- model$specs$SatelliteTable$VADD$SectorListYear
@@ -194,25 +195,25 @@ getValueAddedTotalsbySector <- function(model) {
 #' Check duplicates across satellite tables.
 #' @param sattable_ls A list of satellite tables
 #' @return Messages about whether there are duplicates across satellite tables
-checkDuplicateFlows <- function(sattable_ls) {
+checkDuplicateFlowsBySector <- function(sattable_ls) {
   # Extract unique Flowable and Context combination from each sat table
   for (table_name in names(sattable_ls)){
     # Update context to reflect only primary context (e.g. emission/air)
     sattable_ls[[table_name]][, "Context"] <- stringr::str_match(sattable_ls[[table_name]][, "Context"],"\\w*\\/?\\w*")
     # Store only flow information for each table
-    sattable_ls[[table_name]] <- unique(sattable_ls[[table_name]][, c("Flowable", "Context")])
+    sattable_ls[[table_name]] <- unique(sattable_ls[[table_name]][, c("Flowable", "Context", "Sector")])
     sattable_ls[[table_name]][, "name"] <- table_name
   }
   unique_flows <- do.call(rbind, sattable_ls)
   # Check duplicates in all unique flows
-  duplicates <- unique_flows[duplicated(unique_flows[, c("Flowable", "Context")]) |
-                               duplicated(unique_flows[, c("Flowable", "Context")], fromLast = TRUE), ]
-  duplicates <- duplicates[order(duplicates$Context, duplicates$Flowable), ]
+  duplicates <- unique_flows[duplicated(unique_flows[, c("Flowable", "Context", "Sector")]) |
+                               duplicated(unique_flows[, c("Flowable", "Context", "Sector")], fromLast = TRUE), ]
+  duplicates <- duplicates[order(duplicates$Context, duplicates$Flowable, duplicates$Sector), ]
   rownames(duplicates) <- NULL
   
   if (nrow(duplicates) > 0){
     logging::logwarn("Duplicate flows exist across satellite tables.")
-    print(duplicates)
+    logging::logdebug(duplicates)
   } else {
     logging::loginfo("No duplicate flows exist across satellite tables.")
   }
@@ -238,7 +239,7 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
       # For each 2007 schema industry, find its corresponding 2012 schema industries
       industries <- mapping[mapping$BEA_2007_Code==industry, "BEA_2012_Code"]
       # Use useeior::Detail_GrossOutput_IO as weight to allocate
-      # Do not use model$GDP$BEAGrossOutputIO because model level may not be Detail
+      # Do not use model$MultiYearIndustryOutput because model level may not be Detail
       weight <- useeior::Detail_GrossOutput_IO[industries, as.character(year)]
       mapping_year[mapping_year$BEA_2007_Code==industry, "Ratio"] <- weight/sum(weight)
     }
@@ -257,24 +258,41 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
 #'Checks flow amounts are equal in totals by sector after conforming to model schema
 #'@param tbs0, totals-by-sector df in source schema
 #'@param tbs, totals-by-sector df in model schema
-checkSatelliteFlowLoss <- function(tbs0, tbs) {
+#'@param tolerance, tolerance level for data loss
+checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.005) {
   tbs0 <- tbs0[!is.na(tbs0$Sector), ]
   tbs <- tbs[!is.na(tbs$Sector), ]
-  tbs0_flowamount <- sum(tbs0$FlowAmount)
-  tbs_flowamount <- sum(tbs$FlowAmount)
-  if(abs(tbs0_flowamount - tbs_flowamount)/tbs0_flowamount >= 0.0001){
-    logging::logwarn("Data loss on conforming to model schema")    
+  
+  tbs0 <- tbs0[, c("Flowable", "Context", "FlowAmount")]
+  tbs <- tbs[, c("Flowable", "Context", "FlowAmount")]
+  tbs0_agg <- dplyr::group_by(tbs0, Flowable, Context)   
+  tbs0_agg <- dplyr::summarize(tbs0_agg,
+                               FlowAmount = sum(FlowAmount)
+                               )
+  tbs_agg <- dplyr::group_by(tbs, Flowable, Context)   
+  tbs_agg <- dplyr::summarize(tbs_agg,
+                               FlowAmount = sum(FlowAmount)
+                              )
+  tbs0_agg$Flow <- tolower(apply(tbs0_agg[, c('Context', 'Flowable')],
+                                1, FUN = joinStringswithSlashes))
+  tbs_agg$Flow <- tolower(apply(tbs_agg[, c('Context', 'Flowable')],
+                                   1, FUN = joinStringswithSlashes))
+  lost_flows <- setdiff(tbs0_agg$Flow, tbs_agg$Flow)
+
+  if(length(lost_flows) > 0){
+    tbs_agg[, lost_flows] <- 0
+    logging::logdebug("Flows lost upon conforming to model schema  :")
+    logging::logdebug(lost_flows)
   }
-  flows_tbs0 <- unique(tbs0[,c('Flowable','Context')])
-  flows_tbs0 <- tolower(apply(cbind(flows_tbs0['Context'], flows_tbs0['Flowable']),
-                               1, FUN = joinStringswithSlashes))
-  flows_tbs <- unique(tbs[,c('Flowable','Context')])
-  flows_tbs <- tolower(apply(cbind(flows_tbs['Context'], flows_tbs['Flowable']),
-                              1, FUN = joinStringswithSlashes))
-  if(length(setdiff(flows_tbs0, flows_tbs)) > 0){
-    logging::logwarn("Flows lost upon conforming to model schema:")
-    print(setdiff(flows_tbs0, flows_tbs))
+
+  tbs_agg[order(match(tbs_agg$Flow, tbs0_agg$Flow)),1, drop=FALSE]
+  rel_diff <- abs((tbs_agg$FlowAmount - tbs0_agg$FlowAmount)/tbs0_agg$FlowAmount)
+  n <- length(subset(rel_diff, rel_diff > tolerance))
+
+  if(n > 0){
+    logging::logdebug("Data loss on conforming to model schema")    
   }
+
 }
 
 #' Sets the Year in a tbs to be the year of the highest frequency for a given flow when that flow is reported
@@ -291,9 +309,21 @@ setCommonYearforFlow <- function(tbs) {
   # For each flow with multiple years, get the year that has the highest frequency
   # Then in the original tbs, set Year to this year for these rows
   for (flow in rownames(flow_year_df[rowSums(flow_year_df != 0) > 1, ])) {
-    year <- colnames(flow_year_df[flow, ])[max.col(flow_year_df[flow, ])]
+    year <- colnames(flow_year_df[flow, ])[max.col(as.matrix(flow_year_df[flow, ]), ties.method = c("last"))]
     tbs[tbs$Flow==flow, "Year"] <- year
-    logging::loginfo(paste("Flow year of", flow, "changed to", year))
+    logging::logdebug(paste("Flow year of", flow, "changed to", year))
   }
   return(tbs)
+}
+
+#' Removes flow data where sectors are NA after mapping. Should only be used after checkSatelliteFlowLoss
+#' @param tbs, totals-by-sector df in model schema
+#' @return df, the modified tbs
+removeMissingSectors <- function(tbs) {
+  df <- tbs[!is.na(tbs$Sector), ]
+  n <- nrow(tbs) - nrow(df)
+  if(n > 0){
+    logging::logdebug(paste0(n, "records dropped with no sector"))
+  }
+  return(df)
 }

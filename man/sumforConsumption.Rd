@@ -2,16 +2,18 @@
 % Please edit documentation in R/DemandFunctions.R
 \name{sumforConsumption}
 \alias{sumforConsumption}
-\title{Sums the demand cols representing final consumption}
+\title{Sums the demand cols representing final consumption, i.e. household, investment, and government}
 \usage{
-sumforConsumption(Y)
+sumforConsumption(model, Y)
 }
 \arguments{
-\item{Y, }{a model Demand df}
+\item{model, }{a model}
+
+\item{Y, }{a model Demand df.}
 }
 \value{
 a named vector with model sectors and demand amounts
 }
 \description{
-Sums the demand cols representing final consumption
+Sums the demand cols representing final consumption, i.e. household, investment, and government
 }

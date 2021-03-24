@@ -4,7 +4,7 @@ getBEAIOTables <- function () {
   AllTablesIO <- "inst/extdata/AllTablesIO.zip"
   # Download all BEA IO tables into the placeholder file
   if(!file.exists(AllTablesIO)) {
-    utils::download.file("https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip", AllTablesIO, mode = "wb")
+    utils::download.file("https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip", AllTablesIO, mode = "wb")
   }
   # Get the name of all files in the zip archive
   fname <- unzip(AllTablesIO, list = TRUE)[unzip(AllTablesIO, list = TRUE)$Length > 0, ]$Name
@@ -52,6 +52,27 @@ getBEADetailUsePROBeforeRedef2012Schema <- function () {
 }
 Detail_Use_2012_PRO_BeforeRedef <- getBEADetailUsePROBeforeRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Use_2012_PRO_BeforeRedef, overwrite = TRUE)
+
+# Get BEA Detail Use (PUR, Before Redef, 2012 schema) 2012 table from static Excel
+getBEADetailUsePURBeforeRedef2012Schema <- function () {
+  # Download all IO tables from BEA iTable
+  getBEAIOTables()
+  # Load desired excel file
+  DetailUseList <- list()
+  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PUR_2007_2012_Detail.xlsx"
+  for (i in c(2007, 2012)) {
+    tmp <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))
+    DetailUse <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6:408, 3:430]
+    DetailUse <- as.data.frame(apply(DetailUse, 2, as.numeric))
+    rownames(DetailUse) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6:408, 1]
+    colnames(DetailUse) <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 3:430]
+    DetailUse[is.na(DetailUse)] <- 0
+    DetailUseList[[as.character(i)]] <- DetailUse
+  }
+  return(DetailUseList)
+}
+Detail_Use_2012_PUR_BeforeRedef <- getBEADetailUsePURBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Detail_Use_2012_PUR_BeforeRedef, overwrite = TRUE)
 
 # Get BEA Detail Make (After Redef, 2012 schema) 2007 and 2012 tables from static Excel
 getBEADetailMakeAfterRedef2012Schema <- function () {
@@ -172,6 +193,32 @@ Summary_Use_2017_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[[
 usethis::use_data(Summary_Use_2017_PRO_BeforeRedef, overwrite = TRUE)
 Summary_Use_2018_PRO_BeforeRedef <- getBEASummaryUsePROBeforeRedef2012Schema()[["2018"]]
 usethis::use_data(Summary_Use_2018_PRO_BeforeRedef, overwrite = TRUE)
+
+# Get BEA Summary Use (PUR, Before Redef, 2012 schema) 2012 table from static Excel
+getBEASummaryUsePURBeforeRedef2012Schema <- function () {
+  # Download all IO tables from BEA iTable
+  getBEAIOTables()
+  # Load desired excel file
+  SummaryUseList <- list()
+  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PUR_2007_2012_Summary.xlsx"
+  for (i in c(2007, 2012)) {
+    SummaryUse <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), .name_repair = "minimal"))[7:86, 3:100]
+    SummaryUse <- as.data.frame(apply(SummaryUse, 2, as.numeric))
+    rownames(SummaryUse) <- c(as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[7:76, 1],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[77:79, 2],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[80:82, 1],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[83:86, 2])
+    colnames(SummaryUse) <- c(as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 3:73],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6, 74:76],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 77:96],
+                              as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6, 97:100])
+    SummaryUse[is.na(SummaryUse)] <- 0
+    SummaryUseList[[as.character(i)]] <- SummaryUse
+  }
+  return(SummaryUseList)
+}
+Summary_Use_2012_PUR_BeforeRedef <- getBEASummaryUsePURBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Summary_Use_2012_PUR_BeforeRedef, overwrite = TRUE)
 
 # Get BEA Summary Make (After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASummaryMakeAfterRedef2012Schema <- function () {
@@ -333,6 +380,32 @@ usethis::use_data(Sector_Use_2017_PRO_BeforeRedef, overwrite = TRUE)
 Sector_Use_2018_PRO_BeforeRedef <- getBEASectorUsePROBeforeRedef2012Schema()[["2018"]]
 usethis::use_data(Sector_Use_2018_PRO_BeforeRedef, overwrite = TRUE)
 
+# Get BEA Sector Use (PUR, Before Redef, 2012 schema) 2012 table from static Excel
+getBEASectorUsePURBeforeRedef2012Schema <- function () {
+  # Download all IO tables from BEA iTable
+  getBEAIOTables()
+  # Load desired excel file
+  SectorUseList <- list()
+  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PUR_2007_2012_Sector.xlsx"
+  for (i in c(2007,2012)) {
+    SectorUse <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[7:33, 3:30]
+    SectorUse <- as.data.frame(apply(SectorUse, 2, as.numeric))
+    rownames(SectorUse) <- c(as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[7:23, 1],
+                             as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[24:26, 2],
+                             as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[27:29, 1],
+                             as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[30:33, 2])
+    colnames(SectorUse) <- c(as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 3:17],
+                             as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6, 18:20],
+                             as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[5, 21:26],
+                             as.data.frame(readxl::read_excel(FileName, sheet = as.character(i)))[6, 27:30])
+    SectorUse[is.na(SectorUse)] <- 0
+    SectorUseList[[as.character(i)]] <- SectorUse
+  }
+  return(SectorUseList)
+}
+Sector_Use_2012_PUR_BeforeRedef <- getBEASectorUsePURBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Sector_Use_2012_PUR_BeforeRedef, overwrite = TRUE)
+
 # Get BEA Sector Make (After Redef, 2012 schema) 2010:2018 tables from static Excel
 getBEASectorMakeAfterRedef2012Schema <- function () {
   # Download all IO tables from BEA iTable
@@ -403,7 +476,7 @@ getBEADetailImportBeforeRedef2012Schema <- function () {
   # read excel sheet
   FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx"
   if(!file.exists(FileName)) {
-    utils::download.file(paste("https://apps.bea.gov/industry/xls/io-annual", FileName, sep = "/"), FileName, mode = "wb")
+    utils::download.file("https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx", FileName, mode = "wb")
   }
   for (i in c(2007, 2012)) {
     DetailImport <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(i), col_names = FALSE))[7:411, 3:429]
@@ -417,8 +490,6 @@ getBEADetailImportBeforeRedef2012Schema <- function () {
 }
 Detail_Import_2012_BeforeRedef <- getBEADetailImportBeforeRedef2012Schema()[["2012"]]
 usethis::use_data(Detail_Import_2012_BeforeRedef, overwrite = TRUE)
-
-
 
 # Get BEA Summary Import (Before Redef, 2012 schema) 2010:2018 from static Excel
 getBEASummaryImportBeforeRedef2012Schema <- function () {
@@ -465,7 +536,7 @@ getBEAUnderlyingTables <- function () {
   AllTablesUnderlying <- "inst/extdata/AllTablesUnderlying.zip"
   # Download all BEA IO tables into the placeholder file
   if(!file.exists(AllTablesUnderlying)) {
-    utils::download.file("https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesUnderlying.zip", AllTablesUnderlying, mode = "wb")
+    utils::download.file("https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesUnderlying.zip", AllTablesUnderlying, mode = "wb")
   }
   # Get the name of all files in the zip archive
   fname <- unzip(AllTablesUnderlying, list = TRUE)[unzip(AllTablesUnderlying, list = TRUE)$Length > 0, ]$Name
@@ -878,87 +949,3 @@ getBEADetailPEQBridge2012Schema <- function () {
 }
 Detail_PEQ_2012 <- getBEADetailPEQBridge2012Schema()[["2012"]]
 usethis::use_data(Detail_PEQ_2012, overwrite = TRUE)
-
-# Get Detail Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
-getBEADetailMarginsBeforeRedef2012Schema <- function () {
-  # Download BEA PCE bridge table
-  if(!file.exists("inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx")) {
-    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_DET.xlsx",
-                  "inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx", mode = "wb")
-  }
-  column_names <- c("NIPACode", "MarginsCategory", "CommodityCode", "CommodityDescription",
-                    "ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
-  # 2012 data
-  Margins2012 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx", sheet = "2012"))[5:61848, ]
-  colnames(Margins2012) <- column_names
-  # Convert Margins values from character to numeric
-  Margins2012[, column_names[5:9]] <- as.data.frame(apply(Margins2012[, column_names[5:9]], 2, as.numeric))
-  # 2007 data
-  Margins2007 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx", sheet = "2007"))[5:61844, ]
-  colnames(Margins2007) <- column_names
-  # Convert Margins values from character to numeric
-  Margins2007[, column_names[5:9]] <- as.data.frame(apply(Margins2007[, column_names[5:9]], 2, as.numeric))
-  
-  # Put Margins2012 and Margins2007 in the Margins2012SchemaList
-  Margins2012SchemaList <- list(Margins2007, Margins2012)
-  names(Margins2012SchemaList) <- c("2007", "2012")
-  return(Margins2012SchemaList)
-}
-Detail_Margins_2012_BeforeRedef <- getBEADetailMarginsBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(Detail_Margins_2012_BeforeRedef, overwrite = TRUE)
-
-# Get Summary Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
-getBEASummaryMarginsBeforeRedef2012Schema <- function () {
-  # Download BEA PCE bridge table
-  if(!file.exists("inst/extdata/Margins_Before_Redefinitions_2007_2012_SUM.xlsx")) {
-    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SUM.xlsx",
-                  "inst/extdata/Margins_Before_Redefinitions_2007_2012_SUM.xlsx", mode = "wb")
-  }
-  column_names <- c("NIPACode", "MarginsCategory", "CommodityCode", "CommodityDescription",
-                    "ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
-  # 2012 data
-  Margins2012 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_SUM.xlsx", sheet = "2012"))[5:4630, ]
-  colnames(Margins2012) <- column_names
-  # Convert Margins values from character to numeric
-  Margins2012[, column_names[5:9]] <- as.data.frame(apply(Margins2012[, column_names[5:9]], 2, as.numeric))
-  # 2007 data
-  Margins2007 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_SUM.xlsx", sheet = "2007"))[5:4634, ]
-  colnames(Margins2007) <- column_names
-  # Convert Margins values from character to numeric
-  Margins2007[, column_names[5:9]] <- as.data.frame(apply(Margins2007[, column_names[5:9]], 2, as.numeric))
-  
-  # Put Margins2012 and Margins2007 in the Margins2012SchemaList
-  Margins2012SchemaList <- list(Margins2007, Margins2012)
-  names(Margins2012SchemaList) <- c("2007", "2012")
-  return(Margins2012SchemaList)
-}
-Summary_Margins_2012_BeforeRedef <- getBEASummaryMarginsBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(Summary_Margins_2012_BeforeRedef, overwrite = TRUE)
-
-# Get Sector Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
-getBEASectorMarginsBeforeRedef2012Schema <- function () {
-  # Download BEA PCE bridge table
-  if(!file.exists("inst/extdata/Margins_Before_Redefinitions_2007_2012_SECT.xlsx")) {
-    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_SECT.xlsx",
-                  "inst/extdata/Margins_Before_Redefinitions_2007_2012_SECT.xlsx", mode = "wb")
-  }
-  column_names <- c("NIPACode", "MarginsCategory", "CommodityCode", "CommodityDescription",
-                    "ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
-  # 2012 data
-  Margins2012 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_SECT.xlsx", sheet = "2012"))[5:377, ]
-  colnames(Margins2012) <- column_names
-  # Convert Margins values from character to numeric
-  Margins2012[, column_names[5:9]] <- as.data.frame(apply(Margins2012[, column_names[5:9]], 2, as.numeric))
-  # 2007 data
-  Margins2007 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_SECT.xlsx", sheet = "2007"))[5:377, ]
-  colnames(Margins2007) <- column_names
-  # Convert Margins values from character to numeric
-  Margins2007[, column_names[5:9]] <- as.data.frame(apply(Margins2007[, column_names[5:9]], 2, as.numeric))
-  
-  # Put Margins2012 and Margins2007 in the Margins2012SchemaList
-  Margins2012SchemaList <- list(Margins2007, Margins2012)
-  names(Margins2012SchemaList) <- c("2007", "2012")
-  return(Margins2012SchemaList)
-}
-Sector_Margins_2012_BeforeRedef <- getBEASectorMarginsBeforeRedef2012Schema()[["2012"]]
-usethis::use_data(Sector_Margins_2012_BeforeRedef, overwrite = TRUE)

@@ -29,7 +29,7 @@ writeSectorCrosswalkforAPI <- function(model, basedir){
 #' Write model matrices as CSV files to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param outputfolder A directory to write matrices out to
-#' @description Writes model matrices, including A, B, C, D, L, U, and M.
+#' @description Writes model matrices, including A, A_d, B, C, D, L, L_d, M, M_d, N, N_d, and Rho (CPI ratio matrix)
 #' @export
 writeModelMatrices <- function(model, outputfolder) {
   # Write model matrices to csv
@@ -37,8 +37,8 @@ writeModelMatrices <- function(model, outputfolder) {
   if (!dir.exists(modelfolder)) {
     dir.create(modelfolder, recursive = TRUE) 
   }
-  for (matrix in c("A", "A_d", "B", "C", "D", "L", "L_d", "M","M_d","N","N_d","CPI")) {
-    utils::write.csv(model[[matrix]], paste0(modelfolder,"/",matrix, ".csv"),
+  for (matrix in c("A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d", "N", "N_d", "Rho")) {
+    utils::write.csv(model[[matrix]], paste0(modelfolder, "/", matrix, ".csv"),
                      na = "", row.names = TRUE, fileEncoding = "UTF-8")
   }
   logging::loginfo(paste0("Model matrices written to ", modelfolder, "."))
@@ -125,18 +125,19 @@ prepareWriteDirs <- function(dirs,model) {
 #' Write model matrices as BIN files for API to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param modelfolder Directory to write the model components to
-#' @description Writes model matrices, including A, B, C, D, L, U, M, CPI, x (Industry Output), and q (Commodity Output).
+#' @description Writes model matrices, including Make, Use, A, A_d, B, C, D, L, L_d, M, N, Rho (CPI ratio matrix), x (Industry Output), and q (Commodity Output).
 writeModelMatricesforAPI <- function(model,modelfolder) {
   # Write model matrices to .bin files for API
-  MatricesforAPI <- c("A", "A_d", "B", "C", "D", "L","L_d","U", "M", "CPI")
+  MatricesforAPI <- c("MakeTransactions", "UseTransactions", "A", "A_d",
+                      "B", "C", "D", "L", "L_d", "M", "N", "Rho")
   for (matrix in MatricesforAPI) {
-    writeMatrixasBinFile(model[[matrix]], paste0(modelfolder, "/", matrix, ".bin"))
+    writeMatrixasBinFile(as.matrix(model[[matrix]]), paste0(modelfolder, "/", matrix, ".bin"))
   }
   # Write x (Industry Output) or q (Commodity Output) to .bin files for API
   if (model$specs$CommoditybyIndustryType=="Commodity") {
-    writeMatrixasBinFile(model$CommodityOutput, paste0(modelfolder, "/q.bin"))
+    writeMatrixasBinFile(as.matrix(model$CommodityOutput), paste0(modelfolder, "/q.bin"))
   } else {
-    writeMatrixasBinFile(model$CommodityOutput, paste0(modelfolder, "/x.bin"))
+    writeMatrixasBinFile(as.matrix(model$IndustryOutput), paste0(modelfolder, "/x.bin"))
   }
   logging::loginfo(paste0("Model matrices for API written to ", modelfolder, "."))
 }
@@ -174,12 +175,10 @@ writeModelMetadata <- function(model,dirs) {
     stop()
   }
   
-  #Load metadata fields for API
+  # Load metadata fields for API
   fields <- configr::read.config(system.file("extdata/USEEIO_API_fields.yml", package="useeior"))
-  
+  # Define output folder
   outputfolder <- dirs$model
-  
-  
   
   # Write model description to models.csv
   model_desc <- file.path(dirs$data, "models.csv")
@@ -200,35 +199,35 @@ writeModelMetadata <- function(model,dirs) {
   }
   utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
-  # Write indicators to csv
+  # Write indicators to indicators.csv
   indicators <- model$Indicators$meta  
-  indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")],
-                         1, FUN = joinStringswithSlashes)
-  #indicators <- indicators[, c("Index", "ID", "FullName", "Abbreviation", "Unit", "Group", "SimpleUnit", "SimpleName")]
-  
+  indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")], 1, FUN = joinStringswithSlashes)
   indicators <- indicators[order(indicators$Name), ]
   indicators$Index <- c(1:nrow(indicators)-1)
   indicators <- indicators[,fields$indicators]
-  checkNamesandOrdering(indicators$Name,rownames(model$C),"code in sectors.csv and rows in L matrix")
+  checkNamesandOrdering(indicators$Name, rownames(model$C), "code in indicators.csv and rows in C matrix")
   utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
-  # Write demands to csv
+  # Write demands to demands.csv
   demands <- model$DemandVectors$meta
   demands$Index <- c(1:nrow(demands)-1)
   demands <- demands[,fields$demands]
-  utils::write.csv(demands, paste0(outputfolder, "/demands.csv"),
-                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(demands, paste0(outputfolder, "/demands.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  
   # Write sectors to csv
-  sectors <- model$SectorNames
-  colnames(sectors) <- c("Code", "Name")
+  if (model$specs$CommoditybyIndustryType=="Commodity") {
+    sectors <- model$Commodities[, c("Code", "Name")]
+  } else {
+    sectors <- model$Industries[, c("Code", "Name")]
+  }
   sectors$Location <- model$specs$PrimaryRegionAcronym
   sectors$ID <- apply(sectors[, c("Code", "Name", "Location")], 1, FUN = joinStringswithSlashes)
   sectors$Description <- ""
   sectors$Index <- c(1:nrow(sectors)-1)
   sectors <- sectors[, fields$sectors]
-  checkNamesandOrdering(sectors$Code,rownames(model$L),"code in sectors.csv and rows in L matrix")
-  utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"),
-                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  #checkNamesandOrdering(sectors$Code, rownames(model$L), "code in sectors.csv and rows in L matrix")
+  utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  
   # Write flows to csv
   flows <- model$SatelliteTables$flows
   flows$ID <- apply(flows[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
@@ -236,17 +235,18 @@ writeModelMetadata <- function(model,dirs) {
   flows <- flows[order(flows$ID),]
   flows$Index <- c(1:nrow(flows)-1)
   flows <- flows[, fields$flows]
-  #checkNamesandOrdering(flows$ID,rownames(model$B),"flows in flows.csv and rows in B matrix")
-  utils::write.csv(flows, paste0(outputfolder, "/flows.csv"),
-                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  checkNamesandOrdering(flows$ID, rownames(model$B), "flows in flows.csv and rows in B matrix")
+  utils::write.csv(flows, paste0(outputfolder, "/flows.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
 }
 
-
-checkNamesandOrdering <- function(n1,n2,note) {
-  if (!all.equal(n1,n2)) {
-    logging::logerror(paste(note, "not the same or not in the same order"))
-    stop()
+#' Check order of names (n1 and n2). Stop function execution if n1 != n2.
+#' @param n1 Name vector #1
+#' @param n2 Name vector #2
+#' @param note Note about n1 and n2
+checkNamesandOrdering <- function(n1, n2, note) {
+  if (!identical(n1, n2)) {
+    stop(paste(note, "not the same or not in the same order."))
   }
 }
 

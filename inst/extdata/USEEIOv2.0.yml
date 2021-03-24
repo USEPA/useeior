@@ -24,7 +24,7 @@ SatelliteTable:
     SectorListSource: "NAICS"
     SectorListYear: 2012
     SectorListLevel: "6"
-    OriginalFlowSource: "FEDEFLv1.0.4"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: null
     DataSources:
@@ -45,7 +45,7 @@ SatelliteTable:
     SectorListSource: "NAICS"
     SectorListYear: 2012
     SectorListLevel: "6"
-    OriginalFlowSource: "FEDEFLv1.0.4"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: null
     DataSources:
@@ -72,7 +72,7 @@ SatelliteTable:
     SectorListSource: "NAICS"
     SectorListYear: 2012
     SectorListLevel: "6"
-    OriginalFlowSource: "FEDEFLv1.0.4"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: null
     DataSources:
@@ -93,7 +93,7 @@ SatelliteTable:
     SectorListSource: "NAICS"
     SectorListYear: 2012
     SectorListLevel: "6"
-    OriginalFlowSource: "FEDEFLv1.0.5"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: null
     DataSources:
@@ -120,7 +120,7 @@ SatelliteTable:
     SectorListSource: "BEA" # or, NAICS
     SectorListYear: 2012
     SectorListLevel: "Detail"
-    OriginalFlowSource: "FEDEFLv1.0.4"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     DataSources:
       USEPA_GHG_2018:
         Title: "GHG Inventory"
@@ -139,7 +139,7 @@ SatelliteTable:
     SectorListSource: "NAICS"
     SectorListYear: 2012
     SectorListLevel: "6"
-    OriginalFlowSource: "FEDEFLv1.0.4"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: null
     DataSources:
@@ -178,7 +178,7 @@ SatelliteTable:
     SectorListSource: "BEA"
     SectorListYear: 2007
     SectorListLevel: "Detail"
-    OriginalFlowSource: "FEDEFLv1.0.5"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     DataSources:
        USGS_MCS:
         Title: "Mineral Commodity Summary"
@@ -197,7 +197,7 @@ SatelliteTable:
     SectorListSource: "BEA"
     SectorListYear: 2007
     SectorListLevel: "Detail"
-    OriginalFlowSource: "FEDEFLv1.0.5"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     DataSources:
       EIA_MER:
         Title: "Monthly Energy Review"
@@ -222,7 +222,7 @@ SatelliteTable:
     SectorListSource: "BEA"
     SectorListYear: 2007
     SectorListLevel: "Detail"
-    OriginalFlowSource: "FEDEFLv1.0.5"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     DataSources:
       USDA_CUS_Corn_Potatoes:
         Title: "Chemical Use Survey - Corn and Potatoes"
@@ -271,7 +271,7 @@ SatelliteTable:
     SectorListSource: "BEA"
     SectorListYear: 2007
     SectorListLevel: "Detail"
-    OriginalFlowSource: "FEDEFLv1.0.5"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     DataSources:
       USDA_CUS_Corn_Potatoes:
         Title: "Chemical Use Survey - Corn and Potatoes"

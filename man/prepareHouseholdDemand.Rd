@@ -2,7 +2,7 @@
 % Please edit documentation in R/DemandFunctions.R
 \name{prepareHouseholdDemand}
 \alias{prepareHouseholdDemand}
-\title{Prepares a demand vector representing consumption}
+\title{Prepares a demand vector representing household consumption}
 \usage{
 prepareHouseholdDemand(model)
 }
@@ -13,5 +13,5 @@ prepareHouseholdDemand(model)
 a named vector with demand
 }
 \description{
-Prepares a demand vector representing consumption
+Prepares a demand vector representing household consumption
 }

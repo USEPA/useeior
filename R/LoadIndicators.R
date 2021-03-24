@@ -1,11 +1,11 @@
 #' Load indicators and associated factors in a list based on model config.
-#' @param specs Specifications of the model.
-#' @return A list with df for indicators and df for factors.
-loadIndicators <- function(specs) {
+#' @param model A model object with IO tables and satellite tables loaded.
+#' @return A list with data.frame for indicators and data.frame for factors.
+loadIndicators <- function(model) {
    logging::loginfo("Initializing model indicators...")
    meta <- data.frame()
    factors <- data.frame()
-   for (s in specs$Indicators) {
+   for (s in model$specs$Indicators) {
       logging::loginfo(paste0("Getting ", s$Name, " indicator from ", s$FileLocation, "..."))
       
       # Populate metadata
@@ -87,7 +87,7 @@ checkIndicatorforFlows <- function(factors, flows){
 #' @export
 loadandbuildIndicators <- function(model) {
    # Generate C matrix: LCIA indicators
-   indicators <- loadIndicators(model$specs)
+   indicators <- loadIndicators(model)
    # Add to model object
    model$Indicators <- indicators
    return(model)

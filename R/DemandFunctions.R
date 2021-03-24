@@ -25,68 +25,60 @@ sumDemandCols <- function(Y,codes) {
   return(y)
 }
 
-#'Sums the demand cols representing final consumption
-#'@param Y, a model Demand df 
+#'Sums the demand cols representing final consumption, i.e. household, investment, and government
+#'@param model, a model
+#'@param Y, a model Demand df.
 #'@return a named vector with model sectors and demand amounts
-sumforConsumption <- function(Y) {
-  household_code <- toupper(apply(cbind(model$BEA$HouseholdDemandCodes, model$specs$PrimaryRegionAcronym),
-                                  1, FUN = joinStringswithSlashes))
-  investment_code <- toupper(apply(cbind(model$BEA$InvestmentDemandCodes, model$specs$PrimaryRegionAcronym),
-                                   1, FUN = joinStringswithSlashes))
-  government_code <- toupper(apply(cbind(model$BEA$GovernmentDemandCodes, model$specs$PrimaryRegionAcronym),
-                                   1, FUN = joinStringswithSlashes))
-  Y_h <- sumDemandCols(Y, household_code)
-  Y_v <- sumDemandCols(Y, investment_code) 
-  Y_g <- sumDemandCols(Y, government_code) 
-  y_c <-  Y_h + Y_v + Y_g 
+sumforConsumption <- function(model, Y) {
+  codes <- model$FinalDemandSectors[model$FinalDemandSectors$Name%in%c("Household", "Investment", "Government"),
+                                    "Code_Loc"]
+  y_c <- sumDemandCols(Y, codes)
   return (y_c) 
 }
-
 
 #'Prepares a demand vector representing production
 #'@param model, a model
 #'@return a named vector with demand
 prepareProductionDemand <- function(model) {
-  y_dc <- sumforConsumption(model$DomesticFinalDemand)
-  export_code <- toupper(apply(cbind(model$BEA$ExportCodes, model$specs$PrimaryRegionAcronym),
-                               1, FUN = joinStringswithSlashes))
+  y_dc <- sumforConsumption(model, model$DomesticFinalDemand)
+  export_code <- model$FinalDemandSectors[model$FinalDemandSectors$Name=="Export", "Code_Loc"]
   y_e <- sumDemandCols(model$FinalDemand, export_code)
-  changeinventories_code <- toupper(apply(cbind(model$BEA$ChangeInventoriesCodes, model$specs$PrimaryRegionAcronym),
-                                          1, FUN = joinStringswithSlashes))
+  changeinventories_code <- model$FinalDemandSectors[model$FinalDemandSectors$Name=="ChangeInventories", "Code_Loc"]
   y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
   y_p <- y_dc + y_e + y_d_delta
   return(y_p)
 }
 
-#'Prepares a demand vector representing household consumption
+#'Prepares a demand vector representing consumption
 #'@param model, a model
 #'@return a named vector with demand
 prepareConsumptionDemand <- function(model) {
-  y_c <- sumforConsumption(model$FinalDemand)
+  y_c <- sumforConsumption(model, model$FinalDemand)
   return(y_c)
 }
 
-#'Prepares a demand vector representing consumption
+#'Prepares a demand vector representing domestic consumption
+#'@param model, a model
+#'@return a named vector with demand
+prepareDomesticConsumptionDemand <- function(model) {
+  y_c_d <- sumforConsumption(model, model$DomesticFinalDemand)
+  return(y_c_d)
+}
+
+#'Prepares a demand vector representing household consumption
 #'@param model, a model
 #'@return a named vector with demand
 prepareHouseholdDemand <- function(model) {
   Y <- model$FinalDemand
-  household_code <- toupper(apply(cbind(model$BEA$HouseholdDemandCodes, model$specs$PrimaryRegionAcronym),
-                                  1, FUN = joinStringswithSlashes))
+  household_code <- model$FinalDemandSectors[model$FinalDemandSectors$Name=="Household", "Code_Loc"]
   y_h <- sumDemandCols(Y, household_code)
   return(y_h)
 }
 
-prepareDomesticConsumptionDemand <- function(model) {
-  y_c_d <- sumforConsumption(model$DomesticFinalDemand)
-  return(y_c_d)
-}
-
-
 #'A function to validate a user provided demand vector
 #' @param dv a user provided demand vector
 #' @param L, the L matrix for the given model, used as a reference
-#' 
+#' @return A boolean value indicating demand vector is valid or not.
 isDemandVectorValid <- function(dv,L){
   #should be a format like this
   # >dv <- c("1111A0"=1,"1111B0"=2,"327100"=30)
@@ -113,4 +105,3 @@ formatDemandVector <- function(dv,L) {
   d[match(names(dv),names(d))] <- dv
   return(d)
 }
-
