@@ -261,6 +261,8 @@ getMasterCrosswalk <- function (year) {
     MasterCrosswalk[, c("BEA_2012_Sector_Code_agg", "BEA_2012_Sector_Name_agg")] <- NULL
   }
   # Order by NAICS and USEEIO code columns
+  MasterCrosswalk[MasterCrosswalk==""] <- NA
+  rownames(MasterCrosswalk) <- NULL
   MasterCrosswalk <- MasterCrosswalk[order(MasterCrosswalk[, paste("NAICS_", year, "_Code", sep = "")], MasterCrosswalk[, "USEEIO_Code"]), ]
   
   return(MasterCrosswalk)
