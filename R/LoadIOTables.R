@@ -24,7 +24,7 @@ loadIOData <- function(model) {
   if(!is.null(model$specs$DisaggregationSpecs)){
     model <- disaggregateModel(model)
   }
-
+  
   return(model)
 }
 
@@ -138,7 +138,7 @@ loadBEAtables <- function(specs) {
   BEA$TransportationCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Distribution")
   BEA$WholesaleCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Wholesale")
   BEA$RetailCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Retail")
-
+  
   # Load pre-saved Make and Use tables
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
   BEA$Make <- get(paste(specs$BaseIOLevel, "Make", specs$IOYear, Redef, sep = "_"))
