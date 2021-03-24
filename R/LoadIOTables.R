@@ -8,7 +8,7 @@ loadIOData <- function(model) {
   if (model$specs$ModelType=="US") {
     model <- loadNationalIOData(model)
   } else if (model$specs$ModelType=="State2R") {
-    # Fork for state model here
+    model <- loadTwoRegionIOData(model)
   }
   
   # Add Chain Price Index (CPI) to model
@@ -186,3 +186,53 @@ loadBEAMakeorUseTable <- function (iolevel, makeoruse, year, redef){
   return(BEA_Table)
 }
 
+#' Load two-region state IO tables in a list based on model config.
+#' @param specs Model specifications.
+#' @return A list with state IO tables.
+loadTwoRegionStateIOtables <- function(specs) {
+  StateIO <- list()
+  logging::loginfo("Initializing two-region state IO tables...")
+  # Define state, year and iolevel
+  if (specs$PrimaryRegionAcronym!="DC") {
+    state <- state.name[state.abb==specs$PrimaryRegionAcronym]
+  } else {
+    state <- "District of Columbia"
+  }
+  year <- specs$IOYear
+  iolevel <- specs$BaseIOLevel
+  # Load IO tables from stateior
+  StateIO$MakeTransactions <- stateior::getTwoRegionMakeTransactions(state, year, iolevel)
+  StateIO$UseTransactions <- stateior::getTwoRegionUseTransactions(state, year, iolevel)
+  StateIO$DomesticUseTransactions <- stateior::getTwoRegionDomesticUseTransactions(state, year, iolevel)
+  StateIO$FinalDemand <- stateior::getTwoRegionFinalDemand(state, year, iolevel)
+  StateIO$DomesticFinalDemand <- stateior::getTwoRegionDomesticFinalDemand(state, year, iolevel)
+  StateIO$MakeIndustryOutput <- stateior::getTwoRegionIndustryOutput(state, year, iolevel)
+  StateIO$MakeCommodityOutput <- stateior::getTwoRegionCommodityOutput(state, year, iolevel)
+  StateIO$Demand <- stateior::getTwoRegionDemandTable(state, year, iolevel)
+  # Replace state name with state acronym in row and column names of the IO tables
+  for (i in 1:length(StateIO)) {
+    rownames(StateIO[[i]]) <- gsub(tolower(state), tolower(specs$PrimaryRegionAcronym), rownames(StateIO[[i]]))
+    colnames(StateIO[[i]]) <- gsub(tolower(state), tolower(specs$PrimaryRegionAcronym), colnames(StateIO[[i]]))
+  }
+  return(StateIO)
+}
+
+#' Prepare economic components of an EEIO form USEEIO model.
+#' @param model A model object with model specs loaded.
+#' @return A list with USEEIO model economic components.
+loadTwoRegionIOData <- function(model) {
+  # Load BEA IO and gross output tables
+  StateIO <- loadTwoRegionStateIOtables(model$specs)
+  
+  # model$Commodities
+  
+  # model$Industries
+  
+  # model$FinalDemandSectors
+  
+  # model$MarginSectors
+  
+  # IO tables
+  
+  return(model)
+}
