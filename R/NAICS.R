@@ -1,19 +1,18 @@
-#' Determine allocation factors between NAICS and BEA sectors based on IO output.
+#' Determine allocation factors between NAICS and BEA sectors based on Industry output.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param year Year of model Industry output.
 #' @return A table of allocation factors between NAICS and BEA sectors.
 getNAICStoBEAAllocation <- function (year, model) {
   # Keep USEEIO and NAICS columns in MasterCrosswalk2012 table based on the model specs
-  NAICStoBEA <- unique(useeior::MasterCrosswalk2012[, c(paste("NAICS", model$specs$BaseIOSchema, "Code", sep = "_"),
-                                               paste("BEA", model$specs$BaseIOSchema, model$specs$BaseIOLevel, 
-                                                     "Code", sep = "_"))])
+  NAICStoBEA <- unique(model$crosswalk[, c("NAICS", paste0("BEA_", model$specs$BaseIOLevel))])
   colnames(NAICStoBEA) <- c("NAICS_Code", "BEA_Code")
   # Drop 2-digit NAICS code
   NAICStoBEA <- NAICStoBEA[nchar(NAICStoBEA$NAICS_Code) > 2, ]
   # Select the repeated NAICS codes that need allocation
   AllocationCodes <- NAICStoBEA[duplicated(NAICStoBEA$NAICS_Code) | duplicated(NAICStoBEA$NAICS_Code, fromLast = TRUE), ]
+  AllocationCodes <- na.omit(AllocationCodes)
   # Merge AllocationCodes with Gross Output table to calculate allocation factors
-  AllocationTable <- merge(AllocationCodes, model$GDP$BEAGrossOutputIO[, as.character(year), drop = FALSE], 
+  AllocationTable <- merge(AllocationCodes, model$MultiYearIndustryOutput[, as.character(year), drop = FALSE], 
                            by.x = "BEA_Code", by.y = 0, all.x = TRUE)
   colnames(AllocationTable)[3] <- "Output"
   # Insert placeholders for NAs in the "Output" column

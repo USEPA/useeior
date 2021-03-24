@@ -7,10 +7,10 @@
 scoreContextualDQ(df)
 }
 \arguments{
-\item{df}{a dataframe containing a 'Year' column representing data year}
+\item{df}{A data frame containing a 'Year' column representing data year}
 }
 \value{
-a dataframe with contextual data quality scores added in columns
+A data frame with contextual data quality scores added in columns
 with names of the indicators. Only 'TemporalCorrelation' currently added.
 }
 \description{

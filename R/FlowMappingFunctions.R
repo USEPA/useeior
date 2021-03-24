@@ -21,21 +21,30 @@ mapListbyName <- function (sattable, sattablemeta) {
   sourcemapping <- flowmapping[flowmapping$Source==originalflowsource, ]
   fieldstokeep <- c("OriginalName", "NewName", "CAS", "NewCategory", "NewSubCategory", "NewUnit", "UUID")
   sourcemapping <- sourcemapping[, fieldstokeep]
-
-  sattablewithmap <- merge(sattable, sourcemapping, by.x = "FlowName", by.y = "OriginalName", all.x = TRUE)
+  # Merge sattable with sourcemapping
+  sattablewithmap <- merge(sattable, sourcemapping, by.x = "Flowable", by.y = "OriginalName", all.x = TRUE)
   # Add old flow name as tag is this changes
-  if(!identical(sattablewithmap$FlowName, sattablewithmap$NewName)) {
-    sattablewithmap$MetaTags <- sattablewithmap$FlowName
+  if(!identical(sattablewithmap$Flowable, sattablewithmap$NewName)) {
+    sattablewithmap$MetaTags <- sattablewithmap$Flowable
   }
-  sattablewithmap$FlowName <- sattablewithmap$NewName
-  sattablewithmap$FlowCategory <- sattablewithmap$NewCategory
-  sattablewithmap$FlowSubCategory <- sattablewithmap$NewSubCategory
+  sattablewithmap$Flowable <- sattablewithmap$NewName
+  sattablewithmap$Context <- apply(sattablewithmap[, c("NewCategory", "NewSubCategory")],
+                                   1, FUN = joinStringswithSlashes)
+  # If context is "/" replace with blank
+  sattablewithmap$Context[sattablewithmap$Context == "/"] <- ""
+  
   sattablewithmap$CAS <- sattablewithmap$CAS.y
-  sattablewithmap$FlowUnit <- sattablewithmap$NewUnit
-  sattablewithmap$FlowUUID <- sattablewithmap$UUID
+  sattablewithmap$Unit <- sattablewithmap$NewUnit
   # Get column names from standard satellite table
-  standardnames <- colnames(getStandardSatelliteTableFormat())
-  sattable <- sattablewithmap[,standardnames]
+  standardnames <- getStandardSatelliteTableFormat()
+  sattable <- sattablewithmap[, standardnames]
+  # Check for unmapped flows
+  unmapped <- apply(sattable['Flowable'], 1, function(x){any(is.na(x))})
+  if(sum(unmapped)>0){
+    logging::logwarn("Some flows not mapped, they will be removed")
+    sattable <- sattable[!unmapped, ]
+  }
+  
   return(sattable)
 }
 

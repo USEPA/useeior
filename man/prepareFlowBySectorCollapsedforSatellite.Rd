@@ -3,7 +3,7 @@
 \name{prepareFlowBySectorCollapsedforSatellite}
 \alias{prepareFlowBySectorCollapsedforSatellite}
 \title{Adjusts flowbysector data from flowsa
-Currently only works for national totals (location='00000') and
+Currently only works for national totals (location="00000") and
 assumes that sector schema is NAICS_2012_Code}
 \usage{
 prepareFlowBySectorCollapsedforSatellite(fbsc)
@@ -12,10 +12,10 @@ prepareFlowBySectorCollapsedforSatellite(fbsc)
 \item{fbsc}{A FlowBySector collapsed df from flowsa}
 }
 \value{
-A df of sector by region totals
+A data frame of sector by region totals
 }
 \description{
 Adjusts flowbysector data from flowsa
-Currently only works for national totals (location='00000') and
+Currently only works for national totals (location="00000") and
 assumes that sector schema is NAICS_2012_Code
 }

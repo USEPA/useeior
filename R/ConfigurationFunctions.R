@@ -24,6 +24,6 @@ seeAvailableModels <- function() {
 #' @return vector of model config files
 findModelConfigurationFiles <- function() {
   packdir <- system.file("extdata", package="useeior")
-  configfiles <- list.files(path=packdir,pattern=".yml") 
+  configfiles <- list.files(path=packdir,pattern="*USEEIOv.*\\.yml")
   return(configfiles)
 }

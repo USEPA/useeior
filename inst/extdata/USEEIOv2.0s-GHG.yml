@@ -1,4 +1,4 @@
-Model: "USEEIOv2.0s-GHG" # 2012 Summary, Commodity
+Model: "USEEIOv2.0s-GHG"
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2012 # Year for IO data
@@ -10,19 +10,21 @@ BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommoditybyIndustryType: "Commodity"
 ScrapIncluded: FALSE
+DisaggregationSpecs: null
 
 SatelliteTable:
   GHG:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "USEEIO_GHG_Data_Extracted_2016.csv"
+    StaticFile: "useeior/NGHGIAM_GHG_TotalsBySector.csv"
+    FileLocation: "DataCommons"
     DataYears: [2016]
     Locations: ["US"]
     SectorListSource: "BEA" # or, NAICS
     SectorListYear: 2012
     SectorListLevel: "Detail"
-    OriginalFlowSource: "GHG"
+    OriginalFlowSource: "FEDEFLv1.0.6"
     DataSources:
       USEPA_GHG_2018:
         Title: "GHG Inventory"
@@ -31,21 +33,46 @@ SatelliteTable:
         URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
         Primary: TRUE
 
-Demand:
-  DemandYear: 2012
-  DemandSubsystems: NA
-
 Indicators:
   GreenhouseGases:
-    FullName: "Greenhouse Gases"
-    Abbreviation: "GHG"
-    Category: "Impact Potential"
+    Name: "Greenhouse Gases"
+    Code: "GHG"
+    Group: "Impact Potential"
     Unit: "kg CO2 eq"
+    SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
+    SimpleName: "Greenhouse Gases"
     StaticSource: TRUE
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["Global warming"]
     DataSources:
       USEPA_TRACI_2.1:
         Title: "TRACI 2.1"
         Author: "USEPA"
         DataYear: NA
-        URL: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
         Primary: TRUE
+
+DemandVectors:
+    Consumption:
+      Type: "Consumption"
+      Year: 2012
+      System: "Complete"
+      Location: "US"
+    Production:
+      Type: "Production"
+      Year: 2012
+      System: "Complete"
+      Location: "US"
+    HouseholdConsumption:
+      Type: "Consumption"
+      Year: 2012
+      System: "Household"
+      Location: "US"
+    DomesticConsumption:
+      Type: "Consumption"
+      Year: 2012
+      System: "Domestic"
+      Location: "US"    

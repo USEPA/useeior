@@ -2,7 +2,7 @@
 % Please edit documentation in R/NAICS.R
 \name{getNAICStoBEAAllocation}
 \alias{getNAICStoBEAAllocation}
-\title{Determine allocation factors between NAICS and BEA sectors based on IO output.}
+\title{Determine allocation factors between NAICS and BEA sectors based on Industry output.}
 \usage{
 getNAICStoBEAAllocation(year, model)
 }
@@ -15,5 +15,5 @@ getNAICStoBEAAllocation(year, model)
 A table of allocation factors between NAICS and BEA sectors.
 }
 \description{
-Determine allocation factors between NAICS and BEA sectors based on IO output.
+Determine allocation factors between NAICS and BEA sectors based on Industry output.
 }

@@ -1,46 +1,94 @@
+#' Get impact method in the format of the Python LCIAformatter package's get_mapped_method function.
+#' @param ind_spec Specification of an indicator
+#' @return An LCIAmethod with the specified indicators
+getImpactMethod <- function(ind_spec) {
+  parameters <- ind_spec[["ScriptFunctionParameters"]]
 
-#' Calls the Python flowsa package's getFlowBySector method
-#' @param method_name The name
-#' @return A dataframe for flowsa data in sector by region totals format
-getInventoryMethod <- function(subset) {
-  lciafmt <- reticulate::import("lciafmt")
-  inv_method <- lciafmt$get_method(method_id="FEDEFL Inventory")
-  inv_method <- inv_method[inv_method['Indicator']==subset,]
-  return(inv_method)
+  # Convert the passed indicators to a list, if none provided all indicators are returned
+  if(!is.null(parameters$indicators)){
+    if(length(parameters$indicators)==1){
+      indicators <- list(parameters$indicators)
+    } else {
+      indicators <- parameters$indicators
+    }
+  }
+  else {
+    indicators <- NULL
+  }
+  
+  # Convert the passed methods to a list (e.g. "ReCiPe Midpoint/H"), if none provided all methods are returned
+  if(!is.null(parameters$methods)){
+    if(length(parameters$methods)==1){
+      methods <- list(parameters$methods)
+    } else {
+      methods <- parameters$methods
+    }
+  }
+  else {
+    methods <- NULL
+  }
+  
+  if(!ind_spec$StaticSource){
+    # Generate impact method in lciafmt, requires method_id to be included in ScriptFunctionParameters
+    if(is.null(parameters$method_id)){
+      logging::logwarn("method_id must be passed in ScriptFunctionParameters to access LCIAfmt")
+    }
+    lciafmt <- reticulate::import("lciafmt")
+    imp_method <- lciafmt$get_mapped_method(method_id = parameters$method_id,
+                                            indicators = indicators, methods = methods)
+  }
+  
+  else{
+    
+    f <- loadDataCommonsfile(ind_spec$StaticFile)
+    imp_method <- as.data.frame(arrow::read_parquet(f))
+  }
+  
+  # Subset the method by method
+  if(!is.null(methods)){  
+    imp_method <- imp_method[imp_method$Method %in% methods, ]
+  }
+
+  # Subset the method by indicator
+  if(!is.null(indicators)){
+    imp_method <- imp_method[imp_method$Indicator %in% indicators, ]
+  }
+
+  return(imp_method)
+}
+
+#' Get and combine impact methods using the Python LCIAformatter package's get_mapped_method function.
+#' @param ind_spec Specification of an indicator
+#' @return An LCIAmethod with the specified indicators
+getCombinedImpactMethods <- function(ind_spec) {
+  
+  imp_method = getImpactMethod(ind_spec)
+  
+  combined_imp_method <- dplyr::group_by(imp_method, Method,Flowable,`Flow UUID`,Context,Unit)
+  combined_imp_method <- dplyr::summarize(
+    combined_imp_method,
+    CF_agg = sum(`Characterization Factor`),
+    .groups = 'drop')
+  colnames(combined_imp_method)[colnames(combined_imp_method)=="CF_agg"] <- "Characterization Factor"
+  # Indicator name will be assigned from satellite spec
+  combined_imp_method[,"Indicator"] <- NA
+  combined_imp_method <- as.data.frame(combined_imp_method)
+  
+  return(combined_imp_method)
 }
 
 #' Prepares and reformats LCIAmethod data from LCIAformatter for use
 #' modeled after prepareFlowBySectorCollapsedforSatellite
-#' @param df A full LCIAmethod from LCIAformatter via getInventoryMethod
+#' @param lciamethod A full LCIAmethod data frame from LCIAformatter via getInventoryMethod or getImpactMethod.
+#' @return A LCIAmethod data frame formatted for indicators
 prepareLCIAmethodforIndicators <- function(lciamethod) {
-  
-  #replace Python type None with NA
+  # Replace Python type None with NA
   lciamethod <- replaceNonewithNA(lciamethod)
-  
-  #remove unused fields
-  cols_not_used <- c("Method","Method UUID","Indicator UUID", "Indicator unit","CAS No","Location","Location UUID")
-  lciamethodt <- lciamethod[,-which(names(lciamethod) %in% cols_not_used)]  
-  
-  #map cols to match regional and sector totals format
-  factors <- mapLCIAmethodtoIndicators(lciamethodt)
-  factors$Subcategory <- NA
-  return(factors)
-  
-}
+  # Create UUID and Amount columns
+  lciamethod[, "UUID"] <- lciamethod[, "Flow UUID"]
+  lciamethod[, "Amount"] <- lciamethod[, "Characterization Factor"]
+  # Keep useful fields
+  lciamethod <- lciamethod[, c("Indicator", "Flowable", "UUID", "Context", "Unit", "Amount")]
+  return(lciamethod)
 
-
-#' Temp function to map the trimmed LCIAmethod format from the LCIAformatter to 
-#' the format for use in useeior. Very closely follows the mapFlowBySectorCollapsedtoRegionalTotals
-#' in flowsa functions
-#' @param df with the trimmed LCIAmethod output of prepareLCIAmethodforIndicators
-mapLCIAmethodtoIndicators <- function(lciamethodt) {
-  mapping <- c('Flowable' = 'Name',
-               'Characterization Factor' = 'Amount',
-               'Context' = 'Category',
-               'Unit' = 'Unit',
-               'Flow UUID' = 'UUID')
-  
-  # 2. Replace all pattern, according to the dictionary-values (only a single vector of string, or a single string
-  colnames(lciamethodt) <- stringr::str_replace_all(string = colnames(lciamethodt),pattern=mapping)
-  return(lciamethodt)
 }

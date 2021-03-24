@@ -12,5 +12,5 @@ writeModelMatricesforAPI(model, modelfolder)
 \item{modelfolder}{Directory to write the model components to}
 }
 \description{
-Writes model matrices, including A, B, C, D, L, U, M, CPI, x (Industry Output), and q (Commodity Output).
+Writes model matrices, including Make, Use, A, A_d, B, C, D, L, L_d, M, N, Rho (CPI ratio matrix), x (Industry Output), and q (Commodity Output).
 }
