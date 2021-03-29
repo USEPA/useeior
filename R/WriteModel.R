@@ -188,13 +188,15 @@ writeModelMetadata <- function(model,dirs) {
   Description <- ""
   #Add in sector schema for model
   Sector_Schema <- paste0("BEA_",model$specs$BaseIOSchema,"_",model$specs$BaseIOLevel,"_Code")
+  Hash <- generateModelIdentifier(model)
+  model_fields <- list("ID"=ID, "Name"=Name, "Location"=Location, "Description"=Description, "Sector_Schema"=Sector_Schema, "Hash"=Hash)
   if (!file.exists(model_desc)) {
-    df <- cbind.data.frame(ID, Name, Location, Description, Sector_Schema)
+    df <- cbind.data.frame(model_fields)
   } else {
     df <- utils::read.table(model_desc, sep = ",", header = TRUE,
                             stringsAsFactors = FALSE, check.names = FALSE)
     if (!ID%in%df$ID) {
-      df <- rbind(df, cbind.data.frame(ID, Name, Location, Description, Sector_Schema))
+      df <- rbind(df, cbind.data.frame(model_fields))
     }
   }
   utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
