@@ -263,6 +263,37 @@ writeSessionInfotoFile <- function(path) {
   writeLines(capture.output(s), f)
 }
   
-  
-  
+#'Write model matrices and results to XLSX file
+#'@param model, any model object
+writeModelMatricestoXLSX <- function(model) {
+  # List model matrices
+  USEEIOtoXLSX_ls <- c(model[c("A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d",
+                               "N", "N_d", "Rho", "Phi", "UseTransactions", "MakeTransactions", "CommodityOutput")],
+                       model$DemandVectors$vectors)
+  for (n in names(USEEIOtoXLSX_ls)) {
+    if (class(USEEIOtoXLSX_ls[[n]])%in%c("matrix", "data.frame")) {
+      USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(as.data.frame(rownames(USEEIOtoXLSX_ls[[n]])), USEEIOtoXLSX_ls[[n]])
+    } else {
+      USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(names(USEEIOtoXLSX_ls[[n]]), USEEIOtoXLSX_ls[[n]])
+      colnames(USEEIOtoXLSX_ls[[n]])[2] <- n
+    }
+    colnames(USEEIOtoXLSX_ls[[n]])[1] <- ""
+  }
+  names(USEEIOtoXLSX_ls)[match(c("UseTransactions", "MakeTransactions", "CommodityOutput"), names(USEEIOtoXLSX_ls))] <- c("U", "V", "q")
+  # List model metadata
+  basedir <- file.path(rappdirs::user_data_dir(), "USEEIO", "Model_Builds", model$specs$Model)
+  metadata_dir <- file.path(basedir, "build", "data", model$specs$Model)
+  if (!dir.exists(metadata_dir)) {
+    writeModelforAPI(model, basedir)
+  }
+  for (file in list.files(path = metadata_dir, pattern = "*.csv")) {
+    df_name <- gsub(".csv", "", file)
+    USEEIOtoXLSX_ls[[df_name]] <- utils::read.table(paste(metadata_dir, file, sep = "/"),
+                                                    sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+  }
+  # List reference tables
+  USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- model$crosswalk
+  # Write to Excel workbook
+  writexl::write_xlsx(USEEIOtoXLSX_ls, "data/USEEIOv2.0_Matrices.xlsx", format_headers = FALSE)
+}  
 
