@@ -23,18 +23,18 @@ Code,Name
 221100,Electricity
 221200,Natural gas
 221300,Drinking water and wastewater treatment
-230301,Nonresidential maintenance and repair
-230302,Residential maintenance and repair
-233210,Health care structures
-233230,Manufacturing structures
-233240,Power and communication structures
-233262,Educational and vocational structures
-233293,Highways and streets
+230301,Nonresidential building repair and maintanence
+230302,Residential building repair and maintanence
+233210,Health care buildings
+233230,Manufacturing buildings
+233240,Utilities buildings and infrastructure
+233262,Schools and vocational buildings
+233293,"Highways, streets, and bridges"
 2332A0,"Commercial structures, including farm structures"
 2332C0,Transportation structures and highways and streets
 2332D0,Other nonresidential structures
-233411,Single-family residential structures
-233412,Multifamily residential structures
+233411,Single-family homes
+233412,Multifamily homes
 2334A0,Other residential structures
 311111,Dog and cat food
 311119,Other animal food
