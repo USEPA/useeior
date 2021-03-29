@@ -270,6 +270,8 @@ writeModelMatricestoXLSX <- function(model) {
   USEEIOtoXLSX_ls <- c(model[c("A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d",
                                "N", "N_d", "Rho", "Phi", "UseTransactions", "MakeTransactions", "CommodityOutput")],
                        model$DemandVectors$vectors)
+  USEEIOtoXLSX_ls$Rho <- USEEIOtoXLSX_ls$Rho[, match("2007", colnames(USEEIOtoXLSX_ls$Rho)):ncol(USEEIOtoXLSX_ls$Rho)]
+  USEEIOtoXLSX_ls$Phi <- USEEIOtoXLSX_ls$Phi[, match("2007", colnames(USEEIOtoXLSX_ls$Phi)):ncol(USEEIOtoXLSX_ls$Phi)]
   for (n in names(USEEIOtoXLSX_ls)) {
     if (class(USEEIOtoXLSX_ls[[n]])%in%c("matrix", "data.frame")) {
       USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(as.data.frame(rownames(USEEIOtoXLSX_ls[[n]])), USEEIOtoXLSX_ls[[n]])
