@@ -187,7 +187,11 @@ writeModelMetadata <- function(model,dirs) {
   Location <- model$specs$PrimaryRegionAcronym
   Description <- ""
   #Add in sector schema for model
-  Sector_Schema <- paste0("BEA_",model$specs$BaseIOSchema,"_",model$specs$BaseIOLevel,"_Code")
+  if (is.null(model$specs$DisaggregationSpecs)) {
+    Sector_Schema <- model$specs$Model
+  } else {
+    Sector_Schema <- paste("BEA", model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Code", sep = "_")
+  }
   Hash <- generateModelIdentifier(model)
   model_fields <- list("ID"=ID, "Name"=Name, "Location"=Location, "Description"=Description, "Sector_Schema"=Sector_Schema, "Hash"=Hash)
   if (!file.exists(model_desc)) {
