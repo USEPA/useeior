@@ -242,16 +242,6 @@ writeModelMetadata <- function(model,dirs) {
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
 }
 
-#' Check order of names (n1 and n2). Stop function execution if n1 != n2.
-#' @param n1 Name vector #1
-#' @param n2 Name vector #2
-#' @param note Note about n1 and n2
-checkNamesandOrdering <- function(n1, n2, note) {
-  if (!identical(n1, n2)) {
-    stop(paste(note, "not the same or not in the same order."))
-  }
-}
-
 #'Create a unique hash identifier for a model
 #'@param model, any model object
 #'@return char string

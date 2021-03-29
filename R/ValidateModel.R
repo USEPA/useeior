@@ -236,3 +236,13 @@ formatValidationResult <- function(result, abs_diff = TRUE, tolerance) {
               "Pass" = passes, "N_Pass" = N_passes,
               "Failure" = failures, "N_Failure" = N_failures))
 }
+
+#' Check order of names (n1 and n2). Stop function execution if n1 != n2.
+#' @param n1 Name vector #1
+#' @param n2 Name vector #2
+#' @param note Note about n1 and n2
+checkNamesandOrdering <- function(n1, n2, note) {
+  if (!identical(n1, n2)) {
+    stop(paste(note, "not the same or not in the same order."))
+  }
+}
