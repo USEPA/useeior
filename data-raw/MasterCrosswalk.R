@@ -1,4 +1,4 @@
-# Create a function to generate the MasterCrosswalk table
+# Extract existing BEA-NAICS mapping from BEA IO table
 extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
   if (year == 2012) {
     # Download the IO table
@@ -13,7 +13,7 @@ extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
     BEA <- BEAtable[-c(1:5), c(1:2, 4:5)]
     BEAtoNAICS <- BEAtable[-c(1:5), c(4:5, 7)]
   } else { #year = 2007
-    BEAtable <- as.data.frame(readxl::read_excel(paste(BEApath, "2007Schema/IOUse_Before_Redefinitions_PRO_2007_Detail.xlsx", sep = ""),
+    BEAtable <- as.data.frame(readxl::read_excel("inst/extdata/IOUse_Before_Redefinitions_PRO_2007_Detail.xlsx",
                                                  sheet = "NAICS codes", col_names = FALSE))
     # Split to BEA and BEAtoNAICS
     BEA <- BEAtable[-c(1:4), 1:4]
@@ -32,7 +32,7 @@ extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
   BEA <- merge(BEA, BEAtable[, 2:3], by.x = "BEA_Summary_Code", by.y = "...2")
   colnames(BEA)[6] <- "BEA_Summary_Name"
   # Order columns
-  BEA <- BEA[,c("BEA_Sector_Code", "BEA_Sector_Name", "BEA_Summary_Code", "BEA_Summary_Name", "BEA_Detail_Code", "BEA_Detail_Name")]
+  BEA <- BEA[, c("BEA_Sector_Code", "BEA_Sector_Name", "BEA_Summary_Code", "BEA_Summary_Name", "BEA_Detail_Code", "BEA_Detail_Name")]
   
   # Extract BEA Detail Code and Name with NAICS
   colnames(BEAtoNAICS) <- c("BEA_Detail_Code", "BEA_Detail_Name", "NAICS")
@@ -86,7 +86,7 @@ extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
   return(BEAtoNAICS)
 }
 
-
+# Build complete BEA to NAICS (2 to 6 digits) mapping
 getBEAtoNAICS <- function (year) {
   # Define local variables
   BEAyearDetailCode <- paste("BEA_", year, "_Detail_Code", sep = "")
@@ -96,62 +96,50 @@ getBEAtoNAICS <- function (year) {
   
   # Generate BEAtoNAICS table from IO table
   BEAtoNAICS <- extractBEAtoNAICSfromIOTable(year)
-  # Load supplementary BEAtoNAICS table from SI folder
-  BEAtoNAICSsupp <- utils::read.table(paste0("inst/extdata/BEAtoNAICS_", year, "_supp.csv"), sep = ",", header = TRUE, stringsAsFactors = FALSE)
-  # Merg the two
-  BEAtoNAICSall <- merge(BEAtoNAICS, BEAtoNAICSsupp, by = BEAyearDetailCode, all = TRUE)
-  
-  # Fill the n.a. in NAICS with NAICS_2012_Code
-  BEAtoNAICSall[is.na(BEAtoNAICSall[, NAICSyearCode.x]), NAICSyearCode.x] <- BEAtoNAICSall[is.na(BEAtoNAICSall[, NAICSyearCode.x]), NAICSyearCode.y]
-  BEAtoNAICSall[, NAICSyearCode] <- BEAtoNAICSall[, NAICSyearCode.x]
-  # Drop NAICS_2012_Code column and re-order the columns
-  BEAtoNAICSall <- BEAtoNAICSall[, colnames(BEAtoNAICS)]
   
   # Generate complete NAICSwide table from NAICS list from Census
   NAICSwide <- getNAICS2to6Digits(year)
   
-  # Merge
+  # Merge BEAtoNAICS and NAICSwide
   # at 6-digit NAICS
-  BEAtoNAICS6 <- merge(BEAtoNAICSall, NAICSwide[!is.na(NAICSwide$NAICS_6), ], by.x = NAICSyearCode, by.y = "NAICS_6")
-  BEAtoNAICS6 <- reshape2::melt(BEAtoNAICS6, id.vars = colnames(BEAtoNAICSall)[-7])[, -7]
+  BEAtoNAICS6 <- merge(BEAtoNAICS, NAICSwide[!is.na(NAICSwide$NAICS_6), ], by.x = NAICSyearCode, by.y = "NAICS_6")
+  BEAtoNAICS6 <- reshape2::melt(BEAtoNAICS6, id.vars = colnames(BEAtoNAICS)[-7])[, -7]
   # at 5-digit NAICS
-  BEAtoNAICS5 <- merge(BEAtoNAICSall, NAICSwide[!is.na(NAICSwide$NAICS_5), ], by.x = NAICSyearCode, by.y = "NAICS_5")
+  BEAtoNAICS5 <- merge(BEAtoNAICS, NAICSwide[!is.na(NAICSwide$NAICS_5), ], by.x = NAICSyearCode, by.y = "NAICS_5")
   #BEAtoNAICS5[, c("NAICS_6")] <- NULL
-  BEAtoNAICS5 <- reshape2::melt(BEAtoNAICS5, id.vars = colnames(BEAtoNAICSall)[-7])[, -7]
+  BEAtoNAICS5 <- reshape2::melt(BEAtoNAICS5, id.vars = colnames(BEAtoNAICS)[-7])[, -7]
   # at 4-digit NAICS
-  BEAtoNAICS4 <- merge(BEAtoNAICSall, NAICSwide[!is.na(NAICSwide$NAICS_4), ], by.x = NAICSyearCode, by.y = "NAICS_4")
+  BEAtoNAICS4 <- merge(BEAtoNAICS, NAICSwide[!is.na(NAICSwide$NAICS_4), ], by.x = NAICSyearCode, by.y = "NAICS_4")
   #BEAtoNAICS4[, c("NAICS_5", "NAICS_6")] <- NULL
-  BEAtoNAICS4 <- reshape2::melt(BEAtoNAICS4, id.vars = colnames(BEAtoNAICSall)[-7])[, -7]
+  BEAtoNAICS4 <- reshape2::melt(BEAtoNAICS4, id.vars = colnames(BEAtoNAICS)[-7])[, -7]
   # at 3-digit NAICS
-  BEAtoNAICS3 <- merge(BEAtoNAICSall, NAICSwide[!is.na(NAICSwide$NAICS_3), ], by.x = NAICSyearCode, by.y = "NAICS_3")
+  BEAtoNAICS3 <- merge(BEAtoNAICS, NAICSwide[!is.na(NAICSwide$NAICS_3), ], by.x = NAICSyearCode, by.y = "NAICS_3")
   #BEAtoNAICS3[, c("NAICS_4", "NAICS_5", "NAICS_6")] <- NULL
-  BEAtoNAICS3 <- reshape2::melt(BEAtoNAICS3, id.vars = colnames(BEAtoNAICSall)[-7])[, -7]
+  BEAtoNAICS3 <- reshape2::melt(BEAtoNAICS3, id.vars = colnames(BEAtoNAICS)[-7])[, -7]
   # at 2-digit NAICS
-  BEAtoNAICS2 <- merge(BEAtoNAICSall, NAICSwide[!is.na(NAICSwide$NAICS_2), ], by.x = NAICSyearCode, by.y = "NAICS_2")
+  BEAtoNAICS2 <- merge(BEAtoNAICS, NAICSwide[!is.na(NAICSwide$NAICS_2), ], by.x = NAICSyearCode, by.y = "NAICS_2")
   #BEAtoNAICS2[, c("NAICS_3", "NAICS_4", "NAICS_5", "NAICS_6")] <- NULL
-  BEAtoNAICS2 <- reshape2::melt(BEAtoNAICS2, id.vars = colnames(BEAtoNAICSall)[-7])[, -7]
+  BEAtoNAICS2 <- reshape2::melt(BEAtoNAICS2, id.vars = colnames(BEAtoNAICS)[-7])[, -7]
   
-  # Assemble, drop NAs in value column, and re-order columns
+  # Assemble BEAtoNAICS at all digits, drop NAs in value column, and re-order columns
   BEAtoNAICSwide <- unique(rbind(BEAtoNAICS2, BEAtoNAICS3, BEAtoNAICS4, BEAtoNAICS5, BEAtoNAICS6))
   BEAtoNAICSwide <- BEAtoNAICSwide[!is.na(BEAtoNAICSwide$value), ]
   BEAtoNAICSwide[, NAICSyearCode] <- BEAtoNAICSwide$value
   BEAtoNAICSwide <- BEAtoNAICSwide[, colnames(BEAtoNAICS)]
   
   # Add the BEA sectors that do not have NAICS matches
-  BEAtoNAICScomplete <- rbind(BEAtoNAICSwide, BEAtoNAICSall[is.na(BEAtoNAICSall[, NAICSyearCode]), ])
+  BEAtoNAICScomplete <- rbind(BEAtoNAICSwide, BEAtoNAICS[is.na(BEAtoNAICS[, NAICSyearCode]), ])
   BEAtoNAICScomplete <- BEAtoNAICScomplete[order(BEAtoNAICScomplete[, BEAyearDetailCode], BEAtoNAICScomplete[, NAICSyearCode]), ]
   
-  # Assign NAICS_Name
+  # Assign NAICS_Name to BEAtoNAICScomplete
   NAICSCodeName <- getNAICS2to6DigitsCodeName(year)
-  
   BEAtoNAICScomplete <- merge(BEAtoNAICScomplete, NAICSCodeName, by = NAICSyearCode, all.x = TRUE)
-  
   BEAtoNAICScomplete <- BEAtoNAICScomplete[, c(colnames(BEAtoNAICSwide), paste("NAICS_", year, "_Name", sep = ""))]
   
   return(BEAtoNAICScomplete)
 }
 
-
+# Create mapping between BEA and USEEIO code
 getBEAtoUSEEIO <- function (year) {
   # Prepare a base BEAtoUSEEIO table from IO table
   BEAtoUSEEIO <- extractBEAtoNAICSfromIOTable(year)
@@ -183,12 +171,16 @@ getMasterCrosswalk <- function (year) {
   BEAColumns <- c(paste(rep("BEA_", 6), year, rep(c("_Sector", "_Summary", "_Detail"), each = 2), rep(c("_Code", "_Name"), 3), sep = ""))
   BEAtoUSEEIOtoNAICS <- unique(merge(BEAtoUSEEIOcomplete, BEAtoNAICScomplete, by = BEAColumns))
   
-  # Drop 23 and G sectors in BEAtoUSEEIOtoNAICS
+  # Drop 23, HS&ORE and G sectors in BEAtoUSEEIOtoNAICS
   BEAyearSectorCode <- c(paste("BEA_", year, "_Sector_Code", sep = ""))
+  BEAyearSummaryCode <- c(paste("BEA_", year, "_Summary_Code", sep = ""))
   BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[!BEAtoUSEEIOtoNAICS[, BEAyearSectorCode] %in% c("23", "G"), ]
+  BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[!BEAtoUSEEIOtoNAICS[, BEAyearSummaryCode] %in% c("HS", "ORE", "531"), ]
   # Load pre-created tables for 23, G, F, and V sectors
   # 23
   Crosswalk23 <- utils::read.table(paste0("inst/extdata/23_BEAtoUSEEIOtoNAICS_", year, ".csv"), sep = ",", header = TRUE, stringsAsFactors = FALSE)
+  # HS&ORE
+  CrosswalkHSandORE <- utils::read.table(paste0("inst/extdata/HS&ORE_BEAtoUSEEIOtoNAICS_", year, ".csv"), sep = ",", header = TRUE, stringsAsFactors = FALSE)
   # G
   CrosswalkG <- utils::read.table(paste0("inst/extdata/G_BEAtoUSEEIOtoNAICS_", year, ".csv"), sep = ",", header = TRUE, stringsAsFactors = FALSE)
   # F
@@ -197,7 +189,7 @@ getMasterCrosswalk <- function (year) {
   CrosswalkV <- utils::read.table(paste0("inst/extdata/V_BEAtoUSEEIOtoNAICS_", year, ".csv"), sep = ",", header = TRUE, stringsAsFactors = FALSE)
   
   # Attach the pre-created 23, G, F, and V sectors to BEAtoUSEEIOtoNAICS
-  BEAtoUSEEIOtoNAICS <- rbind(BEAtoUSEEIOtoNAICS, Crosswalk23, CrosswalkG, CrosswalkF, CrosswalkV)
+  BEAtoUSEEIOtoNAICS <- rbind(BEAtoUSEEIOtoNAICS, Crosswalk23, CrosswalkHSandORE, CrosswalkG, CrosswalkF, CrosswalkV)
   
   # Add USEEIO_Commodity columns
   SectortoCommodity <- utils::read.table(paste0("inst/extdata/Crosswalk_DetailIndustrytoCommodityName", year, "Schema.csv"),
@@ -236,8 +228,14 @@ getMasterCrosswalk <- function (year) {
   # Generate 2012-2007-2017 NAICS code concordance at 2-5 digits
   NAICS2012to2007to2017all <- data.frame()
   for (digit in c(2:5)) {
-    NAICS2012to2007to2017_bydigit <- unique(do.call("cbind.data.frame",lapply(NAICS2012to2007to2017, function(x) substr(x, 1, digit))))
+    NAICS2012to2007to2017_bydigit <- unique(do.call("cbind.data.frame", lapply(NAICS2012to2007to2017, function(x) substr(x, 1, digit))))
     NAICS2012to2007to2017_bydigit[] <- lapply(NAICS2012to2007to2017_bydigit, as.character)
+    # Check if NAICS codes in the same row are identical
+    NAICS2012to2007to2017_bydigit <- transform(NAICS2012to2007to2017_bydigit,
+                                               identical = apply(NAICS2012to2007to2017_bydigit, 1, function(x) length(unique(x)) == 1))
+    # Drop the non-identical rows
+    NAICS2012to2007to2017_bydigit <- NAICS2012to2007to2017_bydigit[NAICS2012to2007to2017_bydigit$identical, ]
+    NAICS2012to2007to2017_bydigit$identical <- NULL
     NAICS2012to2007to2017all <- rbind(NAICS2012to2007to2017all, NAICS2012to2007to2017_bydigit)
   }
   # Assemble 2012-2007-2017 NAICS code concordances at 2-6 digits
@@ -263,6 +261,8 @@ getMasterCrosswalk <- function (year) {
     MasterCrosswalk[, c("BEA_2012_Sector_Code_agg", "BEA_2012_Sector_Name_agg")] <- NULL
   }
   # Order by NAICS and USEEIO code columns
+  MasterCrosswalk[MasterCrosswalk==""] <- NA
+  rownames(MasterCrosswalk) <- NULL
   MasterCrosswalk <- MasterCrosswalk[order(MasterCrosswalk[, paste("NAICS_", year, "_Code", sep = "")], MasterCrosswalk[, "USEEIO_Code"]), ]
   
   return(MasterCrosswalk)
@@ -273,3 +273,7 @@ MasterCrosswalk2012 <- MasterCrosswalk2012[, c(paste("BEA_2012", c("Sector", "Su
                                                paste("NAICS", c(2012, 2007, 2017), "Code", sep = "_"))]
 usethis::use_data(MasterCrosswalk2012, overwrite = T)
 
+MasterCrosswalk2007 <- getMasterCrosswalk(2007)
+MasterCrosswalk2007 <- MasterCrosswalk2007[, c(paste("BEA_2007", c("Sector", "Summary", "Detail"), "Code", sep = "_"),
+                                               paste("NAICS", c(2012, 2007), "Code", sep = "_"))]
+usethis::use_data(MasterCrosswalk2007, overwrite = T)

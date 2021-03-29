@@ -4,10 +4,12 @@
 \alias{setWriteDirsforAPI}
 \title{Sets directories to write model output data to}
 \usage{
-setWriteDirsforAPI(model = NA, basedir)
+setWriteDirsforAPI(model = NULL, basedir)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes. Optional}
+
+\item{basedir}{Base directory to write the model components to}
 }
 \value{
 A named list of directories for model output writing

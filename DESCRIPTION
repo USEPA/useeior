@@ -1,11 +1,14 @@
 Package: useeior
 Type: Package
 Title: USEEIO R modeling software
-Version: 0.1
-Date: 2020-03-03
+Version: 0.4.0
+Date: 2021-03-25
 Authors@R: c(
+  person("Mo","Li", email="mo.li@gdit.com", role="aut"),
   person("Wesley","Ingwersen", email="ingwersen.wesley@epa.gov", role= c("aut", "cre")),
-  person("Mo","Li", email="mo.li@gdit.com", role="aut"))
+  person("Ben","Young", email="ben.young@erg.com", role="aut"),
+  person("Jorge","Vendries", email="jvendries@gmail.com", role="aut"),
+  person("Catherine","Birney", email="birney.catherine@epa.gov", role="aut"))
 Description: The United States Environmentally-Extended Input-Output model
   is a model used to estimate potential environmental and economic impacts
   associated with the production and consumption of goods and services in the US.
@@ -14,19 +17,23 @@ Description: The United States Environmentally-Extended Input-Output model
 URL: https://github.com/USEPA/useeior
 BugReports: https://github.com/USEPA/useeior/issues
 Imports:
+    arrow (>= 2.0.0),
     configr (>= 0.3.4),
-    logging (>= 0.10),
-    readxl (>= 1.3.1),
-    reshape2 (>= 1.4.3),
-    stats (>= 3.6.1),
-    usethis (>= 1.5),
-    utils (>= 3.6.1),
-    rappdirs (>= 0.3),
-    stringr (>= 1.4),
+    digest (>= 0.6.27),
     dplyr (>= 0.8),
     ggplot2 (>= 3.0),
     jsonlite (>= 1.6),
-    reticulate (>= 1.1)
+    logging (>= 0.10),
+    rappdirs (>= 0.3),
+    readxl (>= 1.3.1),
+    reshape2 (>= 1.4.3),
+    reticulate (>= 1.1),
+    scales (>= 1.1.1),
+    stats (>= 3.6.1),
+    stringr (>= 1.4),
+    usethis (>= 1.5),
+    utils (>= 3.6.1),
+    validate (>= 1.0)
 Depends:
   R (>= 3.6)
 License: file LICENSE

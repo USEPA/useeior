@@ -16,6 +16,7 @@
 #'  \item{SatelliteTable}{named list of satellite table objects named by table acynonyms. @seealso [SatelliteTableConfiguration]}
 #'  \item{Demand}{list. @seealso [DemandConfiguration]}
 #'  \item{Indicators}{named list of indicators by indicator acronym.  @seealso [IndicatorConfiguration]}
+#'  \item{DisaggregationSpecs}{string, name of YML file with disaggregation specs}
 #'}
 "ModelConfiguration"
 
@@ -26,6 +27,7 @@
 #'  \item{Abbreviation}{string, Abbreviation for table}
 #'  \item{StaticSource}{boolean, TRUE if loading table from static source}
 #'  \item{StaticFile}{string, path to static file}
+#'  \item{FileLocation}{string, description of the location of the source file}
 #'  \item{DataYears}{list of data years}
 #'  \item{Locations}{list of location acyronyms}
 #'  \item{SectorListSource}{string, name of source "NAICS" or "BEA" accepted}
@@ -47,11 +49,17 @@
 #' Indicator Configuration
 #' @format A list of indicator attributes
 #' \describe{
-#'  \item{FullName}{string, Name of the indicator}
-#'  \item{Abbreviation}{string, Name of the indicator}
-#'  \item{Category}{string, Impact category of the indicator}
+#'  \item{Name}{string, Name of the indicator}
+#'  \item{Code}{string, Abbreviation for the indicator}
+#'  \item{Group}{string, Impact category of the indicator}
 #'  \item{Unit}{string, unit of the indicator}
-#'  \item{SatticSource}{boolean, TRUE if this is a static source}
+#'  \item{SimpleUnit}{string, simple unit of the indicator}
+#'  \item{SimpleName}{string, simple name of the indicator}
+#'  \item{StaticSource}{boolean, TRUE if this is a static source}
+#'  \item{StaticFile}{string, name of the source file}
+#'  \item{FileLocation}{string, description of the location of the source file}
+#'  \item{ScriptFunctionCall}{string, the function used to process the indicator data}
+#'  \item{ScriptFunctionParameters}{list, parameters passed to ScriptFunctionCall}
 #'  \item{DataSources}{list of data sources, @seealso [DataSourceConfiguration]}
 #'  }
 "IndicatorConfiguration"

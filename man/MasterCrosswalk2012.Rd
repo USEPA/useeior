@@ -5,7 +5,7 @@
 \alias{MasterCrosswalk2012}
 \title{Master Crosswalk table (2012 schema)}
 \format{
-A dataframe with 16838 obs. and 6 variables:
+A dataframe with 16611 obs. and 6 variables:
 \describe{
  \item{BEA_2012_Sector_Code}{text code}
  \item{BEA_2012_Summary_Code}{text code}
