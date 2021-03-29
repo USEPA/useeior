@@ -239,6 +239,10 @@ writeModelMetadata <- function(model,dirs) {
   flows <- flows[, fields$flows]
   checkNamesandOrdering(flows$ID, rownames(model$B), "flows in flows.csv and rows in B matrix")
   utils::write.csv(flows, paste0(outputfolder, "/flows.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  
+  # Write session info to R sessioninfo.txt inside the model folder
+  writeSessionInfotoFile(dirs$model)
+  
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
 }
 
@@ -250,7 +254,14 @@ generateModelIdentifier <- function(model) {
   return(id)
 }
 
-  
+#'Write out session information to a "Rsessioninfo.txt file in the given path
+#'@param path, str, a path without the file
+#'@return None
+writeSessionInfotoFile <- function(path) {
+  s <- sessionInfo()
+  f <- paste0(path,"/Rsessioninfo.txt")
+  writeLines(capture.output(s), f)
+}
   
   
   
