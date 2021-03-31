@@ -267,9 +267,9 @@ writeSessionInfotoFile <- function(path) {
   writeLines(capture.output(s), f)
 }
   
-#'Write model matrices and results to XLSX file
+#'Write selected model objects and user meta to XLSX file
 #'@param model, any model object
-writeModelMatricestoXLSX <- function(model) {
+writeModeltoXLSX <- function(model) {
   # List model matrices
   USEEIOtoXLSX_ls <- c(model[c("A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d",
                                "N", "N_d", "Rho", "Phi", "UseTransactions", "MakeTransactions", "CommodityOutput")],
@@ -299,6 +299,8 @@ writeModelMatricestoXLSX <- function(model) {
   }
   # List reference tables
   USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- model$crosswalk
+  
+  
   # Write to Excel workbook
   writexl::write_xlsx(USEEIOtoXLSX_ls, "data/USEEIOv2.0_Matrices.xlsx", format_headers = FALSE)
 }  
