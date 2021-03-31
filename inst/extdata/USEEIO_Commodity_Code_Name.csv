@@ -503,6 +503,9 @@ GSLG,State and local general government
 GSLE,State and local government enterprises
 Used,"Scrap, used and secondhand goods"
 Other,Noncomparable imports and rest-of-the-world adjustment
+V001,Compensation of employees
+V002,"Taxes on production and imports, less subsidies"
+V003,Gross operating surplus
 11,"Agriculture, forestry, fishing, and hunting"
 21,Mining
 31G,Manufacturing
