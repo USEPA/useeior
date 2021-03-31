@@ -271,11 +271,12 @@ writeSessionInfotoFile <- function(path) {
 #'@param model, any model object
 writeModelMatricestoXLSX <- function(model) {
   # List model matrices
-  USEEIOtoXLSX_ls <- c(model[c("A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d",
-                               "N", "N_d", "Rho", "Phi", "UseTransactions", "MakeTransactions", "CommodityOutput")],
-                       model$DemandVectors$vectors)
+  USEEIOtoXLSX_ls <- model[c("A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d", "N", "N_d", "Rho", "Phi")]
   USEEIOtoXLSX_ls$Rho <- USEEIOtoXLSX_ls$Rho[, match("2007", colnames(USEEIOtoXLSX_ls$Rho)):ncol(USEEIOtoXLSX_ls$Rho)]
   USEEIOtoXLSX_ls$Phi <- USEEIOtoXLSX_ls$Phi[, match("2007", colnames(USEEIOtoXLSX_ls$Phi)):ncol(USEEIOtoXLSX_ls$Phi)]
+  USEEIOtoXLSX_ls[["U"]] <- dplyr::bind_rows(cbind(model$UseTransactions, model$FinalDemand), model$UseValueAdded)
+  USEEIOtoXLSX_ls[c("V", "q")] <- model[c("MakeTransactions", "CommodityOutput")]
+  USEEIOtoXLSX_ls[names(model$DemandVectors$vectors)] <- model$DemandVectors$vectors
   for (n in names(USEEIOtoXLSX_ls)) {
     if (class(USEEIOtoXLSX_ls[[n]])%in%c("matrix", "data.frame")) {
       USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(as.data.frame(rownames(USEEIOtoXLSX_ls[[n]])), USEEIOtoXLSX_ls[[n]])
@@ -285,7 +286,6 @@ writeModelMatricestoXLSX <- function(model) {
     }
     colnames(USEEIOtoXLSX_ls[[n]])[1] <- ""
   }
-  names(USEEIOtoXLSX_ls)[match(c("UseTransactions", "MakeTransactions", "CommodityOutput"), names(USEEIOtoXLSX_ls))] <- c("U", "V", "q")
   # List model metadata
   basedir <- file.path(rappdirs::user_data_dir(), "USEEIO", "Model_Builds", model$specs$Model)
   metadata_dir <- file.path(basedir, "build", "data", model$specs$Model)
