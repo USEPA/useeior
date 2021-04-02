@@ -14,7 +14,7 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
   for (modelname in names(model_list)) {
     model <- model_list[[modelname]]
     # Adjust y_title
-    Y_title <- paste0(y_title, " (", model$Indicators$meta[model$Indicators$meta$Name%in%coefficient_name, "Unit"], "/$)")
+    Y_title <- paste0(y_title, " (", model$Indicators$meta[match(coefficient_name, model$Indicators$meta$Name), "Unit"], "/$)")
     # Generate BEA sector color mapping
     mapping <- getBEASectorColorMapping(model)
     mapping$GroupName <- mapping$SectorName
