@@ -221,17 +221,13 @@ writeModelMetadata <- function(model,dirs) {
   utils::write.csv(demands, paste0(outputfolder, "/demands.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write sectors to csv
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
-    sectors <- model$Commodities[, c("Code", "Name")]
-  } else {
-    sectors <- model$Industries[, c("Code", "Name")]
-  }
+  sectors <- model[[gsub("y", "ies", model$specs$CommoditybyIndustryType)]]
+  sectors$ID <- sectors$Code_Loc
   sectors$Location <- model$specs$PrimaryRegionAcronym
-  sectors$ID <- apply(sectors[, c("Code", "Name", "Location")], 1, FUN = joinStringswithSlashes)
   sectors$Description <- ""
   sectors$Index <- c(1:nrow(sectors)-1)
   sectors <- sectors[, fields$sectors]
-  #checkNamesandOrdering(sectors$Code, rownames(model$L), "code in sectors.csv and rows in L matrix")
+  checkNamesandOrdering(sectors$ID, rownames(model$L), "code in sectors.csv and rows in L matrix")
   utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write flows to csv
