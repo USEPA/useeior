@@ -155,3 +155,26 @@ normalizeResultMatrixByTotalImpacts <- function(m) {
   m_norm <- sweep(m, MARGIN = 2, FUN = "/", STATS = colSums(m))
   return(m_norm)
 }
+
+#' Calculate the percent contribution of M flows to an N indicator result
+#' Uses model M matrix for flows and C matrix for indicator
+#' @param model, A complete EEIO Model object
+#' @param sector, str, index of a model sector for use in the M matrix, e.g. "221100/us"
+#' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential" 
+#' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
+#' @return df, dataframe sorted from highest flow contribution "contribution", also showing "flow","indicator","impact" 
+#' @export      
+calculatePercentContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
+  M <- model$M
+  C <- model$C
+  if (domestic) {
+    M <- model$M_d
+  }
+  flow <- M[,sector]
+  indicator <- C[indicator,]
+  df <- cbind.data.frame(flow,indicator)
+  df["impact"] <- df[,"flow"]*df[,"indicator"] 
+  df["contribution"] <- df["impact"]/sum(df["impact"])
+  df <- df[order(df$contribution,decreasing=TRUE),]
+  return(df) 
+}
