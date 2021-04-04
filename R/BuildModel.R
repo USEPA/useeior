@@ -69,7 +69,7 @@ constructEEIOMatrices <- function(model) {
   # Calculate total emissions/resource use per dollar (M)
   logging::loginfo("Calculating M matrix (total emissions and resource use per dollar)...")
   model$M <- model$B %*% model$L
-  colnames(model$M) <- tolower(colnames(model$M))
+  colnames(model$M) <- colnames(model$M)
   # Calculate M_d, the domestic emissions per dollar using domestic Leontief
   logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
   model$M_d <- model$B %*% model$L_d
@@ -104,7 +104,7 @@ createBfromFlowDataandOutput <- function(model) {
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     B <- B %*% model$V_n
-    colnames(B) <- tolower(model$Commodities$Code_Loc)
+    colnames(B) <- model$Commodities$Code_Loc
   }
   return(B)
 }
@@ -153,9 +153,9 @@ standardizeandcastSatelliteTable <- function(df,model) {
   rownames(df_cast) <- df_cast$Flow
   df_cast$Flow <- NULL
   # Complete sector list according to model$Industries
-  df_cast[, setdiff(tolower(model$Industries$Code_Loc), colnames(df_cast))] <- 0
+  df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 0
   # Adjust column order to be the same with V_n rownames
-  df_cast <- df_cast[, tolower(model$Industries$Code_Loc)]
+  df_cast <- df_cast[, model$Industries$Code_Loc]
   return(df_cast)
 }
 
@@ -165,8 +165,8 @@ standardizeandcastSatelliteTable <- function(df,model) {
 #' @return a C matrix in indicator x flow format
 createCfromFactorsandBflows <- function(factors,B_flows) {
   # Add flow field to factors
-  factors$Flow <- tolower(apply(factors[, c("Flowable", "Context", "Unit")],
-                                   1, FUN = joinStringswithSlashes))
+  factors$Flow <- apply(factors[, c("Flowable", "Context", "Unit")],
+                        1, FUN = joinStringswithSlashes)
   
   #Subset factor flows by flows in B matrix
   factors <- factors[factors$Flow %in% unique(B_flows),]

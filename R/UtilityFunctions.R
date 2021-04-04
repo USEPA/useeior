@@ -17,7 +17,6 @@ startLogging <- function (){
 joinStringswithSlashes <- function(...) {
   items <- list(...)
   str <- sapply(items, paste, collapse = '/')
-  str <- tolower(str)
   return(str)
 }
 

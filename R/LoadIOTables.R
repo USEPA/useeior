@@ -41,14 +41,14 @@ loadNationalIOData <- function(model) {
                              by.x = "BEA$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
   colnames(model$Commodities) <- c("Code", "Name")
   model$Commodities <- model$Commodities[order(match(BEA$Commodities, model$Commodities$Code)), ]
-  model$Commodities$Code_Loc <- toupper(apply(cbind(model$Commodities$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
+  model$Commodities$Code_Loc <- apply(cbind(model$Commodities$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes)
   
   # model$Industries
   model$Industries <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   colnames(model$Industries) <- c("Code", "Name")
   model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
   model$Industries <- model$Industries[order(match(BEA$Industries, model$Industries$Code)), ]
-  model$Industries$Code_Loc <- toupper(apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes))
+  model$Industries$Code_Loc <- apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes)
   
   # model$FinalDemandSectors
   model$FinalDemandSectors <- utils::stack(BEA[c("HouseholdDemandCodes", "InvestmentDemandCodes", "ChangeInventoriesCodes",
@@ -56,16 +56,16 @@ loadNationalIOData <- function(model) {
   model$FinalDemandSectors[] <- lapply(model$FinalDemandSectors, as.character)
   colnames(model$FinalDemandSectors) <- c("Code", "Name")
   model$FinalDemandSectors$Name <- gsub(c("Codes|DemandCodes"), "", model$FinalDemandSectors$Name)
-  model$FinalDemandSectors$Code_Loc <- toupper(apply(cbind(model$FinalDemandSectors$Code, model$specs$PrimaryRegionAcronym),
-                                                     1, FUN = joinStringswithSlashes))
+  model$FinalDemandSectors$Code_Loc <- apply(cbind(model$FinalDemandSectors$Code, model$specs$PrimaryRegionAcronym),
+                                             1, FUN = joinStringswithSlashes)
   
   # model$MarginSectors
   model$MarginSectors <- utils::stack(BEA[c("TransportationCodes", "WholesaleCodes", "RetailCodes")])
   model$MarginSectors[] <- lapply(model$MarginSectors, as.character)
   colnames(model$MarginSectors) <- c("Code", "Name")
   model$MarginSectors$Name <- gsub(c("Codes"), "", model$MarginSectors$Name)
-  model$MarginSectors$Code_Loc <- toupper(apply(cbind(model$MarginSectors$Code, model$specs$PrimaryRegionAcronym),
-                                                1, FUN = joinStringswithSlashes))
+  model$MarginSectors$Code_Loc <- apply(cbind(model$MarginSectors$Code, model$specs$PrimaryRegionAcronym),
+                                        1, FUN = joinStringswithSlashes)
   
   # IO tables
   model$MakeTransactions <- BEA$MakeTransactions
@@ -82,11 +82,11 @@ loadNationalIOData <- function(model) {
   colnames(model$MakeTransactions) <- rownames(model$UseTransactions) <- rownames(model$DomesticUseTransactions) <- 
     rownames(model$FinalDemand) <- rownames(model$DomesticFinalDemand) <- model$Commodities$Code_Loc
   # Apply joinStringswithSlashes based on original row/column names
-  rownames(model$UseValueAdded) <- toupper(apply(cbind(rownames(model$UseValueAdded), model$specs$PrimaryRegionAcronym),
-                                                 1, FUN = joinStringswithSlashes))
-  colnames(model$FinalDemand) <- colnames(model$DomesticFinalDemand) <- toupper(apply(cbind(colnames(model$FinalDemand),
-                                                                                            model$specs$PrimaryRegionAcronym),
-                                                                                      1, FUN = joinStringswithSlashes))
+  rownames(model$UseValueAdded) <- apply(cbind(rownames(model$UseValueAdded), model$specs$PrimaryRegionAcronym),
+                                         1, FUN = joinStringswithSlashes)
+  colnames(model$FinalDemand) <- colnames(model$DomesticFinalDemand) <- apply(cbind(colnames(model$FinalDemand),
+                                                                                    model$specs$PrimaryRegionAcronym),
+                                                                              1, FUN = joinStringswithSlashes)
   
   model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
   model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
