@@ -18,15 +18,18 @@ deriveFinalConsumerMarginSectorImpacts <- function(model) {
   # Put margins_by_sector into a matrix in the form of A
   A_margin <- model$A
   # Make sure sector ordering is the same
-  A_margin[,] <- 0 
+  A_margin[,] <- 0
   for (s in all_margin_sectors) {
-    A_margin[s, ] <- margins_by_sector[, s]
+    A_margin[model$MarginSectors$Code_Loc[match(s, model$MarginSectors$Code)], ] <- margins_by_sector[, s]
   }
   # Multiply M and N by margins_by_sector to derive M_margin and U_margin
   model$M_margin <- model$M %*% A_margin
   colnames(model$M_margin) <- tolower(paste(colnames(model$M_margin), model$specs$PrimaryRegionAcronym, sep = "/"))
+  colnames(model$M_margin) <- apply(cbind(colnames(model$M_margin), model$specs$PrimaryRegionAcronym),
+                                    1, FUN = joinStringswithSlashes)
   model$N_margin <- model$N %*% A_margin
-  colnames(model$N_margin) <- tolower(paste(colnames(model$N_margin), model$specs$PrimaryRegionAcronym, sep = "/"))
+  colnames(model$N_margin) <- apply(cbind(colnames(model$N_margin), model$specs$PrimaryRegionAcronym),
+                                    1, FUN = joinStringswithSlashes)
   logging::loginfo("Model final consumer margin impacts derived")
   return(model)
 }
