@@ -176,7 +176,7 @@ calculatePercentContributiontoImpact <- function (x,y) {
 #' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
 #' @return df, dataframe sorted from highest process contribution "contribution", also showing "x","y","impact" 
 #' @export 
-calculateProcessContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
+calculateSectorContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
   L <- model$L
   if (domestic) {
     L <- model$L_d
