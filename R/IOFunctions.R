@@ -56,7 +56,7 @@ normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
 #' @param domestic A logical parameter indicating whether to calculate DR or Domestic DR.
 #' @return Direct Requirements matrix of the model.
 generateDirectRequirementsfromUse <- function (model, domestic) {
-  # Generate direct requirments matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
+  # Generate direct requirements matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
   if (domestic==TRUE) {
     B <- normalizeIOTransactions(model$DomesticUseTransactions, model$IndustryOutput) # B = U %*% solve(x_hat)
   } else {
