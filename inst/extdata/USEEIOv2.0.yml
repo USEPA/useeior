@@ -17,7 +17,7 @@ SatelliteTable:
     FullName: "Water withdrawals"
     Abbreviation: "WAT"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/Water_national_2015_m1_v0.1_60d9d90.parquet"
+    StaticFile: "flowsa/FlowBySector/Water_national_2015_m1_v0.1_864d573.parquet"
     FileLocation: "DataCommons"
     DataYears: [2015]
     Locations: ["US"]
@@ -38,7 +38,7 @@ SatelliteTable:
     FullName: "Criteria and Hazardous Air Emissions"
     Abbreviation: "CHAIR"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/CAP_HAP_national_2017_v0.1_60d9d90.parquet"
+    StaticFile: "flowsa/FlowBySector/CAP_HAP_national_2017_v0.1_864d573.parquet"
     FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
@@ -65,7 +65,7 @@ SatelliteTable:
     FullName: "Point source industrial releases to ground"
     Abbreviation: "GRDREL"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/GRDREL_national_2017_v0.1_60d9d90.parquet"
+    StaticFile: "flowsa/FlowBySector/GRDREL_national_2017_v0.1_864d573.parquet"
     FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
@@ -86,7 +86,7 @@ SatelliteTable:
     FullName: "Point source releases to water"
     Abbreviation: "WATREL"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/TRI_DMR_national_2017_v0.1_60d9d90.parquet"
+    StaticFile: "flowsa/FlowBySector/TRI_DMR_national_2017_v0.1_864d573.parquet"
     FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
@@ -132,7 +132,7 @@ SatelliteTable:
     FullName: "Land use"
     Abbreviation: "LAND"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/Land_national_2012_v0.1_60d9d90.parquet"
+    StaticFile: "flowsa/FlowBySector/Land_national_2012_v0.1_864d573.parquet"
     FileLocation: "DataCommons"
     DataYears: [2012]
     Locations: ["US"]
@@ -351,7 +351,7 @@ SatelliteTable:
     FullName: "Commercial RCRA-defined hazardous waste"
     Abbreviation: "CRHW"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/CRHW_national_2017_v0.1_60d9d90.parquet"
+    StaticFile: "flowsa/FlowBySector/CRHW_national_2017_v0.1_864d573.parquet"
     FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
@@ -372,7 +372,7 @@ SatelliteTable:
     FullName: "Employment"
     Abbreviation: "EMP"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/Employment_national_2017_v0.1_60d9d90.parquet"
+    StaticFile: "flowsa/FlowBySector/Employment_national_2017_v0.1_864d573.parquet"
     FileLocation: "DataCommons"
     DataYears: [2017]
     Locations: ["US"]
