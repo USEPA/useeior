@@ -29,7 +29,7 @@ writeSectorCrosswalkforAPI <- function(model, basedir){
 #' Write model matrices as CSV files to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param outputfolder A directory to write matrices out to
-#' @description Writes model matrices, including A, A_d, B, C, D, L, L_d, M, M_d, N, N_d, and Rho (CPI ratio matrix)
+#' @description Writes model matrices as CSV files, including A, A_d, B, C, D, L, L_d, M, M_d, N, N_d, and Rho (CPI ratio matrix)
 #' @export
 writeModelMatrices <- function(model, outputfolder) {
   # Write model matrices to csv
@@ -204,26 +204,31 @@ writeModelMetadata <- function(model,dirs) {
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
 }
 
-#'Create a unique hash identifier for a model
-#'@param model, any model object
-#'@return char string
+#' Create a unique hash identifier for a model
+#' @param model, any model object
+#' @return char string
 generateModelIdentifier <- function(model) {
   id <- digest::digest(model, algo="sha256")
   return(id)
 }
 
-#'Write out session information to a "Rsessioninfo.txt file in the given path
-#'@param path, str, a path without the file
-#'@return None
+#' Write out session information to a "Rsessioninfo.txt file in the given path
+#' @param path, str, a path without the file
+#' @return None
 writeSessionInfotoFile <- function(path) {
   s <- sessionInfo()
   f <- paste0(path,"/Rsessioninfo.txt")
   writeLines(capture.output(s), f)
 }
   
-#'Write selected model objects and user meta to XLSX file
-#'@param model, any model object
-writeModeltoXLSX <- function(model) {
+#' Write selected model matrices and metadata as XLSX file to output folder
+#' @param model, any model object
+#' @param outputfolder A directory to write model matrices and metadata as XLSX file out to
+#' @description Writes model matrices as XLSX file, including A, A_d, B, C, D, L, L_d, M, M_d, N, N_d, Rho (CPI ratio), Phi (Margin ratio),
+#' demand vectors, and model metadata.
+#' @return None
+#' @export
+writeModeltoXLSX <- function(model, outputfolder) {
   # List model matrices
   USEEIOtoXLSX_ls <- model[c("A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d", "N", "N_d", "Rho", "Phi")]
   USEEIOtoXLSX_ls$Rho <- USEEIOtoXLSX_ls$Rho[, match("2007", colnames(USEEIOtoXLSX_ls$Rho)):ncol(USEEIOtoXLSX_ls$Rho)]
@@ -244,7 +249,8 @@ writeModeltoXLSX <- function(model) {
   basedir <- file.path(rappdirs::user_data_dir(), "USEEIO", "Model_Builds", model$specs$Model)
   metadata_dir <- file.path(basedir, "build", "data", model$specs$Model)
   if (!dir.exists(metadata_dir)) {
-    writeModelforAPI(model, basedir)
+    dirs <- setWriteDirsforAPI(model, basedir)
+    writeModelMetadata(model, dirs)
   }
   for (file in list.files(path = metadata_dir, pattern = "*.csv")) {
     df_name <- gsub(".csv", "", file)
@@ -254,8 +260,9 @@ writeModeltoXLSX <- function(model) {
   # List reference tables
   USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- model$crosswalk
   
-  
   # Write to Excel workbook
-  writexl::write_xlsx(USEEIOtoXLSX_ls, "data/USEEIOv2.0_Matrices.xlsx", format_headers = FALSE)
+  writexl::write_xlsx(USEEIOtoXLSX_ls, paste0(outputfolder, "/", model$specs$Model, "_Matrices.xlsx"),
+                      format_headers = FALSE)
+  logging::loginfo(paste0("Model matrices written to Excel workbook (.xlsx) in", outputfolder, "."))
 }  
 
