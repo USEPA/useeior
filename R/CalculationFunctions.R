@@ -156,25 +156,50 @@ normalizeResultMatrixByTotalImpacts <- function(m) {
   return(m_norm)
 }
 
+#' Dot multiplies two vectors to calculate an impact score and the percent contribution each score to the total
+#' @param x, numeric vector of length n
+#' @param y, numeric vector of length n
+#' @return df, dataframe sorted from highest "contribution", also showing "x","y","impact" 
+calculatePercentContributiontoImpact <- function (x,y) {
+  df <- cbind.data.frame(x,y)
+  df["impact"] <- df[,"x"]*df[,"y"] 
+  df["contribution"] <- df["impact"]/sum(df["impact"])
+  df <- df[order(df$contribution,decreasing=TRUE),]
+  return(df) 
+}
+
+#' Calculate the percent contribution of sectors to an N indicator result
+#' Uses model L matrix for total requirements and D matrix for direct indicator result
+#' @param model, A complete EEIO Model object
+#' @param sector, str, index of a model sector for use in the M matrix, e.g. "221100/us"
+#' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential" 
+#' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
+#' @return df, dataframe sorted from highest process contribution "contribution", also showing "x","y","impact" 
+#' @export 
+calculateProcessContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
+  L <- model$L
+  if (domestic) {
+    L <- model$L_d
+  }
+  D <- model$D
+  df <- calculatePercentContributiontoImpact( L[,sector],D[indicator,])
+  return(df)
+}
+
 #' Calculate the percent contribution of M flows to an N indicator result
 #' Uses model M matrix for flows and C matrix for indicator
 #' @param model, A complete EEIO Model object
 #' @param sector, str, index of a model sector for use in the M matrix, e.g. "221100/us"
 #' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential" 
 #' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
-#' @return df, dataframe sorted from highest flow contribution "contribution", also showing "flow","indicator","impact" 
-#' @export      
-calculatePercentContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
+#' @return df, dataframe sorted from highest flow contribution "contribution", also showing "x","y","impact" 
+#' @export 
+calculateFlowContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
   M <- model$M
   C <- model$C
   if (domestic) {
     M <- model$M_d
   }
-  flow <- M[,sector]
-  indicator <- C[indicator,]
-  df <- cbind.data.frame(flow,indicator)
-  df["impact"] <- df[,"flow"]*df[,"indicator"] 
-  df["contribution"] <- df["impact"]/sum(df["impact"])
-  df <- df[order(df$contribution,decreasing=TRUE),]
-  return(df) 
+  df <- calculatePercentContributiontoImpact(M[,sector], C[indicator,])
+  return(df)
 }
