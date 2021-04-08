@@ -12,5 +12,5 @@ writeModelMatrices(model, outputfolder)
 \item{outputfolder}{A directory to write matrices out to}
 }
 \description{
-Writes model matrices, including A, A_d, B, C, D, L, L_d, M, M_d, N, N_d, and Rho (CPI ratio matrix)
+Writes model matrices as CSV files, including A, A_d, B, C, D, L, L_d, M, M_d, N, N_d, and Rho (CPI ratio matrix)
 }

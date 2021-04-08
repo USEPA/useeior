@@ -2,13 +2,19 @@
 % Please edit documentation in R/WriteModel.R
 \name{writeModeltoXLSX}
 \alias{writeModeltoXLSX}
-\title{Write selected model objects and user meta to XLSX file}
+\title{Write selected model matrices and metadata as XLSX file to output folder}
 \usage{
-writeModeltoXLSX(model)
+writeModeltoXLSX(model, outputfolder)
 }
 \arguments{
 \item{model, }{any model object}
+
+\item{outputfolder}{A directory to write model matrices and metadata as XLSX file out to}
+}
+\value{
+None
 }
 \description{
-Write selected model objects and user meta to XLSX file
+Writes model matrices as XLSX file, including A, A_d, B, C, D, L, L_d, M, M_d, N, N_d, Rho (CPI ratio), Phi (Margin ratio),
+demand vectors, and model metadata.
 }
