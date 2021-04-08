@@ -204,9 +204,10 @@ writeModelMetadata <- function(model,dirs) {
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
 }
 
-#' Create a unique hash identifier for a model
-#' @param model, any model object
-#' @return char string
+#'Create a unique hash identifier for a model
+#'@param model, any model object
+#'@return char string
+#'@export
 generateModelIdentifier <- function(model) {
   id <- digest::digest(model, algo="sha256")
   return(id)
