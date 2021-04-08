@@ -207,6 +207,7 @@ writeModelMetadata <- function(model,dirs) {
 #'Create a unique hash identifier for a model
 #'@param model, any model object
 #'@return char string
+#'@export
 generateModelIdentifier <- function(model) {
   id <- digest::digest(model, algo="sha256")
   return(id)
