@@ -14,19 +14,19 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
   for (modelname in names(model_list)) {
     model <- model_list[[modelname]]
     # Adjust y_title
-    Y_title <- paste0(y_title, " (", model$Indicators$meta[match(coefficient_name, model$Indicators$meta$Name), "Unit"], "/$)")
+    if (unique(coefficient_name%in%model$Indicators$meta$Name)) {
+      Y_title <- paste0(y_title, " (", model$Indicators$meta[match(coefficient_name, model$Indicators$meta$Name), "Unit"], "/$)")
+    } else {
+      Y_title <- y_title
+    }
     # Generate BEA sector color mapping
     mapping <- getBEASectorColorMapping(model)
     mapping$GroupName <- mapping$SectorName
     # Generate matrix
     matrix <- model[[matrix_name]]
-    matrix <- matrix[coefficient_name, ]
-    if (length(coefficient_name)==1) {
-      matrix <- cbind.data.frame(Y_title, names(matrix), matrix)
-    } else {
-      rownames(matrix) <- Y_title
-      matrix <- as.data.frame(reshape2::melt(matrix))
-    }
+    matrix <- matrix[coefficient_name, , drop = FALSE]
+    rownames(matrix) <- Y_title
+    matrix <- as.data.frame(reshape2::melt(matrix))
     colnames(matrix) <- c("CoefficientName", "Sector", "Value")
     matrix$Sector <- toupper(gsub("/.*", "", matrix$Sector))
     # Convert matrix to df
