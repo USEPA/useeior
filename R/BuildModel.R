@@ -169,7 +169,7 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
                         1, FUN = joinStringswithSlashes)
   
   #Subset factor flows by flows in B matrix
-  factors <- factors[factors$Flow %in% unique(B_flows),]
+  factors <- factors[tolower(factors$Flow) %in% tolower(unique(B_flows)),]
   
   C <- reshape2::dcast(factors, Indicator ~ Flow, value.var = "Amount")
   rownames(C) <- C$Indicator
