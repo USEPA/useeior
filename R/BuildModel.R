@@ -106,6 +106,7 @@ createBfromFlowDataandOutput <- function(model) {
     B <- B %*% model$V_n
     colnames(B) <- model$Commodities$Code_Loc
   }
+  rownames(B) <- tolower(rownames(B))
   return(B)
 }
 
@@ -169,10 +170,11 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
                         1, FUN = joinStringswithSlashes)
   
   #Subset factor flows by flows in B matrix
-  factors <- factors[factors$Flow %in% unique(B_flows),]
+  factors <- factors[tolower(factors$Flow) %in% unique(B_flows),]
   
   C <- reshape2::dcast(factors, Indicator ~ Flow, value.var = "Amount")
   rownames(C) <- C$Indicator
+  colnames(C) <- tolower(colnames(C))
   # Get flows in B not in C and add to C
   flows_inBnotC <- setdiff(B_flows, colnames(C))
   C[, flows_inBnotC] <- 0
