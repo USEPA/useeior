@@ -40,7 +40,7 @@ Code,Name
 311210,Flours and malts
 311221,Corn products
 31122A,Vegetable oils and by-products
-311224,Soybean and other oilseed processing
+311224,Vegetable oils and by-products
 311225,"Refined vegetable, olive, and seed oils"
 311230,Breakfast cereals
 311300,"Sugar, candy, and chocolate"
@@ -136,10 +136,10 @@ Code,Name
 331110,"Primary iron, steel, and ferroalloy products"
 331200,Secondary steel products
 33131A,Aluminum
-331313,Alumina refining and primary aluminum production
-331314,Aluminum
+331313,Primary aluminum
+331314,Secondary aluminum
 33131B,Aluminum products
-331410,Nonferrous Metal (except Aluminum) Smelting and Refining
+331410,"Copper, gold and silver concentrates"
 331411,Primary copper
 331419,Other primary nonferrous metals
 331420,Secondary copper products
@@ -147,7 +147,7 @@ Code,Name
 331510,Cast iron and steel
 331520,Nonferrous metal casts
 332114,Custom metal rolls
-332119,"Metal crown, closure, and other metal stamping (except automotive)"
+332119,"Lids, jars, bottle caps, other metal closures and crowns"
 33211A,"All other forging, stamping, and sintering"
 33211B,"Lids, jars, bottle caps, other metal closures and crowns"
 332200,Cutlery and handtools
@@ -164,8 +164,8 @@ Code,Name
 33291A,Valve and fittings (except for plumbing)
 332913,"Metal plumbing drains, faucets, valves, and other fittings"
 332991,Ball and roller bearings
-332996,Fabricated pipe and pipe fittings
-332999,Other fabricated metal manufacturing
+332996,Metal pipe and pipe fittings
+332999,Misc. fabricated metal products
 33299A,"Ammunition, arms, ordnance, and related accessories"
 33299B,"Metal pipe fittings, ball and roller bearings, industrial patterns, metal bath fixtures, other misc. fabricated metals"
 333111,Farm machinery and equipment
@@ -182,12 +182,12 @@ Code,Name
 33331A,"Vending, commercial laundry, and other commercial and service industry machinery"
 33411A,Computer terminals and other computer peripheral equipment
 33341A,Air purification and ventilation equipment
-333413,Industrial and commercial fan and blower and air purification equipment
+333413,Air purification and ventilation equipment
 333414,Heating equipment other than warm air furnaces
 333415,"Air conditioning, refrigeration, and warm air heating equipment"
 333511,Industrial molds
 333514,"Special tools, dies, jigs, and fixtures"
-333517,Machine tool manufacturing
+333517,Metal cutting and forming machine tools
 33351A,Metal cutting and forming machine tools
 33351B,"Cutting and machine tool accessory, rolling mill, and other metalworking machines"
 333611,Turbines and turbine generator sets
@@ -268,7 +268,7 @@ Code,Name
 337121,Home furniture - upholstered
 337122,"Home furniture - wood, nonupholstered"
 337127,Institutional furniture
-33712N,Other household nonupholstered furniture
+33712N,"Home furniture - Cabinets and non-wood, nonupholstered"
 33721A,Office furniture and custom architectural woodwork and millwork
 337215,Shelving and lockers
 337900,"Mattresses, blinds and shades"
@@ -304,7 +304,7 @@ Code,Name
 448000,Clothing and clothing accessories stores
 452000,General merchandise stores
 454000,Nonstore retailers
-4B0000,All other retail
+4B0000,Other retail
 481000,Air transport
 482000,Rail transport
 483000,"Water transport (boats, ships, ferries)"
