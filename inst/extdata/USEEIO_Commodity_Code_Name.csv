@@ -135,10 +135,9 @@ Code,Name
 327999,Other nonmetallic mineral products
 331110,"Primary iron, steel, and ferroalloy products"
 331200,Secondary steel products
-33131A,Aluminum
+33131A,Primary aluminum
 331313,Primary aluminum
-331314,Secondary aluminum
-33131B,Aluminum products
+33131B,Secondary aluminum
 331410,"Copper, gold and silver concentrates"
 331411,Primary copper
 331419,Other primary nonferrous metals
@@ -164,7 +163,7 @@ Code,Name
 33291A,Valve and fittings (except for plumbing)
 332913,"Metal plumbing drains, faucets, valves, and other fittings"
 332991,Ball and roller bearings
-332996,Metal pipe and pipe fittings
+332996,Fabricated pipe and pipe fittings
 332999,Misc. fabricated metal products
 33299A,"Ammunition, arms, ordnance, and related accessories"
 33299B,"Metal pipe fittings, ball and roller bearings, industrial patterns, metal bath fixtures, other misc. fabricated metals"
