@@ -11,9 +11,10 @@ getMarginsTable <- function (model) {
   MarginsTable <- MarginsTable[!MarginsTable$NIPACode%in%c("F05000","F03000"),]
   # Remove Scrap, Used and secondhand goods, and Non-comparable imports, and Rest of world adjustment commodities
   MarginsTable <- MarginsTable[!MarginsTable$CommodityCode%in%c("S00401", "S00402","S00300","S00900"), ]
-  # Convert negative values to non-negative
   value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail")
-  MarginsTable[, value_columns] <- abs(MarginsTable[, value_columns])
+  # Convert negative PRO price values to non-negative
+  #This addresses remaining negative prod value for cases like subsidies
+  MarginsTable[, "ProducersValue"] <- abs(MarginsTable[, "ProducersValue"])
   # Map to Summary and Sector level
   crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])
   MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_Detail")
