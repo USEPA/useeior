@@ -41,8 +41,7 @@ calculateYearbyModelIOYearPriceRatio <- function(model) {
 #' @return A data.frame of producer to purchaser price ratio.
 calculateProducerbyPurchaserPriceRatio <- function(model) {
   # Get Margins table
-  Margins <- model$FinalConsumerMargins
-  Margins <- merge(Margins, model$Rho, by.x = "Code_Loc", by.y = 0, all.y = TRUE)
+  Margins <- merge(model$Margins, model$Rho, by.x = "Code_Loc", by.y = 0, all.y = TRUE)
   # Prepare ratio table PHI
   PHI <- model$Rho
   for (year in colnames(model$Rho)) {
@@ -53,7 +52,7 @@ calculateProducerbyPurchaserPriceRatio <- function(model) {
     TWR_CPI <- useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), ]
     TWR_CPI_ratio <- TWR_CPI[, year]/TWR_CPI[, as.character(model$specs$BaseIOSchema)]
     TWRValue <- sweep(Margins[, c("Transportation", "Wholesale", "Retail")], 2, TWR_CPI_ratio, "*")
-    # Re-calculate PurchasersValue
+    # Calculate PurchasersValue
     PurchasersValue <- rowSums(Margins[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
     # Generate PRObyPURRatios, or phi vector
     PHI[, year] <- ProducersValue/(ProducersValue + rowSums(TWRValue))
