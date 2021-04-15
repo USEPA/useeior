@@ -6,10 +6,11 @@ getMarginsTable <- function (model) {
   if (model$specs$BaseIOSchema==2012) {
     MarginsTable <- useeior::Detail_Margins_2012_BeforeRedef
   }
-  # Remove Imports records
-  MarginsTable <- MarginsTable[MarginsTable$NIPACode!="F05000", ]
-  # Remove Scrap, Used and secondhand goods, and Rest of world adjustment commodities
-  MarginsTable <- MarginsTable[!MarginsTable$CommodityCode%in%c("S00401", "S00402", "S00900"), ]
+  # Remove Import and Change in Inventory records. Imports have negative PRO price which impacts calcs. 
+  #Change in inventory has negative margins for positive change, which does not accurately portray actual margins either
+  MarginsTable <- MarginsTable[!MarginsTable$NIPACode%in%c("F05000","F03000"),]
+  # Remove Scrap, Used and secondhand goods, and Non-comparable imports, and Rest of world adjustment commodities
+  MarginsTable <- MarginsTable[!MarginsTable$CommodityCode%in%c("S00401", "S00402","S00300","S00900"), ]
   # Convert negative values to non-negative
   value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail")
   MarginsTable[, value_columns] <- abs(MarginsTable[, value_columns])
