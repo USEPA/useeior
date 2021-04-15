@@ -6,19 +6,24 @@ getMarginsTable <- function (model) {
   if (model$specs$BaseIOSchema==2012) {
     MarginsTable <- useeior::Detail_Margins_2012_BeforeRedef
   }
-  # Remove Import and Change in Inventory records. Imports have negative PRO price which impacts calcs. 
-  #Change in inventory has negative margins for positive change, which does not accurately portray actual margins either
-  MarginsTable <- MarginsTable[!MarginsTable$NIPACode%in%c("F05000","F03000"),]
+  # Remove Import and Change in Inventory records.
+  # Imports have negative PRO price which impacts calculations. 
+  # Change in inventory has negative margins for positive change, which does not accurately portray actual margins either.
+  industry_removal <- sapply(list("Import", "ChangeInventories"), getVectorOfCodes,
+                             ioschema = model$specs$BaseIOSchema, iolevel = "Detail")
+  MarginsTable <- MarginsTable[!MarginsTable$NIPACode%in%industry_removal,]
   # Remove Scrap, Used and secondhand goods, and Non-comparable imports, and Rest of world adjustment commodities
-  MarginsTable <- MarginsTable[!MarginsTable$CommodityCode%in%c("S00401", "S00402","S00300","S00900"), ]
-  value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail")
-  # Convert negative PRO price values to non-negative
-  #This addresses remaining negative prod value for cases like subsidies
+  commodity_removal <- sapply(list("Scrap", "UsedGoods", "NonComparableImport", "RoWAdjustment"), getVectorOfCodes,
+                              ioschema = model$specs$BaseIOSchema, iolevel = model$specs$BaseIOLevel)
+  MarginsTable <- MarginsTable[!MarginsTable$CommodityCode%in%commodity_removal, ]
+  # Convert negative PRO values to non-negative
+  # This addresses remaining negative PRO values for cases like subsidies
   MarginsTable[, "ProducersValue"] <- abs(MarginsTable[, "ProducersValue"])
   # Map to Summary and Sector level
   crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])
   MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_Detail")
   # Aggregate value_columns by CommodityCode (dynamic to model BaseIOLevel) and CommodityDescription
+  value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail")
   if (!model$specs$BaseIOLevel=="Detail") {
     MarginsTable$CommodityCode <- MarginsTable[, paste0("BEA_", model$specs$BaseIOLevel)]
   }
