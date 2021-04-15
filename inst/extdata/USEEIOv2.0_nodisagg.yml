@@ -639,7 +639,7 @@ Indicators:
     SimpleUnit: "Square Meters per Year"
     SimpleName: "Land Use" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
