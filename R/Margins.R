@@ -6,12 +6,13 @@ getMarginsTable <- function (model) {
   if (model$specs$BaseIOSchema==2012) {
     MarginsTable <- useeior::Detail_Margins_2012_BeforeRedef
   }
-  # Remove Import and Change in Inventory records.
+  # Remove Export, Import and Change in Inventory records.
+  # Exports do not reflect what a US consumer would pay for margins, hence the removal.
   # Imports have negative PRO price which impacts calculations. 
   # Change in inventory has negative margins for positive change, which does not accurately portray actual margins either.
-  industry_removal <- sapply(list("Import", "ChangeInventories"), getVectorOfCodes,
-                             ioschema = model$specs$BaseIOSchema, iolevel = "Detail")
-  MarginsTable <- MarginsTable[!MarginsTable$NIPACode%in%industry_removal,]
+  purchaser_removal <- sapply(list("Export", "Import", "ChangeInventories"), getVectorOfCodes,
+                              ioschema = model$specs$BaseIOSchema, iolevel = "Detail")
+  MarginsTable <- MarginsTable[!MarginsTable$NIPACode%in%purchaser_removal,]
   # Remove Scrap, Used and secondhand goods, and Non-comparable imports, and Rest of world adjustment commodities
   commodity_removal <- sapply(list("Scrap", "UsedGoods", "NonComparableImport", "RoWAdjustment"), getVectorOfCodes,
                               ioschema = model$specs$BaseIOSchema, iolevel = model$specs$BaseIOLevel)
