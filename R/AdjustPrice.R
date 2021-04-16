@@ -10,7 +10,7 @@
 adjustResultMatrixPrice <- function(matrix_name, currency_year, purchaser_price=TRUE, model) {
   # Adjust price year of matrix
   if (currency_year!=model$specs$IOYear) {
-    logging::loginfo(paste("Adjusting", matrix_name, "matrix from", model$specs$IOYear, "to", currency_year, "dollars..."))
+    logging::loginfo(paste("Adjusting", matrix_name, "matrix from", model$specs$IOYear, "to", currency_year, "dollar..."))
     mat <- adjustMultiplierPriceYear(matrix_name, currency_year, model)
   } else {
     logging::loginfo(paste("Keeping", matrix_name, "matrix in", model$specs$IOYear, "dollar..."))
@@ -21,7 +21,7 @@ adjustResultMatrixPrice <- function(matrix_name, currency_year, purchaser_price=
     logging::loginfo(paste("Adjusting", matrix_name, "matrix from producer to purchaser price..."))
     mat <- adjustMultiplierPriceType(mat, currency_year, model)
   } else {
-    logging::loginfo(paste("Keeping", matrix_name, "matrix in producer prices..."))
+    logging::loginfo(paste("Keeping", matrix_name, "matrix in producer price..."))
   }
   logging::loginfo("Result price adjustment complete.")
   return(mat)
