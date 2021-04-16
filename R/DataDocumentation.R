@@ -612,38 +612,6 @@
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Sector_CommodityCodeName_2012"
 
-#' Detail PCE Bridge table for 2012 (2012 schema)
-#' @format A dataframe with 712 obs. and 9 variables:
-#' \describe{
-#'  \item{NIPACode}{text code}
-#'  \item{PCECategory}{text category name, like 'Therapeutic medical equipment'}
-#'  \item{CommodityCode}{BEA_2012_Detail_Code}
-#'  \item{CommodityDescription}{BEA_2012_Detail_Name}
-#'  \item{ProducersValue}{USD2012}
-#'  \item{Transportation}{USD2012}
-#'  \item{Wholesale}{USD2012}
-#'  \item{Retail}{USD2012}
-#'  \item{PurchasersValue}{USD2012}
-#' }
-#' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/PCEBridge_2007_2012_DET.xlsx}
-"Detail_PCE_2012"
-
-#' Detail PEQ Bridge table for 2012 (2012 schema)
-#' @format A dataframe with 185 obs. and 9 variables:
-#' \describe{
-#'  \item{NIPACode}{text code}
-#'  \item{PEQCategory}{text category name, like 'Therapeutic medical equipment'}
-#'  \item{CommodityCode}{BEA_2012_Detail_Code}
-#'  \item{CommodityDescription}{BEA_2012_Detail_Name}
-#'  \item{ProducersValue}{USD2012}
-#'  \item{Transportation}{USD2012}
-#'  \item{Wholesale}{USD2012}
-#'  \item{Retail}{USD2012}
-#'  \item{PurchasersValue}{USD2012}
-#' }
-#' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/PEQBridge_2007_2012_DET.xlsx}
-"Detail_PEQ_2012"
-
 #' Detail Margins (Before Redef) table for 2012 (2012 schema)
 #' @format A dataframe with 61844 obs. and 9 variables:
 #' \describe{

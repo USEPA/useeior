@@ -894,62 +894,6 @@ usethis::use_data(Sector_IndustryCodeName_2012, overwrite = TRUE)
 Sector_CommodityCodeName_2012 <- getBEACodeName2012Schema()[["SectorCommodity"]]
 usethis::use_data(Sector_CommodityCodeName_2012, overwrite = TRUE)
 
-# Get PCE Bridge (2012 schema) 2007 and 2012 tables from BEA static URL
-getBEADetailPCEBridge2012Schema <- function () {
-  # Download BEA PCE bridge table
-  if(!file.exists("inst/extdata/PCEBridge_2007_2012_DET.xlsx")) {
-    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/PCEBridge_2007_2012_DET.xlsx",
-                  "inst/extdata/PCEBridge_2007_2012_DET.xlsx", mode = "wb")
-  }
-  column_names <- c("NIPACode", "PCECategory", "CommodityCode", "CommodityDescription",
-                    "ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
-  # 2012 data
-  PCEBridge2012 <- as.data.frame(readxl::read_excel("inst/extdata/PCEBridge_2007_2012_DET.xlsx", sheet = "2012"))[6:717, c(1:9)]
-  colnames(PCEBridge2012) <- column_names
-  # Convert PCE values from character to numeric
-  PCEBridge2012[, column_names[5:9]] <- as.data.frame(apply(PCEBridge2012[, column_names[5:9]], 2, as.numeric))
-  # 2007 data
-  PCEBridge2007 <- as.data.frame(readxl::read_excel("inst/extdata/PCEBridge_2007_2012_DET.xlsx", sheet = "2007"))[6:717, c(1:9)]
-  colnames(PCEBridge2007) <- column_names
-  # Convert PCE values from character to numeric
-  PCEBridge2007[, column_names[5:9]] <- as.data.frame(apply(PCEBridge2007[, column_names[5:9]], 2, as.numeric))
-
-  # PutPCEBridge2012 and PCEBridge2007 in the PCEBridge2012SchemaList
-  PCEBridge2012SchemaList <- list(PCEBridge2007, PCEBridge2012)
-  names(PCEBridge2012SchemaList) <- c("2007", "2012")
-  return(PCEBridge2012SchemaList)
-}
-Detail_PCE_2012 <- getBEADetailPCEBridge2012Schema()[["2012"]]
-usethis::use_data(Detail_PCE_2012, overwrite = TRUE)
-
-# Get DetailPEQ Bridge (2012 schema) 2007 and 2012 tables from BEA static URL
-getBEADetailPEQBridge2012Schema <- function () {
-  # Download BEA PEQ bridge table
-  if(!file.exists("inst/extdata/PEQBridge_2007_2012_DET.xlsx")) {
-    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/PEQBridge_2007_2012_DET.xlsx",
-                  "inst/extdata/PEQBridge_2007_2012_DET.xlsx", mode = "wb")
-  }
-  column_names <- c("NIPACode", "PEQCategory", "CommodityCode", "CommodityDescription",
-                    "ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
-  # 2012 data
-  PEQBridge2012 <- as.data.frame(readxl::read_excel("inst/extdata/PEQBridge_2007_2012_DET.xlsx", sheet = "2012"))[6:190, c(1:9)]
-  colnames(PEQBridge2012) <-column_names
-  # Convert PEQ values from character to numeric
-  PEQBridge2012[, column_names[5:9]] <- as.data.frame(apply(PEQBridge2012[, column_names[5:9]], 2, as.numeric))
-  # 2007 data
-  PEQBridge2007 <- as.data.frame(readxl::read_excel("inst/extdata/PEQBridge_2007_2012_DET.xlsx", sheet = "2007"))[6:190, c(1:9)]
-  colnames(PEQBridge2007) <- column_names
-  # Convert PEQ values from character to numeric
-  PEQBridge2007[, column_names[5:9]] <- as.data.frame(apply(PEQBridge2007[, column_names[5:9]], 2, as.numeric))
-
-  # PutPEQBridge2012 and PEQBridge2007 in the PEQBridge2012SchemaList
-  PEQBridge2012SchemaList <- list(PEQBridge2007, PEQBridge2012)
-  names(PEQBridge2012SchemaList) <- c("2007", "2012")
-  return(PEQBridge2012SchemaList)
-}
-Detail_PEQ_2012 <- getBEADetailPEQBridge2012Schema()[["2012"]]
-usethis::use_data(Detail_PEQ_2012, overwrite = TRUE)
-
 # Get Detail Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
 getBEADetailMarginsBeforeRedef2012Schema <- function () {
   # Download BEA PCE bridge table
