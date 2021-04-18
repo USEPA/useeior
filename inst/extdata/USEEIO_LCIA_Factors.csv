@@ -1968,7 +1968,9 @@ ZOXAMIDE,water/unspecified,kg,a2d6b836-2626-34eb-a3c7-00542ab1949e,0,0,0,0,0,0,0
 Methyl iodide,air/unspecified,kg,4ef092e3-ebc6-3141-98bf-8cbed580ba56,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
 Methyl iodide,water/unspecified,kg,e9e07f9e-aa73-3513-ad8b-b92dd48ad86d,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 Jobs,,p,52d170d5-0399-3137-8bf5-57f5c39fd492,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
-Value Added,,USD,29ba8af8-00a1-3953-a665-29f5ff1a8eb6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Compensation of employees,,USD,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+"Taxes on production and imports, less subsidies",,USD,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+Gross operating surplus,,USD,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
 "1,1,1,2-TETRACHLOROETHANE (OR) ETHANE, 1,1,1,2-TETRACHLORO-",waste flows/hazardous waste,kg,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
 "1,1,2,2-TETRACHLOROETHANE (OR) ETHANE, 1,1,2,2-TETRACHLORO-",waste flows/hazardous waste,kg,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
 "1,1,2-TRICHLOROETHANE (OR) ETHANE, 1,1,2-TRICHLORO-",waste flows/hazardous waste,kg,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
