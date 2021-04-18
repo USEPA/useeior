@@ -588,6 +588,12 @@
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Detail_CommodityCodeName_2012"
 
+#' Detail Value Added Code and Name (2012 schema)
+#' @format A dataframe with 3 obs. and 2 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Detail_ValueAddedCodeName_2012"
+
 #' Summary Industry Code and Name (2012 schema)
 #' @format A dataframe with 73 obs. and 2 variables
 #' @description TBD
@@ -600,6 +606,12 @@
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Summary_CommodityCodeName_2012"
 
+#' Summary Value Added Code and Name (2012 schema)
+#' @format A dataframe with 3 obs. and 2 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_ValueAddedCodeName_2012"
+
 #' Sector Industry Code and Name (2012 schema)
 #' @format A dataframe with 17 obs. and 2 variables
 #' @description TBD
@@ -611,6 +623,12 @@
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Sector_CommodityCodeName_2012"
+
+#' Sector Value Added Code and Name (2012 schema)
+#' @format A dataframe with 3 obs. and 2 variables
+#' @description TBD
+#' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Sector_ValueAddedCodeName_2012"
 
 #' Detail PCE Bridge table for 2012 (2012 schema)
 #' @format A dataframe with 712 obs. and 9 variables:
