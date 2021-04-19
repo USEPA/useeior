@@ -3,12 +3,13 @@ startLogging <- function (){
   #http://logging.r-forge.r-project.org/sample_session.php
   logging::basicConfig()
   # Define output folder
-  #dir.create(paste("Model Builds/", modelname, sep = ""), recursive = TRUE) # meant to be flexible up to users
-  #outputfolder <- paste("Model Builds/", modelname, sep = "")
-  #Write logs to file in model build folder
-  #logtimestamp = Sys.Date()
-  #logfilename = paste(outputfolder,"/",logtimestamp,".log",sep="")
-  #addHandler(writeToFile, file=logfilename, level='INFO')
+  # if (!dir.exists(paste("Model Builds/", modelname, sep = ""))) {
+  #   dir.create(paste("Model Builds/", modelname, sep = ""), recursive = TRUE) # meant to be flexible up to users
+  # }
+  # outputfolder <- paste("Model Builds/", modelname, sep = "")
+  # Write logs to file in model build folder
+  # logfilename <- paste0(outputfolder, "/", Sys.Date(), ".json")
+  # addHandler(writeToFile, file = logfilename, level = "INFO")
 }
 
 #' Join strings with slashes
@@ -305,4 +306,3 @@ convertStrEncodingLatintoASCII <- function(s) {
   s <- iconv(s, from = 'latin1', to = 'ASCII', sub='')
   return(s)
 }
-
