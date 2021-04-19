@@ -132,7 +132,7 @@ SatelliteTable:
     FullName: "Land use"
     Abbreviation: "LAND"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/Land_national_2012_v0.1_864d573.parquet"
+    StaticFile: "flowsa/FlowBySector/Land_national_2012_v0.1.1_90a5412.parquet"
     FileLocation: "DataCommons"
     DataYears: [2012]
     Locations: ["US"]
@@ -639,7 +639,7 @@ Indicators:
     SimpleUnit: "Square Meters per Year"
     SimpleName: "Land Use" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 

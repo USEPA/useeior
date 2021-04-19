@@ -821,42 +821,59 @@ getBEACodeName2012Schema <- function () {
   getBEAIOTables()
   ### Load desired excel file
   ## Detail
-  BEADetail <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_2007_2012_Detail.xlsx", sheet = "2012"))
+  BEADetail <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_2007_2012_Detail.xlsx", sheet = "2012"))
   # Industry
-  BEADetailIndustryCodeName <- BEADetail[6:410, 1:2]
+  BEADetailIndustryCodeName <- as.data.frame(t(BEADetail[5:4, 3:407]), stringsAsFactors = FALSE)
   colnames(BEADetailIndustryCodeName) <- c("BEA_2012_Detail_Industry_Code", "BEA_2012_Detail_Industry_Name")
   rownames(BEADetailIndustryCodeName) <- NULL
   # Commodity
-  BEADetailCommodityCodeName <- as.data.frame(t(BEADetail[5:4, 3:407]), stringsAsFactors = FALSE)
+  BEADetailCommodityCodeName <- BEADetail[6:410, 1:2]
   colnames(BEADetailCommodityCodeName) <- c("BEA_2012_Detail_Commodity_Code", "BEA_2012_Detail_Commodity_Name")
   rownames(BEADetailCommodityCodeName) <- NULL
+  # Value Added
+  BEADetailValueAddedCodeName <- BEADetail[412:414, 1:2]
+  colnames(BEADetailValueAddedCodeName) <- c("BEA_2012_Detail_ValueAdded_Code", "BEA_2012_Detail_ValueAdded_Name")
+  rownames(BEADetailValueAddedCodeName) <- NULL
   ## Summary
-  BEASummary <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2019_Summary.xlsx", sheet = "2012"))
+  BEASummary <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_1997-2019_Summary.xlsx", sheet = "2012"))
   # Industry
-  BEASummaryIndustryCodeName <- BEASummary[7:77, 1:2]
+  BEASummaryIndustryCodeName <- as.data.frame(t(BEASummary[5:6, 3:73]), stringsAsFactors = FALSE)
   colnames(BEASummaryIndustryCodeName) <- c("BEA_2012_Summary_Industry_Code", "BEA_2012_Summary_Industry_Name")
   rownames(BEASummaryIndustryCodeName) <- NULL
   # Commodity
-  BEASummaryCommodityCodeName <- as.data.frame(t(BEASummary[5:6, 3:75]), stringsAsFactors = FALSE)
+  BEASummaryCommodityCodeName <- BEASummary[7:79, 1:2]
   colnames(BEASummaryCommodityCodeName) <- c("BEA_2012_Summary_Commodity_Code", "BEA_2012_Summary_Commodity_Name")
   rownames(BEASummaryCommodityCodeName) <- NULL
+  # Value Added
+  BEASummaryValueAddedCodeName <- BEASummary[83:85, 1:2]
+  colnames(BEASummaryValueAddedCodeName) <- c("BEA_2012_Summary_ValueAdded_Code", "BEA_2012_Summary_ValueAdded_Name")
+  rownames(BEASummaryValueAddedCodeName) <- NULL
   ## Sector
-  BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2019_Sector.xlsx", sheet = "2012"))
+  BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_1997-2019_Sector.xlsx", sheet = "2012"))
   # Industry
-  BEASectorIndustryCodeName <- BEASector[7:21, 1:2]
+  BEASectorIndustryCodeName <- as.data.frame(t(BEASector[5:6, 3:17]), stringsAsFactors = FALSE)
   colnames(BEASectorIndustryCodeName) <- c("BEA_2012_Sector_Industry_Code", "BEA_2012_Sector_Industry_Name")
   rownames(BEASectorIndustryCodeName) <- NULL
   # Commodity
-  BEASectorCommodityCodeName <- as.data.frame(t(BEASector[5:6, 3:19]), stringsAsFactors = FALSE)
+  BEASectorCommodityCodeName <- BEASector[7:23, 1:2]
   colnames(BEASectorCommodityCodeName) <- c("BEA_2012_Sector_Commodity_Code", "BEA_2012_Sector_Commodity_Name")
   rownames(BEASectorCommodityCodeName) <- NULL
+  # Value Added
+  BEASectorValueAddedCodeName <- BEASector[27:29, 1:2]
+  colnames(BEASectorValueAddedCodeName) <- c("BEA_2012_Sector_ValueAdded_Code", "BEA_2012_Sector_ValueAdded_Name")
+  rownames(BEASectorValueAddedCodeName) <- NULL
   ### Put the data.frames in a list
-  BEACodeNameList <- list(BEADetailIndustryCodeName, BEADetailCommodityCodeName,
-                          BEASummaryIndustryCodeName, BEASummaryCommodityCodeName,
-                          BEASectorIndustryCodeName, BEASectorCommodityCodeName)
+  BEACodeNameList <- list("DetailIndustry"    = BEADetailIndustryCodeName,
+                          "DetailCommodity"   = BEADetailCommodityCodeName,
+                          "DetailValueAdded"  = BEADetailValueAddedCodeName,
+                          "SummaryIndustry"   = BEASummaryIndustryCodeName,
+                          "SummaryCommodity"  = BEASummaryCommodityCodeName,
+                          "SummaryValueAdded" = BEASummaryValueAddedCodeName,
+                          "SectorIndustry"    = BEASectorIndustryCodeName,
+                          "SectorCommodity"   = BEASectorCommodityCodeName,
+                          "SectorValueAdded"  = BEASectorValueAddedCodeName)
   BEACodeNameList <- lapply(BEACodeNameList, cleanSectorNames)
   BEACodeNameList <- lapply(BEACodeNameList, cleanSectorCodes)
-  names(BEACodeNameList) <- c("DetailIndustry", "DetailCommodity", "SummaryIndustry", "SummaryCommodity", "SectorIndustry", "SectorCommodity")
   return(BEACodeNameList)
 }
 
@@ -885,14 +902,20 @@ Detail_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["DetailIndustry"]]
 usethis::use_data(Detail_IndustryCodeName_2012, overwrite = TRUE)
 Detail_CommodityCodeName_2012 <- getBEACodeName2012Schema()[["DetailCommodity"]]
 usethis::use_data(Detail_CommodityCodeName_2012, overwrite = TRUE)
+Detail_ValueAddedCodeName_2012 <- getBEACodeName2012Schema()[["DetailValueAdded"]]
+usethis::use_data(Detail_ValueAddedCodeName_2012, overwrite = TRUE)
 Summary_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["SummaryIndustry"]]
 usethis::use_data(Summary_IndustryCodeName_2012, overwrite = TRUE)
 Summary_CommodityCodeName_2012 <- getBEACodeName2012Schema()[["SummaryCommodity"]]
 usethis::use_data(Summary_CommodityCodeName_2012, overwrite = TRUE)
+Summary_ValueAddedCodeName_2012 <- getBEACodeName2012Schema()[["SummaryValueAdded"]]
+usethis::use_data(Summary_ValueAddedCodeName_2012, overwrite = TRUE)
 Sector_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["SectorIndustry"]]
 usethis::use_data(Sector_IndustryCodeName_2012, overwrite = TRUE)
 Sector_CommodityCodeName_2012 <- getBEACodeName2012Schema()[["SectorCommodity"]]
 usethis::use_data(Sector_CommodityCodeName_2012, overwrite = TRUE)
+Sector_ValueAddedCodeName_2012 <- getBEACodeName2012Schema()[["SectorValueAdded"]]
+usethis::use_data(Sector_ValueAddedCodeName_2012, overwrite = TRUE)
 
 # Get Detail Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
 getBEADetailMarginsBeforeRedef2012Schema <- function () {

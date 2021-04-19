@@ -46,7 +46,6 @@ loadNationalIOData <- function(model) {
   # model$Industries
   model$Industries <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   colnames(model$Industries) <- c("Code", "Name")
-  model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
   model$Industries <- model$Industries[order(match(BEA$Industries, model$Industries$Code)), ]
   model$Industries$Code_Loc <- apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes)
   
@@ -66,6 +65,11 @@ loadNationalIOData <- function(model) {
   model$MarginSectors$Name <- gsub(c("Codes"), "", model$MarginSectors$Name)
   model$MarginSectors$Code_Loc <- apply(cbind(model$MarginSectors$Code, model$specs$PrimaryRegionAcronym),
                                         1, FUN = joinStringswithSlashes)
+  
+  # model$ValueAddedSectors
+  model$ValueAddedSectors <- get(paste(model$specs$BaseIOLevel, "ValueAddedCodeName", model$specs$BaseIOSchema, sep = "_"))
+  colnames(model$ValueAddedSectors) <- c("Code", "Name")
+  model$ValueAddedSectors$Code_Loc <- apply(cbind(model$ValueAddedSectors$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes)
   
   # IO tables
   model$MakeTransactions <- BEA$MakeTransactions

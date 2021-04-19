@@ -171,14 +171,15 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
 #' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
 #' @return A value-added totals_by_sector table with fields of standard totals_by_sector
 getValueAddedTotalsbySector <- function(model) {
-  # Extract ValueAdded from Use table
-  df <- model$UseValueAdded
-  # Sum ValueAdded
-  df <- as.data.frame(colSums(df))
+  # Extract ValueAdded from Use table, add names
+  df <- merge(model$UseValueAdded, model$ValueAddedSectors[, c("Code_Loc", "Name")],
+              by.x = 0, by.y = "Code_Loc")
+  df[, c("Row.names", "Code_Loc")] <- NULL
+  # Convert to standard totals_by_sector format
+  df <- reshape2::melt(df, id.vars = "Name")
+  colnames(df) <- c("Flowable", "Sector", "FlowAmount")
   # Add columns to convert to standard totals_by_sector format
-  colnames(df) <- "FlowAmount"
-  df$Flowable <- "Value Added"
-  df[, "Sector"] <- gsub("/.*", "", rownames(df))
+  df[, "Sector"] <- gsub("/.*", "", df$Sector)
   df <- merge(df, model$Industries[, c("Code", "Name")],
               by.x = "Sector", by.y = "Code", all.x = TRUE)
   df[, "Context"] <- ""
