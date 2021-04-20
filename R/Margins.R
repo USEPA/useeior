@@ -38,13 +38,17 @@ getMarginsTable <- function (model) {
   if (model$specs$CommoditybyIndustryType=="Industry") {
     # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
     CommodityMix <- generateCommodityMixMatrix(model)
+    #Create a margins table for industries based on model industries
     MarginsTable_Industry <- model$Industries[, "Code", drop = FALSE]
     colnames(MarginsTable_Industry) <- "IndustryCode"
-    # Transform ProducerValue from Commodity to Industry format
-    # ! Not transforming Transportation, Wholesale and Retail to Industry format now
-    MarginsTable_Industry[, "ProducersValue"] <- as.vector(MarginsTable[, "ProducersValue"]%*%CommodityMix)
-    # Merge Industry Margins Table with Commodity Margins Table
-    MarginsTable <- merge(MarginsTable_Industry, MarginsTable[, -which(names(MarginsTable)=="ProducersValue")],
+
+    # Transform PRO value and Margins for Commodities from Commodity to Industry format, (Margins' * C_m )'
+    Margins_values_com <- as.matrix(MarginsTable[, value_columns])
+    Margins_values_ind <- t(t(Margins_values_com) %*% CommodityMix )
+  
+    # Merge Industry Margins Table with Commodity Margins Table to add in metadata columns
+    MarginsTable_Industry[, value_columns] <- Margins_values_ind 
+    MarginsTable <- merge(MarginsTable_Industry, MarginsTable[, -which(names(MarginsTable)%in%value_columns)],
                           by.x = "IndustryCode", by.y = "CommodityCode", all.x = TRUE)
     # Replace NA with zero
     MarginsTable[is.na(MarginsTable)] <- 0
