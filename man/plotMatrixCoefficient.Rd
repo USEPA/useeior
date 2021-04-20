@@ -9,7 +9,8 @@ plotMatrixCoefficient(
   matrix_name,
   coefficient_name,
   sector_to_remove,
-  y_title
+  y_title,
+  y_label
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ Models must have the same coefficient in the rows}
 \item{sector_to_remove}{Code of one or more BEA sectors that will be removed from the plot. Can be "".}
 
 \item{y_title}{The title of y axis, excluding unit.}
+
+\item{y_label}{The labels of y axis, can be "Name" or "Code".}
 }
 \description{
 Plot specified matrix coefficients as points to compare coefficient across models

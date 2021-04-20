@@ -7,8 +7,9 @@
 #' @param coefficient_name Row name in the specified matrix for the line plot
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
 #' @param y_title The title of y axis, excluding unit.
+#' @param y_label The labels of y axis, can be "Name" or "Code".
 #' @export
-plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title) {
+plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title, y_label) {
   # Prepare data frame for plot
   df <- data.frame()
   for (modelname in names(model_list)) {
@@ -51,10 +52,16 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
   df <- reshape2::melt(df_wide, id.vars = c("CoefficientName", "Sector", "color", "GroupName", "SectorName"),
                        variable.name = "modelname", value.name = "Value")
   df <- df[order(df$GroupName), ]
-  # Prepare axis label color
-  label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
+  # Prepare axis label color and selection of y_label
+  if (y_label=="Name") {
+    label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
+    df$x <- df$SectorName
+  } else {
+    label_colors <- rev(unique(df[, c("Sector", "color")])[, "color"])
+    df$x <- df$Sector
+  }
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(SectorName, levels = rev(unique(SectorName))),
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(x, levels = rev(unique(x))),
                                         y = Value, shape = as.character(modelname))) +
     ggplot2::geom_point(ggplot2::aes(color = GroupName), size = 3) +
     ggplot2::scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
