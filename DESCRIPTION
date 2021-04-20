@@ -36,6 +36,8 @@ Imports:
     validate (>= 1.0)
 Depends:
   R (>= 3.6)
+Remotes:
+  github::USEPA/stateior@master
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
