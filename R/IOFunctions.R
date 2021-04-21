@@ -13,16 +13,8 @@ adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRo
   if (model$specs$PrimaryRegionAcronym == "US") {
     Output <- cbind.data.frame(rownames(model$MultiYearIndustryOutput),
                                model$MultiYearIndustryOutput[, as.character(outputyear)])
-  } else {
-    if(model$specs$ModelSource=="WinDC") {
-      if(IsRoUS == TRUE) {
-        Output <- model$IndustryOutput[model$IndustryOutput$Location=="RoUS", c("SectorCode", as.character(outputyear)), drop = FALSE]
-        rownames(Output) <- Output$SectorCode
-      } else {
-        Output <- model$IndustryOutput[model$IndustryOutput$Location==location_acronym, 
-                                       c("SectorCode", as.character(outputyear)), drop = FALSE]
-      }
-    }
+  } else if (model$specs$ModelType=="State2R") {
+    # Fork for state model here
   }
   colnames(Output) <- c("SectorCode", "Output")
   # Adjust output based on CPI
