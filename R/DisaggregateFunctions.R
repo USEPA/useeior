@@ -101,6 +101,40 @@ disaggregateOutputs <- function(model)
 
 }
 
+#' Calculate ratios of throughputs from the disaggregated sectors
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' @param output_type A string value indicating whether to obtain "Commodity" or "Industry" ratios
+#' 
+#' @return disaggRatios A dataframe which contain the disaggregated ratios for the disaggregated sectors
+disaggregatedRatios <- function(model, disagg, output_type = "Commodity")
+{
+  
+  if(output_type == "Industry")
+  {
+    #Get Index for Disaggregated Industries in the use table
+    disaggUseStartIndex <- which(colnames(model$UseTransactions)==disagg$DisaggregatedSectorCodes[1])
+    disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
+    
+    #calculate industry ratios after disaggregation from Use table
+    disaggRatios <- colSums(model$UseTransactions[,disaggUseStartIndex:disaggUseEndIndex]) + colSums(model$UseValueAdded[,disaggUseStartIndex:disaggUseEndIndex])
+    disaggRatios <- disaggRatios / sum(disaggRatios)
+    
+    
+  }else #assume commodity if industry is not specified
+  {
+    #Get Index for Disaggregated Commodities in the use table
+    disaggUseStartIndex <- which(rownames(model$UseTransactions)==disagg$DisaggregatedSectorCodes[1])
+    disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
+    
+    #calculate industry ratios after disaggregation from Use table
+    disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemand[disaggUseStartIndex:disaggUseEndIndex,])
+    disaggRatios <- disaggRatios / sum(disaggRatios) 
+    
+  }
+  
+  return(disaggRatios)
+}
 
 #' Disaggregate Commodity Output model object
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
@@ -114,28 +148,17 @@ disaggregateMultiYearOutput <- function(model, disagg, output_type = "Commodity"
   if(output_type == "Industry")
   {
     originalOutput = model$MultiYearIndustryOutput
-    
-    #Get Index for Disaggregated Industries in the use table
-    disaggUseStartIndex <- which(colnames(model$UseTransactions)==disagg$DisaggregatedSectorCodes[1])
-    disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
-    
-    #calculate industry ratios after disaggregation from Use table
-    disaggRatios <- colSums(model$UseTransactions[,disaggUseStartIndex:disaggUseEndIndex]) + colSums(model$UseValueAdded[,disaggUseStartIndex:disaggUseEndIndex])
-    disaggRatios <- disaggRatios / sum(disaggRatios) 
+
+    disaggRatios <- disaggregatedRatios(model, disagg, output_type)
   }
   else #assume commodity if industry is not specified
   {
     originalOutput = model$MultiYearCommodityOutput
-    
-    #Get Index for Disaggregated Commodities in the use table
-    disaggUseStartIndex <- which(rownames(model$UseTransactions)==disagg$DisaggregatedSectorCodes[1])
-    disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
-    
-    #calculate industry ratios after disaggregation from Use table
-    disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemand[disaggUseStartIndex:disaggUseEndIndex,])
-    disaggRatios <- disaggRatios / sum(disaggRatios) 
+
+    disaggRatios <- disaggregatedRatios(model, disagg, output_type)
   }
-    
+  
+     
    
   #Determine the index of the first disaggregated sector
   originalVectorIndex <- which(rownames(originalOutput)==disagg$OriginalSectorCode)
