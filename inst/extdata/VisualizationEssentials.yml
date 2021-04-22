@@ -45,3 +45,52 @@ BEASectorLevel:
   - "#B2DF8A": # light green
     - "Government"
     - "G"
+
+Indicators:
+  ColorLabelMapping:
+  - "Acidification Potential":
+    - "#A00007" # red, Impact Potential
+  - "Eutrophication Potential":
+    - "#A00007"
+  - "Freshwater Ecotoxicity Potential":
+    - "#A00007"
+  - "Greenhouse Gases":
+    - "#A00007"
+  - "Human Health - Cancer":
+    - "#A00007"
+  - "Human Health - Noncancer":
+    - "#A00007"
+  - "Human Health Toxicity":
+    - "#A00007"
+  - "Human Health - Respiratory Effects":
+    - "#A00007"
+  - "Ozone Depletion":
+    - "#A00007"
+  - "Smog Formation Potential":
+    - "#A00007"
+  - "Freshwater withdrawals":
+    - "#4D7CA1" # blue, Resource Use
+  - "Land use":
+    - "#4D7CA1"
+  - "Minerals and Metals Use":
+    - "#4D7CA1"
+  - "Energy Use":
+    - "#4D7CA1"
+  - "Nonrenewable Energy Use":
+    - "#4D7CA1"
+  - "Renewable Energy Use":
+    - "#4D7CA1"
+  - "Hazardous Air Pollutants":
+    - "#FFCC00" # yellow, Chemical Releases
+  - "Pesticides":
+    - "#FFCC00"
+  - "Commercial RCRA Hazardous Waste":
+    - "#654A8B" # purple, Waste Generated
+  - "Commercial Municipal Solid Waste":
+    - "#654A8B"
+  - "Commercial Construction and Demolition Debris":
+    - "#654A8B"
+  - "Value Added":
+    - "#428E55" # green, Eonomic & Social
+  - "Jobs Supported":
+    - "#428E55"
