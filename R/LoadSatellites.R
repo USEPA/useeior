@@ -105,8 +105,7 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
                                             sep = ",", header = TRUE, stringsAsFactors = FALSE,
                                             fileEncoding = 'UTF-8-BOM')
 
-  } 
-  else if(!is.null(sat_spec$ScriptFunctionCall)) {
+  } else if (!is.null(sat_spec$ScriptFunctionCall)) {
     func_to_eval <- sat_spec$ScriptFunctionCall
     totalsgenfunction <- as.name(func_to_eval)
     params <- sat_spec
@@ -116,11 +115,10 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
       }
     }
     totals_by_sector <- do.call(eval(totalsgenfunction), list(params))
-  }
-  else{
-      f <- loadDataCommonsfile(sat_spec$StaticFile)
-      totals_by_sector <- utils::read.table(f, sep = ",", header = TRUE, stringsAsFactors = FALSE,
-                                            fileEncoding = 'UTF-8-BOM')
+  } else {
+    f <- loadDataCommonsfile(sat_spec$StaticFile)
+    totals_by_sector <- utils::read.table(f, sep = ",", header = TRUE, stringsAsFactors = FALSE,
+                                          fileEncoding = 'UTF-8-BOM')
   }
   return(totals_by_sector)
 }
