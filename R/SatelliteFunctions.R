@@ -182,7 +182,7 @@ getValueAddedTotalsbySector <- function(model) {
   df[, "Sector"] <- gsub("/.*", "", df$Sector)
   df <- merge(df, model$Industries[, c("Code", "Name")],
               by.x = "Sector", by.y = "Code", all.x = TRUE)
-  df[, "Context"] <- ""
+  df[, "Context"] <- "Economic"
   df[, "Unit"] <- "USD"
   df[, "Year"] <- model$specs$SatelliteTable$VADD$SectorListYear
   df[, "MetaSources"] <- model$specs$SatelliteTable$VADD$SectorListSource
