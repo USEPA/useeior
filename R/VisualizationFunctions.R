@@ -246,10 +246,22 @@ barplot_fraction_Region <- function(R1_calc_result, Total_calc_result, y_title) 
   rel_diff <- as.data.frame(colSums(R1_calc_result)/colSums(Total_calc_result))
   colnames(rel_diff) <- y_title
   rel_diff[["Indicator"]] <- rownames(rel_diff)
-  p <- ggplot2::ggplot(rel_diff, ggplot2::aes(y=!!as.name(y_title), x=Indicator)) + ggplot2::geom_col() + ggplot2::coord_flip()
+  mapping <- getIndicatorColorMapping()
+  rel_diff <- merge(rel_diff, mapping, by.x = 0, by.y = "Indicator")
+  rel_diff <- rel_diff[rev(match(mapping$Indicator, rel_diff$Indicator)), ]
+  p <- ggplot2::ggplot(rel_diff, ggplot2::aes(y = factor(Indicator, levels = Indicator),
+                                              x = !!as.name(y_title), fill = Indicator)) +
+    ggplot2::scale_fill_manual(limits = rel_diff$Indicator, values = rel_diff$color) +
+    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.1)),
+                                breaks = scales::pretty_breaks(),
+                                labels = scales::label_percent(accuracy = 1)) +
+    ggplot2::geom_col() + ggplot2::theme_bw() +
+    ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
+                   axis.title.x = ggplot2::element_text(size = 15),
+                   axis.title.y = ggplot2::element_blank(),
+                   axis.ticks = ggplot2::element_blank(), legend.position = "none")
   return(p)
 }
-
 
 ## Helper functions for plotting
 
@@ -279,3 +291,16 @@ getBEASectorColorMapping <- function(model) {
   return(mapping)
 }
 
+#' Uses VizualizationEssentials.yml to get a mapping of the to indicator Color scheme
+#' @param model A complete EEIO model
+#' @return df with mapping with model indicator to colors
+getIndicatorColorMapping <- function() {
+  configfile <- system.file("extdata", "VisualizationEssentials.yml", package = "useeior")
+  VisualizationEssentials <- configr::read.config(configfile)
+  ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$Indicators$ColorLabelMapping)),
+                                     stringsAsFactors = FALSE)
+  colnames(ColorLabelMapping) <- "color"
+  ColorLabelMapping$Indicator <- rownames(ColorLabelMapping)
+  rownames(ColorLabelMapping) <- NULL
+  return(ColorLabelMapping)
+}
