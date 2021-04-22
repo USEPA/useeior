@@ -246,7 +246,7 @@ barplot_fraction_Region <- function(R1_calc_result, Total_calc_result, y_title) 
   rel_diff <- as.data.frame(colSums(R1_calc_result)/colSums(Total_calc_result))
   colnames(rel_diff) <- y_title
   rel_diff[["Indicator"]] <- rownames(rel_diff)
-  p <- ggplot(rel_diff, aes(y=!!as.name(y_title), x=Indicator)) + geom_col() + coord_flip()
+  p <- ggplot2::ggplot(rel_diff, ggplot2::aes(y=!!as.name(y_title), x=Indicator)) + ggplot2::geom_col() + ggplot2::coord_flip()
   return(p)
 }
 
