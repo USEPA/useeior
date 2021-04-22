@@ -70,8 +70,8 @@ disaggregateModel <- function (model){
     #Disaggregating Crosswalk
     model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
     
-    #MARGINS DISAGGREGATION (TODO) Margins tables need to be adjusted as the index is not the sector code like other dataframes
-    #model$FinalConsumerMargins <- disaggregateCols(model$FinalConsumerMargins, disagg)
+    #Disaggreate Margins
+    model$Margins <- disaggregateMargins(model, disagg)
 
     counter <- counter + 1
   }
@@ -99,6 +99,39 @@ disaggregateOutputs <- function(model)
 
   return(model)
 
+}
+
+#' Disaggregate model$Margins dataframe in the main model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' 
+#' @return newMargins A dataframe which contain the margins for the disaggregated sectors
+disaggregateMargins <- function(model, disagg)
+{
+  originalMargins <- model$Margins
+  originalIndex <-  grep(disagg$OriginalSectorCode, model$Margins$Code_Loc)#get row index of the original aggregate sector in the model$Margins object
+  originalRow <- model$Margins[originalIndex,]#copy row containing the Margins information for the original aggregate sector
+  disaggMargins <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]#replicate the original a number of times equal to the number of disaggregate sectors
+  disaggRatios <- unname(disaggregatedRatios(model, disagg, "Industry"))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
+  
+  #variable to determine length of Code substring, i.e., code length minus geographic identifer and separator character (e.g. "/US")
+  codeLength <- nchar(disagg$DisaggregatedSectorCodes[1])-nchar(model$specs$PrimaryRegionAcronym) - 1
+  disaggMargins$Code_Loc <- unlist(disagg$DisaggregatedSectorCodes)#replace Code_Loc values from aggregate sector with Code_Loc values for disaggregated sectors. Need to unlist for compatibility with Rho matrix later in the model build process.
+  disaggMargins$SectorCode <- substr(disagg$DisaggregatedSectorCodes,1,codeLength) #replace SectorCode values from aggregate sector with Code_Loc values for disaggregated sectors, except for the geographic identifer
+  disaggMargins$Name <- disagg$DisaggregatedSectorNames#replace Name values from aggregate sector with Name values for disaggregated sectors
+  
+  #code below mutlplies the values in the relavant columns of the Margins dataframe by the disaggRatios
+  disaggMargins$ProducersValue <- disaggMargins$ProducersValue * disaggRatios
+  disaggMargins$Transportation <- disaggMargins$Transportation * disaggRatios
+  disaggMargins$Wholesale <- disaggMargins$Wholesale * disaggRatios
+  disaggMargins$Retail <- disaggMargins$Retail * disaggRatios
+  disaggMargins$PurchasersValue <- disaggMargins$PurchasersValue * disaggRatios
+  
+  #bind the new values to the original table
+  newMargins <- rbind(originalMargins[1:originalIndex-1,], disaggMargins, originalMargins[-(1:originalIndex),])
+  rownames(newMargins) <- 1:nrow(newMargins)#update rownames so that the row names of the disaggregated sectors do not contain decimals (e.g., 351.1)
+  
+  return(newMargins)
 }
 
 #' Calculate ratios of throughputs from the disaggregated sectors
