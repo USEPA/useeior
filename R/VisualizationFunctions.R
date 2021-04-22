@@ -236,6 +236,21 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
   return(p)
 }
 
+#' Proportional bar chart splitting out flows or impacts by a region and the Rest of the regions
+#' @param R1_calc_result A matrix from model result
+#' @param Ro_calc_result Code of one or more BEA sectors that will be removed from the plot. Can be "".
+#' @param y_title The title of y axis, excluding unit.
+#' @return a ggplot bar chart with horizontal orientation
+#' @export
+barplot_fraction_Region <- function(R1_calc_result, Total_calc_result, y_title) {
+  rel_diff <- as.data.frame(colSums(R1_calc_result)/colSums(Total_calc_result))
+  colnames(rel_diff) <- y_title
+  rel_diff[["Indicator"]] <- rownames(rel_diff)
+  p <- ggplot(rel_diff, aes(y=!!as.name(y_title), x=Indicator)) + geom_col() + coord_flip()
+  return(p)
+}
+
+
 ## Helper functions for plotting
 
 #' Uses VizualizationEssentials.yml to get a mapping of the to the BEA Sector Color scheme
