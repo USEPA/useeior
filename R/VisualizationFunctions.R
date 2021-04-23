@@ -52,14 +52,24 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
   df <- reshape2::melt(df_wide, id.vars = c("CoefficientName", "Sector", "color", "GroupName", "SectorName"),
                        variable.name = "modelname", value.name = "Value")
   df <- df[order(df$GroupName), ]
+  
+  # Transform df based on user preference of Code or Name on the y axis
   # Prepare axis label color and selection of y_label
   if (y_label=="Name") {
+    df_wide <- reshape2::dcast(df, CoefficientName + Sector + color + GroupName + SectorName ~ modelname, value.var = "Value")
+    df <- reshape2::melt(df_wide, id.vars = c("CoefficientName", "Sector", "color", "GroupName", "SectorName"),
+                         variable.name = "modelname", value.name = "Value")
     label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
     df$x <- df$SectorName
   } else {
+    df_wide <- reshape2::dcast(df, CoefficientName + Sector + color + GroupName ~ modelname, value.var = "Value")
+    df <- reshape2::melt(df_wide, id.vars = c("CoefficientName", "Sector", "color", "GroupName"),
+                         variable.name = "modelname", value.name = "Value")
     label_colors <- rev(unique(df[, c("Sector", "color")])[, "color"])
     df$x <- df$Sector
   }
+  df <- df[order(df$GroupName), ]
+  
   # plot
   p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(x, levels = rev(unique(x))),
                                         y = Value, shape = as.character(modelname))) +
@@ -243,6 +253,33 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
   return(p)
 }
 
+#' Proportional bar chart splitting out flows or impacts by a region and the Rest of the regions
+#' @param R1_calc_result A matrix from model result
+#' @param Ro_calc_result Code of one or more BEA sectors that will be removed from the plot. Can be "".
+#' @param y_title The title of y axis, excluding unit.
+#' @return a ggplot bar chart with horizontal orientation
+#' @export
+barplot_fraction_Region <- function(R1_calc_result, Total_calc_result, y_title) {
+  rel_diff <- as.data.frame(colSums(R1_calc_result)/colSums(Total_calc_result))
+  colnames(rel_diff) <- y_title
+  rel_diff[["Indicator"]] <- rownames(rel_diff)
+  mapping <- getIndicatorColorMapping()
+  rel_diff <- merge(rel_diff, mapping, by.x = 0, by.y = "Indicator")
+  rel_diff <- rel_diff[rev(match(mapping$Indicator, rel_diff$Indicator)), ]
+  p <- ggplot2::ggplot(rel_diff, ggplot2::aes(y = factor(Indicator, levels = Indicator),
+                                              x = !!as.name(y_title), fill = Indicator)) +
+    ggplot2::scale_fill_manual(limits = rel_diff$Indicator, values = rel_diff$color) +
+    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.1)),
+                                breaks = scales::pretty_breaks(),
+                                labels = scales::label_percent(accuracy = 1)) +
+    ggplot2::geom_col() + ggplot2::theme_bw() +
+    ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
+                   axis.title.x = ggplot2::element_text(size = 15),
+                   axis.title.y = ggplot2::element_blank(),
+                   axis.ticks = ggplot2::element_blank(), legend.position = "none")
+  return(p)
+}
+
 ## Helper functions for plotting
 
 #' Uses VizualizationEssentials.yml to get a mapping of the to the BEA Sector Color scheme
@@ -271,3 +308,16 @@ getBEASectorColorMapping <- function(model) {
   return(mapping)
 }
 
+#' Uses VizualizationEssentials.yml to get a mapping of the to indicator Color scheme
+#' @param model A complete EEIO model
+#' @return df with mapping with model indicator to colors
+getIndicatorColorMapping <- function() {
+  configfile <- system.file("extdata", "VisualizationEssentials.yml", package = "useeior")
+  VisualizationEssentials <- configr::read.config(configfile)
+  ColorLabelMapping <- as.data.frame(t(cbind.data.frame(VisualizationEssentials$Indicators$ColorLabelMapping)),
+                                     stringsAsFactors = FALSE)
+  colnames(ColorLabelMapping) <- "color"
+  ColorLabelMapping$Indicator <- rownames(ColorLabelMapping)
+  rownames(ColorLabelMapping) <- NULL
+  return(ColorLabelMapping)
+}

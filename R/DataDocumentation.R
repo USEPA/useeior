@@ -647,7 +647,7 @@
 "Detail_Margins_2012_BeforeRedef"
 
 #' Master Crosswalk table (2012 schema)
-#' @format A dataframe with 16611 obs. and 6 variables:
+#' @format A dataframe with 16776 obs. and 6 variables:
 #' \describe{
 #'  \item{BEA_2012_Sector_Code}{text code}
 #'  \item{BEA_2012_Summary_Code}{text code}
@@ -659,7 +659,7 @@
 "MasterCrosswalk2012"
 
 #' Master Crosswalk table (2007 schema)
-#' @format A dataframe with 3908 obs. and 5 variables:
+#' @format A dataframe with 4141 obs. and 5 variables:
 #' \describe{
 #'  \item{BEA_2012_Sector_Code}{text code}
 #'  \item{BEA_2012_Summary_Code}{text code}

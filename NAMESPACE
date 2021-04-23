@@ -2,6 +2,7 @@
 
 export(adjustResultMatrixPrice)
 export(barplotIndicatorScoresbySector)
+export(barplot_fraction_Region)
 export(buildModel)
 export(calculateEEIOModel)
 export(calculateFlowContributiontoImpact)
