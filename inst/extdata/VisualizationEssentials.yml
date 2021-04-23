@@ -81,9 +81,9 @@ Indicators:
   - "Renewable Energy Use":
     - "#4D7CA1"
   - "Hazardous Air Pollutants":
-    - "#FFCC00" # yellow, Chemical Releases
+    - "#E67A0A" # yellow, Chemical Releases
   - "Pesticides":
-    - "#FFCC00"
+    - "#E67A0A"
   - "Commercial RCRA Hazardous Waste":
     - "#654A8B" # purple, Waste Generated
   - "Commercial Municipal Solid Waste":
