@@ -42,7 +42,7 @@ calculateYearbyModelIOYearPriceRatio <- function(model) {
 calculateProducerbyPurchaserPriceRatio <- function(model) {
   # Get Margins table
   Margins <- merge(model$Margins, model$Rho, by.x = "Code_Loc", by.y = 0, all.y = TRUE)
-  Margins <- Margins[match(Margins$Code_Loc, rownames(model$Rho)), ]
+  Margins <- Margins[match(rownames(model$Rho), Margins$Code_Loc), ]
   # Prepare ratio table PHI
   PHI <- model$Rho
   for (year in colnames(model$Rho)) {
