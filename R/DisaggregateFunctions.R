@@ -118,7 +118,7 @@ disaggregateMargins <- function(model, disagg)
   codeLength <- nchar(disagg$DisaggregatedSectorCodes[1])-nchar(model$specs$PrimaryRegionAcronym) - 1
   disaggMargins$Code_Loc <- unlist(disagg$DisaggregatedSectorCodes)#replace Code_Loc values from aggregate sector with Code_Loc values for disaggregated sectors. Need to unlist for compatibility with Rho matrix later in the model build process.
   disaggMargins$SectorCode <- substr(disagg$DisaggregatedSectorCodes,1,codeLength) #replace SectorCode values from aggregate sector with Code_Loc values for disaggregated sectors, except for the geographic identifer
-  disaggMargins$Name <- disagg$DisaggregatedSectorNames#replace Name values from aggregate sector with Name values for disaggregated sectors
+  disaggMargins$Name <- unlist(disagg$DisaggregatedSectorNames)#replace Name values from aggregate sector with Name values for disaggregated sectors.  Need to unlist for compatibility with other functions later in the model build process.
   
   #code below mutlplies the values in the relavant columns of the Margins dataframe by the disaggRatios
   disaggMargins$ProducersValue <- disaggMargins$ProducersValue * disaggRatios
@@ -129,7 +129,10 @@ disaggregateMargins <- function(model, disagg)
   
   #bind the new values to the original table
   newMargins <- rbind(originalMargins[1:originalIndex-1,], disaggMargins, originalMargins[-(1:originalIndex),])
-  rownames(newMargins) <- 1:nrow(newMargins)#update rownames so that the row names of the disaggregated sectors do not contain decimals (e.g., 351.1)
+  
+  #update rownames so that the row names of the disaggregated sectors do not contain decimals (e.g., 351.1)
+  rownames(newMargins) <- NULL
+  newMargins <- newMargins[match(newMargins$SectorCode, model$Commodities$Code), ]
   
   return(newMargins)
 }
