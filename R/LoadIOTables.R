@@ -111,8 +111,8 @@ loadNationalIOData <- function(model) {
     model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
   }
   
-  # Add Final Consumer Margins table
-  model$FinalConsumerMargins <- getFinalConsumerMarginsTable(model)
+  # Add Margins table
+  model$Margins <- getMarginsTable(model)
   
   return(model)
 }

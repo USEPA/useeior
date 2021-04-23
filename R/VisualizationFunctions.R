@@ -48,10 +48,6 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     df_model <- df_model[order(df_model$GroupName), ]
     df <- rbind(df, df_model)
   }
-  df_wide <- reshape2::dcast(df, CoefficientName + Sector + color + GroupName + SectorName ~ modelname, value.var = "Value")
-  df <- reshape2::melt(df_wide, id.vars = c("CoefficientName", "Sector", "color", "GroupName", "SectorName"),
-                       variable.name = "modelname", value.name = "Value")
-  df <- df[order(df$GroupName), ]
   
   # Transform df based on user preference of Code or Name on the y axis
   # Prepare axis label color and selection of y_label
@@ -59,16 +55,17 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     df_wide <- reshape2::dcast(df, CoefficientName + Sector + color + GroupName + SectorName ~ modelname, value.var = "Value")
     df <- reshape2::melt(df_wide, id.vars = c("CoefficientName", "Sector", "color", "GroupName", "SectorName"),
                          variable.name = "modelname", value.name = "Value")
+    df <- df[order(df$GroupName), ]
     label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
     df$x <- df$SectorName
   } else {
     df_wide <- reshape2::dcast(df, CoefficientName + Sector + color + GroupName ~ modelname, value.var = "Value")
     df <- reshape2::melt(df_wide, id.vars = c("CoefficientName", "Sector", "color", "GroupName"),
                          variable.name = "modelname", value.name = "Value")
+    df <- df[order(df$GroupName), ]
     label_colors <- rev(unique(df[, c("Sector", "color")])[, "color"])
     df$x <- df$Sector
   }
-  df <- df[order(df$GroupName), ]
   
   # plot
   p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(x, levels = rev(unique(x))),
