@@ -150,28 +150,37 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
 heatmapSatelliteTableCoverage <- function(model) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
-  # Create df based on totals_by_sector
-  TbS <- model$TbS
-  TbS$Impact <- gsub("\\..*", "", rownames(TbS))
-  # Assign category to impact
-  TbS$ImpactCategory <- gsub("/.*", "", TbS$Context)
-  df <- stats::aggregate(FlowAmount ~ Impact + Sector + ImpactCategory, TbS, sum)
-  df_wide <- reshape2::dcast(df, Impact + ImpactCategory ~ Sector, value.var = "FlowAmount")
-  df_wide[df_wide$Impact%in%c("EMP", "VADD"), "ImpactCategory"] <- "Economic"
-  df_wide$ImpactCategory <- toupper(df_wide$ImpactCategory)
-  df <- reshape2::melt(df_wide, id.vars = c("Impact", "ImpactCategory"), variable.name = "Sector", value.name = "FlowAmount")
-  df[is.na(df$FlowAmount), "Value"] <- 0
-  df[!is.na(df$FlowAmount), "Value"] <- 1
-  df$Sector <- as.character(df$Sector)
-  df <- merge(df, mapping, by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel,"Code"))
+  # Create df based on sat table totals_by_sector
+  df <- data.frame()
+  for (n in names(model$SatelliteTables$totals_by_sector)) {
+    # Aggregate totals_by_sector by Industry
+    df_n <- stats::aggregate(FlowAmount ~ Sector, model$SatelliteTables$totals_by_sector[[n]], sum)
+    if (model$specs$CommoditybyIndustryType=="Commodity") {
+      # Convert from Industry to Commodity
+      df_n <- merge(df_n, model$Industries, by.x = "Sector", by.y = "Code", all.y = TRUE)
+      df_n <- df_n[match(model$Industries$Code, df_n$Sector), ]
+      df_n[is.na(df_n$FlowAmount), "FlowAmount"] <- 0
+      rownames(df_n) <- df_n$Code_Loc
+      df_n[, c("Sector", "Name", "Code_Loc")] <- NULL
+      df_n <- as.data.frame(t(t(as.matrix(df_n[rownames(model$V_n), ])) %*% model$V_n))
+      colnames(df_n) <- "FlowAmount"
+      df_n$Sector <- gsub("/.*", "", rownames(df_n))
+    }
+    df_n$FlowType <- n
+    df <- rbind(df, df_n)
+  }
+  df[df$FlowAmount==0, "Value"] <- 0
+  df[df$FlowAmount>0, "Value"] <- 1
+  
+  df <- merge(df, mapping, by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"))
   df <- df[order(df$SectorName), ]
   # Prepare axis label and fill colors
   colors <- unique(df[, c("SectorName", "color")])[, "color"]
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Impact, levels = sort(unique(Impact))),
+  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(FlowType, levels = sort(unique(FlowType))),
                                         y = factor(Sector, levels = rev(unique(Sector))),
                                         alpha = Value, fill = SectorName)) + 
-    ggplot2::geom_tile(color = "white", size = 0.1) +
+    ggplot2::geom_tile(color = "white", size = 0.1) + ggplot2::guides(alpha = FALSE) +
     ggplot2::scale_fill_manual(values = colors) +
     ggplot2::labs(x = "", y = "") +
     ggplot2::scale_x_discrete(expand = c(0, 0), position = "top") +
@@ -182,9 +191,7 @@ heatmapSatelliteTableCoverage <- function(model) {
                    legend.key.size = ggplot2::unit(1, "cm"), axis.ticks = ggplot2::element_blank(),
                    plot.margin = ggplot2::margin(c(5, 20, 5, 5)), #strip.background = ggplot2::element_blank(),
                    strip.text = ggplot2::element_text(colour = "black", size = 15), strip.placement = "outside",
-                   axis.title = ggplot2::element_blank(), panel.spacing = ggplot2::unit(0.1, "lines")) +
-    ggplot2::guides(alpha = FALSE) +
-    ggplot2::facet_grid(~ImpactCategory, scales = "free_x", space = "free_x")
+                   axis.title = ggplot2::element_blank(), panel.spacing = ggplot2::unit(0.1, "lines"))
   return(p)
 }
 
