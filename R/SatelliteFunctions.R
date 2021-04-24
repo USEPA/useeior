@@ -274,10 +274,8 @@ checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.005) {
   tbs_agg <- dplyr::summarize(tbs_agg,
                                FlowAmount = sum(FlowAmount)
                               )
-  tbs0_agg$Flow <- tolower(apply(tbs0_agg[, c('Context', 'Flowable')],
-                                1, FUN = joinStringswithSlashes))
-  tbs_agg$Flow <- tolower(apply(tbs_agg[, c('Context', 'Flowable')],
-                                   1, FUN = joinStringswithSlashes))
+  tbs0_agg$Flow <- apply(tbs0_agg[, c('Context', 'Flowable')],1, FUN = joinStringswithSlashes)
+  tbs_agg$Flow <- apply(tbs_agg[, c('Context', 'Flowable')], 1, FUN = joinStringswithSlashes)
   lost_flows <- setdiff(tbs0_agg$Flow, tbs_agg$Flow)
 
   if(length(lost_flows) > 0){

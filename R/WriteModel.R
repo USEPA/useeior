@@ -113,7 +113,7 @@ writeModelDemandstoJSON <- function(model,demandsfolder) {
   for (n in names(model$DemandVectors$vectors)) {
     f <- model$DemandVectors$vectors[[n]]
     f <- data.frame(amount=f)
-    f$sector <- tolower(rownames(f))
+    f$sector <- rownames(f)
     rownames(f) <- NULL
     f <- f[, c("sector", "amount")]
     f <- jsonlite::toJSON(f, pretty = TRUE)
