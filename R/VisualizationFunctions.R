@@ -147,7 +147,7 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
 #' Heatmap showing coverage of satellite tables
 #' @param model A complete EEIO model
 #' @export
-heatmapSatelliteTableCoverage <- function(model) {
+heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
   # Create df based on sat table totals_by_sector
@@ -155,7 +155,7 @@ heatmapSatelliteTableCoverage <- function(model) {
   for (n in names(model$SatelliteTables$totals_by_sector)) {
     # Aggregate totals_by_sector by Industry
     df_n <- stats::aggregate(FlowAmount ~ Sector, model$SatelliteTables$totals_by_sector[[n]], sum)
-    if (model$specs$CommoditybyIndustryType=="Commodity") {
+    if (model$specs$CommoditybyIndustryType=="Commodity" && form=="Commodity") {
       # Convert from Industry to Commodity
       df_n <- merge(df_n, model$Industries, by.x = "Sector", by.y = "Code", all.y = TRUE)
       df_n <- df_n[match(model$Industries$Code, df_n$Sector), ]
