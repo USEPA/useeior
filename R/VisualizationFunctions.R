@@ -298,14 +298,14 @@ getBEASectorColorMapping <- function(model) {
   colnames(ColorLabelMapping) <- c("SectorName", "Sector")
   ColorLabelMapping$color <- rownames(ColorLabelMapping)
   # Add Households, Used and Other
-  ColorLabelMapping["#FFE119", ] <- c("Households", "F010", "#FFE119") # yellow
-  ColorLabelMapping["#42D4F4", ] <- c("Used", "Used", "#42D4F4") # cyan (bright blue)
-  ColorLabelMapping["#469990", ] <- c("Other", "Other", "#469990") # teal
+  # ColorLabelMapping["#FFE119", ] <- c("Households", "F010", "#FFE119") # yellow
+  # ColorLabelMapping["#42D4F4", ] <- c("Used", "Used", "#42D4F4") # cyan (bright blue)
+  # ColorLabelMapping["#469990", ] <- c("Other", "Other", "#469990") # teal
   # Prepare BEA Sector-modelIOLevel mapping
   mapping <- unique(model$crosswalk[, c("BEA_Sector", paste0("BEA_", model$specs$BaseIOLevel))])
   colnames(mapping) <- c("Sector", paste0(model$specs$BaseIOLevel, "Code"))
   # Merge BEA mapping with ColorLabelMapping
-  mapping <- merge(mapping, ColorLabelMapping, all.x = TRUE)
+  mapping <- merge(mapping, ColorLabelMapping)
   mapping[, paste0(model$specs$BaseIOLevel, "Code")] <- gsub("/.*", "", mapping[, paste0(model$specs$BaseIOLevel, "Code")])
   mapping$SectorName <- factor(mapping$SectorName, levels = ColorLabelMapping$SectorName)
   mapping <- mapping[order(mapping$SectorName), ]
