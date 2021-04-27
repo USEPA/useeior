@@ -72,10 +72,8 @@ checkIndicatorforFlows <- function(factors, flows){
       return()
    }
    
-   factor_list <- tolower(apply(cbind(factors['Context'], factors['Flowable']),
-                                1, FUN = joinStringswithSlashes))
-   flows_list <- tolower(apply(cbind(flows['Context'], flows['Flowable']),
-                               1, FUN = joinStringswithSlashes))
+   factor_list <- apply(cbind(factors['Context'], factors['Flowable']), 1, FUN = joinStringswithSlashes)
+   flows_list <- apply(cbind(flows['Context'], flows['Flowable']), 1, FUN = joinStringswithSlashes)
    if(length(intersect(factor_list,flows_list)) == 0){
       logging::logwarn("No flows found for this indicator in model")
    }
