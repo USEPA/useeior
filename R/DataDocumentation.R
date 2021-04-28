@@ -594,6 +594,12 @@
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Detail_ValueAddedCodeName_2012"
 
+#' Detail Final Demand Code and Name (2012 schema)
+#' @format A dataframe with 20 obs. and 2 variables
+#' @description TBD
+#' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
+"Detail_FinalDemandCodeName_2012"
+
 #' Summary Industry Code and Name (2012 schema)
 #' @format A dataframe with 73 obs. and 2 variables
 #' @description TBD
@@ -612,6 +618,12 @@
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Summary_ValueAddedCodeName_2012"
 
+#' Summary Final Demand Code and Name (2012 schema)
+#' @format A dataframe with 20 obs. and 2 variables
+#' @description TBD
+#' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
+"Summary_FinalDemandCodeName_2012"
+
 #' Sector Industry Code and Name (2012 schema)
 #' @format A dataframe with 17 obs. and 2 variables
 #' @description TBD
@@ -629,6 +641,12 @@
 #' @description TBD
 #' @source \url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Sector_ValueAddedCodeName_2012"
+
+#' Sector Final Demand Code and Name (2012 schema)
+#' @format A dataframe with 6 obs. and 2 variables
+#' @description TBD
+#' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
+"Sector_FinalDemandCodeName_2012"
 
 #' Detail Margins (Before Redef) table for 2012 (2012 schema)
 #' @format A dataframe with 61844 obs. and 9 variables:
