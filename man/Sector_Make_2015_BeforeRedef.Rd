@@ -8,7 +8,7 @@
 A dataframe with 16 obs. and 18 variables
 }
 \source{
-\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+\url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 }
 \usage{
 Sector_Make_2015_BeforeRedef
