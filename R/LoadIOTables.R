@@ -50,11 +50,13 @@ loadNationalIOData <- function(model) {
   model$Industries$Code_Loc <- apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes)
   
   # model$FinalDemandSectors
-  model$FinalDemandSectors <- utils::stack(BEA[c("HouseholdDemandCodes", "InvestmentDemandCodes", "ChangeInventoriesCodes",
-                                                 "ExportCodes", "ImportCodes", "GovernmentDemandCodes")])
+  model$FinalDemandSectors <- merge(get(paste(model$specs$BaseIOLevel, "FinalDemandCodeName", model$specs$BaseIOSchema, sep = "_")),
+                                    utils::stack(BEA[c("HouseholdDemandCodes", "InvestmentDemandCodes", "ChangeInventoriesCodes",
+                                                       "ExportCodes", "ImportCodes", "GovernmentDemandCodes")]),
+                                    by = 1, sort = FALSE)
   model$FinalDemandSectors[] <- lapply(model$FinalDemandSectors, as.character)
-  colnames(model$FinalDemandSectors) <- c("Code", "Name")
-  model$FinalDemandSectors$Name <- gsub(c("Codes|DemandCodes"), "", model$FinalDemandSectors$Name)
+  colnames(model$FinalDemandSectors) <- c("Code", "Name", "Group")
+  model$FinalDemandSectors$Group <- gsub(c("Codes|DemandCodes"), "", model$FinalDemandSectors$Group)
   model$FinalDemandSectors$Code_Loc <- apply(cbind(model$FinalDemandSectors$Code, model$specs$PrimaryRegionAcronym),
                                              1, FUN = joinStringswithSlashes)
   
