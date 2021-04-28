@@ -8,8 +8,9 @@
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
 #' @param y_title The title of y axis, excluding unit.
 #' @param y_label The labels of y axis, can be "Name" or "Code".
+#' @param log_scale A logical value indicating whether plotting in log scale.
 #' @export
-plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title, y_label) {
+plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sector_to_remove, y_title, y_label, log_scale = FALSE) {
   # Prepare data frame for plot
   df <- data.frame()
   for (modelname in names(model_list)) {
@@ -89,6 +90,18 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
                                                           sec.axis = ggplot2::sec_axis(~., name = "", breaks = scales::pretty_breaks())) +
       ggplot2::theme(strip.background = ggplot2::element_blank(), strip.placement = "outside",
                      strip.text = ggplot2::element_text(colour = "black", size = 15))
+  }
+  if (log_scale) {
+    max_log10_N <- ceiling(log10(max(df$Value, na.rm = TRUE)))
+    min_log10_N <- ceiling(log10(min(df$Value, na.rm = TRUE)*-1))
+    breaks <- c(-1*10^rev(seq(1, min_log10_N, 1)), 0, 10^seq(1, max_log10_N, 1))
+    labels <- seq(-1*min_log10_N, max_log10_N, 1)
+    p <- p + ggplot2::scale_y_continuous(trans = scales::trans_new("signed_log",
+                                                                   transform=function(x) sign(x)*log10(abs(x)+1E-6),
+                                                                   inverse=function(x) sign(x)*10^abs(x)),
+                                         breaks = breaks, labels = labels, name = paste(Y_title, "(10^)"),
+                                         sec.axis = ggplot2::sec_axis(~., breaks = breaks, labels = labels,
+                                                                      name = paste(Y_title, "(10^)")))
   }
   return(p)
 }

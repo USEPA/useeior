@@ -10,7 +10,8 @@ plotMatrixCoefficient(
   coefficient_name,
   sector_to_remove,
   y_title,
-  y_label
+  y_label,
+  log_scale = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ Models must have the same coefficient in the rows}
 \item{y_title}{The title of y axis, excluding unit.}
 
 \item{y_label}{The labels of y axis, can be "Name" or "Code".}
+
+\item{log_scale}{A logical value indicating whether plotting in log scale.}
 }
 \description{
 Plot specified matrix coefficients as points to compare coefficient across models
