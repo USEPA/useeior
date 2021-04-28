@@ -246,6 +246,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
     }
     colnames(USEEIOtoXLSX_ls[[n]])[1] <- ""
   }
+  
   # List model metadata
   basedir <- file.path(rappdirs::user_data_dir(), "USEEIO", "Model_Builds", model$specs$Model)
   metadata_dir <- file.path(basedir, "build", "data", model$specs$Model)
@@ -258,12 +259,29 @@ writeModeltoXLSX <- function(model, outputfolder) {
     USEEIOtoXLSX_ls[[df_name]] <- utils::read.table(paste(metadata_dir, file, sep = "/"),
                                                     sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
   }
+  
+  # List final demand sectors
+  final_demand_sectors <- model$FinalDemandSectors
+  final_demand_sectors$Index <- c(1:nrow(final_demand_sectors)-1)
+  final_demand_sectors$ID <- final_demand_sectors$Code_Loc
+  final_demand_sectors$Location <- model$specs$PrimaryRegionAcronym
+  final_demand_sectors$Description <- ""
+  USEEIOtoXLSX_ls[["final_demand_sectors"]] <- final_demand_sectors[, colnames(USEEIOtoXLSX_ls$sectors)]
+  
+  # List value added sectors
+  value_added_sectors <- model$ValueAddedSectors
+  value_added_sectors$Index <- c(1:nrow(value_added_sectors)-1)
+  value_added_sectors$ID <- value_added_sectors$Code_Loc
+  value_added_sectors$Location <- model$specs$PrimaryRegionAcronym
+  value_added_sectors$Description <- ""
+  USEEIOtoXLSX_ls[["value_added_sectors"]] <- value_added_sectors[, colnames(USEEIOtoXLSX_ls$sectors)]
+  
   # List reference tables
   USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- model$crosswalk
   
   # Write to Excel workbook
   writexl::write_xlsx(USEEIOtoXLSX_ls, paste0(outputfolder, "/", model$specs$Model, "_Matrices.xlsx"),
                       format_headers = FALSE)
-  logging::loginfo(paste0("Model matrices written to Excel workbook (.xlsx) in", outputfolder, "."))
+  logging::loginfo(paste0("Model matrices written to Excel workbook (.xlsx) in /", outputfolder, "."))
 }  
 
