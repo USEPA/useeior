@@ -4,7 +4,7 @@
 \alias{heatmapSatelliteTableCoverage}
 \title{Heatmap showing coverage of satellite tables}
 \usage{
-heatmapSatelliteTableCoverage(model)
+heatmapSatelliteTableCoverage(model, form = "Commodity")
 }
 \arguments{
 \item{model}{A complete EEIO model}
