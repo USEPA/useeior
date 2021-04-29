@@ -113,7 +113,7 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
 #' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
 #' @param indicator_code The code of the indicator of interest from the model$Indicators
-#' @param sector Can be boolean value or text. If non-boolean, it must be code of one or more BEA sectors.
+#' @param sector Can be logical value or text. If non-boolean, it must be code of one or more BEA sectors.
 #' @param y_title The title of y axis, excluding unit.
 #' @export
 barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code, sector, y_title) {
@@ -217,6 +217,7 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
 #' SMM tool like heatmap showing ranking of sectors
 #' @param model A complete EEIO model
 #' @param matrix A matrix from model result
+#' @param indicators A vector of indicators to plot
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
 #' @param y_title The title of y axis, excluding unit.
 #' @param N_sector A numeric value indicating number of sectors to show in the ranking
@@ -277,8 +278,8 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
 }
 
 #' Proportional bar chart splitting out flows or impacts by a region and the Rest of the regions
-#' @param R1_calc_result A matrix from model result
-#' @param Ro_calc_result Code of one or more BEA sectors that will be removed from the plot. Can be "".
+#' @param R1_calc_result A matrix from model result.
+#' @param Total_calc_result A matrix from model result.
 #' @param y_title The title of y axis, excluding unit.
 #' @return a ggplot bar chart with horizontal orientation
 #' @export
@@ -332,7 +333,6 @@ getBEASectorColorMapping <- function(model) {
 }
 
 #' Uses VizualizationEssentials.yml to get a mapping of the to indicator Color scheme
-#' @param model A complete EEIO model
 #' @return df with mapping with model indicator to colors
 getIndicatorColorMapping <- function() {
   configfile <- system.file("extdata", "VisualizationEssentials.yml", package = "useeior")

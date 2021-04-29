@@ -25,7 +25,7 @@ loadIndicators <- function(model) {
 }
 
 #' Load indicator factors based on spec from static or dynamic source
-#' @param specs Specification of an indicator
+#' @param ind_spec Specification of an indicator
 #' @return A dataframe of factors with factor_fields
 loadFactors <- function(ind_spec) {
    if(is.null(ind_spec$ScriptFunctionCall)) {
@@ -80,8 +80,8 @@ checkIndicatorforFlows <- function(factors, flows){
 }
 
 #' Loads data for all model indicators as listed in model specs
-#' @param list a model object with IO data loaded
-#' @return list a model object with Indicators added
+#' @param model A model object with IO data loaded
+#' @return A model object with Indicators added
 #' @export
 loadandbuildIndicators <- function(model) {
    # Generate C matrix: LCIA indicators

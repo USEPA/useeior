@@ -95,8 +95,8 @@ loadandbuildSatelliteTables <- function(model) {
 
 #'Reads a satellite table specification and generates a totals-by-sector table
 #'@param sat_spec, a standard specification for a single satellite table
+#'@param model A model object with IO and satellite data loaded
 #'@return a totals-by-sector dataframe
-
 generateTbSfromSatSpec <- function(sat_spec, model) {
   # Check if the satellite table uses a file from within useeior. If so, proceed.
   # If not, use specified functions in model metadata to load data from dynamic source

@@ -222,7 +222,6 @@ checkDuplicateFlowsBySector <- function(sattable_ls) {
 
 #' Map a satellite table from BEA Detail industry 2007 schema to 2012 schema.
 #' @param totals_by_sector A standardized satellite table with resource and emission names from original sources.
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A satellite table aggregated by the USEEIO model sector codes.
 mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
   # Load pre-saved mapping between BEA Detail Industry under 2007 and 2012 schemas

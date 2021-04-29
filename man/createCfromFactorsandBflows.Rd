@@ -7,9 +7,9 @@
 createCfromFactorsandBflows(factors, B_flows)
 }
 \arguments{
-\item{factors, }{df in model$Indicators$factors format}
+\item{factors}{df in model$Indicators$factors format}
 
-\item{B, }{the model B matrix to use for reference}
+\item{B_flows}{Flows from B matrix to use for reference}
 }
 \value{
 a C matrix in indicator x flow format

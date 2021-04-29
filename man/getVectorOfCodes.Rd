@@ -7,6 +7,8 @@
 getVectorOfCodes(ioschema, iolevel, colName)
 }
 \arguments{
+\item{ioschema}{A numeric value of either 2012 or 2007 specifying the io schema year.}
+
 \item{iolevel}{Level of detail, can be "Sector", "Summary, "Detail".}
 
 \item{colName}{A text value specifying desired column name.}

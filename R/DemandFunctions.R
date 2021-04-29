@@ -78,7 +78,7 @@ prepareHouseholdDemand <- function(model) {
 #'A function to validate a user provided demand vector
 #' @param dv a user provided demand vector
 #' @param L, the L matrix for the given model, used as a reference
-#' @return A boolean value indicating demand vector is valid or not.
+#' @return A logical value indicating demand vector is valid or not.
 isDemandVectorValid <- function(dv,L){
   #should be a format like this
   # >dv <- c("1111A0"=1,"1111B0"=2,"327100"=30)

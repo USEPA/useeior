@@ -111,7 +111,6 @@ createBfromFlowDataandOutput <- function(model) {
 }
 
 #'Prepare coefficients (x unit/$) from the totals by flow and sector (x unit)
-#'@param TbS, a totals by sector dataframe
 #'@param model, a model with econ and flow data loaded
 #'@return df, a Coefficients-by-sector table
 generateCbSfromTbSandModel <- function(model) {
@@ -161,8 +160,8 @@ standardizeandcastSatelliteTable <- function(df,model) {
 }
 
 #' Generate C matrix from indicator factors and a model B matrix
-#' @param factors, df in model$Indicators$factors format
-#' @param B, the model B matrix to use for reference
+#' @param factors df in model$Indicators$factors format
+#' @param B_flows Flows from B matrix to use for reference
 #' @return a C matrix in indicator x flow format
 createCfromFactorsandBflows <- function(factors,B_flows) {
   # Add flow field to factors

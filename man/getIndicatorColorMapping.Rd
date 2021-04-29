@@ -6,9 +6,6 @@
 \usage{
 getIndicatorColorMapping()
 }
-\arguments{
-\item{model}{A complete EEIO model}
-}
 \value{
 df with mapping with model indicator to colors
 }

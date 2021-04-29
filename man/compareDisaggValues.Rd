@@ -8,6 +8,12 @@ compareDisaggValues(df0, df1, abs_diff = TRUE, tolerance)
 }
 \arguments{
 \item{df0}{data frame 0}
+
+\item{df1}{data frame 1}
+
+\item{abs_diff}{A logical value indicating whether to calculate absolute difference.}
+
+\item{tolerance}{A numeric value indicating comparison tolerance.}
 }
 \value{
 

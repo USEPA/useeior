@@ -1,3 +1,9 @@
+# Define what matrices to write to csv, json, or bin.
+# writeModelMatrices now writes "A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d", "N", "N_d", "Rho" to .csv
+# writeModelMatricesforAPI now writes "MakeTransactions", "UseTransactions", "A", "A_d", "B", "C", "D", "L", "L_d", "M", "N", "Rho" to .bin
+# writeModeltoXLSX now writes "A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d", "N", "N_d", "Rho", "Phi" and other tables that need further formatting to .xlsx
+# matrices_to_write
+
 #' Writes all model data and metadata components to the API
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param basedir Base directory to write the model components to
@@ -102,8 +108,9 @@ writeModelMatricesforAPI <- function(model,modelfolder) {
 
 #' Write model demand vectors as JSON files for API to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param demandsfolder Path to output folder.
 #' @description Writes model demand vectors, including y and y_d for consumption and production.
-writeModelDemandstoJSON <- function(model,demandsfolder) {
+writeModelDemandstoJSON <- function(model, demandsfolder) {
   #!WARNING: Only works for single region model
   if (model$specs$ModelType!="US") {
     logging::logerror("Currently only works for single region US models.")
@@ -125,8 +132,9 @@ writeModelDemandstoJSON <- function(model,demandsfolder) {
 #' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder
 #' format for file is here https://github.com/USEPA/USEEIO_API/blob/master/doc/data_format.md
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param dirs A named list of directories
 #' @description Writes model metadata, including indicators and demands.
-writeModelMetadata <- function(model,dirs) {
+writeModelMetadata <- function(model, dirs) {
   #!WARNING: Only works for single region model
   if (model$specs$ModelType!="US") {
     logging::logerror("Currently only works for single region US models.")

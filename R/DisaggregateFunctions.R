@@ -372,7 +372,7 @@ disaggregateMakeTable <- function (model){
 
 #' Disaggregate Use table based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' 
+#' @param domestic A logical value indicating whether to disaggregate domestic final demand.
 #' @return A standardized make table with old sectors removed and new sectors added.
 disaggregateUseTable <- function (model, domestic = FALSE){
   
@@ -405,6 +405,7 @@ disaggregateUseTable <- function (model, domestic = FALSE){
 
 #' Disaggregate Final Demand based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param domestic A logical value indicating whether to disaggregate domestic final demand.
 #' 
 #' @return A standardized final demand table with old sectors removed and new sectors with manual and default allocations added.
 disaggregateFinalDemand <- function(model, domestic = FALSE)
@@ -830,7 +831,7 @@ disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE,
 
 #' Disaggregate the MasterCrosswalk to include the new sectors for disaggregation
 #' @param crosswalk MasterCrosswalk from NAICS to BEA.
-#' 
+#' @param disagg Specifications for disaggregating the current Table
 #' @return crosswalk with new sectors added.
 disaggregateMasterCrosswalk <- function (crosswalk, disagg){
   # update the crosswalk by updating the BEA codes for disaggregation or adding new NAICS_like codes
@@ -1014,12 +1015,12 @@ SpecifiedUseDisagg <- function (model, disagg, domestic = FALSE){
 }#End of specifiedUseDisagg Function
 
 #' Assemble Disaggregated Make table from the various disaggregated components.
-#' @param OriginalMake Dataframe. The original Make table before disaggregation
+#' @param originalMake Dataframe. The original Make table before disaggregation
 #' @param originalRowIndex Integer. The row index, in the original Make table, of the sector to be disaggregated
-#' @param OriginalColIndex Integer. The column index, in the original Make table, of the sector to be disaggregated
+#' @param originalColIndex Integer. The column index, in the original Make table, of the sector to be disaggregated
 #' @param disaggCols Dataframe. Previously disaggregated columns of the Make table.
 #' @param disaggRows Dataframe. Previously disaggregated rows of the Make table.
-#' @param disaggIntersecion Dataframe. Previously disaggregated intersection of the Make table.
+#' @param disaggIntersection Dataframe. Previously disaggregated intersection of the Make table.
 #'
 #' @return The Make table as a dataframe with the disaggregated rows, columns, and intersection included
 AssembleMake <- function (originalMake, originalRowIndex, originalColIndex, disaggCols, disaggRows, disaggIntersection){
@@ -1052,12 +1053,12 @@ AssembleMake <- function (originalMake, originalRowIndex, originalColIndex, disa
 
 
 #' Assemble Table from the various disaggregated components.
-#' @param OriginalTable Dataframe. The original table before disaggregation
+#' @param originalTable Dataframe. The original table before disaggregation
 #' @param originalRowIndex Integer. The row index, in the original table, of the sector to be disaggregated
-#' @param OriginalColIndex Integer. The column index, in the original table, of the sector to be disaggregated
+#' @param originalColIndex Integer. The column index, in the original table, of the sector to be disaggregated
 #' @param disaggCols Dataframe. Previously disaggregated columns of the table.
 #' @param disaggRows Dataframe. Previously disaggregated rows of the table.
-#' @param disaggIntersecion Dataframe. Previously disaggregated intersection of the table.
+#' @param disaggIntersection Dataframe. Previously disaggregated intersection of the table.
 #'d
 #' @return The Disaggregated table as a dataframe with the disaggregated rows, columns, and intersection included
 AssembleTable <- function (originalTable, originalRowIndex, originalColIndex, disaggCols, disaggRows, disaggIntersection){
@@ -1091,9 +1092,9 @@ AssembleTable <- function (originalTable, originalRowIndex, originalColIndex, di
 #' Allocate values specified by the .yml disaggregation specs to the correct places in a disaggregated row/column of the Use/Make tables. 
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
-#' @param allocPercentages Dataframe. A subset of the dataframe that contains the percentages to allocate to specific industry and commodity combinations in the disaggregated vector. Parameter use coordinated with @param VectorToDisagg.
+#' @param allocPercentages Dataframe. A subset of the dataframe that contains the percentages to allocate to specific industry and commodity combinations in the disaggregated vector. Parameter use coordinated with @param vectorToDisagg
 #' @param vectorToDisagg String. A parameter to indicate what table and what part of that table is being disaggregated (e.g. "MakeCol" or "Intersection") 
-#' @param domestic. Boolean. Flag to indicate where to use the DomesticUse or UseTransactions table
+#' @param domestic Boolean. Flag to indicate where to use the DomesticUse or UseTransactions table
 #' 
 #' @return A dataframe with the values specified in the disaggSpecs assigned to the correct Make or Use table indeces.
 DisaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, domestic = FALSE){
@@ -1616,7 +1617,10 @@ getDisaggCommodityPercentages <- function(disagg){
 
 
 #' Allocate values specified by the .yml disaggregation specs to the correct places in a disaggregated row/column of the Use/Make tables. 
-#' @param  df0 data frame 0
+#' @param df0 data frame 0
+#' @param df1 data frame 1
+#' @param abs_diff A logical value indicating whether to calculate absolute difference.
+#' @param tolerance A numeric value indicating comparison tolerance.
 #' 
 #' @return 
 # Validate df1 against df0 based on specified conditions

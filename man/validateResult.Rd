@@ -9,7 +9,7 @@ validateResult(result, abs_diff = TRUE, tolerance)
 \arguments{
 \item{result}{A data object to be validated}
 
-\item{abs_diff}{A boolean value indicating whether to validate absolute values}
+\item{abs_diff}{A logical value indicating whether to validate absolute values}
 
 \item{tolerance}{A numeric value setting tolerance of the comparison}
 }

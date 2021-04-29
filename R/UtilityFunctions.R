@@ -86,6 +86,10 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
 
 #' Compare two matrices, calculate percentage difference (m1-m2)/m1.
 #' Dimensions of the two matrices must be the same.
+#' @param m1 matrix 1
+#' @param m2 matrix 2
+#' @param percentage_diff A logical value indicating whether to compare percentage difference
+#' @return A matrix of comparison
 compareMatrices <- function(m1, m2, percentage_diff = FALSE) {
   if (dim(m1)!=dim(m2)) {
     stop("Make m1 and m2 have the same dimensions first.")
@@ -100,6 +104,8 @@ compareMatrices <- function(m1, m2, percentage_diff = FALSE) {
 }
 
 #' Write matrix as bin file
+#' @param matrix A matrix to be written
+#' @param path Path to write the bin file to
 writeMatrixasBinFile <- function(matrix, path) {
   out <- file(path, "wb")
   rows <- dim(matrix)[1]
@@ -119,7 +125,7 @@ writeMatrixasBinFile <- function(matrix, path) {
 #' @param subdirectory The name of the package where the source file is stored on Data Commons including any subfolders (e.g. "lciafmt/traci_2_1")
 #' @param debug_url The Data Commons base url, including directory and subdirectories
 downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
-  
+  # Define file directory
   directory <- paste0(rappdirs::user_data_dir(), "/", subdirectory)
   # Check for and create subdirectory if necessary
   if(!file.exists(directory)){
@@ -171,13 +177,15 @@ mapFIPS5toLocationCodes <- function(fipscodes) {
 }  
   
 #' Replaces all `None` in a dataframe with the R NULL type NA
-#' 
+#' @param df A data frame
+#' @return A data frame without `None`
 replaceNonewithNA <- function(df) {
   df[df=='None'] <- NA
   return(df)
 }
 
 #' Extract desired columns from SchemaInfo, return vectors with strings of codes.
+#' @param ioschema A numeric value of either 2012 or 2007 specifying the io schema year.
 #' @param iolevel Level of detail, can be "Sector", "Summary, "Detail".
 #' @param colName A text value specifying desired column name.
 #' @return A vector of codes.

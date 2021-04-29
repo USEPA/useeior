@@ -6,6 +6,11 @@
 \usage{
 writeMatrixasBinFile(matrix, path)
 }
+\arguments{
+\item{matrix}{A matrix to be written}
+
+\item{path}{Path to write the bin file to}
+}
 \description{
 Write matrix as bin file
 }

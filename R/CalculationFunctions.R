@@ -4,7 +4,7 @@
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param perspective Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".
 #' @param demand A name of a built in model demand vector or a named vector with names as one or more model sectors and numeric values in USD with the same dollar year as model
-#' @param use_domestic_requirements A boolean value: if TRUE, use domestic A_d; if FALSE, use A matrices.
+#' @param use_domestic_requirements A logical value: if TRUE, use domestic A_d; if FALSE, use A matrices.
 #' @export
 #' @return A list with LCI and LCIA results of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "Production", use_domestic_requirements = FALSE) {

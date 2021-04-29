@@ -18,7 +18,7 @@ calculateEEIOModel(
 
 \item{demand}{A name of a built in model demand vector or a named vector with names as one or more model sectors and numeric values in USD with the same dollar year as model}
 
-\item{use_domestic_requirements}{A boolean value: if TRUE, use domestic A_d; if FALSE, use A matrices.}
+\item{use_domestic_requirements}{A logical value: if TRUE, use domestic A_d; if FALSE, use A matrices.}
 }
 \value{
 A list with LCI and LCIA results of the EEIO model.

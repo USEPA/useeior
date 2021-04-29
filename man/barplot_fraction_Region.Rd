@@ -7,11 +7,11 @@
 barplot_fraction_Region(R1_calc_result, Total_calc_result, y_title)
 }
 \arguments{
-\item{R1_calc_result}{A matrix from model result}
+\item{R1_calc_result}{A matrix from model result.}
+
+\item{Total_calc_result}{A matrix from model result.}
 
 \item{y_title}{The title of y axis, excluding unit.}
-
-\item{Ro_calc_result}{Code of one or more BEA sectors that will be removed from the plot. Can be "".}
 }
 \value{
 a ggplot bar chart with horizontal orientation

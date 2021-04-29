@@ -7,6 +7,16 @@ Dimensions of the two matrices must be the same.}
 \usage{
 compareMatrices(m1, m2, percentage_diff = FALSE)
 }
+\arguments{
+\item{m1}{matrix 1}
+
+\item{m2}{matrix 2}
+
+\item{percentage_diff}{A logical value indicating whether to compare percentage difference}
+}
+\value{
+A matrix of comparison
+}
 \description{
 Compare two matrices, calculate percentage difference (m1-m2)/m1.
 Dimensions of the two matrices must be the same.

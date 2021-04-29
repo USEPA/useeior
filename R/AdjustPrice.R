@@ -3,7 +3,7 @@
 #' Year adjustments from 2007-2018 supported
 #' @param matrix_name Name of the result matrix that needs price adjustment, e.g. "N"
 #' @param currency_year An integer representing the currency year, e.g. 2018.
-#' @param purchaser_price A boolean value indicating whether to adjust producer's price to purchaser's price.
+#' @param purchaser_price A logical value indicating whether to adjust producer's price to purchaser's price.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @export
 #' @return A model result matrix after price adjustment

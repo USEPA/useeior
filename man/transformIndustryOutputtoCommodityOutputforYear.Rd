@@ -7,11 +7,9 @@
 transformIndustryOutputtoCommodityOutputforYear(year, model)
 }
 \arguments{
+\item{year}{Year of Industry output}
+
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
-
-\item{location_acronym}{Abbreviated location name of the model, e.g. "US" or "GA".}
-
-\item{IsRoUS}{A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).}
 }
 \value{
 A dataframe contains adjusted Commodity output.

@@ -3,7 +3,7 @@
 
 #'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built
-#'@param use_domestic, a boolean value indicating whether to use domestic demand vector
+#'@param use_domestic, a logical value indicating whether to use domestic demand vector
 #'@param tolerance, a numeric value, tolerance level of the comparison
 #'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export
@@ -50,7 +50,7 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 #'Uses the model$FinalDemand and model$L
 #'Works for the domestic model with the equivalent tables
 #'@param model, EEIOmodel object completely built
-#'@param use_domestic, a boolean value indicating whether to use domestic demand vector
+#'@param use_domestic, a logical value indicating whether to use domestic demand vector
 #'@param tolerance, a numeric value, tolerance level of the comparison
 #'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export
@@ -189,7 +189,7 @@ compareIndustryOutputinMakeandUse <- function(model) {
 
 #' Validate result based on specified tolerance
 #' @param result A data object to be validated
-#' @param abs_diff A boolean value indicating whether to validate absolute values
+#' @param abs_diff A logical value indicating whether to validate absolute values
 #' @param tolerance A numeric value setting tolerance of the comparison
 #' @return A list contains confrontation details and validation results
 validateResult <- function(result, abs_diff = TRUE, tolerance) {
@@ -206,7 +206,7 @@ validateResult <- function(result, abs_diff = TRUE, tolerance) {
 
 #' Extract validation passes or failures
 #' @param validation A data.frame contains validation details
-#' @param failure A boolean value indicating whether to report failure or not
+#' @param failure A logical value indicating whether to report failure or not
 #' @return A data.frame contains validation results
 extractValidationResult <- function(validation, failure = TRUE) {
   df <- reshape2::melt(validation, id.vars = "rownames")
@@ -220,8 +220,8 @@ extractValidationResult <- function(validation, failure = TRUE) {
 }
 
 #' Format validation result
-#' @param df A data.frame to be validated
-#' @param abs_diff A boolean value indicating whether to validate absolute values
+#' @param result Validation result to be formatted
+#' @param abs_diff A logical value indicating whether to validate absolute values
 #' @param tolerance A numeric value setting tolerance of the comparison
 #' @return A list contains formatted validation results
 formatValidationResult <- function(result, abs_diff = TRUE, tolerance) {
