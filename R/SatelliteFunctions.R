@@ -64,11 +64,11 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
     FlowAmountAgg = sum(FlowAmount),
     Min = min(Min),
     Max = max(Max),
-    DataReliability = weighted.mean(DataReliability, FlowAmount),
-    TemporalCorrelation = weighted.mean(TemporalCorrelation, FlowAmount),
-    GeographicalCorrelation = weighted.mean(GeographicalCorrelation, FlowAmount),
-    TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
-    DataCollection = weighted.mean(DataCollection, FlowAmount),
+    DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
+    TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
+    GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
+    TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
+    DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
     MetaSources = dplyr::nth(MetaSources, which.max(nchar(MetaSources))),
     .groups = 'drop'
   )

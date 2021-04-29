@@ -225,9 +225,9 @@ generateModelIdentifier <- function(model) {
 #' @param path, str, a path without the file
 #' @return None
 writeSessionInfotoFile <- function(path) {
-  s <- sessionInfo()
+  s <- utils::sessionInfo()
   f <- paste0(path,"/Rsessioninfo.txt")
-  writeLines(capture.output(s), f)
+  writeLines(utils::capture.output(s), f)
 }
   
 #' Write selected model matrices and metadata as XLSX file to output folder

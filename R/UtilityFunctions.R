@@ -133,7 +133,7 @@ downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
   }
   
   # Download file
-  download.file(paste0(debug_url, "/", source), paste0(directory, "/", source), mode = "wb", quiet = TRUE)
+  utils::download.file(paste0(debug_url, "/", source), paste0(directory, "/", source), mode = "wb", quiet = TRUE)
 }
 
 #' Load the static file originating from Data Commons either by loading from local directory or downloading from Data Commons and 

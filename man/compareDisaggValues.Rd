@@ -16,7 +16,7 @@ compareDisaggValues(df0, df1, abs_diff = TRUE, tolerance)
 \item{tolerance}{A numeric value indicating comparison tolerance.}
 }
 \value{
-
+A list of comparison results
 }
 \description{
 Allocate values specified by the .yml disaggregation specs to the correct places in a disaggregated row/column of the Use/Make tables.

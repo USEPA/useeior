@@ -1622,7 +1622,7 @@ getDisaggCommodityPercentages <- function(disagg){
 #' @param abs_diff A logical value indicating whether to calculate absolute difference.
 #' @param tolerance A numeric value indicating comparison tolerance.
 #' 
-#' @return 
+#' @return A list of comparison results
 # Validate df1 against df0 based on specified conditions
 compareDisaggValues <- function(df0, df1, abs_diff = TRUE, tolerance) {
   # Define comparison rule

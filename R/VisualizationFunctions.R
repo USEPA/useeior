@@ -137,12 +137,12 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
   }
   # Plot
   if (sector==FALSE) {
-    p <- ggplot(df, aes(x = factor(Model, level = names(model_list)),
+    p <- ggplot(df, aes(x = factor(Model, levels = names(model_list)),
                         y = IndicatorScore, fill = SectorName)) +
       geom_bar(stat = "identity", width = 0.8)
   } else {
     df <- df[df$Sector.y%in%sector, ]
-    p <- ggplot(df, aes(x = factor(Model, level = names(model_list)),
+    p <- ggplot(df, aes(x = factor(Model, levels = names(model_list)),
                         y = IndicatorScore, fill = SectorName, group = Sector)) +
       geom_bar(stat = "identity", width = 0.8, color = "white") +
       geom_label(aes(label = Sector), position = position_stack(0.5),
