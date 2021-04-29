@@ -8,6 +8,8 @@ heatmapSatelliteTableCoverage(model, form = "Commodity")
 }
 \arguments{
 \item{model}{A complete EEIO model}
+
+\item{form}{Form of sectors in satellite table, can be"Commodity" and "Industry".}
 }
 \description{
 Heatmap showing coverage of satellite tables

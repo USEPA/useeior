@@ -1,4 +1,7 @@
-## Functions for visualizing matrices
+## Functions for visualizing model components and results
+
+#' @import ggplot2
+NULL
 
 #' Plot specified matrix coefficients as points to compare coefficient across models
 #' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
@@ -69,39 +72,39 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
   }
   
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(x, levels = rev(unique(x))),
-                                        y = Value, shape = as.character(modelname))) +
-    ggplot2::geom_point(ggplot2::aes(color = GroupName), size = 3) +
-    ggplot2::scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
-    ggplot2::scale_color_manual(values = unique(df$color)) +
-    ggplot2::labs(x = "", y = Y_title) +
-    ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(),
-                                sec.axis = ggplot2::sec_axis(~., name = Y_title, breaks = scales::pretty_breaks())) +
-    ggplot2::coord_flip() +
-    ggplot2::theme_linedraw(base_size = 15) +
-    ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.text.y = ggplot2::element_text(size = 10, color = label_colors),
-                   axis.title.x = ggplot2::element_text(size = 10), legend.title = ggplot2::element_blank(),
-                   legend.justification = c(1, 1), axis.ticks = ggplot2::element_blank(),
-                   panel.grid.minor.y = ggplot2::element_blank(), plot.margin = ggplot2::margin(c(5, 20, 5, 5)))
+  p <- ggplot(df, aes(x = factor(x, levels = rev(unique(x))),
+                      y = Value, shape = as.character(modelname))) +
+    geom_point(aes(color = GroupName), size = 3) +
+    scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
+    scale_color_manual(values = unique(df$color)) +
+    labs(x = "", y = Y_title) +
+    scale_y_continuous(breaks = scales::pretty_breaks(),
+                       sec.axis = sec_axis(~., name = Y_title, breaks = scales::pretty_breaks())) +
+    coord_flip() +
+    theme_linedraw(base_size = 15) +
+    theme(axis.text = element_text(color = "black", size = 15),
+          axis.text.y = element_text(size = 10, color = label_colors),
+          axis.title.x = element_text(size = 10), legend.title = element_blank(),
+          legend.justification = c(1, 1), axis.ticks = element_blank(),
+          panel.grid.minor.y = element_blank(), plot.margin = margin(c(5, 20, 5, 5)))
   if (length(coefficient_name)>1) {
-    p <- p + ggplot2::facet_wrap(~CoefficientName, ncol = length(coefficient_name), scales = "free_x") +
-      ggplot2::labs(y = "") + ggplot2::scale_y_continuous(breaks = scales::pretty_breaks(),
-                                                          sec.axis = ggplot2::sec_axis(~., name = "", breaks = scales::pretty_breaks())) +
-      ggplot2::theme(strip.background = ggplot2::element_blank(), strip.placement = "outside",
-                     strip.text = ggplot2::element_text(colour = "black", size = 15))
+    p <- p + facet_wrap(~CoefficientName, ncol = length(coefficient_name), scales = "free_x") +
+      labs(y = "") + scale_y_continuous(breaks = scales::pretty_breaks(),
+                                        sec.axis = sec_axis(~., name = "", breaks = scales::pretty_breaks())) +
+      theme(strip.background = element_blank(), strip.placement = "outside",
+            strip.text = element_text(colour = "black", size = 15))
   }
   if (log_scale) {
     max_log10_N <- ceiling(log10(max(df$Value, na.rm = TRUE)))
     min_log10_N <- ceiling(log10(min(df$Value, na.rm = TRUE)*-1))
     breaks <- c(-1*10^rev(seq(1, min_log10_N, 1)), 0, 10^seq(1, max_log10_N, 1))
     labels <- seq(-1*min_log10_N, max_log10_N, 1)
-    p <- p + ggplot2::scale_y_continuous(trans = scales::trans_new("signed_log",
-                                                                   transform=function(x) sign(x)*log10(abs(x)+1E-6),
-                                                                   inverse=function(x) sign(x)*10^abs(x)),
-                                         breaks = breaks, labels = labels, name = paste(Y_title, "(10^)"),
-                                         sec.axis = ggplot2::sec_axis(~., breaks = breaks, labels = labels,
-                                                                      name = paste(Y_title, "(10^)")))
+    p <- p + scale_y_continuous(trans = scales::trans_new("signed_log",
+                                                          transform=function(x) sign(x)*log10(abs(x)+1E-6),
+                                                          inverse=function(x) sign(x)*10^abs(x)),
+                                breaks = breaks, labels = labels, name = paste(Y_title, "(10^)"),
+                                sec.axis = sec_axis(~., breaks = breaks, labels = labels,
+                                                    name = paste(Y_title, "(10^)")))
   }
   return(p)
 }
@@ -134,31 +137,34 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
   }
   # Plot
   if (sector==FALSE) {
-    p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName)) +
-      ggplot2::geom_bar(stat = "identity", width = 0.8)
+    p <- ggplot(df, aes(x = factor(Model, level = names(model_list)),
+                        y = IndicatorScore, fill = SectorName)) +
+      geom_bar(stat = "identity", width = 0.8)
   } else {
     df <- df[df$Sector.y%in%sector, ]
-    p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Model, level = names(model_list)), y = IndicatorScore, fill = SectorName, group = Sector)) +
-      ggplot2::geom_bar(stat = "identity", width = 0.8, color = "white") +
-      ggplot2::geom_label(ggplot2::aes(label = Sector),
-                          position = ggplot2::position_stack(0.5), fill = "white", color = "black", fontface = "bold", size = 5)
+    p <- ggplot(df, aes(x = factor(Model, level = names(model_list)),
+                        y = IndicatorScore, fill = SectorName, group = Sector)) +
+      geom_bar(stat = "identity", width = 0.8, color = "white") +
+      geom_label(aes(label = Sector), position = position_stack(0.5),
+                 fill = "white", color = "black", fontface = "bold", size = 5)
   }
-  p <- p + ggplot2::scale_fill_manual(breaks = df$SectorName, values = df$color) +
-    ggplot2::labs(x = "", y = paste0(y_title, " (", Unit, ")")) +
-    ggplot2::scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = TRUE)) +
-    ggplot2::theme_linedraw(base_size = 15) +
-    ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, vjust = 1, size = 12),
-                   axis.title.y = ggplot2::element_text(size = 15), legend.title = ggplot2::element_blank(),
-                   #legend.justification = c(1, 1), legend.position = c(0.95, 0.95),
-                   axis.ticks = ggplot2::element_blank(), panel.grid.minor.y = ggplot2::element_blank(),
-                   plot.margin = ggplot2::margin(rep(5.5, 3), 90))
+  p <- p + scale_fill_manual(breaks = df$SectorName, values = df$color) +
+    labs(x = "", y = paste0(y_title, " (", Unit, ")")) +
+    scale_y_continuous(expand = c(0, 0), labels = function(x) format(x, scientific = TRUE)) +
+    theme_linedraw(base_size = 15) +
+    theme(axis.text = element_text(color = "black", size = 15),
+          axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 12),
+          axis.title.y = element_text(size = 15), legend.title = element_blank(),
+          #legend.justification = c(1, 1), legend.position = c(0.95, 0.95),
+          axis.ticks = element_blank(), panel.grid.minor.y = element_blank(),
+          plot.margin = margin(rep(5.5, 3), 90))
     
   return(p)
 }
 
 #' Heatmap showing coverage of satellite tables
 #' @param model A complete EEIO model
+#' @param form Form of sectors in satellite table, can be"Commodity" and "Industry".
 #' @export
 heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
   # Generate BEA sector color mapping
@@ -190,21 +196,21 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
   # Prepare axis label and fill colors
   colors <- unique(df[, c("SectorName", "color")])[, "color"]
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(FlowType, levels = sort(unique(FlowType))),
-                                        y = factor(Sector, levels = rev(unique(Sector))),
-                                        alpha = Value, fill = SectorName)) + 
-    ggplot2::geom_tile(color = "white", size = 0.1) + ggplot2::guides(alpha = FALSE) +
-    ggplot2::scale_fill_manual(values = colors) +
-    ggplot2::labs(x = "", y = "") +
-    ggplot2::scale_x_discrete(expand = c(0, 0), position = "top") +
-    ggplot2::scale_y_discrete(expand = c(0, 0)) +
-    ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.title.x = ggplot2::element_text(size = 12), axis.text.y = ggplot2::element_blank(),
-                   legend.title = ggplot2::element_blank(), legend.text = ggplot2::element_text(size = 15),
-                   legend.key.size = ggplot2::unit(1, "cm"), axis.ticks = ggplot2::element_blank(),
-                   plot.margin = ggplot2::margin(c(5, 20, 5, 5)), #strip.background = ggplot2::element_blank(),
-                   strip.text = ggplot2::element_text(colour = "black", size = 15), strip.placement = "outside",
-                   axis.title = ggplot2::element_blank(), panel.spacing = ggplot2::unit(0.1, "lines"))
+  p <- ggplot(df, aes(x = factor(FlowType, levels = sort(unique(FlowType))),
+                      y = factor(Sector, levels = rev(unique(Sector))),
+                      alpha = Value, fill = SectorName)) + 
+    geom_tile(color = "white", size = 0.1) + guides(alpha = FALSE) +
+    scale_fill_manual(values = colors) +
+    labs(x = "", y = "") +
+    scale_x_discrete(expand = c(0, 0), position = "top") +
+    scale_y_discrete(expand = c(0, 0)) +
+    theme(axis.text = element_text(color = "black", size = 15),
+          axis.title.x = element_text(size = 12), axis.text.y = element_blank(),
+          legend.title = element_blank(), legend.text = element_text(size = 15),
+          legend.key.size = unit(1, "cm"), axis.ticks = element_blank(),
+          plot.margin = margin(c(5, 20, 5, 5)), #strip.background = element_blank(),
+          strip.text = element_text(colour = "black", size = 15), strip.placement = "outside",
+          axis.title = element_blank(), panel.spacing = unit(0.1, "lines"))
   return(p)
 }
 
@@ -253,20 +259,20 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
   label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
   
   # plot
-  p <- ggplot2::ggplot(df, ggplot2::aes(x = factor(Indicator, levels = c("Score", indicators)),
-                                        y = factor(SectorName, levels = rev(unique(SectorName))),
-                                        fill = Value)) +
-    ggplot2::geom_tile(color = "white", size = 0.2) +
-    ggplot2::scale_fill_gradient(low = "white", high = "black") +
-    ggplot2::scale_x_discrete(expand = c(0, 0), position = "top") +
-    ggplot2::scale_y_discrete(expand = c(0, 0), labels = function(x) stringr::str_wrap(x, 30)) +
-    ggplot2::labs(x = model$specs$Model, y = "", fill = y_title) + ggplot2::theme_bw() +
-    ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.title.x = ggplot2::element_text(size = 20),
-                   axis.text.x = ggplot2::element_text(angle = 45, hjust = 0, vjust = 1),
-                   axis.text.y = ggplot2::element_text(size = 15, color = label_colors),
-                   legend.position = "none", axis.ticks = ggplot2::element_blank(),
-                   plot.margin = ggplot2::margin(c(5, 20, 5, 5)))
+  p <- ggplot(df, aes(x = factor(Indicator, levels = c("Score", indicators)),
+                      y = factor(SectorName, levels = rev(unique(SectorName))),
+                      fill = Value)) +
+    geom_tile(color = "white", size = 0.2) +
+    scale_fill_gradient(low = "white", high = "black") +
+    scale_x_discrete(expand = c(0, 0), position = "top") +
+    scale_y_discrete(expand = c(0, 0), labels = function(x) stringr::str_wrap(x, 30)) +
+    labs(x = model$specs$Model, y = "", fill = y_title) + theme_bw() +
+    theme(axis.text = element_text(color = "black", size = 15),
+          axis.title.x = element_text(size = 20),
+          axis.text.x = element_text(angle = 45, hjust = 0, vjust = 1),
+          axis.text.y = element_text(size = 15, color = label_colors),
+          legend.position = "none", axis.ticks = element_blank(),
+          plot.margin = margin(c(5, 20, 5, 5)))
   return(p)
 }
 
@@ -283,17 +289,17 @@ barplot_fraction_Region <- function(R1_calc_result, Total_calc_result, y_title) 
   mapping <- getIndicatorColorMapping()
   rel_diff <- merge(rel_diff, mapping, by.x = 0, by.y = "Indicator")
   rel_diff <- rel_diff[rev(match(mapping$Indicator, rel_diff$Indicator)), ]
-  p <- ggplot2::ggplot(rel_diff, ggplot2::aes(y = factor(Indicator, levels = Indicator),
-                                              x = !!as.name(y_title), fill = Indicator)) +
-    ggplot2::scale_fill_manual(limits = rel_diff$Indicator, values = rel_diff$color) +
-    ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.1)),
-                                breaks = scales::pretty_breaks(),
-                                labels = scales::label_percent(accuracy = 1)) +
-    ggplot2::geom_col() + ggplot2::theme_bw() +
-    ggplot2::theme(axis.text = ggplot2::element_text(color = "black", size = 15),
-                   axis.title.x = ggplot2::element_text(size = 15),
-                   axis.title.y = ggplot2::element_blank(),
-                   axis.ticks = ggplot2::element_blank(), legend.position = "none")
+  p <- ggplot(rel_diff, aes(y = factor(Indicator, levels = Indicator),
+                            x = !!as.name(y_title), fill = Indicator)) +
+    scale_fill_manual(limits = rel_diff$Indicator, values = rel_diff$color) +
+    scale_x_continuous(expand = expansion(mult = c(0, 0.1)),
+                       breaks = scales::pretty_breaks(),
+                       labels = scales::label_percent(accuracy = 1)) +
+    geom_col() + theme_bw() +
+    theme(axis.text = element_text(color = "black", size = 15),
+          axis.title.x = element_text(size = 15),
+          axis.title.y = element_blank(),
+          axis.ticks = element_blank(), legend.position = "none")
   return(p)
 }
 
