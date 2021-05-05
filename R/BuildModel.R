@@ -23,7 +23,14 @@ constructEEIOMatrices <- function(model) {
   }
   # Generate matrices
   model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
+  model$V <- as.matrix(model$MakeTransactions) # Make
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
+  model$U <- as.matrix(dplyr::bind_rows(cbind(model$UseTransactions,
+                                              model$FinalDemand),
+                                        model$UseValueAdded)) # Use
+  model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
+                                                model$DomesticFinalDemand),
+                                          model$UseValueAdded)) # DomesticUse
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
   model$W <- as.matrix(model$UseValueAdded)
@@ -89,6 +96,12 @@ constructEEIOMatrices <- function(model) {
   # Calculate producer over purchaser price ratio.
   logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
   model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
+  
+  # Re-organize matrices in model$Matrices
+  model$Matrices
+  matrices <- c("V", "U", "U_d", "A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d", "N", "N_d", "Rho", "Phi")
+  model$Matrices <- model[matrices]
+  model[matrices] <- NULL
   
   logging::loginfo("Model build complete.")
   return(model)
