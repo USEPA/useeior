@@ -2,15 +2,17 @@
 % Please edit documentation in R/WriteModel.R
 \name{writeModelMatrices}
 \alias{writeModelMatrices}
-\title{Write model matrices as CSV files to output folder.}
+\title{Write model matrices as .csv or .bin files to output folder.}
 \usage{
-writeModelMatrices(model, outputfolder)
+writeModelMatrices(model, to_format, outputfolder)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
+\item{to_format}{A string specifying the format of write-to file, can be "csv" or "bin".}
+
 \item{outputfolder}{A directory to write matrices out to}
 }
 \description{
-Writes model matrices as CSV files, including A, A_d, B, C, D, L, L_d, M, M_d, N, N_d, and Rho (CPI ratio matrix)
+Writes model matrices as .csv or .bin files to output folder.
 }

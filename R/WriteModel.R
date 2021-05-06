@@ -1,8 +1,6 @@
-# Define what matrices to write to csv, json, or bin.
-# writeModelMatrices now writes "A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d", "N", "N_d", "Rho" to .csv
-# writeModelMatricesforAPI now writes "MakeTransactions", "UseTransactions", "A", "A_d", "B", "C", "D", "L", "L_d", "M", "N", "Rho" to .bin
-# writeModeltoXLSX now writes "A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d", "N", "N_d", "Rho", "Phi" and other tables that need further formatting to .xlsx
-# matrices_to_write
+# Define what matrices to write to csv or bin.
+matrices <- c("V", "U", "U_d", "A", "A_d", "B", "C", "D", "L", "L_d",
+              "M", "M_d", "N", "N_d", "Rho", "Phi")
 
 #' Writes all model data and metadata components to the API
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
@@ -12,7 +10,7 @@
 writeModelforAPI <-function(model, basedir){
   dirs <- setWriteDirsforAPI(model,basedir)
   prepareWriteDirs(dirs,model)
-  writeModelMatricesforAPI(model,dirs$model)
+  writeModelMatrices(model,"bin",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
   writeModelMetadata(model,dirs)
 }
@@ -32,20 +30,34 @@ writeSectorCrosswalkforAPI <- function(model, basedir){
   logging::loginfo(paste0("Sector crosswalk written to ", dirs$data, "."))
 }
 
-#' Write model matrices as CSV files to output folder.
+#' Write model matrices as .csv or .bin files to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param to_format A string specifying the format of write-to file, can be "csv" or "bin".
 #' @param outputfolder A directory to write matrices out to
-#' @description Writes model matrices as CSV files, including A, A_d, B, C, D, L, L_d, M, M_d, N, N_d, and Rho (CPI ratio matrix)
+#' @description Writes model matrices as .csv or .bin files to output folder.
 #' @export
-writeModelMatrices <- function(model, outputfolder) {
-  # Write model matrices to csv
-  modelfolder <- file.path(outputfolder, model$specs$Model,"matrices")
-  if (!dir.exists(modelfolder)) {
-    dir.create(modelfolder, recursive = TRUE) 
-  }
-  for (matrix in c("A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d", "N", "N_d", "Rho")) {
-    utils::write.csv(model[[matrix]], paste0(modelfolder, "/", matrix, ".csv"),
-                     na = "", row.names = TRUE, fileEncoding = "UTF-8")
+writeModelMatrices <- function(model, to_format, outputfolder) {
+  if (to_format=="csv") {
+    modelfolder <- file.path(outputfolder, model$specs$Model, "matrices")
+    if (!dir.exists(modelfolder)) {
+      dir.create(modelfolder, recursive = TRUE) 
+    }
+    for (matrix in matrices) {
+      utils::write.csv(model[[matrix]], paste0(modelfolder, "/", matrix, ".csv"),
+                       na = "", row.names = TRUE, fileEncoding = "UTF-8")
+    }
+  } else if (to_format=="bin") {
+    modelfolder <- outputfolder
+    for (matrix in matrices) {
+      writeMatrixasBinFile(as.matrix(model[[matrix]]),
+                           paste0(modelfolder, "/",matrix, ".bin"))
+      # Write x (Industry Output) or q (Commodity Output) to .bin files for API
+      if (model$specs$CommoditybyIndustryType=="Commodity") {
+        writeMatrixasBinFile(as.matrix(model$CommodityOutput), paste0(modelfolder, "/q.bin"))
+      } else {
+        writeMatrixasBinFile(as.matrix(model$IndustryOutput), paste0(modelfolder, "/x.bin"))
+      }
+    }
   }
   logging::loginfo(paste0("Model matrices written to ", modelfolder, "."))
 }
@@ -84,26 +96,6 @@ prepareWriteDirs <- function(dirs,model) {
       dir.create(dirs$demands, recursive = TRUE) 
     }
   }
-}
-
-#' Write model matrices as BIN files for API to output folder.
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param modelfolder Directory to write the model components to
-#' @description Writes model matrices, including Make, Use, A, A_d, B, C, D, L, L_d, M, N, Rho (CPI ratio matrix), x (Industry Output), and q (Commodity Output).
-writeModelMatricesforAPI <- function(model,modelfolder) {
-  # Write model matrices to .bin files for API
-  MatricesforAPI <- c("MakeTransactions", "UseTransactions", "A", "A_d",
-                      "B", "C", "D", "L", "L_d", "M", "N", "Rho")
-  for (matrix in MatricesforAPI) {
-    writeMatrixasBinFile(as.matrix(model[[matrix]]), paste0(modelfolder, "/", matrix, ".bin"))
-  }
-  # Write x (Industry Output) or q (Commodity Output) to .bin files for API
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
-    writeMatrixasBinFile(as.matrix(model$CommodityOutput), paste0(modelfolder, "/q.bin"))
-  } else {
-    writeMatrixasBinFile(as.matrix(model$IndustryOutput), paste0(modelfolder, "/x.bin"))
-  }
-  logging::loginfo(paste0("Model matrices for API written to ", modelfolder, "."))
 }
 
 #' Write model demand vectors as JSON files for API to output folder.

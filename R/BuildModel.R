@@ -97,12 +97,6 @@ constructEEIOMatrices <- function(model) {
   logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
   model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
   
-  # Re-organize matrices in model$Matrices
-  model$Matrices
-  matrices <- c("V", "U", "U_d", "A", "A_d", "B", "C", "D", "L", "L_d", "M", "M_d", "N", "N_d", "Rho", "Phi")
-  model$Matrices <- model[matrices]
-  model[matrices] <- NULL
-  
   logging::loginfo("Model build complete.")
   return(model)
 }
