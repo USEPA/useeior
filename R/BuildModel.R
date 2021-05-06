@@ -97,6 +97,10 @@ constructEEIOMatrices <- function(model) {
   logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
   model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
   
+  #Clean up model elements not written out or used in further functions to reduce clutter
+  mat_to_remove <- c("U_n","U_d_n","V_n","C_m","W")
+  model <- within(model, rm(list=mat_to_remove))
+  
   logging::loginfo("Model build complete.")
   return(model)
 }
