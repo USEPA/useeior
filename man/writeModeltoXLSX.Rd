@@ -2,7 +2,7 @@
 % Please edit documentation in R/WriteModel.R
 \name{writeModeltoXLSX}
 \alias{writeModeltoXLSX}
-\title{Write selected model matrices and metadata as XLSX file to output folder}
+\title{Write selected model matrices, demand vectors, and metadata as XLSX file to output folder}
 \usage{
 writeModeltoXLSX(model, outputfolder)
 }
@@ -15,6 +15,5 @@ writeModeltoXLSX(model, outputfolder)
 None
 }
 \description{
-Writes model matrices as XLSX file, including A, A_d, B, C, D, L, L_d, M, M_d, N, N_d, Rho (CPI ratio), Phi (Margin ratio),
-demand vectors, and model metadata.
+Writes model matrices demand vectors, and metadata as XLSX file to output folder.
 }
