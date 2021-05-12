@@ -7,7 +7,7 @@ A fully constructed USEEIO model contains the following elements.
 | crosswalk | table | [The crosswalk table for a given model](#Crosswalk-format), including 1 NAICS code column and 3 BEA code columns (sector, summary, and detail) |
 | Commodities | table | [Commodity name table](#Commodities-and-Industries-table-format) |
 | Industries | table | [Industry name table](#Commodities-and-Industries-table-format) |
-| FinalDemandSectors | table | [Final demand table](#Final-Demand-table-format) |
+| FinalDemandSectors | table | [Final demand name table](#Final-Demand-table-format) |
 | MarginSectors | table | [Margins name table](#Commodities-and-Industries-table-format) |
 | ValueAddedSectors | table | [Value Added name table](#Commodities-and-Industries-table-format) |
 | MakeTransactions | matrix | The Make (industry x commodity) matrix for a given model |

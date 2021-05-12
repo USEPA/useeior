@@ -2,7 +2,7 @@
 Disaggregation lists are named based on the Code_Loc of the original sector (e.g. `562000/US`)
 
 | Item | Type | Required? | Description |
-| --- | --- | --------- |
+| --- | --- | --- | --------- |
 | OriginalSectorCode | str | Y |  |
 | OriginalSectorName | str | Y |  |
 | DisaggregationType | str | Y |  |
@@ -35,5 +35,5 @@ CommodityCode | string | Y | Code/location for commodity |
 PercentUsed | numeric | Y | Percent use of commodity among dissaggregated industries |
 Note | string | N | |
 
-##Disaggregated Satellite Table Format
+## Disaggregated Satellite Table Format
 Matches [totals-by-sector](https://github.com/USEPA/useeior/tree/master/format_specs/model.md#Satellite-Tables) but includes an additional field `SatelliteTable` indicating the satellite table to which each record applies.
