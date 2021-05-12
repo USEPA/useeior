@@ -16,8 +16,6 @@
 #'        \item Location {Activity location, at a national, state, or county level}
 #'        \item Year {Year of the data}
 #'        \item DistributionType {Form of the frequency distribution, if given. Acceptable values are 'NORMAL', 'LOGNORMAL', 'TRIANGULAR', 'UNIFORM'.}
-#'        \item ExpectedValue {Value of midpoint of distribution}
-#'        \item Dispersion {Measure of dispersion from the mean}
 #'        \item Min {The minimum FlowAmount, if provided for the data range.}
 #'        \item Max {The maximum FlowAmount, if provided for the data range.}
 #'        \item DataReliability {A 1-5 score of data reliability based on reporting values associated with the amount.}
@@ -25,6 +23,7 @@
 #'        \item GeographicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
 #'        \item TechnologicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
 #'        \item DataCollection {A 1-5 score of data collection based on reporting values associated with the amount.}
+#'        \item MetaSources {Tag for the data source.}
 #'    }
 #'  }
 #' }
