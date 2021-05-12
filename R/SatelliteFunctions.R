@@ -103,7 +103,7 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
 }
 
 #' Generate a standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
-#' @param sattable A statellite table contains FlowAmount already aggregated and transformed to coefficients.
+#' @param sattable A satellite table contains FlowAmount already aggregated and transformed to coefficients.
 #' @return A standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
 conformTbStoStandardSatTable <- function (sattable) {
   # Get standard sat table fields
@@ -117,9 +117,9 @@ conformTbStoStandardSatTable <- function (sattable) {
 
 
 #' Stacks two tables up
-#' @param sattable1 A standardized statellite table.
-#' @param sattable2 Another standardized statellite table.
-#' @return A complete standardized statellite table.
+#' @param sattable1 A standardized satellite table.
+#' @param sattable2 Another standardized satellite table.
+#' @return A complete standardized satellite table.
 stackSatelliteTables <- function (sattable1, sattable2) {
   return(rbind(sattable1, sattable2))
 }

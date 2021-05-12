@@ -165,7 +165,7 @@ transformDirectRequirementswithMarketShares <- function (B, D, model) {
 #' to Final Demand (industry x sector)
 #' @param Fdf Final Demand data.frame.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return Final Demand (industry x sector) dataf.rame
+#' @return Final Demand (industry x sector) data.frame
 transformFinalDemandwithMarketShares <- function (Fdf, model) {
   D <- generateMarketSharesfromMake(model)
   # See Miller and Blair section 5.3.7 (pg 197)

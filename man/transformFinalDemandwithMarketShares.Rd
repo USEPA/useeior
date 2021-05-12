@@ -13,7 +13,7 @@ transformFinalDemandwithMarketShares(Fdf, model)
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
-Final Demand (industry x sector) dataf.rame
+Final Demand (industry x sector) data.frame
 }
 \description{
 Transform Final Demand (commodity x sector) with Market Shares matrix
