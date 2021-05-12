@@ -1,6 +1,6 @@
-Model: "USEEIOv2.0i-GHG" # 2012 Detail, Industry
+Model: "USEEIOv2.0s-GHG_nodisagg"
 BaseIOSchema: 2012
-BaseIOLevel: "Detail"
+BaseIOLevel: "Summary"
 IOYear: 2012 # Year for IO data
 PrimaryRegionAcronym: "US"
 ModelRegionAcronyms: ["US"]
@@ -8,9 +8,9 @@ ModelType: "US"
 ModelSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
-CommoditybyIndustryType: "Industry"
+CommoditybyIndustryType: "Commodity"
 ScrapIncluded: FALSE
-DisaggregationSpecs: "WasteDisaggregation" #Name of disaggregation yml file.
+DisaggregationSpecs: null
 
 SatelliteTable:
   GHG:
