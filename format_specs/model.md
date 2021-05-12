@@ -3,16 +3,16 @@ A fully constructed USEEIO model contains the following elements. Items listed a
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| specs | list | [A list of USEEIO model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
-| crosswalk | data.frame | [The crosswalk table](#Crosswalk-format), including 1 NAICS code column and 3 BEA code columns (sector, summary, and detail) |
-| Commodities | data.frame | [Commodity name table](#Commodities-and-Industries-table-format) |
-| Industries | data.frame | [Industry name table](#Commodities-and-Industries-table-format) |
-| FinalDemandSectors | data.frame | [Final demand name table](#Final-Demand-table-format) |
-| MarginSectors | data.frame | [Margins name table](#Commodities-and-Industries-table-format) |
-| ValueAddedSectors | data.frame | [Value Added name table](#Commodities-and-Industries-table-format) |
+| specs | list | A list of USEEIO [model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
+| crosswalk | data.frame | [The crosswalk table](#crosswalk-format) |
+| Commodities | data.frame | [Commodity name table](#commodities-and-industries-table-format) |
+| Industries | data.frame | [Industry name table](#commodities-and-industries-table-format) |
+| FinalDemandSectors | data.frame | [Final demand name table](#final-demand-table-format) |
+| MarginSectors | data.frame | [Margins name table](#commodities-and-industries-table-format) |
+| ValueAddedSectors | data.frame | [Value Added name table](#value-added-table-format) |
 | MultiYearIndustryOutput | data.frame | The multi-year (2002-2018) industry output table |
 | MultiYearCommodityOutput | data.frame | The multi-year (2002-2018) commodity output table |
-| Margins | data.frame | [The final consumer margins table](#Margins-table-format) |
+| Margins | data.frame | [The final consumer margins table](#margins-table-format) |
 | MultiYearIndustryCPI | data.frame | The multi-year (2002-2018) industry CPI<sup>1</sup> table |
 | MultiYearCommodityCPI | data.frame | The multi-year (2002-2018) commodity CPI<sup>1</sup> table |
 | DisaggregationSpecs | list | A list containing elements for one or more [disaggregations](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
@@ -21,29 +21,30 @@ A fully constructed USEEIO model contains the following elements. Items listed a
 | DemandVectors | list | [The demand vectors](#demand-vectors) |
 | TbS | data.frame | [The total Flow-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry |
 | CbS | data.frame | [The total Coefficient-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry per dollar output |
-| V | matrix | The Make matrix (industry x commodity)  |
-| U | matrix | The Use matrix (commodity x industry) (including final demand and value added) |
-| U_d | matrix | The domestic Use matrix (including domestic final demand and value added) |
-| x | vector | Total output by industry |
-| q | vector | Total output by commodity |
-| A | matrix | The direct requirements matrix (sector x sector) |
+| V | matrix | [The Make matrix](#make-matrix-format) |
+| U | matrix | [The Use matrix](#use-matrix-format) |
+| U_d | matrix | [The domestic Use matrix](#use-matrix-format) |
+| q | numeric vector | Total output by commodity |
+| x | numeric vector | Total output by industry |
+| A | matrix | The direct requirements matrix |
 | A_d | matrix | The domestic direct requirements matrix |
-| B | matrix | The direct emissions and resource use matrix (flow x sector) |
-| C | matrix | The characterization factor matrix (indicator x flow) |
-| D | matrix | The direct impact matrix (indicator x sector) |
-| L | matrix | The Leontief inverse matrix (sector x sector) |
+| L | matrix | The Leontief inverse matrix |
 | L_d | matrix | The domestic Leontief inverse matrix |
-| M | matrix | The total emissions and resource use matrix (flow x sector) |
+| B | matrix | The direct emissions and resource use matrix |
+| C | matrix | The characterization factor matrix |
+| D | matrix | The direct impact matrix |
+| M | matrix | The total emissions and resource use matrix |
 | M_d | matrix | The total emissions and resource use (from and by domestic activity) matrix |
-| N | matrix | The total impact matrix (indicator x sector) |
+| N | matrix | The total impact matrix |
 | N_d | matrix | The total impact (from domestic activity) matrix |
-| Rho | data.frame | The CPI<sup>1</sup> price year ratio table |
-| Phi | data.frame | The producer over purchaser price ratio table |
+| Rho | data.frame | The CPI<sup>1</sup> price year ratio table for a given model|
+| Phi | data.frame | The producer over purchaser price ratio table for a given model|
 
 <sup>1</sup> Chain-type Price Index
 
 ## Matrix Indeces format
-When used in matrix indeces, items below take the following format:
+When used in matrix indecies, items below take the following format:
+
 | Item | Format |
 | --- | --------- |
 | sector (commodity or industry) | [Code_Loc](#commodities-and-industries-table-format) (e.g. `1111A0/US`) |
@@ -76,6 +77,14 @@ When used in matrix indeces, items below take the following format:
 | Group | str | Classification of final demand vector (e.g. Household) |
 | Code_Loc | str | Code plus location (e.g. `F01000/US`) |
 
+## Value Added table format
+
+| Item | Type | Description |
+| --- | --- | --------- |
+| Code | str | 6-digit code |
+| Name | str | Final demand name |
+| Code_Loc | str | Code plus location (e.g. `V00100/US`) |
+
 ## Margins table format
 
 | Item | Type | Description |
@@ -91,9 +100,10 @@ When used in matrix indeces, items below take the following format:
 
 ## Satellite Tables
 
-totals_by_sector - list of dataframes, one for each satellite table, which contain the Flow-by-Sector table, based on the [flow-by-sector collapsed format of flowsa](https://github.com/USEPA/flowsa/blob/master/format%20specs/FlowBySector.md#flow-by-sector-collapsed-format) with some fields removed. Also includes an additional field `SectorName`.
+**totals_by_sector** - list of dataframes, one for each satellite table, which contain the Flow-by-Sector table, based on the [flow-by-sector collapsed format of flowsa](https://github.com/USEPA/flowsa/blob/master/format%20specs/FlowBySector.md#flow-by-sector-collapsed-format) with some fields removed. Also includes an additional field `SectorName`.
 
-flows - the unique flows found across all satellite tables with fields sourced from the [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md)
+**flows** - the unique flows found across all satellite tables with fields sourced from the [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md)
+
 | Item | Type | Description |
 | --- | --- | --------- |
 | Flowable | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
@@ -103,7 +113,7 @@ flows - the unique flows found across all satellite tables with fields sourced f
 
 ## Indicators
 
-meta - table of indicators included in the model
+**meta** - table of indicators included in the model
 
 | Item | Type | Description |
 | --- | --- | --------- |
@@ -114,7 +124,8 @@ meta - table of indicators included in the model
 | SimpleUnit | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
 | SimpleName | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
 
-factors - table of indicator factors included in the model across all indicators
+**factors** - table of indicator factors included in the model across all indicators
+
 | Item | Type | Description |
 | --- | --- | --------- |
 | Indicator | str | Matches the [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) of the indicator |
@@ -125,7 +136,8 @@ factors - table of indicator factors included in the model across all indicators
 
 ## Demand Vectors
 
-meta - table of demand vectors included in the model
+**meta** - table of demand vectors included in the model
+
 | Item | Type | Description |
 | --- | --- | --------- |
 | Type | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
@@ -135,4 +147,26 @@ meta - table of demand vectors included in the model
 | Name | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
 | ID | str | Year_Location_Type_System |
 
-vectors - list of demand vectors
+**vectors** - list of demand vectors
+
+## Make matrix format
+
+```
+            industries
+            +-------+
+commodities |       |
+            |  Make |
+            +-------+
+```
+[commodties and industries](#commodities-and-industries-table-format) are in `Code_Loc` format
+
+## Use matrix format
+
+```
+    commodities, final demand
+            +-------+
+ industries |       |
+value added |   Use |
+            +-------+
+```
+[commodties, industries](#commodities-and-industries-table-format), [final demand](#final-demand-table-format) and [value added](#value-added-table-format) are in `Code_Loc` format
