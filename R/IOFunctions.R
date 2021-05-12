@@ -161,15 +161,16 @@ transformDirectRequirementswithMarketShares <- function (B, D, model) {
   return(A)
 }
 
-#' Transform Final Demand df with Market Shares matrix.
-#' @param Fdf Final Demand dataframe.
+#' Transform Final Demand (commodity x sector) with Market Shares matrix
+#' to Final Demand (industry x sector)
+#' @param Fdf Final Demand data.frame.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return Final Demand matrix.
+#' @return Final Demand (industry x sector) dataf.rame
 transformFinalDemandwithMarketShares <- function (Fdf, model) {
   D <- generateMarketSharesfromMake(model)
   # See Miller and Blair section 5.3.7 (pg 197)
   Fmatrix <- D %*% as.matrix(Fdf)
-  return(Fmatrix)
+  return(as.data.frame(Fmatrix))
 }
 
 #' Calculate Leontief inverse from direct requirements matrix.
