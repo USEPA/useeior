@@ -42,7 +42,7 @@ Indicators:
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
     SimpleName: "Greenhouse Gases"
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
