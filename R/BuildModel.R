@@ -21,6 +21,14 @@ constructEEIOMatrices <- function(model) {
   if(model$specs$ModelType!="US"){
     stop("This function needs to be revised before it is suitable for multi-regional models")
   }
+  
+  # Combine data into a single totals by sector df
+  model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
+  # Set common year for flow when more than one year exists
+  model$TbS <- setCommonYearforFlow(model$TbS)
+  # Generate coefficients 
+  model$CbS <- generateCbSfromTbSandModel(model)
+  
   # Generate matrices
   model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
   model$V <- as.matrix(model$MakeTransactions) # Make
@@ -34,6 +42,8 @@ constructEEIOMatrices <- function(model) {
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
   model$W <- as.matrix(model$UseValueAdded)
+  model$q <- model$CommodityOutput
+  model$x <- model$IndustryOutput
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements)...")
     model$A <- model$U_n %*% model$V_n
@@ -45,16 +55,17 @@ constructEEIOMatrices <- function(model) {
     logging::loginfo("Building industry-by-industry A_d matrix (domestic direct requirements)...")
     model$A_d <- model$V_n %*% model$U_d_n
   }
-
+  
+  # Calculate total requirements matrix as Leontief inverse (L) of A
+  logging::loginfo("Calculating L matrix (total requirements)...")
+  I <- diag(nrow(model$A))
+  I_d <- diag(nrow(model$A_d))
+  model$L <- solve(I - model$A)
+  logging::loginfo("Calculating L_d matrix (domestic total requirements)...")
+  model$L_d <- solve(I_d - model$A_d)
+  
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
-  
-  # Combine data into a single totals by sector df
-  model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
-  # Set common year for flow when more than one year exists
-  model$TbS <- setCommonYearforFlow(model$TbS)
-  # Generate coefficients 
-  model$CbS <- generateCbSfromTbSandModel(model)
   model$B <- createBfromFlowDataandOutput(model)
   
   # Generate C matrix
@@ -64,14 +75,6 @@ constructEEIOMatrices <- function(model) {
   # Add direct impact matrix
   logging::loginfo("Calculating D matrix (direct environmental impacts per dollar)...")
   model$D <- model$C %*% model$B 
-  
-  # Calculate total requirements matrix as Leontief inverse of A (L)
-  logging::loginfo("Calculating L matrix (total requirements)...")
-  I <- diag(nrow(model$A))
-  I_d <- diag(nrow(model$A_d))
-  model$L <- solve(I - model$A)
-  logging::loginfo("Calculating L_d matrix (domestic total requirements)...")
-  model$L_d <- solve(I_d - model$A_d)
   
   # Calculate total emissions/resource use per dollar (M)
   logging::loginfo("Calculating M matrix (total emissions and resource use per dollar)...")
@@ -98,7 +101,10 @@ constructEEIOMatrices <- function(model) {
   model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
   
   #Clean up model elements not written out or used in further functions to reduce clutter
-  mat_to_remove <- c("U_n","U_d_n","V_n","C_m","W")
+  mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
+                     "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
+                     "CommodityOutput", "IndustryOutput",
+                     "U_n","U_d_n","V_n","C_m","W")
   model <- within(model, rm(list=mat_to_remove))
   
   logging::loginfo("Model build complete.")
