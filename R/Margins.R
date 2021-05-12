@@ -2,9 +2,12 @@
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A data.frame containing CommodityCode, and margins for ProducersValue, Transportation, Wholesale, Retail and PurchasersValue.
 getMarginsTable <- function (model) {
+  # Define value_columns in Margins table
+  value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail")
   # Use BEA Margin Details table
   if (model$specs$BaseIOSchema==2012) {
     MarginsTable <- useeior::Detail_Margins_2012_BeforeRedef
+    MarginsTable[, value_columns] <- MarginsTable[, value_columns]*1E6
   }
   # Remove Export, Import and Change in Inventory records.
   # Exports do not reflect what a US consumer would pay for margins, hence the removal.
@@ -24,7 +27,6 @@ getMarginsTable <- function (model) {
   crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])
   MarginsTable <- merge(MarginsTable, crosswalk, by.x = "CommodityCode", by.y = "BEA_Detail")
   # Aggregate value_columns by CommodityCode (dynamic to model BaseIOLevel) and CommodityDescription
-  value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail")
   if (!model$specs$BaseIOLevel=="Detail") {
     MarginsTable$CommodityCode <- MarginsTable[, paste0("BEA_", model$specs$BaseIOLevel)]
   }
