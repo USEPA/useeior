@@ -24,54 +24,55 @@ Model specifications are assigned in a yml file based on the parameters shown be
 ## Satellite Table Specifications
 | Item | Type | Required? | Description |
 | --- | --- | --- | --------- |
-| FullName | str | Y | The model name |
-| Abbreviation | str | Y | The model name |
-| StaticSource | str | Y | The model name |
-| StaticFile | str | Y | The model name |
-| FileLocation | str | Y | The model name |
-| DataYears | str | Y | The model name |
-| Locations | str | Y | The model name |
-| SectorListSource | str | Y | The model name |
-| SectorListYear | str | Y | The model name |
-| SectorListLevel | str | Y | The model name |
-| OriginalFlowSource | str | Y | The model name |
-| ScriptFunctionCall | str | Y | The model name |
-| ScriptFunctionParameters | str | Y | The model name |
-| DataSources | str | Y | The model name |
+| FullName | str | Y | The name of the satellite table |
+| Abbreviation | str | Y | Abbreviation used for the satellite table |
+| StaticSource | bool | Y | If TRUE, indicates the use of a static source file. If FALSE the data will be generated dynamically |
+| StaticFile | str | N | Required if StaticSource = TRUE, indicates the path of the source file |
+| FileLocation | str | Y | The location of the source file. Options are 'DataCommons' or 'useeior'. If StaticSource = FALSE, set to `None` |
+| DataYears | list | Y | Years reprsented by flows included in the satellite table |
+| Locations | list | Y | The model name |
+| SectorListSource | str | Y | The source category used for sectors in the satellite table (e.g. 'BEA' or 'NAICS') |
+| SectorListYear | int | Y | The year of the SectorListSource |
+| SectorListLevel | str | Y | The level of detail for the SectorListSource (e.g. 'Detail' or '6' for 6-digit NAICS) |
+| OriginalFlowSource | str | Y | Source list for flow names. If not 'FEDEFL', used to identify appropriate flow mapping |
+| ScriptFunctionCall | str | N | Function name for additional processing of satellite table |
+| ScriptFunctionParameters | list | N | Parameters for ScriptFunctionCall |
+| DataSources | list | N | Metadata for the satellite table [sources](#datasources-specifications) |
 
 
 ## Indicator Specifications
 | Item | Type | Required? | Description |
 | --- | --- | --- | --------- |
-| Name | str | Y | The model name |
-| Code | str | Y | The model name |
-| Group | str | Y | The model name |
-| Unit | str | Y | The model name |
-| SimpleUnit | str | Y | The model name |
-| SimpleName | str | Y | The model name |
-| StaticSource | str | Y | The model name |
-| StaticFile | str | Y | The model name |
-| FileLocation | str | Y | The model name |
-| ScriptFunctionCall | str | Y | The model name |
-| ScriptFunctionParameters | str | Y | The model name |
-| DataSources | str | Y | The model name |
+| Name | str | Y | The indicator name |
+| Code | str | Y | The indicator code |
+| Group | str | Y | The type of indicator (e.g. 'Impact Potential', 'Resource Use','Chemical Releases','Economic & Social') |
+| Unit | str | Y | Unit for the indicator |
+| SimpleUnit | str | Y |  |
+| SimpleName | str | Y |  |
+| StaticSource | bool | Y | If TRUE, indicates the use of a static source file. If FALSE the data will be generated dynamically |
+| StaticFile | str | N | Required if StaticSource = TRUE, indicates the path of the source file |
+| FileLocation | str | Y | The location of the source file. Options are 'DataCommons' or 'useeior'. |
+| ScriptFunctionCall | str | N | Function name for additional processing of indicator |
+| ScriptFunctionParameters | list | N | Parameters for ScriptFunctionCall |
+| DataSources | list | N | Metadata for the indicator [sources](#datasources-specifications) |
 
 
 ## Demand Vector Specifications
+Each demand vector list is given a unique `Name`
 | Item | Type | Required? | Description |
 | --- | --- | --- | --------- |
-| Type | str | Y | The model name |
-| Year | str | Y | The model name |
-| System | str | Y | The model name |
-| Location | str | Y | The model name |
+| Type | str | Y |  |
+| Year | int | Y |  |
+| System | str | Y |  |
+| Location | str | Y |  |
 
 
 ## DataSources Specifications
 | Item | Type | Required? | Description |
 | --- | --- | --- | --------- |
-| Title | str | Y | The model name |
-| Author | str | Y | The model name |
-| DataYear | str | Y | The model name |
-| URL | str | Y | The model name |
-| Primary | str | Y | The model name |
+| Title | str | Y | Title of the source |
+| Author | str | Y | Authors of the source |
+| DataYear | int | Y | Year of publication |
+| URL | str | Y | Source URL |
+| Primary | bool | Y |  |
 

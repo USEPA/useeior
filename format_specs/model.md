@@ -32,8 +32,8 @@ A fully constructed USEEIO model contains the following elements.
 | U_d | matrix | The domestic Use matrix (including final demand and value added) for a given model |
 | A | matrix | The direct requirements matrix for a given model |
 | A_d | matrix | The domestic direct requirements matrix for a given model |
-| TbS | matrix | [The total Flow-by-Sector table for a given model](https://github.com/USEPA/flowsa/blob/master/format%20specs/FlowBySector.md) |
-| CbS | matrix | The Coefficient-by-Sector table for a given model |
+| TbS | matrix | [The total Flow-by-Sector table across all satellite tables](#satellite-tables) |
+| CbS | matrix | [The total Coefficient-by-Sector table across all satellite tables](#satellite-tables) |
 | B | matrix | The direct emissions and resource use matrix for a given model |
 | C | matrix | The characterization factor matrix for a given model |
 | D | matrix | The direct impact matrix for a given model |
@@ -76,12 +76,22 @@ A fully constructed USEEIO model contains the following elements.
 
 ## Margins Specifications format
 
+| Item | Type | Description |
+| --- | --- | --------- |
+| SectorCode | str | 6-digit code |
+| ProducersValue | numeric |  |
+| Transportation | numeric |  |
+| Wholesale | numeric |  |
+| Retail | numeric |  |
+| Name | str | Sector name |
+| Code_Loc | str | Code plus location (e.g. `1111A0/US`) |
+| PurchasersValue | numeric | Sum of ProducersValue, Transportation, Wholesale, and Retail |
 
 ## Satellite Tables
 
-totals_by_sector - list of dataframes, one for each satellite table, which contain the total Flow-by-Sector table, modified from the [flow-by-sector collapsed format of flowsa](https://github.com/USEPA/flowsa/blob/master/format%20specs/FlowBySector.md#flow-by-sector-collapsed-format)
+totals_by_sector - list of dataframes, one for each satellite table, which contain the Flow-by-Sector table, based on the [flow-by-sector collapsed format of flowsa](https://github.com/USEPA/flowsa/blob/master/format%20specs/FlowBySector.md#flow-by-sector-collapsed-format) with some fields removed. Also includes an additional field `SectorName`.
 
-Flows - the unique flows found across all satellite tables with fields sourced from the [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md)
+flows - the unique flows found across all satellite tables with fields sourced from the [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md)
 | Item | Type | Description |
 | --- | --- | --------- |
 | Flowable | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
@@ -91,14 +101,36 @@ Flows - the unique flows found across all satellite tables with fields sourced f
 
 ## Indicators
 
+meta - table of indicators included in the model
+
 | Item | Type | Description |
 | --- | --- | --------- |
-| meta | metadata | The indicator specifications for a given model |
-| factors | table | The indicator factor for a given model |
+| Name | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
+| Code | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
+| Group | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
+| Unit | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
+| SimpleUnit | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
+| SimpleName | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
+
+factors - table of indicator factors included in the model across all indicators
+| Item | Type | Description |
+| --- | --- | --------- |
+| Indicator | str | Matches the Name of the indicator |
+| Flowable | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Context | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Unit | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Amount | numeric | Characterization factor linking one unit of the flow to the indicator |
 
 ## Demand Vectors
 
+meta - table of demand vectors included in the model
 | Item | Type | Description |
 | --- | --- | --------- |
-| vectors | vector | The demand vectors for a given model |
-| meta | metadata | The demand specifications for a given model |
+| Type | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
+| Year | int | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
+| System | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
+| Location | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
+| Name | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
+| ID | str | Year_Location_Type_System |
+
+vectors - list of demand vectors
