@@ -1,9 +1,9 @@
 # Disaggregation File Specifications
-Disaggregation lists are named based on the Code_Loc of the original sector (e.g. `562000/US`)
+Disaggregation lists are named based on the Code/location of the original sector (e.g. `562000/US`)
 
 | Item | Type | Required? | Description |
 | --- | --- | --- | --------- |
-| OriginalSectorCode | str | Y | Code_Loc of the sector to be disaggregated |
+| OriginalSectorCode | str | Y | Code/location of the sector to be disaggregated |
 | OriginalSectorName | str | Y | Name of the sector to be disaggregated |
 | DisaggregationType | str | Y |  |
 | SectorFile | str | Y | Pointer to a file containing [disaggregated sectors mapping](#disaggregated-sectors-format)  |
@@ -16,7 +16,7 @@ Disaggregation lists are named based on the Code_Loc of the original sector (e.g
 | Field | Type | Required? | Description |
 | --- | --- | --- | ---
 | NAICS_2012_Code | string | Y | NAICS 2012 6-digit code |
-| USEEIO_Code | string | Y | Code for new sector in the form of Code_Loc (e.g. `562111/US`) |
+| USEEIO_Code | string | Y | Code for new sector in the form of Code/location |
 | USEEIO_Name | string | Y | Name for new sector |
 
 ## Disaggregated Make Format
@@ -27,7 +27,7 @@ CommodityCode | string | Y | Code/location for commodity |
 PercentMake | numeric | Y | Percent of industry output dedicated to production of the given commodity |
 Note | string | N |  |
 
-## Disaggreated Use Format
+## Disaggregated Use Format
 Field | Type | Required? | Description |
 -- | -- | -- | -- |
 IndustryCode | string | Y | Code/location for industry |
