@@ -4,21 +4,21 @@ Model specifications are assigned in a yml file based on the parameters shown be
 | Item | Type | Required? | Description |
 | --- | --- | --- | --------- |
 | Model | str | Y | The model name |
-| BaseIOSchema | int | Y | The base IO schema for a given model (e.g. 2012) |
-| BaseIOLevel | str | Y | The base IO level of detail for a given model (e.g. `Detail`) |
-| IOYear | int | Y | The base IO year for a given model |
-| PrimaryRegionAcronym | str | Y | The primary region acronym for a given model |
-| ModelRegionAcronyms | list | Y | The model region acronyms for a given model |
+| BaseIOSchema | int | Y | The base IO schema (e.g. 2012) |
+| BaseIOLevel | str | Y | The base IO level of detail (e.g. `Detail`) |
+| IOYear | int | Y | The base IO year |
+| PrimaryRegionAcronym | str | Y | The primary region acronym |
+| ModelRegionAcronyms | list | Y | The model region acronyms |
 | ModelType | str | Y | The model type |
 | ModelSource | str | Y | The model source |
 | BasePriceType | str | Y | The model base price type (producer or purchaser) |
 | BasewithRedefinitions | bool | Y | Whether the model is based with redefinitions (TRUE or FALSE) |
 | CommoditybyIndustryType | str | Y | The model commodity by industry type (`Commodity` or `Industry`) |
 | ScrapIncluded | bool | Y | Whether the model includes scrap (TRUE or FALSE) |
-| DisaggregationSpecs | str | N | The disaggregation specifications for a given model |
-| SatelliteTable | list |  | The [satellite table specifications](#Satellite-Table-Specifications) for a given model |
-| Indicators | list |  | The [indicator specifications](#Indicator-Specifications) for a given model |
-| DemandVectors | list |  | The [demand vector specifications](#Demand-Vector-Specifications) for a given model |
+| DisaggregationSpecs | str | N | The [disaggregation specifications](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
+| SatelliteTable | list |  | The [satellite table specifications](#Satellite-Table-Specifications) |
+| Indicators | list |  | The [indicator specifications](#Indicator-Specifications) |
+| DemandVectors | list |  | The [demand vector specifications](#Demand-Vector-Specifications) |
 
 
 ## Satellite Table Specifications

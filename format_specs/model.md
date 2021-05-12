@@ -20,7 +20,7 @@ A fully constructed USEEIO model contains the following elements.
 | CommodityOutput | vector | Total output by commodity for a given model |
 | MultiYearIndustryOutput | table | The multi-year industry output table for a given model |
 | MultiYearCommodityOutput | table | The multi-year commodity output table for a given model |
-| Margins | table | [The final consumer margins table](#Margins-Specifications-format) for a given model |
+| Margins | table | [The final consumer margins table](#Margins-table-format) for a given model |
 | MultiYearIndustryCPI | table | The multiyear industry CPI<sup>1</sup> table for a given model |
 | MultiYearCommodityCPI | table | The multiyear commodity CPI<sup>1</sup> table for a given model |
 | DisaggregationSpecs | list | A list containing elements for one or more [disaggregations](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
@@ -74,7 +74,7 @@ A fully constructed USEEIO model contains the following elements.
 | Group | str | Classification of final demand vector (e.g. Household) |
 | Code_Loc | str | Code plus location (e.g. `F01000/US`) |
 
-## Margins Specifications format
+## Margins table format
 
 | Item | Type | Description |
 | --- | --- | --------- |
@@ -115,7 +115,7 @@ meta - table of indicators included in the model
 factors - table of indicator factors included in the model across all indicators
 | Item | Type | Description |
 | --- | --- | --------- |
-| Indicator | str | Matches the Name of the indicator |
+| Indicator | str | Matches the [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) of the indicator |
 | Flowable | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 | Context | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 | Unit | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
