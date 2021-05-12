@@ -1,14 +1,15 @@
-## model format
+## Model Format
+A fully constructed USEEIO model contains the following elements.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| specs | list | [A list of USEEIO model specifications](#Model-Specifications-format) |
+| specs | list | [A list of USEEIO model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
 | crosswalk | table | [The crosswalk table for a given model](#Crosswalk-format), including 1 NAICS code column and 3 BEA code columns (sector, summary, and detail) |
-| Commodities | table | [Commodity name table](#Commodities-and Industries-table-format) |
-| Industries | table | [Industry name table](#Commodities-and Industries-table-format) |
+| Commodities | table | [Commodity name table](#Commodities-and-Industries-table-format) |
+| Industries | table | [Industry name table](#Commodities-and-Industries-table-format) |
 | FinalDemandSectors | table | [Final demand table](#Final-Demand-table-format) |
-| MarginSectors | table | [Margins name table](#Commodities-and Industries-table-format) |
-| ValueAddedSectors | table | [Value Added name table](#Commodities-and Industries-table-format) |
+| MarginSectors | table | [Margins name table](#Commodities-and-Industries-table-format) |
+| ValueAddedSectors | table | [Value Added name table](#Commodities-and-Industries-table-format) |
 | MakeTransactions | matrix | The Make (industry x commodity) matrix for a given model |
 | UseTransactions | matrix | The Use (commodity x industry) matrix for a given model |
 | DomesticUseTransactions | matrix | The domestic Use (commodity x industry) matrix for a given model |
@@ -19,10 +20,10 @@
 | CommodityOutput | vector | Total output by commodity for a given model |
 | MultiYearIndustryOutput | table | The multi-year industry output table for a given model |
 | MultiYearCommodityOutput | table | The multi-year commodity output table for a given model |
-| FinalConsumerMargins | table | The final consumer margins table for a given model |
+| Margins | table | [The final consumer margins table](#Margins-Specifications-format) for a given model |
 | MultiYearIndustryCPI | table | The multiyear industry CPI<sup>1</sup> table for a given model |
 | MultiYearCommodityCPI | table | The multiyear commodity CPI<sup>1</sup> table for a given model |
-| DisaggregationSpecs | list | A list containing list elements for one or more disaggregations[The disaggregation specifications for a given model](#Disaggregation-Specifications-format) |
+| DisaggregationSpecs | list | A list containing elements for one or more [disaggregations](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
 | SatelliteTables | table | [The satellite tables for a given model](#satellite-tables) |
 | Indicators | table | [The indicators for a given model](#indicators) |
 | DemandVectors | table | [The demand vectors for a given model](#demand-vectors) |
@@ -46,27 +47,6 @@
 | Phi | table | The producer over purchaser price ratio table for a given model|
 
 <sup>1</sup> Chain-type Price Index
-
-## Model Specifications format
-
-| Item | Type | Description |
-| --- | --- | --------- |
-| Model | str | The model name |
-| BaseIOSchema | int | The base IO schema for a given model (e.g. 2012) |
-| BaseIOLevel | str | The base IO level of detail for a given model (e.g. `Detail`) |
-| IOYear | int | The base IO year for a given model |
-| PrimaryRegionAcronym | str | The primary region acronym for a given model |
-| ModelRegionAcronyms | list | The model region acronyms for a given model |
-| ModelType | str | The model type |
-| ModelSource | str | The model source |
-| BasePriceType | str | The model base price type (producer or purchaser) |
-| BasewithRedefinitions | bool | Whether the model is based with redefinitions (TRUE or FALSE) |
-| CommoditybyIndustryType | str | The model commodity by industry type (`Commodity` or `Industry`) |
-| ScrapIncluded | bool | Whether the model includes scrap (TRUE or FALSE) |
-| DisaggregationSpecs | str | The disaggregation specifications for a given model |
-| SatelliteTable | metadata | The satellite table specifications for a given model |
-| Indicators | metadata | The indicator specifications for a given model |
-| DemandVectors | metadata | The demand vector specifications for a given model |
 
 ## Crosswalk format
 
@@ -94,26 +74,10 @@
 | Group | str | Classification of final demand vector (e.g. Household) |
 | Code_Loc | str | Code plus location (e.g. `F01000/US`) |
 
-## Disaggregation Specifications format
-Disaggregation lists are named based on the Code_Loc of the original sector (e.g. `562000/US`)
+## Margins Specifications format
 
-| Item | Type | Description |
-| --- | --- | --------- |
-| OriginalSectorCode | str |  |
-| OriginalSectorName | str |  |
-| DisaggregationType | str |  |
-| SectorFile | str |  |
-| MakeFile | str |  |
-| UseFile | str |  |
-| EnvFile | str |  |
-| NAICSSectorCW | str |  |
-| DisaggregatedSectorNames | str |  |
-| DisaggregatedSectorCodes | str |  |
-| MakeFileDF | str |  |
-| UseFileDF | str |  |
-| EnvFileDF | str |  |
 
-## satellite tables
+## Satellite Tables
 
 totals_by_sector - list of dataframes, one for each satellite table, which contain the total Flow-by-Sector table, modified from the [flow-by-sector collapsed format of flowsa](https://github.com/USEPA/flowsa/blob/master/format%20specs/FlowBySector.md#flow-by-sector-collapsed-format)
 
@@ -125,14 +89,14 @@ Flows - the unique flows found across all satellite tables with fields sourced f
 | Unit | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 | FlowUUID | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 
-## indicators
+## Indicators
 
 | Item | Type | Description |
 | --- | --- | --------- |
 | meta | metadata | The indicator specifications for a given model |
 | factors | table | The indicator factor for a given model |
 
-## demand vectors
+## Demand Vectors
 
 | Item | Type | Description |
 | --- | --- | --------- |

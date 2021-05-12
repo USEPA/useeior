@@ -36,4 +36,4 @@ PercentUsed | numeric | Y | Percent use of commodity among dissaggregated indust
 Note | string | N | |
 
 ##Disaggregated Satellite Table Format
-
+Matches [totals-by-sector](https://github.com/USEPA/useeior/tree/master/format_specs/model.md#Satellite-Tables) but includes an additional field `SatelliteTable` indicating the satellite table to which each record applies.
