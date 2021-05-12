@@ -78,14 +78,14 @@ A fully constructed USEEIO model contains the following elements.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| SectorCode | str | 6-digit code |
-| ProducersValue | numeric |  |
-| Transportation | numeric |  |
-| Wholesale | numeric |  |
-| Retail | numeric |  |
+| SectorCode | str | 6-digit sector code |
+| ProducersValue | numeric | Producer's value |
+| Transportation | numeric | Transportation delivery cost |
+| Wholesale | numeric | Wholesale trade margin |
+| Retail | numeric | Retail trade margin  |
 | Name | str | Sector name |
 | Code_Loc | str | Code plus location (e.g. `1111A0/US`) |
-| PurchasersValue | numeric | Sum of ProducersValue, Transportation, Wholesale, and Retail |
+| PurchasersValue | numeric | Purchaser's value (sum of ProducersValue, Transportation, Wholesale, and Retail) |
 
 ## Satellite Tables
 
