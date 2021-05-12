@@ -5,16 +5,16 @@ A fully constructed USEEIO model contains the following elements. Items listed a
 | --- | --- | --------- |
 | specs | list | A list of USEEIO [model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
 | crosswalk | data.frame | [The crosswalk table](#crosswalk-format) |
-| Commodities | data.frame | [Commodity name table](#commodities-and-industries-table-format) |
-| Industries | data.frame | [Industry name table](#commodities-and-industries-table-format) |
-| FinalDemandSectors | data.frame | [Final demand name table](#final-demand-table-format) |
-| MarginSectors | data.frame | [Margins name table](#commodities-and-industries-table-format) |
-| ValueAddedSectors | data.frame | [Value Added name table](#value-added-table-format) |
-| MultiYearIndustryOutput | data.frame | The multi-year (2002-2018) industry output table |
-| MultiYearCommodityOutput | data.frame | The multi-year (2002-2018) commodity output table |
+| Commodities | data.frame | [The commodity name table](#commodities-and-industries-table-format) |
+| Industries | data.frame | [The industry name table](#commodities-and-industries-table-format) |
+| FinalDemandSectors | data.frame | [The final demand name table](#final-demand-table-format) |
+| MarginSectors | data.frame | [The margins name table](#commodities-and-industries-table-format) |
+| ValueAddedSectors | data.frame | [The value Added name table](#value-added-table-format) |
+| MultiYearIndustryOutput | data.frame | [The multi-year industry output table](#multi-year-table-format) |
+| MultiYearCommodityOutput | data.frame | [The multi-year commodity output table](#multi-year-table-format) |
 | Margins | data.frame | [The final consumer margins table](#margins-table-format) |
-| MultiYearIndustryCPI | data.frame | The multi-year (2002-2018) industry CPI<sup>1</sup> table |
-| MultiYearCommodityCPI | data.frame | The multi-year (2002-2018) commodity CPI<sup>1</sup> table |
+| MultiYearIndustryCPI | data.frame | [The multi-year industry CPI<sup>1</sup> table](#multi-year-table-format) |
+| MultiYearCommodityCPI | data.frame | [The multi-year commodity CPI<sup>1</sup> table](#multi-year-table-format) |
 | DisaggregationSpecs | list | A list containing elements for one or more [disaggregations](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
 | SatelliteTables | list | [The satellite tables of resource use and emissions](#satellite-tables) |
 | Indicators | list | [The indicators for calculating impacts or aggregate resource use](#indicators) |
@@ -42,8 +42,16 @@ A fully constructed USEEIO model contains the following elements. Items listed a
 
 <sup>1</sup> Chain-type Price Index
 
-## Matrix Indeces format
-When used in matrix indecies, items below take the following format:
+## Multi-year table format
+Rows (sector) and columns (year) in multi-year table tabke the following format:
+
+| Item | Format |
+| --- | --------- |
+| sector (commodity or industry) | [Code_Loc](#commodities-and-industries-table-format) (e.g. `1111A0/US`) |
+| year | 2002-2018 |
+
+## Matrix Indices format
+When used in matrix indices, items below take the following format:
 
 | Item | Format |
 | --- | --------- |
