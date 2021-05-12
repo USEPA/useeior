@@ -4,28 +4,28 @@ A fully constructed USEEIO model contains the following elements. Items listed a
 | Item | Type | Description |
 | --- | --- | --------- |
 | specs | list | [A list of USEEIO model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
-| crosswalk | data.frame | [The crosswalk table for a given model](#Crosswalk-format), including 1 NAICS code column and 3 BEA code columns (sector, summary, and detail) |
+| crosswalk | data.frame | [The crosswalk table](#Crosswalk-format), including 1 NAICS code column and 3 BEA code columns (sector, summary, and detail) |
 | Commodities | data.frame | [Commodity name table](#Commodities-and-Industries-table-format) |
 | Industries | data.frame | [Industry name table](#Commodities-and-Industries-table-format) |
 | FinalDemandSectors | data.frame | [Final demand name table](#Final-Demand-table-format) |
 | MarginSectors | data.frame | [Margins name table](#Commodities-and-Industries-table-format) |
 | ValueAddedSectors | data.frame | [Value Added name table](#Commodities-and-Industries-table-format) |
-| x | vector | Total output by industry for a given model |
-| q | vector | Total output by commodity for a given model |
 | MultiYearIndustryOutput | data.frame | The multi-year (2002-2018) industry output table |
 | MultiYearCommodityOutput | data.frame | The multi-year (2002-2018) commodity output table |
 | Margins | data.frame | [The final consumer margins table](#Margins-table-format) |
 | MultiYearIndustryCPI | data.frame | The multi-year (2002-2018) industry CPI<sup>1</sup> table |
 | MultiYearCommodityCPI | data.frame | The multi-year (2002-2018) commodity CPI<sup>1</sup> table |
 | DisaggregationSpecs | list | A list containing elements for one or more [disaggregations](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
-| SatelliteTables | list | [The satellite tables for a given model](#satellite-tables) |
-| Indicators | list | [The indicators for a given model](#indicators) |
-| DemandVectors | list | [The demand vectors for a given model](#demand-vectors) |
+| SatelliteTables | list | [The satellite tables of resource use and emissions](#satellite-tables) |
+| Indicators | list | [The indicators for calculating impacts or aggregate resource use](#indicators) |
+| DemandVectors | list | [The demand vectors](#demand-vectors) |
 | TbS | data.frame | [The total Flow-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry |
 | CbS | data.frame | [The total Coefficient-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry per dollar output |
 | V | matrix | The Make matrix (industry x commodity)  |
 | U | matrix | The Use matrix (commodity x industry) (including final demand and value added) |
 | U_d | matrix | The domestic Use matrix (including domestic final demand and value added) |
+| x | vector | Total output by industry |
+| q | vector | Total output by commodity |
 | A | matrix | The direct requirements matrix (sector x sector) |
 | A_d | matrix | The domestic direct requirements matrix |
 | B | matrix | The direct emissions and resource use matrix (flow x sector) |
@@ -46,9 +46,9 @@ A fully constructed USEEIO model contains the following elements. Items listed a
 When used in matrix indeces, items below take the following format:
 | Item | Format |
 | --- | --------- |
-| sector (commodity or industry) | [Code_Loc](#commodities-and-industries-format) (e.g. `1111A0/US`) |
+| sector (commodity or industry) | [Code_Loc](#commodities-and-industries-table-format) (e.g. `1111A0/US`) |
 | flow | [Flowable/Context/Unit](#satellite-tables) (e.g. `Carbon dioxide/emission/air/kg`) |
-| indicator | [Name](#indicators) (e.g. `Greenhouse Gases`) |
+| indicator | [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) (e.g. `Greenhouse Gases`) |
 
 ## Crosswalk format
 
