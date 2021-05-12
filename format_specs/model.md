@@ -9,7 +9,7 @@ A fully constructed USEEIO model contains the following elements. Items listed a
 | Industries | data.frame | [The industry name table](#commodities-and-industries-table-format) |
 | FinalDemandSectors | data.frame | [The final demand name table](#final-demand-table-format) |
 | MarginSectors | data.frame | [The margins name table](#commodities-and-industries-table-format) |
-| ValueAddedSectors | data.frame | [The value Added name table](#value-added-table-format) |
+| ValueAddedSectors | data.frame | [The value added name table](#value-added-table-format) |
 | MultiYearIndustryOutput | data.frame | [The multi-year industry output table](#multi-year-table-format) |
 | MultiYearCommodityOutput | data.frame | [The multi-year commodity output table](#multi-year-table-format) |
 | Margins | data.frame | [The final consumer margins table](#margins-table-format) |
