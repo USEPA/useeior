@@ -1,52 +1,54 @@
 ## Model Format
-A fully constructed USEEIO model contains the following elements.
+A fully constructed USEEIO model contains the following elements. Items listed as data.frame are table-like objects with field headers specified in subsequent tables. Matrices use indices as shown in the [Matrix Indeces format](#matrix-indeces-format)
 
 | Item | Type | Description |
 | --- | --- | --------- |
 | specs | list | [A list of USEEIO model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
-| crosswalk | table | [The crosswalk table for a given model](#Crosswalk-format), including 1 NAICS code column and 3 BEA code columns (sector, summary, and detail) |
-| Commodities | table | [Commodity name table](#Commodities-and-Industries-table-format) |
-| Industries | table | [Industry name table](#Commodities-and-Industries-table-format) |
-| FinalDemandSectors | table | [Final demand name table](#Final-Demand-table-format) |
-| MarginSectors | table | [Margins name table](#Commodities-and-Industries-table-format) |
-| ValueAddedSectors | table | [Value Added name table](#Commodities-and-Industries-table-format) |
-| MakeTransactions | matrix | The Make (industry x commodity) matrix for a given model |
-| UseTransactions | matrix | The Use (commodity x industry) matrix for a given model |
-| DomesticUseTransactions | matrix | The domestic Use (commodity x industry) matrix for a given model |
-| UseValueAdded | matrix | The value added (sector x industry) matrix for a given model |
-| FinalDemand | matrix | The final demand (commodity x sector) matrix for a given model |
-| DomesticFinalDemand | matrix | The domestic final demand (commodity x sector) matrix for a given model |
-| IndustryOutput | vector | Total output by industry for a given model |
-| CommodityOutput | vector | Total output by commodity for a given model |
-| MultiYearIndustryOutput | table | The multi-year industry output table for a given model |
-| MultiYearCommodityOutput | table | The multi-year commodity output table for a given model |
-| Margins | table | [The final consumer margins table](#Margins-table-format) for a given model |
-| MultiYearIndustryCPI | table | The multiyear industry CPI<sup>1</sup> table for a given model |
-| MultiYearCommodityCPI | table | The multiyear commodity CPI<sup>1</sup> table for a given model |
+| crosswalk | data.frame | [The crosswalk table for a given model](#Crosswalk-format), including 1 NAICS code column and 3 BEA code columns (sector, summary, and detail) |
+| Commodities | data.frame | [Commodity name table](#Commodities-and-Industries-table-format) |
+| Industries | data.frame | [Industry name table](#Commodities-and-Industries-table-format) |
+| FinalDemandSectors | data.frame | [Final demand name table](#Final-Demand-table-format) |
+| MarginSectors | data.frame | [Margins name table](#Commodities-and-Industries-table-format) |
+| ValueAddedSectors | data.frame | [Value Added name table](#Commodities-and-Industries-table-format) |
+| x | vector | Total output by industry for a given model |
+| q | vector | Total output by commodity for a given model |
+| MultiYearIndustryOutput | data.frame | The multi-year (2002-2018) industry output table |
+| MultiYearCommodityOutput | data.frame | The multi-year (2002-2018) commodity output table |
+| Margins | data.frame | [The final consumer margins table](#Margins-table-format) |
+| MultiYearIndustryCPI | data.frame | The multi-year (2002-2018) industry CPI<sup>1</sup> table |
+| MultiYearCommodityCPI | data.frame | The multi-year (2002-2018) commodity CPI<sup>1</sup> table |
 | DisaggregationSpecs | list | A list containing elements for one or more [disaggregations](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
-| SatelliteTables | table | [The satellite tables for a given model](#satellite-tables) |
-| Indicators | table | [The indicators for a given model](#indicators) |
-| DemandVectors | table | [The demand vectors for a given model](#demand-vectors) |
-| V | matrix | The Make matrix for a given model |
-| U | matrix | The Use matrix (including final demand and value added) for a given model |
-| U_d | matrix | The domestic Use matrix (including final demand and value added) for a given model |
-| A | matrix | The direct requirements matrix for a given model |
-| A_d | matrix | The domestic direct requirements matrix for a given model |
-| TbS | matrix | [The total Flow-by-Sector table across all satellite tables](#satellite-tables) |
-| CbS | matrix | [The total Coefficient-by-Sector table across all satellite tables](#satellite-tables) |
-| B | matrix | The direct emissions and resource use matrix for a given model |
-| C | matrix | The characterization factor matrix for a given model |
-| D | matrix | The direct impact matrix for a given model |
-| L | matrix | The Leontief inverse matrix for a given model |
-| L_d | matrix | The domestic Leontief inverse matrix for a given model |
-| M | matrix | The total emissions and resource use matrix for a given model |
-| M_d | matrix | The total emissions and resource use (from and by domestic activity) matrix for a given model |
-| N | matrix | The total impact matrix for a given model |
-| N_d | matrix | The total impact (from domestic activity) matrix for a given model |
-| Rho | table | The CPI<sup>1</sup> price year ratio table for a given model|
-| Phi | table | The producer over purchaser price ratio table for a given model|
+| SatelliteTables | list | [The satellite tables for a given model](#satellite-tables) |
+| Indicators | list | [The indicators for a given model](#indicators) |
+| DemandVectors | list | [The demand vectors for a given model](#demand-vectors) |
+| TbS | data.frame | [The total Flow-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry |
+| CbS | data.frame | [The total Coefficient-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry per dollar output |
+| V | matrix | The Make matrix (industry x commodity)  |
+| U | matrix | The Use matrix (commodity x industry) (including final demand and value added) |
+| U_d | matrix | The domestic Use matrix (including domestic final demand and value added) |
+| A | matrix | The direct requirements matrix (sector x sector) |
+| A_d | matrix | The domestic direct requirements matrix |
+| B | matrix | The direct emissions and resource use matrix (flow x sector) |
+| C | matrix | The characterization factor matrix (indicator x flow) |
+| D | matrix | The direct impact matrix (indicator x sector) |
+| L | matrix | The Leontief inverse matrix (sector x sector) |
+| L_d | matrix | The domestic Leontief inverse matrix |
+| M | matrix | The total emissions and resource use matrix (flow x sector) |
+| M_d | matrix | The total emissions and resource use (from and by domestic activity) matrix |
+| N | matrix | The total impact matrix (indicator x sector) |
+| N_d | matrix | The total impact (from domestic activity) matrix |
+| Rho | data.frame | The CPI<sup>1</sup> price year ratio table |
+| Phi | data.frame | The producer over purchaser price ratio table |
 
 <sup>1</sup> Chain-type Price Index
+
+## Matrix Indeces format
+When used in matrix indeces, items below take the following format:
+| Item | Format |
+| --- | --------- |
+| sector (commodity or industry) | [Code_Loc](#commodities-and-industries-format) (e.g. `1111A0/US`) |
+| flow | [Flowable/Context/Unit](#satellite-tables) (e.g. `Carbon dioxide/emission/air/kg`) |
+| indicator | [Name](#indicators) (e.g. `Greenhouse Gases`) |
 
 ## Crosswalk format
 
