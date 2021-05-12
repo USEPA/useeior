@@ -10,7 +10,7 @@ BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommoditybyIndustryType: "Industry"
 ScrapIncluded: FALSE
-DisaggregationSpecs: null
+DisaggregationSpecs: "WasteDisaggregationSummary"
 
 SatelliteTable:
   GHG:
