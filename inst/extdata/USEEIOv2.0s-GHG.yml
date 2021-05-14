@@ -2,10 +2,9 @@ Model: "USEEIOv2.0s-GHG"
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2012 # Year for IO data
-PrimaryRegionAcronym: "US"
 ModelRegionAcronyms: ["US"]
-ModelType: "US"
-ModelSource: "BEA"
+ModelType: "EEIO"
+IODataSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommoditybyIndustryType: "Commodity"
