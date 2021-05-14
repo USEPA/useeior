@@ -109,7 +109,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   final_demand_sectors <- model$FinalDemandSectors
   final_demand_sectors$Index <- c(1:nrow(final_demand_sectors)-1)
   final_demand_sectors$ID <- final_demand_sectors$Code_Loc
-  final_demand_sectors$Location <- model$specs$PrimaryRegionAcronym
+  final_demand_sectors$Location <- model$specs$ModelRegionAcronyms
   final_demand_sectors$Description <- ""
   USEEIOtoXLSX_ls[["final_demand_sectors"]] <- final_demand_sectors[, colnames(USEEIOtoXLSX_ls$sectors)]
   
@@ -117,7 +117,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   value_added_sectors <- model$ValueAddedSectors
   value_added_sectors$Index <- c(1:nrow(value_added_sectors)-1)
   value_added_sectors$ID <- value_added_sectors$Code_Loc
-  value_added_sectors$Location <- model$specs$PrimaryRegionAcronym
+  value_added_sectors$Location <- model$specs$ModelRegionAcronyms
   value_added_sectors$Description <- ""
   USEEIOtoXLSX_ls[["value_added_sectors"]] <- value_added_sectors[, colnames(USEEIOtoXLSX_ls$sectors)]
   
@@ -172,7 +172,7 @@ prepareWriteDirs <- function(dirs,model) {
 #' @description Writes model demand vectors, including y and y_d for consumption and production.
 writeModelDemandstoJSON <- function(model, demandsfolder) {
   #!WARNING: Only works for single region model
-  if (model$specs$ModelType!="US") {
+  if (model$specs$ModelRegionAcronyms!="US") {
     logging::logerror("Currently only works for single region US models.")
     stop()
   }
@@ -196,7 +196,7 @@ writeModelDemandstoJSON <- function(model, demandsfolder) {
 #' @description Writes model metadata, including indicators and demands.
 writeModelMetadata <- function(model, dirs) {
   #!WARNING: Only works for single region model
-  if (model$specs$ModelType!="US") {
+  if (model$specs$ModelRegionAcronyms!="US") {
     logging::logerror("Currently only works for single region US models.")
     stop()
   }
@@ -210,7 +210,7 @@ writeModelMetadata <- function(model, dirs) {
   model_desc <- file.path(dirs$data, "models.csv")
   ID <- model$specs$Model
   Name <- model$specs$Model
-  Location <- model$specs$PrimaryRegionAcronym
+  Location <- model$specs$ModelRegionAcronyms
   Description <- ""
   #Add in sector schema for model
   if (is.null(model$specs$DisaggregationSpecs)) {
@@ -249,7 +249,7 @@ writeModelMetadata <- function(model, dirs) {
   # Write sectors to csv
   sectors <- model[[gsub("y", "ies", model$specs$CommoditybyIndustryType)]]
   sectors$ID <- sectors$Code_Loc
-  sectors$Location <- model$specs$PrimaryRegionAcronym
+  sectors$Location <- model$specs$ModelRegionAcronyms
   sectors$Description <- ""
   sectors$Index <- c(1:nrow(sectors)-1)
   sectors <- sectors[, fields$sectors]

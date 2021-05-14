@@ -10,10 +10,10 @@
 #' @return A dataframe contains adjusted Industry output with row names being BEA sector code.
 adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRoUS, model, output_type) {
   # Load Industry Gross Output
-  if (model$specs$ModelType == "US") {
+  if (model$specs$ModelRegionAcronyms == "US") {
     Output <- cbind.data.frame(rownames(model$MultiYearIndustryOutput),
                                model$MultiYearIndustryOutput[, as.character(outputyear)])
-  } else if (model$specs$ModelType=="State2R") {
+  } else if (model$specs$ModelRegionAcronyms == c(location_acronym, "RoUS")) {
     # Fork for state model here
   }
   colnames(Output) <- c("SectorCode", "Output")

@@ -18,7 +18,7 @@ buildModel <- function(modelname) {
 #' @export
 #' @return A list with EEIO matrices..
 constructEEIOMatrices <- function(model) {
-  if(model$specs$ModelType!="US"){
+  if(model$specs$ModelRegionAcronyms!="US"){
     stop("This function needs to be revised before it is suitable for multi-regional models")
   }
   

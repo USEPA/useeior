@@ -115,7 +115,7 @@ disaggregateMargins <- function(model, disagg)
   disaggRatios <- unname(disaggregatedRatios(model, disagg, "Commodity"))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
   
   #variable to determine length of Code substring, i.e., code length minus geographic identifer and separator character (e.g. "/US")
-  codeLength <- nchar(disagg$DisaggregatedSectorCodes[1])-nchar(model$specs$PrimaryRegionAcronym) - 1
+  codeLength <- nchar(disagg$DisaggregatedSectorCodes[1])-nchar(model$specs$ModelRegionAcronyms) - 1
   disaggMargins$Code_Loc <- unlist(disagg$DisaggregatedSectorCodes)#replace Code_Loc values from aggregate sector with Code_Loc values for disaggregated sectors. Need to unlist for compatibility with Rho matrix later in the model build process.
   disaggMargins$SectorCode <- substr(disagg$DisaggregatedSectorCodes,1,codeLength) #replace SectorCode values from aggregate sector with Code_Loc values for disaggregated sectors, except for the geographic identifer
   disaggMargins$Name <- unlist(disagg$DisaggregatedSectorNames)#replace Name values from aggregate sector with Name values for disaggregated sectors.  Need to unlist for compatibility with other functions later in the model build process.
@@ -242,7 +242,7 @@ disaggregateSectorDFs <- function(model, disagg, list_type)
   }
 
   #variable to determine length of Code substring, i.e., code length minus geographic identifer and separator character (e.g. "/US")
-  codeLength <- nchar(disagg$DisaggregatedSectorCodes[1])-nchar(model$specs$PrimaryRegionAcronym) - 1
+  codeLength <- nchar(disagg$DisaggregatedSectorCodes[1])-nchar(model$specs$ModelRegionAcronyms) - 1
   newSectors$Code <- substr(disagg$DisaggregatedSectorCodes,1,codeLength)
   newSectors$Code_Loc <- sapply(disagg$DisaggregatedSectorCodes, paste0, collapse = "")#sapply needed to convert DisaggregatedSectorCodes from list to char vector
   newSectors$Name <- sapply(disagg$DisaggregatedSectorNames, paste0, collapse = "")
