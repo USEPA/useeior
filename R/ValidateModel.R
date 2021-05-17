@@ -161,7 +161,7 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
   # Replace 0 with 1
   Chi[Chi==0] <- 1
   # Rename Chi columns to match B and E
-  colnames(Chi) <- apply(data.frame(colnames(Chi), model$specs$PrimaryRegionAcronym),
+  colnames(Chi) <- apply(data.frame(colnames(Chi), model$specs$ModelRegionAcronyms),
                          1, FUN = joinStringswithSlashes)
   return(Chi)
 }

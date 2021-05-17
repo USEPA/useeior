@@ -149,7 +149,7 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
   
   for (r in model$specs$ModelRegionAcronyms) {
     # Change Location if model is a state model
-    if (model$specs$ModelType=="state") {
+    if (model$specs$ModelRegionAcronyms!="US") {
       stop("Fix this function for state models before proceesing")
       tbs[,"Location"] <- vapply(tbs[,"Location"],formatLocationforStateModels)
     }
