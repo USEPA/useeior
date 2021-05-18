@@ -11,13 +11,15 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
   if (use_domestic) {
-    y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    y <- as.matrix(formatDemandVector(rowSums(model$FinalDemand),model$L_d))
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
-
+  
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
   Chi <- generateChiMatrix(model, "Industry")
@@ -33,11 +35,9 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     #transform E with commodity mix to put in commodity form
-    C <- generateCommodityMixMatrix(model)
-    E <-  t(C %*% t(E)) 
+    E <-  t(model$C_m %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
-    V_n <- generateMarketSharesfromMake(model)
-    B_chi <- B_chi %*% V_n
+    B_chi <- B_chi %*% model$V_n
   }
   
   #LCI = B dot Chi %*% c   
@@ -61,17 +61,20 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 #'@export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   if (use_domestic) {
-    y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    y <- as.matrix(formatDemandVector(rowSums(model$FinalDemand),model$L))
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
+  
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     #determine if output to compare is commodity or industry
-    x <-  model$CommodityOutput
+    x <- model$q
   } else {
-    x <- model$IndustryOutput
+    x <- model$x
   }
   # Row names should be identical
   if (!identical(rownames(c), names(x))) {
@@ -143,7 +146,11 @@ prepareEfromtbs <- function(model) {
 #' @return Chi matrix contains ratios of model IO year commodity output over the output of the flow year in model IO year dollar.
 generateChiMatrix <- function(model, output_type = "Commodity") {
   # Extract ModelYearOutput from model based on output_type
-  ModelYearOutput <- model[[paste0(output_type, "Output")]]
+  if (output_type=="Commodity") {
+    ModelYearOutput <- model$q
+  } else {
+    ModelYearOutput <- model$x
+  }
   # Generate FlowYearOutput, convert it to model IOYear $
   TbS <- model$TbS
   FlowYearOutput <- data.frame()
