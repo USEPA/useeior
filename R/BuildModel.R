@@ -104,7 +104,7 @@ constructEEIOMatrices <- function(model) {
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
                      "CommodityOutput", "IndustryOutput",
-                     "U_n","U_d_n","V_n","C_m","W")
+                     "U_n","U_d_n","W")
   model <- within(model, rm(list=mat_to_remove))
   
   logging::loginfo("Model build complete.")
