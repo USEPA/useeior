@@ -21,18 +21,23 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
   Chi <- generateChiMatrix(model, "Industry")
+  # Check if Chi columns match B
+  if (!identical(colnames(B), colnames(Chi))) {
+    stop("columns in Chi and B do not match")
+  }
   B_chi <- B*Chi
   
   ##Prepare left side of the equation
   E <- prepareEfromtbs(model)
-  E <- as.matrix(E[rownames(B), ])
+  E <- as.matrix(E[rownames(B), colnames(B)])
   
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     #transform E with commodity mix to put in commodity form
     C <- generateCommodityMixMatrix(model)
     E <-  t(C %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
-    B_chi <- B_chi %*% model$V_n
+    V_n <- generateMarketSharesfromMake(model)
+    B_chi <- B_chi %*% V_n
   }
   
   #LCI = B dot Chi %*% c   
@@ -87,7 +92,7 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 #'@export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   p <- model$CommodityOutput
-  x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_us_production_complete"]]
+  x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_US_Production_Complete"]]
   
   #Row names should be identical
   identical(names(p), names(x))
@@ -160,9 +165,6 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
   Chi <- as.matrix(sweep(FlowYearOutput[rownames(model$B), ], 2, ModelYearOutput, "/"))
   # Replace 0 with 1
   Chi[Chi==0] <- 1
-  # Rename Chi columns to match B and E
-  colnames(Chi) <- apply(data.frame(colnames(Chi), model$specs$ModelRegionAcronyms),
-                         1, FUN = joinStringswithSlashes)
   return(Chi)
 }
 
