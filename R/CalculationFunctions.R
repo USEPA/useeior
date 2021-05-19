@@ -203,3 +203,57 @@ calculateFlowContributiontoImpact <- function (model, sector, indicator, domesti
   df <- calculatePercentContributiontoImpact(M[,sector], C[indicator,])
   return(df)
 }
+
+#' Aggregate result matrix by rows
+#'
+#' @param matrix      A matrix with sectors as rows
+#' @param from_level  The level of BEA code this matrix starts at
+#' @param to_level    The level of BEA code this matrix will be aggregated to
+#' @export
+#' @return aggregated matrix with sectors as rows
+aggregateResultTable <- function (matrix, from_level, to_level) {
+  # Determine the columns within MasterCrosswalk that will be used in aggregation
+  from_code <- paste0("BEA_", from_level)
+  to_code <- paste0("BEA_", to_level)
+  # Remove location codes from sectors
+  df <- as.data.frame(matrix)
+  rownames(df) <- gsub("/.*","",rownames(df))
+  matrix <- as.matrix(df)
+  # Aggregate by rows
+  value_columns <- colnames(matrix)
+  df_fromlevel <- merge(matrix, unique(model$crosswalk[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
+  df_fromlevel_agg <- stats::aggregate(df_fromlevel[, value_columns], by = list(df_fromlevel[, to_code]), sum)
+  rownames(df_fromlevel_agg) <- df_fromlevel_agg[, 1]
+  df_fromlevel_agg[, 1] <- NULL
+  matrix_fromlevel_agg <- as.matrix(df_fromlevel_agg)
+  return(matrix_fromlevel_agg)
+}
+
+#' Aggregate result matrix by rows and columns
+#'
+#' @param matrix      A matrix with sectors as rows and columns
+#' @param from_level  The level of BEA code this matrix starts at
+#' @param to_level    The level of BEA code this matrix will be aggregated to
+#' @export
+#' @return aggregated matrix with sectors as rows and columns
+aggregateResultMatrix <- function (matrix, from_level, to_level) {
+  row_agg_matrix <- aggregateResultTable (matrix, from_level, to_level)
+  col_agg_matrix <- aggregateResultTable (t(row_agg_matrix), from_level, to_level)
+  agg_matrix <- t(col_agg_matrix)
+  return(agg_matrix)
+}
+
+#' Calculates the result matrix by sector for a specified indciator
+#' @param y, a model demand vector
+#' @param model, A complete EEIO Model object
+#' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential"
+#' @return impacts, matrix of impacts sector purchased x sector sourced
+#' @export
+summarizeImpactResult <- function (y, model, indicator) {
+  L <- model$L
+  total_req <- L %*% diag(y)
+  colnames(total_req) <- rownames(total_req)
+  impacts <- t(diag(model$D[indicator,]) %*% total_req)
+  colnames(impacts) <- rownames(impacts)
+  return(impacts)
+}
