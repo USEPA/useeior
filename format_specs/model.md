@@ -22,6 +22,8 @@ A fully constructed USEEIO model contains the following elements. Items listed a
 | TbS | data.frame | [The total Flow-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry |
 | CbS | data.frame | [The total Coefficient-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry per dollar output |
 | V | matrix | [The Make matrix](#make-matrix-format) |
+| C_m | matrix | The Commodity Mix matrix (commodity x industry, transpose of [Make matrix](#make-matrix-format)) |
+| V_n | matrix | The Market Shares matrix (industry x commodity, same with [Make matrix](#make-matrix-format)) |
 | U | matrix | [The Use matrix](#use-matrix-format) |
 | U_d | matrix | [The domestic Use matrix](#use-matrix-format) |
 | q | numeric vector | Total output by commodity |
@@ -160,9 +162,9 @@ When used in matrix indices, items below take the following format:
 ## Make matrix format
 
 ```
-            industries
+           commodities
             +-------+
-commodities |       |
+ industries |       |
             |  Make |
             +-------+
 ```
@@ -171,9 +173,9 @@ commodities |       |
 ## Use matrix format
 
 ```
-    commodities, final demand
+    industries, final demand
             +-------+
- industries |       |
+commodities |       |
 value added |   Use |
             +-------+
 ```

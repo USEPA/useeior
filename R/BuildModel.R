@@ -30,8 +30,8 @@ constructEEIOMatrices <- function(model) {
   model$CbS <- generateCbSfromTbSandModel(model)
   
   # Generate matrices
-  model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
   model$V <- as.matrix(model$MakeTransactions) # Make
+  model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   model$U <- as.matrix(dplyr::bind_rows(cbind(model$UseTransactions,
                                               model$FinalDemand),
