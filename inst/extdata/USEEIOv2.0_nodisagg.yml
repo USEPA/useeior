@@ -419,7 +419,7 @@ Indicators:
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
     SimpleName: "Greenhouse Gases"
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -439,7 +439,7 @@ Indicators:
     SimpleUnit: "Kilograms Sulphur Dioxide (SO2)"
     SimpleName: "Acid Rain"    
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -459,7 +459,7 @@ Indicators:
     SimpleUnit: "Kilograms Nitrogen (N)"
     SimpleName: "Water Eutrophication" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -479,7 +479,7 @@ Indicators:
     SimpleUnit: "Comparative Toxic Unit for Ecosystem (CTUe)"
     SimpleName: "Freshwater Ecotoxicity" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -499,7 +499,7 @@ Indicators:
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Cancer Disease" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -519,7 +519,7 @@ Indicators:
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Noncancer Disease" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -539,7 +539,7 @@ Indicators:
     SimpleUnit: "Comparative Toxic Unit for Humans (CTUh)"
     SimpleName: "Toxic to Humans" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getCombinedImpactMethods" #function to call for script
     ScriptFunctionParameters: 
@@ -559,7 +559,7 @@ Indicators:
     SimpleUnit: "Kilograms Particulate Matter"
     SimpleName: "Respiratory Effects" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -578,7 +578,7 @@ Indicators:
     SimpleUnit: "Kilograms ChloroFluoroCarbon-11"
     SimpleName: "Ozone Depletion" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -598,7 +598,7 @@ Indicators:
     SimpleUnit: "Kilograms Ozone (O3)"
     SimpleName: "Smog Formation" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v1.0.0_d26f11e.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -618,7 +618,7 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Water Use" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -638,7 +638,7 @@ Indicators:
     SimpleUnit: "Square Meters per Year"
     SimpleName: "Land Use" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -658,7 +658,7 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Hazardous Air Pollutants" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -678,7 +678,7 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Pesticides" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -699,7 +699,7 @@ Indicators:
     SimpleName: "Nonrenewable Energy Use" 
     StaticSource: TRUE
     FileLocation: "DataCommons"
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_5555779.parquet"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters:  
       indicators: ["nonrenewable_energy"]
@@ -718,7 +718,7 @@ Indicators:
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Renewable Energy Use" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters:  
@@ -738,7 +738,7 @@ Indicators:
     SimpleUnit: "Megajoules (MJ)"
     SimpleName: "Energy Use" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -758,7 +758,7 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Minerals and Metals Use"
     StaticSource: TRUE
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters:  
