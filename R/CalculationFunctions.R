@@ -209,9 +209,10 @@ calculateFlowContributiontoImpact <- function (model, sector, indicator, domesti
 #' @param matrix      A matrix with sectors as rows
 #' @param from_level  The level of BEA code this matrix starts at
 #' @param to_level    The level of BEA code this matrix will be aggregated to
+#' @param crosswalk   Sector crosswalk between levels of detail
 #' @export
 #' @return aggregated matrix with sectors as rows
-aggregateResultTable <- function (matrix, from_level, to_level) {
+aggregateResultTable <- function (matrix, from_level, to_level, crosswalk) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste0("BEA_", from_level)
   to_code <- paste0("BEA_", to_level)
@@ -221,7 +222,7 @@ aggregateResultTable <- function (matrix, from_level, to_level) {
   matrix <- as.matrix(df)
   # Aggregate by rows
   value_columns <- colnames(matrix)
-  df_fromlevel <- merge(matrix, unique(model$crosswalk[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
+  df_fromlevel <- merge(matrix, unique(crosswalk[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
   df_fromlevel_agg <- stats::aggregate(df_fromlevel[, value_columns], by = list(df_fromlevel[, to_code]), sum)
   rownames(df_fromlevel_agg) <- df_fromlevel_agg[, 1]
   df_fromlevel_agg[, 1] <- NULL
@@ -234,11 +235,12 @@ aggregateResultTable <- function (matrix, from_level, to_level) {
 #' @param matrix      A matrix with sectors as rows and columns
 #' @param from_level  The level of BEA code this matrix starts at
 #' @param to_level    The level of BEA code this matrix will be aggregated to
+#' @param crosswalk   Sector crosswalk between levels of detail
 #' @export
 #' @return aggregated matrix with sectors as rows and columns
-aggregateResultMatrix <- function (matrix, from_level, to_level) {
-  row_agg_matrix <- aggregateResultTable (matrix, from_level, to_level)
-  col_agg_matrix <- aggregateResultTable (t(row_agg_matrix), from_level, to_level)
+aggregateResultMatrix <- function (matrix, from_level, to_level, crosswalk) {
+  row_agg_matrix <- aggregateResultTable (matrix, from_level, to_level, crosswalk)
+  col_agg_matrix <- aggregateResultTable (t(row_agg_matrix), from_level, to_level, crosswalk)
   agg_matrix <- t(col_agg_matrix)
   return(agg_matrix)
 }

@@ -4,7 +4,7 @@
 \alias{aggregateResultMatrix}
 \title{Aggregate result matrix by rows and columns}
 \usage{
-aggregateResultMatrix(matrix, from_level, to_level)
+aggregateResultMatrix(matrix, from_level, to_level, crosswalk)
 }
 \arguments{
 \item{matrix}{A matrix with sectors as rows and columns}
@@ -12,6 +12,8 @@ aggregateResultMatrix(matrix, from_level, to_level)
 \item{from_level}{The level of BEA code this matrix starts at}
 
 \item{to_level}{The level of BEA code this matrix will be aggregated to}
+
+\item{crosswalk}{Sector crosswalk between levels of detail}
 }
 \value{
 aggregated matrix with sectors as rows and columns
