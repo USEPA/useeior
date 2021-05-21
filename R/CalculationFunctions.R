@@ -251,7 +251,7 @@ aggregateResultMatrix <- function (matrix, from_level, to_level, crosswalk) {
 #' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential"
 #' @return impacts, matrix of impacts sector purchased x sector sourced
 #' @export
-summarizeImpactResult <- function (y, model, indicator) {
+calculateConsumptionContributiontoImpact <- function (y, model, indicator) {
   L <- model$L
   total_req <- L %*% diag(y)
   colnames(total_req) <- rownames(total_req)
