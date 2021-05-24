@@ -33,11 +33,18 @@ constructEEIOMatrices <- function(model) {
   model$V <- as.matrix(model$MakeTransactions) # Make
   model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
+  if (model$specs$CommoditybyIndustryType=="Industry") {
+    FinalDemand_df <- model$FinalDemandbyCommodity
+    DomesticFinalDemand_df <- model$DomesticFinalDemandbyCommodity
+  } else {
+    FinalDemand_df <- model$FinalDemand
+    DomesticFinalDemand_df <- model$DomesticFinalDemand
+  }
   model$U <- as.matrix(dplyr::bind_rows(cbind(model$UseTransactions,
-                                              model$FinalDemand),
+                                              FinalDemand_df),
                                         model$UseValueAdded)) # Use
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
-                                                model$DomesticFinalDemand),
+                                                DomesticFinalDemand_df),
                                           model$UseValueAdded)) # DomesticUse
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
@@ -103,6 +110,7 @@ constructEEIOMatrices <- function(model) {
   #Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
+                     "FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity",
                      "CommodityOutput", "IndustryOutput",
                      "U_n","U_d_n","W")
   model <- within(model, rm(list=mat_to_remove))

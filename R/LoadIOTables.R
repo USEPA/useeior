@@ -109,6 +109,9 @@ loadNationalIOData <- function(model) {
   
   # Transform model FinalDemand and DomesticFinalDemand to by-industry form
   if (model$specs$CommoditybyIndustryType=="Industry") {
+    # Keep the orignal FinalDemand (in by-commodity form)
+    model$FinalDemandbyCommodity <- model$FinalDemand
+    model$DomesticFinalDemandbyCommodity <- model$DomesticFinalDemand
     model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
     model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
   }
