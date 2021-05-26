@@ -23,7 +23,7 @@ writeModelforAPI <-function(model, basedir){
 writeSectorCrosswalkforAPI <- function(model, basedir){
   dirs <- setWriteDirsforAPI(NULL,basedir)
   prepareWriteDirs(dirs)
-  crosswalk <- model$crosswalk
+  crosswalk <- prepareModelSectorCrosswalk(model)
   crosswalk$ModelSchema <- ""
   utils::write.csv(crosswalk, paste0(dirs$data, "/sectorcrosswalk.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
@@ -118,7 +118,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   USEEIOtoXLSX_ls[["value_added_sectors"]] <- value_added_sectors[, colnames(USEEIOtoXLSX_ls$sectors)]
   
   # List reference tables
-  USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- model$crosswalk
+  USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- prepareModelSectorCrosswalk(model)
   
   # Write to Excel workbook
   writexl::write_xlsx(USEEIOtoXLSX_ls, paste0(outputfolder, "/", model$specs$Model, "_Matrices.xlsx"),
@@ -286,3 +286,14 @@ writeSessionInfotoFile <- function(path) {
   writeLines(utils::capture.output(s), f)
 }
   
+#' Prepare sectorcrosswalk table for a model
+#' @param model, any model object
+#' @return a data.frame, sectorcrosswalk table
+prepareModelSectorCrosswalk <- function(model) {
+  if(!(model$specs$Model %in% colnames(model$crosswalk))) {
+    sectorcrosswalk <- cbind(model$crosswalk,
+                             model$crosswalk[, paste0("BEA_", model$specs$BaseIOLevel)])
+    colnames(sectorcrosswalk)[length(sectorcrosswalk)] <- model$specs$Model
+  }
+  return(sectorcrosswalk)
+}
