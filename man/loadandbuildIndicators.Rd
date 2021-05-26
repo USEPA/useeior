@@ -7,10 +7,10 @@
 loadandbuildIndicators(model)
 }
 \arguments{
-\item{list}{a model object with IO data loaded}
+\item{model}{A model object with IO data loaded}
 }
 \value{
-list a model object with Indicators added
+A model object with Indicators added
 }
 \description{
 Loads data for all model indicators as listed in model specs

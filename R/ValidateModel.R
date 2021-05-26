@@ -3,7 +3,7 @@
 
 #'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built
-#'@param use_domestic, a boolean value indicating whether to use domestic demand vector
+#'@param use_domestic, a logical value indicating whether to use domestic demand vector
 #'@param tolerance, a numeric value, tolerance level of the comparison
 #'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export
@@ -11,26 +11,31 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
   if (use_domestic) {
-    y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    y <- as.matrix(formatDemandVector(rowSums(model$FinalDemand),model$L_d))
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
-
+  
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
   Chi <- generateChiMatrix(model, "Industry")
+  # Check if Chi columns match B
+  if (!identical(colnames(B), colnames(Chi))) {
+    stop("columns in Chi and B do not match")
+  }
   B_chi <- B*Chi
   
   ##Prepare left side of the equation
   E <- prepareEfromtbs(model)
-  E <- as.matrix(E[rownames(B), ])
+  E <- as.matrix(E[rownames(B), colnames(B)])
   
   if (model$specs$CommoditybyIndustryType=="Commodity") {
     #transform E with commodity mix to put in commodity form
-    C <- generateCommodityMixMatrix(model)
-    E <-  t(C %*% t(E)) 
+    E <-  t(model$C_m %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
     B_chi <- B_chi %*% model$V_n
   }
@@ -50,23 +55,26 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 #'Uses the model$FinalDemand and model$L
 #'Works for the domestic model with the equivalent tables
 #'@param model, EEIOmodel object completely built
-#'@param use_domestic, a boolean value indicating whether to use domestic demand vector
+#'@param use_domestic, a logical value indicating whether to use domestic demand vector
 #'@param tolerance, a numeric value, tolerance level of the comparison
 #'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   if (use_domestic) {
-    y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    y <- as.matrix(formatDemandVector(rowSums(model$FinalDemand),model$L))
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
+  
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     #determine if output to compare is commodity or industry
-    x <-  model$CommodityOutput
+    x <- model$q
   } else {
-    x <- model$IndustryOutput
+    x <- model$x
   }
   # Row names should be identical
   if (!identical(rownames(c), names(x))) {
@@ -87,7 +95,7 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 #'@export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   p <- model$CommodityOutput
-  x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_us_production_complete"]]
+  x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_US_Production_Complete"]]
   
   #Row names should be identical
   identical(names(p), names(x))
@@ -138,7 +146,11 @@ prepareEfromtbs <- function(model) {
 #' @return Chi matrix contains ratios of model IO year commodity output over the output of the flow year in model IO year dollar.
 generateChiMatrix <- function(model, output_type = "Commodity") {
   # Extract ModelYearOutput from model based on output_type
-  ModelYearOutput <- model[[paste0(output_type, "Output")]]
+  if (output_type=="Commodity") {
+    ModelYearOutput <- model$q
+  } else {
+    ModelYearOutput <- model$x
+  }
   # Generate FlowYearOutput, convert it to model IOYear $
   TbS <- model$TbS
   FlowYearOutput <- data.frame()
@@ -160,9 +172,6 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
   Chi <- as.matrix(sweep(FlowYearOutput[rownames(model$B), ], 2, ModelYearOutput, "/"))
   # Replace 0 with 1
   Chi[Chi==0] <- 1
-  # Rename Chi columns to match B and E
-  colnames(Chi) <- apply(data.frame(colnames(Chi), model$specs$PrimaryRegionAcronym),
-                         1, FUN = joinStringswithSlashes)
   return(Chi)
 }
 
@@ -189,7 +198,7 @@ compareIndustryOutputinMakeandUse <- function(model) {
 
 #' Validate result based on specified tolerance
 #' @param result A data object to be validated
-#' @param abs_diff A boolean value indicating whether to validate absolute values
+#' @param abs_diff A logical value indicating whether to validate absolute values
 #' @param tolerance A numeric value setting tolerance of the comparison
 #' @return A list contains confrontation details and validation results
 validateResult <- function(result, abs_diff = TRUE, tolerance) {
@@ -206,7 +215,7 @@ validateResult <- function(result, abs_diff = TRUE, tolerance) {
 
 #' Extract validation passes or failures
 #' @param validation A data.frame contains validation details
-#' @param failure A boolean value indicating whether to report failure or not
+#' @param failure A logical value indicating whether to report failure or not
 #' @return A data.frame contains validation results
 extractValidationResult <- function(validation, failure = TRUE) {
   df <- reshape2::melt(validation, id.vars = "rownames")
@@ -220,8 +229,8 @@ extractValidationResult <- function(validation, failure = TRUE) {
 }
 
 #' Format validation result
-#' @param df A data.frame to be validated
-#' @param abs_diff A boolean value indicating whether to validate absolute values
+#' @param result Validation result to be formatted
+#' @param abs_diff A logical value indicating whether to validate absolute values
 #' @param tolerance A numeric value setting tolerance of the comparison
 #' @return A list contains formatted validation results
 formatValidationResult <- function(result, abs_diff = TRUE, tolerance) {

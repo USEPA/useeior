@@ -7,12 +7,12 @@
 stackSatelliteTables(sattable1, sattable2)
 }
 \arguments{
-\item{sattable1}{A standardized statellite table.}
+\item{sattable1}{A standardized satellite table.}
 
-\item{sattable2}{Another standardized statellite table.}
+\item{sattable2}{Another standardized satellite table.}
 }
 \value{
-A complete standardized statellite table.
+A complete standardized satellite table.
 }
 \description{
 Stacks two tables up

@@ -10,19 +10,11 @@
 #' @return A dataframe contains adjusted Industry output with row names being BEA sector code.
 adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRoUS, model, output_type) {
   # Load Industry Gross Output
-  if (model$specs$PrimaryRegionAcronym == "US") {
+  if (model$specs$ModelRegionAcronyms == "US") {
     Output <- cbind.data.frame(rownames(model$MultiYearIndustryOutput),
                                model$MultiYearIndustryOutput[, as.character(outputyear)])
-  } else {
-    if(model$specs$ModelSource=="WinDC") {
-      if(IsRoUS == TRUE) {
-        Output <- model$IndustryOutput[model$IndustryOutput$Location=="RoUS", c("SectorCode", as.character(outputyear)), drop = FALSE]
-        rownames(Output) <- Output$SectorCode
-      } else {
-        Output <- model$IndustryOutput[model$IndustryOutput$Location==location_acronym, 
-                                       c("SectorCode", as.character(outputyear)), drop = FALSE]
-      }
-    }
+  } else if (model$specs$ModelRegionAcronyms == c(location_acronym, "RoUS")) {
+    # Fork for state model here
   }
   colnames(Output) <- c("SectorCode", "Output")
   # Adjust output based on CPI
@@ -56,7 +48,7 @@ normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
 #' @param domestic A logical parameter indicating whether to calculate DR or Domestic DR.
 #' @return Direct Requirements matrix of the model.
 generateDirectRequirementsfromUse <- function (model, domestic) {
-  # Generate direct requirments matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
+  # Generate direct requirements matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
   if (domestic==TRUE) {
     B <- normalizeIOTransactions(model$DomesticUseTransactions, model$IndustryOutput) # B = U %*% solve(x_hat)
   } else {
@@ -92,8 +84,7 @@ generateCommodityMixMatrix <- function (model) {
 }
 
 #' Generate Commodity output by transforming Industry output using Commodity Mix matrix.
-#' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
-#' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
+#' @param year Year of Industry output
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Commodity output.
 transformIndustryOutputtoCommodityOutputforYear <- function(year, model) {
@@ -170,15 +161,16 @@ transformDirectRequirementswithMarketShares <- function (B, D, model) {
   return(A)
 }
 
-#' Transform Final Demand df with Market Shares matrix.
-#' @param Fdf Final Demand dataframe.
+#' Transform Final Demand (commodity x sector) with Market Shares matrix
+#' to Final Demand (industry x sector)
+#' @param Fdf Final Demand data.frame.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return Final Demand matrix.
+#' @return Final Demand (industry x sector) data.frame
 transformFinalDemandwithMarketShares <- function (Fdf, model) {
   D <- generateMarketSharesfromMake(model)
   # See Miller and Blair section 5.3.7 (pg 197)
   Fmatrix <- D %*% as.matrix(Fdf)
-  return(Fmatrix)
+  return(as.data.frame(Fmatrix))
 }
 
 #' Calculate Leontief inverse from direct requirements matrix.

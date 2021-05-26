@@ -18,6 +18,8 @@ heatmapSectorRanking(
 
 \item{matrix}{A matrix from model result}
 
+\item{indicators}{A vector of indicators to plot}
+
 \item{sector_to_remove}{Code of one or more BEA sectors that will be removed from the plot. Can be "".}
 
 \item{y_title}{The title of y axis, excluding unit.}

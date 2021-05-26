@@ -9,7 +9,7 @@ extractValidationResult(validation, failure = TRUE)
 \arguments{
 \item{validation}{A data.frame contains validation details}
 
-\item{failure}{A boolean value indicating whether to report failure or not}
+\item{failure}{A logical value indicating whether to report failure or not}
 }
 \value{
 A data.frame contains validation results

@@ -17,11 +17,11 @@ DisaggAllocations(
 
 \item{disagg}{Specifications for disaggregating the current Table}
 
-\item{allocPercentages}{Dataframe. A subset of the dataframe that contains the percentages to allocate to specific industry and commodity combinations in the disaggregated vector. Parameter use coordinated with @param VectorToDisagg.}
+\item{allocPercentages}{Dataframe. A subset of the dataframe that contains the percentages to allocate to specific industry and commodity combinations in the disaggregated vector. Parameter use coordinated with @param vectorToDisagg}
 
 \item{vectorToDisagg}{String. A parameter to indicate what table and what part of that table is being disaggregated (e.g. "MakeCol" or "Intersection")}
 
-\item{domestic.}{Boolean. Flag to indicate where to use the DomesticUse or UseTransactions table}
+\item{domestic}{Boolean. Flag to indicate where to use the DomesticUse or UseTransactions table}
 }
 \value{
 A dataframe with the values specified in the disaggSpecs assigned to the correct Make or Use table indeces.

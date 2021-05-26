@@ -18,7 +18,7 @@ adjustResultMatrixPrice(
 
 \item{currency_year}{An integer representing the currency year, e.g. 2018.}
 
-\item{purchaser_price}{A boolean value indicating whether to adjust producer's price to purchaser's price.}
+\item{purchaser_price}{A logical value indicating whether to adjust producer's price to purchaser's price.}
 
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }

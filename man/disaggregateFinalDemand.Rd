@@ -8,6 +8,8 @@ disaggregateFinalDemand(model, domestic = FALSE)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{domestic}{A logical value indicating whether to disaggregate domestic final demand.}
 }
 \value{
 A standardized final demand table with old sectors removed and new sectors with manual and default allocations added.

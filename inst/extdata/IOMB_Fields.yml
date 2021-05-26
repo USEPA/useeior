@@ -9,8 +9,8 @@ SatelliteTable:
   - FlowAmount #Amount of the flow
   - Unit #SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows.
   - DistributionType #Form of the frequency distribution, if given. Acceptable values are 'NORMAL', 'LOGNORMAL', 'TRIANGULAR', 'UNIFORM'.
-  - ExpectedValue
-  - Dispersion
+  #- ExpectedValue
+  #- Dispersion
   - Min #The minimum FlowAmount, if provided for the data range.
   - Max #The maximum FlowAmount, if provided for the data range.
   - DataReliability #A 1-5 score of data reliability based on reporting values associated with the amount.
@@ -20,7 +20,7 @@ SatelliteTable:
   - DataCollection #A 1-5 score of data collection based on reporting values associated with the amount.
   - Year #Year of the data
   #- MetaTags
-  - MetaSources
+  - MetaSources #The major data source(s) value is based on
   #- MetaOther
 
 LCIA:

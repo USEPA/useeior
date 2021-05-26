@@ -5,9 +5,9 @@
 loadIOData <- function(model) {
   # Declare model IO objects
   logging::loginfo("Initializing IO tables...")
-  if (model$specs$ModelType=="US") {
+  if (model$specs$IODataSource=="BEA") {
     model <- loadNationalIOData(model)
-  } else if (model$specs$ModelType=="State2R") {
+  } else if (model$specs$IODataSource=="stateior") {
     # Fork for state model here
   }
   
@@ -41,22 +41,23 @@ loadNationalIOData <- function(model) {
                              by.x = "BEA$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
   colnames(model$Commodities) <- c("Code", "Name")
   model$Commodities <- model$Commodities[order(match(BEA$Commodities, model$Commodities$Code)), ]
-  model$Commodities$Code_Loc <- apply(cbind(model$Commodities$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes)
+  model$Commodities$Code_Loc <- apply(cbind(model$Commodities$Code, model$specs$ModelRegionAcronyms), 1, FUN = joinStringswithSlashes)
   
   # model$Industries
   model$Industries <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   colnames(model$Industries) <- c("Code", "Name")
-  model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
   model$Industries <- model$Industries[order(match(BEA$Industries, model$Industries$Code)), ]
-  model$Industries$Code_Loc <- apply(cbind(model$Industries$Code, model$specs$PrimaryRegionAcronym), 1, FUN = joinStringswithSlashes)
+  model$Industries$Code_Loc <- apply(cbind(model$Industries$Code, model$specs$ModelRegionAcronyms), 1, FUN = joinStringswithSlashes)
   
   # model$FinalDemandSectors
-  model$FinalDemandSectors <- utils::stack(BEA[c("HouseholdDemandCodes", "InvestmentDemandCodes", "ChangeInventoriesCodes",
-                                                 "ExportCodes", "ImportCodes", "GovernmentDemandCodes")])
+  model$FinalDemandSectors <- merge(get(paste(model$specs$BaseIOLevel, "FinalDemandCodeName", model$specs$BaseIOSchema, sep = "_")),
+                                    utils::stack(BEA[c("HouseholdDemandCodes", "InvestmentDemandCodes", "ChangeInventoriesCodes",
+                                                       "ExportCodes", "ImportCodes", "GovernmentDemandCodes")]),
+                                    by = 1, sort = FALSE)
   model$FinalDemandSectors[] <- lapply(model$FinalDemandSectors, as.character)
-  colnames(model$FinalDemandSectors) <- c("Code", "Name")
-  model$FinalDemandSectors$Name <- gsub(c("Codes|DemandCodes"), "", model$FinalDemandSectors$Name)
-  model$FinalDemandSectors$Code_Loc <- apply(cbind(model$FinalDemandSectors$Code, model$specs$PrimaryRegionAcronym),
+  colnames(model$FinalDemandSectors) <- c("Code", "Name", "Group")
+  model$FinalDemandSectors$Group <- gsub(c("Codes|DemandCodes"), "", model$FinalDemandSectors$Group)
+  model$FinalDemandSectors$Code_Loc <- apply(cbind(model$FinalDemandSectors$Code, model$specs$ModelRegionAcronyms),
                                              1, FUN = joinStringswithSlashes)
   
   # model$MarginSectors
@@ -64,8 +65,13 @@ loadNationalIOData <- function(model) {
   model$MarginSectors[] <- lapply(model$MarginSectors, as.character)
   colnames(model$MarginSectors) <- c("Code", "Name")
   model$MarginSectors$Name <- gsub(c("Codes"), "", model$MarginSectors$Name)
-  model$MarginSectors$Code_Loc <- apply(cbind(model$MarginSectors$Code, model$specs$PrimaryRegionAcronym),
+  model$MarginSectors$Code_Loc <- apply(cbind(model$MarginSectors$Code, model$specs$ModelRegionAcronyms),
                                         1, FUN = joinStringswithSlashes)
+  
+  # model$ValueAddedSectors
+  model$ValueAddedSectors <- get(paste(model$specs$BaseIOLevel, "ValueAddedCodeName", model$specs$BaseIOSchema, sep = "_"))
+  colnames(model$ValueAddedSectors) <- c("Code", "Name")
+  model$ValueAddedSectors$Code_Loc <- apply(cbind(model$ValueAddedSectors$Code, model$specs$ModelRegionAcronyms), 1, FUN = joinStringswithSlashes)
   
   # IO tables
   model$MakeTransactions <- BEA$MakeTransactions
@@ -82,10 +88,10 @@ loadNationalIOData <- function(model) {
   colnames(model$MakeTransactions) <- rownames(model$UseTransactions) <- rownames(model$DomesticUseTransactions) <- 
     rownames(model$FinalDemand) <- rownames(model$DomesticFinalDemand) <- model$Commodities$Code_Loc
   # Apply joinStringswithSlashes based on original row/column names
-  rownames(model$UseValueAdded) <- apply(cbind(rownames(model$UseValueAdded), model$specs$PrimaryRegionAcronym),
+  rownames(model$UseValueAdded) <- apply(cbind(rownames(model$UseValueAdded), model$specs$ModelRegionAcronyms),
                                          1, FUN = joinStringswithSlashes)
   colnames(model$FinalDemand) <- colnames(model$DomesticFinalDemand) <- apply(cbind(colnames(model$FinalDemand),
-                                                                                    model$specs$PrimaryRegionAcronym),
+                                                                                    model$specs$ModelRegionAcronyms),
                                                                               1, FUN = joinStringswithSlashes)
   
   model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
@@ -103,12 +109,15 @@ loadNationalIOData <- function(model) {
   
   # Transform model FinalDemand and DomesticFinalDemand to by-industry form
   if (model$specs$CommoditybyIndustryType=="Industry") {
+    # Keep the orignal FinalDemand (in by-commodity form)
+    model$FinalDemandbyCommodity <- model$FinalDemand
+    model$DomesticFinalDemandbyCommodity <- model$DomesticFinalDemand
     model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
     model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
   }
   
-  # Add Final Consumer Margins table
-  model$FinalConsumerMargins <- getFinalConsumerMarginsTable(model)
+  # Add Margins table
+  model$Margins <- getMarginsTable(model)
   
   return(model)
 }

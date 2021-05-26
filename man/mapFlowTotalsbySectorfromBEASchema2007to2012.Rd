@@ -8,8 +8,6 @@ mapFlowTotalsbySectorfromBEASchema2007to2012(totals_by_sector)
 }
 \arguments{
 \item{totals_by_sector}{A standardized satellite table with resource and emission names from original sources.}
-
-\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
 A satellite table aggregated by the USEEIO model sector codes.

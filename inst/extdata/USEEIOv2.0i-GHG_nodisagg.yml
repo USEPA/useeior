@@ -1,14 +1,13 @@
-Model: "USEEIOv2.0-GHG" # 2012 Detail, Commodity
+Model: "USEEIOv2.0i-GHG" # 2012 Detail, Industry
 BaseIOSchema: 2012
 BaseIOLevel: "Detail"
 IOYear: 2012 # Year for IO data
-PrimaryRegionAcronym: "US"
 ModelRegionAcronyms: ["US"]
-ModelType: "US"
-ModelSource: "BEA"
+ModelType: "EEIO"
+IODataSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
-CommoditybyIndustryType: "Commodity"
+CommoditybyIndustryType: "Industry"
 ScrapIncluded: FALSE
 DisaggregationSpecs: null
 
@@ -42,7 +41,7 @@ Indicators:
     SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
     SimpleName: "Greenhouse Gases"
     StaticSource: TRUE
-    StaticFile: "lciafmt/traci_2_1/TRACI_2.1_v0_4_1_3ac9243.parquet"
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 

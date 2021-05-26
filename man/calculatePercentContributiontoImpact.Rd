@@ -2,29 +2,18 @@
 % Please edit documentation in R/CalculationFunctions.R
 \name{calculatePercentContributiontoImpact}
 \alias{calculatePercentContributiontoImpact}
-\title{Calculate the percent contribution of M flows to an N indicator result
-Uses model M matrix for flows and C matrix for indicator}
+\title{Dot multiplies two vectors to calculate an impact score and the percent contribution each score to the total}
 \usage{
-calculatePercentContributiontoImpact(
-  model,
-  sector,
-  indicator,
-  domestic = FALSE
-)
+calculatePercentContributiontoImpact(x, y)
 }
 \arguments{
-\item{model, }{A complete EEIO Model object}
+\item{x, }{numeric vector of length n}
 
-\item{sector, }{str, index of a model sector for use in the M matrix, e.g. "221100/us"}
-
-\item{indicator, }{str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential"}
-
-\item{domestic, }{boolean, sets model to use domestic flow matrix.  Default is FALSE.}
+\item{y, }{numeric vector of length n}
 }
 \value{
-df, dataframe sorted from highest flow contribution "contribution", also showing "flow","indicator","impact"
+df, dataframe sorted from highest "contribution", also showing "x","y","impact"
 }
 \description{
-Calculate the percent contribution of M flows to an N indicator result
-Uses model M matrix for flows and C matrix for indicator
+Dot multiplies two vectors to calculate an impact score and the percent contribution each score to the total
 }

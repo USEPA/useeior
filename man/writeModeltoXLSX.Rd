@@ -2,13 +2,18 @@
 % Please edit documentation in R/WriteModel.R
 \name{writeModeltoXLSX}
 \alias{writeModeltoXLSX}
-\title{Write selected model objects and user meta to XLSX file}
+\title{Write selected model matrices, demand vectors, and metadata as XLSX file to output folder}
 \usage{
-writeModeltoXLSX(model)
+writeModeltoXLSX(model, outputfolder)
 }
 \arguments{
 \item{model, }{any model object}
+
+\item{outputfolder}{A directory to write model matrices and metadata as XLSX file out to}
+}
+\value{
+None
 }
 \description{
-Write selected model objects and user meta to XLSX file
+Writes model matrices demand vectors, and metadata as XLSX file to output folder.
 }

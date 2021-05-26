@@ -13,7 +13,7 @@ loadDemandVectors <- function(model) {
     # Populate metadata
     i <- specs[[v]]
     i["Name"] <- v
-    i["ID"] <- tolower(paste(i$Year,i$Location,i$Type,i$System,sep="_"))
+    i["ID"] <- paste(i$Year,i$Location,i$Type,i$System,sep="_")
     meta <- rbind(meta,data.frame(i, stringsAsFactors = FALSE) )
 
     #Check if the demand is registered

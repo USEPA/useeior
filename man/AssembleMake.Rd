@@ -14,17 +14,17 @@ AssembleMake(
 )
 }
 \arguments{
+\item{originalMake}{Dataframe. The original Make table before disaggregation}
+
 \item{originalRowIndex}{Integer. The row index, in the original Make table, of the sector to be disaggregated}
+
+\item{originalColIndex}{Integer. The column index, in the original Make table, of the sector to be disaggregated}
 
 \item{disaggCols}{Dataframe. Previously disaggregated columns of the Make table.}
 
 \item{disaggRows}{Dataframe. Previously disaggregated rows of the Make table.}
 
-\item{OriginalMake}{Dataframe. The original Make table before disaggregation}
-
-\item{OriginalColIndex}{Integer. The column index, in the original Make table, of the sector to be disaggregated}
-
-\item{disaggIntersecion}{Dataframe. Previously disaggregated intersection of the Make table.}
+\item{disaggIntersection}{Dataframe. Previously disaggregated intersection of the Make table.}
 }
 \value{
 The Make table as a dataframe with the disaggregated rows, columns, and intersection included
