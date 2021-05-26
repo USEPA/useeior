@@ -46,6 +46,8 @@ constructEEIOMatrices <- function(model) {
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
                                                 DomesticFinalDemand_df),
                                           model$UseValueAdded)) # DomesticUse
+  model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
+                                 function(x) ifelse(is.na(x), 0, x))
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
   model$W <- as.matrix(model$UseValueAdded)
