@@ -71,12 +71,10 @@ writeModeltoXLSX <- function(model, outputfolder) {
   USEEIOtoXLSX_ls <- model[matrices]
   USEEIOtoXLSX_ls$Rho <- USEEIOtoXLSX_ls$Rho[, match("2007", colnames(USEEIOtoXLSX_ls$Rho)):ncol(USEEIOtoXLSX_ls$Rho)]
   USEEIOtoXLSX_ls$Phi <- USEEIOtoXLSX_ls$Phi[, match("2007", colnames(USEEIOtoXLSX_ls$Phi)):ncol(USEEIOtoXLSX_ls$Phi)]
-  # List commodity/industry output
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
-    USEEIOtoXLSX_ls$q <- model$CommodityOutput
-  } else {
-    USEEIOtoXLSX_ls$x <- model$IndustryOutput
-  }
+  # Write commodity/industry output
+  USEEIOtoXLSX_ls$q <- model$q
+  USEEIOtoXLSX_ls$x <- model$x
+
   # List model demand vectors
   USEEIOtoXLSX_ls[names(model$DemandVectors$vectors)] <- model$DemandVectors$vectors
   # Format tables
