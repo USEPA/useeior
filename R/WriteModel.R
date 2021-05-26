@@ -51,13 +51,11 @@ writeModelMatrices <- function(model, to_format, outputfolder) {
     for (matrix in matrices) {
       writeMatrixasBinFile(as.matrix(model[[matrix]]),
                            paste0(modelfolder, "/",matrix, ".bin"))
-      # Write x (Industry Output) or q (Commodity Output) to .bin files for API
-      if (model$specs$CommoditybyIndustryType=="Commodity") {
-        writeMatrixasBinFile(as.matrix(model$CommodityOutput), paste0(modelfolder, "/q.bin"))
-      } else {
-        writeMatrixasBinFile(as.matrix(model$IndustryOutput), paste0(modelfolder, "/x.bin"))
-      }
+     
     }
+    # Write x (Industry Output) or q (Commodity Output) to .bin files
+      writeMatrixasBinFile(as.matrix(model$q), paste0(modelfolder, "/q.bin"))
+      writeMatrixasBinFile(as.matrix(model$x), paste0(modelfolder, "/x.bin"))
   }
   logging::loginfo(paste0("Model matrices written to ", modelfolder, "."))
 }
