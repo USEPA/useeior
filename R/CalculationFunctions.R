@@ -1,51 +1,51 @@
 # Model Calculations
 
-#' Calculate total emissions/resources (LCI) or total impact for USEEIO model for a given demand vector and perspective.
+#' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model
+#' for a given perspective and demand vector.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param perspective Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".
-#' @param demand A name of a built in model demand vector or a named vector with names as one or more model sectors and numeric values in USD with the same dollar year as model
+#' @param demand A demand vector, can be name of a built-in model demand vector
+#' or an actual demand vector with names as one or more model sectors and
+#' numeric values in USD with the same dollar year as model.
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic A_d; if FALSE, use A matrices.
 #' @export
-#' @return A list with LCI and LCIA results of the EEIO model.
+#' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "Production", use_domestic_requirements = FALSE) {
   result <- list()
-  # Generate Direct Requirements (A) matrix and Demand dataframe flexibly based on "use_domestic"
+  # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
   if (use_domestic_requirements) {
     L <- model$L_d
   } else {
     L <- model$L
   }
   
-  #Try to load demand
+  # Prepare demand vector
   if (class(demand)=="character") {
     #assume this is a model build-in demand 
     #try to load the model vector
     meta <- model$DemandVectors$meta
     if (demand %in% meta$Name) {
-      #Get the idea from the meta table, which will be the name of the vector
+      # Get vector name (ID) from the meta table
       id <- meta[which(meta$Name==demand),"ID"]
       d <- model$DemandVectors$vectors[[id]]
     } else {
-      logging::logerror(paste("The name given for the demand,",demand,"is not in the model list of demand vectors."))
+      logging::logerror(paste0("'", demand, "' is not a valid demand vector name in model."))
+      stop()
     }
-    
-  } else { 
+  } else {
+    # Assume this is a user-defined demand vector
     #! Need to check that the given demand 
-    
     if (isDemandVectorValid(demand,L)) {
-      
       d <-formatDemandVector(demand,L)
-      
     } else {
       logging::logerror("Format of the demand vector is invalid. Cannot calculate result.")
+      stop()
     }
-    
-  } 
-  
-  #convert it into a matrix
+  }
+  #convert demand vector into a matrix
   f <- as.matrix(d)  
 
-  # DirectPerspective LCI and DirectPerspective LCIA
+  # Calculate LCI and LCIA in direct or final perspective
   if (perspective=="DIRECT") {
     # Calculate DirectPerspectiveLCI (transposed m_d with total impacts in form of sectorxflows)
     logging::loginfo("Calculating Direct Perspective LCI...")
