@@ -18,15 +18,41 @@ buildModel <- function(modelname) {
 #' @export
 #' @return A list with EEIO matrices..
 constructEEIOMatrices <- function(model) {
-  if(model$specs$ModelType!="US"){
+  if(model$specs$ModelRegionAcronyms!="US"){
     stop("This function needs to be revised before it is suitable for multi-regional models")
   }
+  
+  # Combine data into a single totals by sector df
+  model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
+  # Set common year for flow when more than one year exists
+  model$TbS <- setCommonYearforFlow(model$TbS)
+  # Generate coefficients 
+  model$CbS <- generateCbSfromTbSandModel(model)
+  
   # Generate matrices
+  model$V <- as.matrix(model$MakeTransactions) # Make
   model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
+  if (model$specs$CommoditybyIndustryType=="Industry") {
+    FinalDemand_df <- model$FinalDemandbyCommodity
+    DomesticFinalDemand_df <- model$DomesticFinalDemandbyCommodity
+  } else {
+    FinalDemand_df <- model$FinalDemand
+    DomesticFinalDemand_df <- model$DomesticFinalDemand
+  }
+  model$U <- as.matrix(dplyr::bind_rows(cbind(model$UseTransactions,
+                                              FinalDemand_df),
+                                        model$UseValueAdded)) # Use
+  model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
+                                                DomesticFinalDemand_df),
+                                          model$UseValueAdded)) # DomesticUse
+  model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
+                                 function(x) ifelse(is.na(x), 0, x))
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
   model$W <- as.matrix(model$UseValueAdded)
+  model$q <- model$CommodityOutput
+  model$x <- model$IndustryOutput
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements)...")
     model$A <- model$U_n %*% model$V_n
@@ -38,16 +64,17 @@ constructEEIOMatrices <- function(model) {
     logging::loginfo("Building industry-by-industry A_d matrix (domestic direct requirements)...")
     model$A_d <- model$V_n %*% model$U_d_n
   }
-
+  
+  # Calculate total requirements matrix as Leontief inverse (L) of A
+  logging::loginfo("Calculating L matrix (total requirements)...")
+  I <- diag(nrow(model$A))
+  I_d <- diag(nrow(model$A_d))
+  model$L <- solve(I - model$A)
+  logging::loginfo("Calculating L_d matrix (domestic total requirements)...")
+  model$L_d <- solve(I_d - model$A_d)
+  
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
-  
-  # Combine data into a single totals by sector df
-  model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
-  # Set common year for flow when more than one year exists
-  model$TbS <- setCommonYearforFlow(model$TbS)
-  # Generate coefficients 
-  model$CbS <- generateCbSfromTbSandModel(model)
   model$B <- createBfromFlowDataandOutput(model)
   
   # Generate C matrix
@@ -58,18 +85,10 @@ constructEEIOMatrices <- function(model) {
   logging::loginfo("Calculating D matrix (direct environmental impacts per dollar)...")
   model$D <- model$C %*% model$B 
   
-  # Calculate total requirements matrix as Leontief inverse of A (L)
-  logging::loginfo("Calculating L matrix (total requirements)...")
-  I <- diag(nrow(model$A))
-  I_d <- diag(nrow(model$A_d))
-  model$L <- solve(I - model$A)
-  logging::loginfo("Calculating L_d matrix (domestic total requirements)...")
-  model$L_d <- solve(I_d - model$A_d)
-  
   # Calculate total emissions/resource use per dollar (M)
   logging::loginfo("Calculating M matrix (total emissions and resource use per dollar)...")
   model$M <- model$B %*% model$L
-  colnames(model$M) <- tolower(colnames(model$M))
+  colnames(model$M) <- colnames(model$M)
   # Calculate M_d, the domestic emissions per dollar using domestic Leontief
   logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
   model$M_d <- model$B %*% model$L_d
@@ -90,6 +109,15 @@ constructEEIOMatrices <- function(model) {
   logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
   model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
   
+  #Clean up model elements not written out or used in further functions to reduce clutter
+  mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
+                     "UseValueAdded", "FinalDemand", "DomesticFinalDemand","CommodityOutput", "IndustryOutput",
+                     "U_n","U_d_n","W")
+  if (model$specs$CommoditybyIndustryType=="Industry") {
+    mat_to_remove <- append(mat_to_remove,c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity"))
+  }
+  model <- within(model, rm(list=mat_to_remove))
+  
   logging::loginfo("Model build complete.")
   return(model)
 }
@@ -104,13 +132,13 @@ createBfromFlowDataandOutput <- function(model) {
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommoditybyIndustryType == "Commodity") {
     B <- B %*% model$V_n
-    colnames(B) <- tolower(model$Commodities$Code_Loc)
+    colnames(B) <- model$Commodities$Code_Loc
   }
+  #rownames(B) <- tolower(rownames(B))
   return(B)
 }
 
 #'Prepare coefficients (x unit/$) from the totals by flow and sector (x unit)
-#'@param TbS, a totals by sector dataframe
 #'@param model, a model with econ and flow data loaded
 #'@return df, a Coefficients-by-sector table
 generateCbSfromTbSandModel <- function(model) {
@@ -153,26 +181,27 @@ standardizeandcastSatelliteTable <- function(df,model) {
   rownames(df_cast) <- df_cast$Flow
   df_cast$Flow <- NULL
   # Complete sector list according to model$Industries
-  df_cast[, setdiff(tolower(model$Industries$Code_Loc), colnames(df_cast))] <- 0
+  df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 0
   # Adjust column order to be the same with V_n rownames
-  df_cast <- df_cast[, tolower(model$Industries$Code_Loc)]
+  df_cast <- df_cast[, model$Industries$Code_Loc]
   return(df_cast)
 }
 
 #' Generate C matrix from indicator factors and a model B matrix
-#' @param factors, df in model$Indicators$factors format
-#' @param B, the model B matrix to use for reference
+#' @param factors df in model$Indicators$factors format
+#' @param B_flows Flows from B matrix to use for reference
 #' @return a C matrix in indicator x flow format
 createCfromFactorsandBflows <- function(factors,B_flows) {
   # Add flow field to factors
-  factors$Flow <- tolower(apply(factors[, c("Flowable", "Context", "Unit")],
-                                   1, FUN = joinStringswithSlashes))
+  factors$Flow <- apply(factors[, c("Flowable", "Context", "Unit")],
+                        1, FUN = joinStringswithSlashes)
   
   #Subset factor flows by flows in B matrix
   factors <- factors[factors$Flow %in% unique(B_flows),]
   
   C <- reshape2::dcast(factors, Indicator ~ Flow, value.var = "Amount")
   rownames(C) <- C$Indicator
+  #colnames(C) <- tolower(colnames(C))
   # Get flows in B not in C and add to C
   flows_inBnotC <- setdiff(B_flows, colnames(C))
   C[, flows_inBnotC] <- 0

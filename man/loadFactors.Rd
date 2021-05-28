@@ -7,7 +7,7 @@
 loadFactors(ind_spec)
 }
 \arguments{
-\item{specs}{Specification of an indicator}
+\item{ind_spec}{Specification of an indicator}
 }
 \value{
 A dataframe of factors with factor_fields

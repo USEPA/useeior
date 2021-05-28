@@ -7,7 +7,11 @@
 getModelConfiguration <- function(modelname) {
   configname <- paste(modelname, ".yml", sep = "")
   configfile <- system.file("extdata", configname, package="useeior")
-  try(config <- configr::read.config(configfile))
+  if (configfile == "") {
+    config <- NA
+  } else {
+    config <- configr::read.config(configfile)
+  }
   return(config)
 }
 

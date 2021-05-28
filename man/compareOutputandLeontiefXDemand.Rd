@@ -11,7 +11,7 @@ compareOutputandLeontiefXDemand(model, use_domestic = FALSE, tolerance = 0.05)
 \arguments{
 \item{model, }{EEIOmodel object completely built}
 
-\item{use_domestic, }{a boolean value indicating whether to use domestic demand vector}
+\item{use_domestic, }{a logical value indicating whether to use domestic demand vector}
 
 \item{tolerance, }{a numeric value, tolerance level of the comparison}
 }

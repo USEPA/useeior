@@ -1,8 +1,8 @@
 Package: useeior
 Type: Package
 Title: USEEIO R modeling software
-Version: 0.2.0
-Date: 2021-01-24
+Version: 0.4.0
+Date: 2021-03-25
 Authors@R: c(
   person("Mo","Li", email="mo.li@gdit.com", role="aut"),
   person("Wesley","Ingwersen", email="ingwersen.wesley@epa.gov", role= c("aut", "cre")),
@@ -20,7 +20,7 @@ Imports:
     arrow (>= 2.0.0),
     configr (>= 0.3.4),
     digest (>= 0.6.27),
-    dplyr (>= 0.8),
+    dplyr (>= 1.0.6),
     ggplot2 (>= 3.0),
     jsonlite (>= 1.6),
     logging (>= 0.10),
@@ -33,7 +33,8 @@ Imports:
     stringr (>= 1.4),
     usethis (>= 1.5),
     utils (>= 3.6.1),
-    validate (>= 1.0)
+    validate (>= 1.0),
+    writexl (>= 1.2)
 Depends:
   R (>= 3.6)
 Remotes:

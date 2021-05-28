@@ -8,9 +8,14 @@ initializeModel <- function(modelname) {
   model <- list()
   # Get model specs
   model$specs <- getModelConfiguration(modelname)
-  # Get model crosswalk
-  model$crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema))
-  model$crosswalk <- unique(model$crosswalk[, c("NAICS_2012_Code", colnames(model$crosswalk)[startsWith(colnames(model$crosswalk), "BEA")])])
-  colnames(model$crosswalk) <- gsub(paste0("_", model$specs$BaseIOSchema, "|_Code"), "", colnames(model$crosswalk))
+  if (rlang::is_na(model$specs)) {
+    logging::logerror(paste("No configuration exists for a model named",modelname))
+    stop()
+  } else {
+    # Get model crosswalk
+    model$crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema))
+    model$crosswalk <- unique(model$crosswalk[, c("NAICS_2012_Code", colnames(model$crosswalk)[startsWith(colnames(model$crosswalk), "BEA")])])
+    colnames(model$crosswalk) <- gsub(paste0("_", model$specs$BaseIOSchema, "|_Code"), "", colnames(model$crosswalk))
+  }
   return(model)
 }

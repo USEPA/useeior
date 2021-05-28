@@ -821,42 +821,77 @@ getBEACodeName2012Schema <- function () {
   getBEAIOTables()
   ### Load desired excel file
   ## Detail
-  BEADetail <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_2007_2012_Detail.xlsx", sheet = "2012"))
+  BEADetail <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_2007_2012_Detail.xlsx", sheet = "2012"))
   # Industry
-  BEADetailIndustryCodeName <- BEADetail[6:410, 1:2]
+  BEADetailIndustryCodeName <- as.data.frame(t(BEADetail[5:4, 3:407]), stringsAsFactors = FALSE)
   colnames(BEADetailIndustryCodeName) <- c("BEA_2012_Detail_Industry_Code", "BEA_2012_Detail_Industry_Name")
   rownames(BEADetailIndustryCodeName) <- NULL
   # Commodity
-  BEADetailCommodityCodeName <- as.data.frame(t(BEADetail[5:4, 3:407]), stringsAsFactors = FALSE)
+  BEADetailCommodityCodeName <- BEADetail[6:410, 1:2]
   colnames(BEADetailCommodityCodeName) <- c("BEA_2012_Detail_Commodity_Code", "BEA_2012_Detail_Commodity_Name")
   rownames(BEADetailCommodityCodeName) <- NULL
+  # Value Added
+  BEADetailValueAddedCodeName <- BEADetail[412:414, 1:2]
+  colnames(BEADetailValueAddedCodeName) <- c("BEA_2012_Detail_ValueAdded_Code", "BEA_2012_Detail_ValueAdded_Name")
+  rownames(BEADetailValueAddedCodeName) <- NULL
+  # Final Demand
+  BEADetailFinalDemandCodeName <-  as.data.frame(t(BEADetail[5:4, 409:428]), stringsAsFactors = FALSE)
+  colnames(BEADetailFinalDemandCodeName) <- c("BEA_2012_Detail_FinalDemand_Code", "BEA_2012_Detail_FinalDemand_Name")
+  rownames(BEADetailFinalDemandCodeName) <- NULL
+  
   ## Summary
-  BEASummary <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2019_Summary.xlsx", sheet = "2012"))
+  BEASummary <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_1997-2019_Summary.xlsx", sheet = "2012"))
   # Industry
-  BEASummaryIndustryCodeName <- BEASummary[7:77, 1:2]
+  BEASummaryIndustryCodeName <- as.data.frame(t(BEASummary[5:6, 3:73]), stringsAsFactors = FALSE)
   colnames(BEASummaryIndustryCodeName) <- c("BEA_2012_Summary_Industry_Code", "BEA_2012_Summary_Industry_Name")
   rownames(BEASummaryIndustryCodeName) <- NULL
   # Commodity
-  BEASummaryCommodityCodeName <- as.data.frame(t(BEASummary[5:6, 3:75]), stringsAsFactors = FALSE)
+  BEASummaryCommodityCodeName <- BEASummary[7:79, 1:2]
   colnames(BEASummaryCommodityCodeName) <- c("BEA_2012_Summary_Commodity_Code", "BEA_2012_Summary_Commodity_Name")
   rownames(BEASummaryCommodityCodeName) <- NULL
+  # Value Added
+  BEASummaryValueAddedCodeName <- BEASummary[83:85, 1:2]
+  colnames(BEASummaryValueAddedCodeName) <- c("BEA_2012_Summary_ValueAdded_Code", "BEA_2012_Summary_ValueAdded_Name")
+  rownames(BEASummaryValueAddedCodeName) <- NULL
+  # Final Demand
+  BEASummaryFinalDemandCodeName <-  as.data.frame(t(BEASummary[5:6, 77:96]), stringsAsFactors = FALSE)
+  colnames(BEASummaryFinalDemandCodeName) <- c("BEA_2012_Summary_FinalDemand_Code", "BEA_2012_Summary_FinalDemand_Name")
+  rownames(BEASummaryFinalDemandCodeName) <- NULL
+  
   ## Sector
-  BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2019_Sector.xlsx", sheet = "2012"))
+  BEASector <- as.data.frame(readxl::read_excel("inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_1997-2019_Sector.xlsx", sheet = "2012"))
   # Industry
-  BEASectorIndustryCodeName <- BEASector[7:21, 1:2]
+  BEASectorIndustryCodeName <- as.data.frame(t(BEASector[5:6, 3:17]), stringsAsFactors = FALSE)
   colnames(BEASectorIndustryCodeName) <- c("BEA_2012_Sector_Industry_Code", "BEA_2012_Sector_Industry_Name")
   rownames(BEASectorIndustryCodeName) <- NULL
   # Commodity
-  BEASectorCommodityCodeName <- as.data.frame(t(BEASector[5:6, 3:19]), stringsAsFactors = FALSE)
+  BEASectorCommodityCodeName <- BEASector[7:23, 1:2]
   colnames(BEASectorCommodityCodeName) <- c("BEA_2012_Sector_Commodity_Code", "BEA_2012_Sector_Commodity_Name")
   rownames(BEASectorCommodityCodeName) <- NULL
+  # Value Added
+  BEASectorValueAddedCodeName <- BEASector[27:29, 1:2]
+  colnames(BEASectorValueAddedCodeName) <- c("BEA_2012_Sector_ValueAdded_Code", "BEA_2012_Sector_ValueAdded_Name")
+  rownames(BEASectorValueAddedCodeName) <- NULL
+  # Final Demand
+  BEASectorFinalDemandCodeName <-  as.data.frame(t(BEASector[5:6, 21:26]), stringsAsFactors = FALSE)
+  colnames(BEASectorFinalDemandCodeName) <- c("BEA_2012_Sector_FinalDemand_Code", "BEA_2012_Sector_FinalDemand_Name")
+  rownames(BEASectorFinalDemandCodeName) <- NULL
+  
   ### Put the data.frames in a list
-  BEACodeNameList <- list(BEADetailIndustryCodeName, BEADetailCommodityCodeName,
-                          BEASummaryIndustryCodeName, BEASummaryCommodityCodeName,
-                          BEASectorIndustryCodeName, BEASectorCommodityCodeName)
+  BEACodeNameList <- list("DetailIndustry"     = BEADetailIndustryCodeName,
+                          "DetailCommodity"    = BEADetailCommodityCodeName,
+                          "DetailValueAdded"   = BEADetailValueAddedCodeName,
+                          "DetailFinalDemand"  = BEADetailFinalDemandCodeName,
+                          "SummaryIndustry"    = BEASummaryIndustryCodeName,
+                          "SummaryCommodity"   = BEASummaryCommodityCodeName,
+                          "SummaryValueAdded"  = BEASummaryValueAddedCodeName,
+                          "SummaryFinalDemand" = BEASummaryFinalDemandCodeName,
+                          "SectorIndustry"     = BEASectorIndustryCodeName,
+                          "SectorCommodity"    = BEASectorCommodityCodeName,
+                          "SectorValueAdded"   = BEASectorValueAddedCodeName,
+                          "SectorFinalDemand"  = BEASectorFinalDemandCodeName)
   BEACodeNameList <- lapply(BEACodeNameList, cleanSectorNames)
   BEACodeNameList <- lapply(BEACodeNameList, cleanSectorCodes)
-  names(BEACodeNameList) <- c("DetailIndustry", "DetailCommodity", "SummaryIndustry", "SummaryCommodity", "SectorIndustry", "SectorCommodity")
   return(BEACodeNameList)
 }
 
@@ -885,67 +920,51 @@ Detail_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["DetailIndustry"]]
 usethis::use_data(Detail_IndustryCodeName_2012, overwrite = TRUE)
 Detail_CommodityCodeName_2012 <- getBEACodeName2012Schema()[["DetailCommodity"]]
 usethis::use_data(Detail_CommodityCodeName_2012, overwrite = TRUE)
+Detail_ValueAddedCodeName_2012 <- getBEACodeName2012Schema()[["DetailValueAdded"]]
+usethis::use_data(Detail_ValueAddedCodeName_2012, overwrite = TRUE)
+Detail_FinalDemandCodeName_2012 <- getBEACodeName2012Schema()[["DetailFinalDemand"]]
+usethis::use_data(Detail_FinalDemandCodeName_2012, overwrite = TRUE)
 Summary_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["SummaryIndustry"]]
 usethis::use_data(Summary_IndustryCodeName_2012, overwrite = TRUE)
 Summary_CommodityCodeName_2012 <- getBEACodeName2012Schema()[["SummaryCommodity"]]
 usethis::use_data(Summary_CommodityCodeName_2012, overwrite = TRUE)
+Summary_ValueAddedCodeName_2012 <- getBEACodeName2012Schema()[["SummaryValueAdded"]]
+usethis::use_data(Summary_ValueAddedCodeName_2012, overwrite = TRUE)
+Summary_FinalDemandCodeName_2012 <- getBEACodeName2012Schema()[["SummaryFinalDemand"]]
+usethis::use_data(Summary_FinalDemandCodeName_2012, overwrite = TRUE)
 Sector_IndustryCodeName_2012 <- getBEACodeName2012Schema()[["SectorIndustry"]]
 usethis::use_data(Sector_IndustryCodeName_2012, overwrite = TRUE)
 Sector_CommodityCodeName_2012 <- getBEACodeName2012Schema()[["SectorCommodity"]]
 usethis::use_data(Sector_CommodityCodeName_2012, overwrite = TRUE)
+Sector_ValueAddedCodeName_2012 <- getBEACodeName2012Schema()[["SectorValueAdded"]]
+usethis::use_data(Sector_ValueAddedCodeName_2012, overwrite = TRUE)
+Sector_FinalDemandCodeName_2012 <- getBEACodeName2012Schema()[["SectorFinalDemand"]]
+usethis::use_data(Sector_FinalDemandCodeName_2012, overwrite = TRUE)
 
-# Get PCE Bridge (2012 schema) 2007 and 2012 tables from BEA static URL
-getBEADetailPCEBridge2012Schema <- function () {
+# Get Detail Margins (Before Redef, 2012 schema) 2007 and 2012 tables from BEA static URL
+getBEADetailMarginsBeforeRedef2012Schema <- function () {
   # Download BEA PCE bridge table
-  if(!file.exists("inst/extdata/PCEBridge_2007_2012_DET.xlsx")) {
-    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/PCEBridge_2007_2012_DET.xlsx",
-                  "inst/extdata/PCEBridge_2007_2012_DET.xlsx", mode = "wb")
+  if(!file.exists("inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx")) {
+    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_DET.xlsx",
+                         "inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx", mode = "wb")
   }
-  column_names <- c("NIPACode", "PCECategory", "CommodityCode", "CommodityDescription",
+  column_names <- c("NIPACode", "MarginsCategory", "CommodityCode", "CommodityDescription",
                     "ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
   # 2012 data
-  PCEBridge2012 <- as.data.frame(readxl::read_excel("inst/extdata/PCEBridge_2007_2012_DET.xlsx", sheet = "2012"))[6:717, c(1:9)]
-  colnames(PCEBridge2012) <- column_names
-  # Convert PCE values from character to numeric
-  PCEBridge2012[, column_names[5:9]] <- as.data.frame(apply(PCEBridge2012[, column_names[5:9]], 2, as.numeric))
+  Margins2012 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx", sheet = "2012"))[5:61848, ]
+  colnames(Margins2012) <- column_names
+  # Convert Margins values from character to numeric
+  Margins2012[, column_names[5:9]] <- as.data.frame(apply(Margins2012[, column_names[5:9]], 2, as.numeric))
   # 2007 data
-  PCEBridge2007 <- as.data.frame(readxl::read_excel("inst/extdata/PCEBridge_2007_2012_DET.xlsx", sheet = "2007"))[6:717, c(1:9)]
-  colnames(PCEBridge2007) <- column_names
-  # Convert PCE values from character to numeric
-  PCEBridge2007[, column_names[5:9]] <- as.data.frame(apply(PCEBridge2007[, column_names[5:9]], 2, as.numeric))
-
-  # PutPCEBridge2012 and PCEBridge2007 in the PCEBridge2012SchemaList
-  PCEBridge2012SchemaList <- list(PCEBridge2007, PCEBridge2012)
-  names(PCEBridge2012SchemaList) <- c("2007", "2012")
-  return(PCEBridge2012SchemaList)
+  Margins2007 <- as.data.frame(readxl::read_excel("inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx", sheet = "2007"))[5:61844, ]
+  colnames(Margins2007) <- column_names
+  # Convert Margins values from character to numeric
+  Margins2007[, column_names[5:9]] <- as.data.frame(apply(Margins2007[, column_names[5:9]], 2, as.numeric))
+  
+  # Put Margins2012 and Margins2007 in the Margins2012SchemaList
+  Margins2012SchemaList <- list(Margins2007, Margins2012)
+  names(Margins2012SchemaList) <- c("2007", "2012")
+  return(Margins2012SchemaList)
 }
-Detail_PCE_2012 <- getBEADetailPCEBridge2012Schema()[["2012"]]
-usethis::use_data(Detail_PCE_2012, overwrite = TRUE)
-
-# Get DetailPEQ Bridge (2012 schema) 2007 and 2012 tables from BEA static URL
-getBEADetailPEQBridge2012Schema <- function () {
-  # Download BEA PEQ bridge table
-  if(!file.exists("inst/extdata/PEQBridge_2007_2012_DET.xlsx")) {
-    utils::download.file("https://apps.bea.gov/industry/xls/underlying-estimates/PEQBridge_2007_2012_DET.xlsx",
-                  "inst/extdata/PEQBridge_2007_2012_DET.xlsx", mode = "wb")
-  }
-  column_names <- c("NIPACode", "PEQCategory", "CommodityCode", "CommodityDescription",
-                    "ProducersValue", "Transportation", "Wholesale", "Retail", "PurchasersValue")
-  # 2012 data
-  PEQBridge2012 <- as.data.frame(readxl::read_excel("inst/extdata/PEQBridge_2007_2012_DET.xlsx", sheet = "2012"))[6:190, c(1:9)]
-  colnames(PEQBridge2012) <-column_names
-  # Convert PEQ values from character to numeric
-  PEQBridge2012[, column_names[5:9]] <- as.data.frame(apply(PEQBridge2012[, column_names[5:9]], 2, as.numeric))
-  # 2007 data
-  PEQBridge2007 <- as.data.frame(readxl::read_excel("inst/extdata/PEQBridge_2007_2012_DET.xlsx", sheet = "2007"))[6:190, c(1:9)]
-  colnames(PEQBridge2007) <- column_names
-  # Convert PEQ values from character to numeric
-  PEQBridge2007[, column_names[5:9]] <- as.data.frame(apply(PEQBridge2007[, column_names[5:9]], 2, as.numeric))
-
-  # PutPEQBridge2012 and PEQBridge2007 in the PEQBridge2012SchemaList
-  PEQBridge2012SchemaList <- list(PEQBridge2007, PEQBridge2012)
-  names(PEQBridge2012SchemaList) <- c("2007", "2012")
-  return(PEQBridge2012SchemaList)
-}
-Detail_PEQ_2012 <- getBEADetailPEQBridge2012Schema()[["2012"]]
-usethis::use_data(Detail_PEQ_2012, overwrite = TRUE)
+Detail_Margins_2012_BeforeRedef <- getBEADetailMarginsBeforeRedef2012Schema()[["2012"]]
+usethis::use_data(Detail_Margins_2012_BeforeRedef, overwrite = TRUE)

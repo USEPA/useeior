@@ -7,11 +7,11 @@
 formatValidationResult(result, abs_diff = TRUE, tolerance)
 }
 \arguments{
-\item{abs_diff}{A boolean value indicating whether to validate absolute values}
+\item{result}{Validation result to be formatted}
+
+\item{abs_diff}{A logical value indicating whether to validate absolute values}
 
 \item{tolerance}{A numeric value setting tolerance of the comparison}
-
-\item{df}{A data.frame to be validated}
 }
 \value{
 A list contains formatted validation results

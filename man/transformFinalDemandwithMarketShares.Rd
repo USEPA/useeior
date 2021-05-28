@@ -2,18 +2,20 @@
 % Please edit documentation in R/IOFunctions.R
 \name{transformFinalDemandwithMarketShares}
 \alias{transformFinalDemandwithMarketShares}
-\title{Transform Final Demand df with Market Shares matrix.}
+\title{Transform Final Demand (commodity x sector) with Market Shares matrix
+to Final Demand (industry x sector)}
 \usage{
 transformFinalDemandwithMarketShares(Fdf, model)
 }
 \arguments{
-\item{Fdf}{Final Demand dataframe.}
+\item{Fdf}{Final Demand data.frame.}
 
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
-Final Demand matrix.
+Final Demand (industry x sector) data.frame
 }
 \description{
-Transform Final Demand df with Market Shares matrix.
+Transform Final Demand (commodity x sector) with Market Shares matrix
+to Final Demand (industry x sector)
 }

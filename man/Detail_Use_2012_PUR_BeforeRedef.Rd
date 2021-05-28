@@ -8,7 +8,7 @@
 A dataframe with 403 obs. and 428 variables
 }
 \source{
-\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+\url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 }
 \usage{
 Detail_Use_2012_PUR_BeforeRedef

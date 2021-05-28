@@ -64,11 +64,11 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
     FlowAmountAgg = sum(FlowAmount),
     Min = min(Min),
     Max = max(Max),
-    DataReliability = weighted.mean(DataReliability, FlowAmount),
-    TemporalCorrelation = weighted.mean(TemporalCorrelation, FlowAmount),
-    GeographicalCorrelation = weighted.mean(GeographicalCorrelation, FlowAmount),
-    TechnologicalCorrelation = weighted.mean(TechnologicalCorrelation, FlowAmount),
-    DataCollection = weighted.mean(DataCollection, FlowAmount),
+    DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
+    TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
+    GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
+    TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
+    DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
     MetaSources = dplyr::nth(MetaSources, which.max(nchar(MetaSources))),
     .groups = 'drop'
   )
@@ -103,7 +103,7 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
 }
 
 #' Generate a standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
-#' @param sattable A statellite table contains FlowAmount already aggregated and transformed to coefficients.
+#' @param sattable A satellite table contains FlowAmount already aggregated and transformed to coefficients.
 #' @return A standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.
 conformTbStoStandardSatTable <- function (sattable) {
   # Get standard sat table fields
@@ -117,9 +117,9 @@ conformTbStoStandardSatTable <- function (sattable) {
 
 
 #' Stacks two tables up
-#' @param sattable1 A standardized statellite table.
-#' @param sattable2 Another standardized statellite table.
-#' @return A complete standardized statellite table.
+#' @param sattable1 A standardized satellite table.
+#' @param sattable2 Another standardized satellite table.
+#' @return A complete standardized satellite table.
 stackSatelliteTables <- function (sattable1, sattable2) {
   return(rbind(sattable1, sattable2))
 }
@@ -171,17 +171,18 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
 #' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
 #' @return A value-added totals_by_sector table with fields of standard totals_by_sector
 getValueAddedTotalsbySector <- function(model) {
-  # Extract ValueAdded from Use table
-  df <- model$UseValueAdded
-  # Sum ValueAdded
-  df <- as.data.frame(colSums(df))
+  # Extract ValueAdded from Use table, add names
+  df <- merge(model$UseValueAdded, model$ValueAddedSectors[, c("Code_Loc", "Name")],
+              by.x = 0, by.y = "Code_Loc")
+  df[, c("Row.names", "Code_Loc")] <- NULL
+  # Convert to standard totals_by_sector format
+  df <- reshape2::melt(df, id.vars = "Name")
+  colnames(df) <- c("Flowable", "Sector", "FlowAmount")
   # Add columns to convert to standard totals_by_sector format
-  colnames(df) <- "FlowAmount"
-  df$Flowable <- "Value Added"
-  df[, "Sector"] <- gsub("/.*", "", rownames(df))
+  df[, "Sector"] <- gsub("/.*", "", df$Sector)
   df <- merge(df, model$Industries[, c("Code", "Name")],
               by.x = "Sector", by.y = "Code", all.x = TRUE)
-  df[, "Context"] <- ""
+  df[, "Context"] <- "Economic"
   df[, "Unit"] <- "USD"
   df[, "Year"] <- model$specs$SatelliteTable$VADD$SectorListYear
   df[, "MetaSources"] <- model$specs$SatelliteTable$VADD$SectorListSource
@@ -221,7 +222,6 @@ checkDuplicateFlowsBySector <- function(sattable_ls) {
 
 #' Map a satellite table from BEA Detail industry 2007 schema to 2012 schema.
 #' @param totals_by_sector A standardized satellite table with resource and emission names from original sources.
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A satellite table aggregated by the USEEIO model sector codes.
 mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
   # Load pre-saved mapping between BEA Detail Industry under 2007 and 2012 schemas
@@ -273,10 +273,8 @@ checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.005) {
   tbs_agg <- dplyr::summarize(tbs_agg,
                                FlowAmount = sum(FlowAmount)
                               )
-  tbs0_agg$Flow <- tolower(apply(tbs0_agg[, c('Context', 'Flowable')],
-                                1, FUN = joinStringswithSlashes))
-  tbs_agg$Flow <- tolower(apply(tbs_agg[, c('Context', 'Flowable')],
-                                   1, FUN = joinStringswithSlashes))
+  tbs0_agg$Flow <- apply(tbs0_agg[, c('Context', 'Flowable')],1, FUN = joinStringswithSlashes)
+  tbs_agg$Flow <- apply(tbs_agg[, c('Context', 'Flowable')], 1, FUN = joinStringswithSlashes)
   lost_flows <- setdiff(tbs0_agg$Flow, tbs_agg$Flow)
 
   if(length(lost_flows) > 0){

@@ -16,8 +16,6 @@
 #'        \item Location {Activity location, at a national, state, or county level}
 #'        \item Year {Year of the data}
 #'        \item DistributionType {Form of the frequency distribution, if given. Acceptable values are 'NORMAL', 'LOGNORMAL', 'TRIANGULAR', 'UNIFORM'.}
-#'        \item ExpectedValue {Value of midpoint of distribution}
-#'        \item Dispersion {Measure of dispersion from the mean}
 #'        \item Min {The minimum FlowAmount, if provided for the data range.}
 #'        \item Max {The maximum FlowAmount, if provided for the data range.}
 #'        \item DataReliability {A 1-5 score of data reliability based on reporting values associated with the amount.}
@@ -25,6 +23,7 @@
 #'        \item GeographicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
 #'        \item TechnologicalCorrelation {A 1-5 score of data collection based on reporting values associated with the amount.}
 #'        \item DataCollection {A 1-5 score of data collection based on reporting values associated with the amount.}
+#'        \item MetaSources {Tag for the data source.}
 #'    }
 #'  }
 #' }
@@ -40,9 +39,9 @@ loadSatTables <- function(model) {
   #Loop through each sat specification
   for (sat_spec in model$specs$SatelliteTable) {
     if(sat_spec$FileLocation == 'None'){
-      logging::loginfo(paste0("Generating ", tolower(sat_spec$FullName), " flows..."))      
+      logging::loginfo(paste0("Generating ", sat_spec$FullName, " flows..."))      
     } else {
-      logging::loginfo(paste0("Loading ", tolower(sat_spec$FullName), " flows from ", sat_spec$FileLocation, "..."))
+      logging::loginfo(paste0("Loading ", sat_spec$FullName, " flows from ", sat_spec$FileLocation, "..."))
     }
 
     ### Generate totals_by_sector, tbs
@@ -95,8 +94,8 @@ loadandbuildSatelliteTables <- function(model) {
 
 #'Reads a satellite table specification and generates a totals-by-sector table
 #'@param sat_spec, a standard specification for a single satellite table
+#'@param model A model object with IO and satellite data loaded
 #'@return a totals-by-sector dataframe
-
 generateTbSfromSatSpec <- function(sat_spec, model) {
   # Check if the satellite table uses a file from within useeior. If so, proceed.
   # If not, use specified functions in model metadata to load data from dynamic source
@@ -105,8 +104,7 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
                                             sep = ",", header = TRUE, stringsAsFactors = FALSE,
                                             fileEncoding = 'UTF-8-BOM')
 
-  } 
-  else if(!is.null(sat_spec$ScriptFunctionCall)) {
+  } else if (!is.null(sat_spec$ScriptFunctionCall)) {
     func_to_eval <- sat_spec$ScriptFunctionCall
     totalsgenfunction <- as.name(func_to_eval)
     params <- sat_spec
@@ -116,11 +114,10 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
       }
     }
     totals_by_sector <- do.call(eval(totalsgenfunction), list(params))
-  }
-  else{
-      f <- loadDataCommonsfile(sat_spec$StaticFile)
-      totals_by_sector <- utils::read.table(f, sep = ",", header = TRUE, stringsAsFactors = FALSE,
-                                            fileEncoding = 'UTF-8-BOM')
+  } else {
+    f <- loadDataCommonsfile(sat_spec$StaticFile)
+    totals_by_sector <- utils::read.table(f, sep = ",", header = TRUE, stringsAsFactors = FALSE,
+                                          fileEncoding = 'UTF-8-BOM')
   }
   return(totals_by_sector)
 }
@@ -152,7 +149,7 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
   
   for (r in model$specs$ModelRegionAcronyms) {
     # Change Location if model is a state model
-    if (model$specs$ModelType=="state") {
+    if (model$specs$ModelRegionAcronyms!="US") {
       stop("Fix this function for state models before proceesing")
       tbs[,"Location"] <- vapply(tbs[,"Location"],formatLocationforStateModels)
     }

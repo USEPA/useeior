@@ -7,7 +7,7 @@
 conformTbStoStandardSatTable(sattable)
 }
 \arguments{
-\item{sattable}{A statellite table contains FlowAmount already aggregated and transformed to coefficients.}
+\item{sattable}{A satellite table contains FlowAmount already aggregated and transformed to coefficients.}
 }
 \value{
 A standard satellite table with coefficients (kg/$) and only columns completed in the original satellite table.

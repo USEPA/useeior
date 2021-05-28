@@ -8,8 +8,6 @@ generateCbSfromTbSandModel(model)
 }
 \arguments{
 \item{model, }{a model with econ and flow data loaded}
-
-\item{TbS, }{a totals by sector dataframe}
 }
 \value{
 df, a Coefficients-by-sector table

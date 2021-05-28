@@ -59,6 +59,7 @@ lookupDQBoundScore <- function(raw_score,dqi,scoring_bounds) {
     if (is.na(score)) score<-5
   } else {
     logging::logerror(paste("No bounds defined for", dqi))
+    stop()
   }
   return(score)
   

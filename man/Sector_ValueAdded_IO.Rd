@@ -8,7 +8,7 @@
 A dataframe with 15 obs. and 12 variables
 }
 \source{
-\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
+\url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesUnderlying.zip}
 }
 \usage{
 Sector_ValueAdded_IO

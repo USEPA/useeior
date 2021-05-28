@@ -10,7 +10,7 @@ getNAICStoBEAAllocation <- function (year, model) {
   NAICStoBEA <- NAICStoBEA[nchar(NAICStoBEA$NAICS_Code) > 2, ]
   # Select the repeated NAICS codes that need allocation
   AllocationCodes <- NAICStoBEA[duplicated(NAICStoBEA$NAICS_Code) | duplicated(NAICStoBEA$NAICS_Code, fromLast = TRUE), ]
-  AllocationCodes <- na.omit(AllocationCodes)
+  AllocationCodes <- stats::na.omit(AllocationCodes)
   # Merge AllocationCodes with Gross Output table to calculate allocation factors
   AllocationTable <- merge(AllocationCodes, model$MultiYearIndustryOutput[, as.character(year), drop = FALSE], 
                            by.x = "BEA_Code", by.y = 0, all.x = TRUE)

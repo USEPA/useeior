@@ -2,7 +2,7 @@
 % Please edit documentation in R/AdjustPrice.R
 \name{adjustResultMatrixPrice}
 \alias{adjustResultMatrixPrice}
-\title{Adjust a model result matrix based on currency year, price type, and margin type.
+\title{Adjust price year and type (producer's or purchaser's) of a model result matrix.
 Model result matrices are M, M_d, N, N_d
 Year adjustments from 2007-2018 supported}
 \usage{
@@ -18,7 +18,7 @@ adjustResultMatrixPrice(
 
 \item{currency_year}{An integer representing the currency year, e.g. 2018.}
 
-\item{purchaser_price}{A boolean value indicating whether to adjust producer's price to purchaser's price.}
+\item{purchaser_price}{A logical value indicating whether to adjust producer's price to purchaser's price.}
 
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
@@ -26,7 +26,7 @@ adjustResultMatrixPrice(
 A model result matrix after price adjustment
 }
 \description{
-Adjust a model result matrix based on currency year, price type, and margin type.
+Adjust price year and type (producer's or purchaser's) of a model result matrix.
 Model result matrices are M, M_d, N, N_d
 Year adjustments from 2007-2018 supported
 }

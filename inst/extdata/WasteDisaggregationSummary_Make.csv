@@ -1,0 +1,65 @@
+IndustryCode,CommodityCode,PercentMake,Note
+562/US,562111/US,4.41E-01,Default allocation 
+562/US,562HAZ/US,1.41E-01,Default allocation
+562/US,562212/US,7.33E-02,Default allocation
+562/US,562213/US,4.95E-02,Default allocation
+562/US,562910/US,1.42E-01,Default allocation
+562/US,562920/US,6.50E-02,Default allocation
+562/US,562OTH/US,8.84E-02,Default allocation
+562111/US,562111/US,4.14E-01,Make table intersection
+562HAZ/US,562HAZ/US,1.52E-01,Make table intersection
+562212/US,562212/US,7.02E-02,Make table intersection
+562213/US,562213/US,4.37E-02,Make table intersection
+562910/US,562910/US,1.60E-01,Make table intersection
+562920/US,562920/US,5.78E-02,Make table intersection
+562OTH/US,562OTH/US,1.02E-01,Make table intersection
+484/US,562111/US,1.00E+00,commodity disaggregation
+561/US,562910/US,1.00E+00,commodity disaggregation
+GSLG/US,562111/US,7.18E-01,commodity disaggregation
+GSLG/US,562212/US,1.15E-01,commodity disaggregation
+GSLG/US,562213/US,7.18E-02,commodity disaggregation
+GSLG/US,562920/US,9.51E-02,commodity disaggregation
+562910/US,211/US,1.00E+00,industry disaggregation
+562111/US,23/US,4.25E-01,industry disaggregation
+562HAZ/US,23/US,1.85E-01,industry disaggregation
+562212/US,23/US,7.38E-02,industry disaggregation
+562213/US,23/US,2.77E-02,industry disaggregation
+562910/US,23/US,1.67E-01,industry disaggregation
+562920/US,23/US,4.65E-02,industry disaggregation
+562OTH/US,23/US,7.49E-02,industry disaggregation
+562111/US,4A0/US,4.25E-01,"industry disaggregation (previously 444000, see mapping in Make Table before redefinition)"
+562HAZ/US,4A0/US,1.85E-01,industry disaggregation
+562212/US,4A0/US,7.38E-02,industry disaggregation
+562213/US,4A0/US,2.77E-02,industry disaggregation
+562910/US,4A0/US,1.67E-01,industry disaggregation
+562920/US,4A0/US,4.65E-02,industry disaggregation
+562OTH/US,4A0/US,7.49E-02,industry disaggregation
+562111/US,487OS/US,4.25E-01,"industry disaggregation (previously 48A000, see mapping in Make Table before redefinition)"
+562HAZ/US,487OS/US,1.85E-01,industry disaggregation
+562212/US,487OS/US,7.38E-02,industry disaggregation
+562213/US,487OS/US,2.77E-02,industry disaggregation
+562910/US,487OS/US,1.67E-01,industry disaggregation
+562920/US,487OS/US,4.65E-02,industry disaggregation
+562OTH/US,487OS/US,7.49E-02,industry disaggregation
+562111/US,532RL/US,4.25E-01,"industry disaggregation (previously 532400, see mapping in Make table before redefinition)"
+562HAZ/US,532RL/US,1.85E-01,industry disaggregation
+562212/US,532RL/US,7.38E-02,industry disaggregation
+562213/US,532RL/US,2.77E-02,industry disaggregation
+562910/US,532RL/US,1.67E-01,industry disaggregation
+562920/US,532RL/US,4.65E-02,industry disaggregation
+562OTH/US,532RL/US,7.49E-02,industry disaggregation
+562111/US,5415/US,4.25E-01,industry disaggregation
+562HAZ/US,5415/US,1.85E-01,industry disaggregation
+562212/US,5415/US,7.38E-02,industry disaggregation
+562213/US,5415/US,2.77E-02,industry disaggregation
+562910/US,5415/US,1.67E-01,industry disaggregation
+562920/US,5415/US,4.65E-02,industry disaggregation
+562OTH/US,5415/US,7.49E-02,industry disaggregation
+562111/US,5412OP/US,4.25E-01,"industry disaggregation (previously 5416A0 and 541700, see mapping in Make table before redefinition)"
+562HAZ/US,5412OP/US,1.85E-01,industry disaggregation
+562212/US,5412OP/US,7.38E-02,industry disaggregation
+562213/US,5412OP/US,2.77E-02,industry disaggregation
+562910/US,5412OP/US,1.67E-01,industry disaggregation
+562920/US,5412OP/US,4.65E-02,industry disaggregation
+562OTH/US,5412OP/US,7.49E-02,industry disaggregation
+562920/US,Used/US,1.00E+00,"industry disaggregation (previously s00401, see mapping in Make table before redefinition)"

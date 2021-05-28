@@ -8,6 +8,8 @@ disaggregateMasterCrosswalk(crosswalk, disagg)
 }
 \arguments{
 \item{crosswalk}{MasterCrosswalk from NAICS to BEA.}
+
+\item{disagg}{Specifications for disaggregating the current Table}
 }
 \value{
 crosswalk with new sectors added.
