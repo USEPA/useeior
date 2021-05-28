@@ -7,8 +7,8 @@ loadIOData <- function(model) {
   logging::loginfo("Initializing IO tables...")
   if (model$specs$ModelType=="US") {
     model <- loadNationalIOData(model)
-  } else if (model$specs$ModelType=="State2R") {
-    model <- loadTwoRegionIOData(model)
+  } else if (model$specs$IODataSource=="stateior") {
+    # Fork for state model here
   }
   
   # Add Chain Price Index (CPI) to model
