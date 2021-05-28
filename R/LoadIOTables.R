@@ -8,7 +8,7 @@ loadIOData <- function(model) {
   if (model$specs$ModelType=="US") {
     model <- loadNationalIOData(model)
   } else if (model$specs$IODataSource=="stateior") {
-    model <- loadTwoRegionIOData(model)
+    # Fork for state model here
   }
   
   # Add Chain Price Index (CPI) to model
