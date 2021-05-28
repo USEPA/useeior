@@ -7,7 +7,7 @@ loadIOData <- function(model) {
   logging::loginfo("Initializing IO tables...")
   if (model$specs$ModelType=="US") {
     model <- loadNationalIOData(model)
-  } else if (model$specs$ModelType=="State2R") {
+  } else if (model$specs$IODataSource=="stateior") {
     model <- loadTwoRegionIOData(model)
   }
   
