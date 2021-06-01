@@ -1,20 +1,26 @@
-## Model Format
-A fully constructed USEEIO model contains the following elements. The model itself is an R list. Items listed as data.frame are table-like objects with field headers specified in subsequent tables. A _sector_ is either a commodity or industry, depending on the model [](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md)
+# Model and Model Component Formats
 
+A fully constructed USEEIO model is an R named list that contains the following members described in the [Model](#model) table. The format members or components are further described in separate tables. 
+ 
+## Notes 
+ 
+ A _sector_ is either a commodity or industry, depending on the [model CommoditybyIndustry type](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecifications.md#model-specifications). The _sector_ will be synononmous for that same CommoditybyIndustry type for all tables in a given model in which _sector_ is used. 
+
+## Model
 | Item | Data Structure | Category | Description |
 | --- | --- | --------- | ------ |
 | specs | list | metadata | USEEIO [model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
 | crosswalk | data.frame | metadata | [The Sector crosswalk](#crosswalk) |
 | Commodities | data.frame | metadata | [The commodity metadata](#sector-meta) |
 | Industries | data.frame | metadata | [The industry metadata](#sector-meta) |
-| FinalDemandSectors | data.frame | metadata | [The final demand metadata](#final-demand) |
+| FinalDemandSectors | data.frame | metadata | [The final demand metadata](#Sector-Meta-with-Group) |
 | MarginSectors | data.frame | metadata | [The margins metadata](#sector-meta) |
-| ValueAddedSectors | data.frame | metadata | [The value added metadata](#value-added) |
-| MultiYearIndustryOutput | data.frame | supporting data | [The multi-year industry output table](#multi-year-table-format) |
-| MultiYearCommodityOutput | data.frame | supporting data | [The multi-year commodity output table](#multi-year-table-format) |
+| ValueAddedSectors | data.frame | metadata | [The value added metadata](#sector-meta) |
+| MultiYearIndustryOutput | data.frame | supporting data | [The multi-year industry output table](#sector-by-year) |
+| MultiYearCommodityOutput | data.frame | supporting data | [The multi-year commodity output table](#sector-by-year) |
 | Margins | data.frame | supporting data | [The final consumer margins table](#margins) |
-| MultiYearIndustryCPI | data.frame | supporting data | [The multi-year industry CPI<sup>1</sup> table](#multi-year-table-format) |
-| MultiYearCommodityCPI | data.frame | supporting data | [The multi-year commodity CPI<sup>1</sup> table](#multi-year-table-format) |
+| MultiYearIndustryCPI | data.frame | supporting data | [The multi-year industry CPI<sup>1</sup> table](#sector-by-year) |
+| MultiYearCommodityCPI | data.frame |   supporting data | [The multi-year commodity CPI<sup>1</sup> table](#sector-by-year) |
 | DisaggregationSpecs | list | metadata | A list containing elements for one or more [disaggregations](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
 | SatelliteTables | list | component data | [The satellite tables of resource use and emissions](#satellite-tables) |
 | Indicators | list | component data | [The indicators for calculating impacts or aggregate resource use](#indicators) |
@@ -44,17 +50,13 @@ A fully constructed USEEIO model contains the following elements. The model itse
 
 <sup>1</sup> Chain-type Price Index
 
-## Multi-year table format
-Rows (sector) and columns (year) in multi-year table tabke the following format:
-
+### Sector by year 
 | Item | Format |
-| --- | --------- |
-| sector (commodity or industry) | [Code_Loc](#commodities-and-industries-table-format) (e.g. `1111A0/US`) |
-| year | 2002-2018 |
+| --- | ------- |
+| sector | [Code_Loc](#sector-meta) (e.g. `1111A0/US`) |
+| year | year (e.g. 2002) |
 
-## Matrix Indices
-
-## Crosswalk
+### Crosswalk
 
 | Item | Type | Description |
 | --- | --- | --------- |
@@ -63,32 +65,23 @@ Rows (sector) and columns (year) in multi-year table tabke the following format:
 | BEA_Summary | str | Code used at the BEA Summary level |
 | BEA_Detail | str | Code used at the BEA Detail level |
 
-## Sector Meta
+### Sector Meta
 
 | Item | Type | Description |
 | --- | --- | --------- |
 | Code | str | 6-digit code |
-| Name | str | Commodity or industry name |
-| Code_Loc | str | Code plus location (e.g. `1111A0/US`) |
+| Name | str | Name of sector or component |
+| Code_Loc | str | Code joined with a location acronym by a forward slash (e.g. `1111A0/US`) |
 
-## Final Demand Meta
+### Sector Meta with Group
 
-| Item | Type | Description |
-| --- | --- | --------- |
-| Code | str | 6-digit code |
-| Name | str | Final demand name |
-| Group | str | Classification of final demand vector (e.g. Household) |
-| Code_Loc | str | Code plus location (e.g. `F01000/US`) |
-
-## Value Added Meta 
+A [sector meta table](#sector-meta) with an additional group field.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Code | str | 6-digit code |
-| Name | str | Final demand name |
-| Code_Loc | str | Code plus location (e.g. `V00100/US`) |
+| Group | str | Grouping of sector (e.g. Household) | N |
 
-## Margins
+### Margins
 
 | Item | Type | Description |
 | --- | --- | --------- |
@@ -101,11 +94,14 @@ Rows (sector) and columns (year) in multi-year table tabke the following format:
 | Code_Loc | str | Code plus location (e.g. `1111A0/US`) |
 | PurchasersValue | numeric | Purchaser's value (sum of ProducersValue, Transportation, Wholesale, and Retail) |
 
-## Satellite Tables
+### SatelliteTables
+The SatelliteTables object contains a totals_by_sector list and a flows dataframe.
 
-**totals_by_sector** - list of dataframes, one for each satellite table, which contain the Flow-by-Sector table, based on the [flow-by-sector collapsed format of flowsa](https://github.com/USEPA/flowsa/blob/master/format%20specs/FlowBySector.md#flow-by-sector-collapsed-format) with some fields removed. Also includes an additional field `SectorName`.
+#### totals_by_sector
+ A named list of dataframes, one for each satellite table, which contain the Flow-by-Sector table, based on the [flow-by-sector collapsed format of flowsa](https://github.com/USEPA/flowsa/blob/master/format%20specs/FlowBySector.md#flow-by-sector-collapsed-format) with some fields removed. Also includes an additional field `SectorName`.
 
-**flows** - the unique flows found across all satellite tables with fields sourced from the [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md)
+#### flows
+The unique flows found across all satellite tables with fields sourced from the [Federal LCA Commons Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md)
 
 | Item | Type | Description |
 | --- | --- | --------- |
@@ -114,9 +110,11 @@ Rows (sector) and columns (year) in multi-year table tabke the following format:
 | Unit | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 | FlowUUID | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 
-## Indicators
+### Indicators
+The Indicators object contains meta and factors dataframes.
 
-**meta** - table of indicators included in the model
+#### meta
+ A table of metadata for the indicators included in the model.
 
 | Item | Type | Description |
 | --- | --- | --------- |
@@ -127,7 +125,8 @@ Rows (sector) and columns (year) in multi-year table tabke the following format:
 | SimpleUnit | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
 | SimpleName | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
 
-**factors** - table of indicator factors included in the model across all indicators
+#### factors
+ A data table of the characterization factors for indicators included in the model
 
 | Item | Type | Description |
 | --- | --- | --------- |
@@ -137,9 +136,15 @@ Rows (sector) and columns (year) in multi-year table tabke the following format:
 | Unit | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 | Amount | numeric | Characterization factor linking one unit of the flow to the indicator |
 
-## Demand Vectors
+## DemandVectors
 
-**meta** - table of demand vectors included in the model
+The DemandVector object contains the demand vectors and a metadata table.
+
+#### vectors
+ A data table of the demand vectors included in the model
+ 
+#### meta
+ A table of metadata for the demand vectors included in the model.
 
 | Item | Type | Description |
 | --- | --- | --------- |
@@ -150,16 +155,13 @@ Rows (sector) and columns (year) in multi-year table tabke the following format:
 | Name | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
 | ID | str | Year_Location_Type_System |
 
-**vectors** - list of demand vectors
-
-
-## Model component matrices
+### Model Component Matrices
 
 When used in matrix indices, items below take the following format:
 
 | Item | Format |
 | --- | --------- |
-| sector (commodity or industry) | [Code_Loc](#commodities-and-industries-table-format) (e.g. `1111A0/US`) |
+| sector (commodity or industry) | [Code_Loc](#sector-meta) (e.g. `1111A0/US`) |
 | flow | [Flowable/Context/Unit](#satellite-tables) (e.g. `Carbon dioxide/emission/air/kg`) |
 | indicator | [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) (e.g. `Greenhouse Gases`) |
 
@@ -233,9 +235,7 @@ sectors |       |
 
 The related `L_d` matrix provides direct + indirect sector inputs per dollar output that are only from the US.
 
-
-
-#### Model Result Matrices
+### Model Result Matrices
 
 The matrix `D` contains in each column `i` the direct impact result per USD output from sector `i`:
 
@@ -269,16 +269,5 @@ indicators      |       |
                 +-------+
 ```
 
-#### Data quality matrices
-There are also 3 data quality matrices associated with three of the matrices above.
-Each matrix consists of data quality etnries for values in the same position of its associated matrix.
- These entries are in the form of 5 data quality scores (values for each ranging from 1 to 5) for the five
- EPA LCA flow data quality indicators in this order: (Data reliability, Temporal correlation, Technological correlation,
-         Technological correlation). For example '(3,1,1,4,5)'.
 
-`B_dqi` provides data quality scores for the `B` matrix.
-
-`D_dqi` provides data quality scores for the `D` matrix.
-
-`N_dqi` provides data quality scores for the `N` matrix.
 
