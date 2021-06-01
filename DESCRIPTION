@@ -29,6 +29,7 @@ Imports:
     reshape2 (>= 1.4.3),
     reticulate (>= 1.1),
     scales (>= 1.1.1),
+    stateior,
     stats (>= 3.6.1),
     stringr (>= 1.4),
     usethis (>= 1.5),
