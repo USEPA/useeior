@@ -69,8 +69,6 @@ writeModelMatrices <- function(model, to_format, outputfolder) {
 writeModeltoXLSX <- function(model, outputfolder) {
   # List model matrices
   USEEIOtoXLSX_ls <- model[matrices]
-  USEEIOtoXLSX_ls$Rho <- USEEIOtoXLSX_ls$Rho[, match("2007", colnames(USEEIOtoXLSX_ls$Rho)):ncol(USEEIOtoXLSX_ls$Rho)]
-  USEEIOtoXLSX_ls$Phi <- USEEIOtoXLSX_ls$Phi[, match("2007", colnames(USEEIOtoXLSX_ls$Phi)):ncol(USEEIOtoXLSX_ls$Phi)]
   # Write commodity/industry output
   USEEIOtoXLSX_ls$q <- model$q
   USEEIOtoXLSX_ls$x <- model$x
