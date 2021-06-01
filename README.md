@@ -1,8 +1,6 @@
 # useeior
 
-`useeior` is an R package that generates and provides USEEIO model components and performs model calculations.
-
-See the [USEEIO Modeling Framework](https://github.com/USEPA/useeio) for more information on modeling with USEEIO.  
+`useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models). The [model object](format_specs/model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecifications.md). The package then offers various functions for validating, calculating, visualizing, and writing out models or their components. `useeior` is a core component of the [USEEIO Modeling Framework](https://github.com/USEPA/useeio).
 
 `useeior` is in a beta development state. See [Releases](https://github.com/USEPA/useeior/releases) for working and tested versions.
 
