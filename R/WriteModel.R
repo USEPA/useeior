@@ -260,6 +260,14 @@ writeModelMetadata <- function(model, dirs) {
   checkNamesandOrdering(flows$ID, rownames(model$B), "flows in flows.csv and rows in B matrix")
   utils::write.csv(flows, paste0(outputfolder, "/flows.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
+  # Write years to csv
+  years <- data.frame(ID=colnames(model$Rho), stringsAsFactors = FALSE)
+  years$Index <- c(1:length(years$ID)-1)
+  years <- years[, fields$years]
+  checkNamesandOrdering(years$ID, colnames(model$Phi), "years in years.csv and cols in Phi matrix")
+  checkNamesandOrdering(years$ID, colnames(model$Rho), "years in years.csv and cols in Rho matrix")
+  utils::write.csv(years, paste0(outputfolder, "/years.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  
   # Write session info to R sessioninfo.txt inside the model folder
   writeSessionInfotoFile(dirs$model)
   
