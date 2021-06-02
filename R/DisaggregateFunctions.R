@@ -68,7 +68,6 @@ disaggregateModel <- function (model){
     model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
 
     #Disaggregating Crosswalk
-    #model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
     model$crosswalk <- disaggregateMasterCrosswalk(model, disagg)
     
     #Disaggreate Margins
@@ -843,9 +842,9 @@ disaggregateMasterCrosswalk <- function (model, disagg){
   #model$specs$BaseIOlevel # contains string describing model level
   
   #deterime which rows and columns to modify
-  cwColIndex <- match(paste0("BEA_", model$specs$BaseIOLevel), colnames(crosswalk))#search for concatenation of "BEA" and model$specs$BaseIOlevel object in crosswalk column names
-  OriginalCodeLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1#used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
-  DisaggCodeLength <- regexpr(pattern ='/',disagg$DisaggregatedSectorCodes[[1]]) - 1
+  cwColIndex <- match(paste0("BEA_", model$specs$BaseIOLevel), colnames(crosswalk)) #search for concatenation of "BEA" and model$specs$BaseIOlevel object in crosswalk column names
+  OriginalCodeLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
+  DisaggCodeLength <- regexpr(pattern ='/',disagg$DisaggregatedSectorCodes[[1]]) - 1 #used to determine length of disaggregated sector codes.
   
   #Update original sector codes with disaggregated sector codes in the relevant column (i.e. cwColIndex) where rows have an exact match for the disaggregated codes in the NAICS column
   
