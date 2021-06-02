@@ -4,34 +4,34 @@ A fully constructed USEEIO model is an R named list that contains the following 
  
 ## Notes 
  
- A _sector_ is either a commodity or industry, depending on the [model CommodityorIndustry Type](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecifications.md#model-specifications). The _sector_ will be synononmous for that same CommoditybyIndustry type for all tables in a given model in which _sector_ is used. 
+ A _sector_ is either a commodity or industry, depending on the [model CommodityorIndustry Type](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecifications.md#model-specifications). The _sector_ will be synononmous for that same CommodityorIndustryType for all tables in a given model in which _sector_ is used. 
 
 ## Model
 | Item | Data Structure | Category | Description |
 | --- | --- | --------- | ------ |
-| specs | list | metadata | USEEIO [model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
-| crosswalk | data.frame | metadata | [The Sector crosswalk](#crosswalk) |
-| Commodities | data.frame | metadata | [The commodity metadata](#sector-meta) |
-| Industries | data.frame | metadata | [The industry metadata](#sector-meta) |
-| FinalDemandSectors | data.frame | metadata | [The final demand metadata](#Sector-Meta-with-Group) |
-| MarginSectors | data.frame | metadata | [The margins metadata](#sector-meta) |
-| ValueAddedSectors | data.frame | metadata | [The value added metadata](#sector-meta) |
-| MultiYearIndustryOutput | data.frame | supporting data | [The multi-year industry output table](#sector-by-year) |
-| MultiYearCommodityOutput | data.frame | supporting data | [The multi-year commodity output table](#sector-by-year) |
+| specs | list | metadata | [Model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
+| crosswalk | data.frame | metadata | Sector [crosswalk](#crosswalk) |
+| Commodities | data.frame | metadata | Commodity metadata in [sector meta format](#sector-meta) |
+| Industries | data.frame | metadata | Industry metadata in [sector meta format](#sector-meta) |
+| FinalDemandSectors | data.frame | metadata | Final demand metadata in [sector meta with group format](#Sector-Meta-with-Group) |
+| MarginSectors | data.frame | metadata | Margin sector metadata in [sector meta format](#sector-meta) |
+| ValueAddedSectors | data.frame | metadata | Value added metadata in [sector meta format](#sector-meta) |
+| MultiYearIndustryOutput | data.frame | supporting data | Multi-year industry output in [sector-by-year format](#sector-by-year) |
+| MultiYearCommodityOutput | data.frame | supporting data | Multi-year commodity output  in [sector-by-year format](#sector-by-year) |
 | Margins | data.frame | supporting data | [The final consumer margins table](#margins) |
-| MultiYearIndustryCPI | data.frame | supporting data | [The multi-year industry CPI<sup>1</sup> table](#sector-by-year) |
-| MultiYearCommodityCPI | data.frame |   supporting data | [The multi-year commodity CPI<sup>1</sup> table](#sector-by-year) |
-| DisaggregationSpecs | list | metadata | A list containing elements for one or more [disaggregations](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
-| SatelliteTables | list | component data | [The satellite tables of resource use and emissions](#satellite-tables) |
-| Indicators | list | component data | [The indicators for calculating impacts or aggregate resource use](#indicators) |
-| DemandVectors | list | component data | [The demand vectors](#demand-vectors) |
+| MultiYearIndustryCPI | data.frame | supporting data | Multi-year industry CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
+| MultiYearCommodityCPI | data.frame |   supporting data | Multi-year commodity CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
+| DisaggregationSpecs | list | metadata | Specifications for one or more [disaggregation](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecification.md) |
+| SatelliteTables | list | component data | [Satellite tables](#satellite-tables) |
+| Indicators | list | component data | [Indicators](#indicators) |
+| DemandVectors | list | component data | [Demand vectors](#demand-vectors) |
 | TbS | data.frame | component data | [The total Flow-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry |
 | CbS | data.frame | component data | [The total Coefficient-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry per dollar output |
-| V | matrix | component matrix |[The Make matrix](#make-matrix-format) |
-| C_m | matrix | component matrix | The Commodity Mix matrix (commodity x industry, transpose of [Make matrix](#make-matrix-format)) |
-| V_n | matrix | component matrix | The Market Shares matrix (industry x commodity, same with [Make matrix](#make-matrix-format)) |
-| U | matrix | component matrix | [The Use matrix](#use-matrix-format) |
-| U_d | matrix | component matrix | [The domestic Use matrix](#use-matrix-format) |
+| V | matrix | component matrix |The Make matrix |
+| C_m | matrix | component matrix | The Commodity Mix matrix (commodity x industry) |
+| V_n | matrix | component matrix | The Market Shares matrix (industry x commodity) |
+| U | matrix | component matrix | The Use matrix |
+| U_d | matrix | component matrix | The domestic Use matrix |
 | q | numeric vector | component matrix | Total output by commodity |
 | x | numeric vector | component matrix | Total output by industry |
 | A | matrix | component matrix | The direct requirements matrix |
