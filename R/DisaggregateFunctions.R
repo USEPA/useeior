@@ -68,7 +68,7 @@ disaggregateModel <- function (model){
     model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
 
     #Disaggregating Crosswalk
-    model$crosswalk <- disaggregateMasterCrosswalk(model$crosswalk, disagg)
+    model$crosswalk <- disaggregateMasterCrosswalk(model, disagg)
     
     #Disaggreate Margins
     model$Margins <- disaggregateMargins(model, disagg)
@@ -830,23 +830,58 @@ disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE,
 }
 
 #' Disaggregate the MasterCrosswalk to include the new sectors for disaggregation
-#' @param crosswalk MasterCrosswalk from NAICS to BEA.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
 #' @return crosswalk with new sectors added.
-disaggregateMasterCrosswalk <- function (crosswalk, disagg){
-  # update the crosswalk by updating the BEA codes for disaggregation or adding new NAICS_like codes
-  updated_cw <- disagg$NAICSSectorCW[, c("NAICS_2012_Code","USEEIO_Code")]
-  updated_cw$USEEIO_Code <- gsub("/.*", "", updated_cw$USEEIO_Code)
-  names(updated_cw)[names(updated_cw)=='NAICS_2012_Code'] <- "NAICS"
+disaggregateMasterCrosswalk <- function (model, disagg){
 
-  crosswalk <- merge(crosswalk, updated_cw, by = "NAICS", all = TRUE)
-  #cols <- c('BEA_Detail','BEA_Summary','BEA_Sector')
-  cols <- c('BEA_Detail')
-  crosswalk[cols] <- lapply(crosswalk[cols], function(x) ifelse(is.na(crosswalk$USEEIO_Code),x,crosswalk$USEEIO_Code))
   
-  crosswalk$USEEIO_Code <- NULL
+  crosswalk <- model$crosswalk#temp variable for storing intermediate changes
+  new_cw <- crosswalk#variable to return with complete changes to crosswalk#temp
   
-  return(crosswalk)
+  #model$specs$BaseIOlevel # contains string describing model level
+  
+  #deterime which rows and columns to modify
+  cwColIndex <- match(paste0("BEA_", model$specs$BaseIOLevel), colnames(crosswalk)) #search for concatenation of "BEA" and model$specs$BaseIOlevel object in crosswalk column names
+  OriginalCodeLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
+  DisaggCodeLength <- regexpr(pattern ='/',disagg$DisaggregatedSectorCodes[[1]]) - 1 #used to determine length of disaggregated sector codes.
+  
+  #Update original sector codes with disaggregated sector codes in the relevant column (i.e. cwColIndex) where rows have an exact match for the disaggregated codes in the NAICS column
+  
+  disaggNAICSIndex <- which(new_cw[,cwColIndex] == substr(disagg$OriginalSectorCode,1,OriginalCodeLength))#Get the indeces of the BEA_Detail column that are mapped to the originalSector
+  disaggNAICSRows <- new_cw[disaggNAICSIndex,]#create a dataframe with only the relevant rows
+  codeMatches <- match(disagg$NAICSSectorCW$NAICS_2012_Code,disaggNAICSRows$NAICS)#find matches between the crosswalk included in the disagg specs and NAICS column of the master crosswalk
+  disaggNAICSRows[codeMatches,cwColIndex] <- substr(disagg$NAICSSectorCW$USEEIO_Code,1,DisaggCodeLength)#in the new crosswalk, replace codes in the new column (i.e. USEEIOv2.0) with the disaggregated codes for the rows where there is a match in between the NAICS crosswalk and the disaggregated Crosswalk
+  new_cw[disaggNAICSIndex,] <- disaggNAICSRows#replace the rows that have a match for 6-digit naics for the disaggregated sectors in the crosswalk
+  crosswalk <- new_cw #update crosswalk with the new sectors as a static index refernce for the rows still containing the originalSectorCode in the last column.
+  
+  #Update remaining rows where the original sector is present in cwColIndex but there is no exact match in the NAICS column for the disaggregated sector codes (e.g. 2-5 level NAICS codes)
+  #get the indeces of the remaining rows that have 56200 in the new column
+  remainingDisaggNAICSIndex <- which(new_cw[,cwColIndex] == substr(disagg$OriginalSectorCode,1,OriginalCodeLength))
+  
+  for (i in 1:length(remainingDisaggNAICSIndex)){
+    #get the indeces of the remaining rows that have 56200 in the new column
+    disaggNAICSIndex <- which(new_cw[,cwColIndex] == substr(disagg$OriginalSectorCode,1,OriginalCodeLength))
+    crosswalkRow <- new_cw[disaggNAICSIndex[1],] #extract current row where code in last column needs to be updated
+    
+    rowComparisons <- grepl(crosswalkRow$NAICS[1], disagg$NAICSSectorCW$NAICS_2012_Code)#compare the value in the first column (NAICS) to the NAICS values in the disaggCrosswalk. Result is a string with TRUE where first column is a substring of values in disaggCrosswalk
+    
+    rowReplacements <- disagg$NAICSSectorCW$NAICS_2012_Code[rowComparisons]#Get the NAICS sector codes in the disagg crosswalk that are a match for the NAICS substring in the master crosswalk 
+    rowReplacements <- substr(disagg$NAICSSectorCW$USEEIO_Code[rowComparisons],1,DisaggCodeLength)#Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
+    rowReplacements <- unique(rowReplacements)#reduce the list to the unique number of disaggregated sectors that the row comparisons map to
+    
+    crosswalkRow <- crosswalkRow[rep(seq_len(nrow(crosswalkRow)), length(rowReplacements)),, drop=FALSE]#replicate the crosswalk row as many times as there were matches in the substring search
+    crosswalkRow[,cwColIndex] <- rowReplacements#replace the values in the last column (e.g. originalSectorCode) with the newSectorCodes that matched the substring search
+    new_cw <- rbind(new_cw[1:disaggNAICSIndex[1]-1,],crosswalkRow, new_cw[-(1:disaggNAICSIndex[1]),])#include the expanded rows in the crosswalk
+    
+    
+  }
+  
+  #renaming rows of crosswalk
+  rownames(new_cw) <- 1:nrow(new_cw)
+  
+  return(new_cw)
+  
 }
 
 ##-------------------------------TODO: Move functions below to a new file for clarity, perhaps specifiedDisaggregateFunctions?
