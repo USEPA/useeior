@@ -6,7 +6,7 @@ disaggregateModel <- function (model){
   for (disagg in model$specs$DisaggregationSpecs){
     disaggregationConfigFile <- disagg
     logging::loginfo(paste("Reading disaggregation for", disaggregationConfigFile, sep=" "))
-    model$DisaggregationSpecs <- getModelConfiguration(disaggregationConfigFile)
+    model$DisaggregationSpecs <- getConfiguration(disaggregationConfigFile, "disagg")
   }
 
   counter = 1

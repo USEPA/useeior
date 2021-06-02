@@ -7,7 +7,7 @@ initializeModel <- function(modelname) {
   logging::loginfo("Begin model initialization...")
   model <- list()
   # Get model specs
-  model$specs <- getModelConfiguration(modelname)
+  model$specs <- getConfiguration(modelname, "model")
   if (rlang::is_na(model$specs)) {
     logging::logerror(paste("No configuration exists for a model named",modelname))
     stop()
