@@ -39,7 +39,7 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     df_model <- rbind(matrix, df_model)
     df_model <- merge(df_model, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
                       by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"))
-    if (model$specs$CommoditybyIndustryType=="Commodity") {
+    if (model$specs$CommodityorIndustryType=="Commodity") {
       SectorName <- model$Commodities[, c("Code", "Name")]
     } else {
       SectorName <- model$Industries[, c("Code", "Name")]
@@ -175,7 +175,7 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
   for (n in names(model$SatelliteTables$totals_by_sector)) {
     # Aggregate totals_by_sector by Industry
     df_n <- stats::aggregate(FlowAmount ~ Sector, model$SatelliteTables$totals_by_sector[[n]], sum)
-    if (model$specs$CommoditybyIndustryType=="Commodity" && form=="Commodity") {
+    if (model$specs$CommodityorIndustryType=="Commodity" && form=="Commodity") {
       # Convert from Industry to Commodity
       df_n <- merge(df_n, model$Industries, by.x = "Sector", by.y = "Code", all.y = TRUE)
       df_n <- df_n[match(model$Industries$Code, df_n$Sector), ]
@@ -235,7 +235,7 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
   df$Sector <- toupper(gsub("/.*", "", rownames(df)))
   df <- merge(df, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
               by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"), all.x = TRUE)
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
+  if (model$specs$CommodityorIndustryType=="Commodity") {
     SectorName <- model$Commodities[, c("Code", "Name")]
   } else {
     SectorName <- model$Industries[, c("Code", "Name")]

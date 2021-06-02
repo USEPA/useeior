@@ -33,7 +33,7 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   E <- prepareEfromtbs(model)
   E <- as.matrix(E[rownames(B), colnames(B)])
   
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
+  if (model$specs$CommodityorIndustryType=="Commodity") {
     #transform E with commodity mix to put in commodity form
     E <-  t(model$C_m %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
@@ -70,7 +70,7 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
     c <- getScalingVector(model$L, y)
   }
   
-  if(model$specs$CommoditybyIndustryType == "Commodity") {
+  if(model$specs$CommodityorIndustryType == "Commodity") {
     #determine if output to compare is commodity or industry
     x <- model$q
   } else {

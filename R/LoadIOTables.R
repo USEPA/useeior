@@ -108,7 +108,7 @@ loadNationalIOData <- function(model) {
   model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
   
   # Transform model FinalDemand and DomesticFinalDemand to by-industry form
-  if (model$specs$CommoditybyIndustryType=="Industry") {
+  if (model$specs$CommodityorIndustryType=="Industry") {
     # Keep the orignal FinalDemand (in by-commodity form)
     model$FinalDemandbyCommodity <- model$FinalDemand
     model$DomesticFinalDemandbyCommodity <- model$DomesticFinalDemand

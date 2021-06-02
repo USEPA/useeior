@@ -7,7 +7,7 @@ ModelType: "EEIO"
 IODataSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
-CommoditybyIndustryType: "Industry"
+CommodityorIndustryType: "Industry"
 ScrapIncluded: FALSE
 DisaggregationSpecs: null
 
