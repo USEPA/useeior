@@ -45,8 +45,8 @@ A fully constructed USEEIO model is an R named list that contains the following 
 | M_d | matrix |  result matrix | The total emissions and resource use (from and by domestic activity) matrix |
 | N | matrix | result matrix | The total impact matrix |
 | N_d | matrix | result matrix | The total impact (from domestic activity) matrix |
-| Rho | data.frame | component data | The CPI<sup>1</sup> price year ratio table for a given model|
-| Phi | data.frame | component data | The producer-to-purchaser price ratio table for a given model|
+| Rho | matrix | component matrix | The CPI<sup>1</sup> price year ratio matrix for a given model|
+| Phi | matrix | component matrix | The producer-to-purchaser price ratio matrix for a given model|
 
 <sup>1</sup> Chain-type Price Index
 
@@ -184,7 +184,7 @@ value added sectors |   Use |
                     +-------+
 ```
 
- The matrix `A` is a `sector x sector` matrix and contains in each column `i` the direct sector inputs that are required to produce 1 USD dollar of output from
+The matrix `A` is a `sector x sector` matrix and contains in each column `i` the direct sector inputs that are required to produce 1 USD dollar of output from
 sector `i`:
 
 ```
@@ -196,6 +196,21 @@ sectors |       |
 ```
 
 The related `A_d` matrix provide direct sector inputs per dollar output that are only from the US.
+
+`L` is also a `sector x sector` matrix and contains in each column `i` the
+total requirements of the respective sectors inputs per 1 USD of output
+from sector `i`:
+
+
+```
+         sectors
+        +-------+
+sectors |       |
+        |     L |
+        +-------+
+```
+
+The related `L_d` matrix provides direct + indirect sector inputs per dollar output that are only from the US.
 
 The satellite matrix `B` is a `flow x sector` matrix and contains in
 each column `i` the amount of a flow given in the reference
@@ -213,27 +228,32 @@ In the matrix `C`, each column `k` contains the characterization factors of
 the different indicators related to one reference unit of flow `k`:
 
 ```
-                  flows
-                +-------+
-indicators      |       |
-                |     C |
-                +-------+
+             flows
+           +-------+
+indicators |       |
+           |     C |
+           +-------+
 ```
 
-`L` is also a `sector x sector` matrix and contains in each column `i` the
-total requirements of the respective sectors inputs per 1 USD of output
-from sector `i`:
-
+`Rho` is a `sector x year` matrix and contains in each column `y` the price year ratios.
 
 ```
-         sectors
-        +-------+
-sectors |       |
-        |     L |
-        +-------+
+        years
+      +-------+
+flows |       |
+      |   Rho |
+      +-------+
 ```
 
-The related `L_d` matrix provides direct + indirect sector inputs per dollar output that are only from the US.
+`Phi` is also a `sector x year` matrix and contains in each column `y` producer-to-purchaser price ratios.
+
+```
+        years
+      +-------+
+flows |       |
+      |   Phi |
+      +-------+
+```
 
 ### Model Result Matrices
 
