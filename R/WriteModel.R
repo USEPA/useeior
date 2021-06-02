@@ -296,10 +296,36 @@ writeSessionInfotoFile <- function(path) {
 #' @param model, any model object
 #' @return a data.frame, sectorcrosswalk table
 prepareModelSectorCrosswalk <- function(model) {
-  if(!(model$specs$Model %in% colnames(model$crosswalk))) {
-    sectorcrosswalk <- cbind(model$crosswalk,
-                             model$crosswalk[, paste0("BEA_", model$specs$BaseIOLevel)])
-    colnames(sectorcrosswalk)[length(sectorcrosswalk)] <- model$specs$Model
+  crosswalk <- model$crosswalk
+  
+  # Check for disaggregation
+  if(!is.null(model$specs$DisaggregationSpecs)){
+    #create name to use as column header for disaggregated schema
+    schemaName <- paste0(paste(model$specs$IODataSource, 
+                               model$specs$BaseIOSchema, 
+                               model$specs$BaseIOLevel, 
+                               gsub("Disaggregation.*", "", model$specs$DisaggregationSpecs), "Disagg",sep = "_"))
+    
+    #deterime which rows and columns to modify
+    cwColIndex <- match(paste0("BEA_", model$specs$BaseIOLevel), colnames(crosswalk))#search for concatenation of "BEA" and model$specs$BaseIOlevel object in crosswalk column names
+    
+    #copy relevant column over as last column
+    crosswalk <- cbind(model$crosswalk, model$crosswalk[, paste0("BEA_", model$specs$BaseIOLevel)])
+    colnames(crosswalk)[length(crosswalk)] <- schemaName #rename column
+    
+    #replace disaggregated sector codes in original column with original sector code (e.g. 562HAZ with 562000)
+    for (disagg in model$DisaggregationSpecs$Disaggregation){
+      OriginalCodeLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
+      DisaggCodeLength <- regexpr(pattern ='/',disagg$DisaggregatedSectorCodes[[1]]) - 1 #used to determine length of disaggregated sector codes.
+      
+      disaggNAICSIndex <- crosswalk[,cwColIndex] %in% substr(disagg$DisaggregatedSectorCodes,1,DisaggCodeLength) #find all the indeces in crosswalk where there disaggregated codes
+      crosswalk[disaggNAICSIndex,cwColIndex] <- substr(disagg$OriginalSectorCode,1,OriginalCodeLength) #replace the disaggregated codes with the original sector code
+      
+    }
+    
+    
   }
-  return(sectorcrosswalk)
+
+  return(crosswalk)
+  
 }
