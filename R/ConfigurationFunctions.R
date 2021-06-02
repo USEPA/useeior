@@ -7,7 +7,7 @@
 #' @export
 getConfiguration <- function(modelname, spectype) {
   configname <- paste(modelname, ".yml", sep = "")
-  configpath <- paste0("extdata/",spectype,"spec/")
+  configpath <- paste0("extdata/",spectype,"specs/")
   configfile <- system.file(configpath, configname, package="useeior")
   if (configfile == "") {
     config <- NA
