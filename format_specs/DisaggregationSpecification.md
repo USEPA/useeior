@@ -1,4 +1,4 @@
-# Disaggregation File Specifications
+# Disaggregation File Specification
 Disaggregation lists are named based on the Code/location of the original sector (e.g. `562000/US`)
 
 | Item | Type | Required? | Description |

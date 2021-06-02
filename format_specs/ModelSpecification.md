@@ -1,4 +1,4 @@
-# Model Specifications
+# Model Specification
 Model specifications are assigned in a yml file based on the parameters shown below
 
 | Item | Type | Required? | Description |
