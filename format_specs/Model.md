@@ -103,6 +103,28 @@ The SatelliteTables object contains a totals_by_sector list and a flows datafram
 
 #### totals_by_sector
  A named list of dataframes, one for each satellite table, which contain the Flow-by-Sector table, based on the [flow-by-sector collapsed format of flowsa](https://github.com/USEPA/flowsa/blob/master/format%20specs/FlowBySector.md#flow-by-sector-collapsed-format) with some fields removed. Also includes an additional field `SectorName`.
+Each dataframe has the following format:
+
+Item | Type | Description
+----- | ---- | ---- |
+Flowable | str | See [flows](#flows)
+Context | str | See [flows](#flows)
+FlowUUID | str | See [flows](#flows)
+SectorName | str | Same as Name as in [Sector Meta](#sector-meta)
+Sector | str | Same as Code as in [Sector Meta](#sector-meta)
+Location | str | A location acronym
+FlowAmount | numeric | The numeric amount of the flow 
+Unit | str | SI unit acronym. 'kg' for mass flows; 'MJ' for energy flows.
+DistributionType | str | The form of the frequency distribution, if given. Acceptable values are 'NORMAL', 'LOGNORMAL', 'TRIANGULAR', 'UNIFORM'.
+Min | numeric | The minimum FlowAmount, if provided for the data range. 
+Max | numeric | The maximum FlowAmount, if provided for the data range.
+DataReliability | numeric | A score of data reliability based on reporting values associated with the amount. See [Data Quality Pedigree Matrix](https://github.com/USEPA/flowsa/blob/master/DataQualityPedigreeMatrix.md)
+TemporalCorrelation |  numeric | A 1-5 score of data collection based on reporting values associated with the amount. See [Data Quality Pedigree Matrix](https://github.com/USEPA/flowsa/blob/master/DataQualityPedigreeMatrix.md).
+GeographicalCorrelation |  numeric | A 1-5 score of data collection based on reporting values associated with the amount. See [Data Quality Pedigree Matrix](https://github.com/USEPA/flowsa/blob/master/DataQualityPedigreeMatrix.md).
+TechnologicalCorrelation |  numeric | A 1-5 score of data collection based on reporting values associated with the amount. See [Data Quality Pedigree Matrix](https://github.com/USEPA/flowsa/blob/master/DataQualityPedigreeMatrix.md).
+DataCollection | numeric | A 1-5 score of data collection based on reporting values associated with the amount. See [Data Quality Pedigree Matrix](https://github.com/USEPA/flowsa/blob/master/DataQualityPedigreeMatrix.md).
+Year | int | Year of data, e.g. `2010`
+MetaSources | str | The major data source(s) value is based on.
 
 #### flows
 The unique flows found across all satellite tables with fields sourced from the [Federal LCA Commons Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md)
