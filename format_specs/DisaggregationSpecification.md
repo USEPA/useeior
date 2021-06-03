@@ -5,7 +5,7 @@ Disaggregation specifications are assigned in a yml file based on the parameters
 | --- | --- | --- | --------- |
 | OriginalSectorCode | str | Y | Code/location of the sector to be disaggregated |
 | OriginalSectorName | str | Y | Name of the sector to be disaggregated |
-| DisaggregationType | str | Y |  |
+| DisaggregationType | str | Y |  Can be "Predefined" for a uniform disaggregation or "User Defined" for a custom disaggregation with user-supplied inputs|
 | SectorFile | str | Y | Pointer to a file containing [disaggregated sectors mapping](#disaggregated-sectors-format)  |
 | MakeFile | str | N | Pointer to a file containing [make table allocations for disaggregated sectors](#disaggregated-make-format) |
 | UseFile | str | N | Pointer to a file containing [use table allocations for disaggregated sectors](#disaggregated-use-format) |
