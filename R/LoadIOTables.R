@@ -310,6 +310,13 @@ loadTwoRegionIOData <- function(model) {
   model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
   model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
   
-  
+  # Transform model FinalDemand and DomesticFinalDemand to by-industry form
+  if (model$specs$CommoditybyIndustryType=="Industry") {
+    # Keep the orignal FinalDemand (in by-commodity form)
+    model$FinalDemandbyCommodity <- model$FinalDemand
+    model$DomesticFinalDemandbyCommodity <- model$DomesticFinalDemand
+    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)
+    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)
+  }
   return(model)
 }
