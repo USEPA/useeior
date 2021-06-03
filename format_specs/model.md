@@ -177,7 +177,7 @@ industries +----x----+
 ```
 
 #### V
-The Make matrix, `V`, is an `industry x commodity` matrix where commodities and industries are `Code_Loc` format.
+The Make matrix, `V`, is an `industry x commodity` matrix with amounts in commodities in year USD being made by industries.
 ```
            commodities
             +-------+
@@ -190,13 +190,14 @@ The Market Shares matrix, `V_n`, is a `q` normalized form of `V` also in `indust
 The Commodity Mix matrix, `C_m`, is an `x` normalized and transposed form of `V` in `commodity x industry` format.
 
 #### U
-The Use matrix, `U`, is a `commodity x industry` matrix where commodities and industries are `Code_Loc` format.
+The Use matrix, `U`, is a `commodity x industry` matrix with total amounts in model year USD of commodities being used by industries for intermediate production, or being used by final consumers. 
+`U` also includes commodity imports, exports and change in inventories as components of final demand, and value added components as inputs to industries.
 ```
-    industries, final demand sectors
-                    +-------+
-commodities,        |       |
-value added sectors |   Use |
-                    +-------+
+                    industries, final demand
+                    +----------------------+
+commodities,        |                      |
+value added         |         Use          |
+                    +----------------------+
 ```
 
 #### A
