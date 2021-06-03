@@ -6,6 +6,8 @@ A fully constructed USEEIO model is an R named list that contains the following 
  
  A _sector_ is either a commodity or industry, depending on the [model CommodityorIndustry Type](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecifications.md#model-specifications). The _sector_ will be synononmous for that same CommodityorIndustryType for all tables in a given model in which _sector_ is used. 
 
+Unless another year is specifically called out, all economic values are given in US dollars (USD) in the value the [model IOyear](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecifications.md#model-specifications). 
+
 ## Model
 | Item | Data Structure | Category | Description |
 | --- | --- | --------- | ------ |
