@@ -27,26 +27,26 @@ A fully constructed USEEIO model is an R named list that contains the following 
 | DemandVectors | list | component data | [Demand vectors](#demand-vectors) |
 | TbS | data.frame | component data | [The total Flow-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry |
 | CbS | data.frame | component data | [The total Coefficient-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry per dollar output |
-| V | matrix | component matrix |The Make matrix |
-| C_m | matrix | component matrix | The Commodity Mix matrix (commodity x industry) |
-| V_n | matrix | component matrix | The Market Shares matrix (industry x commodity) |
-| U | matrix | component matrix | The Use matrix |
-| U_d | matrix | component matrix | The domestic Use matrix |
-| q | numeric vector | component matrix | Total output by commodity |
-| x | numeric vector | component matrix | Total output by industry |
-| A | matrix | component matrix | The direct requirements matrix |
-| A_d | matrix | component matrix | The domestic direct requirements matrix |
-| L | matrix | component matrix | The Leontief inverse matrix |
-| L_d | matrix | component matrix | The domestic Leontief inverse matrix |
-| B | matrix | result matrix | The direct emissions and resource use matrix |
-| C | matrix | component matrix | The characterization factor matrix |
-| D | matrix | result matrix | The direct impact matrix |
-| M | matrix | result matrix | The total emissions and resource use matrix |
-| M_d | matrix |  result matrix | The total emissions and resource use (from and by domestic activity) matrix |
-| N | matrix | result matrix | The total impact matrix |
-| N_d | matrix | result matrix | The total impact (from domestic activity) matrix |
-| Rho | matrix | component matrix | The CPI<sup>1</sup> price year ratio matrix for a given model|
-| Phi | matrix | component matrix | The producer-to-purchaser price ratio matrix for a given model|
+| V | matrix | component matrix |[The Make matrix](#V) |
+| C_m | matrix | component matrix | [The Commodity Mix matrix ](#V)|
+| V_n | matrix | component matrix | [The Market Shares matrix](#V) |
+| U | matrix | component matrix | [The Use matrix](#U) |
+| U_d | matrix | component matrix | [The domestic Use matrix](#U) |
+| q | numeric vector | component matrix | [Total output by commodity](#output-vectors) |
+| x | numeric vector | component matrix | [Total output by industry](#output-vectors) |
+| A | matrix | component matrix | [The direct requirements matrix](#A) |
+| A_d | matrix | component matrix | [The domestic direct requirements matrix](#A) |
+| L | matrix | component matrix | [The Leontief inverse matrix](#L) |
+| L_d | matrix | component matrix | [The domestic Leontief inverse matrix](#L) |
+| B | matrix | result matrix | [The direct emissions and resource use matrix](#B) |
+| C | matrix | component matrix | [The characterization factor matrix](#C) |
+| D | matrix | result matrix | [The direct impact matrix](#D) |
+| M | matrix | result matrix | [The total emissions and resource use matrix](#M) |
+| M_d | matrix |  result matrix | [The total emissions and resource use (from and by domestic activity) matrix](#M) |
+| N | matrix | result matrix | [The total impact matrix](#N) |
+| N_d | matrix | result matrix | [The total impact (from domestic activity) matrix](#N) |
+| Rho | matrix | component matrix | [The CPI<sup>1</sup> price year ratio matrix for a given model](#Rho)|
+| Phi | matrix | component matrix | [The producer-to-purchaser price ratio matrix for a given model](#Phi)|
 
 <sup>1</sup> Chain-type Price Index
 
@@ -166,7 +166,18 @@ When used in matrix indices, items below take the following format:
 | indicator | [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) (e.g. `Greenhouse Gases`) |
 
 
-The Make matrix is an `industry x commodity` matrix where commodities and industries are `Code_Loc` format.
+#### Output vectors
+
+`q` is a commodity output vector and `x` is an industry output vector containing economic output in model year US dollars. 
+
+```
+commodities +----q----+
+
+industries +----x----+
+```
+
+#### V
+The Make matrix, `V`, is an `industry x commodity` matrix where commodities and industries are `Code_Loc` format.
 ```
            commodities
             +-------+
@@ -175,7 +186,11 @@ The Make matrix is an `industry x commodity` matrix where commodities and indust
             +-------+
 ```
 
-The Use matrix is a `commodity x industry` matrix where commodities and industries are `Code_Loc` format.
+The Market Shares matrix, `V_n`, is a commodity output, `q`, normalized form of `V` also in `industry x commodity` format.
+The Commodity Mix matrix, `C_m`, is an industry output, `x`, normalized and transposed form of `V` in `commodity x industry` format.
+
+#### U
+The Use matrix, `U`, is a `commodity x industry` matrix where commodities and industries are `Code_Loc` format.
 ```
     industries, final demand sectors
                     +-------+
@@ -184,6 +199,7 @@ value added sectors |   Use |
                     +-------+
 ```
 
+#### A
 The matrix `A` is a `sector x sector` matrix and contains in each column `i` the direct sector inputs that are required to produce 1 USD dollar of output from
 sector `i`:
 
@@ -195,12 +211,12 @@ sectors |       |
         +-------+
 ```
 
-The related `A_d` matrix provide direct sector inputs per dollar output that are only from the US.
+The related `A_d` matrix provide direct sector inputs per dollar sector output that are only from the US.
 
+#### L
 `L` is also a `sector x sector` matrix and contains in each column `i` the
 total requirements of the respective sectors inputs per 1 USD of output
 from sector `i`:
-
 
 ```
          sectors
@@ -212,6 +228,7 @@ sectors |       |
 
 The related `L_d` matrix provides direct + indirect sector inputs per dollar output that are only from the US.
 
+#### B
 The satellite matrix `B` is a `flow x sector` matrix and contains in
 each column `i` the amount of a flow given in the reference
 units of the respective flow per 1 USD output from sector `i`:
@@ -224,6 +241,7 @@ flows |       |
       +-------+
 ```
 
+#### C
 In the matrix `C`, each column `k` contains the characterization factors of
 the different indicators related to one reference unit of flow `k`:
 
@@ -235,6 +253,7 @@ indicators |       |
            +-------+
 ```
 
+#### Rho
 `Rho` is a `sector x year` matrix and contains in each column `y` the price year ratios.
 
 ```
@@ -244,6 +263,8 @@ flows |       |
       |   Rho |
       +-------+
 ```
+
+#### Phi
 
 `Phi` is also a `sector x year` matrix and contains in each column `y` producer-to-purchaser price ratios.
 
@@ -257,6 +278,8 @@ flows |       |
 
 ### Model Result Matrices
 
+
+#### D
 The matrix `D` contains in each column `i` the direct impact result per USD output from sector `i`:
 
 ```
@@ -267,6 +290,7 @@ indicators      |       |
                 +-------+
 ```
 
+#### M
 The matrix `M` is a `flow x sector` matrix and contains in each column
 `i` the direct and indirect emissions and resources per 1 USD output of sector `i`:
 
@@ -278,6 +302,7 @@ flows           |       |
                 +-------+
 ```
 
+#### N
 The matrix `N` is a `indicator x sector` matrix and contains in each column
 `i` the direct and indirect impact result per 1 USD output of sector `i`:
 
