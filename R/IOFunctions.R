@@ -148,16 +148,16 @@ transformDirectRequirementswithMarketShares <- function (B, D, model) {
     logging::logerror("Column names of the direct requirements do not match the row names of the market shares matrix.")
     stop()
   }
-  if (model$specs$CommoditybyIndustryType == "Commodity") {
+  if (model$specs$CommodityorIndustryType == "Commodity") {
     # commodity model DR_coeffs = dr %*% ms (CxI x IxC) = CxC
     A <- B %*% D
     dimnames(A) <- c(dimnames(B)[1], dimnames(D)[2])
-  } else if (model$specs$CommoditybyIndustryType == "Industry") {
+  } else if (model$specs$CommodityorIndustryType == "Industry") {
     # industry model DR_coeffs = ms %*% dr (IxC x CxI) = IxI
     A <- D %*% B
     dimnames(A) <- c(dimnames(D)[1], dimnames(B)[2])
   } else {
-    logging::logerror("CommoditybyIndustryType not specified or incorrectly specified for model.")
+    logging::logerror("CommodityorIndustryType not specified or incorrectly specified for model.")
     stop()
   }
   return(A)

@@ -1,13 +1,13 @@
-Model: "USEEIOv2.0is-GHG"
+Model: "USEEIOv2.0i-GHG" # 2012 Detail, Industry
 BaseIOSchema: 2012
-BaseIOLevel: "Summary"
+BaseIOLevel: "Detail"
 IOYear: 2012 # Year for IO data
 ModelRegionAcronyms: ["US"]
 ModelType: "EEIO"
 IODataSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
-CommoditybyIndustryType: "Industry"
+CommodityorIndustryType: "Industry"
 ScrapIncluded: FALSE
 DisaggregationSpecs: null
 

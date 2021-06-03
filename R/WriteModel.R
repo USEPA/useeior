@@ -100,7 +100,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   }
   
   # List final demand sectors
-  final_demand_sectors <- model$FinalDemandSectors
+  final_demand_sectors <- model$FinalDemandMeta
   final_demand_sectors$Index <- c(1:nrow(final_demand_sectors)-1)
   final_demand_sectors$ID <- final_demand_sectors$Code_Loc
   final_demand_sectors$Location <- model$specs$ModelRegionAcronyms
@@ -108,7 +108,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   USEEIOtoXLSX_ls[["final_demand_sectors"]] <- final_demand_sectors[, colnames(USEEIOtoXLSX_ls$sectors)]
   
   # List value added sectors
-  value_added_sectors <- model$ValueAddedSectors
+  value_added_sectors <- model$ValueAddedMeta
   value_added_sectors$Index <- c(1:nrow(value_added_sectors)-1)
   value_added_sectors$ID <- value_added_sectors$Code_Loc
   value_added_sectors$Location <- model$specs$ModelRegionAcronyms
@@ -241,7 +241,7 @@ writeModelMetadata <- function(model, dirs) {
   utils::write.csv(demands, paste0(outputfolder, "/demands.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write sectors to csv
-  sectors <- model[[gsub("y", "ies", model$specs$CommoditybyIndustryType)]]
+  sectors <- model[[gsub("y", "ies", model$specs$CommodityorIndustryType)]]
   sectors$ID <- sectors$Code_Loc
   sectors$Location <- model$specs$ModelRegionAcronyms
   sectors$Description <- ""

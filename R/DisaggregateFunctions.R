@@ -6,13 +6,13 @@ disaggregateModel <- function (model){
   for (disagg in model$specs$DisaggregationSpecs){
     disaggregationConfigFile <- disagg
     logging::loginfo(paste("Reading disaggregation for", disaggregationConfigFile, sep=" "))
-    model$DisaggregationSpecs <- getModelConfiguration(disaggregationConfigFile)
+    model$DisaggregationSpecs <- getConfiguration(disaggregationConfigFile, "disagg")
   }
 
   counter = 1
   for (disagg in model$DisaggregationSpecs$Disaggregation){
    
-    disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata", disagg$SectorFile, package = "useeior"),
+    disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
                                             header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
                                                                                                   "USEEIO_Code"="character"))
     newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code,
@@ -26,14 +26,14 @@ disaggregateModel <- function (model){
     disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
     
     if(!is.null(disagg$MakeFile)){
-      disagg$MakeFileDF <- utils::read.csv(system.file("extdata", disagg$MakeFile, package = "useeior"),
+      disagg$MakeFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
                                            header = TRUE, stringsAsFactors = FALSE, colClasses=c("IndustryCode"="character",
                                                                                                  "CommodityCode"="character"))}
     if(!is.null(disagg$UseFile)){
-      disagg$UseFileDF <- utils::read.csv(system.file("extdata", disagg$UseFile, package = "useeior"),
+      disagg$UseFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
                                           header = TRUE, stringsAsFactors = FALSE)}      
     if(!is.null(disagg$EnvFile)){
-      disagg$EnvFileDF <- utils::read.csv(system.file("extdata", disagg$EnvFile, package = "useeior"),
+      disagg$EnvFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
     #Need to assign these DFs back to the modelspecs
     model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg

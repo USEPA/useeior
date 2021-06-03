@@ -1,5 +1,5 @@
-# Disaggregation File Specifications
-Disaggregation lists are named based on the Code/location of the original sector (e.g. `562000/US`)
+# Disaggregation File Specification
+Disaggregation specifications are assigned in a yml file based on the parameters shown below. Each disaggregation is a list, named based on the [Code/location](https://github.com/USEPA/useeior/tree/master/format_specs/model.md/#sector-meta) of the original sector (e.g. `562000/US`)
 
 | Item | Type | Required? | Description |
 | --- | --- | --- | --------- |
@@ -11,6 +11,8 @@ Disaggregation lists are named based on the Code/location of the original sector
 | UseFile | str | N | Pointer to a file containing [use table allocations for disaggregated sectors](#disaggregated-use-format) |
 | EnvFile | str | N | Pointer to a file containing satellite table data for [disaggregated sectors](#disaggregated-satellite-table-format) |
 
+# Disaggregation Table Specifications
+Input disaggregation tables are in csv format with the fields shown below.
 
 ## Disaggregated Sectors Format
 | Field | Type | Required? | Description |

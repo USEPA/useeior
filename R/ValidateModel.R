@@ -11,11 +11,11 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
   if (use_domestic) {
-    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
@@ -33,7 +33,7 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   E <- prepareEfromtbs(model)
   E <- as.matrix(E[rownames(B), colnames(B)])
   
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
+  if (model$specs$CommodityorIndustryType=="Commodity") {
     #transform E with commodity mix to put in commodity form
     E <-  t(model$C_m %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
@@ -61,16 +61,16 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 #'@export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   if (use_domestic) {
-    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
   
-  if(model$specs$CommoditybyIndustryType == "Commodity") {
+  if(model$specs$CommodityorIndustryType == "Commodity") {
     #determine if output to compare is commodity or industry
     x <- model$q
   } else {

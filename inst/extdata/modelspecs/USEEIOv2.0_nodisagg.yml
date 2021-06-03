@@ -7,9 +7,9 @@ ModelType: "EEIO"
 IODataSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
-CommoditybyIndustryType: "Commodity"
+CommodityorIndustryType: "Commodity"
 ScrapIncluded: FALSE
-DisaggregationSpecs: "WasteDisaggregationDetail" #Name of disaggregation yml file.
+DisaggregationSpecs: null
 
 SatelliteTable:
   WAT:
@@ -345,7 +345,7 @@ SatelliteTable:
         Author: "USEPA"
         DataYear: 2014
         URL: "https://www.epa.gov/sites/production/files/2016-11/documents/2014_smmfactsheet_508.pdf"
-        Primary: TRUE     
+        Primary: TRUE   
   CRHW:
     FullName: "Commercial RCRA-defined hazardous waste"
     Abbreviation: "CRHW"
@@ -877,4 +877,3 @@ DemandVectors:
       Year: 2012
       System: "Domestic"
       Location: "US"    
-

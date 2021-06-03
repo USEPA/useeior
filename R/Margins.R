@@ -37,7 +37,7 @@ getMarginsTable <- function (model) {
   MarginsTable[is.na(MarginsTable)] <- 0
   MarginsTable <- MarginsTable[match(model$Commodities$Code, MarginsTable$CommodityCode), ]
   # Transform MarginsTable from Commodity to Industry format
-  if (model$specs$CommoditybyIndustryType=="Industry") {
+  if (model$specs$CommodityorIndustryType=="Industry") {
     # Generate a commodity x industry commodity mix matrix, see Miller and Blair section 5.3.2
     CommodityMix <- generateCommodityMixMatrix(model)
     #Create a margins table for industries based on model industries
