@@ -9,6 +9,8 @@ A fully constructed USEEIO model is an R named list that contains the following 
 Unless another year is specifically called out, all economic values are given in US dollars (USD) in the value the [model IOyear](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecifications.md#model-specifications). 
 
 ## Model
+Items are listed in the order in which they appear in a built Model object in R.
+
 | Item | Data Structure | Category | Description |
 | --- | --- | --------- | ------ |
 | specs | list | metadata | [Model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
