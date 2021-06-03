@@ -186,8 +186,8 @@ The Make matrix, `V`, is an `industry x commodity` matrix where commodities and 
             +-------+
 ```
 
-The Market Shares matrix, `V_n`, is a commodity output, `q`, normalized form of `V` also in `industry x commodity` format.
-The Commodity Mix matrix, `C_m`, is an industry output, `x`, normalized and transposed form of `V` in `commodity x industry` format.
+The Market Shares matrix, `V_n`, is a `q` normalized form of `V` also in `industry x commodity` format.
+The Commodity Mix matrix, `C_m`, is an `x` normalized and transposed form of `V` in `commodity x industry` format.
 
 #### U
 The Use matrix, `U`, is a `commodity x industry` matrix where commodities and industries are `Code_Loc` format.
@@ -302,6 +302,8 @@ flows           |       |
                 +-------+
 ```
 
+The related `M_d` matrix provides direct + indirect emissions and resources per dollar output that are only from the US.
+
 #### N
 The matrix `N` is a `indicator x sector` matrix and contains in each column
 `i` the direct and indirect impact result per 1 USD output of sector `i`:
@@ -314,5 +316,4 @@ indicators      |       |
                 +-------+
 ```
 
-
-
+The related `N_d` matrix provides direct + indirect impact results per dollar output that are only from the US.
