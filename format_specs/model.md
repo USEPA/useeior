@@ -15,9 +15,9 @@ Unless another year is specifically called out, all economic values are given in
 | crosswalk | data.frame | metadata | Sector [crosswalk](#crosswalk) |
 | Commodities | data.frame | metadata | Commodity metadata in [sector meta format](#sector-meta) |
 | Industries | data.frame | metadata | Industry metadata in [sector meta format](#sector-meta) |
-| FinalDemandSectors | data.frame | metadata | Final demand metadata in [sector meta with group format](#Sector-Meta-with-Group) |
+| FinalDemandMeta | data.frame | metadata | Final demand metadata in [sector meta with group format](#Sector-Meta-with-Group) |
 | MarginSectors | data.frame | metadata | Margin sector metadata in [sector meta format](#sector-meta) |
-| ValueAddedSectors | data.frame | metadata | Value added metadata in [sector meta format](#sector-meta) |
+| ValueAddedMeta | data.frame | metadata | Value added metadata in [sector meta format](#sector-meta) |
 | MultiYearIndustryOutput | data.frame | supporting data | Multi-year industry output in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityOutput | data.frame | supporting data | Multi-year commodity output  in [sector-by-year format](#sector-by-year) |
 | Margins | data.frame | supporting data | [The final consumer margins table](#margins) |

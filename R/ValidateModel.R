@@ -11,11 +11,11 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
   if (use_domestic) {
-    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
@@ -61,11 +61,11 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 #'@export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   if (use_domestic) {
-    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
