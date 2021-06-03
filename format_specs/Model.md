@@ -26,11 +26,11 @@ Items are listed in the order in which they appear in a built Model object in R.
 | MultiYearIndustryCPI | data.frame | supporting data | Multi-year industry CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityCPI | data.frame |   supporting data | Multi-year commodity CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
 | DisaggregationSpecs | list | metadata | Specifications for one or more [disaggregation](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecification.md) |
-| SatelliteTables | list | component data | [Satellite tables](#satellite-tables) |
+| SatelliteTables | list | component data | [Satellite tables](#satellitetables) |
 | Indicators | list | component data | [Indicators](#indicators) |
 | DemandVectors | list | component data | [Demand vectors](#demand-vectors) |
-| TbS | data.frame | component data | [The total Flow-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry |
-| CbS | data.frame | component data | [The total Coefficient-by-Sector table across all satellite tables](#satellite-tables) contains the direct emissions and resource use by industry per dollar output |
+| TbS | data.frame | component data | [The total Flow-by-Sector table across all satellite tables](#satellitetables) contains the direct emissions and resource use by industry |
+| CbS | data.frame | component data | [The total Coefficient-by-Sector table across all satellite tables](#satellitetables) contains the direct emissions and resource use by industry per dollar output |
 | V | matrix | component matrix |[The Make matrix](#V) |
 | C_m | matrix | component matrix | [The Commodity Mix matrix ](#V)|
 | V_n | matrix | component matrix | [The Market Shares matrix](#V) |
