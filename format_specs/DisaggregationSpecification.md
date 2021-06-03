@@ -24,10 +24,10 @@ Input disaggregation tables are in csv format with the fields shown below.
 ## Disaggregated Make Format
 Field | Type | Required? | Description |
 -- | -- | -- | -- |
-IndustryCode | string | Y | Code/location for industry |
-CommodityCode | string | Y | Code/location for commodity |
-PercentMake | numeric | Y | Percent of industry output dedicated to production of the given commodity |
-Note | string | N |  |
+IndustryCode | string | Y | Code/location for industry. Values included in this column can represent the original industry code to be disaggregated; the new industry codes representing disaggregated sectors; or existing industries where an allocation for a newly disaggregated commodity is to be assigned.  |
+CommodityCode | string | Y | Code/location for commodity. Values included in this column can represent the original commodity code to be disaggregated; the new commodity codes representing disaggregated sectors; or existing commodities where an allocation for a newly disaggregated industry is to be assigned.  |
+PercentMake | numeric | Y | Percent of industry output dedicated to production of the given commodity. This column represents the allocation value for the specific industry/commodity combination specified by the IndustryCode and CommodityCode columns. All values must be between 0 and 1, to represent the percent allocated to the specific industry/commodity combination. |
+Note | string | N |  This column contains short text strings describing the allocation performed in each row. The text is intended to describe how the allocation value is used in the disaggregation, as described below. |
 
 ## Disaggregated Use Format
 Field | Type | Required? | Description |
