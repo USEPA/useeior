@@ -203,6 +203,7 @@ commodities,        |                      |
 value added         |         Use          |
                     +----------------------+
 ```
+The related `U_d` matrix provides commodity and value added use totals by industries and final demand that are only from the US.
 
 #### A
 The matrix `A` is a `sector x sector` matrix and contains in each column `i` the direct sector inputs that are required to produce 1 USD dollar of output from
@@ -216,7 +217,7 @@ sectors |       |
         +-------+
 ```
 
-The related `A_d` matrix provide direct sector inputs per dollar sector output that are only from the US.
+The related `A_d` matrix provides direct sector inputs per dollar sector output that are only from the US.
 
 #### L
 `L` is also a `sector x sector` matrix and contains in each column `i` the
