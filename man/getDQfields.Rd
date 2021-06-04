@@ -2,7 +2,8 @@
 % Please edit documentation in R/DataQuality.R
 \name{getDQfields}
 \alias{getDQfields}
-\title{Draws from https://github.com/USEPA/ElectricityLCI/blob/master/electricitylci/dqi.py 
+\title{Functions to support data quality assessment
+Draws from https://github.com/USEPA/ElectricityLCI/blob/master/electricitylci/dqi.py 
 Get DQ fields in existing data frame}
 \usage{
 getDQfields(df)
@@ -14,6 +15,7 @@ getDQfields(df)
 A string vector with names of data quality fields
 }
 \description{
+Functions to support data quality assessment
 Draws from https://github.com/USEPA/ElectricityLCI/blob/master/electricitylci/dqi.py 
 Get DQ fields in existing data frame
 }
