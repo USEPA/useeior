@@ -10,7 +10,8 @@ getNAICSCodeName(year)
 \item{year}{int. 2012 or 2007 accepted.}
 }
 \value{
-data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6, NAICS_7, NAICS_8, NAICS_9, NAICS_10.
+data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6,
+NAICS_7, NAICS_8, NAICS_9, NAICS_10.
 }
 \description{
 Get 2012 2-10 digit NAICS codes in a crosswalk format.
