@@ -15,19 +15,19 @@ writeModelforAPI <-function(model, basedir){
   writeModelMetadata(model,dirs)
 }
 
-#' Write the master sector crosswalk out for the API
+#' Write the model sector crosswalk as .csv file
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param basedir Base directory to write the model components to
-#' @description Writes master sector crosswalk out for the API in csv
+#' @description Writes the model sector crosswalk as .csv file
 #' @export
-writeSectorCrosswalkforAPI <- function(model, basedir){
+writeSectorCrosswalk <- function(model, basedir){
   dirs <- setWriteDirsforAPI(NULL,basedir)
   prepareWriteDirs(dirs)
   crosswalk <- prepareModelSectorCrosswalk(model)
   crosswalk$ModelSchema <- ""
   utils::write.csv(crosswalk, paste0(dirs$data, "/sectorcrosswalk.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
-  logging::loginfo(paste0("Sector crosswalk written to ", dirs$data, "."))
+  logging::loginfo(paste0("Sector crosswalk written as sectorcrosswalk.csv to ", dirs$data, "."))
 }
 
 #' Write model matrices as .csv or .bin files to output folder.
