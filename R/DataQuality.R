@@ -1,3 +1,4 @@
+#' Functions to support data quality assessment
 #' Draws from https://github.com/USEPA/ElectricityLCI/blob/master/electricitylci/dqi.py 
 
 #' Get DQ fields in existing data frame
