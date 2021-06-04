@@ -29,13 +29,5 @@ CommodityCode | string | Y | Code/location for commodity. Values included in thi
 PercentAllocation | numeric | Y | Percent of sector output dedicated to the newly disaggregated sector. This column represents the allocation value for the specific industry/commodity combination specified by the IndustryCode and CommodityCode columns. All values must be between 0 and 1, to represent the percent allocated to the specific industry/commodity combination. |
 Note | string | N |  This column contains short text strings describing the allocation performed in each row. The text is intended to describe how the allocation value is used in the disaggregation. |
 
-## Disaggregated Use Format
-Field | Type | Required? | Description |
--- | -- | -- | -- |
-IndustryCode | string | Y | Code/location for industry |
-CommodityCode | string | Y | Code/location for commodity |
-PercentUsed | numeric | Y | Percent use of commodity among dissaggregated industries |
-Note | string | N | |
-
 ## Disaggregated Satellite Table Format
 Matches [totals-by-sector](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#totals_by_sector) but includes an additional field `SatelliteTable` indicating the satellite table to which each record applies.
