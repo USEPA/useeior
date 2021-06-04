@@ -14,6 +14,6 @@ A dataframe with 411 obs. and 428 variables
 Detail_Use_2012_PRO_AfterRedef
 }
 \description{
-TBD
+Detail 2012 Use Producer's Value After Redefinition (2012 schema)
 }
 \keyword{datasets}

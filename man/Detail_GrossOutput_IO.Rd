@@ -14,6 +14,6 @@ A dataframe with 405 obs. and 17 variables
 Detail_GrossOutput_IO
 }
 \description{
-TBD
+Detail 2007-2018 Gross Output (2012 schema)
 }
 \keyword{datasets}
