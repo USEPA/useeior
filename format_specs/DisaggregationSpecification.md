@@ -1,5 +1,5 @@
 # Disaggregation File Specification
-Disaggregation specifications are assigned in a yml file based on the parameters shown below. Each disaggregation is a list, named based on the [Code/location](https://github.com/USEPA/useeior/tree/master/format_specs/model.md/#sector-meta) of the original sector (e.g. `562000/US`)
+Disaggregation specifications are assigned in a yml file based on the parameters shown below. Each disaggregation is a list, named based on the [Code/location](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#sector-meta) of the original sector (e.g. `562000/US`)
 
 | Item | Type | Required? | Description |
 | --- | --- | --- | --------- |
