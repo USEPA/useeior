@@ -284,7 +284,7 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
 #' @param y_title The title of y axis, excluding unit.
 #' @return a ggplot bar chart with horizontal orientation
 #' @export
-barplot_fraction_Region <- function(R1_calc_result, Total_calc_result, y_title) {
+barplotFloworImpactFractionbyRegion <- function(R1_calc_result, Total_calc_result, y_title) {
   rel_diff <- as.data.frame(colSums(R1_calc_result)/colSums(Total_calc_result))
   colnames(rel_diff) <- y_title
   rel_diff[["Indicator"]] <- rownames(rel_diff)
