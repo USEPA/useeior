@@ -941,7 +941,6 @@ SpecifiedMakeDisagg <- function (model, disagg){
     
     #-----------------------end of code shared with uniformMakeDisagg
     
-    #DisaggMake <- AssembleMake(originalMake, originalRowIndex, originalColIndex, AllocColDF, allocRowDF, AllocIntersectionDF)
     DisaggMake <- AssembleTable(originalMake, originalRowIndex, originalColIndex, AllocColDF, allocRowDF, AllocIntersectionDF)
     
   }else{
@@ -1044,43 +1043,6 @@ SpecifiedUseDisagg <- function (model, disagg, domestic = FALSE){
   return(DisaggUse)
   
 }#End of specifiedUseDisagg Function
-
-#' Assemble Disaggregated Make table from the various disaggregated components.
-#' @param originalMake Dataframe. The original Make table before disaggregation
-#' @param originalRowIndex Integer. The row index, in the original Make table, of the sector to be disaggregated
-#' @param originalColIndex Integer. The column index, in the original Make table, of the sector to be disaggregated
-#' @param disaggCols Dataframe. Previously disaggregated columns of the Make table.
-#' @param disaggRows Dataframe. Previously disaggregated rows of the Make table.
-#' @param disaggIntersection Dataframe. Previously disaggregated intersection of the Make table.
-#'
-#' @return The Make table as a dataframe with the disaggregated rows, columns, and intersection included
-AssembleMake <- function (originalMake, originalRowIndex, originalColIndex, disaggCols, disaggRows, disaggIntersection){
-  
-  
-  #Assembling all columns above disaggregated rows, including all disaggregated columns
-  disaggTable <- cbind(originalMake[1:originalRowIndex-1,1:originalColIndex-1], #above diagg rows, from 1st col to col right before disaggregation
-                       disaggCols[1:originalRowIndex-1,],                        #insert disaggregated cols before disaggregated rows
-                       originalMake[1:originalRowIndex-1,-(1:originalColIndex)]) #include all cols except from 1st col to disaggregated col
-  
-  #Inserting intersection into disaggregated rows
-  disaggRows <- cbind(disaggRows[,1:originalColIndex-1],  #from 1st col to col right before disaggregation
-                      disaggIntersection,                 #insert disaggregated intersection
-                      disaggRows[,-(1:originalColIndex)]) #include all cols except from 1s col to disaggregated col
-  
-  #Appending rest of original rows to partially assembled DMake
-  disaggTable <- rbind(disaggTable,disaggRows)
-  
-  #Assembling all columns below disaggregated rows, including all disaggregated columns
-  disaggTableBottom <- cbind(originalMake[-(1:originalRowIndex),1:originalColIndex-1],  #below disagg rows, from 1st col to col right before disaggregation
-                             disaggCols[-(1:originalRowIndex),],                        #insert disaggregated cols below disaggregated rows
-                             originalMake[-(1:originalRowIndex),-(1:originalColIndex)]) #below disagg rows, all columns after disagg columns 
-  
-  #Appeding bottom part of the table to top part of the table
-  disaggTable <- rbind(disaggTable, disaggTableBottom)
-
-  return(disaggTable)
-
-}
 
 
 #' Assemble Table from the various disaggregated components.
