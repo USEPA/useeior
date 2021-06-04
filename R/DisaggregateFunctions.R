@@ -1610,42 +1610,12 @@ getDisaggCommodityPercentages <- function(disagg){
   
 }
 
-
-#' Allocate values specified by the .yml disaggregation specs to the correct places in a disaggregated row/column of the Use/Make tables. 
-#' @param df0 data frame 0
-#' @param df1 data frame 1
-#' @param abs_diff A logical value indicating whether to calculate absolute difference.
-#' @param tolerance A numeric value indicating comparison tolerance.
-#' 
-#' @return A list of comparison results
-# Validate df1 against df0 based on specified conditions
-compareDisaggValues <- function(df0, df1, abs_diff = TRUE, tolerance) {
-  # Define comparison rule
-  if (abs_diff) {
-    rule <- validate::validator(abs(df1 - df0) <= tolerance)
-  } else {
-    rule <- validate::validator(df1 - df0 <= tolerance)
-  }
-  
-  rule <- validate::validator(df1 / df0 <= tolerance)
-  # Compare df1 against df0
-  confrontation <- validate::confront(df1, rule, ref = list(df0 = df0))
-  confrontation <- validate::as.data.frame(confrontation)
-  validation <- merge(confrontation, validate::as.data.frame(rule))
-  rownames(validation) <- confrontation$rownames <- rownames(confrontation)
-  validation$name <- NULL
-  return(list("confrontation" = confrontation, "validation" = validation))
-}
-
-#' Build a Full Use table using the Use transactions, Use value added, and final demand model objects
+#' Balance the Make and Use tables after disaggregation.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
-#' 
 #' @return model object with RAS-balanced disaggregation sectors 
 balanceDisagg <- function(model, disagg){
-  
-  
-  #-------------Check for balance------------------------------
+  #Build full use table
   disaggFullUse <-buildDisaggFullUse(model, disagg)
   
   #Get commodity and/or industry indeces corresponding to the original sector code
@@ -1676,8 +1646,7 @@ balanceDisagg <- function(model, disagg){
   
   if(any(abs(useIndAllocPercentages - makeIndAllocPercentages) > tolerance) || any(abs(useComAllocPercentages - makeComAllocPercentages > tolerance))){
     
-    #balance. Create FullUse from UseTransanctions, UseValueAdded, and Final Demand, then call ApplyRAS
-    
+    #Balance. Create FullUse from UseTransanctions, UseValueAdded, and Final Demand, then call ApplyRAS
     targetIndTotals <- data.frame(rowSums(model$MakeTransactions))
     FDIndTotals <- data.frame(colSums(model$FinalDemand))
     colnames(FDIndTotals) <- colnames(targetIndTotals) #needed for rbind step
@@ -1714,13 +1683,11 @@ balanceDisagg <- function(model, disagg){
  
   return(model)
   
-  #-------------End of Check for balance-----------------------
 }
 
 #' Build a Full Use table using the Use transactions, Use value added, and final demand model objects
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
-#' 
 #' @return dataframe representing a use table that includes the Use transactions, Use value added, and final demand sectors 
 buildDisaggFullUse <- function(model, disagg){
   
@@ -1738,11 +1705,10 @@ buildDisaggFullUse <- function(model, disagg){
 }
 
 
-#' Calculate the domestic use transactions and final demand tables after RAS balancing, if required
+#' Calculate the domestic use transactions and final demand tables after RAS balancing
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
 #' @param balancedFullUse A fullUse table (including UseTransactions, UseValueAdded, and FinalDemand), created to determine whether RAS balancing is needed
-#' 
 #' @return list containing balanced domesticFinalDemand and domesticUseTransactions dataframes. 
 calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse) 
 {
