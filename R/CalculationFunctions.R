@@ -36,7 +36,7 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
     # Assume this is a user-defined demand vector
     #! Need to check that the given demand 
     if (isDemandVectorValid(demand,L)) {
-      d <-formatDemandVector(demand,L)
+      d <- formatDemandVector(demand,L)
     } else {
       logging::logerror("Format of the demand vector is invalid. Cannot calculate result.")
       stop()

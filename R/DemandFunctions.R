@@ -79,16 +79,11 @@ prepareHouseholdDemand <- function(model) {
 #' @param dv a user provided demand vector
 #' @param L, the L matrix for the given model, used as a reference
 #' @return A logical value indicating demand vector is valid or not.
-isDemandVectorValid <- function(dv,L){
-  #should be a format like this
-  # >dv <- c("1111A0"=1,"1111B0"=2,"327100"=30)
-  # > dv
-  #1111A0 1111B0 327100 
-  #1      2     30 
-  
-  
-  #!temp just return true
-  return(TRUE)
+isDemandVectorValid <- function(dv, L){
+  # dv should be a named numeric vector
+  # names of dv should be part of sectors in L
+  is_valid <- all(is.numeric(dv), all(names(dv)%in%rownames(L)))
+  return(is_valid)
 }
 
 #' Format a named demand vector with partial sectors to have all the rows and ordering needed
