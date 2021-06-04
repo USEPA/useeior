@@ -4,6 +4,7 @@
 #' @param modelA, a useeior model
 #' @param modelB a useeior model 
 #' @return df_confrontation, the validate::confrontation result of the flow total comparison
+#' @export
 compareFlowTotals <- function(modelA, modelB) {
   #Get flow totals for each model
   A <- groupandsumTbSbyFlowLoc(modelA$TbS)

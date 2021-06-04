@@ -4,15 +4,15 @@
 \alias{compareFlowTotals}
 \title{Compare flow totals for two models}
 \usage{
-compareFlowTotals(TbSA, TbSB)
+compareFlowTotals(modelA, modelB)
 }
 \arguments{
-\item{TbSA}{a totals-by-sector list from a model}
+\item{modelA, }{a useeior model}
 
-\item{TbSB}{a totals-by-sector list from a model}
+\item{modelB}{a useeior model}
 }
 \value{
-df, the validate::confrontation result
+df_confrontation, the validate::confrontation result of the flow total comparison
 }
 \description{
 Compare flow totals for two models
