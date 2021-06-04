@@ -464,7 +464,6 @@ disaggregateFinalDemand <- function(model, domestic = FALSE)
 
 #' Disaggregate Value Added based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' 
 #' @return A standardized Vale Added table with old sectors removed and new sectors with manual and default allocations added.
 disaggregateVA <- function(model)
 {
@@ -513,9 +512,6 @@ disaggregateVA <- function(model)
       tablePartTwo <- model$UseValueAdded[,-(1:originalColIndex)]#all rows, all columns except cols to left of disagg col
       
       disaggTable <- cbind(tablePartOne, AllocVADF, tablePartTwo)
-      # disaggTable <- cbind(model$UseValueAdded[, 1:originalColIndex-1], #all rows, to the left of diagg rows
-      #                      AllocVADF,                        #insert disaggregated rows
-      #                      model$UseValueAdded[,-(1:originalColIndex)]) #include all columns except from 1st row to disaggregated col
 
       
     } else {
@@ -532,7 +528,6 @@ disaggregateVA <- function(model)
 #' Disaggregate make table uniformly based on the number of new sectors
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
-#' 
 #' @return A standardized make table with old sectors removed and new, uniformly disaggregated sectors added.
 UniformMakeDisagg <- function (model, disagg){
   
@@ -610,12 +605,15 @@ UniformMakeDisagg <- function (model, disagg){
   #Appeding bottom part of the table to top part of the table
   disaggTable <- rbind(disaggTable, disaggTableBottom)
   
-  
-  #------------------------------------------------------------------------------
   return(disaggTable)
   
 }
 
+
+#' Disaggregate use table uniformly based on the number of new sectors
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' @return A standardized use table with old sectors removed and new, uniformly disaggregated sectors added.
 UniformUseDisagg <- function(model, disagg, domestic = FALSE){
   
   for (disagg in model$DisaggregationSpecs$Disaggregation){
@@ -715,6 +713,12 @@ UniformUseDisagg <- function(model, disagg, domestic = FALSE){
   return(disaggTable)
 }
 
+#' Disaggregate multiple rows from a table.
+#' @param RowVectors A dataframe containing the rows to disaggregate
+#' @param disagg_specs Specifications for disaggregating the current Table
+#' @param duplicate A flag that indicates whether the disaggregated rows are to be duplicated or not (e.g. for CPI values)
+#' @param notUniform A flag that indicates whether the disaggregated rows are to be disaggregated in uniform manner or not
+#' @return A dataframe with disaggregated rows.
 disaggregateRows <- function (RowVectors, disagg_specs, duplicate=FALSE, notUniform = FALSE){
   
   originalColIndex <- which(colnames(RowVectors)==disagg_specs$OriginalSectorCode)
@@ -731,6 +735,12 @@ disaggregateRows <- function (RowVectors, disagg_specs, duplicate=FALSE, notUnif
   
 }
 
+#' Disaggregate multiple columns from a table.
+#' @param ColVectors A dataframe containing the columns to disaggregate
+#' @param disagg_specs Specifications for disaggregating the current Table
+#' @param duplicate A flag that indicates whether the disaggregated columns are to be duplicated or not (e.g. for CPI values)
+#' @param notUniform A flag that indicates whether the disaggregated columns are to be disaggregated in uniform manner or not
+#' @return A dataframe with disaggregated columns.
 disaggregateCols <- function (ColVectors, disagg_specs, duplicate=FALSE, notUniform = FALSE ){
   
   originalRowIndex <- which(rownames(ColVectors)==disagg_specs$OriginalSectorCode)
@@ -747,6 +757,13 @@ disaggregateCols <- function (ColVectors, disagg_specs, duplicate=FALSE, notUnif
   
 }
 
+
+#' Disaggregate a single row from a table.
+#' @param OriginalRowVector A dataframe containing the row to disaggregate
+#' @param disagg_specs Specifications for disaggregating the current Table
+#' @param duplicate A flag that indicates whether the disaggregated row is to be duplicated or not (e.g. for CPI values)
+#' @param notUniform A flag that indicates whether the disaggregated row is to be disaggregated in uniform manner or not
+#' @return A dataframe with the original row disaggregated.
 disaggregateRow <- function (originalRowVector, disagg_specs, duplicate = FALSE, notUniform = FALSE){
   
   numNewSectors <- length(disagg_specs$DisaggregatedSectorCodes)
@@ -778,6 +795,12 @@ disaggregateRow <- function (originalRowVector, disagg_specs, duplicate = FALSE,
 }
 
 
+#' Disaggregate a single column from a table.
+#' @param OriginalColVector A dataframe containing the column to disaggregate
+#' @param disagg_specs Specifications for disaggregating the current Table
+#' @param duplicate A flag that indicates whether the disaggregated columns are to be duplicated or not (e.g. for CPI values)
+#' @param notUniform A flag that indicates whether the disaggregated columns are to be disaggregated in uniform manner or not
+#' @return A dataframe with the original column disaggregated.
 disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE, notUniform = FALSE){
   
   numNewSectors <- length(disagg_specs$DisaggregatedSectorCodes)
@@ -868,7 +891,6 @@ disaggregateMasterCrosswalk <- function (model, disagg){
 #' Disaggregate make table based on the allocations specified in the files referenced in the diaggregation specs.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
-#' 
 #' @return A standardized make table with old sectors removed and new disaggregated sectors added based on the allocations in the disaggregation specs.
 SpecifiedMakeDisagg <- function (model, disagg){
   
@@ -938,11 +960,10 @@ SpecifiedMakeDisagg <- function (model, disagg){
 }#End of specifiedMakeDisagg Function
 
 
-#' Disaggregate make table based on the allocations specified in the files referenced in the diaggregation specs.
+#' Disaggregate use table based on the allocations specified in the files referenced in the diaggregation specs.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
 #' @param domestic Flag that indicates where to use the Domestic Use or UseTrasanctions table
-#' 
 #' @return A standardized make table with old sectors removed and new disaggregated sectors added based on the allocations in the disaggregation specs.
 SpecifiedUseDisagg <- function (model, disagg, domestic = FALSE){
   
@@ -1035,7 +1056,6 @@ SpecifiedUseDisagg <- function (model, disagg, domestic = FALSE){
 #' @param disaggCols Dataframe. Previously disaggregated columns of the table.
 #' @param disaggRows Dataframe. Previously disaggregated rows of the table.
 #' @param disaggIntersection Dataframe. Previously disaggregated intersection of the table.
-#'d
 #' @return The Disaggregated table as a dataframe with the disaggregated rows, columns, and intersection included
 AssembleTable <- function (originalTable, originalRowIndex, originalColIndex, disaggCols, disaggRows, disaggIntersection){
   
@@ -1071,7 +1091,6 @@ AssembleTable <- function (originalTable, originalRowIndex, originalColIndex, di
 #' @param allocPercentages Dataframe. A subset of the dataframe that contains the percentages to allocate to specific industry and commodity combinations in the disaggregated vector. Parameter use coordinated with @param vectorToDisagg
 #' @param vectorToDisagg String. A parameter to indicate what table and what part of that table is being disaggregated (e.g. "MakeCol" or "Intersection") 
 #' @param domestic Boolean. Flag to indicate where to use the DomesticUse or UseTransactions table
-#' 
 #' @return A dataframe with the values specified in the disaggSpecs assigned to the correct Make or Use table indeces.
 DisaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, domestic = FALSE){
   
@@ -1568,9 +1587,9 @@ DisaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
   
 }#end of DisaggAllocations function
 
+
 #' Obtain default disaggregation percentages for industries from the disaggregation input files. 
 #' @param disagg Specifications for disaggregating the current Model
-#' 
 #' @return A dataframe with the default disaggregation percentges for the Industries of the current model
 getDisaggIndustryPercentages <-function(disagg){
   
@@ -1579,9 +1598,9 @@ getDisaggIndustryPercentages <-function(disagg){
   return(defaultPercentages)
 }
 
+
 #' Obtain default disaggregation percentages for commodities from the disaggregation input files. 
 #' @param disagg Specifications for disaggregating the current Model
-#' 
 #' @return A dataframe with the default disaggregation percentges for the Commodities of the current model
 getDisaggCommodityPercentages <- function(disagg){
   
