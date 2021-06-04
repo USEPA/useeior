@@ -44,6 +44,7 @@ disaggregateModel <- function (model){
     model$Commodities <- disaggregateSectorDFs(model, disagg, "Commodity")
     model$Industries <- disaggregateSectorDFs(model, disagg, "Industry")
 
+    #Disaggregating main model components
     model$UseTransactions <- disaggregateUseTable(model)
     model$MakeTransactions <- disaggregateMakeTable(model)
     model$FinalDemand <- disaggregateFinalDemand(model, domestic = FALSE)
@@ -82,7 +83,6 @@ disaggregateModel <- function (model){
 
 #' Disaggregate Commodity and Industry Output model objects
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#'
 #' @return model A complete EEIO model: a list with USEEIO model components and attributes.
 disaggregateOutputs <- function(model)
 {
@@ -104,7 +104,6 @@ disaggregateOutputs <- function(model)
 #' Disaggregate model$Margins dataframe in the main model object
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
-#' 
 #' @return newMargins A dataframe which contain the margins for the disaggregated sectors
 disaggregateMargins <- function(model, disagg)
 {
@@ -141,7 +140,6 @@ disaggregateMargins <- function(model, disagg)
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
 #' @param output_type A string value indicating whether to obtain "Commodity" or "Industry" ratios
-#' 
 #' @return disaggRatios A dataframe which contain the disaggregated ratios for the disaggregated sectors
 disaggregatedRatios <- function(model, disagg, output_type = "Commodity")
 {
@@ -176,7 +174,6 @@ disaggregatedRatios <- function(model, disagg, output_type = "Commodity")
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
 #' @param output_type A string that indicates whether the Commodity or Industry output should be disaggregated
-#'
 #' @return model A dataframe with the disaggregated GDPGrossOutputIO by year
 disaggregateMultiYearOutput <- function(model, disagg, output_type = "Commodity")
 {
@@ -221,7 +218,6 @@ disaggregateMultiYearOutput <- function(model, disagg, output_type = "Commodity"
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
 #' @param list_type string indicating whether to disaggregate model$Industry or model$Commodity dataframe. 
-#' 
 #' @return newSectors A dataframe which contain the disaggregated model$Commodity or model$Industry objects
 disaggregateSectorDFs <- function(model, disagg, list_type)
 {
@@ -254,11 +250,9 @@ disaggregateSectorDFs <- function(model, disagg, list_type)
 }
 
 #' Disaggregate satellite tables from static file based on specs
-#' 
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param sattable A standardized satellite table with resource and emission names from original sources.
 #' @param sat The abbreviation for the satellite table.
-#' 
 #' @return A standardized satellite table with old sectors removed and new sectors added.
 disaggregateSatelliteTable <- function (model, sattable, sat){
   
@@ -340,7 +334,6 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
 
 #' Disaggregate make table based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' 
 #' @return A standardized make table with old sectors removed and new sectors added.
 disaggregateMakeTable <- function (model){
   
@@ -404,7 +397,6 @@ disaggregateUseTable <- function (model, domestic = FALSE){
 #' Disaggregate Final Demand based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param domestic A logical value indicating whether to disaggregate domestic final demand.
-#' 
 #' @return A standardized final demand table with old sectors removed and new sectors with manual and default allocations added.
 disaggregateFinalDemand <- function(model, domestic = FALSE)
 {
@@ -437,15 +429,6 @@ disaggregateFinalDemand <- function(model, domestic = FALSE)
       FDPercentages <- subset(disagg$UseFileDF, IndustryCode %in% fdColNames)
       #Assigning allocations for FD
       AllocFDDF <- DisaggAllocations(model, disagg, FDPercentages, "FinalDemand", domestic)
-      
-      ####assembling disaggregated FD 
-      # 
-      # if(domestic){
-      #   originalFD <-model$DomesticFinalDemand
-      # }
-      # else{
-      #   originalFD <-model$FinalDemand
-      # }
       
       #Determine number of commodities and industries in originalFD
       nCommodities <- nrow(originalFD)
