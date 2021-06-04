@@ -350,7 +350,6 @@ disaggregateMakeTable <- function (model){
     disaggType = disagg$DisaggregationType
   
     #disaggregation can be of types "Predefined" or "UserDefined". 
-    #TODO: maybe get rid of predefined and user defined and just go by whether .csv files are included in the yml file in the if statement?
     if(disaggType == "Predefined"){
       
       disaggTable <- UniformMakeDisagg(model, disagg)
@@ -382,7 +381,6 @@ disaggregateUseTable <- function (model, domestic = FALSE){
     disaggType = disagg$DisaggregationType
     
     #disaggregation can be of types "Predefined" or "UserDefined". 
-    #TODO: maybe get rid of predefined and user defined and just go by whether .csv files are included in the yml file in the if statement?
     if(disaggType == "Predefined"){
       
       disaggTable <- UniformUseDisagg(model, disagg, domestic)
@@ -884,8 +882,6 @@ disaggregateMasterCrosswalk <- function (model, disagg){
   
 }
 
-##-------------------------------TODO: Move functions below to a new file for clarity, perhaps specifiedDisaggregateFunctions?
-
 #' Disaggregate make table based on the allocations specified in the files referenced in the diaggregation specs.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
@@ -950,7 +946,7 @@ SpecifiedMakeDisagg <- function (model, disagg){
     
   }else{
     
-    #todo: error handling, no csv was read in terminate execution
+    #No csv was read in, terminate execution
     DisaggMake <- NULL;
   }
   #End of if(!is.null(disagg$MakeFileDF)) loop
@@ -1040,7 +1036,7 @@ SpecifiedUseDisagg <- function (model, disagg, domestic = FALSE){
 
   }else{
     
-    #todo: error handling, no csv was read in terminate execution
+    #No csv was read in, terminate execution
     DisaggUse <- NULL
   }
   #End of if(!is.null(disagg$MakeFileDF)) loop
