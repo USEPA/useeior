@@ -141,8 +141,8 @@ loadBEAtables <- function(specs) {
   BEA$FinalDemandCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
                             BEA$ChangeInventoriesCodes, BEA$ExportCodes,
                             BEA$ImportCodes, BEA$GovernmentDemandCodes)
-  BEA$TotalConsumptionCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
-                                 BEA$GovernmentDemandCodes)
+#  BEA$TotalConsumptionCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
+#                                 BEA$GovernmentDemandCodes)
   BEA$ScrapCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Scrap")
   BEA$TransportationCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Distribution")
   BEA$WholesaleCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Wholesale")
@@ -161,7 +161,7 @@ loadBEAtables <- function(specs) {
   BEA$UseValueAdded <- BEA$Use[BEA$ValueAddedCodes, BEA$Industries] * 1E6 # data frame, values are in dollars ($)
   BEA$UseCommodityOutput <- as.data.frame(rowSums(cbind(BEA$UseTransactions, BEA$UseFinalDemand))) # data frame, values are in dollars ($)
   # Generate domestic Use transaction and final demand
-  DomesticUse <- generatDomesticUse(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
+  DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
   BEA$DomesticUseTransactions <- DomesticUse[, BEA$Industries]
   BEA$DomesticFinalDemand <- DomesticUse[, BEA$FinalDemandCodes]
   # Replace NA with 0 in IO tables
