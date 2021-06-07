@@ -15,7 +15,6 @@ buildModel <- function(modelname) {
 #' Construct EEIO matrices based on loaded IO tables, built satellite tables,
 #' and indicator tables.
 #' @param model Model file loaded with IO tables, satellite tables, and indicator tables.
-#' @export
 #' @return A list with EEIO matrices..
 constructEEIOMatrices <- function(model) {
   if(model$specs$ModelRegionAcronyms!="US"){

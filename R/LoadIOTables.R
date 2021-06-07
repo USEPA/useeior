@@ -1,7 +1,6 @@
 #' Prepare economic components of an EEIO model.
 #' @param model A list of model specs
 #' @return A list with EEIO model economic components.
-#' @export
 loadIOData <- function(model) {
   # Declare model IO objects
   logging::loginfo("Initializing IO tables...")
@@ -181,7 +180,6 @@ loadBEAtables <- function(specs) {
 #' @param year If iolevel = "Detail", then has to be 2012, otherwise select between 2010--2018
 #' @param redef Select either "BeforeRedef" or "AfterRedef"
 #' @return A dataframe of BEA make or use tables
-#' @export
 loadBEAMakeorUseTable <- function (iolevel, makeoruse, year, redef){
   
   if(makeoruse == "Make"){

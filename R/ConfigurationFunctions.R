@@ -4,7 +4,6 @@
 #' @param modelname, str, the name of the model
 #' @param spectype, str, specification type, either "model" or "disagg"
 #' @return A list of model specifications.
-#' @export
 getConfiguration <- function(modelname, spectype) {
   configname <- paste(modelname, ".yml", sep = "")
   configpath <- paste0("extdata/",spectype,"specs/")

@@ -82,7 +82,6 @@ checkIndicatorforFlows <- function(factors, flows){
 #' Loads data for all model indicators as listed in model specs
 #' @param model A model object with IO data loaded
 #' @return A model object with Indicators added
-#' @export
 loadandbuildIndicators <- function(model) {
    # Generate C matrix: LCIA indicators
    indicators <- loadIndicators(model)

@@ -1,7 +1,6 @@
 #' Adds demand vectors and metadata based on model specs to model object
 #' @param model A model list object with the specs object listed
 #' @return model with a list of demand vectors and a meta file
-#' @export
 loadDemandVectors <- function(model) {
   logging::loginfo("Loading demand vectors from model spec...")
   model$DemandVectors <- list()

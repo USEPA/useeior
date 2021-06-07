@@ -1,7 +1,6 @@
 #' Initialize model with specifications and fundamental crosswalk table.
 #' @param modelname Name of the model from a config file.
 #' @return A list of model specifications and fundamental crosswalk table.
-#' @export
 initializeModel <- function(modelname) {
   startLogging()
   logging::loginfo("Begin model initialization...")
