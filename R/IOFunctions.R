@@ -1,12 +1,12 @@
+# Functions implementing core input-output analysis algorithms
+
 #' Adjust Industry output based on CPI.
-#'
 #' @param outputyear Year of Industry output.
 #' @param referenceyear Year of the currency reference.
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
 #' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param output_type Type of the output, e.g. "Commodity" or "Industry"
-#'
 #' @return A dataframe contains adjusted Industry output with row names being BEA sector code.
 adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRoUS, model, output_type) {
   # Load Industry Gross Output
@@ -121,20 +121,6 @@ transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
   return(CommodityCPI)
 }
 
-# Function not used in model
-# #' Generate non-scrap ratios
-# #' @return A dataframe with rows being model industries and a column for "non_scrap_ratios" for that industry.
-# generateNonScrapRatios <- function() {
-#   # Merge scrap from model Make transactions and Industry output
-#   V_scrap <- model$MakeTransactions[, ModelScrapCode, drop = FALSE]
-#   V_scrap_total <- merge(V_scrap, model$BEA$MakeIndustryOutput, by = 0)
-#   IndustryTotalCode <- colnames(model$BEA$MakeIndustryOutput)
-#   V_scrap_total[,"nonscrap_ratio"] <- (V_scrap_total[,IndustryTotalCode]-V_scrap_total[, ModelScrapCode])/V_scrap_total[, IndustryTotalCode]
-#   row.names(V_scrap_total) <- V_scrap_total[,"Row.names"]
-#   non_scrap_ratios <- V_scrap_total[,"nonscrap_ratio", drop=FALSE]
-#   return(non_scrap_ratios)
-# }
-
 #' Transform Direct Requirements matrix with Market Shares matrix, works for both commodity-by-commodity and industry-by-industry model types.
 #' @param B Marginal impact per unit of the environmental flows.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
@@ -186,10 +172,10 @@ calculateLeontiefInverse <- function(A) {
 
 
 #' Generate domestic Use table by adjusting Use table based on Import matrix.
-#' @param Use An original Use table.
-#' @param specs Model specifications.
-#' @return A Domestic Use table.
-generatDomesticUse <- function(Use, specs) {
+#' @param Use, dataframe of a Use table
+#' @param specs, list of model specifications
+#' @return A Domestic Use table with rows as commodity codes and columns as industry and final demand codes
+generateDomesticUse <- function(Use, specs) {
   # Load Import matrix
   if (specs$BaseIOLevel!="Sector") {
     Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
