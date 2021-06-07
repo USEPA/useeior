@@ -1,17 +1,21 @@
-# Register functions for preset demand vector
-dem_vec_fxn_registry <- list()
-dem_vec_fxn_registry$Consumption$Complete <- "prepareConsumptionDemand"
-dem_vec_fxn_registry$Production$Complete <- "prepareProductionDemand"
-dem_vec_fxn_registry$Consumption$Household <- "prepareHouseholdDemand"
-dem_vec_fxn_registry$Consumption$Domestic <- "prepareDomesticConsumptionDemand"
+# Functions for assembling final demand vectors
+
+
+#'  Registry of functions that construct various demand vector in the form of as a named list with nested names
+#'  as keys and function name as values
+DemandVectorFunctionRegistry <- list()
+DemandVectorFunctionRegistry$Consumption$Complete <- "prepareConsumptionDemand"
+DemandVectorFunctionRegistry$Production$Complete <- "prepareProductionDemand"
+DemandVectorFunctionRegistry$Consumption$Household <- "prepareHouseholdDemand"
+DemandVectorFunctionRegistry$Consumption$Domestic <- "prepareDomesticConsumptionDemand"
 
 #Core production and consumption demand formulas
 #y_c <-  Y_h + Y_v + Y_g 
 #y_dc <- Y_dh + Y_dv + Y_dg
 #y_p <- y_dc + y_e + y_d_delta
+ 
 
-
-#'Sums across sectors for a given set of BEA codes/cols in a given final demand df
+#'Sums across sectors for a given set of codes/cols in a given final demand df
 #'@param Y, a model Demand df 
 #'@param codes, sector code(s) for a subset of Final Demand cols
 #'@return a named vector with model sectors and demand amounts

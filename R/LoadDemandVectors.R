@@ -16,9 +16,9 @@ loadDemandVectors <- function(model) {
     meta <- rbind(meta,data.frame(i, stringsAsFactors = FALSE) )
 
     #Check if the demand is registered
-    if (!is.null(dem_vec_fxn_registry[[i$Type]][[i$System]])) {
+    if (!is.null(DemandVectorFunctionRegistry[[i$Type]][[i$System]])) {
       logging::loginfo(paste("Loading", v, "demand vector..."))
-      func_to_eval <- dem_vec_fxn_registry[[i$Type]][[i$System]]
+      func_to_eval <- DemandVectorFunctionRegistry[[i$Type]][[i$System]]
       demandFunction <- as.name(func_to_eval)
       dv <- do.call(eval(demandFunction), list(model))
       model$DemandVectors$vectors[[i$ID]] <- dv
