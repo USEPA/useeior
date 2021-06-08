@@ -1,4 +1,4 @@
-# Functions for handling data from flowsa
+# Functions for handling data from flowsa, https://github.com/USEPA/flowsa
 
 #' Load flowsa's FlowBySector df and collapse sector columns
 #' @param sat_spec, a standard specification for a single satellite table

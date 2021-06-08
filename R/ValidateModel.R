@@ -1,5 +1,4 @@
-#ValidateModel.R
-
+# Validation functions
 
 #'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built

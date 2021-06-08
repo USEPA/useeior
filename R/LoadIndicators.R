@@ -1,3 +1,16 @@
+# Functions for loading and checking indicator data
+
+#' Loads data for all model indicators as listed in model specs
+#' @param model A model object with IO data loaded
+#' @return A model object with Indicators added
+loadandbuildIndicators <- function(model) {
+   # Generate C matrix: LCIA indicators
+   indicators <- loadIndicators(model)
+   # Add to model object
+   model$Indicators <- indicators
+   return(model)
+}
+
 #' Load indicators and associated factors in a list based on model config.
 #' @param model A model object with IO tables and satellite tables loaded.
 #' @return A list with data.frame for indicators and data.frame for factors.
@@ -79,13 +92,4 @@ checkIndicatorforFlows <- function(factors, flows){
    }
 }
 
-#' Loads data for all model indicators as listed in model specs
-#' @param model A model object with IO data loaded
-#' @return A model object with Indicators added
-loadandbuildIndicators <- function(model) {
-   # Generate C matrix: LCIA indicators
-   indicators <- loadIndicators(model)
-   # Add to model object
-   model$Indicators <- indicators
-   return(model)
-}
+

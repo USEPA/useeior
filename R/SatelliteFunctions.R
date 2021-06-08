@@ -1,3 +1,5 @@
+# Functions to format, aggregate and otherwise wrangle satellite tables
+
 #' Load the template of standard satellite table.
 #' @return A dataframe with the columns of the standard sat table format from the IO model builder.
 getStandardSatelliteTableFormat <- function () {

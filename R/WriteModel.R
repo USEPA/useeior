@@ -1,4 +1,6 @@
-# Define what matrices to write to csv or bin.
+# Functions for exporting the model to disc
+
+#' The vector of matrices to write out
 matrices <- c("V", "U", "U_d", "A", "A_d", "B", "C", "D", "L", "L_d",
               "M", "M_d", "N", "N_d", "Rho", "Phi")
 

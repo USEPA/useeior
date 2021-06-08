@@ -1,3 +1,5 @@
+# Functions for loading input-output tables
+
 #' Prepare economic components of an EEIO model.
 #' @param model A list of model specs
 #' @return A list with EEIO model economic components.
