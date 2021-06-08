@@ -1,3 +1,5 @@
+# Functions to load margins data
+
 #' Generate Margins table using BEA Margin Details table which include all industries and final demand.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A data.frame containing CommodityCode, and margins for ProducersValue, Transportation, Wholesale, Retail and PurchasersValue.
