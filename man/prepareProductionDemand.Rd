@@ -2,7 +2,8 @@
 % Please edit documentation in R/DemandFunctions.R
 \name{prepareProductionDemand}
 \alias{prepareProductionDemand}
-\title{Prepares a demand vector representing production}
+\title{Prepares a demand vector representing production
+Formula for production vector: y_p <- y_dc + y_e + y_d_delta}
 \usage{
 prepareProductionDemand(model)
 }
@@ -14,4 +15,5 @@ a named vector with demand
 }
 \description{
 Prepares a demand vector representing production
+Formula for production vector: y_p <- y_dc + y_e + y_d_delta
 }

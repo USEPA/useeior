@@ -4,7 +4,7 @@
 \name{DemandVectorFunctionRegistry}
 \alias{DemandVectorFunctionRegistry}
 \title{Registry of functions that construct various demand vector in the form of as a named list with nested names
- as keys and function name as values}
+as keys and function name as values}
 \format{
 An object of class \code{list} of length 2.
 }
@@ -13,6 +13,6 @@ DemandVectorFunctionRegistry
 }
 \description{
 Registry of functions that construct various demand vector in the form of as a named list with nested names
- as keys and function name as values
+as keys and function name as values
 }
 \keyword{datasets}
