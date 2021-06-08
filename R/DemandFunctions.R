@@ -1,19 +1,12 @@
 # Functions for assembling final demand vectors
 
-
-#'  Registry of functions that construct various demand vector in the form of as a named list with nested names
-#'  as keys and function name as values
+#'Registry of functions that construct various demand vector in the form of as a named list with nested names
+#'as keys and function name as values
 DemandVectorFunctionRegistry <- list()
 DemandVectorFunctionRegistry$Consumption$Complete <- "prepareConsumptionDemand"
 DemandVectorFunctionRegistry$Production$Complete <- "prepareProductionDemand"
 DemandVectorFunctionRegistry$Consumption$Household <- "prepareHouseholdDemand"
 DemandVectorFunctionRegistry$Consumption$Domestic <- "prepareDomesticConsumptionDemand"
-
-#Core production and consumption demand formulas
-#y_c <-  Y_h + Y_v + Y_g 
-#y_dc <- Y_dh + Y_dv + Y_dg
-#y_p <- y_dc + y_e + y_d_delta
- 
 
 #'Sums across sectors for a given set of codes/cols in a given final demand df
 #'@param Y, a model Demand df 
@@ -30,6 +23,8 @@ sumDemandCols <- function(Y,codes) {
 }
 
 #'Sums the demand cols representing final consumption, i.e. household, investment, and government
+#'Complete national consumption formula: y_c <-  Y_h + Y_v + Y_g 
+#'Domestic portion of national consumption: y_dc <- Y_dh + Y_dv + Y_dg
 #'@param model, a model
 #'@param Y, a model Demand df.
 #'@return a named vector with model sectors and demand amounts
@@ -41,6 +36,7 @@ sumforConsumption <- function(model, Y) {
 }
 
 #'Prepares a demand vector representing production
+#'Formula for production vector: y_p <- y_dc + y_e + y_d_delta
 #'@param model, a model
 #'@return a named vector with demand
 prepareProductionDemand <- function(model) {
