@@ -89,7 +89,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   }
   
   # List model metadata
-  basedir <- file.path(rappdirs::user_data_dir(), "USEEIO", "Model_Builds", model$specs$Model)
+  basedir <- file.path(rappdirs::user_data_dir(), "useeior", "Model_Builds", model$specs$Model)
   metadata_dir <- file.path(basedir, "build", "data", model$specs$Model)
   if (!dir.exists(metadata_dir)) {
     dirs <- setWriteDirsforAPI(model, basedir)
