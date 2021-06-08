@@ -66,12 +66,11 @@ writeModelMatrices <- function(model, to_format, outputfolder) {
 #' @param model, any model object
 #' @param outputfolder A directory to write model matrices and metadata as XLSX file out to
 #' @description Writes model matrices demand vectors, and metadata as XLSX file to output folder.
-#' @return None
 #' @export
 writeModeltoXLSX <- function(model, outputfolder) {
   # List model matrices
   USEEIOtoXLSX_ls <- model[matrices]
-  # Write commodity/industry output
+  # Write commodity and industry output
   USEEIOtoXLSX_ls$q <- model$q
   USEEIOtoXLSX_ls$x <- model$x
   
@@ -88,7 +87,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
     colnames(USEEIOtoXLSX_ls[[n]])[1] <- ""
   }
   
-  # List model metadata
+  # List model metadata: demands, flows, indicators
   basedir <- file.path(rappdirs::user_data_dir(), "useeior", "Model_Builds", model$specs$Model)
   metadata_dir <- file.path(basedir, "build", "data", model$specs$Model)
   if (!dir.exists(metadata_dir)) {
@@ -96,27 +95,38 @@ writeModeltoXLSX <- function(model, outputfolder) {
     prepareWriteDirs(dirs, model)
     writeModelMetadata(model, dirs)
   }
-  for (file in list.files(path = metadata_dir, pattern = "*.csv")) {
-    df_name <- gsub(".csv", "", file)
-    USEEIOtoXLSX_ls[[df_name]] <- utils::read.table(paste(metadata_dir, file, sep = "/"),
-                                                    sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+  for (df_name in c("demands", "flows", "indicators", "sectors")) {
+    filename <- paste0(df_name, ".csv")
+    USEEIOtoXLSX_ls[[df_name]] <- utils::read.table(paste(metadata_dir, filename, sep = "/"),
+                                                    sep = ",", header = TRUE,
+                                                    stringsAsFactors = FALSE,
+                                                    check.names = FALSE)
   }
   
-  # List final demand sectors
-  final_demand_sectors <- model$FinalDemandMeta
-  final_demand_sectors$Index <- c(1:nrow(final_demand_sectors)-1)
-  final_demand_sectors$ID <- final_demand_sectors$Code_Loc
-  final_demand_sectors$Location <- model$specs$ModelRegionAcronyms
-  final_demand_sectors$Description <- ""
-  USEEIOtoXLSX_ls[["final_demand_sectors"]] <- final_demand_sectors[, colnames(USEEIOtoXLSX_ls$sectors)]
+  # List commodities/industries meta
+  sector_meta_name <- paste0(tolower(gsub("y", "ies",
+                                          model$specs$CommodityorIndustryType)),
+                             "_meta")
+  USEEIOtoXLSX_ls[[sector_meta_name]] <- USEEIOtoXLSX_ls$sectors
   
-  # List value added sectors
-  value_added_sectors <- model$ValueAddedMeta
-  value_added_sectors$Index <- c(1:nrow(value_added_sectors)-1)
-  value_added_sectors$ID <- value_added_sectors$Code_Loc
-  value_added_sectors$Location <- model$specs$ModelRegionAcronyms
-  value_added_sectors$Description <- ""
-  USEEIOtoXLSX_ls[["value_added_sectors"]] <- value_added_sectors[, colnames(USEEIOtoXLSX_ls$sectors)]
+  # List final demand meta
+  final_demand_meta <- model$FinalDemandMeta
+  final_demand_meta$Index <- c(1:nrow(final_demand_meta)-1)
+  final_demand_meta$ID <- final_demand_meta$Code_Loc
+  final_demand_meta$Location <- model$specs$ModelRegionAcronyms
+  final_demand_meta$Description <- ""
+  USEEIOtoXLSX_ls[["final_demand_meta"]] <- final_demand_meta[, colnames(USEEIOtoXLSX_ls$sectors)]
+  
+  # List value added meta
+  value_added_meta <- model$ValueAddedMeta
+  value_added_meta$Index <- c(1:nrow(value_added_meta)-1)
+  value_added_meta$ID <- value_added_meta$Code_Loc
+  value_added_meta$Location <- model$specs$ModelRegionAcronyms
+  value_added_meta$Description <- ""
+  USEEIOtoXLSX_ls[["value_added_meta"]] <- value_added_meta[, colnames(USEEIOtoXLSX_ls$sectors)]
+  
+  # Remove USEEIOtoXLSX_ls$sectors
+  USEEIOtoXLSX_ls$sectors <- NULL
   
   # List reference tables
   USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- prepareModelSectorCrosswalk(model)
