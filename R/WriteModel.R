@@ -93,6 +93,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   metadata_dir <- file.path(basedir, "build", "data", model$specs$Model)
   if (!dir.exists(metadata_dir)) {
     dirs <- setWriteDirsforAPI(model, basedir)
+    prepareWriteDirs(dirs, model)
     writeModelMetadata(model, dirs)
   }
   for (file in list.files(path = metadata_dir, pattern = "*.csv")) {
