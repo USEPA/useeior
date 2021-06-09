@@ -12,7 +12,7 @@ compareFlowTotals(modelA, modelB)
 \item{modelB}{a useeior model}
 }
 \value{
-df_confrontation, the validate::confrontation result of the flow total comparison
+comparison, a list with pass/fail comparison results
 }
 \description{
 Compare flow totals for two models
