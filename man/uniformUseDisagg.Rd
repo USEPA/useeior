@@ -10,6 +10,8 @@ uniformUseDisagg(model, disagg, domestic = FALSE)
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
 \item{disagg}{Specifications for disaggregating the current Table}
+
+\item{domestic}{boolean, indicates whether use disagg is for domestic model or full model; FALSE is default}
 }
 \value{
 A standardized use table with old sectors removed and new, uniformly disaggregated sectors added.

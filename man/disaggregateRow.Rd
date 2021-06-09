@@ -12,13 +12,13 @@ disaggregateRow(
 )
 }
 \arguments{
+\item{originalRowVector}{A dataframe containing the row to disaggregate}
+
 \item{disagg_specs}{Specifications for disaggregating the current Table}
 
 \item{duplicate}{A flag that indicates whether the disaggregated row is to be duplicated or not (e.g. for CPI values)}
 
 \item{notUniform}{A flag that indicates whether the disaggregated row is to be disaggregated in uniform manner or not}
-
-\item{OriginalRowVector}{A dataframe containing the row to disaggregate}
 }
 \value{
 A dataframe with the original row disaggregated.

@@ -613,6 +613,7 @@ uniformMakeDisagg <- function (model, disagg){
 #' Disaggregate use table uniformly based on the number of new sectors
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
+#' @param domestic boolean, indicates whether use disagg is for domestic model or full model; FALSE is default
 #' @return A standardized use table with old sectors removed and new, uniformly disaggregated sectors added.
 uniformUseDisagg <- function(model, disagg, domestic = FALSE){
   
@@ -759,7 +760,7 @@ disaggregateCols <- function (ColVectors, disagg_specs, duplicate=FALSE, notUnif
 
 
 #' Disaggregate a single row from a table.
-#' @param OriginalRowVector A dataframe containing the row to disaggregate
+#' @param originalRowVector A dataframe containing the row to disaggregate
 #' @param disagg_specs Specifications for disaggregating the current Table
 #' @param duplicate A flag that indicates whether the disaggregated row is to be duplicated or not (e.g. for CPI values)
 #' @param notUniform A flag that indicates whether the disaggregated row is to be disaggregated in uniform manner or not
@@ -796,7 +797,7 @@ disaggregateRow <- function (originalRowVector, disagg_specs, duplicate = FALSE,
 
 
 #' Disaggregate a single column from a table.
-#' @param OriginalColVector A dataframe containing the column to disaggregate
+#' @param originalColVector A dataframe containing the column to disaggregate
 #' @param disagg_specs Specifications for disaggregating the current Table
 #' @param duplicate A flag that indicates whether the disaggregated columns are to be duplicated or not (e.g. for CPI values)
 #' @param notUniform A flag that indicates whether the disaggregated columns are to be disaggregated in uniform manner or not

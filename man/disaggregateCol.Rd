@@ -12,13 +12,13 @@ disaggregateCol(
 )
 }
 \arguments{
+\item{originalColVector}{A dataframe containing the column to disaggregate}
+
 \item{disagg_specs}{Specifications for disaggregating the current Table}
 
 \item{duplicate}{A flag that indicates whether the disaggregated columns are to be duplicated or not (e.g. for CPI values)}
 
 \item{notUniform}{A flag that indicates whether the disaggregated columns are to be disaggregated in uniform manner or not}
-
-\item{OriginalColVector}{A dataframe containing the column to disaggregate}
 }
 \value{
 A dataframe with the original column disaggregated.
