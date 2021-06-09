@@ -93,14 +93,15 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 #'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
-  p <- model$CommodityOutput
-  x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_US_Production_Complete"]]
+  q <- model$q
+  x <- rowSums(model$U_d[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
+    model$DemandVectors$vectors[["2012_US_Production_Complete"]]
   
   #Row names should be identical
-  identical(names(p), names(x))
+  identical(names(q), names(x))
   
   # Calculate relative differences
-  rel_diff <- (p - x)/p
+  rel_diff <- (q - x)/q
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
@@ -120,9 +121,8 @@ compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- func
   industryCPI_ratio <- model$MultiYearIndustryCPI[, "2017"]/model$MultiYearIndustryCPI[, "2012"]
   industryCPI_ratio[is.na(industryCPI_ratio)] <- 1
   
-  q <- model$CommodityOutput * commodityCPI_ratio
-  CommodityMix <- generateCommodityMixMatrix(model)
-  x <- as.numeric(CommodityMix %*% (model$IndustryOutput * industryCPI_ratio))
+  q <- model$q * commodityCPI_ratio
+  x <- as.numeric(model$C_m %*% (model$x * industryCPI_ratio))
   
   # Calculate relative differences
   rel_diff <- (q - x)/x
@@ -178,8 +178,9 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
 #' @param model, a built model object
 compareIndustryOutputinMakeandUse <- function(model) {
   # Calculate Industry Output (x) from Make and Use tables
-  x_make <-rowSums(model$MakeTransactions)
-  x_use <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+  x_make <-rowSums(model$V)
+  x_use <- colSums(model$U[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
+    colSums(model$U[model$ValueAddedMeta$Code_Loc, model$Industries$Code_Loc])
   # Sort x_make and x_use to have the same industry order (default model$Industries)
   x_make <- x_make[order(model$Industries$Code_Loc)]
   x_use <- x_use[order(model$Industries$Code_Loc)]

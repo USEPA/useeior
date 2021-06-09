@@ -200,7 +200,7 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
   p <- ggplot(df, aes(x = factor(FlowType, levels = sort(unique(FlowType))),
                       y = factor(Sector, levels = rev(unique(Sector))),
                       alpha = Value, fill = SectorName)) + 
-    geom_tile(color = "white", size = 0.1) + guides(alpha = FALSE) +
+    geom_tile(color = "white", size = 0.1) + guides(alpha = "none") +
     scale_fill_manual(values = colors) +
     labs(x = "", y = "") +
     scale_x_discrete(expand = c(0, 0), position = "top") +
