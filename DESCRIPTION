@@ -33,7 +33,6 @@ Imports:
     stringr (>= 1.4),
     usethis (>= 1.5),
     utils (>= 3.6.1),
-    validate (>= 1.0),
     writexl (>= 1.2)
 Depends:
   R (>= 3.6)
