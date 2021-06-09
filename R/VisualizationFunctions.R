@@ -113,11 +113,11 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
 #' Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level to compare scores across models
 #' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
-#' @param indicator_code The code of the indicator of interest from the model$Indicators
+#' @param indicator_name The name of the indicator of interest from the model$Indicators$factors
 #' @param sector Can be logical value or text. If non-boolean, it must be code of one or more BEA sectors.
 #' @param y_title The title of y axis, excluding unit.
 #' @export
-barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code, sector, y_title) {
+barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_name, sector, y_title) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
   # Create totals_by_sector dfs with indicator scores added and combine in a single df
@@ -125,10 +125,10 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
   for (modelname in names(model_list)) {
     model <- model_list[[modelname]]
     # Calculate Indicator Scores
-    df_model <- calculateIndicatorScoresforTotalsBySector(model, totals_by_sector_name, indicator_code)
+    df_model <- calculateIndicatorScoresforTotalsBySector(model, totals_by_sector_name, indicator_name)
     Unit <- unique(df_model$Unit)
-    df_cols_to_keep <- c("Flowable", "Context", "Unit", "Sector", "Code", "IndicatorScore")
-    df_model <- df_model[,df_cols_to_keep]
+    keep_cols <- c("Flowable", "Context", "Unit", "Sector", "IndicatorScore")
+    df_model <- df_model[, keep_cols]
     # Assign sector name and colors
     df_model <- merge(df_model, mapping, by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel,"Code"))
     # Aggregate 

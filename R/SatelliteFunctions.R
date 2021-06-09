@@ -155,13 +155,13 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
 #' Adds an indicator score to a totals by sector table. A short cut alternative to getting totals before model result
 #' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
-#' @param indicator_code The code of the indicator of interest from the model$Indicators
+#' @param indicator_name The name of the indicator of interest from the model$Indicators$factors
 #' @return a totals_by_sector table with fields from the Indicator table "Code" and "Amount", and calculated "IndicatorScore" added
-calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_name, indicator_code) {
+calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_name, indicator_name) {
   # Define indicator variables
-  indicator_vars <- c("Flowable", "Context", "Unit", "Amount", "Code")
+  indicator_vars <- c("Flowable", "Context", "Unit", "Amount")
   # Extract flows_in_indicator and totals_by_sector from model
-  flows_in_indicator <- model$Indicators[model$Indicators["Code"]==indicator_code, indicator_vars]
+  flows_in_indicator <- model$Indicators$factors[model$Indicators$factors$Indicator==indicator_name, indicator_vars]
   totals_by_sector <-  model$SatelliteTables$totals_by_sector[[totals_by_sector_name]]
   # Mergeflows_in_indicator and totals_by_sector and calculate IndicatorScore
   df <- merge(totals_by_sector, flows_in_indicator, by = c("Flowable", "Context", "Unit")) 
