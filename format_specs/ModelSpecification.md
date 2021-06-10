@@ -1,4 +1,4 @@
-# Model Specifications
+# Model Specification
 Model specifications are assigned in a yml file based on the parameters shown below
 
 | Item | Type | Required? | Description |
@@ -13,7 +13,7 @@ Model specifications are assigned in a yml file based on the parameters shown be
 | ModelSource | str | Y | The model source |
 | BasePriceType | str | Y | The model base price type (producer or purchaser) |
 | BasewithRedefinitions | bool | Y | Whether the model is based with redefinitions (TRUE or FALSE) |
-| CommoditybyIndustryType | str | Y | The model commodity by industry type (`Commodity` or `Industry`) |
+| CommodityorIndustryType | str | Y | Define if this is a commodity x commodity (`Commodity`) or industry x industry (`Industry`) model |
 | ScrapIncluded | bool | Y | Whether the model includes scrap (TRUE or FALSE) |
 | DisaggregationSpecs | str | N | The [disaggregation specifications](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
 | SatelliteTable | list |  | The [satellite table specifications](#Satellite-Table-Specifications) |

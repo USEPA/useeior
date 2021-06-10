@@ -14,6 +14,6 @@ A dataframe with 73 obs. and 2 variables
 Summary_IndustryCodeName_2012
 }
 \description{
-TBD
+Summary Industry Code and Name (2012 schema)
 }
 \keyword{datasets}

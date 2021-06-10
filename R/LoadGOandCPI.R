@@ -1,3 +1,5 @@
+# Functions for loading gross output and chain-type price indices
+
 #' Load US Gross Output table based on model specifications.
 #' @param specs Specifications of the model.
 #' @return A data.frame of US Gross Output.

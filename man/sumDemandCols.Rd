@@ -2,7 +2,7 @@
 % Please edit documentation in R/DemandFunctions.R
 \name{sumDemandCols}
 \alias{sumDemandCols}
-\title{Sums across sectors for a given set of BEA codes/cols in a given final demand df}
+\title{Sums across sectors for a given set of codes/cols in a given final demand df}
 \usage{
 sumDemandCols(Y, codes)
 }
@@ -15,5 +15,5 @@ sumDemandCols(Y, codes)
 a named vector with model sectors and demand amounts
 }
 \description{
-Sums across sectors for a given set of BEA codes/cols in a given final demand df
+Sums across sectors for a given set of codes/cols in a given final demand df
 }

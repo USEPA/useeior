@@ -14,6 +14,6 @@ A dataframe with 27 obs. and 28 variables
 Sector_Use_2017_PRO_BeforeRedef
 }
 \description{
-TBD
+Sector 2017 Use Producer's Value Before Redefinition (2012 schema)
 }
 \keyword{datasets}

@@ -14,6 +14,6 @@ A dataframe with 405 obs. and 2 variables
 Detail_IndustryCodeName_2012
 }
 \description{
-TBD
+Detail Industry Code and Name (2012 schema)
 }
 \keyword{datasets}

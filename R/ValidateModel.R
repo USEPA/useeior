@@ -1,5 +1,4 @@
-#ValidateModel.R
-
+# Validation functions
 
 #'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built
@@ -11,11 +10,11 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
   if (use_domestic) {
-    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
@@ -33,7 +32,7 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   E <- prepareEfromtbs(model)
   E <- as.matrix(E[rownames(B), colnames(B)])
   
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
+  if (model$specs$CommodityorIndustryType=="Commodity") {
     #transform E with commodity mix to put in commodity form
     E <-  t(model$C_m %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
@@ -61,16 +60,16 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 #'@export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   if (use_domestic) {
-    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandSectors$Code_Loc]
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
     y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
   
-  if(model$specs$CommoditybyIndustryType == "Commodity") {
+  if(model$specs$CommodityorIndustryType == "Commodity") {
     #determine if output to compare is commodity or industry
     x <- model$q
   } else {
@@ -94,14 +93,15 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 #'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
-  p <- model$CommodityOutput
-  x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_US_Production_Complete"]]
+  q <- model$q
+  x <- rowSums(model$U_d[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
+    model$DemandVectors$vectors[["2012_US_Production_Complete"]]
   
   #Row names should be identical
-  identical(names(p), names(x))
+  identical(names(q), names(x))
   
   # Calculate relative differences
-  rel_diff <- (p - x)/p
+  rel_diff <- (q - x)/q
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
@@ -121,9 +121,8 @@ compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- func
   industryCPI_ratio <- model$MultiYearIndustryCPI[, "2017"]/model$MultiYearIndustryCPI[, "2012"]
   industryCPI_ratio[is.na(industryCPI_ratio)] <- 1
   
-  q <- model$CommodityOutput * commodityCPI_ratio
-  CommodityMix <- generateCommodityMixMatrix(model)
-  x <- as.numeric(CommodityMix %*% (model$IndustryOutput * industryCPI_ratio))
+  q <- model$q * commodityCPI_ratio
+  x <- as.numeric(model$C_m %*% (model$x * industryCPI_ratio))
   
   # Calculate relative differences
   rel_diff <- (q - x)/x
@@ -179,8 +178,9 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
 #' @param model, a built model object
 compareIndustryOutputinMakeandUse <- function(model) {
   # Calculate Industry Output (x) from Make and Use tables
-  x_make <-rowSums(model$MakeTransactions)
-  x_use <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+  x_make <-rowSums(model$V)
+  x_use <- colSums(model$U[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
+    colSums(model$U[model$ValueAddedMeta$Code_Loc, model$Industries$Code_Loc])
   # Sort x_make and x_use to have the same industry order (default model$Industries)
   x_make <- x_make[order(model$Industries$Code_Loc)]
   x_use <- x_use[order(model$Industries$Code_Loc)]

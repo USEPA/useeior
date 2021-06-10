@@ -15,7 +15,6 @@ buildModel <- function(modelname) {
 #' Construct EEIO matrices based on loaded IO tables, built satellite tables,
 #' and indicator tables.
 #' @param model Model file loaded with IO tables, satellite tables, and indicator tables.
-#' @export
 #' @return A list with EEIO matrices..
 constructEEIOMatrices <- function(model) {
   if(model$specs$ModelRegionAcronyms!="US"){
@@ -33,7 +32,7 @@ constructEEIOMatrices <- function(model) {
   model$V <- as.matrix(model$MakeTransactions) # Make
   model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
   model$V_n <- generateMarketSharesfromMake(model) # normalized Make
-  if (model$specs$CommoditybyIndustryType=="Industry") {
+  if (model$specs$CommodityorIndustryType=="Industry") {
     FinalDemand_df <- model$FinalDemandbyCommodity
     DomesticFinalDemand_df <- model$DomesticFinalDemandbyCommodity
   } else {
@@ -53,12 +52,12 @@ constructEEIOMatrices <- function(model) {
   model$W <- as.matrix(model$UseValueAdded)
   model$q <- model$CommodityOutput
   model$x <- model$IndustryOutput
-  if(model$specs$CommoditybyIndustryType == "Commodity") {
+  if(model$specs$CommodityorIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements)...")
     model$A <- model$U_n %*% model$V_n
     logging::loginfo("Building commodity-by-commodity A_d matrix (domestic direct requirements)...")
     model$A_d <- model$U_d_n %*% model$V_n
-  } else if(model$specs$CommoditybyIndustryType == "Industry") {
+  } else if(model$specs$CommodityorIndustryType == "Industry") {
     logging::loginfo("Building industry-by-industry A matrix (direct requirements)...")
     model$A <- model$V_n %*% model$U_n
     logging::loginfo("Building industry-by-industry A_d matrix (domestic direct requirements)...")
@@ -113,7 +112,7 @@ constructEEIOMatrices <- function(model) {
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand","CommodityOutput", "IndustryOutput",
                      "U_n","U_d_n","W")
-  if (model$specs$CommoditybyIndustryType=="Industry") {
+  if (model$specs$CommodityorIndustryType=="Industry") {
     mat_to_remove <- append(mat_to_remove,c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity"))
   }
   model <- within(model, rm(list=mat_to_remove))
@@ -130,11 +129,10 @@ createBfromFlowDataandOutput <- function(model) {
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
-  if(model$specs$CommoditybyIndustryType == "Commodity") {
+  if(model$specs$CommodityorIndustryType == "Commodity") {
     B <- B %*% model$V_n
     colnames(B) <- model$Commodities$Code_Loc
   }
-  #rownames(B) <- tolower(rownames(B))
   return(B)
 }
 
@@ -163,7 +161,6 @@ generateCbSfromTbSandModel <- function(model) {
       }
       CbS <- rbind(CbS,cbs_r)
     }
-
   return(CbS)
 }
 
@@ -201,7 +198,6 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
   
   C <- reshape2::dcast(factors, Indicator ~ Flow, value.var = "Amount")
   rownames(C) <- C$Indicator
-  #colnames(C) <- tolower(colnames(C))
   # Get flows in B not in C and add to C
   flows_inBnotC <- setdiff(B_flows, colnames(C))
   C[, flows_inBnotC] <- 0

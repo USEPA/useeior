@@ -39,7 +39,7 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     df_model <- rbind(matrix, df_model)
     df_model <- merge(df_model, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
                       by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"))
-    if (model$specs$CommoditybyIndustryType=="Commodity") {
+    if (model$specs$CommodityorIndustryType=="Commodity") {
       SectorName <- model$Commodities[, c("Code", "Name")]
     } else {
       SectorName <- model$Industries[, c("Code", "Name")]
@@ -113,11 +113,11 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
 #' Bar plot of indicator scores calculated from totals by sector and displayed by BEA Sector Level to compare scores across models
 #' @param model_list List of EEIO models with IOdata, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
-#' @param indicator_code The code of the indicator of interest from the model$Indicators
+#' @param indicator_name The name of the indicator of interest from the model$Indicators$factors
 #' @param sector Can be logical value or text. If non-boolean, it must be code of one or more BEA sectors.
 #' @param y_title The title of y axis, excluding unit.
 #' @export
-barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_code, sector, y_title) {
+barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, indicator_name, sector, y_title) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
   # Create totals_by_sector dfs with indicator scores added and combine in a single df
@@ -125,10 +125,10 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
   for (modelname in names(model_list)) {
     model <- model_list[[modelname]]
     # Calculate Indicator Scores
-    df_model <- calculateIndicatorScoresforTotalsBySector(model, totals_by_sector_name, indicator_code)
+    df_model <- calculateIndicatorScoresforTotalsBySector(model, totals_by_sector_name, indicator_name)
     Unit <- unique(df_model$Unit)
-    df_cols_to_keep <- c("Flowable", "Context", "Unit", "Sector", "Code", "IndicatorScore")
-    df_model <- df_model[,df_cols_to_keep]
+    keep_cols <- c("Flowable", "Context", "Unit", "Sector", "IndicatorScore")
+    df_model <- df_model[, keep_cols]
     # Assign sector name and colors
     df_model <- merge(df_model, mapping, by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel,"Code"))
     # Aggregate 
@@ -175,7 +175,7 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
   for (n in names(model$SatelliteTables$totals_by_sector)) {
     # Aggregate totals_by_sector by Industry
     df_n <- stats::aggregate(FlowAmount ~ Sector, model$SatelliteTables$totals_by_sector[[n]], sum)
-    if (model$specs$CommoditybyIndustryType=="Commodity" && form=="Commodity") {
+    if (model$specs$CommodityorIndustryType=="Commodity" && form=="Commodity") {
       # Convert from Industry to Commodity
       df_n <- merge(df_n, model$Industries, by.x = "Sector", by.y = "Code", all.y = TRUE)
       df_n <- df_n[match(model$Industries$Code, df_n$Sector), ]
@@ -200,7 +200,7 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
   p <- ggplot(df, aes(x = factor(FlowType, levels = sort(unique(FlowType))),
                       y = factor(Sector, levels = rev(unique(Sector))),
                       alpha = Value, fill = SectorName)) + 
-    geom_tile(color = "white", size = 0.1) + guides(alpha = FALSE) +
+    geom_tile(color = "white", size = 0.1) + guides(alpha = "none") +
     scale_fill_manual(values = colors) +
     labs(x = "", y = "") +
     scale_x_discrete(expand = c(0, 0), position = "top") +
@@ -235,7 +235,7 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
   df$Sector <- toupper(gsub("/.*", "", rownames(df)))
   df <- merge(df, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
               by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"), all.x = TRUE)
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
+  if (model$specs$CommodityorIndustryType=="Commodity") {
     SectorName <- model$Commodities[, c("Code", "Name")]
   } else {
     SectorName <- model$Industries[, c("Code", "Name")]
@@ -284,7 +284,7 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
 #' @param y_title The title of y axis, excluding unit.
 #' @return a ggplot bar chart with horizontal orientation
 #' @export
-barplot_fraction_Region <- function(R1_calc_result, Total_calc_result, y_title) {
+barplotFloworImpactFractionbyRegion <- function(R1_calc_result, Total_calc_result, y_title) {
   rel_diff <- as.data.frame(colSums(R1_calc_result)/colSums(Total_calc_result))
   colnames(rel_diff) <- y_title
   rel_diff[["Indicator"]] <- rownames(rel_diff)

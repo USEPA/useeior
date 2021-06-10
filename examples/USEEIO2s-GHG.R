@@ -8,8 +8,8 @@ library(useeior)
 # explanation of model names can be found at https://github.com/USEPA/USEEIO/blob/master/VersioningScheme.md
 seeAvailableModels()
 
-# Build USEEIO v2.0
-model <- buildModel("USEEIOv2.0")
+# Build USEEIO v2.0-GHG
+model <- buildModel("USEEIOv2.0s-GHG")
 
 # Calculate direct perspective life cycle inventory (LCI) result and life cycle impact assessment (LCIA) 
 # result using total US production

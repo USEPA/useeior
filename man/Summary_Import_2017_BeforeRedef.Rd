@@ -14,6 +14,6 @@ A dataframe with 73 obs. and 93 variables
 Summary_Import_2017_BeforeRedef
 }
 \description{
-TBD
+Summary 2017 Import Before Redefinition (2012 schema)
 }
 \keyword{datasets}

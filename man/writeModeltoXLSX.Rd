@@ -11,9 +11,6 @@ writeModeltoXLSX(model, outputfolder)
 
 \item{outputfolder}{A directory to write model matrices and metadata as XLSX file out to}
 }
-\value{
-None
-}
 \description{
 Writes model matrices demand vectors, and metadata as XLSX file to output folder.
 }

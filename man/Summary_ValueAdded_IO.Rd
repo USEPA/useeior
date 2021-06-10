@@ -14,6 +14,6 @@ A dataframe with 71 obs. and 12 variables
 Summary_ValueAdded_IO
 }
 \description{
-TBD
+Summary 2007-2018 Value Added (2012 schema)
 }
 \keyword{datasets}

@@ -14,6 +14,6 @@ A dataframe with 3 obs. and 2 variables
 Detail_ValueAddedCodeName_2012
 }
 \description{
-TBD
+Detail Value Added Code and Name (2012 schema)
 }
 \keyword{datasets}

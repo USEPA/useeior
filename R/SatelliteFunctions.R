@@ -1,3 +1,5 @@
+# Functions to format, aggregate and otherwise wrangle satellite tables
+
 #' Load the template of standard satellite table.
 #' @return A dataframe with the columns of the standard sat table format from the IO model builder.
 getStandardSatelliteTableFormat <- function () {
@@ -153,13 +155,13 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
 #' Adds an indicator score to a totals by sector table. A short cut alternative to getting totals before model result
 #' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
-#' @param indicator_code The code of the indicator of interest from the model$Indicators
+#' @param indicator_name The name of the indicator of interest from the model$Indicators$factors
 #' @return a totals_by_sector table with fields from the Indicator table "Code" and "Amount", and calculated "IndicatorScore" added
-calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_name, indicator_code) {
+calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_name, indicator_name) {
   # Define indicator variables
-  indicator_vars <- c("Flowable", "Context", "Unit", "Amount", "Code")
+  indicator_vars <- c("Flowable", "Context", "Unit", "Amount")
   # Extract flows_in_indicator and totals_by_sector from model
-  flows_in_indicator <- model$Indicators[model$Indicators["Code"]==indicator_code, indicator_vars]
+  flows_in_indicator <- model$Indicators$factors[model$Indicators$factors$Indicator==indicator_name, indicator_vars]
   totals_by_sector <-  model$SatelliteTables$totals_by_sector[[totals_by_sector_name]]
   # Mergeflows_in_indicator and totals_by_sector and calculate IndicatorScore
   df <- merge(totals_by_sector, flows_in_indicator, by = c("Flowable", "Context", "Unit")) 
@@ -172,7 +174,7 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
 #' @return A value-added totals_by_sector table with fields of standard totals_by_sector
 getValueAddedTotalsbySector <- function(model) {
   # Extract ValueAdded from Use table, add names
-  df <- merge(model$UseValueAdded, model$ValueAddedSectors[, c("Code_Loc", "Name")],
+  df <- merge(model$UseValueAdded, model$ValueAddedMeta[, c("Code_Loc", "Name")],
               by.x = 0, by.y = "Code_Loc")
   df[, c("Row.names", "Code_Loc")] <- NULL
   # Convert to standard totals_by_sector format

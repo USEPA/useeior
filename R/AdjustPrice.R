@@ -31,9 +31,9 @@ adjustResultMatrixPrice <- function(matrix_name, currency_year, purchaser_price=
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A data.frame of year by model IO year price ratio.
 calculateYearbyModelIOYearPriceRatio <- function(model) {
-  CPI_df <- model[[paste0("MultiYear", model$specs$CommoditybyIndustryType, "CPI")]]
-  CPI_ratio <- CPI_df/CPI_df[, as.character(model$specs$IOYear)]
-  return(CPI_ratio)
+  CPI_df <- model[[paste0("MultiYear", model$specs$CommodityorIndustryType, "CPI")]]
+  CPI_ratio_matrix <- as.matrix(CPI_df/CPI_df[, as.character(model$specs$IOYear)])
+  return(CPI_ratio_matrix)
 }
 
 #' Calculate producer to purchaser price ratio.
@@ -46,8 +46,7 @@ calculateProducerbyPurchaserPriceRatio <- function(model) {
   # Prepare ratio table PHI
   PHI <- model$Rho
   for (year in colnames(model$Rho)) {
-    # Because year of model$FinalConsumerMargins is model$specs$BaseIOSchema
-    # Adjust ProducersValue from model$specs$BaseIOSchema to currency year using model$Rho
+    # Adjust ProducersValue from model$specs$IOyear to currency year using model$Rho
     ProducersValue <- Margins$ProducersValue * (Margins[, year]/Margins[, as.character(model$specs$BaseIOSchema)])
     # Adjust Transportation, Wholesale and Retail using corresponding CPI_ratio
     TWR_CPI <- useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), ]
@@ -68,7 +67,6 @@ calculateProducerbyPurchaserPriceRatio <- function(model) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A matrix representing the multiplier that is adjusted to currency year price.
 adjustMultiplierPriceYear <- function(matrix_name, currency_year, model) {
-  #price_adjusted_result <- list()
   CPI_ratio <- model$Rho[, as.character(currency_year)]
   # Apply the adjustment in each row of the matrix
   matrix <- model[[matrix_name]] %*% diag(CPI_ratio)

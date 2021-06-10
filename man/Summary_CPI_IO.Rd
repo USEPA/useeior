@@ -14,6 +14,6 @@ A dataframe with 71 obs. and 17 variables
 Summary_CPI_IO
 }
 \description{
-TBD
+Summary 2007-2018 CPI (2012 schema)
 }
 \keyword{datasets}

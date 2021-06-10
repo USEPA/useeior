@@ -14,6 +14,6 @@ A dataframe with 72 obs. and 74 variables
 Summary_Make_2012_AfterRedef
 }
 \description{
-TBD
+Summary 2012 Make After Redefinition (2012 schema)
 }
 \keyword{datasets}

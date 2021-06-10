@@ -1,4 +1,4 @@
-Model: "USEEIOv2.0s-GHG_nodisagg"
+Model: "USEEIOv2.0s-GHG"
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2012 # Year for IO data
@@ -7,9 +7,9 @@ ModelType: "EEIO"
 IODataSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
-CommoditybyIndustryType: "Commodity"
+CommodityorIndustryType: "Commodity"
 ScrapIncluded: FALSE
-DisaggregationSpecs: null
+DisaggregationSpecs: "WasteDisaggregationSummary"
 
 SatelliteTable:
   GHG:
