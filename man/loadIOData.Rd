@@ -2,16 +2,16 @@
 % Please edit documentation in R/LoadIOTables.R
 \name{loadIOData}
 \alias{loadIOData}
-\title{Prepare economic components of an EEIO model.}
+\title{Prepare economic components of an EEIO form USEEIO model.}
 \usage{
 loadIOData(model)
 }
 \arguments{
-\item{model}{A list of model specs}
+\item{model}{A model object with model specs loaded.}
 }
 \value{
-A list with EEIO model economic components.
+A list with USEEIO model economic components.
 }
 \description{
-Prepare economic components of an EEIO model.
+Prepare economic components of an EEIO form USEEIO model.
 }
