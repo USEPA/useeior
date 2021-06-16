@@ -174,7 +174,7 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
 #' @return A value-added totals_by_sector table with fields of standard totals_by_sector
 getValueAddedTotalsbySector <- function(model) {
   # Extract ValueAdded from Use table, add names
-  df <- merge(model$UseValueAdded, model$ValueAddedMeta[, c("Code_Loc", "Name")],
+  df <- merge(model$ValueAdded, model$ValueAddedMeta[, c("Code_Loc", "Name")],
               by.x = 0, by.y = "Code_Loc")
   df[, c("Row.names", "Code_Loc")] <- NULL
   # Convert to standard totals_by_sector format

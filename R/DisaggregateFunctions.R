@@ -48,7 +48,7 @@ disaggregateModel <- function (model){
     model$UseTransactions <- disaggregateUseTable(model)
     model$MakeTransactions <- disaggregateMakeTable(model)
     model$FinalDemand <- disaggregateFinalDemand(model, domestic = FALSE)
-    model$UseValueAdded <- disaggregateVA(model)
+    model$ValueAdded <- disaggregateVA(model)
     model$DomesticFinalDemand <- disaggregateFinalDemand(model, domestic = TRUE)
     model$DomesticUseTransactions <- disaggregateUseTable(model, domestic = TRUE)
     
@@ -94,7 +94,7 @@ disaggregateOutputs <- function(model)
   }
   if(!is.null(model$IndustryOutput))
   {
-    model$IndustryOutput <- colSums(model$UseTransactions)+colSums(model$UseValueAdded)
+    model$IndustryOutput <- colSums(model$UseTransactions)+colSums(model$ValueAdded)
   }
 
   return(model)
@@ -151,7 +151,7 @@ disaggregatedRatios <- function(model, disagg, output_type = "Commodity")
     disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
     
     #calculate industry ratios after disaggregation from Use table
-    disaggRatios <- colSums(model$UseTransactions[,disaggUseStartIndex:disaggUseEndIndex]) + colSums(model$UseValueAdded[,disaggUseStartIndex:disaggUseEndIndex])
+    disaggRatios <- colSums(model$UseTransactions[,disaggUseStartIndex:disaggUseEndIndex]) + colSums(model$ValueAdded[,disaggUseStartIndex:disaggUseEndIndex])
     disaggRatios <- disaggRatios / sum(disaggRatios)
     
     
@@ -478,13 +478,13 @@ disaggregateVA <- function(model)
     
     if(disaggType == "Predefined"){
       
-      disaggTable <- disaggregateRows(model$UseValueAdded, disagg, duplicate = FALSE, notUniform = FALSE)
+      disaggTable <- disaggregateRows(model$ValueAdded, disagg, duplicate = FALSE, notUniform = FALSE)
 
       
     } else if(disaggType == "Userdefined"){
       
       #Row names in value added
-      VARowNames <- rownames(model$UseValueAdded)
+      VARowNames <- rownames(model$ValueAdded)
       #Allocation for FD demand sectors
       VAPercentages <- subset(disagg$UseFileDF, CommodityCode %in% VARowNames)#if VA codenames are in the CommodityCode Column of the csv.
       #Assigning allocations for FD
@@ -493,23 +493,23 @@ disaggregateVA <- function(model)
       ####assembling disaggregated VA
 
       #Determine number of commodities and industries in originalFD
-      nCommodities <- nrow(model$UseValueAdded)
-      nIndustries <- ncol(model$UseValueAdded)
+      nCommodities <- nrow(model$ValueAdded)
+      nIndustries <- ncol(model$ValueAdded)
 
       #Deterine number of commodities and industries in DisaggSpecs
       numNewSectors <- length(disagg$DisaggregatedSectorCodes)
 
       #Determine commodity and industry indeces corresponding to the original sector code
-      #originalRowIndex <- which(rownames(model$UseValueAdded)==disagg$OriginalSectorCode)
-      originalColIndex <- which(colnames(model$UseValueAdded)==disagg$OriginalSectorCode)
+      #originalRowIndex <- which(rownames(model$ValueAdded)==disagg$OriginalSectorCode)
+      originalColIndex <- which(colnames(model$ValueAdded)==disagg$OriginalSectorCode)
 
       #Determine end index of disaggregated sectors
       #endRowIndex <- originalRowIndex + numNewSectors
       endColIndex <- originalColIndex + numNewSectors
 
       
-      tablePartOne <- model$UseValueAdded[, 1:originalColIndex-1]#all rows, columns to the left of diagg col
-      tablePartTwo <- model$UseValueAdded[,-(1:originalColIndex)]#all rows, all columns except cols to left of disagg col
+      tablePartOne <- model$ValueAdded[, 1:originalColIndex-1]#all rows, columns to the left of diagg col
+      tablePartTwo <- model$ValueAdded[,-(1:originalColIndex)]#all rows, all columns except cols to left of disagg col
       
       disaggTable <- cbind(tablePartOne, AllocVADF, tablePartTwo)
 
@@ -978,7 +978,7 @@ specifiedUseDisagg <- function (model, disagg, domestic = FALSE){
     UseAllocations <- disagg$UseFileDF
     #Column names in Final Demand
     fdColNames <- colnames(model$FinalDemand)
-    VARowNames <- rownames(model$UseValueAdded)
+    VARowNames <- rownames(model$ValueAdded)
 
     ###Disaggregate Make Rows, Columns, and Intersection while using the allocation data extracted from the Disaggregation.csv
     
@@ -1358,7 +1358,7 @@ disaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
     }
     else
     {
-      originalTable <- model$UseValueAdded
+      originalTable <- model$ValueAdded
     }
     
 
@@ -1654,7 +1654,7 @@ balanceDisagg <- function(model, disagg){
     targetIndTotals <- rbind(targetIndTotals, FDIndTotals)
     
     targetComTotals <- data.frame(colSums(model$MakeTransactions))
-    VAComTotals <- data.frame(rowSums(model$UseValueAdded))
+    VAComTotals <- data.frame(rowSums(model$ValueAdded))
     colnames(VAComTotals) <- colnames(targetComTotals) #needed for rbind step
     targetComTotals <- rbind(targetComTotals, VAComTotals)
     
@@ -1678,7 +1678,7 @@ balanceDisagg <- function(model, disagg){
 
   model$UseTransactions <- balancedDisaggFullUse[1:nrow(model$UseTransactions), 1:ncol(model$UseTransactions)]
   model$FinalDemand <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
-  model$UseValueAdded <- balancedDisaggFullUse[-(1:nrow(model$UseTransactions)),1:ncol(model$UseTransactions)]
+  model$ValueAdded <- balancedDisaggFullUse[-(1:nrow(model$UseTransactions)),1:ncol(model$UseTransactions)]
   
 
  
@@ -1692,11 +1692,11 @@ balanceDisagg <- function(model, disagg){
 #' @return dataframe representing a use table that includes the Use transactions, Use value added, and final demand sectors 
 buildDisaggFullUse <- function(model, disagg){
   
-  disaggFullUse <- rbind(model$UseTransactions, model$UseValueAdded)
+  disaggFullUse <- rbind(model$UseTransactions, model$ValueAdded)
   
-  tempVA <- matrix(0, nrow(model$UseValueAdded), ncol(model$FinalDemand))
+  tempVA <- matrix(0, nrow(model$ValueAdded), ncol(model$FinalDemand))
   colnames(tempVA) <- colnames(model$FinalDemand)
-  rownames(tempVA) <- rownames(model$UseValueAdded)
+  rownames(tempVA) <- rownames(model$ValueAdded)
   fullFD <- rbind(model$FinalDemand, tempVA)
   
   disaggFullUse <- cbind(disaggFullUse, fullFD)
