@@ -83,14 +83,12 @@ loadSatTables <- function(model) {
 
 #' Loads data for all satellite tables as lists in model specs
 #' @param model A model object with IO data loaded
-#' @return A model object with Satellite tables added 
-#' @export
+#' @return A model object with Satellite tables added
 loadandbuildSatelliteTables <- function(model) {
   # Generate satellite tables
   model$SatelliteTables <- loadSatTables(model)
   return(model)
 }
-
 
 #'Reads a satellite table specification and generates a totals-by-sector table
 #'@param sat_spec, a standard specification for a single satellite table

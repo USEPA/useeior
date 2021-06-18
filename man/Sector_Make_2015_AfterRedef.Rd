@@ -14,6 +14,6 @@ A dataframe with 16 obs. and 18 variables
 Sector_Make_2015_AfterRedef
 }
 \description{
-TBD
+Sector 2015 Make After Redefinition (2012 schema)
 }
 \keyword{datasets}

@@ -14,6 +14,6 @@ A dataframe with 27 obs. and 28 variables
 Sector_Use_2012_PUR_BeforeRedef
 }
 \description{
-TBD
+Sector 2012 Use Purchaser's Value Before Redefinition (2012 schema)
 }
 \keyword{datasets}

@@ -1,7 +1,6 @@
 #' Adds demand vectors and metadata based on model specs to model object
 #' @param model A model list object with the specs object listed
 #' @return model with a list of demand vectors and a meta file
-#' @export
 loadDemandVectors <- function(model) {
   logging::loginfo("Loading demand vectors from model spec...")
   model$DemandVectors <- list()
@@ -17,9 +16,9 @@ loadDemandVectors <- function(model) {
     meta <- rbind(meta,data.frame(i, stringsAsFactors = FALSE) )
 
     #Check if the demand is registered
-    if (!is.null(dem_vec_fxn_registry[[i$Type]][[i$System]])) {
+    if (!is.null(DemandVectorFunctionRegistry[[i$Type]][[i$System]])) {
       logging::loginfo(paste("Loading", v, "demand vector..."))
-      func_to_eval <- dem_vec_fxn_registry[[i$Type]][[i$System]]
+      func_to_eval <- DemandVectorFunctionRegistry[[i$Type]][[i$System]]
       demandFunction <- as.name(func_to_eval)
       dv <- do.call(eval(demandFunction), list(model))
       model$DemandVectors$vectors[[i$ID]] <- dv

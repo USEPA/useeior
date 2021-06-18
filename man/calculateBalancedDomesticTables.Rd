@@ -2,7 +2,7 @@
 % Please edit documentation in R/DisaggregateFunctions.R
 \name{calculateBalancedDomesticTables}
 \alias{calculateBalancedDomesticTables}
-\title{Calculate the domestic use transactions and final demand tables after RAS balancing, if required}
+\title{Calculate the domestic use transactions and final demand tables after RAS balancing}
 \usage{
 calculateBalancedDomesticTables(model, disagg, balancedFullUse)
 }
@@ -17,5 +17,5 @@ calculateBalancedDomesticTables(model, disagg, balancedFullUse)
 list containing balanced domesticFinalDemand and domesticUseTransactions dataframes.
 }
 \description{
-Calculate the domestic use transactions and final demand tables after RAS balancing, if required
+Calculate the domestic use transactions and final demand tables after RAS balancing
 }

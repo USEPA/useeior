@@ -14,6 +14,6 @@ A dataframe with 83 obs. and 98 variables
 Summary_Use_2018_PRO_BeforeRedef
 }
 \description{
-TBD
+Summary 2018 Use Producer's Value Before Redefinition (2012 schema)
 }
 \keyword{datasets}

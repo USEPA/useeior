@@ -1,3 +1,5 @@
+# General utility functions for use across the package
+
 #' Start logging 
 startLogging <- function (){
   #http://logging.r-forge.r-project.org/sample_session.php

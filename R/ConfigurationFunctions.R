@@ -1,13 +1,18 @@
 #Handle configuration files
 
-#' Gets a model configuration
-#' @param modelname The name of the model.
+#' Gets a stored configuration file
+#' @param modelname, str, the name of the model
+#' @param spectype, str, specification type, either "model" or "disagg"
 #' @return A list of model specifications.
-#' @export
-getModelConfiguration <- function(modelname) {
+getConfiguration <- function(modelname, spectype) {
   configname <- paste(modelname, ".yml", sep = "")
-  configfile <- system.file("extdata", configname, package="useeior")
-  try(config <- configr::read.config(configfile))
+  configpath <- paste0("extdata/",spectype,"specs/")
+  configfile <- system.file(configpath, configname, package="useeior")
+  if (configfile == "") {
+    config <- NA
+  } else {
+    config <- configr::read.config(configfile)
+  }
   return(config)
 }
 
@@ -23,7 +28,7 @@ seeAvailableModels <- function() {
 #' Get model config files
 #' @return vector of model config files
 findModelConfigurationFiles <- function() {
-  packdir <- system.file("extdata", package="useeior")
-  configfiles <- list.files(path=packdir,pattern="*USEEIOv.*\\.yml")
+  packdir <- system.file("extdata/modelspecs/", package="useeior")
+  configfiles <- list.files(path=packdir,pattern="*\\.yml")
   return(configfiles)
 }

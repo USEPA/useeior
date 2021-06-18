@@ -14,6 +14,6 @@ A dataframe with 80 obs. and 98 variables
 Summary_Use_2012_PUR_BeforeRedef
 }
 \description{
-TBD
+Summary 2012 Use Purchaser's Value Before Redefinition (2012 schema)
 }
 \keyword{datasets}

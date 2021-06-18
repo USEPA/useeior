@@ -2,7 +2,7 @@
 % Please edit documentation in R/DisaggregateFunctions.R
 \name{balanceDisagg}
 \alias{balanceDisagg}
-\title{Build a Full Use table using the Use transactions, Use value added, and final demand model objects}
+\title{Balance the Make and Use tables after disaggregation.}
 \usage{
 balanceDisagg(model, disagg)
 }
@@ -15,5 +15,5 @@ balanceDisagg(model, disagg)
 model object with RAS-balanced disaggregation sectors
 }
 \description{
-Build a Full Use table using the Use transactions, Use value added, and final demand model objects
+Balance the Make and Use tables after disaggregation.
 }

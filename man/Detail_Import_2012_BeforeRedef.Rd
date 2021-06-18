@@ -14,6 +14,6 @@ A dataframe with 405 obs. and 427 variables
 Detail_Import_2012_BeforeRedef
 }
 \description{
-TBD
+Detail 2012 Import Before Redefinition (2012 schema)
 }
 \keyword{datasets}
