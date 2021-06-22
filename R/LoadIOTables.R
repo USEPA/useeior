@@ -191,7 +191,6 @@ loadTwoRegionStateIOtables <- function(specs) {
   StateIO$FinalDemand <- stateior::getTwoRegionFinalDemand(state, year, iolevel)
   StateIO$DomesticFinalDemand <- stateior::getTwoRegionDomesticFinalDemand(state, year, iolevel)
   StateIO$ValueAdded <- stateior::getTwoRegionValueAdded(state, year, iolevel)
-  StateIO$Demand <- stateior::getTwoRegionDemandTable(state, year, iolevel)
   return(StateIO)
 }
 
