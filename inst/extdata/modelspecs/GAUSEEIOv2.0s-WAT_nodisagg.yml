@@ -1,0 +1,79 @@
+Model: "GAUSEEIOv2.0s-WAT_nodisagg" # 2012 Summary, Commodity
+BaseIOSchema: 2012
+BaseIOLevel: "Summary"
+IOYear: 2012 # Year for IO data
+ModelRegionAcronyms: ["US-GA", "RoUS"]
+ModelType: "EEIO"
+IODataSource: "stateior"
+BasePriceType: "PRO" #producer
+BasewithRedefinitions: FALSE
+CommodityorIndustryType: "Commodity"
+ScrapIncluded: FALSE
+DisaggregationSpecs: null
+  
+SatelliteTable:
+  WAT:
+    FullName: "Water withdrawals"
+    Abbreviation: "WAT"
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/Water_national_2015_m1_v0.1_864d573.parquet"
+    FileLocation: "DataCommons"
+    DataYears: [2015]
+    Locations: ["US"]
+    SectorListSource: "NAICS"
+    SectorListYear: 2012
+    SectorListLevel: "6"
+    OriginalFlowSource: "FEDEFLv1.0.6"
+    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+    ScriptFunctionParameters: null
+    DataSources:
+      USGS_NWIS_WU_2015:
+        Title: "Water Use in the US"
+        Author: "USGS"
+        DataYear: 2015
+        URL: "https://waterdata.usgs.gov/"
+        Primary: TRUE
+
+Indicators:
+  freshwater_withdrawal:
+    Name: "Freshwater withdrawals"
+    Code: "WATR"
+    Group: "Resource Use"
+    Unit: "kg"
+    SimpleUnit: "Kilograms"
+    SimpleName: "Water Use" 
+    StaticSource: TRUE
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["freshwater_resources"]
+    DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "https://github.com/USEPA/LCIAformatter"
+        Primary: TRUE
+
+DemandVectors:
+    Consumption:
+      Type: "Consumption"
+      Year: 2012
+      System: "Complete"
+      Location: "GA"
+    Production:
+      Type: "Production"
+      Year: 2012
+      System: "Complete"
+      Location: "GA"
+    HouseholdConsumption:
+      Type: "Consumption"
+      Year: 2012
+      System: "Household"
+      Location: "GA"
+    DomesticConsumption:
+      Type: "Consumption"
+      Year: 2012
+      System: "Domestic"
+      Location: "GA"    
