@@ -17,6 +17,9 @@ modifyMakeTable <- function(modModel, UseTransactions, TotalIndustryOutputNewInd
   originalMake<-modModel$Make
   modMake<-originalMake
   
+  nNewI<-modModel$BiofuelsData$nNewIndustries
+  whichI<-modModel$BiofuelsData$whichNewIn
+  
   #Determine number of commodities and industries in originalMake
   nCommodities<- ncol(originalMake)-1
   nIndustries<- nrow(originalMake)-1 
@@ -29,38 +32,46 @@ modifyMakeTable <- function(modModel, UseTransactions, TotalIndustryOutputNewInd
   #Not clear why it changes the name, but I put it again
   colnames(modMake)[nCommodities+2]<-"T008"
   
-  #Add 3 rows of zeros and assign row names(the code)
-  rowZeros<- matrix(rep(0, times=(nCommodities+2)*3), nrow=3, ncol=nCommodities+1+1)
+  #Add nNewI rows of zeros and assign row names(the code)
+  rowZeros<- matrix(rep(0, times=(nCommodities+2)*nNewI), nrow=nNewI, ncol=nCommodities+1+1)
   #For the column names to match
   colnames(rowZeros)<-colnames(modMake)
   modMake<-rbind(modMake[1:nIndustries,],rowZeros,modMake[-(1:nIndustries),])
-  rownames(modMake)[(nIndustries+1): (nIndustries+3)]<- modModel$BiofuelsData$NewIndustriesInfo$Code
+  rownames(modMake)[(nIndustries+1): (nIndustries+nNewI)]<- modModel$BiofuelsData$NewIndustriesInfo$Code[whichI]
   
   #Get row and column of similar sector
   similarSectorCode<-modModel$BiofuelsData$SimilarCommodityInfo$Code
   rowS<-getRowIndex(modMake,similarSectorCode)
   colS<-getColIndex(modMake,similarSectorCode)
   similarSectorPrice<-modModel$BiofuelsData$SimilarCommodityInfo$Price
+  
+  #-------------------------------------------------------------------------------------------------------------------------------
 
-
+  
+  #-------------------------------------------------------------------------------------------------------------------------------
+  
   #Fill rows
   
+  FGP_cols<-as.matrix(modModel$BiofuelsData[c(4,5,6)])[whichI]
+  newIPricesCols<-as.matrix(modModel$BiofuelsData$NewIndustriesInfo[whichI,4])
   #For existing sectors
-  for(i in 1:(nIndustries+3)){
+  for(i in 1:(nIndustries+nNewI)){
     for(j in 1:(nCommodities+1)){
       if(i==nIndustries+1 | i==nIndustries+2 | i==nIndustries+3){ #the rows for the new industries
-        if(j==nCommodities+1){
-          modMake[i,j]<-TotalIndustryOutputNewInd[i-(nIndustries)]
+        if(j==nCommodities+1){#The column of the new commodity
+          FGP_tech_i<-as.numeric(FGP_cols[i-nIndustries])
+          FX_tech_i<-transformGGEtoMillionUSD(FGP_tech_i,newIPricesCols[i-nIndustries])
+          modMake[i,j]<-FX_tech_i
         }
-        else{
+        else{ #All existing commodities
           modMake[i,j]<-0
         }
       }
       else if(i==rowS){ #the row for the similar industry
-        if(j==colS){ # For the primary product
-          modMake[i,j]<-transformGGEtoMillionUSD(modModel$BiofuelsData$FutureFuelGGE, similarSectorPrice)+UseTransactions[similarSectorCode,rownames(modMake)[nIndustries+1]]+UseTransactions[similarSectorCode,rownames(modMake)[nIndustries+2]]+UseTransactions[similarSectorCode,rownames(modMake)[nIndustries+3]]
+        if(j==colS){ # For the primary product/similar commodity
+          modMake[i,j]<-transformGGEtoMillionUSD(modModel$BiofuelsData$FutureFuelGGE, similarSectorPrice)
         }
-        else if(j==nCommodities+1){
+        else if(j==nCommodities+1){# for the new bio-commodity
           modMake[i,j]<-0
         }
         else{
@@ -70,28 +81,31 @@ modifyMakeTable <- function(modModel, UseTransactions, TotalIndustryOutputNewInd
       else{ #All other existing sectors
         cIndex<-getColIndex(modMake,rownames(modMake)[i])
         
-        if(j==nCommodities+1){
+        if(j==nCommodities+1){# for the new bio-commodity
           modMake[i,j]<-0
         }
-        else if(length(cIndex)==0){ #It has no diagonal element/no "own commodity"
-          #print(rownames(modMake)[i])
-          #Do nothing
-        }
-        else if(length(cIndex)!=0){ #Has a "diagonal" element
-          if(j==cIndex){ #For primary product
-          CX<-modMake[i,j]
-          modMake[i,j]<-CX+UseTransactions[colnames(modMake)[j],rownames(modMake)[nIndustries+1]]+UseTransactions[colnames(modMake)[j],rownames(modMake)[nIndustries+2]]+UseTransactions[colnames(modMake)[j],rownames(modMake)[nIndustries+3]]-(modModel$Use[colnames(modMake)[j],similarSectorCode]-UseTransactions[colnames(modMake)[j],similarSectorCode])
-          }
-        }
-        else{
-          #Nothing, remains the same
-        }
+        # else if(length(cIndex)==0){ #It has no diagonal element/no "own commodity"
+        #   #print(rownames(modMake)[i])
+        #   #Do nothing
+        # }
+        # else if(length(cIndex)!=0){ #Has a "diagonal" element
+        #   if(j==cIndex){ #For primary product
+        #   CX<-modMake[i,j]
+        #   modMake[i,j]<-CX
+        #   }
+        # }
+        # else{
+        #   #Nothing, remains the same
+        #}
       }
     }
   }
   
   # Recalculate totals
-  modMake[nIndustries+3+1,]<-colSums(modMake[1:(nIndustries+3),]) #sum over rows for each column
+  
+  # Total commodity output
+  modMake[nIndustries+nNewI+1,]<-colSums(modMake[1:(nIndustries+nNewI),]) #sum over rows for each column
+  # Total industry output
   modMake[,nCommodities+1+1]<-rowSums(modMake[,1:(nCommodities+1)]) #sum over columns for each row
   
   modMake
@@ -119,18 +133,20 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   
   originalUse<- modModel$Use
   modUse<-originalUse
-  
+
+  nNewI<-modModel$BiofuelsData$nNewIndustries
+  whichI<-modModel$BiofuelsData$whichNewIn
   #Determine number of commodities and industries in originalUse
   nCommodities<- nrow(originalUse)-6 # 3 value added components + 3 totals
   nIndustries<- ncol(originalUse)-23 # 20 final users demand + 3 totals
   
-  #Add 3 columns of zeros and assign col names(the code)
-  colZeros<- matrix(rep(0, times=(nCommodities+6)*3),nrow = nCommodities+6, ncol=3)
+  #Add nNewI columns of zeros and assign col names(the code)
+  colZeros<- matrix(rep(0, times=(nCommodities+6)*nNewI),nrow = nCommodities+6, ncol=nNewI)
   modUse<-cbind(modUse[,1:nIndustries],colZeros,modUse[,-(1:nIndustries)])
-  colnames(modUse)[(nIndustries+1):(nIndustries+3)]<- modModel$BiofuelsData$NewIndustriesInfo$Code
+  colnames(modUse)[(nIndustries+1):(nIndustries+nNewI)]<- modModel$BiofuelsData$NewIndustriesInfo$Code[whichI]
   
   #Add row of zeros and assign row name(the code)
-  rowZeros<- rep(0, times=(nIndustries+3)+23)
+  rowZeros<- rep(0, times=(nIndustries+nNewI)+23)
   modUse<-rbind(modUse[1:nCommodities,],rowZeros,modUse[-(1:nCommodities),])
   rownames(modUse)[nCommodities+1]<- modModel$BiofuelsData$NewCommodityInfo$Code
   
@@ -147,13 +163,15 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   #-------------------------------------------------------------------------------------------------------------------------------
   #FILL ROWS
   
+  totalUseBiofuel_G<-0
+  
   #Fill row nCommodities+1- cycle over columns
   for(j in 1:nIndustries){
-    if(j!=colS){
+    
       CY_j<-modUse[rowS,j]
       CGU_j<-transformMillionUSDtoGGE(CY_j,similarSectorPrice)
       
-      FBU_j<- CGU_j*similarPrimaryPercentage*percentage
+      FBU_j<- CGU_j*percentage
       FGU_j<-CGU_j-FBU_j
       
       Y_Fuel_j<- transformGGEtoMillionUSD(FGU_j,similarSectorPrice)
@@ -161,19 +179,21 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
       
       modUse[nCommodities+1,j]<-Y_Biofuel_j
       modUse[rowS,j]<-Y_Fuel_j
-    }
+      
+      totalUseBiofuel_G<- totalUseBiofuel_G+FBU_j #Adding uses in GGE for all existing industries
+    
   }
   
   # Change final users demand
   # Assuming the same % for all the 20 categories that compose final users demand
   
-  initialCol<-(nIndustries+3)+2
+  initialCol<-(nIndustries+nNewI)+2
   for(j in initialCol:(initialCol+19)){
     
     Cdem_j<-modUse[rowS,j]
     CFU_j<-transformMillionUSDtoGGE(Cdem_j,similarSectorPrice)
     
-    FFB_j<- CFU_j*similarPrimaryPercentage*percentage
+    FFB_j<- CFU_j*percentage
     FFU_j<-CFU_j-FFB_j
     
     Y_Fuel_j<- transformGGEtoMillionUSD(FFU_j,similarSectorPrice)
@@ -181,7 +201,30 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
     
     modUse[nCommodities+1,j]<-Y_Biofuel_j
     modUse[rowS,j]<-Y_Fuel_j
+    
+    totalUseBiofuel_G<- totalUseBiofuel_G+FFB_j #Adding uses in GGE for all final users
   }
+  
+  #-------------------------------------------------------------------------------------------------------------------------------
+  #Here using the use of the biofuel, we calculate the future amounts that will be produced
+  
+  # FUTURE PRODUCTION
+  
+  # How much will be produced of the bio-product in GGE? 
+  FBP<-totalUseBiofuel_G
+  # How much will the Gas fermentation industry produce of bio-product in GGE? 
+  FGP_tech1<-FBP*newIndustryInfo[1,5]
+  # How much will the Guerbet Reaction industry produce of bio-product in GGE? 
+  FGP_tech2<-FBP*newIndustryInfo[2,5]
+  # How much will the Fischer Tropsch industry produce of bio-product in GGE? 
+  FGP_tech3<-FBP*newIndustryInfo[3,5]
+  
+  # Save data in model
+  
+  modModel$BiofuelsData["FutureBiofuelGGE"]<-FBP
+  modModel$BiofuelsData["FutureBiofuelTech1"]<-FGP_tech1
+  modModel$BiofuelsData["FutureBiofuelTech2"]<-FGP_tech2
+  modModel$BiofuelsData["FutureBiofuelTech3"]<-FGP_tech3
   
   #-------------------------------------------------------------------------------------------------------------------------------
   #COLUMNS
@@ -189,32 +232,29 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   #Fill new columns nIndustries+1, nIndustries+2 and nIndustries+3- cycle over rows
   
   newTechGGEProd<-c(modModel$BiofuelsData$FutureBiofuelTech1, modModel$BiofuelsData$FutureBiofuelTech2,modModel$BiofuelsData$FutureBiofuelTech3)
-  for(j in (nIndustries+1):(nIndustries+3)){
+  
+  #browser()
+  inputPurchasesCols<-as.matrix(inputPurchases[,whichI])
+  newTechGGEProdCols<-newTechGGEProd[whichI]
+  for(j in (nIndustries+1):(nIndustries+nNewI)){
     for(i in 1:(nCommodities+1)){
-      modUse[i,j]<-(inputPurchases[i,j-nIndustries]*newTechGGEProd[j-nIndustries])/1000000 #the input purchases $/GGE times the GGE produced by each tech divided in 1000000 to be in million dollars
+      
+      
+      modUse[i,j]<-(inputPurchasesCols[i,j-nIndustries]*newTechGGEProdCols[j-nIndustries])/1000000 #the input purchases $/GGE times the GGE produced by each tech divided in 1000000 to be in million dollars
     }
   }
+  #-------------------------------------------------------------------------------------------------------------------------------
+  # VALUE ADDED
+  #For existing infustries remain the same, for new industries based on external data
   
-  #Update column for similar industry
+  # ROWS- ALL 3 ELEMENTS OF VALUE ADDED (COMPENSATION TO EMPLOYEES, TAXES AND GROSS OPERATING SURPLUS)
+  # External cycle on rows (3 rows), internal on columns (nIndustries+3)
   
-  for(i in 1:(nCommodities+1)){
-    CY_s<-originalUse[rowS,colS]
-    CGU_s<-transformMillionUSDtoGGE(CY_s,similarSectorPrice)
-    
-    FBU_s<- CGU_s*similarPrimaryPercentage*percentage
-    FGU_s<-CGU_s-FBU_s
-    use_Fuelpercentage_s<- FGU_s/CGU_s
-    if(i==rowS){ #Fuels use of Petroleum refineries
-      Y_Fuel_s<-CY_s*(1-percentage)*use_Fuelpercentage_s
-      modUse[i,colS]<-Y_Fuel_s
-    }
-    else if(i==nCommodities+1){ #Biofuels use of Petroleum refineries
-      Y_Biofuel_s<-transformGGEtoMillionUSD(FBU_s*(1-percentage), biofuelWeightedPrice)
-      modUse[i,colS]<-Y_Biofuel_s
-    }
-    else{
-      Y_s<- originalUse[i,colS]*(1-percentage)
-      modUse[i,colS]<-Y_s
+  valueAddedCols<-as.matrix(valueAdded[,whichI])
+  for(i in (nCommodities+1+2):(nCommodities+1+4)){
+    for(j in (nIndustries+1): (nIndustries+nNewI)){
+
+        modUse[i,j]<-(valueAddedCols[i-(nCommodities+1+1),j-nIndustries]*newTechGGEProdCols[j-nIndustries])/1000000 #the value added components in $/GGE times the GGE produced by each tech divided by 1000000 to be in million dollars
     }
   }
   
@@ -223,70 +263,144 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   # Recalculate totals
   
   #Total intermediate inputs
-  modUse[nCommodities+1+1,1:(nIndustries+3)]<-colSums(modUse[1:(nCommodities+1),1:(nIndustries+3)]) #sum over rows for each column
+  modUse[nCommodities+1+1,1:(nIndustries+nNewI)]<-colSums(modUse[1:(nCommodities+1),1:(nIndustries+nNewI)]) #sum over rows for each column
+  #Total Value Added
+  modUse[nCommodities+1+5,1:(nIndustries+nNewI)]<-colSums(modUse[((nCommodities+1+2):(nCommodities+1+4)),1:(nIndustries+nNewI)])#sum over rows of value added for each column
+  #Total Industry Output
+  modUse[nCommodities+1+6,1:(nIndustries+nNewI)]<-modUse[nCommodities+1+1,1:(nIndustries+nNewI)]+ modUse[nCommodities+1+5,1:(nIndustries+nNewI)] #sum the total intermediate inputs and the total value added
   #Total intermediate use
-  modUse[1:(nCommodities+1),nIndustries+3+1]<-rowSums(modUse[1:(nCommodities+1),1:(nIndustries+3)]) #sum over columns for each row
+  modUse[1:(nCommodities+1),nIndustries+nNewI+1]<-rowSums(modUse[1:(nCommodities+1),1:(nIndustries+nNewI)]) #sum over columns for each row
   #Total final uses
-  modUse[1:(nCommodities+1),(nIndustries+3)+2+20]<-rowSums(modUse[1:(nCommodities+1),((nIndustries+3)+2):((nIndustries+3)+2+19)]) #sum over user demand columns for each row
+  modUse[1:(nCommodities+1),(nIndustries+nNewI)+2+20]<-rowSums(modUse[1:(nCommodities+1),((nIndustries+nNewI)+2):((nIndustries+nNewI)+2+19)]) #sum over user demand columns for each row
   #Total commodity output
-  modUse[1:(nCommodities+1),(nIndustries+3+2+21)]<-modUse[1:(nCommodities+1),(nIndustries+3+1)]+modUse[1:(nCommodities+1),(nIndustries+3+2+20)]
+  modUse[1:(nCommodities+1),(nIndustries+nNewI+2+21)]<-modUse[1:(nCommodities+1),(nIndustries+nNewI+1)]+modUse[1:(nCommodities+1),(nIndustries+nNewI+2+20)]
   #-------------------------------------------------------------------------------------------------------------------------------
-  # ROWS- FIRST 2 ELEMENTS OF VALUE ADDED (COMPENSATION TO EMPLOYEES AND TAXES)
-  # External cycle on rows (2 rows), internal on columns (nIndustries+3)
   
-  for(i in (nCommodities+1+2):(nCommodities+1+3)){
-    for(j in 1: (nIndustries+3)){
-      if(j==colS){
-        CVA_s<-modUse[i,j]
-        FVA_s<-CVA_s*(1-percentage)
-        modUse[i,j]<-FVA_s
-      }
-      else if(j==nIndustries+1 | j==nIndustries+2 | j==nIndustries+3)
-      {
-        modUse[i,j]<-(valueAdded[i-(nCommodities+1+1),j-nIndustries]*newTechGGEProd[j-nIndustries])/1000000 #the value added components in $/GGE times the GGE produced by each tech divided by 1000000 to be in million dollars
-      }
-      else
-      {
-        #Nothing, the same value as before
-      }
-    }
-  }
-  
-  # 3rd component for new industries. We know from initial calculations how much biofuel must be produced, so we just adjust the Gross operating surplus
-  # to make the new industries literally produce that amount
-  
-  for(j in (nIndustries+1): (nIndustries+3)){
-    expectedProdInMoney<- transformGGEtoMillionUSD(newTechGGEProd[j-(nIndustries)],biofuelWeightedPrice)
-    grossOpSurplus<- expectedProdInMoney-modUse[nCommodities+1+1,j]-modUse[nCommodities+1+2,j]-modUse[nCommodities+1+3,j]
-    modUse[nCommodities+1+4,j]<- grossOpSurplus
-    
-    #Recalculate Total value added
-    modUse[nCommodities+1+5,j]<-modUse[nCommodities+1+2,j]+modUse[nCommodities+1+3,j]+modUse[nCommodities+1+4,j]
-    #Recalculate Total Industry Output for new industries
-    modUse[nCommodities+1+6,j]<-modUse[nCommodities+1+1,j]+ modUse[nCommodities+1+5,j]
-  }
-  
-  #Note: The 3rd component (Gross operating surplus) for all existing sectors is missing. It will be updated after updating the Make table.
-  
+  totalF_UseSimComm<-modUse[rowS,(nIndustries+nNewI+2+21)] #The total commodity output of the similar industry
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # MODIFY MAKE TABLE
+  
+  
+  #Get row and column of similar sector for original make table
+  rowS_M<-getRowIndex(modModel$Make,similarSectorCode)
+  colS_M<-getColIndex(modModel$Make,similarSectorCode)
+  
+  #-------------------------------------------------------------------------------------------------------------------------------
+  
+  # FUTURE PRODUCTION OF SIMILAR-COMMODITY BY THE SIMILAR-INDUSTRY IN GGE
+  
+  # How much is currently produced of 324110 commodity in $million USD by secondary industries?
+  
+  CX_sec<-sum(modModel$Make[1:(nIndustries),colS_M])-modModel$Make[rowS_M,colS_M]
+  
+  # How much is currently produced of 324110 commodity in GGE by secondary industries?
+  CGP_sec<-transformMillionUSDtoGGE(CX_sec,similarSectorPrice)
+  # How much will the 324110 industry produce of 324110 commodity in GGE?
+  FGP_petr<- transformMillionUSDtoGGE(totalF_UseSimComm,similarSectorPrice)-CGP_sec
+  
+  # How much will the 324110 industry produce of 324110 commodity in $million USD? 
+  FX<- transformGGEtoMillionUSD(FGP_petr,similarSectorPrice) 
+  
+  # Save data in model
+  
+  modModel$BiofuelsData["FutureFuelGGE"]<-FGP_petr
+  #-------------------------------------------------------------------------------------------------------------------------------
+  
   logging::loginfo(paste("Updating Make Table ..."))
-  newMake<- modifyMakeTable(modModel, modUse[1:(nCommodities+1), 1:(nIndustries+3)],modUse[nCommodities+1+6,(nIndustries+1):(nIndustries+3)])
-  modModel$Make <- newMake
+  newMake<- modifyMakeTable(modModel, modUse[1:(nCommodities+1), 1:(nIndustries+nNewI)],modUse[nCommodities+1+6,(nIndustries+1):(nIndustries+nNewI)])
+  
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  # USE TABLE- ROWS- 3rd ELEMENTS OF VALUE ADDED (Gross operating surplus)
-  for(j in 1: (nIndustries)){
-    expectedProdInMoney<- newMake[colnames(modUse)[j],nCommodities+1+1]
-    grossOpSurplus<- expectedProdInMoney-modUse[nCommodities+1+1,j]-modUse[nCommodities+1+2,j]-modUse[nCommodities+1+3,j]
-    modUse[nCommodities+1+4,j]<- grossOpSurplus
-    
+  #See make and use tables after augmenting, but before balancing
+  #browser()
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  #REBALANCE MAKE AND USE TABLE, VIA ANALYTICAL FRAMEWORK, SCALING COLUMNS TO KEEP RECIPE UNCHANGED
+  nMake_Commodities<- ncol(modModel$Make)-1 # Number of commodities in original Make
+  nMake_Industries<- nrow(modModel$Make)-1 # Number of commodities in original Use
+  
+  
+  #Obtain matrices and vector needed
+  U1<-as.matrix(modUse[1:(nCommodities+1), 1:(nIndustries+nNewI)]) #Use transactions
+  v1<-modUse[(nCommodities+1+2):(nCommodities+1+4),1:(nIndustries+nNewI)]#Value added 3x(nIndustries+3)
+  V1<-as.matrix(newMake[1:(nMake_Industries+nNewI),1:(nMake_Commodities+1)]) #Make transactions
+  y1_c<-modUse[1:(nCommodities+1),(nIndustries+nNewI)+2+20] #Not sure if I have to transform it to million dollars (it seem it is in dollars($) but everything else up to this point is, so I see no need)
+  z_I<-modUse[nrow(modUse),1:(nIndustries+nNewI)] 
+  z_I_diag<-diag(as.vector(z_I))
+  z_I_diag_inverse<-solve(z_I_diag)
+  U1_n<-U1%*%z_I_diag_inverse
+  z_P<-newMake[nrow(newMake),1:(nMake_Commodities+1)] 
+  #Since S00402 and S00300 have 0 output it generates problems when inverting matrix z_P-diag. Then I replace the 0 with 1 to avoid that.
+  z_P['S00402']<-1
+  z_P['S00300']<-1
+  z_P_diag<-diag(as.vector(z_P))
+  z_P_diag_inverse<-solve(z_P_diag)
+  V1_n<-V1%*%z_P_diag_inverse
+  y1_I<-V1_n%*%y1_c
+  
+  #Obtain Unbalanced A and L matrices
+  
+  A_cxc_Un<-U1_n%*%V1_n
+  A_IxI_Un<-V1_n%*%U1_n
+  
+  I_c <- diag(nrow(A_cxc_Un))
+  I_I <- diag(nrow(A_IxI_Un))
+  
+  L_cxc_Un<-solve(I_c - A_cxc_Un)
+  L_IxI_Un<-solve(I_I - A_IxI_Un)
+  
+  #Obtain total requirements for demand vectors y1_c and y1_I
+  x1<-L_cxc_Un%*%y1_c
+  z1<-L_IxI_Un%*%y1_I
+  
+  #browser()
+  #Obtain scaling multipliers
+  m_Use<-z_I_diag_inverse%*%diag(as.vector(z1))
+  m_Make<-z_P_diag_inverse%*%diag(as.vector(x1))
+  
+  #---Obtain balanced Use table
+  #Obtain balanced Use transactions
+  U2<-U1%*%m_Use
+  #Obtain balanced Value added
+  v2<-as.matrix(v1)%*%m_Use
+  
+  #Reconstruct/Refill use table
+  modUse2<-modUse
+  modUse2[1:(nCommodities+1), 1:(nIndustries+nNewI)]<-U2
+  modUse2[(nCommodities+1+2):(nCommodities+1+4),1:(nIndustries+nNewI)]<-v2
+  
+  #Recalculate all totals
+  
+  #Total intermediate inputs
+  modUse2[nCommodities+1+1,1:(nIndustries+nNewI)]<-colSums(modUse2[1:(nCommodities+1),1:(nIndustries+nNewI)]) #sum over rows for each column
+  #Total intermediate use
+  modUse2[1:(nCommodities+1),nIndustries+nNewI+1]<-rowSums(modUse2[1:(nCommodities+1),1:(nIndustries+nNewI)]) #sum over columns for each row
+  #Total final uses
+  modUse2[1:(nCommodities+1),(nIndustries+nNewI)+2+20]<-rowSums(modUse2[1:(nCommodities+1),((nIndustries+nNewI)+2):((nIndustries+nNewI)+2+19)]) #sum over user demand columns for each row
+  #Total commodity output
+  modUse2[1:(nCommodities+1),(nIndustries+nNewI+2+21)]<-modUse2[1:(nCommodities+1),(nIndustries+nNewI+1)]+modUse2[1:(nCommodities+1),(nIndustries+nNewI+2+20)]
+  
+  for(j in 1: (nIndustries+nNewI)){
     #Recalculate Total value added
-    modUse[nCommodities+1+5,j]<-modUse[nCommodities+1+2,j]+modUse[nCommodities+1+3,j]+modUse[nCommodities+1+4,j]
-    #Recalculate Total Industry Output for new industries
-    modUse[nCommodities+1+6,j]<-modUse[nCommodities+1+1,j]+ modUse[nCommodities+1+5,j]
+    modUse2[nCommodities+1+5,j]<-modUse2[nCommodities+1+2,j]+modUse2[nCommodities+1+3,j]+modUse2[nCommodities+1+4,j]
+    #Recalculate Total Industry Output 
+    modUse2[nCommodities+1+6,j]<-modUse2[nCommodities+1+1,j]+ modUse2[nCommodities+1+5,j]
   }
-  #------------------------------------------------------------------------------------------------------------------------------- 
-  modModel$Use<- modUse
+  
+  #---Obtain balanced Make table
+  V2<-V1%*%m_Make
+
+  #Reconstruct/Refill Make table
+  modMake2<-newMake
+  modMake2[1:(nMake_Industries+nNewI),1:(nMake_Commodities+1)]<-V2
+  
+  #Recalculate totals
+  
+  modMake2[nMake_Industries+nNewI+1,]<-colSums(modMake2[1:(nMake_Industries+nNewI),]) #sum over rows for each column - Total Commodity Output
+  modMake2[,nMake_Commodities+1+1]<-rowSums(modMake2[,1:(nMake_Commodities+1)]) #sum over columns for each row- Total Industry Output
+
+  #---UPDATE MODEL MAKE AND USE TABLE WITH BALANCED MAKE AND USE
+  
+  modModel$Make <- modMake2 
+  modModel$Use<- modUse2 
   modModel
 }
 
@@ -298,6 +412,7 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
 modifyBmatrix <- function(newEnvData, model){
   # This is not a pretty version, a prettier version is probably to modify the satellite tables.
   # Here I require that the untransformed B matrix is saved in model in buildEEIOModel().
+  whichI<-model$BiofuelsData$whichNewIn
   
   #Obtain data from original model construction
   primaryRegionAcronym<- model$specs$PrimaryRegionAcronym
@@ -312,7 +427,7 @@ modifyBmatrix <- function(newEnvData, model){
   
   #Fill newEnvDataColumn and assign col name (the code)
   #modB<-cbind(modB,newEnvData)
-  modB[,-(1:n)]<-newEnvData
+  modB[,-(1:n)]<-newEnvData[,whichI]
   
   # If commodity model, transform B into a flowxcommodity matrix using market shares matrix
   if(commodityByIndustryType == "Commodity") {
@@ -394,13 +509,14 @@ initialCalculations<- function(modelName,newIndustryInfo, newCommodityInfo,simCo
   primaryFuelPercentage<- CXP/originalMake[nRowsMake,cols_Make]
   
   # FUTURE
+  # Here this values will be initialized in 0, this will be filled up while modifying the make and use tables
   
   # How much will the bio-product replace in GGE? 
-  FBP<-percentage*CGP
+  FBP<-0
   # How much will the 324110 industry produce of 324110 commodity in GGE?
-  FGP_petr<- (1-percentage)*CGP
+  FGP_petr<- 0
   # How much will the 324110 industry produce of 324110 commodity in $million USD? 
-  FX<- transformGGEtoMillionUSD(FGP_petr,simCommodityInfo$Price) 
+  # FX<- transformGGEtoMillionUSD(FGP_petr,simCommodityInfo$Price) 
   # How much will the Gas fermentation industry produce of bio-product in GGE? 
   FGP_tech1<-FBP*newIndustryInfo[1,5]
   # How much will the Thermochemical industry produce of bio-product in GGE? 
@@ -408,10 +524,23 @@ initialCalculations<- function(modelName,newIndustryInfo, newCommodityInfo,simCo
   # How much will the Biochemical industry produce of bio-product in GGE? 
   FGP_tech3<-FBP*newIndustryInfo[3,5]
   
+  #---------------------------------------------------------------------------------------------------------------------------------
+  # HOW MANY  AND WHICH INDUSTRIES WILL BE ADDED?
+  nNewI<-0
+  whichI<-NULL
+  
+  for(i in 1:3){
+    if(newIndustryInfo[i,5]>0){
+      nNewI<-nNewI+1
+      whichI<-c(whichI,i)
+    }
+  }
+  
+ 
   # Save data in model
   
-  modModel$BiofuelsData<- list(PercentageFuelProducedByPrimary=primaryFuelPercentage,FutureBiofuelGGE=FBP,FutureFuelGGE=FGP_petr,FutureBiofuelTech1= FGP_tech1,FutureBiofuelTech2=FGP_tech2, FutureBiofuelTech3=FGP_tech3,NewIndustriesInfo= newIndustryInfo,NewCommodityInfo= newCommodityInfo, SimilarCommodityInfo=simCommodityInfo, BiofuelsPercentage=percentage, OriginalCommoditiesNum=nCommodities, OriginalIndustriesNum=nIndustries)
-  print(paste("The data you need to gather for input purchases and value added must correspond to the following GGE gallons produced for each new industry:", "Technology 1 (GGE)=",FGP_tech1,"Technology 2 (GGE)=", FGP_tech2, "Technology 3 (GGE)=", FGP_tech3 ))
+  modModel$BiofuelsData<- list(PercentageFuelProducedByPrimary=primaryFuelPercentage,FutureBiofuelGGE=FBP,FutureFuelGGE=FGP_petr,FutureBiofuelTech1= FGP_tech1,FutureBiofuelTech2=FGP_tech2, FutureBiofuelTech3=FGP_tech3,NewIndustriesInfo= newIndustryInfo,NewCommodityInfo= newCommodityInfo, SimilarCommodityInfo=simCommodityInfo, BiofuelsPercentage=percentage, OriginalCommoditiesNum=nCommodities, OriginalIndustriesNum=nIndustries, nNewIndustries=nNewI, whichNewIn=whichI)
+  #print(paste("The data you need to gather for input purchases and value added must correspond to the following GGE gallons produced for each new industry:", "Technology 1 (GGE)=",FGP_tech1,"Technology 2 (GGE)=", FGP_tech2, "Technology 3 (GGE)=", FGP_tech3 ))
   modModel
 }
 
@@ -444,13 +573,16 @@ addBiofuelsSector<- function(modelName, newIndustryInfo, newCommodityInfo,simCom
   # Modify Make and Use Tables
   logging::loginfo(paste("Updating Make and Use Tables ..."))
   modModel<-modifyMakeandUseTables(modModel,inputPurchases, valueAdded)
+  
+  #browser()
 
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # OTHER MODEL VARIABLES UPDATES
+  whichI<-modModel$BiofuelsData$whichNewIn
   
   #Update model Industries, Commodities
   modModel$Commodities= append(modModel$Commodities,modModel$BiofuelsData$NewCommodityInfo$Code, after= length(modModel$Commodities))
-  modModel$Industries= append(modModel$Industries,modModel$BiofuelsData$NewIndustriesInfo$Code, after= length(modModel$Industries))
+  modModel$Industries= append(modModel$Industries,modModel$BiofuelsData$NewIndustriesInfo$Code[whichI], after= length(modModel$Industries))
   
   # Update model MakeTransactions, UseTransactions, FinalDemand and UseCommodityOutput for normalization
   modModel$MakeTransactions <- modModel$Make[modModel$Industries, modModel$Commodities] * 1E6 # data frame, values are in dollars ($)
@@ -468,6 +600,7 @@ addBiofuelsSector<- function(modelName, newIndustryInfo, newCommodityInfo,simCom
   
   #This is their original version, obtaining the number from the make table
   updatedMakeIndustryOutput <- as.data.frame(rowSums(modModel$MakeTransactions)) # data frame, values are in dollars ($)
+  #browser()
   #This is my version obtaining the number for the use table
     #updatedMakeIndustryOutput <-modModel$Use[nrow(modModel$Use),1:newNumSec]
   #update model$BEA$MakeIndustryOutput because is the one used in generateDirectRequirementsfromUse()
