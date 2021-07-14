@@ -9,7 +9,7 @@ loadIOData <- function(model) {
 
   # Load IO tables
   io_table_names <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                      "ValueAdded", "FinalDemand", "DomesticFinalDemand")
+                      "FinalDemand", "DomesticFinalDemand", "ValueAdded")
   if (model$specs$IODataSource=="BEA") {
     io_codes <- loadIOcodes(model$specs)
     model[io_table_names] <- loadBEAtables(model$specs, io_codes)[io_table_names]
