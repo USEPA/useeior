@@ -106,7 +106,7 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
     func_to_eval <- sat_spec$ScriptFunctionCall
     totalsgenfunction <- as.name(func_to_eval)
     params <- sat_spec
-    if (!is.null(sat_spec$ScriptFunctionParameters)){
+    if (!is.null(sat_spec$ScriptFunctionParameters)) {
       if (sat_spec$ScriptFunctionParameters == "model") {
         params <- model
       }
@@ -145,12 +145,23 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
     tbs <- disaggregateSatelliteTable(model, tbs, sat_spec)
   }
   
-  for (r in model$specs$ModelRegionAcronyms) {
-    # Change Location if model is a state model
-    if (model$specs$ModelRegionAcronyms!="US") {
-      stop("Fix this function for state models before proceesing")
-      tbs[,"Location"] <- vapply(tbs[,"Location"],formatLocationforStateModels)
+  # Change Location if model is a state model
+  if (model$specs$ModelRegionAcronyms!="US" && model$specs$IODataSource=="stateior") {
+    for (r in model$specs$ModelRegionAcronyms) {
+      ### Is looping over necessary?
     }
+    # Format location in tbs
+    tbs$Location <- formatLocationforStateModels(tbs$Location)
+    tbs$Location <- ifelse(tbs$Location%in%model$specs$ModelRegionAcronyms,
+                           tbs$Location,
+                           setdiff(model$specs$ModelRegionAcronyms, tbs$Location))
+    # Aggregate tbs by location
+    tbs <- dplyr::group_by(tbs,
+                           across(all_of(setdiff(colnames(tbs), "FlowAmount"))))
+    tbs <- dplyr::summarise(tbs,
+                            FlowAmount = sum(FlowAmount),
+                            .groups = 'drop')
+    tbs <- tbs[order(tbs$Sector), ]
   }
   return(tbs)
 }
