@@ -2,18 +2,18 @@
 % Please edit documentation in R/UtilityFunctions.R
 \name{mapFIPS5toLocationCodes}
 \alias{mapFIPS5toLocationCodes}
-\title{Maps a vector of FIPS codes to location codes
-! Placeholder only works for '00000' now}
+\title{Maps a vector of FIPS codes to location codes}
 \usage{
-mapFIPS5toLocationCodes(fipscodes)
+mapFIPS5toLocationCodes(fipscodes, fipssystem)
 }
 \arguments{
 \item{fipscodes}{A vector of 5 digit FIPS codes}
+
+\item{fipssystem}{A text value specifying FIPS System, can be FIPS_2015}
 }
 \value{
 A vector of location codes where matches are found
 }
 \description{
 Maps a vector of FIPS codes to location codes
-! Placeholder only works for '00000' now
 }

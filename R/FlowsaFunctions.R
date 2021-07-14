@@ -4,31 +4,25 @@
 #' @param sat_spec, a standard specification for a single satellite table
 #' @return A data frame for flowsa data in sector by region totals format
 getFlowbySectorCollapsed <- function(sat_spec) {
-
   # Access flowsa getFlowBySector_collapsed by indicating StaticSource: False
-  if(!(sat_spec$StaticSource)){
+  if (!(sat_spec$StaticSource)) {
     method_name <- sub(".parquet$", "", sat_spec$StaticFile)
     flowsa <- reticulate::import("flowsa")
     fbs_collapsed <- flowsa$collapse_FlowBySector(method_name)
     # checks columns that are all None values and converts to NA
-    for(i in colnames(fbs_collapsed)){
-      if(is.list(fbs_collapsed[[i]])){
-        if(i == 'MetaSources'){
+    for (i in colnames(fbs_collapsed)) {
+      if (is.list(fbs_collapsed[[i]])) {
+        if (i == 'MetaSources') {
           # MetaSources must be a string if all None
           fbs_collapsed[ , i] <- ""
-        }
-        else{
+        } else {
           fbs_collapsed[ , i] <- NA
         }
       }
     }
-  }
-  
-  else{
-    
+  } else {
     f <- loadDataCommonsfile(sat_spec$StaticFile)
     fbs <- as.data.frame(arrow::read_parquet(f))
-    
     # collapse the FBS sector columns into one column based on FlowType
     fbs$Sector <- NA
     fbs$Sector <- ifelse(fbs$FlowType=='TECHNOSPHERE_FLOW', fbs$SectorConsumedBy, fbs$Sector)
@@ -38,7 +32,6 @@ getFlowbySectorCollapsed <- function(sat_spec) {
     fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (is.na(fbs$SectorConsumedBy)), fbs$SectorProducedBy, fbs$Sector)
     fbs$Sector <- ifelse((fbs$FlowType=='ELEMENTARY_FLOW') & (fbs$SectorConsumedBy %in% c('F010', 'F0100', 'F01000')) &
                            (fbs$SectorProducedBy %in% c('22', '221', '2213', '22131', '221310')), fbs$SectorConsumedBy, fbs$Sector)
-    
     # drop sector consumed/produced by columns
     fbs_collapsed <- fbs[,!(names(fbs) %in% c('SectorProducedBy', 'SectorConsumedBy'))]
   }
@@ -63,7 +56,7 @@ prepareFlowBySectorCollapsedforSatellite <- function(fbsc) {
   acceptable_types <- c("ELEMENTARY_FLOW", "WASTE_FLOW")
   fbsc <- fbsc[fbsc$FlowType %in% acceptable_types, ]
   # Map codes to locations
-  fbsc$Location <- mapFIPS5toLocationCodes(fbsc$Location)
+  fbsc$Location <- mapFIPS5toLocationCodes(fbsc$Location, unique(fbsc$LocationSystem))
   # Remove unused data
   fbsc[, c("Class", "FlowType", "LocationSystem", "MeasureofSpread", "Spread")] <- NULL
   return(fbsc)

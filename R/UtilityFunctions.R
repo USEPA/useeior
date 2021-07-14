@@ -168,13 +168,24 @@ loadDataCommonsfile <- function(static_file) {
 }
 
 #' Maps a vector of FIPS codes to location codes
-#' ! Placeholder only works for '00000' now
 #' @param fipscodes A vector of 5 digit FIPS codes
+#' @param fipssystem A text value specifying FIPS System, can be FIPS_2015
 #' @return A vector of location codes where matches are found
-mapFIPS5toLocationCodes <- function(fipscodes) {
-  mapping <- c('00000' = 'US')
-  
-  locations <- stringr::str_replace_all(string = fipscodes,pattern = mapping)
+mapFIPS5toLocationCodes <- function(fipscodes, fipssystem) {
+  mapping_file <- "Crosswalk_FIPS.csv"
+  mapping <- utils::read.table(system.file("extdata", mapping_file, package = "useeior"),
+                               sep = ",", header = TRUE, stringsAsFactors = FALSE, 
+                               check.names = FALSE, quote = "")
+  # Add leading zeros to FIPS codes if necessary
+  if (!fipssystem%in%colnames(mapping)) {
+    fipssystem <- max(which(startsWith(colnames(mapping), "FIPS")))
+  }
+  mapping[, fipssystem] <- formatC(mapping[, fipssystem], width = 5, format = "d", flag = "0")
+  mapping <- mapping[mapping[, fipssystem]%in%fipscodes, ]
+  # Get locations based on fipscodes
+  locations <- stringr::str_replace_all(string = fipscodes,
+                                        pattern = setNames(as.vector(mapping$State),
+                                                           mapping[, fipssystem]))
   return(locations)
 }  
   

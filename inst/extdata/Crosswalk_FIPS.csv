@@ -1,0 +1,3275 @@
+State,FIPS_2010,County_2010,FIPS_2013,County_2013,FIPS_2015,County_2015
+US,0,,0,,0,
+Alabama,1000,,1000,,1000,
+Alabama,1001,Autauga,1001,Autauga,1001,Autauga
+Alabama,1003,Baldwin,1003,Baldwin,1003,Baldwin
+Alabama,1005,Barbour,1005,Barbour,1005,Barbour
+Alabama,1007,Bibb,1007,Bibb,1007,Bibb
+Alabama,1009,Blount,1009,Blount,1009,Blount
+Alabama,1011,Bullock,1011,Bullock,1011,Bullock
+Alabama,1013,Butler,1013,Butler,1013,Butler
+Alabama,1015,Calhoun,1015,Calhoun,1015,Calhoun
+Alabama,1017,Chambers,1017,Chambers,1017,Chambers
+Alabama,1019,Cherokee,1019,Cherokee,1019,Cherokee
+Alabama,1021,Chilton,1021,Chilton,1021,Chilton
+Alabama,1023,Choctaw,1023,Choctaw,1023,Choctaw
+Alabama,1025,Clarke,1025,Clarke,1025,Clarke
+Alabama,1027,Clay,1027,Clay,1027,Clay
+Alabama,1029,Cleburne,1029,Cleburne,1029,Cleburne
+Alabama,1031,Coffee,1031,Coffee,1031,Coffee
+Alabama,1033,Colbert,1033,Colbert,1033,Colbert
+Alabama,1035,Conecuh,1035,Conecuh,1035,Conecuh
+Alabama,1037,Coosa,1037,Coosa,1037,Coosa
+Alabama,1039,Covington,1039,Covington,1039,Covington
+Alabama,1041,Crenshaw,1041,Crenshaw,1041,Crenshaw
+Alabama,1043,Cullman,1043,Cullman,1043,Cullman
+Alabama,1045,Dale,1045,Dale,1045,Dale
+Alabama,1047,Dallas,1047,Dallas,1047,Dallas
+Alabama,1049,DeKalb,1049,Dekalb,1049,Dekalb
+Alabama,1051,Elmore,1051,Elmore,1051,Elmore
+Alabama,1053,Escambia,1053,Escambia,1053,Escambia
+Alabama,1055,Etowah,1055,Etowah,1055,Etowah
+Alabama,1057,Fayette,1057,Fayette,1057,Fayette
+Alabama,1059,Franklin,1059,Franklin,1059,Franklin
+Alabama,1061,Geneva,1061,Geneva,1061,Geneva
+Alabama,1063,Greene,1063,Greene,1063,Greene
+Alabama,1065,Hale,1065,Hale,1065,Hale
+Alabama,1067,Henry,1067,Henry,1067,Henry
+Alabama,1069,Houston,1069,Houston,1069,Houston
+Alabama,1071,Jackson,1071,Jackson,1071,Jackson
+Alabama,1073,Jefferson,1073,Jefferson,1073,Jefferson
+Alabama,1075,Lamar,1075,Lamar,1075,Lamar
+Alabama,1077,Lauderdale,1077,Lauderdale,1077,Lauderdale
+Alabama,1079,Lawrence,1079,Lawrence,1079,Lawrence
+Alabama,1081,Lee,1081,Lee,1081,Lee
+Alabama,1083,Limestone,1083,Limestone,1083,Limestone
+Alabama,1085,Lowndes,1085,Lowndes,1085,Lowndes
+Alabama,1087,Macon,1087,Macon,1087,Macon
+Alabama,1089,Madison,1089,Madison,1089,Madison
+Alabama,1091,Marengo,1091,Marengo,1091,Marengo
+Alabama,1093,Marion,1093,Marion,1093,Marion
+Alabama,1095,Marshall,1095,Marshall,1095,Marshall
+Alabama,1097,Mobile,1097,Mobile,1097,Mobile
+Alabama,1099,Monroe,1099,Monroe,1099,Monroe
+Alabama,1101,Montgomery,1101,Montgomery,1101,Montgomery
+Alabama,1103,Morgan,1103,Morgan,1103,Morgan
+Alabama,1105,Perry,1105,Perry,1105,Perry
+Alabama,1107,Pickens,1107,Pickens,1107,Pickens
+Alabama,1109,Pike,1109,Pike,1109,Pike
+Alabama,1111,Randolph,1111,Randolph,1111,Randolph
+Alabama,1113,Russell,1113,Russell,1113,Russell
+Alabama,1115,St. Clair,1115,St. clair,1115,St. clair
+Alabama,1117,Shelby,1117,Shelby,1117,Shelby
+Alabama,1119,Sumter,1119,Sumter,1119,Sumter
+Alabama,1121,Talladega,1121,Talladega,1121,Talladega
+Alabama,1123,Tallapoosa,1123,Tallapoosa,1123,Tallapoosa
+Alabama,1125,Tuscaloosa,1125,Tuscaloosa,1125,Tuscaloosa
+Alabama,1127,Walker,1127,Walker,1127,Walker
+Alabama,1129,Washington,1129,Washington,1129,Washington
+Alabama,1131,Wilcox,1131,Wilcox,1131,Wilcox
+Alabama,1133,Winston,1133,Winston,1133,Winston
+Alaska,2000,,2000,,2000,
+Alaska,2013,Aleutians East ,2013,Aleutians east borough,2013,Aleutians east borough
+Alaska,2016,Aleutians West ,2016,Aleutians west census area,2016,Aleutians west census area
+Alaska,2020,Anchorage  ,2020,Anchorage municipality,2020,Anchorage municipality
+Alaska,2050,Bethel ,2050,Bethel census area,2050,Bethel census area
+Alaska,2060,Bristol Bay ,2060,Bristol bay borough,2060,Bristol bay borough
+Alaska,2068,Denali ,2068,Denali borough,2068,Denali borough
+Alaska,2070,Dillingham ,2070,Dillingham census area,2070,Dillingham census area
+Alaska,2090,Fairbanks North Star ,2090,Fairbanks north star borough,2090,Fairbanks north star borough
+Alaska,2100,Haines ,2100,Haines borough,2100,Haines borough
+Alaska,2105,Hoonah-Angoon,2105,Hoonah-angoon census area,2105,Hoonah-angoon census area
+Alaska,2110,Juneau ,2110,Juneau city and borough,2110,Juneau city and borough
+Alaska,2122,Kenai Peninsula  ,2122,Kenai peninsula borough,2122,Kenai peninsula borough
+Alaska,2130,Ketchikan Gateway ,2130,Ketchikan gateway borough,2130,Ketchikan gateway borough
+Alaska,2150,Kodiak Island ,2150,Kodiak island borough,2150,Kodiak island borough
+Alaska,2164,Lake and Peninsula ,2164,Lake and peninsula borough,2164,Lake and peninsula borough
+Alaska,2170,Matanuska-Susitna ,2170,Matanuska-susitna borough,2170,Matanuska-susitna borough
+Alaska,2180,Nome ,2180,Nome census area,2180,Nome census area
+Alaska,2185,North Slope ,2185,North slope borough,2185,North slope borough
+Alaska,2188,Northwest Arctic ,2188,Northwest arctic borough,2188,Northwest arctic borough
+Alaska,2195,Petersburg,2195,Petersburg census area,2195,Petersburg borough
+Alaska,2198,Prince of Wales-Hyder ,2198,Prince of wales-hyder census area,2198,Prince of wales-hyder census area
+Alaska,2220,Sitka,2220,Sitka city and borough,2220,Sitka city and borough
+Alaska,2230,Skagway ,2230,Skagway municipality,2230,Skagway municipality
+Alaska,2240,Southeast Fairbanks ,2240,Southeast fairbanks census area,2240,Southeast fairbanks census area
+Alaska,2261,Valdez-Cordova,2261,Valdez-cordova census area,2261,Valdez-cordova census area
+Alaska,2270,Wade Hampton,2270,Wade hampton census area,2158,Kusilvak census area
+Alaska,2275,Wrangell ,2275,Wrangell city and borough,2275,Wrangell city and borough
+Alaska,2282,Yakutat,2282,Yakutat city and borough,2282,Yakutat city and borough
+Alaska,2290,Yukon-Koyukuk,2290,Yukon-koyukuk census area,2290,Yukon-koyukuk census area
+Arizona,4000,,4000,,4000,
+Arizona,4001,Apache,4001,Apache,4001,Apache
+Arizona,4003,Cochise,4003,Cochise,4003,Cochise
+Arizona,4005,Coconino,4005,Coconino,4005,Coconino
+Arizona,4007,Gila,4007,Gila,4007,Gila
+Arizona,4009,Graham,4009,Graham,4009,Graham
+Arizona,4011,Greenlee,4011,Greenlee,4011,Greenlee
+Arizona,4012,La Paz,4012,La paz,4012,La paz
+Arizona,4013,Maricopa,4013,Maricopa,4013,Maricopa
+Arizona,4015,Mohave,4015,Mohave,4015,Mohave
+Arizona,4017,Navajo,4017,Navajo,4017,Navajo
+Arizona,4019,Pima,4019,Pima,4019,Pima
+Arizona,4021,Pinal,4021,Pinal,4021,Pinal
+Arizona,4023,Santa Cruz,4023,Santa cruz,4023,Santa cruz
+Arizona,4025,Yavapai,4025,Yavapai,4025,Yavapai
+Arizona,4027,Yuma,4027,Yuma,4027,Yuma
+Arkansas,5000,,5000,,5000,
+Arkansas,5001,Arkansas (county),5001,Arkansas,5001,Arkansas
+Arkansas,5003,Ashley,5003,Ashley,5003,Ashley
+Arkansas,5005,Baxter,5005,Baxter,5005,Baxter
+Arkansas,5007,Benton,5007,Benton,5007,Benton
+Arkansas,5009,Boone,5009,Boone,5009,Boone
+Arkansas,5011,Bradley,5011,Bradley,5011,Bradley
+Arkansas,5013,Calhoun,5013,Calhoun,5013,Calhoun
+Arkansas,5015,Carroll,5015,Carroll,5015,Carroll
+Arkansas,5017,Chicot,5017,Chicot,5017,Chicot
+Arkansas,5019,Clark,5019,Clark,5019,Clark
+Arkansas,5021,Clay,5021,Clay,5021,Clay
+Arkansas,5023,Cleburne,5023,Cleburne,5023,Cleburne
+Arkansas,5025,Cleveland,5025,Cleveland,5025,Cleveland
+Arkansas,5027,Columbia,5027,Columbia,5027,Columbia
+Arkansas,5029,Conway,5029,Conway,5029,Conway
+Arkansas,5031,Craighead,5031,Craighead,5031,Craighead
+Arkansas,5033,Crawford,5033,Crawford,5033,Crawford
+Arkansas,5035,Crittenden,5035,Crittenden,5035,Crittenden
+Arkansas,5037,Cross,5037,Cross,5037,Cross
+Arkansas,5039,Dallas,5039,Dallas,5039,Dallas
+Arkansas,5041,Desha,5041,Desha,5041,Desha
+Arkansas,5043,Drew,5043,Drew,5043,Drew
+Arkansas,5045,Faulkner,5045,Faulkner,5045,Faulkner
+Arkansas,5047,Franklin,5047,Franklin,5047,Franklin
+Arkansas,5049,Fulton,5049,Fulton,5049,Fulton
+Arkansas,5051,Garland,5051,Garland,5051,Garland
+Arkansas,5053,Grant,5053,Grant,5053,Grant
+Arkansas,5055,Greene,5055,Greene,5055,Greene
+Arkansas,5057,Hempstead,5057,Hempstead,5057,Hempstead
+Arkansas,5059,Hot Spring,5059,Hot spring,5059,Hot spring
+Arkansas,5061,Howard,5061,Howard,5061,Howard
+Arkansas,5063,Independence,5063,Independence,5063,Independence
+Arkansas,5065,Izard,5065,Izard,5065,Izard
+Arkansas,5067,Jackson,5067,Jackson,5067,Jackson
+Arkansas,5069,Jefferson,5069,Jefferson,5069,Jefferson
+Arkansas,5071,Johnson,5071,Johnson,5071,Johnson
+Arkansas,5073,Lafayette,5073,Lafayette,5073,Lafayette
+Arkansas,5075,Lawrence,5075,Lawrence,5075,Lawrence
+Arkansas,5077,Lee,5077,Lee,5077,Lee
+Arkansas,5079,Lincoln,5079,Lincoln,5079,Lincoln
+Arkansas,5081,Little River,5081,Little river,5081,Little river
+Arkansas,5083,Logan,5083,Logan,5083,Logan
+Arkansas,5085,Lonoke,5085,Lonoke,5085,Lonoke
+Arkansas,5087,Madison,5087,Madison,5087,Madison
+Arkansas,5089,Marion,5089,Marion,5089,Marion
+Arkansas,5091,Miller,5091,Miller,5091,Miller
+Arkansas,5093,Mississippi,5093,Mississippi,5093,Mississippi
+Arkansas,5095,Monroe,5095,Monroe,5095,Monroe
+Arkansas,5097,Montgomery,5097,Montgomery,5097,Montgomery
+Arkansas,5099,Nevada,5099,Nevada,5099,Nevada
+Arkansas,5101,Newton,5101,Newton,5101,Newton
+Arkansas,5103,Ouachita ,5103,Ouachita,5103,Ouachita
+Arkansas,5105,Perry,5105,Perry,5105,Perry
+Arkansas,5107,Phillips,5107,Phillips,5107,Phillips
+Arkansas,5109,Pike,5109,Pike,5109,Pike
+Arkansas,5111,Poinsett,5111,Poinsett,5111,Poinsett
+Arkansas,5113,Polk,5113,Polk,5113,Polk
+Arkansas,5115,Pope,5115,Pope,5115,Pope
+Arkansas,5117,Prairie,5117,Prairie,5117,Prairie
+Arkansas,5119,Pulaski,5119,Pulaski,5119,Pulaski
+Arkansas,5121,Randolph,5121,Randolph,5121,Randolph
+Arkansas,5123,St. Francis,5123,St. francis,5123,St. francis
+Arkansas,5125,Saline,5125,Saline,5125,Saline
+Arkansas,5127,Scott,5127,Scott,5127,Scott
+Arkansas,5129,Searcy,5129,Searcy,5129,Searcy
+Arkansas,5131,Sebastian,5131,Sebastian,5131,Sebastian
+Arkansas,5133,Sevier,5133,Sevier,5133,Sevier
+Arkansas,5135,Sharp,5135,Sharp,5135,Sharp
+Arkansas,5137,Stone,5137,Stone,5137,Stone
+Arkansas,5139,Union,5139,Union,5139,Union
+Arkansas,5141,Van Buren,5141,Van buren,5141,Van buren
+Arkansas,5143,Washington,5143,Washington,5143,Washington
+Arkansas,5145,White,5145,White,5145,White
+Arkansas,5147,Woodruff,5147,Woodruff,5147,Woodruff
+Arkansas,5149,Yell,5149,Yell,5149,Yell
+California,6000,,6000,,6000,
+California,6001,Alameda,6001,Alameda,6001,Alameda
+California,6003,Alpine,6003,Alpine,6003,Alpine
+California,6005,Amador,6005,Amador,6005,Amador
+California,6007,Butte,6007,Butte,6007,Butte
+California,6009,Calaveras,6009,Calaveras,6009,Calaveras
+California,6011,Colusa,6011,Colusa,6011,Colusa
+California,6013,Contra Costa,6013,Contra costa,6013,Contra costa
+California,6015,Del Norte,6015,Del norte,6015,Del norte
+California,6017,El Dorado,6017,El dorado,6017,El dorado
+California,6019,Fresno,6019,Fresno,6019,Fresno
+California,6021,Glenn,6021,Glenn,6021,Glenn
+California,6023,Humboldt,6023,Humboldt,6023,Humboldt
+California,6025,Imperial,6025,Imperial,6025,Imperial
+California,6027,Inyo,6027,Inyo,6027,Inyo
+California,6029,Kern,6029,Kern,6029,Kern
+California,6031,Kings,6031,Kings,6031,Kings
+California,6033,Lake,6033,Lake,6033,Lake
+California,6035,Lassen,6035,Lassen,6035,Lassen
+California,6037,Los Angeles,6037,Los angeles,6037,Los angeles
+California,6039,Madera,6039,Madera,6039,Madera
+California,6041,Marin,6041,Marin,6041,Marin
+California,6043,Mariposa,6043,Mariposa,6043,Mariposa
+California,6045,Mendocino,6045,Mendocino,6045,Mendocino
+California,6047,Merced,6047,Merced,6047,Merced
+California,6049,Modoc,6049,Modoc,6049,Modoc
+California,6051,Mono,6051,Mono,6051,Mono
+California,6053,Monterey,6053,Monterey,6053,Monterey
+California,6055,Napa,6055,Napa,6055,Napa
+California,6057,Nevada,6057,Nevada,6057,Nevada
+California,6059,Orange,6059,Orange,6059,Orange
+California,6061,Placer,6061,Placer,6061,Placer
+California,6063,Plumas,6063,Plumas,6063,Plumas
+California,6065,Riverside,6065,Riverside,6065,Riverside
+California,6067,Sacramento,6067,Sacramento,6067,Sacramento
+California,6069,San Benito,6069,San benito,6069,San benito
+California,6071,San Bernardino,6071,San bernardino,6071,San bernardino
+California,6073,San Diego,6073,San diego,6073,San diego
+California,6075,San Francisco,6075,San francisco,6075,San francisco
+California,6077,San Joaquin,6077,San joaquin,6077,San joaquin
+California,6079,San Luis Obispo,6079,San luis obispo,6079,San luis obispo
+California,6081,San Mateo,6081,San mateo,6081,San mateo
+California,6083,Santa Barbara,6083,Santa barbara,6083,Santa barbara
+California,6085,Santa Clara,6085,Santa clara,6085,Santa clara
+California,6087,Santa Cruz,6087,Santa cruz,6087,Santa cruz
+California,6089,Shasta,6089,Shasta,6089,Shasta
+California,6091,Sierra,6091,Sierra,6091,Sierra
+California,6093,Siskiyou,6093,Siskiyou,6093,Siskiyou
+California,6095,Solano,6095,Solano,6095,Solano
+California,6097,Sonoma,6097,Sonoma,6097,Sonoma
+California,6099,Stanislaus,6099,Stanislaus,6099,Stanislaus
+California,6101,Sutter,6101,Sutter,6101,Sutter
+California,6103,Tehama,6103,Tehama,6103,Tehama
+California,6105,Trinity,6105,Trinity,6105,Trinity
+California,6107,Tulare,6107,Tulare,6107,Tulare
+California,6109,Tuolumne,6109,Tuolumne,6109,Tuolumne
+California,6111,Ventura,6111,Ventura,6111,Ventura
+California,6113,Yolo,6113,Yolo,6113,Yolo
+California,6115,Yuba,6115,Yuba,6115,Yuba
+Colorado,8000,,8000,,8000,
+Colorado,8001,Adams,8001,Adams,8001,Adams
+Colorado,8003,Alamosa,8003,Alamosa,8003,Alamosa
+Colorado,8005,Arapahoe,8005,Arapahoe,8005,Arapahoe
+Colorado,8007,Archuleta,8007,Archuleta,8007,Archuleta
+Colorado,8009,Baca ,8009,Baca,8009,Baca
+Colorado,8011,Bent,8011,Bent,8011,Bent
+Colorado,8013,Boulder,8013,Boulder,8013,Boulder
+Colorado,8014,Broomfield,8014,Broomfield,8014,Broomfield
+Colorado,8015,Chaffee,8015,Chaffee,8015,Chaffee
+Colorado,8017,Cheyenne,8017,Cheyenne,8017,Cheyenne
+Colorado,8019,Clear Creek,8019,Clear creek,8019,Clear creek
+Colorado,8021,Conejos,8021,Conejos,8021,Conejos
+Colorado,8023,Costilla,8023,Costilla,8023,Costilla
+Colorado,8025,Crowley,8025,Crowley,8025,Crowley
+Colorado,8027,Custer,8027,Custer,8027,Custer
+Colorado,8029,Delta,8029,Delta,8029,Delta
+Colorado,8031,Denver,8031,Denver,8031,Denver
+Colorado,8033,Dolores,8033,Dolores,8033,Dolores
+Colorado,8035,Douglas,8035,Douglas,8035,Douglas
+Colorado,8037,Eagle,8037,Eagle,8037,Eagle
+Colorado,8039,Elbert,8039,Elbert,8039,Elbert
+Colorado,8041,El Paso,8041,El paso,8041,El paso
+Colorado,8043,Fremont,8043,Fremont,8043,Fremont
+Colorado,8045,Garfield,8045,Garfield,8045,Garfield
+Colorado,8047,Gilpin,8047,Gilpin,8047,Gilpin
+Colorado,8049,Grand,8049,Grand,8049,Grand
+Colorado,8051,Gunnison,8051,Gunnison,8051,Gunnison
+Colorado,8053,Hinsdale,8053,Hinsdale,8053,Hinsdale
+Colorado,8055,Huerfano,8055,Huerfano,8055,Huerfano
+Colorado,8057,Jackson,8057,Jackson,8057,Jackson
+Colorado,8059,Jefferson,8059,Jefferson,8059,Jefferson
+Colorado,8061,Kiowa,8061,Kiowa,8061,Kiowa
+Colorado,8063,Kit Carson,8063,Kit carson,8063,Kit carson
+Colorado,8065,Lake,8065,Lake,8065,Lake
+Colorado,8067,La Plata,8067,La plata,8067,La plata
+Colorado,8069,Larimer,8069,Larimer,8069,Larimer
+Colorado,8071,Las Animas,8071,Las animas,8071,Las animas
+Colorado,8073,Lincoln,8073,Lincoln,8073,Lincoln
+Colorado,8075,Logan,8075,Logan,8075,Logan
+Colorado,8077,Mesa,8077,Mesa,8077,Mesa
+Colorado,8079,Mineral,8079,Mineral,8079,Mineral
+Colorado,8081,Moffat,8081,Moffat,8081,Moffat
+Colorado,8083,Montezuma,8083,Montezuma,8083,Montezuma
+Colorado,8085,Montrose,8085,Montrose,8085,Montrose
+Colorado,8087,Morgan,8087,Morgan,8087,Morgan
+Colorado,8089,Otero,8089,Otero,8089,Otero
+Colorado,8091,Ouray,8091,Ouray,8091,Ouray
+Colorado,8093,Park,8093,Park,8093,Park
+Colorado,8095,Phillips,8095,Phillips,8095,Phillips
+Colorado,8097,Pitkin,8097,Pitkin,8097,Pitkin
+Colorado,8099,Prowers,8099,Prowers,8099,Prowers
+Colorado,8101,Pueblo,8101,Pueblo,8101,Pueblo
+Colorado,8103,Rio Blanco,8103,Rio blanco,8103,Rio blanco
+Colorado,8105,Rio Grande,8105,Rio grande,8105,Rio grande
+Colorado,8107,Routt,8107,Routt,8107,Routt
+Colorado,8109,Saguache,8109,Saguache,8109,Saguache
+Colorado,8111,San Juan,8111,San juan,8111,San juan
+Colorado,8113,San Miguel,8113,San miguel,8113,San miguel
+Colorado,8115,Sedgwick,8115,Sedgwick,8115,Sedgwick
+Colorado,8117,Summit,8117,Summit,8117,Summit
+Colorado,8119,Teller,8119,Teller,8119,Teller
+Colorado,8121,Washington,8121,Washington,8121,Washington
+Colorado,8123,Weld,8123,Weld,8123,Weld
+Colorado,8125,Yuma,8125,Yuma,8125,Yuma
+Connecticut,9000,,9000,,9000,
+Connecticut,9001,Fairfield,9001,Fairfield,9001,Fairfield
+Connecticut,9003,Hartford,9003,Hartford,9003,Hartford
+Connecticut,9005,Litchfield,9005,Litchfield,9005,Litchfield
+Connecticut,9007,Middlesex,9007,Middlesex,9007,Middlesex
+Connecticut,9009,New Haven,9009,New haven,9009,New haven
+Connecticut,9011,New London,9011,New london,9011,New london
+Connecticut,9013,Tolland,9013,Tolland,9013,Tolland
+Connecticut,9015,Windham,9015,Windham,9015,Windham
+Delaware,10000,,10000,,10000,
+Delaware,10001,Kent,10001,Kent,10001,Kent
+Delaware,10003,New Castle,10003,New castle,10003,New castle
+Delaware,10005,Sussex,10005,Sussex,10005,Sussex
+District of columbia,11000,,11000,,11000,
+District of columbia,11001,District of Columbia,11001,District of columbia,11001,District of columbia
+Florida,12000,,12000,,12000,
+Florida,12001,Alachua ,12001,Alachua,12001,Alachua
+Florida,12003,Baker ,12003,Baker,12003,Baker
+Florida,12005,Bay ,12005,Bay,12005,Bay
+Florida,12007,Bradford ,12007,Bradford,12007,Bradford
+Florida,12009,Brevard,12009,Brevard,12009,Brevard
+Florida,12011,Broward ,12011,Broward,12011,Broward
+Florida,12013,Calhoun ,12013,Calhoun,12013,Calhoun
+Florida,12015,Charlotte ,12015,Charlotte,12015,Charlotte
+Florida,12017,Citrus ,12017,Citrus,12017,Citrus
+Florida,12019,Clay ,12019,Clay,12019,Clay
+Florida,12021,Collier ,12021,Collier,12021,Collier
+Florida,12023,Columbia ,12023,Columbia,12023,Columbia
+Florida,12027,DeSoto ,12027,Desoto,12027,Desoto
+Florida,12029,Dixie ,12029,Dixie,12029,Dixie
+Florida,12031,Duval,12031,Duval,12031,Duval
+Florida,12033,Escambia ,12033,Escambia,12033,Escambia
+Florida,12035,Flagler,12035,Flagler,12035,Flagler
+Florida,12037,Franklin ,12037,Franklin,12037,Franklin
+Florida,12039,Gadsden ,12039,Gadsden,12039,Gadsden
+Florida,12041,Gilchrist ,12041,Gilchrist,12041,Gilchrist
+Florida,12043,Glades ,12043,Glades,12043,Glades
+Florida,12045,Gulf ,12045,Gulf,12045,Gulf
+Florida,12047,Hamilton ,12047,Hamilton,12047,Hamilton
+Florida,12049,Hardee ,12049,Hardee,12049,Hardee
+Florida,12051,Hendry ,12051,Hendry,12051,Hendry
+Florida,12053,Hernando ,12053,Hernando,12053,Hernando
+Florida,12055,Highlands ,12055,Highlands,12055,Highlands
+Florida,12057,Hillsborough ,12057,Hillsborough,12057,Hillsborough
+Florida,12059,Holmes ,12059,Holmes,12059,Holmes
+Florida,12061,Indian River ,12061,Indian river,12061,Indian river
+Florida,12063,Jackson ,12063,Jackson,12063,Jackson
+Florida,12065,Jefferson ,12065,Jefferson,12065,Jefferson
+Florida,12067,Lafayette ,12067,Lafayette,12067,Lafayette
+Florida,12069,Lake ,12069,Lake,12069,Lake
+Florida,12071,Lee ,12071,Lee,12071,Lee
+Florida,12073,Leon ,12073,Leon,12073,Leon
+Florida,12075,Levy ,12075,Levy,12075,Levy
+Florida,12077,Liberty ,12077,Liberty,12077,Liberty
+Florida,12079,Madison ,12079,Madison,12079,Madison
+Florida,12081,Manatee ,12081,Manatee,12081,Manatee
+Florida,12083,Marion ,12083,Marion,12083,Marion
+Florida,12085,Martin ,12085,Martin,12085,Martin
+Florida,12086,Miami-Dade ,12086,Miami-dade,12086,Miami-dade
+Florida,12087,Monroe ,12087,Monroe,12087,Monroe
+Florida,12089,Nassau ,12089,Nassau,12089,Nassau
+Florida,12091,Okaloosa ,12091,Okaloosa,12091,Okaloosa
+Florida,12093,Okeechobee ,12093,Okeechobee,12093,Okeechobee
+Florida,12095,Orange ,12095,Orange,12095,Orange
+Florida,12097,Osceola ,12097,Osceola,12097,Osceola
+Florida,12099,Palm Beach ,12099,Palm beach,12099,Palm beach
+Florida,12101,Pasco ,12101,Pasco,12101,Pasco
+Florida,12103,Pinellas ,12103,Pinellas,12103,Pinellas
+Florida,12105,Polk ,12105,Polk,12105,Polk
+Florida,12107,Putnam ,12107,Putnam,12107,Putnam
+Florida,12109,St. Johns,12109,St. johns,12109,St. johns
+Florida,12111,St. Lucie ,12111,St. lucie,12111,St. lucie
+Florida,12113,Santa Rosa ,12113,Santa rosa,12113,Santa rosa
+Florida,12115,Sarasota ,12115,Sarasota,12115,Sarasota
+Florida,12117,Seminole ,12117,Seminole,12117,Seminole
+Florida,12119,Sumter ,12119,Sumter,12119,Sumter
+Florida,12121,Suwannee ,12121,Suwannee,12121,Suwannee
+Florida,12123,Taylor ,12123,Taylor,12123,Taylor
+Florida,12125,Union ,12125,Union,12125,Union
+Florida,12127,Volusia,12127,Volusia,12127,Volusia
+Florida,12129,Wakulla ,12129,Wakulla,12129,Wakulla
+Florida,12131,Walton ,12131,Walton,12131,Walton
+Florida,12133,Washington ,12133,Washington,12133,Washington
+Georgia,13000,,13000,,13000,
+Georgia,13001,Appling,13001,Appling,13001,Appling
+Georgia,13003,Atkinson,13003,Atkinson,13003,Atkinson
+Georgia,13005,Bacon,13005,Bacon,13005,Bacon
+Georgia,13007,Baker,13007,Baker,13007,Baker
+Georgia,13009,Baldwin,13009,Baldwin,13009,Baldwin
+Georgia,13011,Banks,13011,Banks,13011,Banks
+Georgia,13013,Barrow,13013,Barrow,13013,Barrow
+Georgia,13015,Bartow,13015,Bartow,13015,Bartow
+Georgia,13017,Ben Hill,13017,Ben hill,13017,Ben hill
+Georgia,13019,Berrien,13019,Berrien,13019,Berrien
+Georgia,13021,Bibb,13021,Bibb,13021,Bibb
+Georgia,13023,Bleckley,13023,Bleckley,13023,Bleckley
+Georgia,13025,Brantley,13025,Brantley,13025,Brantley
+Georgia,13027,Brooks,13027,Brooks,13027,Brooks
+Georgia,13029,Bryan,13029,Bryan,13029,Bryan
+Georgia,13031,Bulloch,13031,Bulloch,13031,Bulloch
+Georgia,13033,Burke,13033,Burke,13033,Burke
+Georgia,13035,Butts,13035,Butts,13035,Butts
+Georgia,13037,Calhoun,13037,Calhoun,13037,Calhoun
+Georgia,13039,Camden,13039,Camden,13039,Camden
+Georgia,13043,Candler,13043,Candler,13043,Candler
+Georgia,13045,Carroll,13045,Carroll,13045,Carroll
+Georgia,13047,Catoosa,13047,Catoosa,13047,Catoosa
+Georgia,13049,Charlton,13049,Charlton,13049,Charlton
+Georgia,13051,Chatham,13051,Chatham,13051,Chatham
+Georgia,13053,Chattahoochee,13053,Chattahoochee,13053,Chattahoochee
+Georgia,13055,Chattooga,13055,Chattooga,13055,Chattooga
+Georgia,13057,Cherokee,13057,Cherokee,13057,Cherokee
+Georgia,13059,Clarke,13059,Clarke,13059,Clarke
+Georgia,13061,Clay,13061,Clay,13061,Clay
+Georgia,13063,Clayton,13063,Clayton,13063,Clayton
+Georgia,13065,Clinch,13065,Clinch,13065,Clinch
+Georgia,13067,Cobb,13067,Cobb,13067,Cobb
+Georgia,13069,Coffee,13069,Coffee,13069,Coffee
+Georgia,13071,Colquitt,13071,Colquitt,13071,Colquitt
+Georgia,13073,Columbia,13073,Columbia,13073,Columbia
+Georgia,13075,Cook,13075,Cook,13075,Cook
+Georgia,13077,Coweta,13077,Coweta,13077,Coweta
+Georgia,13079,Crawford,13079,Crawford,13079,Crawford
+Georgia,13081,Crisp,13081,Crisp,13081,Crisp
+Georgia,13083,Dade,13083,Dade,13083,Dade
+Georgia,13085,Dawson,13085,Dawson,13085,Dawson
+Georgia,13087,Decatur,13087,Decatur,13087,Decatur
+Georgia,13089,DeKalb,13089,Dekalb,13089,Dekalb
+Georgia,13091,Dodge,13091,Dodge,13091,Dodge
+Georgia,13093,Dooly,13093,Dooly,13093,Dooly
+Georgia,13095,Dougherty,13095,Dougherty,13095,Dougherty
+Georgia,13097,Douglas,13097,Douglas,13097,Douglas
+Georgia,13099,Early,13099,Early,13099,Early
+Georgia,13101,Echols,13101,Echols,13101,Echols
+Georgia,13103,Effingham,13103,Effingham,13103,Effingham
+Georgia,13105,Elbert ,13105,Elbert,13105,Elbert
+Georgia,13107,Emanuel,13107,Emanuel,13107,Emanuel
+Georgia,13109,Evans,13109,Evans,13109,Evans
+Georgia,13111,Fannin,13111,Fannin,13111,Fannin
+Georgia,13113,Fayette,13113,Fayette,13113,Fayette
+Georgia,13115,Floyd,13115,Floyd,13115,Floyd
+Georgia,13117,Forsyth,13117,Forsyth,13117,Forsyth
+Georgia,13119,Franklin,13119,Franklin,13119,Franklin
+Georgia,13121,Fulton,13121,Fulton,13121,Fulton
+Georgia,13123,Gilmer,13123,Gilmer,13123,Gilmer
+Georgia,13125,Glascock,13125,Glascock,13125,Glascock
+Georgia,13127,Glynn,13127,Glynn,13127,Glynn
+Georgia,13129,Gordon,13129,Gordon,13129,Gordon
+Georgia,13131,Grady,13131,Grady,13131,Grady
+Georgia,13133,Greene,13133,Greene,13133,Greene
+Georgia,13135,Gwinnett,13135,Gwinnett,13135,Gwinnett
+Georgia,13137,Habersham,13137,Habersham,13137,Habersham
+Georgia,13139,Hall,13139,Hall,13139,Hall
+Georgia,13141,Hancock,13141,Hancock,13141,Hancock
+Georgia,13143,Haralson,13143,Haralson,13143,Haralson
+Georgia,13145,Harris,13145,Harris,13145,Harris
+Georgia,13147,Hart,13147,Hart,13147,Hart
+Georgia,13149,Heard,13149,Heard,13149,Heard
+Georgia,13151,Henry,13151,Henry,13151,Henry
+Georgia,13153,Houston,13153,Houston,13153,Houston
+Georgia,13155,Irwin,13155,Irwin,13155,Irwin
+Georgia,13157,Jackson,13157,Jackson,13157,Jackson
+Georgia,13159,Jasper,13159,Jasper,13159,Jasper
+Georgia,13161,Jeff Davis,13161,Jeff davis,13161,Jeff davis
+Georgia,13163,Jefferson,13163,Jefferson,13163,Jefferson
+Georgia,13165,Jenkins,13165,Jenkins,13165,Jenkins
+Georgia,13167,Johnson,13167,Johnson,13167,Johnson
+Georgia,13169,Jones,13169,Jones,13169,Jones
+Georgia,13171,Lamar,13171,Lamar,13171,Lamar
+Georgia,13173,Lanier,13173,Lanier,13173,Lanier
+Georgia,13175,Laurens,13175,Laurens,13175,Laurens
+Georgia,13177,Lee,13177,Lee,13177,Lee
+Georgia,13179,Liberty,13179,Liberty,13179,Liberty
+Georgia,13181,Lincoln,13181,Lincoln,13181,Lincoln
+Georgia,13183,Long,13183,Long,13183,Long
+Georgia,13185,Lowndes,13185,Lowndes,13185,Lowndes
+Georgia,13187,Lumpkin,13187,Lumpkin,13187,Lumpkin
+Georgia,13189,McDuffie,13189,Mcduffie,13189,Mcduffie
+Georgia,13191,McIntosh,13191,Mcintosh,13191,Mcintosh
+Georgia,13193,Macon,13193,Macon,13193,Macon
+Georgia,13195,Madison,13195,Madison,13195,Madison
+Georgia,13197,Marion,13197,Marion,13197,Marion
+Georgia,13199,Meriwether,13199,Meriwether,13199,Meriwether
+Georgia,13201,Miller,13201,Miller,13201,Miller
+Georgia,13205,Mitchell,13205,Mitchell,13205,Mitchell
+Georgia,13207,Monroe,13207,Monroe,13207,Monroe
+Georgia,13209,Montgomery,13209,Montgomery,13209,Montgomery
+Georgia,13211,Morgan,13211,Morgan,13211,Morgan
+Georgia,13213,Murray,13213,Murray,13213,Murray
+Georgia,13215,Muscogee,13215,Muscogee,13215,Muscogee
+Georgia,13217,Newton,13217,Newton,13217,Newton
+Georgia,13219,Oconee,13219,Oconee,13219,Oconee
+Georgia,13221,Ogelthorpe,13221,Oglethorpe,13221,Oglethorpe
+Georgia,13223,Paulding,13223,Paulding,13223,Paulding
+Georgia,13225,Peach,13225,Peach,13225,Peach
+Georgia,13227,Pickens,13227,Pickens,13227,Pickens
+Georgia,13229,Pierce,13229,Pierce,13229,Pierce
+Georgia,13231,Pike,13231,Pike,13231,Pike
+Georgia,13233,Polk,13233,Polk,13233,Polk
+Georgia,13235,Pulaski,13235,Pulaski,13235,Pulaski
+Georgia,13237,Putnam,13237,Putnam,13237,Putnam
+Georgia,13239,Quitman,13239,Quitman,13239,Quitman
+Georgia,13241,Rabun,13241,Rabun,13241,Rabun
+Georgia,13243,Randolph,13243,Randolph,13243,Randolph
+Georgia,13245,Richmond,13245,Richmond,13245,Richmond
+Georgia,13247,Rockdale,13247,Rockdale,13247,Rockdale
+Georgia,13249,Schley,13249,Schley,13249,Schley
+Georgia,13251,Screven ,13251,Screven,13251,Screven
+Georgia,13253,Seminole,13253,Seminole,13253,Seminole
+Georgia,13255,Spalding,13255,Spalding,13255,Spalding
+Georgia,13257,Stephens,13257,Stephens,13257,Stephens
+Georgia,13259,Stewart,13259,Stewart,13259,Stewart
+Georgia,13261,Sumter,13261,Sumter,13261,Sumter
+Georgia,13263,Talbot,13263,Talbot,13263,Talbot
+Georgia,13265,Taliaferro,13265,Taliaferro,13265,Taliaferro
+Georgia,13267,Tattnall,13267,Tattnall,13267,Tattnall
+Georgia,13269,Taylor,13269,Taylor,13269,Taylor
+Georgia,13271,Telfair,13271,Telfair,13271,Telfair
+Georgia,13273,Terrell,13273,Terrell,13273,Terrell
+Georgia,13275,Thomas,13275,Thomas,13275,Thomas
+Georgia,13277,Tift,13277,Tift,13277,Tift
+Georgia,13279,Toombs,13279,Toombs,13279,Toombs
+Georgia,13281,Towns,13281,Towns,13281,Towns
+Georgia,13283,Treutlen,13283,Treutlen,13283,Treutlen
+Georgia,13285,Troup,13285,Troup,13285,Troup
+Georgia,13287,Turner,13287,Turner,13287,Turner
+Georgia,13289,Twiggs,13289,Twiggs,13289,Twiggs
+Georgia,13291,Union,13291,Union,13291,Union
+Georgia,13293,Upson,13293,Upson,13293,Upson
+Georgia,13295,Walker,13295,Walker,13295,Walker
+Georgia,13297,Walton,13297,Walton,13297,Walton
+Georgia,13299,Ware,13299,Ware,13299,Ware
+Georgia,13301,Warren ,13301,Warren,13301,Warren
+Georgia,13303,Washington,13303,Washington,13303,Washington
+Georgia,13305,Wayne,13305,Wayne,13305,Wayne
+Georgia,13307,Webster,13307,Webster,13307,Webster
+Georgia,13309,Wheeler,13309,Wheeler,13309,Wheeler
+Georgia,13311,White,13311,White,13311,White
+Georgia,13313,Whitfield,13313,Whitfield,13313,Whitfield
+Georgia,13315,Wilcox,13315,Wilcox,13315,Wilcox
+Georgia,13317,Wilkes,13317,Wilkes,13317,Wilkes
+Georgia,13319,Wilkinson,13319,Wilkinson,13319,Wilkinson
+Georgia,13321,Worth,13321,Worth,13321,Worth
+Hawaii,15000,,15000,,15000,
+Hawaii,15001,Hawaii (county),15001,Hawaii,15001,Hawaii
+Hawaii,15003,Honolulu,15003,Honolulu,15003,Honolulu
+Hawaii,15005,Kalawao,15005,Kalawao,15005,Kalawao
+Hawaii,15007,Kauai,15007,Kauai,15007,Kauai
+Hawaii,15009,Maui,15009,Maui,15009,Maui
+Idaho,16000,,16000,,16000,
+Idaho,16001,Ada,16001,Ada,16001,Ada
+Idaho,16003,Adams,16003,Adams,16003,Adams
+Idaho,16005,Bannock,16005,Bannock,16005,Bannock
+Idaho,16007,Bear Lake,16007,Bear lake,16007,Bear lake
+Idaho,16009,Benewah,16009,Benewah,16009,Benewah
+Idaho,16011,Bingham,16011,Bingham,16011,Bingham
+Idaho,16013,Blaine,16013,Blaine,16013,Blaine
+Idaho,16015,Boise,16015,Boise,16015,Boise
+Idaho,16017,Bonner,16017,Bonner,16017,Bonner
+Idaho,16019,Bonneville,16019,Bonneville,16019,Bonneville
+Idaho,16021,Boundary,16021,Boundary,16021,Boundary
+Idaho,16023,Butte,16023,Butte,16023,Butte
+Idaho,16025,Camas,16025,Camas,16025,Camas
+Idaho,16027,Canyon,16027,Canyon,16027,Canyon
+Idaho,16029,Caribou,16029,Caribou,16029,Caribou
+Idaho,16031,Cassia,16031,Cassia,16031,Cassia
+Idaho,16033,Clark,16033,Clark,16033,Clark
+Idaho,16035,Clearwater,16035,Clearwater,16035,Clearwater
+Idaho,16037,Custer,16037,Custer,16037,Custer
+Idaho,16039,Elmore,16039,Elmore,16039,Elmore
+Idaho,16041,Franklin,16041,Franklin,16041,Franklin
+Idaho,16043,Fremont,16043,Fremont,16043,Fremont
+Idaho,16045,Gem,16045,Gem,16045,Gem
+Idaho,16047,Gooding,16047,Gooding,16047,Gooding
+Idaho,16049,Idaho (county),16049,Idaho,16049,Idaho
+Idaho,16051,Jefferson,16051,Jefferson,16051,Jefferson
+Idaho,16053,Jerome,16053,Jerome,16053,Jerome
+Idaho,16055,Kootenai,16055,Kootenai,16055,Kootenai
+Idaho,16057,Latah,16057,Latah,16057,Latah
+Idaho,16059,Lemhi,16059,Lemhi,16059,Lemhi
+Idaho,16061,Lewis,16061,Lewis,16061,Lewis
+Idaho,16063,Lincoln,16063,Lincoln,16063,Lincoln
+Idaho,16065,Madison,16065,Madison,16065,Madison
+Idaho,16067,Minidoka,16067,Minidoka,16067,Minidoka
+Idaho,16069,Nez Perce,16069,Nez perce,16069,Nez perce
+Idaho,16071,Oneida,16071,Oneida,16071,Oneida
+Idaho,16073,Owyhee,16073,Owyhee,16073,Owyhee
+Idaho,16075,Payette,16075,Payette,16075,Payette
+Idaho,16077,Power,16077,Power,16077,Power
+Idaho,16079,Shoshone,16079,Shoshone,16079,Shoshone
+Idaho,16081,Teton,16081,Teton,16081,Teton
+Idaho,16083,Twin Falls,16083,Twin falls,16083,Twin falls
+Idaho,16085,Valley,16085,Valley,16085,Valley
+Idaho,16087,Washington,16087,Washington,16087,Washington
+Illinois,17000,,17000,,17000,
+Illinois,17001,Adams,17001,Adams,17001,Adams
+Illinois,17003,Alexander,17003,Alexander,17003,Alexander
+Illinois,17005,Bond,17005,Bond,17005,Bond
+Illinois,17007,Boone,17007,Boone,17007,Boone
+Illinois,17009,Brown,17009,Brown,17009,Brown
+Illinois,17011,Bureau,17011,Bureau,17011,Bureau
+Illinois,17013,Calhoun,17013,Calhoun,17013,Calhoun
+Illinois,17015,Carroll,17015,Carroll,17015,Carroll
+Illinois,17017,Cass,17017,Cass,17017,Cass
+Illinois,17019,Champaign,17019,Champaign,17019,Champaign
+Illinois,17021,Christian,17021,Christian,17021,Christian
+Illinois,17023,Clark,17023,Clark,17023,Clark
+Illinois,17025,Clay,17025,Clay,17025,Clay
+Illinois,17027,Clinton,17027,Clinton,17027,Clinton
+Illinois,17029,Coles,17029,Coles,17029,Coles
+Illinois,17031,Cook,17031,Cook,17031,Cook
+Illinois,17033,Crawford,17033,Crawford,17033,Crawford
+Illinois,17035,Cumberland,17035,Cumberland,17035,Cumberland
+Illinois,17037,DeKalb,17037,Dekalb,17037,Dekalb
+Illinois,17039,De Witt,17039,De witt,17039,De witt
+Illinois,17041,Douglas,17041,Douglas,17041,Douglas
+Illinois,17043,DuPage,17043,Dupage,17043,Dupage
+Illinois,17045,Edgar,17045,Edgar,17045,Edgar
+Illinois,17047,Edwards,17047,Edwards,17047,Edwards
+Illinois,17049,Effingham,17049,Effingham,17049,Effingham
+Illinois,17051,Fayette,17051,Fayette,17051,Fayette
+Illinois,17053,Ford,17053,Ford,17053,Ford
+Illinois,17055,Franklin,17055,Franklin,17055,Franklin
+Illinois,17057,Fulton,17057,Fulton,17057,Fulton
+Illinois,17059,Gallatin,17059,Gallatin,17059,Gallatin
+Illinois,17061,Greene,17061,Greene,17061,Greene
+Illinois,17063,Grundy,17063,Grundy,17063,Grundy
+Illinois,17065,Hamilton,17065,Hamilton,17065,Hamilton
+Illinois,17067,Hancock,17067,Hancock,17067,Hancock
+Illinois,17069,Hardin,17069,Hardin,17069,Hardin
+Illinois,17071,Henderson,17071,Henderson,17071,Henderson
+Illinois,17073,Henry,17073,Henry,17073,Henry
+Illinois,17075,Iroquois,17075,Iroquois,17075,Iroquois
+Illinois,17077,Jackson,17077,Jackson,17077,Jackson
+Illinois,17079,Jasper,17079,Jasper,17079,Jasper
+Illinois,17081,Jefferson,17081,Jefferson,17081,Jefferson
+Illinois,17083,Jersey,17083,Jersey,17083,Jersey
+Illinois,17085,Jo Daviess,17085,Jo daviess,17085,Jo daviess
+Illinois,17087,Johnson,17087,Johnson,17087,Johnson
+Illinois,17089,Kane,17089,Kane,17089,Kane
+Illinois,17091,Kankakee,17091,Kankakee,17091,Kankakee
+Illinois,17093,Kendall,17093,Kendall,17093,Kendall
+Illinois,17095,Knox,17095,Knox,17095,Knox
+Illinois,17097,Lake,17097,Lake,17097,Lake
+Illinois,17099,La Salle,17099,Lasalle,17099,Lasalle
+Illinois,17101,Lawrence,17101,Lawrence,17101,Lawrence
+Illinois,17103,Lee,17103,Lee,17103,Lee
+Illinois,17105,Livingston,17105,Livingston,17105,Livingston
+Illinois,17107,Logan,17107,Logan,17107,Logan
+Illinois,17109,McDonough,17109,Mcdonough,17109,Mcdonough
+Illinois,17111,McHenry,17111,Mchenry,17111,Mchenry
+Illinois,17113,McLean,17113,Mclean,17113,Mclean
+Illinois,17115,Macon,17115,Macon,17115,Macon
+Illinois,17117,Macoupin,17117,Macoupin,17117,Macoupin
+Illinois,17119,Madison,17119,Madison,17119,Madison
+Illinois,17121,Marion,17121,Marion,17121,Marion
+Illinois,17123,Marshall,17123,Marshall,17123,Marshall
+Illinois,17125,Mason,17125,Mason,17125,Mason
+Illinois,17127,Massac,17127,Massac,17127,Massac
+Illinois,17129,Menard,17129,Menard,17129,Menard
+Illinois,17131,Mercer,17131,Mercer,17131,Mercer
+Illinois,17133,Monroe,17133,Monroe,17133,Monroe
+Illinois,17135,Montgomery,17135,Montgomery,17135,Montgomery
+Illinois,17137,Morgan,17137,Morgan,17137,Morgan
+Illinois,17139,Moultrie,17139,Moultrie,17139,Moultrie
+Illinois,17141,Ogle,17141,Ogle,17141,Ogle
+Illinois,17143,Peoria,17143,Peoria,17143,Peoria
+Illinois,17145,Perry,17145,Perry,17145,Perry
+Illinois,17147,Piatt ,17147,Piatt,17147,Piatt
+Illinois,17149,Pike,17149,Pike,17149,Pike
+Illinois,17151,Pope,17151,Pope,17151,Pope
+Illinois,17153,Pulaski,17153,Pulaski,17153,Pulaski
+Illinois,17155,Putnam,17155,Putnam,17155,Putnam
+Illinois,17157,Randolph,17157,Randolph,17157,Randolph
+Illinois,17159,Richland,17159,Richland,17159,Richland
+Illinois,17161,Rock Island,17161,Rock island,17161,Rock island
+Illinois,17163,St. Clair,17163,St. clair,17163,St. clair
+Illinois,17165,Saline,17165,Saline,17165,Saline
+Illinois,17167,Sangamon,17167,Sangamon,17167,Sangamon
+Illinois,17169,Schuyler ,17169,Schuyler,17169,Schuyler
+Illinois,17171,Scott,17171,Scott,17171,Scott
+Illinois,17173,Shelby,17173,Shelby,17173,Shelby
+Illinois,17175,Stark,17175,Stark,17175,Stark
+Illinois,17177,Stephenson,17177,Stephenson,17177,Stephenson
+Illinois,17179,Tazewell,17179,Tazewell,17179,Tazewell
+Illinois,17181,Union,17181,Union,17181,Union
+Illinois,17183,Vermilion,17183,Vermilion,17183,Vermilion
+Illinois,17185,Wabash,17185,Wabash,17185,Wabash
+Illinois,17187,Warren,17187,Warren,17187,Warren
+Illinois,17189,Washington,17189,Washington,17189,Washington
+Illinois,17191,Wayne,17191,Wayne,17191,Wayne
+Illinois,17193,White,17193,White,17193,White
+Illinois,17195,Whiteside,17195,Whiteside,17195,Whiteside
+Illinois,17197,Will,17197,Will,17197,Will
+Illinois,17199,Williamson,17199,Williamson,17199,Williamson
+Illinois,17201,Winnebago,17201,Winnebago,17201,Winnebago
+Illinois,17203,Woodford,17203,Woodford,17203,Woodford
+Indiana,18000,,18000,,18000,
+Indiana,18001,Adams,18001,Adams,18001,Adams
+Indiana,18003,Allen,18003,Allen,18003,Allen
+Indiana,18005,Bartholomew,18005,Bartholomew,18005,Bartholomew
+Indiana,18007,Benton,18007,Benton,18007,Benton
+Indiana,18009,Blackford,18009,Blackford,18009,Blackford
+Indiana,18011,Boone,18011,Boone,18011,Boone
+Indiana,18013,Brown,18013,Brown,18013,Brown
+Indiana,18015,Carroll,18015,Carroll,18015,Carroll
+Indiana,18017,Cass,18017,Cass,18017,Cass
+Indiana,18019,Clark,18019,Clark,18019,Clark
+Indiana,18021,Clay,18021,Clay,18021,Clay
+Indiana,18023,Clinton,18023,Clinton,18023,Clinton
+Indiana,18025,Crawford,18025,Crawford,18025,Crawford
+Indiana,18027,Daviess,18027,Daviess,18027,Daviess
+Indiana,18029,Dearborn,18029,Dearborn,18029,Dearborn
+Indiana,18031,Decatur,18031,Decatur,18031,Decatur
+Indiana,18033,DeKalb,18033,Dekalb,18033,Dekalb
+Indiana,18035,Delaware,18035,Delaware,18035,Delaware
+Indiana,18037,Dubois,18037,Dubois,18037,Dubois
+Indiana,18039,Elkhart,18039,Elkhart,18039,Elkhart
+Indiana,18041,Fayette,18041,Fayette,18041,Fayette
+Indiana,18043,Floyd,18043,Floyd,18043,Floyd
+Indiana,18045,Fountain,18045,Fountain,18045,Fountain
+Indiana,18047,Franklin,18047,Franklin,18047,Franklin
+Indiana,18049,Fulton,18049,Fulton,18049,Fulton
+Indiana,18051,Gibson,18051,Gibson,18051,Gibson
+Indiana,18053,Grant,18053,Grant,18053,Grant
+Indiana,18055,Greene,18055,Greene,18055,Greene
+Indiana,18057,Hamilton,18057,Hamilton,18057,Hamilton
+Indiana,18059,Hancock,18059,Hancock,18059,Hancock
+Indiana,18061,Harrison,18061,Harrison,18061,Harrison
+Indiana,18063,Hendricks,18063,Hendricks,18063,Hendricks
+Indiana,18065,Henry,18065,Henry,18065,Henry
+Indiana,18067,Howard,18067,Howard,18067,Howard
+Indiana,18069,Huntington,18069,Huntington,18069,Huntington
+Indiana,18071,Jackson,18071,Jackson,18071,Jackson
+Indiana,18073,Jasper,18073,Jasper,18073,Jasper
+Indiana,18075,Jay,18075,Jay,18075,Jay
+Indiana,18077,Jefferson,18077,Jefferson,18077,Jefferson
+Indiana,18079,Jennings,18079,Jennings,18079,Jennings
+Indiana,18081,Johnson,18081,Johnson,18081,Johnson
+Indiana,18083,Knox,18083,Knox,18083,Knox
+Indiana,18085,Kosciusko,18085,Kosciusko,18085,Kosciusko
+Indiana,18087,LaGrange,18087,Lagrange,18087,Lagrange
+Indiana,18089,Lake,18089,Lake,18089,Lake
+Indiana,18091,LaPorte,18091,Laporte,18091,Laporte
+Indiana,18093,Lawrence,18093,Lawrence,18093,Lawrence
+Indiana,18095,Madison,18095,Madison,18095,Madison
+Indiana,18097,Marion,18097,Marion,18097,Marion
+Indiana,18099,Marshall,18099,Marshall,18099,Marshall
+Indiana,18101,Martin,18101,Martin,18101,Martin
+Indiana,18103,Miami,18103,Miami,18103,Miami
+Indiana,18105,Monroe,18105,Monroe,18105,Monroe
+Indiana,18107,Montgomery,18107,Montgomery,18107,Montgomery
+Indiana,18109,Morgan,18109,Morgan,18109,Morgan
+Indiana,18111,Newton,18111,Newton,18111,Newton
+Indiana,18113,Noble,18113,Noble,18113,Noble
+Indiana,18115,Ohio,18115,Ohio,18115,Ohio
+Indiana,18117,Orange,18117,Orange,18117,Orange
+Indiana,18119,Owen,18119,Owen,18119,Owen
+Indiana,18121,Parke,18121,Parke,18121,Parke
+Indiana,18123,Perry,18123,Perry,18123,Perry
+Indiana,18125,Pike,18125,Pike,18125,Pike
+Indiana,18127,Porter,18127,Porter,18127,Porter
+Indiana,18129,Posey,18129,Posey,18129,Posey
+Indiana,18131,Pulaski,18131,Pulaski,18131,Pulaski
+Indiana,18133,Putnam,18133,Putnam,18133,Putnam
+Indiana,18135,Randolph,18135,Randolph,18135,Randolph
+Indiana,18137,Ripley,18137,Ripley,18137,Ripley
+Indiana,18139,Rush,18139,Rush,18139,Rush
+Indiana,18141,St. Joseph,18141,St. joseph,18141,St. joseph
+Indiana,18143,Scott,18143,Scott,18143,Scott
+Indiana,18145,Shelby,18145,Shelby,18145,Shelby
+Indiana,18147,Spencer,18147,Spencer,18147,Spencer
+Indiana,18149,Starke,18149,Starke,18149,Starke
+Indiana,18151,Steuben,18151,Steuben,18151,Steuben
+Indiana,18153,Sullivan,18153,Sullivan,18153,Sullivan
+Indiana,18155,Switzerland,18155,Switzerland,18155,Switzerland
+Indiana,18157,Tippecanoe,18157,Tippecanoe,18157,Tippecanoe
+Indiana,18159,Tipton,18159,Tipton,18159,Tipton
+Indiana,18161,Union,18161,Union,18161,Union
+Indiana,18163,Vanderburgh,18163,Vanderburgh,18163,Vanderburgh
+Indiana,18165,Vermillion,18165,Vermillion,18165,Vermillion
+Indiana,18167,Vigo,18167,Vigo,18167,Vigo
+Indiana,18169,Wabash,18169,Wabash,18169,Wabash
+Indiana,18171,Warren,18171,Warren,18171,Warren
+Indiana,18173,Warrick,18173,Warrick,18173,Warrick
+Indiana,18175,Washington,18175,Washington,18175,Washington
+Indiana,18177,Wayne,18177,Wayne,18177,Wayne
+Indiana,18179,Wells,18179,Wells,18179,Wells
+Indiana,18181,White,18181,White,18181,White
+Indiana,18183,Whitley,18183,Whitley,18183,Whitley
+Iowa,19000,,19000,,19000,
+Iowa,19001,Adair,19001,Adair,19001,Adair
+Iowa,19003,Adams,19003,Adams,19003,Adams
+Iowa,19005,Allamakee,19005,Allamakee,19005,Allamakee
+Iowa,19007,Appanoose,19007,Appanoose,19007,Appanoose
+Iowa,19009,Audubon,19009,Audubon,19009,Audubon
+Iowa,19011,Benton,19011,Benton,19011,Benton
+Iowa,19013,Black Hawk,19013,Black hawk,19013,Black hawk
+Iowa,19015,Boone,19015,Boone,19015,Boone
+Iowa,19017,Bremer,19017,Bremer,19017,Bremer
+Iowa,19019,Buchanan,19019,Buchanan,19019,Buchanan
+Iowa,19021,Buena Vista,19021,Buena vista,19021,Buena vista
+Iowa,19023,Butler,19023,Butler,19023,Butler
+Iowa,19025,Calhoun,19025,Calhoun,19025,Calhoun
+Iowa,19027,Carroll,19027,Carroll,19027,Carroll
+Iowa,19029,Cass,19029,Cass,19029,Cass
+Iowa,19031,Cedar,19031,Cedar,19031,Cedar
+Iowa,19033,Cerro Gordo,19033,Cerro gordo,19033,Cerro gordo
+Iowa,19035,Cherokee,19035,Cherokee,19035,Cherokee
+Iowa,19037,Chickasaw,19037,Chickasaw,19037,Chickasaw
+Iowa,19039,Clarke,19039,Clarke,19039,Clarke
+Iowa,19041,Clay,19041,Clay,19041,Clay
+Iowa,19043,Clayton,19043,Clayton,19043,Clayton
+Iowa,19045,Clinton,19045,Clinton,19045,Clinton
+Iowa,19047,Crawford,19047,Crawford,19047,Crawford
+Iowa,19049,Dallas,19049,Dallas,19049,Dallas
+Iowa,19051,Davis,19051,Davis,19051,Davis
+Iowa,19053,Decatur,19053,Decatur,19053,Decatur
+Iowa,19055,Delaware,19055,Delaware,19055,Delaware
+Iowa,19057,Des Moines,19057,Des moines,19057,Des moines
+Iowa,19059,Dickinson,19059,Dickinson,19059,Dickinson
+Iowa,19061,Dubuque,19061,Dubuque,19061,Dubuque
+Iowa,19063,Emmet,19063,Emmet,19063,Emmet
+Iowa,19065,Fayette,19065,Fayette,19065,Fayette
+Iowa,19067,Floyd,19067,Floyd,19067,Floyd
+Iowa,19069,Franklin,19069,Franklin,19069,Franklin
+Iowa,19071,Fremont,19071,Fremont,19071,Fremont
+Iowa,19073,Greene,19073,Greene,19073,Greene
+Iowa,19075,Grundy,19075,Grundy,19075,Grundy
+Iowa,19077,Guthrie,19077,Guthrie,19077,Guthrie
+Iowa,19079,Hamilton,19079,Hamilton,19079,Hamilton
+Iowa,19081,Hancock,19081,Hancock,19081,Hancock
+Iowa,19083,Hardin,19083,Hardin,19083,Hardin
+Iowa,19085,Harrison,19085,Harrison,19085,Harrison
+Iowa,19087,Henry,19087,Henry,19087,Henry
+Iowa,19089,Howard,19089,Howard,19089,Howard
+Iowa,19091,Humboldt,19091,Humboldt,19091,Humboldt
+Iowa,19093,Ida,19093,Ida,19093,Ida
+Iowa,19095,Iowa (county),19095,Iowa,19095,Iowa
+Iowa,19097,Jackson,19097,Jackson,19097,Jackson
+Iowa,19099,Jasper,19099,Jasper,19099,Jasper
+Iowa,19101,Jefferson,19101,Jefferson,19101,Jefferson
+Iowa,19103,Johnson,19103,Johnson,19103,Johnson
+Iowa,19105,Jones,19105,Jones,19105,Jones
+Iowa,19107,Keokuk,19107,Keokuk,19107,Keokuk
+Iowa,19109,Kossuth,19109,Kossuth,19109,Kossuth
+Iowa,19111,Lee,19111,Lee,19111,Lee
+Iowa,19113,Linn,19113,Linn,19113,Linn
+Iowa,19115,Louisa,19115,Louisa,19115,Louisa
+Iowa,19117,Lucas,19117,Lucas,19117,Lucas
+Iowa,19119,Lyon,19119,Lyon,19119,Lyon
+Iowa,19121,Madison,19121,Madison,19121,Madison
+Iowa,19123,Mahaska,19123,Mahaska,19123,Mahaska
+Iowa,19125,Marion,19125,Marion,19125,Marion
+Iowa,19127,Marshall,19127,Marshall,19127,Marshall
+Iowa,19129,Mills,19129,Mills,19129,Mills
+Iowa,19131,Mitchell,19131,Mitchell,19131,Mitchell
+Iowa,19133,Monona,19133,Monona,19133,Monona
+Iowa,19135,Monroe,19135,Monroe,19135,Monroe
+Iowa,19137,Montgomery,19137,Montgomery,19137,Montgomery
+Iowa,19139,Muscatine,19139,Muscatine,19139,Muscatine
+Iowa,19141,O'Brien,19141,O'brien,19141,O'brien
+Iowa,19143,Osceola,19143,Osceola,19143,Osceola
+Iowa,19145,Page,19145,Page,19145,Page
+Iowa,19147,Palo Alto,19147,Palo alto,19147,Palo alto
+Iowa,19149,Plymouth ,19149,Plymouth,19149,Plymouth
+Iowa,19151,Pocahontas,19151,Pocahontas,19151,Pocahontas
+Iowa,19153,Polk,19153,Polk,19153,Polk
+Iowa,19155,Pottawattamie,19155,Pottawattamie,19155,Pottawattamie
+Iowa,19157,Poweshiek,19157,Poweshiek,19157,Poweshiek
+Iowa,19159,Ringgold,19159,Ringgold,19159,Ringgold
+Iowa,19161,Sac,19161,Sac,19161,Sac
+Iowa,19163,Scott,19163,Scott,19163,Scott
+Iowa,19165,Shelby,19165,Shelby,19165,Shelby
+Iowa,19167,Sioux,19167,Sioux,19167,Sioux
+Iowa,19169,Story,19169,Story,19169,Story
+Iowa,19171,Tama,19171,Tama,19171,Tama
+Iowa,19173,Taylor,19173,Taylor,19173,Taylor
+Iowa,19175,Union,19175,Union,19175,Union
+Iowa,19177,Van Buren,19177,Van buren,19177,Van buren
+Iowa,19179,Wapello,19179,Wapello,19179,Wapello
+Iowa,19181,Warren,19181,Warren,19181,Warren
+Iowa,19183,Washington,19183,Washington,19183,Washington
+Iowa,19185,Wayne,19185,Wayne,19185,Wayne
+Iowa,19187,Webster,19187,Webster,19187,Webster
+Iowa,19189,Winnebago,19189,Winnebago,19189,Winnebago
+Iowa,19191,Winneshiek,19191,Winneshiek,19191,Winneshiek
+Iowa,19193,Woodbury,19193,Woodbury,19193,Woodbury
+Iowa,19195,Worth,19195,Worth,19195,Worth
+Iowa,19197,Wright,19197,Wright,19197,Wright
+Kansas,20000,,20000,,20000,
+Kansas,20001,Allen,20001,Allen,20001,Allen
+Kansas,20003,Anderson,20003,Anderson,20003,Anderson
+Kansas,20005,Atchison,20005,Atchison,20005,Atchison
+Kansas,20007,Barber,20007,Barber,20007,Barber
+Kansas,20009,Barton,20009,Barton,20009,Barton
+Kansas,20011,Bourbon,20011,Bourbon,20011,Bourbon
+Kansas,20013,Brown,20013,Brown,20013,Brown
+Kansas,20015,Butler,20015,Butler,20015,Butler
+Kansas,20017,Chase,20017,Chase,20017,Chase
+Kansas,20019,Chautauqua,20019,Chautauqua,20019,Chautauqua
+Kansas,20021,Cherokee,20021,Cherokee,20021,Cherokee
+Kansas,20023,Cheyenne,20023,Cheyenne,20023,Cheyenne
+Kansas,20025,Clark,20025,Clark,20025,Clark
+Kansas,20027,Clay,20027,Clay,20027,Clay
+Kansas,20029,Cloud,20029,Cloud,20029,Cloud
+Kansas,20031,Coffey,20031,Coffey,20031,Coffey
+Kansas,20033,Comanche,20033,Comanche,20033,Comanche
+Kansas,20035,Cowley,20035,Cowley,20035,Cowley
+Kansas,20037,Crawford,20037,Crawford,20037,Crawford
+Kansas,20039,Decatur,20039,Decatur,20039,Decatur
+Kansas,20041,Dickinson,20041,Dickinson,20041,Dickinson
+Kansas,20043,Doniphan,20043,Doniphan,20043,Doniphan
+Kansas,20045,Douglas,20045,Douglas,20045,Douglas
+Kansas,20047,Edwards,20047,Edwards,20047,Edwards
+Kansas,20049,Elk,20049,Elk,20049,Elk
+Kansas,20051,Ellis,20051,Ellis,20051,Ellis
+Kansas,20053,Ellsworth,20053,Ellsworth,20053,Ellsworth
+Kansas,20055,Finney,20055,Finney,20055,Finney
+Kansas,20057,Ford,20057,Ford,20057,Ford
+Kansas,20059,Franklin,20059,Franklin,20059,Franklin
+Kansas,20061,Geary,20061,Geary,20061,Geary
+Kansas,20063,Gove,20063,Gove,20063,Gove
+Kansas,20065,Graham,20065,Graham,20065,Graham
+Kansas,20067,Grant,20067,Grant,20067,Grant
+Kansas,20069,Gray,20069,Gray,20069,Gray
+Kansas,20071,Greeley,20071,Greeley,20071,Greeley
+Kansas,20073,Greenwood,20073,Greenwood,20073,Greenwood
+Kansas,20075,Hamilton,20075,Hamilton,20075,Hamilton
+Kansas,20077,Harper,20077,Harper,20077,Harper
+Kansas,20079,Harvey,20079,Harvey,20079,Harvey
+Kansas,20081,Haskell,20081,Haskell,20081,Haskell
+Kansas,20083,Hodgman,20083,Hodgeman,20083,Hodgeman
+Kansas,20085,Jackson,20085,Jackson,20085,Jackson
+Kansas,20087,Jefferson,20087,Jefferson,20087,Jefferson
+Kansas,20089,Jewell,20089,Jewell,20089,Jewell
+Kansas,20091,Johnson,20091,Johnson,20091,Johnson
+Kansas,20093,Kearny,20093,Kearny,20093,Kearny
+Kansas,20095,Kingman,20095,Kingman,20095,Kingman
+Kansas,20097,Kiowa,20097,Kiowa,20097,Kiowa
+Kansas,20099,Labette,20099,Labette,20099,Labette
+Kansas,20101,Lane,20101,Lane,20101,Lane
+Kansas,20103,Leavenworth,20103,Leavenworth,20103,Leavenworth
+Kansas,20105,Lincoln,20105,Lincoln,20105,Lincoln
+Kansas,20107,Linn,20107,Linn,20107,Linn
+Kansas,20109,Logan,20109,Logan,20109,Logan
+Kansas,20111,Lyon,20111,Lyon,20111,Lyon
+Kansas,20113,McPherson,20113,Mcpherson,20113,Mcpherson
+Kansas,20115,Marion,20115,Marion,20115,Marion
+Kansas,20117,Marshall,20117,Marshall,20117,Marshall
+Kansas,20119,Meade,20119,Meade,20119,Meade
+Kansas,20121,Miami,20121,Miami,20121,Miami
+Kansas,20123,Mitchell,20123,Mitchell,20123,Mitchell
+Kansas,20125,Montgomery,20125,Montgomery,20125,Montgomery
+Kansas,20127,Morris,20127,Morris,20127,Morris
+Kansas,20129,Morton,20129,Morton,20129,Morton
+Kansas,20131,Nemaha,20131,Nemaha,20131,Nemaha
+Kansas,20133,Neosho,20133,Neosho,20133,Neosho
+Kansas,20135,Ness,20135,Ness,20135,Ness
+Kansas,20137,Norton,20137,Norton,20137,Norton
+Kansas,20139,Osage,20139,Osage,20139,Osage
+Kansas,20141,Osborne,20141,Osborne,20141,Osborne
+Kansas,20143,Ottawa,20143,Ottawa,20143,Ottawa
+Kansas,20145,Pawnee,20145,Pawnee,20145,Pawnee
+Kansas,20147,Phillips,20147,Phillips,20147,Phillips
+Kansas,20149,Pottawatomie,20149,Pottawatomie,20149,Pottawatomie
+Kansas,20151,Pratt,20151,Pratt,20151,Pratt
+Kansas,20153,Rawlins,20153,Rawlins,20153,Rawlins
+Kansas,20155,Reno,20155,Reno,20155,Reno
+Kansas,20157,Republic,20157,Republic,20157,Republic
+Kansas,20159,Rice,20159,Rice,20159,Rice
+Kansas,20161,Riley,20161,Riley,20161,Riley
+Kansas,20163,Rooks,20163,Rooks,20163,Rooks
+Kansas,20165,Rush,20165,Rush,20165,Rush
+Kansas,20167,Russell,20167,Russell,20167,Russell
+Kansas,20169,Saline,20169,Saline,20169,Saline
+Kansas,20171,Scott,20171,Scott,20171,Scott
+Kansas,20173,Sedgwick,20173,Sedgwick,20173,Sedgwick
+Kansas,20175,Seward,20175,Seward,20175,Seward
+Kansas,20177,Shawnee,20177,Shawnee,20177,Shawnee
+Kansas,20179,Sheridan,20179,Sheridan,20179,Sheridan
+Kansas,20181,Sherman,20181,Sherman,20181,Sherman
+Kansas,20183,Smith,20183,Smith,20183,Smith
+Kansas,20185,Stafford,20185,Stafford,20185,Stafford
+Kansas,20187,Stanton,20187,Stanton,20187,Stanton
+Kansas,20189,Stevens,20189,Stevens,20189,Stevens
+Kansas,20191,Sumner,20191,Sumner,20191,Sumner
+Kansas,20193,Thomas,20193,Thomas,20193,Thomas
+Kansas,20195,Trego,20195,Trego,20195,Trego
+Kansas,20197,Wabaunsee,20197,Wabaunsee,20197,Wabaunsee
+Kansas,20199,Wallace,20199,Wallace,20199,Wallace
+Kansas,20201,Washington,20201,Washington,20201,Washington
+Kansas,20203,Wichita,20203,Wichita,20203,Wichita
+Kansas,20205,Wilson,20205,Wilson,20205,Wilson
+Kansas,20207,Woodson,20207,Woodson,20207,Woodson
+Kansas,20209,Wyandotte,20209,Wyandotte,20209,Wyandotte
+Kentucky,21000,,21000,,21000,
+Kentucky,21001,Adair,21001,Adair,21001,Adair
+Kentucky,21003,Allen,21003,Allen,21003,Allen
+Kentucky,21005,Anderson,21005,Anderson,21005,Anderson
+Kentucky,21007,Ballard,21007,Ballard,21007,Ballard
+Kentucky,21009,Barren,21009,Barren,21009,Barren
+Kentucky,21011,Bath,21011,Bath,21011,Bath
+Kentucky,21013,Bell,21013,Bell,21013,Bell
+Kentucky,21015,Boone,21015,Boone,21015,Boone
+Kentucky,21017,Bourbon,21017,Bourbon,21017,Bourbon
+Kentucky,21019,Boyd,21019,Boyd,21019,Boyd
+Kentucky,21021,Boyle,21021,Boyle,21021,Boyle
+Kentucky,21023,Bracken,21023,Bracken,21023,Bracken
+Kentucky,21025,Breathitt,21025,Breathitt,21025,Breathitt
+Kentucky,21027,Breckinridge,21027,Breckinridge,21027,Breckinridge
+Kentucky,21029,Bullitt,21029,Bullitt,21029,Bullitt
+Kentucky,21031,Butler,21031,Butler,21031,Butler
+Kentucky,21033,Caldwell,21033,Caldwell,21033,Caldwell
+Kentucky,21035,Calloway,21035,Calloway,21035,Calloway
+Kentucky,21037,Campbell,21037,Campbell,21037,Campbell
+Kentucky,21039,Carlisle,21039,Carlisle,21039,Carlisle
+Kentucky,21041,Carroll,21041,Carroll,21041,Carroll
+Kentucky,21043,Carter,21043,Carter,21043,Carter
+Kentucky,21045,Casey,21045,Casey,21045,Casey
+Kentucky,21047,Christian,21047,Christian,21047,Christian
+Kentucky,21049,Clark,21049,Clark,21049,Clark
+Kentucky,21051,Clay,21051,Clay,21051,Clay
+Kentucky,21053,Clinton,21053,Clinton,21053,Clinton
+Kentucky,21055,Crittenden,21055,Crittenden,21055,Crittenden
+Kentucky,21057,Cumberland,21057,Cumberland,21057,Cumberland
+Kentucky,21059,Daviess,21059,Daviess,21059,Daviess
+Kentucky,21061,Edmonson,21061,Edmonson,21061,Edmonson
+Kentucky,21063,Elliott,21063,Elliott,21063,Elliott
+Kentucky,21065,Estill,21065,Estill,21065,Estill
+Kentucky,21067,Fayette,21067,Fayette,21067,Fayette
+Kentucky,21069,Fleming,21069,Fleming,21069,Fleming
+Kentucky,21071,Floyd,21071,Floyd,21071,Floyd
+Kentucky,21073,Franklin,21073,Franklin,21073,Franklin
+Kentucky,21075,Fulton,21075,Fulton,21075,Fulton
+Kentucky,21077,Gallatin,21077,Gallatin,21077,Gallatin
+Kentucky,21079,Garrard,21079,Garrard,21079,Garrard
+Kentucky,21081,Grant,21081,Grant,21081,Grant
+Kentucky,21083,Graves,21083,Graves,21083,Graves
+Kentucky,21085,Grayson,21085,Grayson,21085,Grayson
+Kentucky,21087,Green,21087,Green,21087,Green
+Kentucky,21089,Greenup,21089,Greenup,21089,Greenup
+Kentucky,21091,Hancock,21091,Hancock,21091,Hancock
+Kentucky,21093,Hardin,21093,Hardin,21093,Hardin
+Kentucky,21095,Harlan,21095,Harlan,21095,Harlan
+Kentucky,21097,Harrison,21097,Harrison,21097,Harrison
+Kentucky,21099,Hart,21099,Hart,21099,Hart
+Kentucky,21101,Henderson,21101,Henderson,21101,Henderson
+Kentucky,21103,Henry,21103,Henry,21103,Henry
+Kentucky,21105,Hickman,21105,Hickman,21105,Hickman
+Kentucky,21107,Hopkins,21107,Hopkins,21107,Hopkins
+Kentucky,21109,Jackson,21109,Jackson,21109,Jackson
+Kentucky,21111,Jefferson,21111,Jefferson,21111,Jefferson
+Kentucky,21113,Jessamine,21113,Jessamine,21113,Jessamine
+Kentucky,21115,Johnson,21115,Johnson,21115,Johnson
+Kentucky,21117,Kenton,21117,Kenton,21117,Kenton
+Kentucky,21119,Knott,21119,Knott,21119,Knott
+Kentucky,21121,Knox,21121,Knox,21121,Knox
+Kentucky,21123,Larue,21123,Larue,21123,Larue
+Kentucky,21125,Laurel,21125,Laurel,21125,Laurel
+Kentucky,21127,Lawrence,21127,Lawrence,21127,Lawrence
+Kentucky,21129,Lee,21129,Lee,21129,Lee
+Kentucky,21131,Leslie,21131,Leslie,21131,Leslie
+Kentucky,21133,Letcher,21133,Letcher,21133,Letcher
+Kentucky,21135,Lewis,21135,Lewis,21135,Lewis
+Kentucky,21137,Lincoln,21137,Lincoln,21137,Lincoln
+Kentucky,21139,Livingston,21139,Livingston,21139,Livingston
+Kentucky,21141,Logan,21141,Logan,21141,Logan
+Kentucky,21143,Lyon,21143,Lyon,21143,Lyon
+Kentucky,21145,McCracken,21145,Mccracken,21145,Mccracken
+Kentucky,21147,McCreary,21147,Mccreary,21147,Mccreary
+Kentucky,21149,McLean,21149,Mclean,21149,Mclean
+Kentucky,21151,Madison,21151,Madison,21151,Madison
+Kentucky,21153,Magoffin,21153,Magoffin,21153,Magoffin
+Kentucky,21155,Marion,21155,Marion,21155,Marion
+Kentucky,21157,Marshall,21157,Marshall,21157,Marshall
+Kentucky,21159,Martin,21159,Martin,21159,Martin
+Kentucky,21161,Mason,21161,Mason,21161,Mason
+Kentucky,21163,Meade,21163,Meade,21163,Meade
+Kentucky,21165,Menifee,21165,Menifee,21165,Menifee
+Kentucky,21167,Mercer,21167,Mercer,21167,Mercer
+Kentucky,21169,Metcalfe,21169,Metcalfe,21169,Metcalfe
+Kentucky,21171,Monroe,21171,Monroe,21171,Monroe
+Kentucky,21173,Montgomery,21173,Montgomery,21173,Montgomery
+Kentucky,21175,Morgan,21175,Morgan,21175,Morgan
+Kentucky,21177,Muhlenberg,21177,Muhlenberg,21177,Muhlenberg
+Kentucky,21179,Nelson,21179,Nelson,21179,Nelson
+Kentucky,21181,Nicholas,21181,Nicholas,21181,Nicholas
+Kentucky,21183,Ohio,21183,Ohio,21183,Ohio
+Kentucky,21185,Oldham,21185,Oldham,21185,Oldham
+Kentucky,21187,Owen,21187,Owen,21187,Owen
+Kentucky,21189,Owsley,21189,Owsley,21189,Owsley
+Kentucky,21191,Pendleton,21191,Pendleton,21191,Pendleton
+Kentucky,21193,Perry,21193,Perry,21193,Perry
+Kentucky,21195,Pike,21195,Pike,21195,Pike
+Kentucky,21197,Powell,21197,Powell,21197,Powell
+Kentucky,21199,Pulaski,21199,Pulaski,21199,Pulaski
+Kentucky,21201,Robertson,21201,Robertson,21201,Robertson
+Kentucky,21203,Rockcastle,21203,Rockcastle,21203,Rockcastle
+Kentucky,21205,Rowan,21205,Rowan,21205,Rowan
+Kentucky,21207,Russell,21207,Russell,21207,Russell
+Kentucky,21209,Scott,21209,Scott,21209,Scott
+Kentucky,21211,Shelby,21211,Shelby,21211,Shelby
+Kentucky,21213,Simpson,21213,Simpson,21213,Simpson
+Kentucky,21215,Spencer,21215,Spencer,21215,Spencer
+Kentucky,21217,Taylor,21217,Taylor,21217,Taylor
+Kentucky,21219,Todd,21219,Todd,21219,Todd
+Kentucky,21221,Trigg,21221,Trigg,21221,Trigg
+Kentucky,21223,Trimble,21223,Trimble,21223,Trimble
+Kentucky,21225,Union,21225,Union,21225,Union
+Kentucky,21227,Warren,21227,Warren,21227,Warren
+Kentucky,21229,Washington,21229,Washington,21229,Washington
+Kentucky,21231,Wayne,21231,Wayne,21231,Wayne
+Kentucky,21233,Webster,21233,Webster,21233,Webster
+Kentucky,21235,Whitley,21235,Whitley,21235,Whitley
+Kentucky,21237,Wolfe,21237,Wolfe,21237,Wolfe
+Kentucky,21239,Woodford,21239,Woodford,21239,Woodford
+Louisiana,22000,,22000,,22000,
+Louisiana,22001,Acadia ,22001,Acadia parish,22001,Acadia parish
+Louisiana,22003,Allen,22003,Allen parish,22003,Allen parish
+Louisiana,22005,Ascension ,22005,Ascension parish,22005,Ascension parish
+Louisiana,22007,Assumption,22007,Assumption parish,22007,Assumption parish
+Louisiana,22009,Avoyelles,22009,Avoyelles parish,22009,Avoyelles parish
+Louisiana,22011,Beauregard ,22011,Beauregard parish,22011,Beauregard parish
+Louisiana,22013,Bienville,22013,Bienville parish,22013,Bienville parish
+Louisiana,22015,Bossier,22015,Bossier parish,22015,Bossier parish
+Louisiana,22017,Caddo ,22017,Caddo parish,22017,Caddo parish
+Louisiana,22019,Calcasieu ,22019,Calcasieu parish,22019,Calcasieu parish
+Louisiana,22021,Caldwell ,22021,Caldwell parish,22021,Caldwell parish
+Louisiana,22023,Cameron ,22023,Cameron parish,22023,Cameron parish
+Louisiana,22025,Catahoula ,22025,Catahoula parish,22025,Catahoula parish
+Louisiana,22027,Claiborne,22027,Claiborne parish,22027,Claiborne parish
+Louisiana,22029,Concordia ,22029,Concordia parish,22029,Concordia parish
+Louisiana,22031,De Soto,22031,De soto parish,22031,De soto parish
+Louisiana,22033,East Baton Rouge,22033,East baton rouge parish,22033,East baton rouge parish
+Louisiana,22035,East Carroll ,22035,East carroll parish,22035,East carroll parish
+Louisiana,22037,East Feliciana,22037,East feliciana parish,22037,East feliciana parish
+Louisiana,22039,Evangeline,22039,Evangeline parish,22039,Evangeline parish
+Louisiana,22041,Franklin ,22041,Franklin parish,22041,Franklin parish
+Louisiana,22043,Grant,22043,Grant parish,22043,Grant parish
+Louisiana,22045,Iberia ,22045,Iberia parish,22045,Iberia parish
+Louisiana,22047,Iberville,22047,Iberville parish,22047,Iberville parish
+Louisiana,22049,Jackson,22049,Jackson parish,22049,Jackson parish
+Louisiana,22051,Jefferson ,22051,Jefferson parish,22051,Jefferson parish
+Louisiana,22053,Jefferson Davis ,22053,Jefferson davis parish,22053,Jefferson davis parish
+Louisiana,22055,Lafayette ,22055,Lafayette parish,22055,Lafayette parish
+Louisiana,22057,Lafourche ,22057,Lafourche parish,22057,Lafourche parish
+Louisiana,22059,La Salle ,22059,Lasalle parish,22059,Lasalle parish
+Louisiana,22061,Lincoln,22061,Lincoln parish,22061,Lincoln parish
+Louisiana,22063,Livingston ,22063,Livingston parish,22063,Livingston parish
+Louisiana,22065,Madison ,22065,Madison parish,22065,Madison parish
+Louisiana,22067,Morehouse ,22067,Morehouse parish,22067,Morehouse parish
+Louisiana,22069,Natchitoches,22069,Natchitoches parish,22069,Natchitoches parish
+Louisiana,22071,Orleans ,22071,Orleans parish,22071,Orleans parish
+Louisiana,22073,Ouachita ,22073,Ouachita parish,22073,Ouachita parish
+Louisiana,22075,Plaquemines,22075,Plaquemines parish,22075,Plaquemines parish
+Louisiana,22077,Pointe Coupee,22077,Pointe coupee parish,22077,Pointe coupee parish
+Louisiana,22079,Rapides,22079,Rapides parish,22079,Rapides parish
+Louisiana,22081,Red River,22081,Red river parish,22081,Red river parish
+Louisiana,22083,Richland ,22083,Richland parish,22083,Richland parish
+Louisiana,22085,Sabine,22085,Sabine parish,22085,Sabine parish
+Louisiana,22087,St. Bernard,22087,St. bernard parish,22087,St. bernard parish
+Louisiana,22089,St. Charles,22089,St. charles parish,22089,St. charles parish
+Louisiana,22091,St. Helena ,22091,St. helena parish,22091,St. helena parish
+Louisiana,22093,St. James,22093,St. james parish,22093,St. james parish
+Louisiana,22095,St. John the Baptist,22095,St. john the baptist parish,22095,St. john the baptist parish
+Louisiana,22097,St. Landry,22097,St. landry parish,22097,St. landry parish
+Louisiana,22099,St. Martin,22099,St. martin parish,22099,St. martin parish
+Louisiana,22101,St. Mary ,22101,St. mary parish,22101,St. mary parish
+Louisiana,22103,St. Tammany ,22103,St. tammany parish,22103,St. tammany parish
+Louisiana,22105,Tangipahoa ,22105,Tangipahoa parish,22105,Tangipahoa parish
+Louisiana,22107,Tensas ,22107,Tensas parish,22107,Tensas parish
+Louisiana,22109,Terrebonne ,22109,Terrebonne parish,22109,Terrebonne parish
+Louisiana,22111,Union,22111,Union parish,22111,Union parish
+Louisiana,22113,Vermilion ,22113,Vermilion parish,22113,Vermilion parish
+Louisiana,22115,Vernon ,22115,Vernon parish,22115,Vernon parish
+Louisiana,22117,Washington ,22117,Washington parish,22117,Washington parish
+Louisiana,22119,Webster,22119,Webster parish,22119,Webster parish
+Louisiana,22121,West Baton Rouge,22121,West baton rouge parish,22121,West baton rouge parish
+Louisiana,22123,West Carroll ,22123,West carroll parish,22123,West carroll parish
+Louisiana,22125,West Feliciana,22125,West feliciana parish,22125,West feliciana parish
+Louisiana,22127,Winn,22127,Winn parish,22127,Winn parish
+Maine,23000,,23000,,23000,
+Maine,23001,Androscoggin,23001,Androscoggin,23001,Androscoggin
+Maine,23003,Aroostook,23003,Aroostook,23003,Aroostook
+Maine,23005,Cumberland,23005,Cumberland,23005,Cumberland
+Maine,23007,Franklin,23007,Franklin,23007,Franklin
+Maine,23009,Hancock,23009,Hancock,23009,Hancock
+Maine,23011,Kennebec,23011,Kennebec,23011,Kennebec
+Maine,23013,Knox,23013,Knox,23013,Knox
+Maine,23015,Lincoln,23015,Lincoln,23015,Lincoln
+Maine,23017,Oxford,23017,Oxford,23017,Oxford
+Maine,23019,Penobscot,23019,Penobscot,23019,Penobscot
+Maine,23021,Piscataquis,23021,Piscataquis,23021,Piscataquis
+Maine,23023,Sagadahoc,23023,Sagadahoc,23023,Sagadahoc
+Maine,23025,Somerset,23025,Somerset,23025,Somerset
+Maine,23027,Waldo,23027,Waldo,23027,Waldo
+Maine,23029,Washington,23029,Washington,23029,Washington
+Maine,23031,York,23031,York,23031,York
+Maryland,24000,,24000,,24000,
+Maryland,24001,Allegany,24001,Allegany,24001,Allegany
+Maryland,24003,Anne Arundel,24003,Anne arundel,24003,Anne arundel
+Maryland,24005,Baltimore (county),24005,Baltimore,24005,Baltimore
+Maryland,24009,Calvert,24009,Calvert,24009,Calvert
+Maryland,24011,Caroline,24011,Caroline,24011,Caroline
+Maryland,24013,Carroll,24013,Carroll,24013,Carroll
+Maryland,24015,Cecil,24015,Cecil,24015,Cecil
+Maryland,24017,Charles,24017,Charles,24017,Charles
+Maryland,24019,Dorchester,24019,Dorchester,24019,Dorchester
+Maryland,24021,Frederick,24021,Frederick,24021,Frederick
+Maryland,24023,Garrett,24023,Garrett,24023,Garrett
+Maryland,24025,Harford,24025,Harford,24025,Harford
+Maryland,24027,Howard,24027,Howard,24027,Howard
+Maryland,24029,Kent,24029,Kent,24029,Kent
+Maryland,24031,Montgomery,24031,Montgomery,24031,Montgomery
+Maryland,24033,Prince George's,24033,Prince george's,24033,Prince george's
+Maryland,24035,Queen Anne's,24035,Queen anne's,24035,Queen anne's
+Maryland,24037,St. Mary's,24037,St. mary's,24037,St. mary's
+Maryland,24039,Somerset,24039,Somerset,24039,Somerset
+Maryland,24041,Talbot,24041,Talbot,24041,Talbot
+Maryland,24043,Washington,24043,Washington,24043,Washington
+Maryland,24045,Wicomico,24045,Wicomico,24045,Wicomico
+Maryland,24047,Worcester,24047,Worcester,24047,Worcester
+Maryland,24510,Baltimore (city),24510,Baltimore city,24510,Baltimore city
+Massachusetts,25000,,25000,,25000,
+Massachusetts,25001,Barnstable,25001,Barnstable,25001,Barnstable
+Massachusetts,25003,Berkshire,25003,Berkshire,25003,Berkshire
+Massachusetts,25005,Bristol,25005,Bristol,25005,Bristol
+Massachusetts,25007,Dukes,25007,Dukes,25007,Dukes
+Massachusetts,25009,Essex,25009,Essex,25009,Essex
+Massachusetts,25011,Franklin,25011,Franklin,25011,Franklin
+Massachusetts,25013,Hampden,25013,Hampden,25013,Hampden
+Massachusetts,25015,Hampshire,25015,Hampshire,25015,Hampshire
+Massachusetts,25017,Middlesex,25017,Middlesex,25017,Middlesex
+Massachusetts,25019,Nantucket,25019,Nantucket,25019,Nantucket
+Massachusetts,25021,Norfolk,25021,Norfolk,25021,Norfolk
+Massachusetts,25023,Plymouth,25023,Plymouth,25023,Plymouth
+Massachusetts,25025,Suffolk,25025,Suffolk,25025,Suffolk
+Massachusetts,25027,Worcester,25027,Worcester,25027,Worcester
+Michigan,26000,,26000,,26000,
+Michigan,26001,Alcona,26001,Alcona,26001,Alcona
+Michigan,26003,Alger,26003,Alger,26003,Alger
+Michigan,26005,Allegan,26005,Allegan,26005,Allegan
+Michigan,26007,Alpena,26007,Alpena,26007,Alpena
+Michigan,26009,Antrim,26009,Antrim,26009,Antrim
+Michigan,26011,Arenac,26011,Arenac,26011,Arenac
+Michigan,26013,Baraga,26013,Baraga,26013,Baraga
+Michigan,26015,Barry,26015,Barry,26015,Barry
+Michigan,26017,Bay,26017,Bay,26017,Bay
+Michigan,26019,Benzie,26019,Benzie,26019,Benzie
+Michigan,26021,Berrien,26021,Berrien,26021,Berrien
+Michigan,26023,Branch,26023,Branch,26023,Branch
+Michigan,26025,Calhoun,26025,Calhoun,26025,Calhoun
+Michigan,26027,Cass,26027,Cass,26027,Cass
+Michigan,26029,Charlevoix,26029,Charlevoix,26029,Charlevoix
+Michigan,26031,Cheboygan,26031,Cheboygan,26031,Cheboygan
+Michigan,26033,Chippewa,26033,Chippewa,26033,Chippewa
+Michigan,26035,Clare,26035,Clare,26035,Clare
+Michigan,26037,Clinton,26037,Clinton,26037,Clinton
+Michigan,26039,Crawford,26039,Crawford,26039,Crawford
+Michigan,26041,Delta,26041,Delta,26041,Delta
+Michigan,26043,Dickinson,26043,Dickinson,26043,Dickinson
+Michigan,26045,Eaton,26045,Eaton,26045,Eaton
+Michigan,26047,Emmet,26047,Emmet,26047,Emmet
+Michigan,26049,Genesee,26049,Genesee,26049,Genesee
+Michigan,26051,Gladwin,26051,Gladwin,26051,Gladwin
+Michigan,26053,Gogebic,26053,Gogebic,26053,Gogebic
+Michigan,26055,Grand Traverse,26055,Grand traverse,26055,Grand traverse
+Michigan,26057,Gratiot,26057,Gratiot,26057,Gratiot
+Michigan,26059,Hillsdale,26059,Hillsdale,26059,Hillsdale
+Michigan,26061,Houghton,26061,Houghton,26061,Houghton
+Michigan,26063,Huron,26063,Huron,26063,Huron
+Michigan,26065,Ingham,26065,Ingham,26065,Ingham
+Michigan,26067,Ionia,26067,Ionia,26067,Ionia
+Michigan,26069,Iosco,26069,Iosco,26069,Iosco
+Michigan,26071,Iron,26071,Iron,26071,Iron
+Michigan,26073,Isabella,26073,Isabella,26073,Isabella
+Michigan,26075,Jackson,26075,Jackson,26075,Jackson
+Michigan,26077,Kalamazoo,26077,Kalamazoo,26077,Kalamazoo
+Michigan,26079,Kalkaska,26079,Kalkaska,26079,Kalkaska
+Michigan,26081,Kent,26081,Kent,26081,Kent
+Michigan,26083,Keweenaw,26083,Keweenaw,26083,Keweenaw
+Michigan,26085,Lake,26085,Lake,26085,Lake
+Michigan,26087,Lapeer,26087,Lapeer,26087,Lapeer
+Michigan,26089,Leelanau,26089,Leelanau,26089,Leelanau
+Michigan,26091,Lenawee,26091,Lenawee,26091,Lenawee
+Michigan,26093,Livingston,26093,Livingston,26093,Livingston
+Michigan,26095,Luce,26095,Luce,26095,Luce
+Michigan,26097,Mackinac,26097,Mackinac,26097,Mackinac
+Michigan,26099,Macomb,26099,Macomb,26099,Macomb
+Michigan,26101,Manistee,26101,Manistee,26101,Manistee
+Michigan,26103,Marquette,26103,Marquette,26103,Marquette
+Michigan,26105,Mason,26105,Mason,26105,Mason
+Michigan,26107,Mecosta,26107,Mecosta,26107,Mecosta
+Michigan,26109,Menominee,26109,Menominee,26109,Menominee
+Michigan,26111,Midland,26111,Midland,26111,Midland
+Michigan,26113,Missaukee,26113,Missaukee,26113,Missaukee
+Michigan,26115,Monroe,26115,Monroe,26115,Monroe
+Michigan,26117,Montcalm,26117,Montcalm,26117,Montcalm
+Michigan,26119,Montmorency,26119,Montmorency,26119,Montmorency
+Michigan,26121,Muskegon,26121,Muskegon,26121,Muskegon
+Michigan,26123,Newaygo,26123,Newaygo,26123,Newaygo
+Michigan,26125,Oakland,26125,Oakland,26125,Oakland
+Michigan,26127,Oceana,26127,Oceana,26127,Oceana
+Michigan,26129,Ogemaw,26129,Ogemaw,26129,Ogemaw
+Michigan,26131,Ontonagon,26131,Ontonagon,26131,Ontonagon
+Michigan,26133,Osceola,26133,Osceola,26133,Osceola
+Michigan,26135,Oscoda,26135,Oscoda,26135,Oscoda
+Michigan,26137,Otsego,26137,Otsego,26137,Otsego
+Michigan,26139,Ottawa,26139,Ottawa,26139,Ottawa
+Michigan,26141,Presque Isle,26141,Presque isle,26141,Presque isle
+Michigan,26143,Roscommon,26143,Roscommon,26143,Roscommon
+Michigan,26145,Saginaw,26145,Saginaw,26145,Saginaw
+Michigan,26147,St. Clair,26147,St. clair,26147,St. clair
+Michigan,26149,St. Joseph,26149,St. joseph,26149,St. joseph
+Michigan,26151,Sanilac,26151,Sanilac,26151,Sanilac
+Michigan,26153,Schoolcraft,26153,Schoolcraft,26153,Schoolcraft
+Michigan,26155,Shiawassee,26155,Shiawassee,26155,Shiawassee
+Michigan,26157,Tuscola,26157,Tuscola,26157,Tuscola
+Michigan,26159,Van Buren,26159,Van buren,26159,Van buren
+Michigan,26161,Washtenaw,26161,Washtenaw,26161,Washtenaw
+Michigan,26163,Wayne,26163,Wayne,26163,Wayne
+Michigan,26165,Wexford,26165,Wexford,26165,Wexford
+Minnesota,27000,,27000,,27000,
+Minnesota,27001,Aitkin,27001,Aitkin,27001,Aitkin
+Minnesota,27003,Anoka,27003,Anoka,27003,Anoka
+Minnesota,27005,Becker,27005,Becker,27005,Becker
+Minnesota,27007,Beltrami,27007,Beltrami,27007,Beltrami
+Minnesota,27009,Benton,27009,Benton,27009,Benton
+Minnesota,27011,Big Stone,27011,Big stone,27011,Big stone
+Minnesota,27013,Blue Earth,27013,Blue earth,27013,Blue earth
+Minnesota,27015,Brown,27015,Brown,27015,Brown
+Minnesota,27017,Carlton,27017,Carlton,27017,Carlton
+Minnesota,27019,Carver,27019,Carver,27019,Carver
+Minnesota,27021,Cass,27021,Cass,27021,Cass
+Minnesota,27023,Chippewa,27023,Chippewa,27023,Chippewa
+Minnesota,27025,Chisago,27025,Chisago,27025,Chisago
+Minnesota,27027,Clay,27027,Clay,27027,Clay
+Minnesota,27029,Clearwater,27029,Clearwater,27029,Clearwater
+Minnesota,27031,Cook,27031,Cook,27031,Cook
+Minnesota,27033,Cottonwood,27033,Cottonwood,27033,Cottonwood
+Minnesota,27035,Crow Wing,27035,Crow wing,27035,Crow wing
+Minnesota,27037,Dakota,27037,Dakota,27037,Dakota
+Minnesota,27039,Dodge,27039,Dodge,27039,Dodge
+Minnesota,27041,Douglas,27041,Douglas,27041,Douglas
+Minnesota,27043,Faribault,27043,Faribault,27043,Faribault
+Minnesota,27045,Fillmore,27045,Fillmore,27045,Fillmore
+Minnesota,27047,Freeborn,27047,Freeborn,27047,Freeborn
+Minnesota,27049,Goodhue,27049,Goodhue,27049,Goodhue
+Minnesota,27051,Grant,27051,Grant,27051,Grant
+Minnesota,27053,Hennepin,27053,Hennepin,27053,Hennepin
+Minnesota,27055,Houston,27055,Houston,27055,Houston
+Minnesota,27057,Hubbard,27057,Hubbard,27057,Hubbard
+Minnesota,27059,Isanti,27059,Isanti,27059,Isanti
+Minnesota,27061,Itasca,27061,Itasca,27061,Itasca
+Minnesota,27063,Jackson,27063,Jackson,27063,Jackson
+Minnesota,27065,Kanabec,27065,Kanabec,27065,Kanabec
+Minnesota,27067,Kandiyohi,27067,Kandiyohi,27067,Kandiyohi
+Minnesota,27069,Kittson,27069,Kittson,27069,Kittson
+Minnesota,27071,Koochiching,27071,Koochiching,27071,Koochiching
+Minnesota,27073,Lac Qui Parle,27073,Lac qui parle,27073,Lac qui parle
+Minnesota,27075,Lake,27075,Lake,27075,Lake
+Minnesota,27077,Lake of the Woods,27077,Lake of the woods,27077,Lake of the woods
+Minnesota,27079,Le Sueur,27079,Le sueur,27079,Le sueur
+Minnesota,27081,Lincoln,27081,Lincoln,27081,Lincoln
+Minnesota,27083,Lyon,27083,Lyon,27083,Lyon
+Minnesota,27085,McLeod,27085,Mcleod,27085,Mcleod
+Minnesota,27087,Mahnomen,27087,Mahnomen,27087,Mahnomen
+Minnesota,27089,Marshall,27089,Marshall,27089,Marshall
+Minnesota,27091,Martin,27091,Martin,27091,Martin
+Minnesota,27093,Meeker,27093,Meeker,27093,Meeker
+Minnesota,27095,Mille Lacs,27095,Mille lacs,27095,Mille lacs
+Minnesota,27097,Morrison,27097,Morrison,27097,Morrison
+Minnesota,27099,Mower,27099,Mower,27099,Mower
+Minnesota,27101,Murray,27101,Murray,27101,Murray
+Minnesota,27103,Nicollet,27103,Nicollet,27103,Nicollet
+Minnesota,27105,Nobles,27105,Nobles,27105,Nobles
+Minnesota,27107,Norman,27107,Norman,27107,Norman
+Minnesota,27109,Olmsted,27109,Olmsted,27109,Olmsted
+Minnesota,27111,Otter Tail,27111,Otter tail,27111,Otter tail
+Minnesota,27113,Pennington,27113,Pennington,27113,Pennington
+Minnesota,27115,Pine,27115,Pine,27115,Pine
+Minnesota,27117,Pipestone,27117,Pipestone,27117,Pipestone
+Minnesota,27119,Polk,27119,Polk,27119,Polk
+Minnesota,27121,Pope,27121,Pope,27121,Pope
+Minnesota,27123,Ramsey,27123,Ramsey,27123,Ramsey
+Minnesota,27125,Red Lake,27125,Red lake,27125,Red lake
+Minnesota,27127,Redwood,27127,Redwood,27127,Redwood
+Minnesota,27129,Renville,27129,Renville,27129,Renville
+Minnesota,27131,Rice,27131,Rice,27131,Rice
+Minnesota,27133,Rock,27133,Rock,27133,Rock
+Minnesota,27135,Roseau,27135,Roseau,27135,Roseau
+Minnesota,27137,St. Louis,27137,St. louis,27137,St. louis
+Minnesota,27139,Scott,27139,Scott,27139,Scott
+Minnesota,27141,Sherburne,27141,Sherburne,27141,Sherburne
+Minnesota,27143,Sibley,27143,Sibley,27143,Sibley
+Minnesota,27145,Stearns,27145,Stearns,27145,Stearns
+Minnesota,27147,Steele,27147,Steele,27147,Steele
+Minnesota,27149,Stevens,27149,Stevens,27149,Stevens
+Minnesota,27151,Swift,27151,Swift,27151,Swift
+Minnesota,27153,Todd,27153,Todd,27153,Todd
+Minnesota,27155,Traverse,27155,Traverse,27155,Traverse
+Minnesota,27157,Wabasha,27157,Wabasha,27157,Wabasha
+Minnesota,27159,Wadena,27159,Wadena,27159,Wadena
+Minnesota,27161,Waseca,27161,Waseca,27161,Waseca
+Minnesota,27163,Washington,27163,Washington,27163,Washington
+Minnesota,27165,Watonwan,27165,Watonwan,27165,Watonwan
+Minnesota,27167,Wilkin,27167,Wilkin,27167,Wilkin
+Minnesota,27169,Winona,27169,Winona,27169,Winona
+Minnesota,27171,Wright,27171,Wright,27171,Wright
+Minnesota,27173,Yellow Medicine,27173,Yellow medicine,27173,Yellow medicine
+Mississippi,28000,,28000,,28000,
+Mississippi,28001,Adams,28001,Adams,28001,Adams
+Mississippi,28003,Alcorn,28003,Alcorn,28003,Alcorn
+Mississippi,28005,Amite,28005,Amite,28005,Amite
+Mississippi,28007,Attala,28007,Attala,28007,Attala
+Mississippi,28009,Benton,28009,Benton,28009,Benton
+Mississippi,28011,Bolivar,28011,Bolivar,28011,Bolivar
+Mississippi,28013,Calhoun,28013,Calhoun,28013,Calhoun
+Mississippi,28015,Carroll,28015,Carroll,28015,Carroll
+Mississippi,28017,Chickasaw,28017,Chickasaw,28017,Chickasaw
+Mississippi,28019,Choctaw,28019,Choctaw,28019,Choctaw
+Mississippi,28021,Claiborne,28021,Claiborne,28021,Claiborne
+Mississippi,28023,Clarke,28023,Clarke,28023,Clarke
+Mississippi,28025,Clay,28025,Clay,28025,Clay
+Mississippi,28027,Coahoma,28027,Coahoma,28027,Coahoma
+Mississippi,28029,Copiah,28029,Copiah,28029,Copiah
+Mississippi,28031,Covington,28031,Covington,28031,Covington
+Mississippi,28033,De Soto,28033,Desoto,28033,Desoto
+Mississippi,28035,Forrest,28035,Forrest,28035,Forrest
+Mississippi,28037,Franklin,28037,Franklin,28037,Franklin
+Mississippi,28039,George,28039,George,28039,George
+Mississippi,28041,Greene,28041,Greene,28041,Greene
+Mississippi,28043,Grenada,28043,Grenada,28043,Grenada
+Mississippi,28045,Hancock,28045,Hancock,28045,Hancock
+Mississippi,28047,Harrison,28047,Harrison,28047,Harrison
+Mississippi,28049,Hinds,28049,Hinds,28049,Hinds
+Mississippi,28051,Holmes,28051,Holmes,28051,Holmes
+Mississippi,28053,Humphreys,28053,Humphreys,28053,Humphreys
+Mississippi,28055,Issaquena,28055,Issaquena,28055,Issaquena
+Mississippi,28057,Itawamba,28057,Itawamba,28057,Itawamba
+Mississippi,28059,Jackson,28059,Jackson,28059,Jackson
+Mississippi,28061,Jasper,28061,Jasper,28061,Jasper
+Mississippi,28063,Jefferson,28063,Jefferson,28063,Jefferson
+Mississippi,28065,Jefferson Davis,28065,Jefferson davis,28065,Jefferson davis
+Mississippi,28067,Jones,28067,Jones,28067,Jones
+Mississippi,28069,Kemper,28069,Kemper,28069,Kemper
+Mississippi,28071,Lafayette,28071,Lafayette,28071,Lafayette
+Mississippi,28073,Lamar,28073,Lamar,28073,Lamar
+Mississippi,28075,Lauderdale,28075,Lauderdale,28075,Lauderdale
+Mississippi,28077,Lawrence,28077,Lawrence,28077,Lawrence
+Mississippi,28079,Leake,28079,Leake,28079,Leake
+Mississippi,28081,Lee,28081,Lee,28081,Lee
+Mississippi,28083,Leflore,28083,Leflore,28083,Leflore
+Mississippi,28085,Lincoln,28085,Lincoln,28085,Lincoln
+Mississippi,28087,Lowndes,28087,Lowndes,28087,Lowndes
+Mississippi,28089,Madison,28089,Madison,28089,Madison
+Mississippi,28091,Marion,28091,Marion,28091,Marion
+Mississippi,28093,Marshall,28093,Marshall,28093,Marshall
+Mississippi,28095,Monroe,28095,Monroe,28095,Monroe
+Mississippi,28097,Montgomery,28097,Montgomery,28097,Montgomery
+Mississippi,28099,Neshoba,28099,Neshoba,28099,Neshoba
+Mississippi,28101,Newton,28101,Newton,28101,Newton
+Mississippi,28103,Noxubee,28103,Noxubee,28103,Noxubee
+Mississippi,28105,Oktibbeha,28105,Oktibbeha,28105,Oktibbeha
+Mississippi,28107,Panola,28107,Panola,28107,Panola
+Mississippi,28109,Pearl River,28109,Pearl river,28109,Pearl river
+Mississippi,28111,Perry,28111,Perry,28111,Perry
+Mississippi,28113,Pike,28113,Pike,28113,Pike
+Mississippi,28115,Pontotoc,28115,Pontotoc,28115,Pontotoc
+Mississippi,28117,Prentiss,28117,Prentiss,28117,Prentiss
+Mississippi,28119,Quitman,28119,Quitman,28119,Quitman
+Mississippi,28121,Rankin,28121,Rankin,28121,Rankin
+Mississippi,28123,Scott,28123,Scott,28123,Scott
+Mississippi,28125,Sharkey,28125,Sharkey,28125,Sharkey
+Mississippi,28127,Simpson,28127,Simpson,28127,Simpson
+Mississippi,28129,Smith,28129,Smith,28129,Smith
+Mississippi,28131,Stone,28131,Stone,28131,Stone
+Mississippi,28133,Sunflower,28133,Sunflower,28133,Sunflower
+Mississippi,28135,Tallahatchie,28135,Tallahatchie,28135,Tallahatchie
+Mississippi,28137,Tate,28137,Tate,28137,Tate
+Mississippi,28139,Tippah,28139,Tippah,28139,Tippah
+Mississippi,28141,Tishomingo,28141,Tishomingo,28141,Tishomingo
+Mississippi,28143,Tunica,28143,Tunica,28143,Tunica
+Mississippi,28145,Union,28145,Union,28145,Union
+Mississippi,28147,Walthall,28147,Walthall,28147,Walthall
+Mississippi,28149,Warren,28149,Warren,28149,Warren
+Mississippi,28151,Washington,28151,Washington,28151,Washington
+Mississippi,28153,Wayne,28153,Wayne,28153,Wayne
+Mississippi,28155,Webster,28155,Webster,28155,Webster
+Mississippi,28157,Wilkinson,28157,Wilkinson,28157,Wilkinson
+Mississippi,28159,Winston,28159,Winston,28159,Winston
+Mississippi,28161,Yalobusha,28161,Yalobusha,28161,Yalobusha
+Mississippi,28163,Yazoo,28163,Yazoo,28163,Yazoo
+Missouri,29000,,29000,,29000,
+Missouri,29001,Adair,29001,Adair,29001,Adair
+Missouri,29003,Andrew,29003,Andrew,29003,Andrew
+Missouri,29005,Atchison,29005,Atchison,29005,Atchison
+Missouri,29007,Audrain,29007,Audrain,29007,Audrain
+Missouri,29009,Barry,29009,Barry,29009,Barry
+Missouri,29011,Barton,29011,Barton,29011,Barton
+Missouri,29013,Bates,29013,Bates,29013,Bates
+Missouri,29015,Benton,29015,Benton,29015,Benton
+Missouri,29017,Bollinger,29017,Bollinger,29017,Bollinger
+Missouri,29019,Boone,29019,Boone,29019,Boone
+Missouri,29021,Buchanan,29021,Buchanan,29021,Buchanan
+Missouri,29023,Butler,29023,Butler,29023,Butler
+Missouri,29025,Caldwell,29025,Caldwell,29025,Caldwell
+Missouri,29027,Callaway,29027,Callaway,29027,Callaway
+Missouri,29029,Camden,29029,Camden,29029,Camden
+Missouri,29031,Cape Girardeau,29031,Cape girardeau,29031,Cape girardeau
+Missouri,29033,Carroll,29033,Carroll,29033,Carroll
+Missouri,29035,Carter,29035,Carter,29035,Carter
+Missouri,29037,Cass,29037,Cass,29037,Cass
+Missouri,29039,Cedar,29039,Cedar,29039,Cedar
+Missouri,29041,Chariton,29041,Chariton,29041,Chariton
+Missouri,29043,Christian,29043,Christian,29043,Christian
+Missouri,29045,Clark,29045,Clark,29045,Clark
+Missouri,29047,Clay,29047,Clay,29047,Clay
+Missouri,29049,Clinton,29049,Clinton,29049,Clinton
+Missouri,29051,Cole,29051,Cole,29051,Cole
+Missouri,29053,Cooper,29053,Cooper,29053,Cooper
+Missouri,29055,Crawford,29055,Crawford,29055,Crawford
+Missouri,29057,Dade,29057,Dade,29057,Dade
+Missouri,29059,Dallas,29059,Dallas,29059,Dallas
+Missouri,29061,Daviess,29061,Daviess,29061,Daviess
+Missouri,29063,DeKalb,29063,Dekalb,29063,Dekalb
+Missouri,29065,Dent,29065,Dent,29065,Dent
+Missouri,29067,Douglas,29067,Douglas,29067,Douglas
+Missouri,29069,Dunklin,29069,Dunklin,29069,Dunklin
+Missouri,29071,Franklin,29071,Franklin,29071,Franklin
+Missouri,29073,Gasconade,29073,Gasconade,29073,Gasconade
+Missouri,29075,Gentry,29075,Gentry,29075,Gentry
+Missouri,29077,Greene,29077,Greene,29077,Greene
+Missouri,29079,Grundy,29079,Grundy,29079,Grundy
+Missouri,29081,Harrison,29081,Harrison,29081,Harrison
+Missouri,29083,Henry,29083,Henry,29083,Henry
+Missouri,29085,Hickory,29085,Hickory,29085,Hickory
+Missouri,29087,Holt,29087,Holt,29087,Holt
+Missouri,29089,Howard,29089,Howard,29089,Howard
+Missouri,29091,Howell,29091,Howell,29091,Howell
+Missouri,29093,Iron,29093,Iron,29093,Iron
+Missouri,29095,Jackson,29095,Jackson,29095,Jackson
+Missouri,29097,Jasper,29097,Jasper,29097,Jasper
+Missouri,29099,Jefferson,29099,Jefferson,29099,Jefferson
+Missouri,29101,Johnson,29101,Johnson,29101,Johnson
+Missouri,29103,Knox,29103,Knox,29103,Knox
+Missouri,29105,Laclede,29105,Laclede,29105,Laclede
+Missouri,29107,Lafayette,29107,Lafayette,29107,Lafayette
+Missouri,29109,Lawrence,29109,Lawrence,29109,Lawrence
+Missouri,29111,Lewis,29111,Lewis,29111,Lewis
+Missouri,29113,Lincoln,29113,Lincoln,29113,Lincoln
+Missouri,29115,Linn,29115,Linn,29115,Linn
+Missouri,29117,Livingston,29117,Livingston,29117,Livingston
+Missouri,29119,McDonald,29119,Mcdonald,29119,Mcdonald
+Missouri,29121,Macon,29121,Macon,29121,Macon
+Missouri,29123,Madison,29123,Madison,29123,Madison
+Missouri,29125,Maries,29125,Maries,29125,Maries
+Missouri,29127,Marion,29127,Marion,29127,Marion
+Missouri,29129,Mercer,29129,Mercer,29129,Mercer
+Missouri,29131,Miller,29131,Miller,29131,Miller
+Missouri,29133,Mississippi,29133,Mississippi,29133,Mississippi
+Missouri,29135,Moniteau,29135,Moniteau,29135,Moniteau
+Missouri,29137,Monroe,29137,Monroe,29137,Monroe
+Missouri,29139,Montgomery,29139,Montgomery,29139,Montgomery
+Missouri,29141,Morgan,29141,Morgan,29141,Morgan
+Missouri,29143,New Madrid,29143,New madrid,29143,New madrid
+Missouri,29145,Newton,29145,Newton,29145,Newton
+Missouri,29147,Nodaway,29147,Nodaway,29147,Nodaway
+Missouri,29149,Oregon,29149,Oregon,29149,Oregon
+Missouri,29151,Osage,29151,Osage,29151,Osage
+Missouri,29153,Ozark,29153,Ozark,29153,Ozark
+Missouri,29155,Pemiscot,29155,Pemiscot,29155,Pemiscot
+Missouri,29157,Perry,29157,Perry,29157,Perry
+Missouri,29159,Pettis,29159,Pettis,29159,Pettis
+Missouri,29161,Phelps,29161,Phelps,29161,Phelps
+Missouri,29163,Pike,29163,Pike,29163,Pike
+Missouri,29165,Platte,29165,Platte,29165,Platte
+Missouri,29167,Polk,29167,Polk,29167,Polk
+Missouri,29169,Pulaski,29169,Pulaski,29169,Pulaski
+Missouri,29171,Putnam,29171,Putnam,29171,Putnam
+Missouri,29173,Ralls,29173,Ralls,29173,Ralls
+Missouri,29175,Randolph,29175,Randolph,29175,Randolph
+Missouri,29177,Ray,29177,Ray,29177,Ray
+Missouri,29179,Reynolds,29179,Reynolds,29179,Reynolds
+Missouri,29181,Ripley,29181,Ripley,29181,Ripley
+Missouri,29183,St. Charles,29183,St. charles,29183,St. charles
+Missouri,29185,St. Clair,29185,St. clair,29185,St. clair
+Missouri,29186,Ste. Genevieve,29186,Ste. genevieve,29186,Ste. genevieve
+Missouri,29187,St. Francois,29187,St. francois,29187,St. francois
+Missouri,29189,St. Louis (county),29189,St. louis,29189,St. louis
+Missouri,29195,Saline,29195,Saline,29195,Saline
+Missouri,29197,Schuyler,29197,Schuyler,29197,Schuyler
+Missouri,29199,Scotland,29199,Scotland,29199,Scotland
+Missouri,29201,Scott,29201,Scott,29201,Scott
+Missouri,29203,Shannon,29203,Shannon,29203,Shannon
+Missouri,29205,Shelby,29205,Shelby,29205,Shelby
+Missouri,29207,Stoddard,29207,Stoddard,29207,Stoddard
+Missouri,29209,Stone,29209,Stone,29209,Stone
+Missouri,29211,Sullivan,29211,Sullivan,29211,Sullivan
+Missouri,29213,Taney,29213,Taney,29213,Taney
+Missouri,29215,Texas,29215,Texas,29215,Texas
+Missouri,29217,Vernon,29217,Vernon,29217,Vernon
+Missouri,29219,Warren,29219,Warren,29219,Warren
+Missouri,29221,Washington,29221,Washington,29221,Washington
+Missouri,29223,Wayne,29223,Wayne,29223,Wayne
+Missouri,29225,Webster,29225,Webster,29225,Webster
+Missouri,29227,Worth,29227,Worth,29227,Worth
+Missouri,29229,Wright,29229,Wright,29229,Wright
+Missouri,29510,St. Louis (city),29510,St. louis city,29510,St. louis city
+Montana,30000,,30000,,30000,
+Montana,30001,Beaverhead,30001,Beaverhead,30001,Beaverhead
+Montana,30003,Big Horn,30003,Big horn,30003,Big horn
+Montana,30005,Blaine,30005,Blaine,30005,Blaine
+Montana,30007,Broadwater,30007,Broadwater,30007,Broadwater
+Montana,30009,Carbon,30009,Carbon,30009,Carbon
+Montana,30011,Carter,30011,Carter,30011,Carter
+Montana,30013,Cascade,30013,Cascade,30013,Cascade
+Montana,30015,Chouteau,30015,Chouteau,30015,Chouteau
+Montana,30017,Custer,30017,Custer,30017,Custer
+Montana,30019,Daniels,30019,Daniels,30019,Daniels
+Montana,30021,Dawson,30021,Dawson,30021,Dawson
+Montana,30023,Deer Lodge,30023,Deer lodge,30023,Deer lodge
+Montana,30025,Fallon,30025,Fallon,30025,Fallon
+Montana,30027,Fergus,30027,Fergus,30027,Fergus
+Montana,30029,Flathead,30029,Flathead,30029,Flathead
+Montana,30031,Gallatin,30031,Gallatin,30031,Gallatin
+Montana,30033,Garfield,30033,Garfield,30033,Garfield
+Montana,30035,Glacier,30035,Glacier,30035,Glacier
+Montana,30037,Golden Valley,30037,Golden valley,30037,Golden valley
+Montana,30039,Granite,30039,Granite,30039,Granite
+Montana,30041,Hill,30041,Hill,30041,Hill
+Montana,30043,Jefferson,30043,Jefferson,30043,Jefferson
+Montana,30045,Judith Basin,30045,Judith basin,30045,Judith basin
+Montana,30047,Lake,30047,Lake,30047,Lake
+Montana,30049,Lewis and Clark,30049,Lewis and clark,30049,Lewis and clark
+Montana,30051,Liberty,30051,Liberty,30051,Liberty
+Montana,30053,Lincoln,30053,Lincoln,30053,Lincoln
+Montana,30055,McCone,30055,Mccone,30055,Mccone
+Montana,30057,Madison,30057,Madison,30057,Madison
+Montana,30059,Meagher,30059,Meagher,30059,Meagher
+Montana,30061,Mineral,30061,Mineral,30061,Mineral
+Montana,30063,Missoula,30063,Missoula,30063,Missoula
+Montana,30065,Musselshell,30065,Musselshell,30065,Musselshell
+Montana,30067,Park,30067,Park,30067,Park
+Montana,30069,Petroleum,30069,Petroleum,30069,Petroleum
+Montana,30071,Phillips,30071,Phillips,30071,Phillips
+Montana,30073,Pondera,30073,Pondera,30073,Pondera
+Montana,30075,Powder River,30075,Powder river,30075,Powder river
+Montana,30077,Powell,30077,Powell,30077,Powell
+Montana,30079,Prairie,30079,Prairie,30079,Prairie
+Montana,30081,Ravalli,30081,Ravalli,30081,Ravalli
+Montana,30083,Richland,30083,Richland,30083,Richland
+Montana,30085,Roosevelt,30085,Roosevelt,30085,Roosevelt
+Montana,30087,Rosebud,30087,Rosebud,30087,Rosebud
+Montana,30089,Sanders,30089,Sanders,30089,Sanders
+Montana,30091,Sheridan,30091,Sheridan,30091,Sheridan
+Montana,30093,Silver Bow,30093,Silver bow,30093,Silver bow
+Montana,30095,Stillwater,30095,Stillwater,30095,Stillwater
+Montana,30097,Sweet Grass,30097,Sweet grass,30097,Sweet grass
+Montana,30099,Teton,30099,Teton,30099,Teton
+Montana,30101,Toole,30101,Toole,30101,Toole
+Montana,30103,Treasure,30103,Treasure,30103,Treasure
+Montana,30105,Valley,30105,Valley,30105,Valley
+Montana,30107,Wheatland,30107,Wheatland,30107,Wheatland
+Montana,30109,Wibaux,30109,Wibaux,30109,Wibaux
+Montana,30111,Yellowstone,30111,Yellowstone,30111,Yellowstone
+Nebraska,31000,,31000,,31000,
+Nebraska,31001,Adams,31001,Adams,31001,Adams
+Nebraska,31003,Antelope,31003,Antelope,31003,Antelope
+Nebraska,31005,Arthur,31005,Arthur,31005,Arthur
+Nebraska,31007,Banner,31007,Banner,31007,Banner
+Nebraska,31009,Blaine,31009,Blaine,31009,Blaine
+Nebraska,31011,Boone,31011,Boone,31011,Boone
+Nebraska,31013,Box Butte,31013,Box butte,31013,Box butte
+Nebraska,31015,Boyd,31015,Boyd,31015,Boyd
+Nebraska,31017,Brown,31017,Brown,31017,Brown
+Nebraska,31019,Buffalo,31019,Buffalo,31019,Buffalo
+Nebraska,31021,Burt,31021,Burt,31021,Burt
+Nebraska,31023,Butler,31023,Butler,31023,Butler
+Nebraska,31025,Cass,31025,Cass,31025,Cass
+Nebraska,31027,Cedar,31027,Cedar,31027,Cedar
+Nebraska,31029,Chase,31029,Chase,31029,Chase
+Nebraska,31031,Cherry,31031,Cherry,31031,Cherry
+Nebraska,31033,Cheyenne,31033,Cheyenne,31033,Cheyenne
+Nebraska,31035,Clay,31035,Clay,31035,Clay
+Nebraska,31037,Colfax,31037,Colfax,31037,Colfax
+Nebraska,31039,Cuming,31039,Cuming,31039,Cuming
+Nebraska,31041,Custer,31041,Custer,31041,Custer
+Nebraska,31043,Dakota,31043,Dakota,31043,Dakota
+Nebraska,31045,Dawes,31045,Dawes,31045,Dawes
+Nebraska,31047,Dawson,31047,Dawson,31047,Dawson
+Nebraska,31049,Deuel,31049,Deuel,31049,Deuel
+Nebraska,31051,Dixon,31051,Dixon,31051,Dixon
+Nebraska,31053,Dodge,31053,Dodge,31053,Dodge
+Nebraska,31055,Douglas,31055,Douglas,31055,Douglas
+Nebraska,31057,Dundy,31057,Dundy,31057,Dundy
+Nebraska,31059,Fillmore,31059,Fillmore,31059,Fillmore
+Nebraska,31061,Franklin,31061,Franklin,31061,Franklin
+Nebraska,31063,Frontier,31063,Frontier,31063,Frontier
+Nebraska,31065,Furnas,31065,Furnas,31065,Furnas
+Nebraska,31067,Gage,31067,Gage,31067,Gage
+Nebraska,31069,Garden,31069,Garden,31069,Garden
+Nebraska,31071,Garfield,31071,Garfield,31071,Garfield
+Nebraska,31073,Gosper,31073,Gosper,31073,Gosper
+Nebraska,31075,Grant,31075,Grant,31075,Grant
+Nebraska,31077,Greeley,31077,Greeley,31077,Greeley
+Nebraska,31079,Hall,31079,Hall,31079,Hall
+Nebraska,31081,Hamilton,31081,Hamilton,31081,Hamilton
+Nebraska,31083,Harlan,31083,Harlan,31083,Harlan
+Nebraska,31085,Hayes,31085,Hayes,31085,Hayes
+Nebraska,31087,Hitchcock,31087,Hitchcock,31087,Hitchcock
+Nebraska,31089,Holt,31089,Holt,31089,Holt
+Nebraska,31091,Hooker,31091,Hooker,31091,Hooker
+Nebraska,31093,Howard,31093,Howard,31093,Howard
+Nebraska,31095,Jefferson,31095,Jefferson,31095,Jefferson
+Nebraska,31097,Johnson,31097,Johnson,31097,Johnson
+Nebraska,31099,Kearney,31099,Kearney,31099,Kearney
+Nebraska,31101,Keith,31101,Keith,31101,Keith
+Nebraska,31103,Keya Paha,31103,Keya paha,31103,Keya paha
+Nebraska,31105,Kimball,31105,Kimball,31105,Kimball
+Nebraska,31107,Knox,31107,Knox,31107,Knox
+Nebraska,31109,Lancaster,31109,Lancaster,31109,Lancaster
+Nebraska,31111,Lincoln,31111,Lincoln,31111,Lincoln
+Nebraska,31113,Logan,31113,Logan,31113,Logan
+Nebraska,31115,Loup,31115,Loup,31115,Loup
+Nebraska,31117,McPherson,31117,Mcpherson,31117,Mcpherson
+Nebraska,31119,Madison,31119,Madison,31119,Madison
+Nebraska,31121,Merrick,31121,Merrick,31121,Merrick
+Nebraska,31123,Morrill,31123,Morrill,31123,Morrill
+Nebraska,31125,Nance,31125,Nance,31125,Nance
+Nebraska,31127,Nemaha,31127,Nemaha,31127,Nemaha
+Nebraska,31129,Nuckolls,31129,Nuckolls,31129,Nuckolls
+Nebraska,31131,Otoe,31131,Otoe,31131,Otoe
+Nebraska,31133,Pawnee,31133,Pawnee,31133,Pawnee
+Nebraska,31135,Perkins,31135,Perkins,31135,Perkins
+Nebraska,31137,Phelps,31137,Phelps,31137,Phelps
+Nebraska,31139,Pierce,31139,Pierce,31139,Pierce
+Nebraska,31141,Platte,31141,Platte,31141,Platte
+Nebraska,31143,Polk,31143,Polk,31143,Polk
+Nebraska,31145,Red Willow,31145,Red willow,31145,Red willow
+Nebraska,31147,Richardson,31147,Richardson,31147,Richardson
+Nebraska,31149,Rock,31149,Rock,31149,Rock
+Nebraska,31151,Saline,31151,Saline,31151,Saline
+Nebraska,31153,Sarpy,31153,Sarpy,31153,Sarpy
+Nebraska,31155,Saunders,31155,Saunders,31155,Saunders
+Nebraska,31157,Scotts Bluff,31157,Scotts bluff,31157,Scotts bluff
+Nebraska,31159,Seward,31159,Seward,31159,Seward
+Nebraska,31161,Sheridan,31161,Sheridan,31161,Sheridan
+Nebraska,31163,Sherman,31163,Sherman,31163,Sherman
+Nebraska,31165,Sioux,31165,Sioux,31165,Sioux
+Nebraska,31167,Stanton,31167,Stanton,31167,Stanton
+Nebraska,31169,Thayer,31169,Thayer,31169,Thayer
+Nebraska,31171,Thomas,31171,Thomas,31171,Thomas
+Nebraska,31173,Thurston,31173,Thurston,31173,Thurston
+Nebraska,31175,Valley,31175,Valley,31175,Valley
+Nebraska,31177,Washington,31177,Washington,31177,Washington
+Nebraska,31179,Wayne,31179,Wayne,31179,Wayne
+Nebraska,31181,Webster,31181,Webster,31181,Webster
+Nebraska,31183,Wheeler,31183,Wheeler,31183,Wheeler
+Nebraska,31185,York,31185,York,31185,York
+Nevada,32000,,32000,,32000,
+Nevada,32001,Churchill,32001,Churchill,32001,Churchill
+Nevada,32003,Clark,32003,Clark,32003,Clark
+Nevada,32005,Douglas,32005,Douglas,32005,Douglas
+Nevada,32007,Elko,32007,Elko,32007,Elko
+Nevada,32009,Esmeralda,32009,Esmeralda,32009,Esmeralda
+Nevada,32011,Eureka,32011,Eureka,32011,Eureka
+Nevada,32013,Humboldt,32013,Humboldt,32013,Humboldt
+Nevada,32015,Lander,32015,Lander,32015,Lander
+Nevada,32017,Lincoln,32017,Lincoln,32017,Lincoln
+Nevada,32019,Lyon,32019,Lyon,32019,Lyon
+Nevada,32021,Mineral,32021,Mineral,32021,Mineral
+Nevada,32023,Nye,32023,Nye,32023,Nye
+Nevada,32027,Pershing,32027,Pershing,32027,Pershing
+Nevada,32029,Storey,32029,Storey,32029,Storey
+Nevada,32031,Washoe,32031,Washoe,32031,Washoe
+Nevada,32033,White Pine,32033,White pine,32033,White pine
+Nevada,32510,Carson City (city),32510,Carson city,32510,Carson city
+New hampshire,33000,,33000,,33000,
+New hampshire,33001,Belknap,33001,Belknap,33001,Belknap
+New hampshire,33003,Carroll,33003,Carroll,33003,Carroll
+New hampshire,33005,Cheshire,33005,Cheshire,33005,Cheshire
+New hampshire,33007,Coos,33007,Coos,33007,Coos
+New hampshire,33009,Grafton,33009,Grafton,33009,Grafton
+New hampshire,33011,Hillsborough,33011,Hillsborough,33011,Hillsborough
+New hampshire,33013,Merrimack,33013,Merrimack,33013,Merrimack
+New hampshire,33015,Rockingham,33015,Rockingham,33015,Rockingham
+New hampshire,33017,Strafford,33017,Strafford,33017,Strafford
+New hampshire,33019,Sullivan,33019,Sullivan,33019,Sullivan
+New jersey,34000,,34000,,34000,
+New jersey,34001,Atlantic,34001,Atlantic,34001,Atlantic
+New jersey,34003,Bergen,34003,Bergen,34003,Bergen
+New jersey,34005,Burlington,34005,Burlington,34005,Burlington
+New jersey,34007,Camden,34007,Camden,34007,Camden
+New jersey,34009,Cape May,34009,Cape may,34009,Cape may
+New jersey,34011,Cumberland,34011,Cumberland,34011,Cumberland
+New jersey,34013,Essex,34013,Essex,34013,Essex
+New jersey,34015,Gloucester,34015,Gloucester,34015,Gloucester
+New jersey,34017,Hudson,34017,Hudson,34017,Hudson
+New jersey,34019,Hunterdon,34019,Hunterdon,34019,Hunterdon
+New jersey,34021,Mercer,34021,Mercer,34021,Mercer
+New jersey,34023,Middlesex,34023,Middlesex,34023,Middlesex
+New jersey,34025,Monmouth,34025,Monmouth,34025,Monmouth
+New jersey,34027,Morris,34027,Morris,34027,Morris
+New jersey,34029,Ocean,34029,Ocean,34029,Ocean
+New jersey,34031,Passaic,34031,Passaic,34031,Passaic
+New jersey,34033,Salem,34033,Salem,34033,Salem
+New jersey,34035,Somerset,34035,Somerset,34035,Somerset
+New jersey,34037,Sussex,34037,Sussex,34037,Sussex
+New jersey,34039,Union,34039,Union,34039,Union
+New jersey,34041,Warren,34041,Warren,34041,Warren
+New mexico,35000,,35000,,35000,
+New mexico,35001,Bernalillo,35001,Bernalillo,35001,Bernalillo
+New mexico,35003,Catron,35003,Catron,35003,Catron
+New mexico,35005,Chaves,35005,Chaves,35005,Chaves
+New mexico,35006,Cibola,35006,Cibola,35006,Cibola
+New mexico,35007,Colfax,35007,Colfax,35007,Colfax
+New mexico,35009,Curry,35009,Curry,35009,Curry
+New mexico,35011,De Baca,35011,De baca,35011,De baca
+New mexico,35013,Doña Ana,35013,Doña ana,35013,Doña ana
+New mexico,35015,Eddy,35015,Eddy,35015,Eddy
+New mexico,35017,Grant,35017,Grant,35017,Grant
+New mexico,35019,Guadalupe,35019,Guadalupe,35019,Guadalupe
+New mexico,35021,Harding,35021,Harding,35021,Harding
+New mexico,35023,Hidalgo,35023,Hidalgo,35023,Hidalgo
+New mexico,35025,Lea,35025,Lea,35025,Lea
+New mexico,35027,Lincoln,35027,Lincoln,35027,Lincoln
+New mexico,35028,Los Alamos,35028,Los alamos,35028,Los alamos
+New mexico,35029,Luna,35029,Luna,35029,Luna
+New mexico,35031,McKinley,35031,Mckinley,35031,Mckinley
+New mexico,35033,Mora,35033,Mora,35033,Mora
+New mexico,35035,Otero,35035,Otero,35035,Otero
+New mexico,35037,Quay,35037,Quay,35037,Quay
+New mexico,35039,Rio Arriba,35039,Rio arriba,35039,Rio arriba
+New mexico,35041,Roosevelt,35041,Roosevelt,35041,Roosevelt
+New mexico,35043,Sandoval,35043,Sandoval,35043,Sandoval
+New mexico,35045,San Juan,35045,San juan,35045,San juan
+New mexico,35047,San Miguel,35047,San miguel,35047,San miguel
+New mexico,35049,Santa Fe,35049,Santa fe,35049,Santa fe
+New mexico,35051,Sierra,35051,Sierra,35051,Sierra
+New mexico,35053,Socorro,35053,Socorro,35053,Socorro
+New mexico,35055,Taos,35055,Taos,35055,Taos
+New mexico,35057,Torrance,35057,Torrance,35057,Torrance
+New mexico,35059,Union,35059,Union,35059,Union
+New mexico,35061,Valencia,35061,Valencia,35061,Valencia
+New york,36000,,36000,,36000,
+New york,36001,Albany,36001,Albany,36001,Albany
+New york,36003,Allegany,36003,Allegany,36003,Allegany
+New york,36005,Bronx,36005,Bronx,36005,Bronx
+New york,36007,Broome,36007,Broome,36007,Broome
+New york,36009,Cattaraugus,36009,Cattaraugus,36009,Cattaraugus
+New york,36011,Cayuga,36011,Cayuga,36011,Cayuga
+New york,36013,Chautauqua,36013,Chautauqua,36013,Chautauqua
+New york,36015,Chemung,36015,Chemung,36015,Chemung
+New york,36017,Chenango,36017,Chenango,36017,Chenango
+New york,36019,Clinton,36019,Clinton,36019,Clinton
+New york,36021,Columbia,36021,Columbia,36021,Columbia
+New york,36023,Cortland,36023,Cortland,36023,Cortland
+New york,36025,Delaware,36025,Delaware,36025,Delaware
+New york,36027,Dutchess,36027,Dutchess,36027,Dutchess
+New york,36029,Erie,36029,Erie,36029,Erie
+New york,36031,Essex,36031,Essex,36031,Essex
+New york,36033,Franklin,36033,Franklin,36033,Franklin
+New york,36035,Fulton,36035,Fulton,36035,Fulton
+New york,36037,Genesee,36037,Genesee,36037,Genesee
+New york,36039,Greene,36039,Greene,36039,Greene
+New york,36041,Hamilton,36041,Hamilton,36041,Hamilton
+New york,36043,Herkimer,36043,Herkimer,36043,Herkimer
+New york,36045,Jefferson,36045,Jefferson,36045,Jefferson
+New york,36047,Kings,36047,Kings,36047,Kings
+New york,36049,Lewis,36049,Lewis,36049,Lewis
+New york,36051,Livingston,36051,Livingston,36051,Livingston
+New york,36053,Madison,36053,Madison,36053,Madison
+New york,36055,Monroe,36055,Monroe,36055,Monroe
+New york,36057,Montgomery,36057,Montgomery,36057,Montgomery
+New york,36059,Nassau,36059,Nassau,36059,Nassau
+New york,36061,New York (county),36061,New york,36061,New york
+New york,36063,Niagara,36063,Niagara,36063,Niagara
+New york,36065,Oneida,36065,Oneida,36065,Oneida
+New york,36067,Onondaga,36067,Onondaga,36067,Onondaga
+New york,36069,Ontario,36069,Ontario,36069,Ontario
+New york,36071,Orange,36071,Orange,36071,Orange
+New york,36073,Orleans,36073,Orleans,36073,Orleans
+New york,36075,Oswego,36075,Oswego,36075,Oswego
+New york,36077,Otsego,36077,Otsego,36077,Otsego
+New york,36079,Putnam,36079,Putnam,36079,Putnam
+New york,36081,Queens,36081,Queens,36081,Queens
+New york,36083,Rensselaer,36083,Rensselaer,36083,Rensselaer
+New york,36085,Richmond,36085,Richmond,36085,Richmond
+New york,36087,Rockland,36087,Rockland,36087,Rockland
+New york,36089,St. Lawrence,36089,St. lawrence,36089,St. lawrence
+New york,36091,Saratoga,36091,Saratoga,36091,Saratoga
+New york,36093,Schenectady,36093,Schenectady,36093,Schenectady
+New york,36095,Schoharie,36095,Schoharie,36095,Schoharie
+New york,36097,Schuyler,36097,Schuyler,36097,Schuyler
+New york,36099,Seneca,36099,Seneca,36099,Seneca
+New york,36101,Steuben,36101,Steuben,36101,Steuben
+New york,36103,Suffolk,36103,Suffolk,36103,Suffolk
+New york,36105,Sullivan,36105,Sullivan,36105,Sullivan
+New york,36107,Tioga,36107,Tioga,36107,Tioga
+New york,36109,Tompkins,36109,Tompkins,36109,Tompkins
+New york,36111,Ulster,36111,Ulster,36111,Ulster
+New york,36113,Warren,36113,Warren,36113,Warren
+New york,36115,Washington,36115,Washington,36115,Washington
+New york,36117,Wayne,36117,Wayne,36117,Wayne
+New york,36119,Westchester,36119,Westchester,36119,Westchester
+New york,36121,Wyoming,36121,Wyoming,36121,Wyoming
+New york,36123,Yates,36123,Yates,36123,Yates
+North carolina,37000,,37000,,37000,
+North carolina,37001,Alamance,37001,Alamance,37001,Alamance
+North carolina,37003,Alexander,37003,Alexander,37003,Alexander
+North carolina,37005,Alleghany,37005,Alleghany,37005,Alleghany
+North carolina,37007,Anson,37007,Anson,37007,Anson
+North carolina,37009,Ashe,37009,Ashe,37009,Ashe
+North carolina,37011,Avery,37011,Avery,37011,Avery
+North carolina,37013,Beaufort,37013,Beaufort,37013,Beaufort
+North carolina,37015,Bertie,37015,Bertie,37015,Bertie
+North carolina,37017,Bladen,37017,Bladen,37017,Bladen
+North carolina,37019,Brunswick,37019,Brunswick,37019,Brunswick
+North carolina,37021,Buncombe,37021,Buncombe,37021,Buncombe
+North carolina,37023,Burke,37023,Burke,37023,Burke
+North carolina,37025,Cabarrus,37025,Cabarrus,37025,Cabarrus
+North carolina,37027,Caldwell,37027,Caldwell,37027,Caldwell
+North carolina,37029,Camden,37029,Camden,37029,Camden
+North carolina,37031,Carteret,37031,Carteret,37031,Carteret
+North carolina,37033,Caswell,37033,Caswell,37033,Caswell
+North carolina,37035,Catawba,37035,Catawba,37035,Catawba
+North carolina,37037,Chatham,37037,Chatham,37037,Chatham
+North carolina,37039,Cherokee,37039,Cherokee,37039,Cherokee
+North carolina,37041,Chowan,37041,Chowan,37041,Chowan
+North carolina,37043,Clay,37043,Clay,37043,Clay
+North carolina,37045,Cleveland,37045,Cleveland,37045,Cleveland
+North carolina,37047,Columbus,37047,Columbus,37047,Columbus
+North carolina,37049,Craven,37049,Craven,37049,Craven
+North carolina,37051,Cumberland,37051,Cumberland,37051,Cumberland
+North carolina,37053,Currituck,37053,Currituck,37053,Currituck
+North carolina,37055,Dare,37055,Dare,37055,Dare
+North carolina,37057,Davidson,37057,Davidson,37057,Davidson
+North carolina,37059,Davie,37059,Davie,37059,Davie
+North carolina,37061,Duplin,37061,Duplin,37061,Duplin
+North carolina,37063,Durham,37063,Durham,37063,Durham
+North carolina,37065,Edgecombe,37065,Edgecombe,37065,Edgecombe
+North carolina,37067,Forsyth,37067,Forsyth,37067,Forsyth
+North carolina,37069,Franklin,37069,Franklin,37069,Franklin
+North carolina,37071,Gaston,37071,Gaston,37071,Gaston
+North carolina,37073,Gates,37073,Gates,37073,Gates
+North carolina,37075,Graham,37075,Graham,37075,Graham
+North carolina,37077,Granville,37077,Granville,37077,Granville
+North carolina,37079,Greene,37079,Greene,37079,Greene
+North carolina,37081,Guilford,37081,Guilford,37081,Guilford
+North carolina,37083,Halifax,37083,Halifax,37083,Halifax
+North carolina,37085,Harnett,37085,Harnett,37085,Harnett
+North carolina,37087,Haywood,37087,Haywood,37087,Haywood
+North carolina,37089,Henderson,37089,Henderson,37089,Henderson
+North carolina,37091,Hertford,37091,Hertford,37091,Hertford
+North carolina,37093,Hoke,37093,Hoke,37093,Hoke
+North carolina,37095,Hyde,37095,Hyde,37095,Hyde
+North carolina,37097,Iredell,37097,Iredell,37097,Iredell
+North carolina,37099,Jackson,37099,Jackson,37099,Jackson
+North carolina,37101,Johnston,37101,Johnston,37101,Johnston
+North carolina,37103,Jones,37103,Jones,37103,Jones
+North carolina,37105,Lee,37105,Lee,37105,Lee
+North carolina,37107,Lenoir,37107,Lenoir,37107,Lenoir
+North carolina,37109,Lincoln,37109,Lincoln,37109,Lincoln
+North carolina,37111,McDowell,37111,Mcdowell,37111,Mcdowell
+North carolina,37113,Macon,37113,Macon,37113,Macon
+North carolina,37115,Madison,37115,Madison,37115,Madison
+North carolina,37117,Martin,37117,Martin,37117,Martin
+North carolina,37119,Mecklenburg,37119,Mecklenburg,37119,Mecklenburg
+North carolina,37121,Mitchell,37121,Mitchell,37121,Mitchell
+North carolina,37123,Montgomery,37123,Montgomery,37123,Montgomery
+North carolina,37125,Moore,37125,Moore,37125,Moore
+North carolina,37127,Nash,37127,Nash,37127,Nash
+North carolina,37129,New Hanover,37129,New hanover,37129,New hanover
+North carolina,37131,Northampton,37131,Northampton,37131,Northampton
+North carolina,37133,Onslow,37133,Onslow,37133,Onslow
+North carolina,37135,Orange,37135,Orange,37135,Orange
+North carolina,37137,Pamlico,37137,Pamlico,37137,Pamlico
+North carolina,37139,Pasquotank,37139,Pasquotank,37139,Pasquotank
+North carolina,37141,Pender,37141,Pender,37141,Pender
+North carolina,37143,Perquimans,37143,Perquimans,37143,Perquimans
+North carolina,37145,Person,37145,Person,37145,Person
+North carolina,37147,Pitt,37147,Pitt,37147,Pitt
+North carolina,37149,Polk,37149,Polk,37149,Polk
+North carolina,37151,Randolph,37151,Randolph,37151,Randolph
+North carolina,37153,Richmond,37153,Richmond,37153,Richmond
+North carolina,37155,Robeson,37155,Robeson,37155,Robeson
+North carolina,37157,Rockingham,37157,Rockingham,37157,Rockingham
+North carolina,37159,Rowan,37159,Rowan,37159,Rowan
+North carolina,37161,Rutherford,37161,Rutherford,37161,Rutherford
+North carolina,37163,Sampson,37163,Sampson,37163,Sampson
+North carolina,37165,Scotland,37165,Scotland,37165,Scotland
+North carolina,37167,Stanly,37167,Stanly,37167,Stanly
+North carolina,37169,Stokes,37169,Stokes,37169,Stokes
+North carolina,37171,Surry,37171,Surry,37171,Surry
+North carolina,37173,Swain,37173,Swain,37173,Swain
+North carolina,37175,Transylvania,37175,Transylvania,37175,Transylvania
+North carolina,37177,Tyrrell,37177,Tyrrell,37177,Tyrrell
+North carolina,37179,Union,37179,Union,37179,Union
+North carolina,37181,Vance,37181,Vance,37181,Vance
+North carolina,37183,Wake,37183,Wake,37183,Wake
+North carolina,37185,Warren,37185,Warren,37185,Warren
+North carolina,37187,Washington,37187,Washington,37187,Washington
+North carolina,37189,Watauga,37189,Watauga,37189,Watauga
+North carolina,37191,Wayne,37191,Wayne,37191,Wayne
+North carolina,37193,Wilkes,37193,Wilkes,37193,Wilkes
+North carolina,37195,Wilson,37195,Wilson,37195,Wilson
+North carolina,37197,Yadkin,37197,Yadkin,37197,Yadkin
+North carolina,37199,Yancey,37199,Yancey,37199,Yancey
+North dakota,38000,,38000,,38000,
+North dakota,38001,Adams,38001,Adams,38001,Adams
+North dakota,38003,Barnes,38003,Barnes,38003,Barnes
+North dakota,38005,Benson,38005,Benson,38005,Benson
+North dakota,38007,Billings,38007,Billings,38007,Billings
+North dakota,38009,Bottineau,38009,Bottineau,38009,Bottineau
+North dakota,38011,Bowman,38011,Bowman,38011,Bowman
+North dakota,38013,Burke,38013,Burke,38013,Burke
+North dakota,38015,Burleigh,38015,Burleigh,38015,Burleigh
+North dakota,38017,Cass,38017,Cass,38017,Cass
+North dakota,38019,Cavalier,38019,Cavalier,38019,Cavalier
+North dakota,38021,Dickey,38021,Dickey,38021,Dickey
+North dakota,38023,Divide,38023,Divide,38023,Divide
+North dakota,38025,Dunn,38025,Dunn,38025,Dunn
+North dakota,38027,Eddy,38027,Eddy,38027,Eddy
+North dakota,38029,Emmons,38029,Emmons,38029,Emmons
+North dakota,38031,Foster,38031,Foster,38031,Foster
+North dakota,38033,Golden Valley,38033,Golden valley,38033,Golden valley
+North dakota,38035,Grand Forks,38035,Grand forks,38035,Grand forks
+North dakota,38037,Grant,38037,Grant,38037,Grant
+North dakota,38039,Griggs,38039,Griggs,38039,Griggs
+North dakota,38041,Hettinger,38041,Hettinger,38041,Hettinger
+North dakota,38043,Kidder,38043,Kidder,38043,Kidder
+North dakota,38045,LaMoure,38045,Lamoure,38045,Lamoure
+North dakota,38047,Logan,38047,Logan,38047,Logan
+North dakota,38049,McHenry,38049,Mchenry,38049,Mchenry
+North dakota,38051,McIntosh,38051,Mcintosh,38051,Mcintosh
+North dakota,38053,McKenzie,38053,Mckenzie,38053,Mckenzie
+North dakota,38055,McLean,38055,Mclean,38055,Mclean
+North dakota,38057,Mercer,38057,Mercer,38057,Mercer
+North dakota,38059,Morton,38059,Morton,38059,Morton
+North dakota,38061,Mountrail,38061,Mountrail,38061,Mountrail
+North dakota,38063,Nelson,38063,Nelson,38063,Nelson
+North dakota,38065,Oliver,38065,Oliver,38065,Oliver
+North dakota,38067,Pembina,38067,Pembina,38067,Pembina
+North dakota,38069,Pierce,38069,Pierce,38069,Pierce
+North dakota,38071,Ramsey,38071,Ramsey,38071,Ramsey
+North dakota,38073,Ransom,38073,Ransom,38073,Ransom
+North dakota,38075,Renville,38075,Renville,38075,Renville
+North dakota,38077,Richland,38077,Richland,38077,Richland
+North dakota,38079,Rolette,38079,Rolette,38079,Rolette
+North dakota,38081,Sargent,38081,Sargent,38081,Sargent
+North dakota,38083,Sheridan,38083,Sheridan,38083,Sheridan
+North dakota,38085,Sioux,38085,Sioux,38085,Sioux
+North dakota,38087,Slope,38087,Slope,38087,Slope
+North dakota,38089,Stark,38089,Stark,38089,Stark
+North dakota,38091,Steele,38091,Steele,38091,Steele
+North dakota,38093,Stutsman,38093,Stutsman,38093,Stutsman
+North dakota,38095,Towner,38095,Towner,38095,Towner
+North dakota,38097,Traill,38097,Traill,38097,Traill
+North dakota,38099,Walsh,38099,Walsh,38099,Walsh
+North dakota,38101,Ward,38101,Ward,38101,Ward
+North dakota,38103,Wells,38103,Wells,38103,Wells
+North dakota,38105,Williams,38105,Williams,38105,Williams
+Ohio,39000,,39000,,39000,
+Ohio,39001,Adams,39001,Adams,39001,Adams
+Ohio,39003,Allen,39003,Allen,39003,Allen
+Ohio,39005,Ashland,39005,Ashland,39005,Ashland
+Ohio,39007,Ashtabula,39007,Ashtabula,39007,Ashtabula
+Ohio,39009,Athens,39009,Athens,39009,Athens
+Ohio,39011,Auglaize,39011,Auglaize,39011,Auglaize
+Ohio,39013,Belmont,39013,Belmont,39013,Belmont
+Ohio,39015,Brown,39015,Brown,39015,Brown
+Ohio,39017,Butler,39017,Butler,39017,Butler
+Ohio,39019,Carroll,39019,Carroll,39019,Carroll
+Ohio,39021,Champaign,39021,Champaign,39021,Champaign
+Ohio,39023,Clark,39023,Clark,39023,Clark
+Ohio,39025,Clermont,39025,Clermont,39025,Clermont
+Ohio,39027,Clinton,39027,Clinton,39027,Clinton
+Ohio,39029,Columbiana,39029,Columbiana,39029,Columbiana
+Ohio,39031,Coshocton,39031,Coshocton,39031,Coshocton
+Ohio,39033,Crawford,39033,Crawford,39033,Crawford
+Ohio,39035,Cuyahoga,39035,Cuyahoga,39035,Cuyahoga
+Ohio,39037,Darke,39037,Darke,39037,Darke
+Ohio,39039,Defiance,39039,Defiance,39039,Defiance
+Ohio,39041,Delaware,39041,Delaware,39041,Delaware
+Ohio,39043,Erie,39043,Erie,39043,Erie
+Ohio,39045,Fairfield,39045,Fairfield,39045,Fairfield
+Ohio,39047,Fayette,39047,Fayette,39047,Fayette
+Ohio,39049,Franklin,39049,Franklin,39049,Franklin
+Ohio,39051,Fulton,39051,Fulton,39051,Fulton
+Ohio,39053,Gallia,39053,Gallia,39053,Gallia
+Ohio,39055,Geauga,39055,Geauga,39055,Geauga
+Ohio,39057,Greene,39057,Greene,39057,Greene
+Ohio,39059,Guernsey,39059,Guernsey,39059,Guernsey
+Ohio,39061,Hamilton,39061,Hamilton,39061,Hamilton
+Ohio,39063,Hancock,39063,Hancock,39063,Hancock
+Ohio,39065,Hardin,39065,Hardin,39065,Hardin
+Ohio,39067,Harrison,39067,Harrison,39067,Harrison
+Ohio,39069,Henry,39069,Henry,39069,Henry
+Ohio,39071,Highland,39071,Highland,39071,Highland
+Ohio,39073,Hocking,39073,Hocking,39073,Hocking
+Ohio,39075,Holmes,39075,Holmes,39075,Holmes
+Ohio,39077,Huron,39077,Huron,39077,Huron
+Ohio,39079,Jackson,39079,Jackson,39079,Jackson
+Ohio,39081,Jefferson,39081,Jefferson,39081,Jefferson
+Ohio,39083,Knox,39083,Knox,39083,Knox
+Ohio,39085,Lake,39085,Lake,39085,Lake
+Ohio,39087,Lawrence,39087,Lawrence,39087,Lawrence
+Ohio,39089,Licking,39089,Licking,39089,Licking
+Ohio,39091,Logan,39091,Logan,39091,Logan
+Ohio,39093,Lorain,39093,Lorain,39093,Lorain
+Ohio,39095,Lucas,39095,Lucas,39095,Lucas
+Ohio,39097,Madison,39097,Madison,39097,Madison
+Ohio,39099,Mahoning,39099,Mahoning,39099,Mahoning
+Ohio,39101,Marion,39101,Marion,39101,Marion
+Ohio,39103,Medina,39103,Medina,39103,Medina
+Ohio,39105,Meigs,39105,Meigs,39105,Meigs
+Ohio,39107,Mercer,39107,Mercer,39107,Mercer
+Ohio,39109,Miami,39109,Miami,39109,Miami
+Ohio,39111,Monroe,39111,Monroe,39111,Monroe
+Ohio,39113,Montgomery,39113,Montgomery,39113,Montgomery
+Ohio,39115,Morgan,39115,Morgan,39115,Morgan
+Ohio,39117,Morrow,39117,Morrow,39117,Morrow
+Ohio,39119,Muskingum,39119,Muskingum,39119,Muskingum
+Ohio,39121,Noble,39121,Noble,39121,Noble
+Ohio,39123,Ottawa,39123,Ottawa,39123,Ottawa
+Ohio,39125,Paulding,39125,Paulding,39125,Paulding
+Ohio,39127,Perry,39127,Perry,39127,Perry
+Ohio,39129,Pickaway,39129,Pickaway,39129,Pickaway
+Ohio,39131,Pike,39131,Pike,39131,Pike
+Ohio,39133,Portage,39133,Portage,39133,Portage
+Ohio,39135,Preble,39135,Preble,39135,Preble
+Ohio,39137,Putnam,39137,Putnam,39137,Putnam
+Ohio,39139,Richland,39139,Richland,39139,Richland
+Ohio,39141,Ross,39141,Ross,39141,Ross
+Ohio,39143,Sandusky,39143,Sandusky,39143,Sandusky
+Ohio,39145,Scioto,39145,Scioto,39145,Scioto
+Ohio,39147,Seneca,39147,Seneca,39147,Seneca
+Ohio,39149,Shelby,39149,Shelby,39149,Shelby
+Ohio,39151,Stark,39151,Stark,39151,Stark
+Ohio,39153,Summit,39153,Summit,39153,Summit
+Ohio,39155,Trumbull,39155,Trumbull,39155,Trumbull
+Ohio,39157,Tuscarawas,39157,Tuscarawas,39157,Tuscarawas
+Ohio,39159,Union,39159,Union,39159,Union
+Ohio,39161,Van Wert,39161,Van wert,39161,Van wert
+Ohio,39163,Vinton,39163,Vinton,39163,Vinton
+Ohio,39165,Warren,39165,Warren,39165,Warren
+Ohio,39167,Washington,39167,Washington,39167,Washington
+Ohio,39169,Wayne,39169,Wayne,39169,Wayne
+Ohio,39171,Williams,39171,Williams,39171,Williams
+Ohio,39173,Wood,39173,Wood,39173,Wood
+Ohio,39175,Wyandot,39175,Wyandot,39175,Wyandot
+Oklahoma,40000,,40000,,40000,
+Oklahoma,40001,Adair,40001,Adair,40001,Adair
+Oklahoma,40003,Alfalfa,40003,Alfalfa,40003,Alfalfa
+Oklahoma,40005,Atoka,40005,Atoka,40005,Atoka
+Oklahoma,40007,Beaver,40007,Beaver,40007,Beaver
+Oklahoma,40009,Beckham,40009,Beckham,40009,Beckham
+Oklahoma,40011,Blaine,40011,Blaine,40011,Blaine
+Oklahoma,40013,Bryan,40013,Bryan,40013,Bryan
+Oklahoma,40015,Caddo,40015,Caddo,40015,Caddo
+Oklahoma,40017,Canadian,40017,Canadian,40017,Canadian
+Oklahoma,40019,Carter,40019,Carter,40019,Carter
+Oklahoma,40021,Cherokee,40021,Cherokee,40021,Cherokee
+Oklahoma,40023,Choctaw,40023,Choctaw,40023,Choctaw
+Oklahoma,40025,Cimarron,40025,Cimarron,40025,Cimarron
+Oklahoma,40027,Cleveland,40027,Cleveland,40027,Cleveland
+Oklahoma,40029,Coal,40029,Coal,40029,Coal
+Oklahoma,40031,Comanche,40031,Comanche,40031,Comanche
+Oklahoma,40033,Cotton,40033,Cotton,40033,Cotton
+Oklahoma,40035,Craig,40035,Craig,40035,Craig
+Oklahoma,40037,Creek,40037,Creek,40037,Creek
+Oklahoma,40039,Custer,40039,Custer,40039,Custer
+Oklahoma,40041,Delaware,40041,Delaware,40041,Delaware
+Oklahoma,40043,Dewey,40043,Dewey,40043,Dewey
+Oklahoma,40045,Ellis,40045,Ellis,40045,Ellis
+Oklahoma,40047,Garfield,40047,Garfield,40047,Garfield
+Oklahoma,40049,Garvin,40049,Garvin,40049,Garvin
+Oklahoma,40051,Grady,40051,Grady,40051,Grady
+Oklahoma,40053,Grant,40053,Grant,40053,Grant
+Oklahoma,40055,Greer,40055,Greer,40055,Greer
+Oklahoma,40057,Harmon,40057,Harmon,40057,Harmon
+Oklahoma,40059,Harper,40059,Harper,40059,Harper
+Oklahoma,40061,Haskell,40061,Haskell,40061,Haskell
+Oklahoma,40063,Hughes,40063,Hughes,40063,Hughes
+Oklahoma,40065,Jackson,40065,Jackson,40065,Jackson
+Oklahoma,40067,Jefferson,40067,Jefferson,40067,Jefferson
+Oklahoma,40069,Johnston,40069,Johnston,40069,Johnston
+Oklahoma,40071,Kay,40071,Kay,40071,Kay
+Oklahoma,40073,Kingfisher,40073,Kingfisher,40073,Kingfisher
+Oklahoma,40075,Kiowa,40075,Kiowa,40075,Kiowa
+Oklahoma,40077,Latimer,40077,Latimer,40077,Latimer
+Oklahoma,40079,Le Flore,40079,Le flore,40079,Le flore
+Oklahoma,40081,Lincoln,40081,Lincoln,40081,Lincoln
+Oklahoma,40083,Logan,40083,Logan,40083,Logan
+Oklahoma,40085,Love,40085,Love,40085,Love
+Oklahoma,40087,McClain,40087,Mcclain,40087,Mcclain
+Oklahoma,40089,McCurtain,40089,Mccurtain,40089,Mccurtain
+Oklahoma,40091,McIntosh,40091,Mcintosh,40091,Mcintosh
+Oklahoma,40093,Major,40093,Major,40093,Major
+Oklahoma,40095,Marshall,40095,Marshall,40095,Marshall
+Oklahoma,40097,Mayes,40097,Mayes,40097,Mayes
+Oklahoma,40099,Murray,40099,Murray,40099,Murray
+Oklahoma,40101,Muskogee,40101,Muskogee,40101,Muskogee
+Oklahoma,40103,Noble,40103,Noble,40103,Noble
+Oklahoma,40105,Nowata,40105,Nowata,40105,Nowata
+Oklahoma,40107,Okfuskee,40107,Okfuskee,40107,Okfuskee
+Oklahoma,40109,Oklahoma (county),40109,Oklahoma,40109,Oklahoma
+Oklahoma,40111,Okmulgee,40111,Okmulgee,40111,Okmulgee
+Oklahoma,40113,Osage,40113,Osage,40113,Osage
+Oklahoma,40115,Ottawa,40115,Ottawa,40115,Ottawa
+Oklahoma,40117,Pawnee,40117,Pawnee,40117,Pawnee
+Oklahoma,40119,Payne,40119,Payne,40119,Payne
+Oklahoma,40121,Pittsburg,40121,Pittsburg,40121,Pittsburg
+Oklahoma,40123,Pontotoc,40123,Pontotoc,40123,Pontotoc
+Oklahoma,40125,Pottawatomie,40125,Pottawatomie,40125,Pottawatomie
+Oklahoma,40127,Pushmataha,40127,Pushmataha,40127,Pushmataha
+Oklahoma,40129,Roger Mills,40129,Roger mills,40129,Roger mills
+Oklahoma,40131,Rogers,40131,Rogers,40131,Rogers
+Oklahoma,40133,Seminole,40133,Seminole,40133,Seminole
+Oklahoma,40135,Sequoyah,40135,Sequoyah,40135,Sequoyah
+Oklahoma,40137,Stephens,40137,Stephens,40137,Stephens
+Oklahoma,40139,Texas,40139,Texas,40139,Texas
+Oklahoma,40141,Tillman,40141,Tillman,40141,Tillman
+Oklahoma,40143,Tulsa,40143,Tulsa,40143,Tulsa
+Oklahoma,40145,Wagoner,40145,Wagoner,40145,Wagoner
+Oklahoma,40147,Washington,40147,Washington,40147,Washington
+Oklahoma,40149,Washita,40149,Washita,40149,Washita
+Oklahoma,40151,Woods,40151,Woods,40151,Woods
+Oklahoma,40153,Woodward,40153,Woodward,40153,Woodward
+Oregon,41000,,41000,,41000,
+Oregon,41001,Baker,41001,Baker,41001,Baker
+Oregon,41003,Benton,41003,Benton,41003,Benton
+Oregon,41005,Clackamas,41005,Clackamas,41005,Clackamas
+Oregon,41007,Clatsop,41007,Clatsop,41007,Clatsop
+Oregon,41009,Columbia,41009,Columbia,41009,Columbia
+Oregon,41011,Coos,41011,Coos,41011,Coos
+Oregon,41013,Crook,41013,Crook,41013,Crook
+Oregon,41015,Curry,41015,Curry,41015,Curry
+Oregon,41017,Deschutes,41017,Deschutes,41017,Deschutes
+Oregon,41019,Douglas,41019,Douglas,41019,Douglas
+Oregon,41021,Gilliam,41021,Gilliam,41021,Gilliam
+Oregon,41023,Grant,41023,Grant,41023,Grant
+Oregon,41025,Harney,41025,Harney,41025,Harney
+Oregon,41027,Hood River,41027,Hood river,41027,Hood river
+Oregon,41029,Jackson,41029,Jackson,41029,Jackson
+Oregon,41031,Jefferson,41031,Jefferson,41031,Jefferson
+Oregon,41033,Josephine,41033,Josephine,41033,Josephine
+Oregon,41035,Klamath,41035,Klamath,41035,Klamath
+Oregon,41037,Lake,41037,Lake,41037,Lake
+Oregon,41039,Lane,41039,Lane,41039,Lane
+Oregon,41041,Lincoln,41041,Lincoln,41041,Lincoln
+Oregon,41043,Linn,41043,Linn,41043,Linn
+Oregon,41045,Malheur,41045,Malheur,41045,Malheur
+Oregon,41047,Marion,41047,Marion,41047,Marion
+Oregon,41049,Morrow,41049,Morrow,41049,Morrow
+Oregon,41051,Multnomah,41051,Multnomah,41051,Multnomah
+Oregon,41053,Polk,41053,Polk,41053,Polk
+Oregon,41055,Sherman,41055,Sherman,41055,Sherman
+Oregon,41057,Tillamook,41057,Tillamook,41057,Tillamook
+Oregon,41059,Umatilla,41059,Umatilla,41059,Umatilla
+Oregon,41061,Union,41061,Union,41061,Union
+Oregon,41063,Wallowa,41063,Wallowa,41063,Wallowa
+Oregon,41065,Wasco,41065,Wasco,41065,Wasco
+Oregon,41067,Washington,41067,Washington,41067,Washington
+Oregon,41069,Wheeler,41069,Wheeler,41069,Wheeler
+Oregon,41071,Yamhill,41071,Yamhill,41071,Yamhill
+Pennsylvania,42000,,42000,,42000,
+Pennsylvania,42001,Adams,42001,Adams,42001,Adams
+Pennsylvania,42003,Allegheny,42003,Allegheny,42003,Allegheny
+Pennsylvania,42005,Armstrong,42005,Armstrong,42005,Armstrong
+Pennsylvania,42007,Beaver,42007,Beaver,42007,Beaver
+Pennsylvania,42009,Bedford,42009,Bedford,42009,Bedford
+Pennsylvania,42011,Berks,42011,Berks,42011,Berks
+Pennsylvania,42013,Blair,42013,Blair,42013,Blair
+Pennsylvania,42015,Bradford,42015,Bradford,42015,Bradford
+Pennsylvania,42017,Bucks,42017,Bucks,42017,Bucks
+Pennsylvania,42019,Butler,42019,Butler,42019,Butler
+Pennsylvania,42021,Cambria,42021,Cambria,42021,Cambria
+Pennsylvania,42023,Cameron,42023,Cameron,42023,Cameron
+Pennsylvania,42025,Carbon,42025,Carbon,42025,Carbon
+Pennsylvania,42027,Centre,42027,Centre,42027,Centre
+Pennsylvania,42029,Chester,42029,Chester,42029,Chester
+Pennsylvania,42031,Clarion,42031,Clarion,42031,Clarion
+Pennsylvania,42033,Clearfield,42033,Clearfield,42033,Clearfield
+Pennsylvania,42035,Clinton,42035,Clinton,42035,Clinton
+Pennsylvania,42037,Columbia,42037,Columbia,42037,Columbia
+Pennsylvania,42039,Crawford,42039,Crawford,42039,Crawford
+Pennsylvania,42041,Cumberland,42041,Cumberland,42041,Cumberland
+Pennsylvania,42043,Dauphin,42043,Dauphin,42043,Dauphin
+Pennsylvania,42045,Delaware,42045,Delaware,42045,Delaware
+Pennsylvania,42047,Elk,42047,Elk,42047,Elk
+Pennsylvania,42049,Erie,42049,Erie,42049,Erie
+Pennsylvania,42051,Fayette,42051,Fayette,42051,Fayette
+Pennsylvania,42053,Forest,42053,Forest,42053,Forest
+Pennsylvania,42055,Franklin,42055,Franklin,42055,Franklin
+Pennsylvania,42057,Fulton,42057,Fulton,42057,Fulton
+Pennsylvania,42059,Greene,42059,Greene,42059,Greene
+Pennsylvania,42061,Huntingdon,42061,Huntingdon,42061,Huntingdon
+Pennsylvania,42063,Indiana,42063,Indiana,42063,Indiana
+Pennsylvania,42065,Jefferson,42065,Jefferson,42065,Jefferson
+Pennsylvania,42067,Juniata,42067,Juniata,42067,Juniata
+Pennsylvania,42069,Lackawanna,42069,Lackawanna,42069,Lackawanna
+Pennsylvania,42071,Lancaster,42071,Lancaster,42071,Lancaster
+Pennsylvania,42073,Lawrence,42073,Lawrence,42073,Lawrence
+Pennsylvania,42075,Lebanon,42075,Lebanon,42075,Lebanon
+Pennsylvania,42077,Lehigh,42077,Lehigh,42077,Lehigh
+Pennsylvania,42079,Luzerne,42079,Luzerne,42079,Luzerne
+Pennsylvania,42081,Lycoming,42081,Lycoming,42081,Lycoming
+Pennsylvania,42083,McKean,42083,Mckean,42083,Mckean
+Pennsylvania,42085,Mercer,42085,Mercer,42085,Mercer
+Pennsylvania,42087,Mifflin,42087,Mifflin,42087,Mifflin
+Pennsylvania,42089,Monroe,42089,Monroe,42089,Monroe
+Pennsylvania,42091,Montgomery,42091,Montgomery,42091,Montgomery
+Pennsylvania,42093,Montour,42093,Montour,42093,Montour
+Pennsylvania,42095,Northampton,42095,Northampton,42095,Northampton
+Pennsylvania,42097,Northumberland,42097,Northumberland,42097,Northumberland
+Pennsylvania,42099,Perry,42099,Perry,42099,Perry
+Pennsylvania,42101,Philadelphia,42101,Philadelphia,42101,Philadelphia
+Pennsylvania,42103,Pike,42103,Pike,42103,Pike
+Pennsylvania,42105,Potter,42105,Potter,42105,Potter
+Pennsylvania,42107,Schuylkill,42107,Schuylkill,42107,Schuylkill
+Pennsylvania,42109,Snyder,42109,Snyder,42109,Snyder
+Pennsylvania,42111,Somerset,42111,Somerset,42111,Somerset
+Pennsylvania,42113,Sullivan,42113,Sullivan,42113,Sullivan
+Pennsylvania,42115,Susquehanna,42115,Susquehanna,42115,Susquehanna
+Pennsylvania,42117,Tioga,42117,Tioga,42117,Tioga
+Pennsylvania,42119,Union,42119,Union,42119,Union
+Pennsylvania,42121,Venango,42121,Venango,42121,Venango
+Pennsylvania,42123,Warren,42123,Warren,42123,Warren
+Pennsylvania,42125,Washington,42125,Washington,42125,Washington
+Pennsylvania,42127,Wayne,42127,Wayne,42127,Wayne
+Pennsylvania,42129,Westmoreland,42129,Westmoreland,42129,Westmoreland
+Pennsylvania,42131,Wyoming,42131,Wyoming,42131,Wyoming
+Pennsylvania,42133,York,42133,York,42133,York
+Rhode island,44000,,44000,,44000,
+Rhode island,44001,Bristol,44001,Bristol,44001,Bristol
+Rhode island,44003,Kent,44003,Kent,44003,Kent
+Rhode island,44005,Newport,44005,Newport,44005,Newport
+Rhode island,44007,Providence,44007,Providence,44007,Providence
+Rhode island,44009,Washington,44009,Washington,44009,Washington
+South carolina,45000,,45000,,45000,
+South carolina,45001,Abbeville,45001,Abbeville,45001,Abbeville
+South carolina,45003,Aiken,45003,Aiken,45003,Aiken
+South carolina,45005,Allendale,45005,Allendale,45005,Allendale
+South carolina,45007,Anderson,45007,Anderson,45007,Anderson
+South carolina,45009,Bamberg,45009,Bamberg,45009,Bamberg
+South carolina,45011,Barnwell,45011,Barnwell,45011,Barnwell
+South carolina,45013,Beaufort,45013,Beaufort,45013,Beaufort
+South carolina,45015,Berkeley,45015,Berkeley,45015,Berkeley
+South carolina,45017,Calhoun,45017,Calhoun,45017,Calhoun
+South carolina,45019,Charleston,45019,Charleston,45019,Charleston
+South carolina,45021,Cherokee,45021,Cherokee,45021,Cherokee
+South carolina,45023,Chester,45023,Chester,45023,Chester
+South carolina,45025,Chesterfield,45025,Chesterfield,45025,Chesterfield
+South carolina,45027,Clarendon,45027,Clarendon,45027,Clarendon
+South carolina,45029,Colleton,45029,Colleton,45029,Colleton
+South carolina,45031,Darlington,45031,Darlington,45031,Darlington
+South carolina,45033,Dillon,45033,Dillon,45033,Dillon
+South carolina,45035,Dorchester,45035,Dorchester,45035,Dorchester
+South carolina,45037,Edgefield,45037,Edgefield,45037,Edgefield
+South carolina,45039,Fairfield,45039,Fairfield,45039,Fairfield
+South carolina,45041,Florence,45041,Florence,45041,Florence
+South carolina,45043,Georgetown,45043,Georgetown,45043,Georgetown
+South carolina,45045,Greenville,45045,Greenville,45045,Greenville
+South carolina,45047,Greenwood,45047,Greenwood,45047,Greenwood
+South carolina,45049,Hampton,45049,Hampton,45049,Hampton
+South carolina,45051,Horry,45051,Horry,45051,Horry
+South carolina,45053,Jasper,45053,Jasper,45053,Jasper
+South carolina,45055,Kershaw,45055,Kershaw,45055,Kershaw
+South carolina,45057,Lancaster,45057,Lancaster,45057,Lancaster
+South carolina,45059,Laurens,45059,Laurens,45059,Laurens
+South carolina,45061,Lee,45061,Lee,45061,Lee
+South carolina,45063,Lexington,45063,Lexington,45063,Lexington
+South carolina,45065,McCormick,45065,Mccormick,45065,Mccormick
+South carolina,45067,Marion,45067,Marion,45067,Marion
+South carolina,45069,Marlboro,45069,Marlboro,45069,Marlboro
+South carolina,45071,Newberry,45071,Newberry,45071,Newberry
+South carolina,45073,Oconee,45073,Oconee,45073,Oconee
+South carolina,45075,Orangeburg,45075,Orangeburg,45075,Orangeburg
+South carolina,45077,Pickens,45077,Pickens,45077,Pickens
+South carolina,45079,Richland,45079,Richland,45079,Richland
+South carolina,45081,Saluda,45081,Saluda,45081,Saluda
+South carolina,45083,Spartanburg,45083,Spartanburg,45083,Spartanburg
+South carolina,45085,Sumter,45085,Sumter,45085,Sumter
+South carolina,45087,Union,45087,Union,45087,Union
+South carolina,45089,Williamsburg,45089,Williamsburg,45089,Williamsburg
+South carolina,45091,York,45091,York,45091,York
+South dakota,46000,,46000,,46000,
+South dakota,46003,Aurora,46003,Aurora,46003,Aurora
+South dakota,46005,Beadle,46005,Beadle,46005,Beadle
+South dakota,46007,Bennett,46007,Bennett,46007,Bennett
+South dakota,46009,Bon Homme,46009,Bon homme,46009,Bon homme
+South dakota,46011,Brookings,46011,Brookings,46011,Brookings
+South dakota,46013,Brown,46013,Brown,46013,Brown
+South dakota,46015,Brule,46015,Brule,46015,Brule
+South dakota,46017,Buffalo,46017,Buffalo,46017,Buffalo
+South dakota,46019,Butte,46019,Butte,46019,Butte
+South dakota,46021,Campbell,46021,Campbell,46021,Campbell
+South dakota,46023,Charles Mix,46023,Charles mix,46023,Charles mix
+South dakota,46025,Clark,46025,Clark,46025,Clark
+South dakota,46027,Clay,46027,Clay,46027,Clay
+South dakota,46029,Codington,46029,Codington,46029,Codington
+South dakota,46031,Corson,46031,Corson,46031,Corson
+South dakota,46033,Custer,46033,Custer,46033,Custer
+South dakota,46035,Davison,46035,Davison,46035,Davison
+South dakota,46037,Day,46037,Day,46037,Day
+South dakota,46039,Deuel,46039,Deuel,46039,Deuel
+South dakota,46041,Dewey,46041,Dewey,46041,Dewey
+South dakota,46043,Douglas,46043,Douglas,46043,Douglas
+South dakota,46045,Edmunds,46045,Edmunds,46045,Edmunds
+South dakota,46047,Fall River,46047,Fall river,46047,Fall river
+South dakota,46049,Faulk,46049,Faulk,46049,Faulk
+South dakota,46051,Grant,46051,Grant,46051,Grant
+South dakota,46053,Gregory,46053,Gregory,46053,Gregory
+South dakota,46055,Haakon,46055,Haakon,46055,Haakon
+South dakota,46057,Hamlin,46057,Hamlin,46057,Hamlin
+South dakota,46059,Hand,46059,Hand,46059,Hand
+South dakota,46061,Hanson,46061,Hanson,46061,Hanson
+South dakota,46063,Harding,46063,Harding,46063,Harding
+South dakota,46065,Hughes,46065,Hughes,46065,Hughes
+South dakota,46067,Hutchinson,46067,Hutchinson,46067,Hutchinson
+South dakota,46069,Hyde,46069,Hyde,46069,Hyde
+South dakota,46071,Jackson,46071,Jackson,46071,Jackson
+South dakota,46073,Jerauld,46073,Jerauld,46073,Jerauld
+South dakota,46075,Jones,46075,Jones,46075,Jones
+South dakota,46077,Kingsbury,46077,Kingsbury,46077,Kingsbury
+South dakota,46079,Lake,46079,Lake,46079,Lake
+South dakota,46081,Lawrence,46081,Lawrence,46081,Lawrence
+South dakota,46083,Lincoln,46083,Lincoln,46083,Lincoln
+South dakota,46085,Lyman,46085,Lyman,46085,Lyman
+South dakota,46087,McCook,46087,Mccook,46087,Mccook
+South dakota,46089,McPherson,46089,Mcpherson,46089,Mcpherson
+South dakota,46091,Marshall,46091,Marshall,46091,Marshall
+South dakota,46093,Meade,46093,Meade,46093,Meade
+South dakota,46095,Mellette,46095,Mellette,46095,Mellette
+South dakota,46097,Miner,46097,Miner,46097,Miner
+South dakota,46099,Minnehaha,46099,Minnehaha,46099,Minnehaha
+South dakota,46101,Moody,46101,Moody,46101,Moody
+South dakota,46103,Pennington,46103,Pennington,46103,Pennington
+South dakota,46105,Perkins,46105,Perkins,46105,Perkins
+South dakota,46107,Potter,46107,Potter,46107,Potter
+South dakota,46109,Roberts,46109,Roberts,46109,Roberts
+South dakota,46111,Sanborn,46111,Sanborn,46111,Sanborn
+South dakota,46113,Shannon,46113,Shannon,46102,Oglala lakota
+South dakota,46115,Spink,46115,Spink,46115,Spink
+South dakota,46117,Stanley,46117,Stanley,46117,Stanley
+South dakota,46119,Sully,46119,Sully,46119,Sully
+South dakota,46121,Todd,46121,Todd,46121,Todd
+South dakota,46123,Tripp,46123,Tripp,46123,Tripp
+South dakota,46125,Turner,46125,Turner,46125,Turner
+South dakota,46127,Union,46127,Union,46127,Union
+South dakota,46129,Walworth,46129,Walworth,46129,Walworth
+South dakota,46135,Yankton,46135,Yankton,46135,Yankton
+South dakota,46137,Ziebach,46137,Ziebach,46137,Ziebach
+Tennessee,47000,,47000,,47000,
+Tennessee,47001,Anderson,47001,Anderson,47001,Anderson
+Tennessee,47003,Bedford,47003,Bedford,47003,Bedford
+Tennessee,47005,Benton,47005,Benton,47005,Benton
+Tennessee,47007,Bledsoe,47007,Bledsoe,47007,Bledsoe
+Tennessee,47009,Blount,47009,Blount,47009,Blount
+Tennessee,47011,Bradley,47011,Bradley,47011,Bradley
+Tennessee,47013,Campbell,47013,Campbell,47013,Campbell
+Tennessee,47015,Cannon,47015,Cannon,47015,Cannon
+Tennessee,47017,Carroll,47017,Carroll,47017,Carroll
+Tennessee,47019,Carter,47019,Carter,47019,Carter
+Tennessee,47021,Cheatham,47021,Cheatham,47021,Cheatham
+Tennessee,47023,Chester,47023,Chester,47023,Chester
+Tennessee,47025,Claiborne,47025,Claiborne,47025,Claiborne
+Tennessee,47027,Clay,47027,Clay,47027,Clay
+Tennessee,47029,Cocke,47029,Cocke,47029,Cocke
+Tennessee,47031,Coffee,47031,Coffee,47031,Coffee
+Tennessee,47033,Crockett,47033,Crockett,47033,Crockett
+Tennessee,47035,Cumberland,47035,Cumberland,47035,Cumberland
+Tennessee,47037,Davidson,47037,Davidson,47037,Davidson
+Tennessee,47039,Decatur,47039,Decatur,47039,Decatur
+Tennessee,47041,DeKalb,47041,Dekalb,47041,Dekalb
+Tennessee,47043,Dickson,47043,Dickson,47043,Dickson
+Tennessee,47045,Dyer,47045,Dyer,47045,Dyer
+Tennessee,47047,Fayette,47047,Fayette,47047,Fayette
+Tennessee,47049,Fentress,47049,Fentress,47049,Fentress
+Tennessee,47051,Franklin,47051,Franklin,47051,Franklin
+Tennessee,47053,Gibson,47053,Gibson,47053,Gibson
+Tennessee,47055,Giles,47055,Giles,47055,Giles
+Tennessee,47057,Grainger,47057,Grainger,47057,Grainger
+Tennessee,47059,Greene,47059,Greene,47059,Greene
+Tennessee,47061,Grundy,47061,Grundy,47061,Grundy
+Tennessee,47063,Hamblen,47063,Hamblen,47063,Hamblen
+Tennessee,47065,Hamilton,47065,Hamilton,47065,Hamilton
+Tennessee,47067,Hancock,47067,Hancock,47067,Hancock
+Tennessee,47069,Hardeman,47069,Hardeman,47069,Hardeman
+Tennessee,47071,Hardin,47071,Hardin,47071,Hardin
+Tennessee,47073,Hawkins,47073,Hawkins,47073,Hawkins
+Tennessee,47075,Haywood,47075,Haywood,47075,Haywood
+Tennessee,47077,Henderson,47077,Henderson,47077,Henderson
+Tennessee,47079,Henry,47079,Henry,47079,Henry
+Tennessee,47081,Hickman,47081,Hickman,47081,Hickman
+Tennessee,47083,Houston,47083,Houston,47083,Houston
+Tennessee,47085,Humphreys,47085,Humphreys,47085,Humphreys
+Tennessee,47087,Jackson,47087,Jackson,47087,Jackson
+Tennessee,47089,Jefferson,47089,Jefferson,47089,Jefferson
+Tennessee,47091,Johnson,47091,Johnson,47091,Johnson
+Tennessee,47093,Knox,47093,Knox,47093,Knox
+Tennessee,47095,Lake,47095,Lake,47095,Lake
+Tennessee,47097,Lauderdale,47097,Lauderdale,47097,Lauderdale
+Tennessee,47099,Lawrence,47099,Lawrence,47099,Lawrence
+Tennessee,47101,Lewis,47101,Lewis,47101,Lewis
+Tennessee,47103,Lincoln,47103,Lincoln,47103,Lincoln
+Tennessee,47105,Loudon,47105,Loudon,47105,Loudon
+Tennessee,47107,McMinn,47107,Mcminn,47107,Mcminn
+Tennessee,47109,McNairy,47109,Mcnairy,47109,Mcnairy
+Tennessee,47111,Macon,47111,Macon,47111,Macon
+Tennessee,47113,Madison,47113,Madison,47113,Madison
+Tennessee,47115,Marion,47115,Marion,47115,Marion
+Tennessee,47117,Marshall,47117,Marshall,47117,Marshall
+Tennessee,47119,Maury,47119,Maury,47119,Maury
+Tennessee,47121,Meigs,47121,Meigs,47121,Meigs
+Tennessee,47123,Monroe,47123,Monroe,47123,Monroe
+Tennessee,47125,Montgomery,47125,Montgomery,47125,Montgomery
+Tennessee,47127,Moore,47127,Moore,47127,Moore
+Tennessee,47129,Morgan,47129,Morgan,47129,Morgan
+Tennessee,47131,Obion,47131,Obion,47131,Obion
+Tennessee,47133,Overton,47133,Overton,47133,Overton
+Tennessee,47135,Perry,47135,Perry,47135,Perry
+Tennessee,47137,Pickett,47137,Pickett,47137,Pickett
+Tennessee,47139,Polk,47139,Polk,47139,Polk
+Tennessee,47141,Putnam,47141,Putnam,47141,Putnam
+Tennessee,47143,Rhea,47143,Rhea,47143,Rhea
+Tennessee,47145,Roane,47145,Roane,47145,Roane
+Tennessee,47147,Robertson,47147,Robertson,47147,Robertson
+Tennessee,47149,Rutherford,47149,Rutherford,47149,Rutherford
+Tennessee,47151,Scott,47151,Scott,47151,Scott
+Tennessee,47153,Sequatchie,47153,Sequatchie,47153,Sequatchie
+Tennessee,47155,Sevier,47155,Sevier,47155,Sevier
+Tennessee,47157,Shelby,47157,Shelby,47157,Shelby
+Tennessee,47159,Smith,47159,Smith,47159,Smith
+Tennessee,47161,Stewart,47161,Stewart,47161,Stewart
+Tennessee,47163,Sullivan,47163,Sullivan,47163,Sullivan
+Tennessee,47165,Sumner,47165,Sumner,47165,Sumner
+Tennessee,47167,Tipton,47167,Tipton,47167,Tipton
+Tennessee,47169,Trousdale,47169,Trousdale,47169,Trousdale
+Tennessee,47171,Unicoi,47171,Unicoi,47171,Unicoi
+Tennessee,47173,Union,47173,Union,47173,Union
+Tennessee,47175,Van Buren,47175,Van buren,47175,Van buren
+Tennessee,47177,Warren,47177,Warren,47177,Warren
+Tennessee,47179,Washington,47179,Washington,47179,Washington
+Tennessee,47181,Wayne,47181,Wayne,47181,Wayne
+Tennessee,47183,Weakley,47183,Weakley,47183,Weakley
+Tennessee,47185,White,47185,White,47185,White
+Tennessee,47187,Williamson,47187,Williamson,47187,Williamson
+Tennessee,47189,Wilson,47189,Wilson,47189,Wilson
+Texas,48000,,48000,,48000,
+Texas,48001,Anderson,48001,Anderson,48001,Anderson
+Texas,48003,Andrews,48003,Andrews,48003,Andrews
+Texas,48005,Angelina,48005,Angelina,48005,Angelina
+Texas,48007,Aransas,48007,Aransas,48007,Aransas
+Texas,48009,Archer,48009,Archer,48009,Archer
+Texas,48011,Armstrong,48011,Armstrong,48011,Armstrong
+Texas,48013,Atascosa,48013,Atascosa,48013,Atascosa
+Texas,48015,Austin,48015,Austin,48015,Austin
+Texas,48017,Bailey,48017,Bailey,48017,Bailey
+Texas,48019,Bandera,48019,Bandera,48019,Bandera
+Texas,48021,Bastrop,48021,Bastrop,48021,Bastrop
+Texas,48023,Baylor,48023,Baylor,48023,Baylor
+Texas,48025,Bee,48025,Bee,48025,Bee
+Texas,48027,Bell,48027,Bell,48027,Bell
+Texas,48029,Bexar,48029,Bexar,48029,Bexar
+Texas,48031,Blanco,48031,Blanco,48031,Blanco
+Texas,48033,Borden,48033,Borden,48033,Borden
+Texas,48035,Bosque,48035,Bosque,48035,Bosque
+Texas,48037,Bowie,48037,Bowie,48037,Bowie
+Texas,48039,Brazoria,48039,Brazoria,48039,Brazoria
+Texas,48041,Brazos,48041,Brazos,48041,Brazos
+Texas,48043,Brewster,48043,Brewster,48043,Brewster
+Texas,48045,Briscoe,48045,Briscoe,48045,Briscoe
+Texas,48047,Brooks,48047,Brooks,48047,Brooks
+Texas,48049,Brown,48049,Brown,48049,Brown
+Texas,48051,Burleson,48051,Burleson,48051,Burleson
+Texas,48053,Burnet,48053,Burnet,48053,Burnet
+Texas,48055,Caldwell,48055,Caldwell,48055,Caldwell
+Texas,48057,Calhoun,48057,Calhoun,48057,Calhoun
+Texas,48059,Callahan,48059,Callahan,48059,Callahan
+Texas,48061,Cameron,48061,Cameron,48061,Cameron
+Texas,48063,Camp,48063,Camp,48063,Camp
+Texas,48065,Carson,48065,Carson,48065,Carson
+Texas,48067,Cass,48067,Cass,48067,Cass
+Texas,48069,Castro,48069,Castro,48069,Castro
+Texas,48071,Chambers,48071,Chambers,48071,Chambers
+Texas,48073,Cherokee,48073,Cherokee,48073,Cherokee
+Texas,48075,Childress,48075,Childress,48075,Childress
+Texas,48077,Clay,48077,Clay,48077,Clay
+Texas,48079,Cochran,48079,Cochran,48079,Cochran
+Texas,48081,Coke,48081,Coke,48081,Coke
+Texas,48083,Coleman,48083,Coleman,48083,Coleman
+Texas,48085,Collin,48085,Collin,48085,Collin
+Texas,48087,Collingsworth,48087,Collingsworth,48087,Collingsworth
+Texas,48089,Colorado,48089,Colorado,48089,Colorado
+Texas,48091,Comal,48091,Comal,48091,Comal
+Texas,48093,Comanche,48093,Comanche,48093,Comanche
+Texas,48095,Concho,48095,Concho,48095,Concho
+Texas,48097,Cooke,48097,Cooke,48097,Cooke
+Texas,48099,Coryell,48099,Coryell,48099,Coryell
+Texas,48101,Cottle,48101,Cottle,48101,Cottle
+Texas,48103,Crane,48103,Crane,48103,Crane
+Texas,48105,Crockett,48105,Crockett,48105,Crockett
+Texas,48107,Crosby,48107,Crosby,48107,Crosby
+Texas,48109,Culberson,48109,Culberson,48109,Culberson
+Texas,48111,Dallam,48111,Dallam,48111,Dallam
+Texas,48113,Dallas,48113,Dallas,48113,Dallas
+Texas,48115,Dawson,48115,Dawson,48115,Dawson
+Texas,48117,Deaf Smith,48117,Deaf smith,48117,Deaf smith
+Texas,48119,Delta,48119,Delta,48119,Delta
+Texas,48121,Denton,48121,Denton,48121,Denton
+Texas,48123,DeWitt,48123,Dewitt,48123,Dewitt
+Texas,48125,Dickens,48125,Dickens,48125,Dickens
+Texas,48127,Dimmit,48127,Dimmit,48127,Dimmit
+Texas,48129,Donley,48129,Donley,48129,Donley
+Texas,48131,Duval,48131,Duval,48131,Duval
+Texas,48133,Eastland,48133,Eastland,48133,Eastland
+Texas,48135,Ector,48135,Ector,48135,Ector
+Texas,48137,Edwards,48137,Edwards,48137,Edwards
+Texas,48139,Ellis,48139,Ellis,48139,Ellis
+Texas,48141,El Paso,48141,El paso,48141,El paso
+Texas,48143,Erath,48143,Erath,48143,Erath
+Texas,48145,Falls,48145,Falls,48145,Falls
+Texas,48147,Fannin,48147,Fannin,48147,Fannin
+Texas,48149,Fayette,48149,Fayette,48149,Fayette
+Texas,48151,Fisher,48151,Fisher,48151,Fisher
+Texas,48153,Floyd,48153,Floyd,48153,Floyd
+Texas,48155,Foard,48155,Foard,48155,Foard
+Texas,48157,Fort Bend,48157,Fort bend,48157,Fort bend
+Texas,48159,Franklin,48159,Franklin,48159,Franklin
+Texas,48161,Freestone,48161,Freestone,48161,Freestone
+Texas,48163,Frio,48163,Frio,48163,Frio
+Texas,48165,Gaines,48165,Gaines,48165,Gaines
+Texas,48167,Galveston,48167,Galveston,48167,Galveston
+Texas,48169,Garza,48169,Garza,48169,Garza
+Texas,48171,Gillespie,48171,Gillespie,48171,Gillespie
+Texas,48173,Glasscock,48173,Glasscock,48173,Glasscock
+Texas,48175,Goliad,48175,Goliad,48175,Goliad
+Texas,48177,Gonzales,48177,Gonzales,48177,Gonzales
+Texas,48179,Gray,48179,Gray,48179,Gray
+Texas,48181,Grayson,48181,Grayson,48181,Grayson
+Texas,48183,Gregg,48183,Gregg,48183,Gregg
+Texas,48185,Grimes,48185,Grimes,48185,Grimes
+Texas,48187,Guadalupe,48187,Guadalupe,48187,Guadalupe
+Texas,48189,Hale,48189,Hale,48189,Hale
+Texas,48191,Hall,48191,Hall,48191,Hall
+Texas,48193,Hamilton,48193,Hamilton,48193,Hamilton
+Texas,48195,Hansford,48195,Hansford,48195,Hansford
+Texas,48197,Hardeman,48197,Hardeman,48197,Hardeman
+Texas,48199,Hardin,48199,Hardin,48199,Hardin
+Texas,48201,Harris,48201,Harris,48201,Harris
+Texas,48203,Harrison,48203,Harrison,48203,Harrison
+Texas,48205,Hartley,48205,Hartley,48205,Hartley
+Texas,48207,Haskell,48207,Haskell,48207,Haskell
+Texas,48209,Hays,48209,Hays,48209,Hays
+Texas,48211,Hemphill,48211,Hemphill,48211,Hemphill
+Texas,48213,Henderson,48213,Henderson,48213,Henderson
+Texas,48215,Hidalgo,48215,Hidalgo,48215,Hidalgo
+Texas,48217,Hill,48217,Hill,48217,Hill
+Texas,48219,Hockley,48219,Hockley,48219,Hockley
+Texas,48221,Hood,48221,Hood,48221,Hood
+Texas,48223,Hopkins,48223,Hopkins,48223,Hopkins
+Texas,48225,Houston,48225,Houston,48225,Houston
+Texas,48227,Howard,48227,Howard,48227,Howard
+Texas,48229,Hudspeth,48229,Hudspeth,48229,Hudspeth
+Texas,48231,Hunt,48231,Hunt,48231,Hunt
+Texas,48233,Hutchinson,48233,Hutchinson,48233,Hutchinson
+Texas,48235,Irion,48235,Irion,48235,Irion
+Texas,48237,Jack,48237,Jack,48237,Jack
+Texas,48239,Jackson,48239,Jackson,48239,Jackson
+Texas,48241,Jasper,48241,Jasper,48241,Jasper
+Texas,48243,Jeff Davis,48243,Jeff davis,48243,Jeff davis
+Texas,48245,Jefferson,48245,Jefferson,48245,Jefferson
+Texas,48247,Jim Hogg,48247,Jim hogg,48247,Jim hogg
+Texas,48249,Jim Wells,48249,Jim wells,48249,Jim wells
+Texas,48251,Johnson,48251,Johnson,48251,Johnson
+Texas,48253,Jones,48253,Jones,48253,Jones
+Texas,48255,Karnes,48255,Karnes,48255,Karnes
+Texas,48257,Kaufman,48257,Kaufman,48257,Kaufman
+Texas,48259,Kendall,48259,Kendall,48259,Kendall
+Texas,48261,Kenedy,48261,Kenedy,48261,Kenedy
+Texas,48263,Kent,48263,Kent,48263,Kent
+Texas,48265,Kerr,48265,Kerr,48265,Kerr
+Texas,48267,Kimble,48267,Kimble,48267,Kimble
+Texas,48269,King,48269,King,48269,King
+Texas,48271,Kinney,48271,Kinney,48271,Kinney
+Texas,48273,Kleberg,48273,Kleberg,48273,Kleberg
+Texas,48275,Knox,48275,Knox,48275,Knox
+Texas,48277,Lamar,48277,Lamar,48277,Lamar
+Texas,48279,Lamb,48279,Lamb,48279,Lamb
+Texas,48281,Lampasas,48281,Lampasas,48281,Lampasas
+Texas,48283,La Salle,48283,La salle,48283,La salle
+Texas,48285,Lavaca,48285,Lavaca,48285,Lavaca
+Texas,48287,Lee,48287,Lee,48287,Lee
+Texas,48289,Leon,48289,Leon,48289,Leon
+Texas,48291,Liberty,48291,Liberty,48291,Liberty
+Texas,48293,Limestone,48293,Limestone,48293,Limestone
+Texas,48295,Lipscomb,48295,Lipscomb,48295,Lipscomb
+Texas,48297,Live Oak,48297,Live oak,48297,Live oak
+Texas,48299,Llano,48299,Llano,48299,Llano
+Texas,48301,Loving,48301,Loving,48301,Loving
+Texas,48303,Lubbock,48303,Lubbock,48303,Lubbock
+Texas,48305,Lynn,48305,Lynn,48305,Lynn
+Texas,48307,McCulloch,48307,Mcculloch,48307,Mcculloch
+Texas,48309,McLennan,48309,Mclennan,48309,Mclennan
+Texas,48311,McMullen,48311,Mcmullen,48311,Mcmullen
+Texas,48313,Madison,48313,Madison,48313,Madison
+Texas,48315,Marion,48315,Marion,48315,Marion
+Texas,48317,Martin,48317,Martin,48317,Martin
+Texas,48319,Mason,48319,Mason,48319,Mason
+Texas,48321,Matagorda,48321,Matagorda,48321,Matagorda
+Texas,48323,Maverick,48323,Maverick,48323,Maverick
+Texas,48325,Medina,48325,Medina,48325,Medina
+Texas,48327,Menard,48327,Menard,48327,Menard
+Texas,48329,Midland,48329,Midland,48329,Midland
+Texas,48331,Milam,48331,Milam,48331,Milam
+Texas,48333,Mills,48333,Mills,48333,Mills
+Texas,48335,Mitchell,48335,Mitchell,48335,Mitchell
+Texas,48337,Montague,48337,Montague,48337,Montague
+Texas,48339,Montgomery,48339,Montgomery,48339,Montgomery
+Texas,48341,Moore,48341,Moore,48341,Moore
+Texas,48343,Morris,48343,Morris,48343,Morris
+Texas,48345,Motley,48345,Motley,48345,Motley
+Texas,48347,Nacogdoches,48347,Nacogdoches,48347,Nacogdoches
+Texas,48349,Navarro,48349,Navarro,48349,Navarro
+Texas,48351,Newton,48351,Newton,48351,Newton
+Texas,48353,Nolan,48353,Nolan,48353,Nolan
+Texas,48355,Nueces,48355,Nueces,48355,Nueces
+Texas,48357,Ochiltree,48357,Ochiltree,48357,Ochiltree
+Texas,48359,Oldham,48359,Oldham,48359,Oldham
+Texas,48361,Orange,48361,Orange,48361,Orange
+Texas,48363,Palo Pinto,48363,Palo pinto,48363,Palo pinto
+Texas,48365,Panola,48365,Panola,48365,Panola
+Texas,48367,Parker,48367,Parker,48367,Parker
+Texas,48369,Parmer,48369,Parmer,48369,Parmer
+Texas,48371,Pecos,48371,Pecos,48371,Pecos
+Texas,48373,Polk,48373,Polk,48373,Polk
+Texas,48375,Potter,48375,Potter,48375,Potter
+Texas,48377,Presidio,48377,Presidio,48377,Presidio
+Texas,48379,Rains,48379,Rains,48379,Rains
+Texas,48381,Randall,48381,Randall,48381,Randall
+Texas,48383,Reagan,48383,Reagan,48383,Reagan
+Texas,48385,Real,48385,Real,48385,Real
+Texas,48387,Red River,48387,Red river,48387,Red river
+Texas,48389,Reeves,48389,Reeves,48389,Reeves
+Texas,48391,Refugio,48391,Refugio,48391,Refugio
+Texas,48393,Roberts,48393,Roberts,48393,Roberts
+Texas,48395,Robertson,48395,Robertson,48395,Robertson
+Texas,48397,Rockwall,48397,Rockwall,48397,Rockwall
+Texas,48399,Runnels,48399,Runnels,48399,Runnels
+Texas,48401,Rusk,48401,Rusk,48401,Rusk
+Texas,48403,Sabine,48403,Sabine,48403,Sabine
+Texas,48405,San Augustine,48405,San augustine,48405,San augustine
+Texas,48407,San Jacinto,48407,San jacinto,48407,San jacinto
+Texas,48409,San Patricio,48409,San patricio,48409,San patricio
+Texas,48411,San Saba,48411,San saba,48411,San saba
+Texas,48413,Schleicher,48413,Schleicher,48413,Schleicher
+Texas,48415,Scurry,48415,Scurry,48415,Scurry
+Texas,48417,Shackelford,48417,Shackelford,48417,Shackelford
+Texas,48419,Shelby,48419,Shelby,48419,Shelby
+Texas,48421,Sherman,48421,Sherman,48421,Sherman
+Texas,48423,Smith,48423,Smith,48423,Smith
+Texas,48425,Somervell,48425,Somervell,48425,Somervell
+Texas,48427,Starr,48427,Starr,48427,Starr
+Texas,48429,Stephens,48429,Stephens,48429,Stephens
+Texas,48431,Sterling,48431,Sterling,48431,Sterling
+Texas,48433,Stonewall,48433,Stonewall,48433,Stonewall
+Texas,48435,Sutton,48435,Sutton,48435,Sutton
+Texas,48437,Swisher,48437,Swisher,48437,Swisher
+Texas,48439,Tarrant,48439,Tarrant,48439,Tarrant
+Texas,48441,Taylor,48441,Taylor,48441,Taylor
+Texas,48443,Terrell,48443,Terrell,48443,Terrell
+Texas,48445,Terry,48445,Terry,48445,Terry
+Texas,48447,Throckmorton,48447,Throckmorton,48447,Throckmorton
+Texas,48449,Titus,48449,Titus,48449,Titus
+Texas,48451,Tom Green,48451,Tom green,48451,Tom green
+Texas,48453,Travis,48453,Travis,48453,Travis
+Texas,48455,Trinity,48455,Trinity,48455,Trinity
+Texas,48457,Tyler,48457,Tyler,48457,Tyler
+Texas,48459,Upshur,48459,Upshur,48459,Upshur
+Texas,48461,Upton,48461,Upton,48461,Upton
+Texas,48463,Uvalde,48463,Uvalde,48463,Uvalde
+Texas,48465,Val Verde,48465,Val verde,48465,Val verde
+Texas,48467,Van Zandt,48467,Van zandt,48467,Van zandt
+Texas,48469,Victoria,48469,Victoria,48469,Victoria
+Texas,48471,Walker,48471,Walker,48471,Walker
+Texas,48473,Waller,48473,Waller,48473,Waller
+Texas,48475,Ward,48475,Ward,48475,Ward
+Texas,48477,Washington,48477,Washington,48477,Washington
+Texas,48479,Webb,48479,Webb,48479,Webb
+Texas,48481,Wharton,48481,Wharton,48481,Wharton
+Texas,48483,Wheeler,48483,Wheeler,48483,Wheeler
+Texas,48485,Wichita,48485,Wichita,48485,Wichita
+Texas,48487,Wilbarger,48487,Wilbarger,48487,Wilbarger
+Texas,48489,Willacy,48489,Willacy,48489,Willacy
+Texas,48491,Williamson,48491,Williamson,48491,Williamson
+Texas,48493,Wilson,48493,Wilson,48493,Wilson
+Texas,48495,Winkler,48495,Winkler,48495,Winkler
+Texas,48497,Wise,48497,Wise,48497,Wise
+Texas,48499,Wood,48499,Wood,48499,Wood
+Texas,48501,Yoakum,48501,Yoakum,48501,Yoakum
+Texas,48503,Young,48503,Young,48503,Young
+Texas,48505,Zapata,48505,Zapata,48505,Zapata
+Texas,48507,Zavala,48507,Zavala,48507,Zavala
+Utah,49000,,49000,,49000,
+Utah,49001,Beaver,49001,Beaver,49001,Beaver
+Utah,49003,Box Elder,49003,Box elder,49003,Box elder
+Utah,49005,Cache,49005,Cache,49005,Cache
+Utah,49007,Carbon,49007,Carbon,49007,Carbon
+Utah,49009,Daggett,49009,Daggett,49009,Daggett
+Utah,49011,Davis,49011,Davis,49011,Davis
+Utah,49013,Duchesne,49013,Duchesne,49013,Duchesne
+Utah,49015,Emery,49015,Emery,49015,Emery
+Utah,49017,Garfield,49017,Garfield,49017,Garfield
+Utah,49019,Grand,49019,Grand,49019,Grand
+Utah,49021,Iron,49021,Iron,49021,Iron
+Utah,49023,Juab,49023,Juab,49023,Juab
+Utah,49025,Kane,49025,Kane,49025,Kane
+Utah,49027,Millard,49027,Millard,49027,Millard
+Utah,49029,Morgan,49029,Morgan,49029,Morgan
+Utah,49031,Piute,49031,Piute,49031,Piute
+Utah,49033,Rich,49033,Rich,49033,Rich
+Utah,49035,Salt Lake,49035,Salt lake,49035,Salt lake
+Utah,49037,San Juan,49037,San juan,49037,San juan
+Utah,49039,Sanpete,49039,Sanpete,49039,Sanpete
+Utah,49041,Sevier,49041,Sevier,49041,Sevier
+Utah,49043,Summit,49043,Summit,49043,Summit
+Utah,49045,Tooele,49045,Tooele,49045,Tooele
+Utah,49047,Uintah,49047,Uintah,49047,Uintah
+Utah,49049,Utah (county),49049,Utah,49049,Utah
+Utah,49051,Wasatch,49051,Wasatch,49051,Wasatch
+Utah,49053,Washington,49053,Washington,49053,Washington
+Utah,49055,Wayne,49055,Wayne,49055,Wayne
+Utah,49057,Weber,49057,Weber,49057,Weber
+Vermont,50000,,50000,,50000,
+Vermont,50001,Addison,50001,Addison,50001,Addison
+Vermont,50003,Bennington,50003,Bennington,50003,Bennington
+Vermont,50005,Caledonia,50005,Caledonia,50005,Caledonia
+Vermont,50007,Chittenden,50007,Chittenden,50007,Chittenden
+Vermont,50009,Essex,50009,Essex,50009,Essex
+Vermont,50011,Franklin,50011,Franklin,50011,Franklin
+Vermont,50013,Grand Isle,50013,Grand isle,50013,Grand isle
+Vermont,50015,Lamoille,50015,Lamoille,50015,Lamoille
+Vermont,50017,Orange,50017,Orange,50017,Orange
+Vermont,50019,Orleans,50019,Orleans,50019,Orleans
+Vermont,50021,Rutland,50021,Rutland,50021,Rutland
+Vermont,50023,Washington,50023,Washington,50023,Washington
+Vermont,50025,Windham,50025,Windham,50025,Windham
+Vermont,50027,Windsor,50027,Windsor,50027,Windsor
+Virginia,51000,,51000,,51000,
+Virginia,51001,Accomack,51001,Accomack,51001,Accomack
+Virginia,51003,Albemarle,51003,Albemarle,51003,Albemarle
+Virginia,51005,Alleghany,51005,Alleghany,51005,Alleghany
+Virginia,51007,Amelia,51007,Amelia,51007,Amelia
+Virginia,51009,Amherst,51009,Amherst,51009,Amherst
+Virginia,51011,Appomattox,51011,Appomattox,51011,Appomattox
+Virginia,51013,Arlington,51013,Arlington,51013,Arlington
+Virginia,51015,Augusta,51015,Augusta,51015,Augusta
+Virginia,51017,Bath,51017,Bath,51017,Bath
+Virginia,51019,Bedford (county),51019,Bedford,51019,Bedford
+Virginia,51021,Bland,51021,Bland,51021,Bland
+Virginia,51023,Botetourt,51023,Botetourt,51023,Botetourt
+Virginia,51025,Brunswick,51025,Brunswick,51025,Brunswick
+Virginia,51027,Buchanan,51027,Buchanan,51027,Buchanan
+Virginia,51029,Buckingham,51029,Buckingham,51029,Buckingham
+Virginia,51031,Campbell,51031,Campbell,51031,Campbell
+Virginia,51033,Caroline,51033,Caroline,51033,Caroline
+Virginia,51035,Carroll,51035,Carroll,51035,Carroll
+Virginia,51036,Charles City,51036,Charles city,51036,Charles city
+Virginia,51037,Charlotte,51037,Charlotte,51037,Charlotte
+Virginia,51041,Chesterfield,51041,Chesterfield,51041,Chesterfield
+Virginia,51043,Clarke,51043,Clarke,51043,Clarke
+Virginia,51045,Craig,51045,Craig,51045,Craig
+Virginia,51047,Culpeper,51047,Culpeper,51047,Culpeper
+Virginia,51049,Cumberland,51049,Cumberland,51049,Cumberland
+Virginia,51051,Dickenson,51051,Dickenson,51051,Dickenson
+Virginia,51053,Dinwiddie,51053,Dinwiddie,51053,Dinwiddie
+Virginia,51057,Essex,51057,Essex,51057,Essex
+Virginia,51059,Fairfax (county),51059,Fairfax,51059,Fairfax
+Virginia,51061,Fauquier,51061,Fauquier,51061,Fauquier
+Virginia,51063,Floyd,51063,Floyd,51063,Floyd
+Virginia,51065,Fluvanna,51065,Fluvanna,51065,Fluvanna
+Virginia,51067,Franklin (county),51067,Franklin,51067,Franklin
+Virginia,51069,Frederick,51069,Frederick,51069,Frederick
+Virginia,51071,Giles,51071,Giles,51071,Giles
+Virginia,51073,Gloucester,51073,Gloucester,51073,Gloucester
+Virginia,51075,Goochland,51075,Goochland,51075,Goochland
+Virginia,51077,Grayson,51077,Grayson,51077,Grayson
+Virginia,51079,Greene,51079,Greene,51079,Greene
+Virginia,51081,Greensville,51081,Greensville,51081,Greensville
+Virginia,51083,Halifax,51083,Halifax,51083,Halifax
+Virginia,51085,Hanover,51085,Hanover,51085,Hanover
+Virginia,51087,Henrico,51087,Henrico,51087,Henrico
+Virginia,51089,Henry,51089,Henry,51089,Henry
+Virginia,51091,Highland,51091,Highland,51091,Highland
+Virginia,51093,Isle of Wight,51093,Isle of wight,51093,Isle of wight
+Virginia,51095,James City ,51095,James city,51095,James city
+Virginia,51097,King and Queen,51097,King and queen,51097,King and queen
+Virginia,51099,King George,51099,King george,51099,King george
+Virginia,51101,King William,51101,King william,51101,King william
+Virginia,51103,Lancaster,51103,Lancaster,51103,Lancaster
+Virginia,51105,Lee,51105,Lee,51105,Lee
+Virginia,51107,Loudoun,51107,Loudoun,51107,Loudoun
+Virginia,51109,Louisa,51109,Louisa,51109,Louisa
+Virginia,51111,Lunenburg,51111,Lunenburg,51111,Lunenburg
+Virginia,51113,Madison,51113,Madison,51113,Madison
+Virginia,51115,Mathews,51115,Mathews,51115,Mathews
+Virginia,51117,Mecklenburg,51117,Mecklenburg,51117,Mecklenburg
+Virginia,51119,Middlesex,51119,Middlesex,51119,Middlesex
+Virginia,51121,Montgomery,51121,Montgomery,51121,Montgomery
+Virginia,51125,Nelson,51125,Nelson,51125,Nelson
+Virginia,51127,New Kent,51127,New kent,51127,New kent
+Virginia,51131,Northampton,51131,Northampton,51131,Northampton
+Virginia,51133,Northumberland,51133,Northumberland,51133,Northumberland
+Virginia,51135,Nottoway,51135,Nottoway,51135,Nottoway
+Virginia,51137,Orange,51137,Orange,51137,Orange
+Virginia,51139,Page,51139,Page,51139,Page
+Virginia,51141,Patrick,51141,Patrick,51141,Patrick
+Virginia,51143,Pittsylvania,51143,Pittsylvania,51143,Pittsylvania
+Virginia,51145,Powhatan,51145,Powhatan,51145,Powhatan
+Virginia,51147,Prince Edward,51147,Prince edward,51147,Prince edward
+Virginia,51149,Prince George,51149,Prince george,51149,Prince george
+Virginia,51153,Prince William,51153,Prince william,51153,Prince william
+Virginia,51155,Pulaski,51155,Pulaski,51155,Pulaski
+Virginia,51157,Rappahannock,51157,Rappahannock,51157,Rappahannock
+Virginia,51159,Richmond (county),51159,Richmond,51159,Richmond
+Virginia,51161,Roanoke (county),51161,Roanoke,51161,Roanoke
+Virginia,51163,Rockbridge,51163,Rockbridge,51163,Rockbridge
+Virginia,51165,Rockingham,51165,Rockingham,51165,Rockingham
+Virginia,51167,Russell,51167,Russell,51167,Russell
+Virginia,51169,Scott,51169,Scott,51169,Scott
+Virginia,51171,Shenandoah,51171,Shenandoah,51171,Shenandoah
+Virginia,51173,Smyth,51173,Smyth,51173,Smyth
+Virginia,51175,Southampton,51175,Southampton,51175,Southampton
+Virginia,51177,Spotsylvania,51177,Spotsylvania,51177,Spotsylvania
+Virginia,51179,Stafford,51179,Stafford,51179,Stafford
+Virginia,51181,Surry,51181,Surry,51181,Surry
+Virginia,51183,Sussex,51183,Sussex,51183,Sussex
+Virginia,51185,Tazewell,51185,Tazewell,51185,Tazewell
+Virginia,51187,Warren,51187,Warren,51187,Warren
+Virginia,51191,Washington,51191,Washington,51191,Washington
+Virginia,51193,Westmoreland,51193,Westmoreland,51193,Westmoreland
+Virginia,51195,Wise,51195,Wise,51195,Wise
+Virginia,51197,Wythe,51197,Wythe,51197,Wythe
+Virginia,51199,York,51199,York,51199,York
+Virginia,51510,Alexandria (city),51510,Alexandria city,51510,Alexandria city
+Virginia,51515,Bedford (city),51019,Bedford,51019,Bedford
+Virginia,51520,Bristol (city),51520,Bristol city,51520,Bristol city
+Virginia,51530,Buena Vista (city),51530,Buena vista city,51530,Buena vista city
+Virginia,51540,Charlottesville (city),51540,Charlottesville city,51540,Charlottesville city
+Virginia,51550,Chesapeake (city),51550,Chesapeake city,51550,Chesapeake city
+Virginia,51570,Colonial Heights (city),51570,Colonial heights city,51570,Colonial heights city
+Virginia,51580,Covington (city),51580,Covington city,51580,Covington city
+Virginia,51590,Danville (city),51590,Danville city,51590,Danville city
+Virginia,51595,Emporia (city),51595,Emporia city,51595,Emporia city
+Virginia,51600,Fairfax (city),51600,Fairfax city,51600,Fairfax city
+Virginia,51610,Falls Church (city),51610,Falls church city,51610,Falls church city
+Virginia,51620,Franklin (city),51620,Franklin city,51620,Franklin city
+Virginia,51630,Fredericksburg (city),51630,Fredericksburg city,51630,Fredericksburg city
+Virginia,51640,Galax (city),51640,Galax city,51640,Galax city
+Virginia,51650,Hampton (city),51650,Hampton city,51650,Hampton city
+Virginia,51660,Harrisonburg (city),51660,Harrisonburg city,51660,Harrisonburg city
+Virginia,51670,Hopewell (city),51670,Hopewell city,51670,Hopewell city
+Virginia,51678,Lexington (city),51678,Lexington city,51678,Lexington city
+Virginia,51680,Lynchburg (city),51680,Lynchburg city,51680,Lynchburg city
+Virginia,51683,Manassas (city),51683,Manassas city,51683,Manassas city
+Virginia,51685,Manassas Park (city),51685,Manassas park city,51685,Manassas park city
+Virginia,51690,Martinsville (city),51690,Martinsville city,51690,Martinsville city
+Virginia,51700,Newport News (city),51700,Newport news city,51700,Newport news city
+Virginia,51710,Norfolk (city),51710,Norfolk city,51710,Norfolk city
+Virginia,51720,Norton (city),51720,Norton city,51720,Norton city
+Virginia,51730,Petersburg (city),51730,Petersburg city,51730,Petersburg city
+Virginia,51735,Poquoson (city),51735,Poquoson city,51735,Poquoson city
+Virginia,51740,Portsmouth (city),51740,Portsmouth city,51740,Portsmouth city
+Virginia,51750,Radford (city),51750,Radford city,51750,Radford city
+Virginia,51760,Richmond (city),51760,Richmond city,51760,Richmond city
+Virginia,51770,Roanoke (city),51770,Roanoke city,51770,Roanoke city
+Virginia,51775,Salem (city),51775,Salem city,51775,Salem city
+Virginia,51790,Staunton (city),51790,Staunton city,51790,Staunton city
+Virginia,51800,Suffolk (city),51800,Suffolk city,51800,Suffolk city
+Virginia,51810,Virginia Beach (city),51810,Virginia beach city,51810,Virginia beach city
+Virginia,51820,Waynesboro (city),51820,Waynesboro city,51820,Waynesboro city
+Virginia,51830,Williamsburg (city),51830,Williamsburg city,51830,Williamsburg city
+Virginia,51840,Winchester (city),51840,Winchester city,51840,Winchester city
+Washington,53000,,53000,,53000,
+Washington,53001,Adams,53001,Adams,53001,Adams
+Washington,53003,Asotin,53003,Asotin,53003,Asotin
+Washington,53005,Benton,53005,Benton,53005,Benton
+Washington,53007,Chelan,53007,Chelan,53007,Chelan
+Washington,53009,Clallam,53009,Clallam,53009,Clallam
+Washington,53011,Clark,53011,Clark,53011,Clark
+Washington,53013,Columbia,53013,Columbia,53013,Columbia
+Washington,53015,Cowlitz,53015,Cowlitz,53015,Cowlitz
+Washington,53017,Douglas,53017,Douglas,53017,Douglas
+Washington,53019,Ferry,53019,Ferry,53019,Ferry
+Washington,53021,Franklin,53021,Franklin,53021,Franklin
+Washington,53023,Garfield,53023,Garfield,53023,Garfield
+Washington,53025,Grant,53025,Grant,53025,Grant
+Washington,53027,Grays Harbor,53027,Grays harbor,53027,Grays harbor
+Washington,53029,Island,53029,Island,53029,Island
+Washington,53031,Jefferson,53031,Jefferson,53031,Jefferson
+Washington,53033,King,53033,King,53033,King
+Washington,53035,Kitsap,53035,Kitsap,53035,Kitsap
+Washington,53037,Kittitas,53037,Kittitas,53037,Kittitas
+Washington,53039,Klickitat,53039,Klickitat,53039,Klickitat
+Washington,53041,Lewis,53041,Lewis,53041,Lewis
+Washington,53043,Lincoln,53043,Lincoln,53043,Lincoln
+Washington,53045,Mason,53045,Mason,53045,Mason
+Washington,53047,Okanogan,53047,Okanogan,53047,Okanogan
+Washington,53049,Pacific,53049,Pacific,53049,Pacific
+Washington,53051,Pend Oreille,53051,Pend oreille,53051,Pend oreille
+Washington,53053,Pierce,53053,Pierce,53053,Pierce
+Washington,53055,San Juan,53055,San juan,53055,San juan
+Washington,53057,Skagit,53057,Skagit,53057,Skagit
+Washington,53059,Skamania,53059,Skamania,53059,Skamania
+Washington,53061,Snohomish,53061,Snohomish,53061,Snohomish
+Washington,53063,Spokane,53063,Spokane,53063,Spokane
+Washington,53065,Stevens,53065,Stevens,53065,Stevens
+Washington,53067,Thurston,53067,Thurston,53067,Thurston
+Washington,53069,Wahkiakum,53069,Wahkiakum,53069,Wahkiakum
+Washington,53071,Walla Walla,53071,Walla walla,53071,Walla walla
+Washington,53073,Whatcom,53073,Whatcom,53073,Whatcom
+Washington,53075,Whitman,53075,Whitman,53075,Whitman
+Washington,53077,Yakima,53077,Yakima,53077,Yakima
+West virginia,54000,,54000,,54000,
+West virginia,54001,Barbour,54001,Barbour,54001,Barbour
+West virginia,54003,Berkeley,54003,Berkeley,54003,Berkeley
+West virginia,54005,Boone,54005,Boone,54005,Boone
+West virginia,54007,Braxton,54007,Braxton,54007,Braxton
+West virginia,54009,Brooke,54009,Brooke,54009,Brooke
+West virginia,54011,Cabell,54011,Cabell,54011,Cabell
+West virginia,54013,Calhoun,54013,Calhoun,54013,Calhoun
+West virginia,54015,Clay,54015,Clay,54015,Clay
+West virginia,54017,Doddridge,54017,Doddridge,54017,Doddridge
+West virginia,54019,Fayette,54019,Fayette,54019,Fayette
+West virginia,54021,Gilmer,54021,Gilmer,54021,Gilmer
+West virginia,54023,Grant,54023,Grant,54023,Grant
+West virginia,54025,Greenbrier,54025,Greenbrier,54025,Greenbrier
+West virginia,54027,Hampshire,54027,Hampshire,54027,Hampshire
+West virginia,54029,Hancock,54029,Hancock,54029,Hancock
+West virginia,54031,Hardy,54031,Hardy,54031,Hardy
+West virginia,54033,Harrison,54033,Harrison,54033,Harrison
+West virginia,54035,Jackson,54035,Jackson,54035,Jackson
+West virginia,54037,Jefferson,54037,Jefferson,54037,Jefferson
+West virginia,54039,Kanawha,54039,Kanawha,54039,Kanawha
+West virginia,54041,Lewis,54041,Lewis,54041,Lewis
+West virginia,54043,Lincoln,54043,Lincoln,54043,Lincoln
+West virginia,54045,Logan,54045,Logan,54045,Logan
+West virginia,54047,McDowell,54047,Mcdowell,54047,Mcdowell
+West virginia,54049,Marion,54049,Marion,54049,Marion
+West virginia,54051,Marshall,54051,Marshall,54051,Marshall
+West virginia,54053,Mason,54053,Mason,54053,Mason
+West virginia,54055,Mercer,54055,Mercer,54055,Mercer
+West virginia,54057,Mineral,54057,Mineral,54057,Mineral
+West virginia,54059,Mingo,54059,Mingo,54059,Mingo
+West virginia,54061,Monongalia,54061,Monongalia,54061,Monongalia
+West virginia,54063,Monroe,54063,Monroe,54063,Monroe
+West virginia,54065,Morgan,54065,Morgan,54065,Morgan
+West virginia,54067,Nicholas,54067,Nicholas,54067,Nicholas
+West virginia,54069,Ohio,54069,Ohio,54069,Ohio
+West virginia,54071,Pendleton,54071,Pendleton,54071,Pendleton
+West virginia,54073,Pleasants,54073,Pleasants,54073,Pleasants
+West virginia,54075,Pocahontas,54075,Pocahontas,54075,Pocahontas
+West virginia,54077,Preston,54077,Preston,54077,Preston
+West virginia,54079,Putnam,54079,Putnam,54079,Putnam
+West virginia,54081,Raleigh,54081,Raleigh,54081,Raleigh
+West virginia,54083,Randolph,54083,Randolph,54083,Randolph
+West virginia,54085,Ritchie,54085,Ritchie,54085,Ritchie
+West virginia,54087,Roane,54087,Roane,54087,Roane
+West virginia,54089,Summers,54089,Summers,54089,Summers
+West virginia,54091,Taylor,54091,Taylor,54091,Taylor
+West virginia,54093,Tucker,54093,Tucker,54093,Tucker
+West virginia,54095,Tyler,54095,Tyler,54095,Tyler
+West virginia,54097,Upshur,54097,Upshur,54097,Upshur
+West virginia,54099,Wayne,54099,Wayne,54099,Wayne
+West virginia,54101,Webster,54101,Webster,54101,Webster
+West virginia,54103,Wetzel,54103,Wetzel,54103,Wetzel
+West virginia,54105,Wirt,54105,Wirt,54105,Wirt
+West virginia,54107,Wood,54107,Wood,54107,Wood
+West virginia,54109,Wyoming,54109,Wyoming,54109,Wyoming
+Wisconsin,55000,,55000,,55000,
+Wisconsin,55001,Adams,55001,Adams,55001,Adams
+Wisconsin,55003,Ashland,55003,Ashland,55003,Ashland
+Wisconsin,55005,Barron,55005,Barron,55005,Barron
+Wisconsin,55007,Bayfield,55007,Bayfield,55007,Bayfield
+Wisconsin,55009,Brown,55009,Brown,55009,Brown
+Wisconsin,55011,Buffalo,55011,Buffalo,55011,Buffalo
+Wisconsin,55013,Burnett,55013,Burnett,55013,Burnett
+Wisconsin,55015,Calumet,55015,Calumet,55015,Calumet
+Wisconsin,55017,Chippewa,55017,Chippewa,55017,Chippewa
+Wisconsin,55019,Clark,55019,Clark,55019,Clark
+Wisconsin,55021,Columbia,55021,Columbia,55021,Columbia
+Wisconsin,55023,Crawford,55023,Crawford,55023,Crawford
+Wisconsin,55025,Dane,55025,Dane,55025,Dane
+Wisconsin,55027,Dodge,55027,Dodge,55027,Dodge
+Wisconsin,55029,Door,55029,Door,55029,Door
+Wisconsin,55031,Douglas,55031,Douglas,55031,Douglas
+Wisconsin,55033,Dunn,55033,Dunn,55033,Dunn
+Wisconsin,55035,Eau Claire,55035,Eau claire,55035,Eau claire
+Wisconsin,55037,Florence,55037,Florence,55037,Florence
+Wisconsin,55039,Fond du Lac,55039,Fond du lac,55039,Fond du lac
+Wisconsin,55041,Forest,55041,Forest,55041,Forest
+Wisconsin,55043,Grant,55043,Grant,55043,Grant
+Wisconsin,55045,Green,55045,Green,55045,Green
+Wisconsin,55047,Green Lake,55047,Green lake,55047,Green lake
+Wisconsin,55049,Iowa,55049,Iowa,55049,Iowa
+Wisconsin,55051,Iron,55051,Iron,55051,Iron
+Wisconsin,55053,Jackson,55053,Jackson,55053,Jackson
+Wisconsin,55055,Jefferson,55055,Jefferson,55055,Jefferson
+Wisconsin,55057,Juneau,55057,Juneau,55057,Juneau
+Wisconsin,55059,Kenosha,55059,Kenosha,55059,Kenosha
+Wisconsin,55061,Kewaunee,55061,Kewaunee,55061,Kewaunee
+Wisconsin,55063,La Crosse,55063,La crosse,55063,La crosse
+Wisconsin,55065,Lafayette,55065,Lafayette,55065,Lafayette
+Wisconsin,55067,Langlade,55067,Langlade,55067,Langlade
+Wisconsin,55069,Lincoln,55069,Lincoln,55069,Lincoln
+Wisconsin,55071,Manitowoc,55071,Manitowoc,55071,Manitowoc
+Wisconsin,55073,Marathon,55073,Marathon,55073,Marathon
+Wisconsin,55075,Marinette,55075,Marinette,55075,Marinette
+Wisconsin,55077,Marquette,55077,Marquette,55077,Marquette
+Wisconsin,55078,Menominee,55078,Menominee,55078,Menominee
+Wisconsin,55079,Milwaukee,55079,Milwaukee,55079,Milwaukee
+Wisconsin,55081,Monroe,55081,Monroe,55081,Monroe
+Wisconsin,55083,Oconto,55083,Oconto,55083,Oconto
+Wisconsin,55085,Oneida,55085,Oneida,55085,Oneida
+Wisconsin,55087,Outagamie,55087,Outagamie,55087,Outagamie
+Wisconsin,55089,Ozaukee,55089,Ozaukee,55089,Ozaukee
+Wisconsin,55091,Pepin,55091,Pepin,55091,Pepin
+Wisconsin,55093,Pierce,55093,Pierce,55093,Pierce
+Wisconsin,55095,Polk,55095,Polk,55095,Polk
+Wisconsin,55097,Portage,55097,Portage,55097,Portage
+Wisconsin,55099,Price,55099,Price,55099,Price
+Wisconsin,55101,Racine,55101,Racine,55101,Racine
+Wisconsin,55103,Richland,55103,Richland,55103,Richland
+Wisconsin,55105,Rock,55105,Rock,55105,Rock
+Wisconsin,55107,Rusk,55107,Rusk,55107,Rusk
+Wisconsin,55109,St. Croix,55109,St. croix,55109,St. croix
+Wisconsin,55111,Sauk,55111,Sauk,55111,Sauk
+Wisconsin,55113,Sawyer,55113,Sawyer,55113,Sawyer
+Wisconsin,55115,Shawano,55115,Shawano,55115,Shawano
+Wisconsin,55117,Sheboygan,55117,Sheboygan,55117,Sheboygan
+Wisconsin,55119,Taylor,55119,Taylor,55119,Taylor
+Wisconsin,55121,Trempealeau,55121,Trempealeau,55121,Trempealeau
+Wisconsin,55123,Vernon,55123,Vernon,55123,Vernon
+Wisconsin,55125,Vilas,55125,Vilas,55125,Vilas
+Wisconsin,55127,Walworth,55127,Walworth,55127,Walworth
+Wisconsin,55129,Washburn,55129,Washburn,55129,Washburn
+Wisconsin,55131,Washington,55131,Washington,55131,Washington
+Wisconsin,55133,Waukesha,55133,Waukesha,55133,Waukesha
+Wisconsin,55135,Waupaca,55135,Waupaca,55135,Waupaca
+Wisconsin,55137,Waushara,55137,Waushara,55137,Waushara
+Wisconsin,55139,Winnebago,55139,Winnebago,55139,Winnebago
+Wisconsin,55141,Wood,55141,Wood,55141,Wood
+Wyoming,56000,,56000,,56000,
+Wyoming,56001,Albany,56001,Albany,56001,Albany
+Wyoming,56003,Big Horn,56003,Big horn,56003,Big horn
+Wyoming,56005,Campbell,56005,Campbell,56005,Campbell
+Wyoming,56007,Carbon,56007,Carbon,56007,Carbon
+Wyoming,56009,Converse,56009,Converse,56009,Converse
+Wyoming,56011,Crook,56011,Crook,56011,Crook
+Wyoming,56013,Fremont,56013,Fremont,56013,Fremont
+Wyoming,56015,Goshen,56015,Goshen,56015,Goshen
+Wyoming,56017,Hot Springs,56017,Hot springs,56017,Hot springs
+Wyoming,56019,Johnson,56019,Johnson,56019,Johnson
+Wyoming,56021,Laramie,56021,Laramie,56021,Laramie
+Wyoming,56023,Lincoln,56023,Lincoln,56023,Lincoln
+Wyoming,56025,Natrona,56025,Natrona,56025,Natrona
+Wyoming,56027,Niobrara,56027,Niobrara,56027,Niobrara
+Wyoming,56029,Park,56029,Park,56029,Park
+Wyoming,56031,Platte,56031,Platte,56031,Platte
+Wyoming,56033,Sheridan,56033,Sheridan,56033,Sheridan
+Wyoming,56035,Sublette,56035,Sublette,56035,Sublette
+Wyoming,56037,Sweetwater,56037,Sweetwater,56037,Sweetwater
+Wyoming,56039,Teton,56039,Teton,56039,Teton
+Wyoming,56041,Uinta,56041,Uinta,56041,Uinta
+Wyoming,56043,Washakie,56043,Washakie,56043,Washakie
+Wyoming,56045,Weston,56045,Weston,56045,Weston
+Puerto rico,72000,,72000,,72000,
+Puerto rico,72001,,72001,Adjuntas municipio,72001,Adjuntas municipio
+Puerto rico,72003,,72003,Aguada municipio,72003,Aguada municipio
+Puerto rico,72005,,72005,Aguadilla municipio,72005,Aguadilla municipio
+Puerto rico,72007,,72007,Aguas buenas municipio,72007,Aguas buenas municipio
+Puerto rico,72009,,72009,Aibonito municipio,72009,Aibonito municipio
+Puerto rico,72011,,72011,Añasco municipio,72011,Añasco municipio
+Puerto rico,72013,,72013,Arecibo municipio,72013,Arecibo municipio
+Puerto rico,72015,,72015,Arroyo municipio,72015,Arroyo municipio
+Puerto rico,72017,,72017,Barceloneta municipio,72017,Barceloneta municipio
+Puerto rico,72019,,72019,Barranquitas municipio,72019,Barranquitas municipio
+Puerto rico,72021,,72021,Bayamón municipio,72021,Bayamón municipio
+Puerto rico,72023,,72023,Cabo rojo municipio,72023,Cabo rojo municipio
+Puerto rico,72025,,72025,Caguas municipio,72025,Caguas municipio
+Puerto rico,72027,,72027,Camuy municipio,72027,Camuy municipio
+Puerto rico,72029,,72029,Canóvanas municipio,72029,Canóvanas municipio
+Puerto rico,72031,,72031,Carolina municipio,72031,Carolina municipio
+Puerto rico,72033,,72033,Cataño municipio,72033,Cataño municipio
+Puerto rico,72035,,72035,Cayey municipio,72035,Cayey municipio
+Puerto rico,72037,,72037,Ceiba municipio,72037,Ceiba municipio
+Puerto rico,72039,,72039,Ciales municipio,72039,Ciales municipio
+Puerto rico,72041,,72041,Cidra municipio,72041,Cidra municipio
+Puerto rico,72043,,72043,Coamo municipio,72043,Coamo municipio
+Puerto rico,72045,,72045,Comerío municipio,72045,Comerío municipio
+Puerto rico,72047,,72047,Corozal municipio,72047,Corozal municipio
+Puerto rico,72049,,72049,Culebra municipio,72049,Culebra municipio
+Puerto rico,72051,,72051,Dorado municipio,72051,Dorado municipio
+Puerto rico,72053,,72053,Fajardo municipio,72053,Fajardo municipio
+Puerto rico,72054,,72054,Florida municipio,72054,Florida municipio
+Puerto rico,72055,,72055,Guánica municipio,72055,Guánica municipio
+Puerto rico,72057,,72057,Guayama municipio,72057,Guayama municipio
+Puerto rico,72059,,72059,Guayanilla municipio,72059,Guayanilla municipio
+Puerto rico,72061,,72061,Guaynabo municipio,72061,Guaynabo municipio
+Puerto rico,72063,,72063,Gurabo municipio,72063,Gurabo municipio
+Puerto rico,72065,,72065,Hatillo municipio,72065,Hatillo municipio
+Puerto rico,72067,,72067,Hormigueros municipio,72067,Hormigueros municipio
+Puerto rico,72069,,72069,Humacao municipio,72069,Humacao municipio
+Puerto rico,72071,,72071,Isabela municipio,72071,Isabela municipio
+Puerto rico,72073,,72073,Jayuya municipio,72073,Jayuya municipio
+Puerto rico,72075,,72075,Juana díaz municipio,72075,Juana díaz municipio
+Puerto rico,72077,,72077,Juncos municipio,72077,Juncos municipio
+Puerto rico,72079,,72079,Lajas municipio,72079,Lajas municipio
+Puerto rico,72081,,72081,Lares municipio,72081,Lares municipio
+Puerto rico,72083,,72083,Las marías municipio,72083,Las marías municipio
+Puerto rico,72085,,72085,Las piedras municipio,72085,Las piedras municipio
+Puerto rico,72087,,72087,Loíza municipio,72087,Loíza municipio
+Puerto rico,72089,,72089,Luquillo municipio,72089,Luquillo municipio
+Puerto rico,72091,,72091,Manatí municipio,72091,Manatí municipio
+Puerto rico,72093,,72093,Maricao municipio,72093,Maricao municipio
+Puerto rico,72095,,72095,Maunabo municipio,72095,Maunabo municipio
+Puerto rico,72097,,72097,Mayagüez municipio,72097,Mayagüez municipio
+Puerto rico,72099,,72099,Moca municipio,72099,Moca municipio
+Puerto rico,72101,,72101,Morovis municipio,72101,Morovis municipio
+Puerto rico,72103,,72103,Naguabo municipio,72103,Naguabo municipio
+Puerto rico,72105,,72105,Naranjito municipio,72105,Naranjito municipio
+Puerto rico,72107,,72107,Orocovis municipio,72107,Orocovis municipio
+Puerto rico,72109,,72109,Patillas municipio,72109,Patillas municipio
+Puerto rico,72111,,72111,Peñuelas municipio,72111,Peñuelas municipio
+Puerto rico,72113,,72113,Ponce municipio,72113,Ponce municipio
+Puerto rico,72115,,72115,Quebradillas municipio,72115,Quebradillas municipio
+Puerto rico,72117,,72117,Rincón municipio,72117,Rincón municipio
+Puerto rico,72119,,72119,Río grande municipio,72119,Río grande municipio
+Puerto rico,72121,,72121,Sabana grande municipio,72121,Sabana grande municipio
+Puerto rico,72123,,72123,Salinas municipio,72123,Salinas municipio
+Puerto rico,72125,,72125,San germán municipio,72125,San germán municipio
+Puerto rico,72127,,72127,San juan municipio,72127,San juan municipio
+Puerto rico,72129,,72129,San lorenzo municipio,72129,San lorenzo municipio
+Puerto rico,72131,,72131,San sebastián municipio,72131,San sebastián municipio
+Puerto rico,72133,,72133,Santa isabel municipio,72133,Santa isabel municipio
+Puerto rico,72135,,72135,Toa alta municipio,72135,Toa alta municipio
+Puerto rico,72137,,72137,Toa baja municipio,72137,Toa baja municipio
+Puerto rico,72139,,72139,Trujillo alto municipio,72139,Trujillo alto municipio
+Puerto rico,72141,,72141,Utuado municipio,72141,Utuado municipio
+Puerto rico,72143,,72143,Vega alta municipio,72143,Vega alta municipio
+Puerto rico,72145,,72145,Vega baja municipio,72145,Vega baja municipio
+Puerto rico,72147,,72147,Vieques municipio,72147,Vieques municipio
+Puerto rico,72149,,72149,Villalba municipio,72149,Villalba municipio
+Puerto rico,72151,,72151,Yabucoa municipio,72151,Yabucoa municipio
+Puerto rico,72153,,72153,Yauco municipio,72153,Yauco municipio
