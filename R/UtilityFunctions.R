@@ -327,3 +327,13 @@ convertStrEncodingLatintoASCII <- function(s) {
   s <- iconv(s, from = 'latin1', to = 'ASCII', sub='')
   return(s)
 }
+
+#' Format location in state models from formal state name to US-ST
+#' @param location A text value of input location name
+#' @return A text value of formatted location for state models
+formatLocationforStateModels <- function(location) {
+  loc <- stringr::str_replace_all(string = tolower(location),
+                                  pattern = setNames(paste("US", state.abb, sep = "-"),
+                                                     tolower(state.name)))
+  return(loc)
+}
