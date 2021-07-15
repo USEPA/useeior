@@ -3,12 +3,15 @@
 #' @return A disaggregated model.
 disaggregateModel <- function (model){
 
-  for (disagg in model$specs$DisaggregationSpecs){
-    disaggregationConfigFile <- disagg
-    logging::loginfo(paste("Reading disaggregation for", disaggregationConfigFile, sep=" "))
-    model$DisaggregationSpecs <- getConfiguration(disaggregationConfigFile, "disagg")
+  for (configFile in model$specs$DisaggregationSpecs){
+    logging::loginfo(paste("Reading disaggregation for", configFile, sep=" "))
+    model$DisaggregationSpecs <- getConfiguration(configFile, "disagg")
   }
 
+  if(!is.null(model$DisaggregationSpecs$Aggregation)){
+    # Handle sector aggregation
+  }
+  
   counter = 1
   for (disagg in model$DisaggregationSpecs$Disaggregation){
    
