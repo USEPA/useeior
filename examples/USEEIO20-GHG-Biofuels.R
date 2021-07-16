@@ -31,7 +31,7 @@ inputPurchasesNewTech<-as.matrix((inputP_data[,(3:5)]))
 
 #inputPurchasesNewTech<-matrix(c(inputP_GF[,3],rep(1,100),rep(0,306),rep(1,300),rep(0,106)), nrow=406, ncol=3) this was was to experiment with
 #This is value added in $/GGE (Includes compensation to employes, taxes and gross operating surplus)
-valueAdded<-matrix(c(0.08,0.8,2.29,rep(0,3),rep(0,3)), nrow=3, ncol=3) #the gross operating surplus needs to be updated
+valueAdded<-matrix(c(0.08,0.82,2.33,0.06,0.88,2.5,0.05,0.60,1.70), nrow=3, ncol=3) #the gross operating surplus needs to be updated
 
 #Read environmental data
 #GF_envData<-read.csv("inst/extdata/GF_EnvFlow_GHG_V01.csv")
