@@ -167,11 +167,11 @@ loadDataCommonsfile <- function(static_file) {
   return(f)
 }
 
-#' Maps a vector of FIPS codes to location codes
+#' Maps a vector of 5-digit FIPS codes to location names
 #' @param fipscodes A vector of 5 digit FIPS codes
 #' @param fipssystem A text value specifying FIPS System, can be FIPS_2015
-#' @return A vector of location codes where matches are found
-mapFIPS5toLocationCodes <- function(fipscodes, fipssystem) {
+#' @return A vector of location names where matches are found
+mapFIPS5toLocationNames <- function(fipscodes, fipssystem) {
   mapping_file <- "Crosswalk_FIPS.csv"
   mapping <- utils::read.table(system.file("extdata", mapping_file, package = "useeior"),
                                sep = ",", header = TRUE, stringsAsFactors = FALSE, 
@@ -187,7 +187,7 @@ mapFIPS5toLocationCodes <- function(fipscodes, fipssystem) {
                                         pattern = setNames(as.vector(mapping$State),
                                                            mapping[, fipssystem]))
   return(locations)
-}  
+}
   
 #' Replaces all `None` in a dataframe with the R NULL type NA
 #' @param df A data frame

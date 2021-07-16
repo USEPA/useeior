@@ -19,7 +19,8 @@ SatelliteTable:
     StaticFile: "flowsa/FlowBySector/Water_state_2015_m1_v0.1.1_61bc755.parquet"
     FileLocation: "DataCommons"
     DataYears: [2015]
-    Locations: ["US"]
+    LocationSystem: ["FIPS_2015"]
+    LocationFormatFunctionCall: "mapFIPS5toLocationNames" #function to call for formatting location
     SectorListSource: "NAICS"
     SectorListYear: 2012
     SectorListLevel: "6"
