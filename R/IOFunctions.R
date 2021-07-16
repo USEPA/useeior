@@ -1,28 +1,20 @@
+# Functions implementing core input-output analysis algorithms
+
 #' Adjust Industry output based on CPI.
-#'
 #' @param outputyear Year of Industry output.
 #' @param referenceyear Year of the currency reference.
 #' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
 #' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param output_type Type of the output, e.g. "Commodity" or "Industry"
-#'
 #' @return A dataframe contains adjusted Industry output with row names being BEA sector code.
 adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRoUS, model, output_type) {
   # Load Industry Gross Output
-  if (model$specs$PrimaryRegionAcronym == "US") {
+  if (model$specs$ModelRegionAcronyms == "US") {
     Output <- cbind.data.frame(rownames(model$MultiYearIndustryOutput),
                                model$MultiYearIndustryOutput[, as.character(outputyear)])
-  } else {
-    if(model$specs$ModelSource=="WinDC") {
-      if(IsRoUS == TRUE) {
-        Output <- model$IndustryOutput[model$IndustryOutput$Location=="RoUS", c("SectorCode", as.character(outputyear)), drop = FALSE]
-        rownames(Output) <- Output$SectorCode
-      } else {
-        Output <- model$IndustryOutput[model$IndustryOutput$Location==location_acronym, 
-                                       c("SectorCode", as.character(outputyear)), drop = FALSE]
-      }
-    }
+  } else if (model$specs$ModelRegionAcronyms == c(location_acronym, "RoUS")) {
+    # Fork for state model here
   }
   colnames(Output) <- c("SectorCode", "Output")
   # Adjust output based on CPI
@@ -41,7 +33,6 @@ adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRo
 #' @param IO_transactions_df IO transactions of the model in dataframe format.
 #' @param IO_output_df Output of the model in dataframe format.
 #' @return A matrix.
-#' @export
 normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
   Z <- as.matrix(IO_transactions_df)
   x <- unname(unlist(IO_output_df))
@@ -56,7 +47,7 @@ normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
 #' @param domestic A logical parameter indicating whether to calculate DR or Domestic DR.
 #' @return Direct Requirements matrix of the model.
 generateDirectRequirementsfromUse <- function (model, domestic) {
-  # Generate direct requirments matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
+  # Generate direct requirements matrix (commodity x industry) from Use, see Miller and Blair section 5.1.1
   if (domestic==TRUE) {
     B <- normalizeIOTransactions(model$DomesticUseTransactions, model$IndustryOutput) # B = U %*% solve(x_hat)
   } else {
@@ -92,8 +83,7 @@ generateCommodityMixMatrix <- function (model) {
 }
 
 #' Generate Commodity output by transforming Industry output using Commodity Mix matrix.
-#' @param location_acronym Abbreviated location name of the model, e.g. "US" or "GA".
-#' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
+#' @param year Year of Industry output
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A dataframe contains adjusted Commodity output.
 transformIndustryOutputtoCommodityOutputforYear <- function(year, model) {
@@ -112,25 +102,23 @@ transformIndustryOutputtoCommodityOutputforYear <- function(year, model) {
 transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
   # Generate adjusted industry CPI by location
   IndustryCPI <- model$MultiYearIndustryCPI[, as.character(year)]
-  # Use CommodityMix to transform IndustryCPI to CommodityCPI
-  CommodityMix <- generateCommodityMixMatrix(model)
-  CommodityCPI <- as.numeric(CommodityMix %*% IndustryCPI)
+  # Use MarketShares (of model IO year) to transform IndustryCPI to CommodityCPI
+  MarketShares <- generateMarketSharesfromMake(model)
+  # The transformation is essentially a I x 1 matrix %*% a C x I matrix which yields a C x 1 matrix
+  CommodityCPI <- as.numeric(IndustryCPI %*% MarketShares)
+  # Non-industry sectors would have CommodityCPI of 0
+  # To avoid interruption in later calculations, they are forced to 100
+  CommodityCPI[CommodityCPI==0] <- 100
+  # Validation: check if IO year CommodityCPI is 100
+  if (year==2012) {
+    for (s in CommodityCPI) {
+      if (abs(100-s)>0.3) {
+        stop("Error in CommodityCPI")
+      }
+    }
+  }
   return(CommodityCPI)
 }
-
-# Function not used in model
-# #' Generate non-scrap ratios
-# #' @return A dataframe with rows being model industries and a column for "non_scrap_ratios" for that industry.
-# generateNonScrapRatios <- function() {
-#   # Merge scrap from model Make transactions and Industry output
-#   V_scrap <- model$MakeTransactions[, ModelScrapCode, drop = FALSE]
-#   V_scrap_total <- merge(V_scrap, model$BEA$MakeIndustryOutput, by = 0)
-#   IndustryTotalCode <- colnames(model$BEA$MakeIndustryOutput)
-#   V_scrap_total[,"nonscrap_ratio"] <- (V_scrap_total[,IndustryTotalCode]-V_scrap_total[, ModelScrapCode])/V_scrap_total[, IndustryTotalCode]
-#   row.names(V_scrap_total) <- V_scrap_total[,"Row.names"]
-#   non_scrap_ratios <- V_scrap_total[,"nonscrap_ratio", drop=FALSE]
-#   return(non_scrap_ratios)
-# }
 
 #' Transform Direct Requirements matrix with Market Shares matrix, works for both commodity-by-commodity and industry-by-industry model types.
 #' @param B Marginal impact per unit of the environmental flows.
@@ -142,31 +130,34 @@ transformDirectRequirementswithMarketShares <- function (B, D, model) {
   if (all(colnames(B) == rownames(D)) && all(colnames(D) == rownames(B))) {
 
   } else {
-    logging::logerror("Error: column names of the direct requirements do not match the rows of the market shares matrix")
+    logging::logerror("Column names of the direct requirements do not match the row names of the market shares matrix.")
+    stop()
   }
-  if (model$specs$CommoditybyIndustryType == "Commodity") {
+  if (model$specs$CommodityorIndustryType == "Commodity") {
     # commodity model DR_coeffs = dr %*% ms (CxI x IxC) = CxC
     A <- B %*% D
     dimnames(A) <- c(dimnames(B)[1], dimnames(D)[2])
-  } else if (model$specs$CommoditybyIndustryType == "Industry") {
+  } else if (model$specs$CommodityorIndustryType == "Industry") {
     # industry model DR_coeffs = ms %*% dr (IxC x CxI) = IxI
     A <- D %*% B
     dimnames(A) <- c(dimnames(D)[1], dimnames(B)[2])
   } else {
-    logging::logerror("CommoditybyIndustryType not specified for model or incorrectly specified")
+    logging::logerror("CommodityorIndustryType not specified or incorrectly specified for model.")
+    stop()
   }
   return(A)
 }
 
-#' Transform Final Demand df with Market Shares matrix.
-#' @param Fdf Final Demand dataframe.
+#' Transform Final Demand (commodity x sector) with Market Shares matrix
+#' to Final Demand (industry x sector)
+#' @param Fdf Final Demand data.frame.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return Final Demand matrix.
+#' @return Final Demand (industry x sector) data.frame
 transformFinalDemandwithMarketShares <- function (Fdf, model) {
   D <- generateMarketSharesfromMake(model)
   # See Miller and Blair section 5.3.7 (pg 197)
   Fmatrix <- D %*% as.matrix(Fdf)
-  return(Fmatrix)
+  return(as.data.frame(Fmatrix))
 }
 
 #' Calculate Leontief inverse from direct requirements matrix.
@@ -180,10 +171,10 @@ calculateLeontiefInverse <- function(A) {
 
 
 #' Generate domestic Use table by adjusting Use table based on Import matrix.
-#' @param Use An original Use table.
-#' @param specs Model specifications.
-#' @return A Domestic Use table.
-generatDomesticUse <- function(Use, specs) {
+#' @param Use, dataframe of a Use table
+#' @param specs, list of model specifications
+#' @return A Domestic Use table with rows as commodity codes and columns as industry and final demand codes
+generateDomesticUse <- function(Use, specs) {
   # Load Import matrix
   if (specs$BaseIOLevel!="Sector") {
     Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6

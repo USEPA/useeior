@@ -7,7 +7,7 @@
 calculateIndicatorScoresforTotalsBySector(
   model,
   totals_by_sector_name,
-  indicator_code
+  indicator_name
 )
 }
 \arguments{
@@ -15,7 +15,7 @@ calculateIndicatorScoresforTotalsBySector(
 
 \item{totals_by_sector_name}{The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector}
 
-\item{indicator_code}{The code of the indicator of interest from the model$Indicators}
+\item{indicator_name}{The name of the indicator of interest from the model$Indicators$factors}
 }
 \value{
 a totals_by_sector table with fields from the Indicator table "Code" and "Amount", and calculated "IndicatorScore" added

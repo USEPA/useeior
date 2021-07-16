@@ -1,14 +1,17 @@
+# General utility functions for use across the package
+
 #' Start logging 
 startLogging <- function (){
   #http://logging.r-forge.r-project.org/sample_session.php
   logging::basicConfig()
   # Define output folder
-  #dir.create(paste("Model Builds/", modelname, sep = ""), recursive = TRUE) # meant to be flexible up to users
-  #outputfolder <- paste("Model Builds/", modelname, sep = "")
-  #Write logs to file in model build folder
-  #logtimestamp = Sys.Date()
-  #logfilename = paste(outputfolder,"/",logtimestamp,".log",sep="")
-  #addHandler(writeToFile, file=logfilename, level='INFO')
+  # if (!dir.exists(paste("Model Builds/", modelname, sep = ""))) {
+  #   dir.create(paste("Model Builds/", modelname, sep = ""), recursive = TRUE) # meant to be flexible up to users
+  # }
+  # outputfolder <- paste("Model Builds/", modelname, sep = "")
+  # Write logs to file in model build folder
+  # logfilename <- paste0(outputfolder, "/", Sys.Date(), ".json")
+  # addHandler(writeToFile, file = logfilename, level = "INFO")
 }
 
 #' Join strings with slashes
@@ -17,7 +20,6 @@ startLogging <- function (){
 joinStringswithSlashes <- function(...) {
   items <- list(...)
   str <- sapply(items, paste, collapse = '/')
-  str <- tolower(str)
   return(str)
 }
 
@@ -60,17 +62,18 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
   }
   # Map CommodityOutput to more aggregated IO levels
   Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])
-  ratio_table <- merge(Crosswalk, Output, by.x = paste0("BEA_", model$specs$BaseIOLevel), by.y = 0)
+  ratio_table <- merge(Crosswalk, as.data.frame(Output, row.names = gsub("/.*", "", names(Output))),
+                       by.x = paste0("BEA_", model$specs$BaseIOLevel), by.y = 0)
   # Calculate output ratios
   for (iolevel in c("Summary", "Sector")) {
     # Generate flexible sector_code
     sector_code <- paste0("BEA_", iolevel)
     # Sum Detail output to Summary/Sector
-    output_sum <- stats::aggregate(ratio_table[, as.character(model$specs$IOYear)], by = list(ratio_table[, sector_code]), sum)
+    output_sum <- stats::aggregate(ratio_table$Output, by = list(ratio_table[, sector_code]), sum)
     colnames(output_sum) <- c(sector_code, paste0(iolevel, "Output"))
     ratio_table <- merge(ratio_table, output_sum, by = sector_code)
     # Calculate DetailSummaryRatio and DetailSectorRatio
-    ratio_table[, paste0("to", iolevel, "Ratio")] <- ratio_table[, as.character(model$specs$IOYear)]/ratio_table[, paste0(iolevel, "Output")]
+    ratio_table[, paste0("to", iolevel, "Ratio")] <- ratio_table$Output/ratio_table[, paste0(iolevel, "Output")]
     # Generate SectorCode column
     ratio_table$SectorCode <- ratio_table[, paste0("BEA_", model$specs$BaseIOLevel)]
   }
@@ -85,6 +88,10 @@ calculateOutputRatio <- function (model, output_type="Commodity") {
 
 #' Compare two matrices, calculate percentage difference (m1-m2)/m1.
 #' Dimensions of the two matrices must be the same.
+#' @param m1 matrix 1
+#' @param m2 matrix 2
+#' @param percentage_diff A logical value indicating whether to compare percentage difference
+#' @return A matrix of comparison
 compareMatrices <- function(m1, m2, percentage_diff = FALSE) {
   if (dim(m1)!=dim(m2)) {
     stop("Make m1 and m2 have the same dimensions first.")
@@ -99,6 +106,8 @@ compareMatrices <- function(m1, m2, percentage_diff = FALSE) {
 }
 
 #' Write matrix as bin file
+#' @param matrix A matrix to be written
+#' @param path Path to write the bin file to
 writeMatrixasBinFile <- function(matrix, path) {
   out <- file(path, "wb")
   rows <- dim(matrix)[1]
@@ -118,7 +127,7 @@ writeMatrixasBinFile <- function(matrix, path) {
 #' @param subdirectory The name of the package where the source file is stored on Data Commons including any subfolders (e.g. "lciafmt/traci_2_1")
 #' @param debug_url The Data Commons base url, including directory and subdirectories
 downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
-  
+  # Define file directory
   directory <- paste0(rappdirs::user_data_dir(), "/", subdirectory)
   # Check for and create subdirectory if necessary
   if(!file.exists(directory)){
@@ -126,7 +135,7 @@ downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
   }
   
   # Download file
-  download.file(paste0(debug_url, "/", source), paste0(directory, "/", source), mode = "wb", quiet = TRUE)
+  utils::download.file(paste0(debug_url, "/", source), paste0(directory, "/", source), mode = "wb", quiet = TRUE)
 }
 
 #' Load the static file originating from Data Commons either by loading from local directory or downloading from Data Commons and 
@@ -170,13 +179,15 @@ mapFIPS5toLocationCodes <- function(fipscodes) {
 }  
   
 #' Replaces all `None` in a dataframe with the R NULL type NA
-#' 
+#' @param df A data frame
+#' @return A data frame without `None`
 replaceNonewithNA <- function(df) {
   df[df=='None'] <- NA
   return(df)
 }
 
 #' Extract desired columns from SchemaInfo, return vectors with strings of codes.
+#' @param ioschema A numeric value of either 2012 or 2007 specifying the io schema year.
 #' @param iolevel Level of detail, can be "Sector", "Summary, "Detail".
 #' @param colName A text value specifying desired column name.
 #' @return A vector of codes.
@@ -305,4 +316,3 @@ convertStrEncodingLatintoASCII <- function(s) {
   s <- iconv(s, from = 'latin1', to = 'ASCII', sub='')
   return(s)
 }
-

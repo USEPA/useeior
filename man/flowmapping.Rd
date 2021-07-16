@@ -3,14 +3,16 @@
 \docType{data}
 \name{flowmapping}
 \alias{flowmapping}
-\title{Import flow mapping file.}
+\title{Functions to map elementary or waste flows in satellite tables drawing on an internal mapping file
+Import flow mapping file.}
 \format{
-An object of class \code{data.frame} with 3210 rows and 28 columns.
+An object of class \code{data.frame} with 615 rows and 28 columns.
 }
 \usage{
 flowmapping
 }
 \description{
+Functions to map elementary or waste flows in satellite tables drawing on an internal mapping file
 Import flow mapping file.
 }
 \keyword{datasets}

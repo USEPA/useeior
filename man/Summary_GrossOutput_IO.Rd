@@ -8,12 +8,12 @@
 A dataframe with 71 obs. and 17 variables
 }
 \source{
-\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesUnderlying.zip}
+\url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesUnderlying.zip}
 }
 \usage{
 Summary_GrossOutput_IO
 }
 \description{
-TBD
+Summary 2007-2018 Gross Output (2012 schema)
 }
 \keyword{datasets}

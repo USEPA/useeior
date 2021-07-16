@@ -1,4 +1,4 @@
-# Functions for handling data from flowsa
+# Functions for handling data from flowsa, https://github.com/USEPA/flowsa
 
 #' Load flowsa's FlowBySector df and collapse sector columns
 #' @param sat_spec, a standard specification for a single satellite table
@@ -9,7 +9,7 @@ getFlowbySectorCollapsed <- function(sat_spec) {
   if(!(sat_spec$StaticSource)){
     method_name <- sub(".parquet$", "", sat_spec$StaticFile)
     flowsa <- reticulate::import("flowsa")
-    fbs_collapsed <- flowsa$getFlowBySector_collapsed(method_name)
+    fbs_collapsed <- flowsa$collapse_FlowBySector(method_name)
     # checks columns that are all None values and converts to NA
     for(i in colnames(fbs_collapsed)){
       if(is.list(fbs_collapsed[[i]])){

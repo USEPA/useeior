@@ -1,3 +1,5 @@
+# Functions handling data from the LCIAformatter, https://github.com/USEPA/LCIAformatter
+
 #' Get impact method in the format of the Python LCIAformatter package's get_mapped_method function.
 #' @param ind_spec Specification of an indicator
 #' @return An LCIAmethod with the specified indicators

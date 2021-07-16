@@ -1,32 +1,30 @@
-#CompareModels.R
+# Functions for comparing models
 
 #' Compare flow totals for two models
-#' @param TbSA a totals-by-sector list from a model
-#' @param TbSB a totals-by-sector list from a model
-#' @return df, the validate::confrontation result
-compareFlowTotals <- function(TbSA, TbSB) {
-  tbs_A <- groupandsumTbSbyFlowLoc(TbSA)
-  tbs_B <- groupandsumTbSbyFlowLoc(TbSB)
-  list_A_B <- harmonizeDFsbyrowname(tbs_A,tbs_B)
-  A <- list_A_B[[1]]
-  B <- list_A_B[[2]]
-  
-  rule <- validate::validator(abs(A - B)/A <= 0.01)
-  confrontation <- validate::confront(A, rule, B)
-  summary(confrontation)
-  df_confrontation <- validate::as.data.frame(confrontation)
-  return(df_confrontation)
+#' @param modelA, a useeior model
+#' @param modelB a useeior model 
+#' @return comparison, a list with pass/fail comparison results
+#' @export
+compareFlowTotals <- function(modelA, modelB) {
+  # Get flow totals for each model
+  A <- groupandsumTbSbyFlowLoc(modelA$TbS)
+  B <- groupandsumTbSbyFlowLoc(modelB$TbS)
+  # Generate a comparison to see if flow totals from two models are within 1%
+  rel_diff <- (A - B)/B
+  comparison <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance = 0.01)
+  return(comparison)
 }
 
-
+#' Sum totals_by_sector by flow and location
+#' @param TbS a totals-by-sector list from a model
+#' @return flowtotal, a df with 1 column of flowamount with a total for that flow given in rowname
 groupandsumTbSbyFlowLoc <- function(TbS) {
-  tbs <- data.frame(do.call("rbind", TbS))
   fields <- c("Flowable","Context","Unit","Location")
-  tbs$FlowLoc <- apply(tbs[, fields],1,FUN = joinStringswithSlashes)
-  tbs <- dplyr::group_by(tbs,FlowLoc) 
-  tbs <- dplyr::summarize(tbs,FlowAmount = sum(FlowAmount))
-  tbs <- as.data.frame(tbs)
-  rownames(tbs) <- tbs$FlowLoc
-  tbs <- subset(tbs,select="FlowAmount")
-  return(tbs)
+  TbS$FlowLoc <- apply(TbS[, fields],1,FUN = joinStringswithSlashes)
+  TbS <- dplyr::group_by(TbS,FlowLoc) 
+  TbS <- dplyr::summarize(TbS,FlowAmount = sum(FlowAmount))
+  TbS <- as.data.frame(TbS)
+  rownames(TbS) <- TbS$FlowLoc
+  flowtotal <- subset(TbS,select="FlowAmount")
+  return(flowtotal)
 }

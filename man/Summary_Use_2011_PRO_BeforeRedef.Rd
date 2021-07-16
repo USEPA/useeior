@@ -8,12 +8,12 @@
 A dataframe with 83 obs. and 98 variables
 }
 \source{
-\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+\url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 }
 \usage{
 Summary_Use_2011_PRO_BeforeRedef
 }
 \description{
-TBD
+Summary 2011 Use Producer's Value Before Redefinition (2012 schema)
 }
 \keyword{datasets}

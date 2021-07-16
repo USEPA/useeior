@@ -7,7 +7,7 @@
 barplotIndicatorScoresbySector(
   model_list,
   totals_by_sector_name,
-  indicator_code,
+  indicator_name,
   sector,
   y_title
 )
@@ -17,9 +17,9 @@ barplotIndicatorScoresbySector(
 
 \item{totals_by_sector_name}{The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector}
 
-\item{indicator_code}{The code of the indicator of interest from the model$Indicators}
+\item{indicator_name}{The name of the indicator of interest from the model$Indicators$factors}
 
-\item{sector}{Can be boolean value or text. If non-boolean, it must be code of one or more BEA sectors.}
+\item{sector}{Can be logical value or text. If non-boolean, it must be code of one or more BEA sectors.}
 
 \item{y_title}{The title of y axis, excluding unit.}
 }

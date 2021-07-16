@@ -38,3 +38,7 @@ sectors:
   - Code
   - Location
   - Description
+
+years:
+  - Index
+  - ID

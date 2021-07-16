@@ -4,10 +4,12 @@
 \alias{disaggregateMasterCrosswalk}
 \title{Disaggregate the MasterCrosswalk to include the new sectors for disaggregation}
 \usage{
-disaggregateMasterCrosswalk(crosswalk, disagg)
+disaggregateMasterCrosswalk(model, disagg)
 }
 \arguments{
-\item{crosswalk}{MasterCrosswalk from NAICS to BEA.}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{disagg}{Specifications for disaggregating the current Table}
 }
 \value{
 crosswalk with new sectors added.

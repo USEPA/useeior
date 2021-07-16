@@ -8,6 +8,8 @@ writeModelDemandstoJSON(model, demandsfolder)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{demandsfolder}{Path to output folder.}
 }
 \description{
 Writes model demand vectors, including y and y_d for consumption and production.

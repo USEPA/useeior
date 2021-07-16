@@ -2,7 +2,8 @@
 % Please edit documentation in R/CalculationFunctions.R
 \name{calculateEEIOModel}
 \alias{calculateEEIOModel}
-\title{Calculate total emissions/resources (LCI) or total impact for USEEIO model for a given demand vector and perspective.}
+\title{Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model
+for a given perspective and demand vector.}
 \usage{
 calculateEEIOModel(
   model,
@@ -16,13 +17,16 @@ calculateEEIOModel(
 
 \item{perspective}{Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".}
 
-\item{demand}{A name of a built in model demand vector or a named vector with names as one or more model sectors and numeric values in USD with the same dollar year as model}
+\item{demand}{A demand vector, can be name of a built-in model demand vector
+or an actual demand vector with names as one or more model sectors and
+numeric values in USD with the same dollar year as model.}
 
-\item{use_domestic_requirements}{A boolean value: if TRUE, use domestic A_d; if FALSE, use A matrices.}
+\item{use_domestic_requirements}{A logical value: if TRUE, use domestic A_d; if FALSE, use A matrices.}
 }
 \value{
-A list with LCI and LCIA results of the EEIO model.
+A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 }
 \description{
-Calculate total emissions/resources (LCI) or total impact for USEEIO model for a given demand vector and perspective.
+Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model
+for a given perspective and demand vector.
 }

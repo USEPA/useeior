@@ -230,12 +230,12 @@ getMasterCrosswalk <- function (year) {
   for (digit in c(2:5)) {
     NAICS2012to2007to2017_bydigit <- unique(do.call("cbind.data.frame", lapply(NAICS2012to2007to2017, function(x) substr(x, 1, digit))))
     NAICS2012to2007to2017_bydigit[] <- lapply(NAICS2012to2007to2017_bydigit, as.character)
-    # Check if NAICS codes in the same row are identical
-    NAICS2012to2007to2017_bydigit <- transform(NAICS2012to2007to2017_bydigit,
-                                               identical = apply(NAICS2012to2007to2017_bydigit, 1, function(x) length(unique(x)) == 1))
-    # Drop the non-identical rows
-    NAICS2012to2007to2017_bydigit <- NAICS2012to2007to2017_bydigit[NAICS2012to2007to2017_bydigit$identical, ]
-    NAICS2012to2007to2017_bydigit$identical <- NULL
+    # # Check if NAICS codes in the same row are identical
+    # NAICS2012to2007to2017_bydigit <- transform(NAICS2012to2007to2017_bydigit,
+    #                                            identical = apply(NAICS2012to2007to2017_bydigit, 1, function(x) length(unique(x)) == 1))
+    # # Drop the non-identical rows
+    # NAICS2012to2007to2017_bydigit <- NAICS2012to2007to2017_bydigit[NAICS2012to2007to2017_bydigit$identical, ]
+    # NAICS2012to2007to2017_bydigit$identical <- NULL
     NAICS2012to2007to2017all <- rbind(NAICS2012to2007to2017all, NAICS2012to2007to2017_bydigit)
   }
   # Assemble 2012-2007-2017 NAICS code concordances at 2-6 digits
@@ -261,6 +261,8 @@ getMasterCrosswalk <- function (year) {
     MasterCrosswalk[, c("BEA_2012_Sector_Code_agg", "BEA_2012_Sector_Name_agg")] <- NULL
   }
   # Order by NAICS and USEEIO code columns
+  MasterCrosswalk[MasterCrosswalk==""] <- NA
+  rownames(MasterCrosswalk) <- NULL
   MasterCrosswalk <- MasterCrosswalk[order(MasterCrosswalk[, paste("NAICS_", year, "_Code", sep = "")], MasterCrosswalk[, "USEEIO_Code"]), ]
   
   return(MasterCrosswalk)

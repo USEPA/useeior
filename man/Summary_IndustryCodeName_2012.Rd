@@ -8,12 +8,12 @@
 A dataframe with 73 obs. and 2 variables
 }
 \source{
-\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+\url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 }
 \usage{
 Summary_IndustryCodeName_2012
 }
 \description{
-TBD
+Summary Industry Code and Name (2012 schema)
 }
 \keyword{datasets}

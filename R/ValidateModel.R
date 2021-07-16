@@ -1,45 +1,45 @@
-#ValidateModel.R
-
+# Validation functions
 
 #'Compares the total flows against the model flow totals result calculation with the total demand
 #'@param model, EEIOmodel object completely built
-#'@return list with pass/fail validation result and the cell-by-cell relative diff matrix
+#'@param use_domestic, a logical value indicating whether to use domestic demand vector
+#'@param tolerance, a numeric value, tolerance level of the comparison
+#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export
-compareEandLCIResult <- function(model,use_domestic=FALSE, tolerance=0.05) {
+compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) {
   #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   #c = diag(L%*%y)
   if (use_domestic) {
-    y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    y <- as.matrix(formatDemandVector(rowSums(model$FinalDemand),model$L_d))
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
-
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
-    CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
-    B <- as.matrix(CbS_cast)
-
-    ##Prepare left side of the equation
-    E <- prepareEfromtbs(model)
-    E <- as.matrix(E[rownames(B), ])
-        #transform E with commodity mix
-    C <- generateCommodityMixMatrix(model)
-    E <-  t(C %*% t(E))  
-  } else {
-    stop("This function cannot yet handle industry type models")
-  }
-
-  #Prepare calculation
-  #LCI = B dot Chi %*% c 
+  
+  CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
+  B <- as.matrix(CbS_cast)
   Chi <- generateChiMatrix(model, "Industry")
+  # Check if Chi columns match B
+  if (!identical(colnames(B), colnames(Chi))) {
+    stop("columns in Chi and B do not match")
+  }
   B_chi <- B*Chi
   
-  if (model$specs$CommoditybyIndustryType=="Commodity") {
+  ##Prepare left side of the equation
+  E <- prepareEfromtbs(model)
+  E <- as.matrix(E[rownames(B), colnames(B)])
+  
+  if (model$specs$CommodityorIndustryType=="Commodity") {
+    #transform E with commodity mix to put in commodity form
+    E <-  t(model$C_m %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
     B_chi <- B_chi %*% model$V_n
   }
   
+  #LCI = B dot Chi %*% c   
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
   
   # Calculate relative differences
@@ -54,21 +54,26 @@ compareEandLCIResult <- function(model,use_domestic=FALSE, tolerance=0.05) {
 #'Uses the model$FinalDemand and model$L
 #'Works for the domestic model with the equivalent tables
 #'@param model, EEIOmodel object completely built
-#'@return  a vector of relative different in calculation from sector output by sector 
+#'@param use_domestic, a logical value indicating whether to use domestic demand vector
+#'@param tolerance, a numeric value, tolerance level of the comparison
+#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   if (use_domestic) {
-    y <- as.matrix(formatDemandVector(rowSums(model$DomesticFinalDemand),model$L_d))
+    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    y <- as.matrix(formatDemandVector(rowSums(model$FinalDemand),model$L))
+    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
+    y <- as.matrix(formatDemandVector(rowSums(f), model$L))
     c <- getScalingVector(model$L, y)
   }
-  if(model$specs$CommoditybyIndustryType == "Commodity") {
+  
+  if(model$specs$CommodityorIndustryType == "Commodity") {
     #determine if output to compare is commodity or industry
-    x <-  model$CommodityOutput
+    x <- model$q
   } else {
-    x <- model$IndustryOutput
+    x <- model$x
   }
   # Row names should be identical
   if (!identical(rownames(c), names(x))) {
@@ -84,23 +89,48 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 
 #'Compares the total commodity output against the summation of model domestic Use and production demand
 #'@param model, EEIOmodel object completely built
-#'@return vector, a vector of relative different in calculation from sector output by sector
+#'@param tolerance, a numeric value, tolerance level of the comparison
+#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
-  p <- model$CommodityOutput
-  x <- rowSums(model$DomesticUseTransactions) + model$DemandVectors$vectors[["2012_us_production_complete"]]
+  q <- model$q
+  x <- rowSums(model$U_d[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
+    model$DemandVectors$vectors[["2012_US_Production_Complete"]]
   
   #Row names should be identical
-  identical(names(p), names(x))
+  identical(names(q), names(x))
   
   # Calculate relative differences
-  rel_diff <- (p - x)/p
+  rel_diff <- (q - x)/q
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
   return(validation)
 }
 
+#'Compares the total commodity output multiplied by Market Share matrix and transformed by commodity CPI
+#'against the total industry output transformed by industry CPI
+#'@param model, EEIOmodel object completely built
+#'@param tolerance, a numeric value, tolerance level of the comparison
+#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
+#'@export 
+compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- function(model, tolerance=0.05) {
+  commodityCPI_ratio <- model$MultiYearCommodityCPI[, "2017"]/model$MultiYearCommodityCPI[, "2012"]
+  commodityCPI_ratio[is.na(commodityCPI_ratio)] <- 1
+  
+  industryCPI_ratio <- model$MultiYearIndustryCPI[, "2017"]/model$MultiYearIndustryCPI[, "2012"]
+  industryCPI_ratio[is.na(industryCPI_ratio)] <- 1
+  
+  q <- model$q * commodityCPI_ratio
+  x <- as.numeric(model$C_m %*% (model$x * industryCPI_ratio))
+  
+  # Calculate relative differences
+  rel_diff <- (q - x)/x
+  
+  # Generate Pass/Fail comparison results
+  validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  return(validation)
+}
 
 #'Concatenate all satellite flows in model
 #'@param model, EEIOmodel object completely built
@@ -115,7 +145,11 @@ prepareEfromtbs <- function(model) {
 #' @return Chi matrix contains ratios of model IO year commodity output over the output of the flow year in model IO year dollar.
 generateChiMatrix <- function(model, output_type = "Commodity") {
   # Extract ModelYearOutput from model based on output_type
-  ModelYearOutput <- model[[paste0(output_type, "Output")]]
+  if (output_type=="Commodity") {
+    ModelYearOutput <- model$q
+  } else {
+    ModelYearOutput <- model$x
+  }
   # Generate FlowYearOutput, convert it to model IOYear $
   TbS <- model$TbS
   FlowYearOutput <- data.frame()
@@ -137,9 +171,6 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
   Chi <- as.matrix(sweep(FlowYearOutput[rownames(model$B), ], 2, ModelYearOutput, "/"))
   # Replace 0 with 1
   Chi[Chi==0] <- 1
-  # Rename Chi columns to match B and E
-  colnames(Chi) <- apply(data.frame(colnames(Chi), model$specs$PrimaryRegionAcronym),
-                         1, FUN = joinStringswithSlashes)
   return(Chi)
 }
 
@@ -147,8 +178,9 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
 #' @param model, a built model object
 compareIndustryOutputinMakeandUse <- function(model) {
   # Calculate Industry Output (x) from Make and Use tables
-  x_make <-rowSums(model$MakeTransactions)
-  x_use <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+  x_make <-rowSums(model$V)
+  x_use <- colSums(model$U[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
+    colSums(model$U[model$ValueAddedMeta$Code_Loc, model$Industries$Code_Loc])
   # Sort x_make and x_use to have the same industry order (default model$Industries)
   x_make <- x_make[order(model$Industries$Code_Loc)]
   x_use <- x_use[order(model$Industries$Code_Loc)]
@@ -166,7 +198,7 @@ compareIndustryOutputinMakeandUse <- function(model) {
 
 #' Validate result based on specified tolerance
 #' @param result A data object to be validated
-#' @param abs_diff A boolean value indicating whether to validate absolute values
+#' @param abs_diff A logical value indicating whether to validate absolute values
 #' @param tolerance A numeric value setting tolerance of the comparison
 #' @return A list contains confrontation details and validation results
 validateResult <- function(result, abs_diff = TRUE, tolerance) {
@@ -183,7 +215,7 @@ validateResult <- function(result, abs_diff = TRUE, tolerance) {
 
 #' Extract validation passes or failures
 #' @param validation A data.frame contains validation details
-#' @param failure A boolean value indicating whether to report failure or not
+#' @param failure A logical value indicating whether to report failure or not
 #' @return A data.frame contains validation results
 extractValidationResult <- function(validation, failure = TRUE) {
   df <- reshape2::melt(validation, id.vars = "rownames")
@@ -197,8 +229,8 @@ extractValidationResult <- function(validation, failure = TRUE) {
 }
 
 #' Format validation result
-#' @param df A data.frame to be validated
-#' @param abs_diff A boolean value indicating whether to validate absolute values
+#' @param result Validation result to be formatted
+#' @param abs_diff A logical value indicating whether to validate absolute values
 #' @param tolerance A numeric value setting tolerance of the comparison
 #' @return A list contains formatted validation results
 formatValidationResult <- function(result, abs_diff = TRUE, tolerance) {
@@ -212,4 +244,14 @@ formatValidationResult <- function(result, abs_diff = TRUE, tolerance) {
   return(list("RelativeDifference" = as.data.frame(result),
               "Pass" = passes, "N_Pass" = N_passes,
               "Failure" = failures, "N_Failure" = N_failures))
+}
+
+#' Check order of names (n1 and n2). Stop function execution if n1 != n2.
+#' @param n1 Name vector #1
+#' @param n2 Name vector #2
+#' @param note Note about n1 and n2
+checkNamesandOrdering <- function(n1, n2, note) {
+  if (!identical(n1, n2)) {
+    stop(paste(note, "not the same or not in the same order."))
+  }
 }

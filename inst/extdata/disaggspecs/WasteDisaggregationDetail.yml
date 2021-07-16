@@ -1,0 +1,10 @@
+Disaggregation:
+  562000/US:
+    OriginalSectorCode: "562000/US"
+    OrignalSectorName: "Waste Management and remediation services"
+    DisaggregationType: "Userdefined"
+    SectorFile: WasteDisaggregation_Sectors.csv
+    MakeFile: WasteDisaggregationDetail_Make.csv
+    UseFile: WasteDisaggregationDetail_Use.csv
+    EnvFile: WasteDisaggregation_Env.csv #Update of GHGs from NGIAM for waste sectors
+

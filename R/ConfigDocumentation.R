@@ -11,7 +11,7 @@
 #'  \item{ModelSource}{string, only "BEA" currently supported}
 #'  \item{BasePriceType}{string, base IO table price type, only "PRO" currently supported}
 #'  \item{BasewithDefinitions}{boolean, TRUE if IO tables after redefinitions, FALSE if before}
-#'  \item{CommoditybyIndustryType}{string, "Commodity" or "Industry"}
+#'  \item{CommodityorIndustryType}{string, "Commodity" or "Industry"}
 #'  \item{ScrapIncluded}{boolean, TRUE if scrap is separate sector, false if not}
 #'  \item{SatelliteTable}{named list of satellite table objects named by table acynonyms. @seealso [SatelliteTableConfiguration]}
 #'  \item{Demand}{list. @seealso [DemandConfiguration]}

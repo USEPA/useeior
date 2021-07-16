@@ -8,12 +8,12 @@
 A dataframe with 406 obs. and 406 variables
 }
 \source{
-\url{https://apps.bea.gov//industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+\url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 }
 \usage{
 Detail_Make_2012_BeforeRedef
 }
 \description{
-TBD
+Detail 2012 Make Before Redefinition (2012 schema)
 }
 \keyword{datasets}
