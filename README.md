@@ -4,7 +4,7 @@
 
 `useeior` is in a beta development state. See [Releases](https://github.com/USEPA/useeior/releases) for working and tested versions.
 
-See the [Wiki](https://github.com/USEPA/useeior/wiki) for installation instructions for users and developers and contribution guidelines.
+See the [Wiki](https://github.com/USEPA/useeior/wiki) for installation instructions for users and developers, details about built-in data and metadata and how to use and contribute to useeior.
 
 ## Disclaimer
 
