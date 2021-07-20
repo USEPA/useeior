@@ -1,28 +1,28 @@
-"Index","ID","Name","Code","Unit","Group","SimpleUnit","SimpleName"
-0,"impact potential/acid/kg so2-eq","Acid Rain","ACID","kg SO2-eq","Impact Potential","Kilograms Sulphur Dioxide (SO2)","Acid Rain"
-1,"impact potential/eutr/kg n-eq","Eutrophication","EUTR","kg N-eq","Impact Potential","Kilograms Nitrogen (N)","Water Eutrophication"
-2,"impact potential/etox/ctue","Freshwater Aquatic Ecotoxicity","ETOX","CTUe","Impact Potential","Comparative Toxic Unit for Ecosystem (CTUe)","Freshwater Ecotoxicity"
-3,"impact potential/ghg/kg co2-eq","Greenhouse Gases","GHG","kg CO2-eq","Impact Potential","Kilograms Carbon Dioxide (CO2)","Greenhouse Gases"
-4,"impact potential/mghg/kg co2-eq","Major Greenhouse Gases","MGHG","kg CO2-eq","Impact Potential","Kilograms Carbon Dioxide (CO2)","Major Greenhouse Gases"
-5,"impact potential/oghg/kg co2-eq","Other Greenhouse Gases","OGHG","kg CO2-eq","Impact Potential","Kilograms Carbon Dioxide (CO2)","Other Greenhouse Gases"
-6,"impact potential/hcan/ctuh","Human Health - Cancer","HCAN","CTUh","Impact Potential","Comparative Toxic Unit for Humans (CTUh)","Cancer Disease"
-7,"impact potential/hncn/ctuh","Human Health - Noncancer","HNCN","CTUh","Impact Potential","Comparative Toxic Unit for Humans (CTUh)","Noncancer Disease"
-8,"impact potential/htox/ctuh","Human Health Toxicity","HTOX","CTUh","Impact Potential","Comparative Toxic Unit for Humans (CTUh)","Toxic to Humans"
-9,"impact potential/hrsp/kg pm2.5-eq","Human Health - Respiratory Effects","HRSP","kg PM2.5-eq","Impact Potential","Kilograms Particulate Matter","Respiratory Effects"
-10,"impact potential/ozon/kg cfc-11-eq","Ozone Depletion","OZON","kg CFC-11-eq","Impact Potential","Kilograms ChloroFluoroCarbon-11","Ozone Depletion"
-11,"impact potential/smog/kg o3-eq","Smog Formation","SMOG","kg O3-eq","Impact Potential","Kilograms Ozone (O3)","Smog Formation"
-12,"resource use/nnrg/mj","Nonrenewable Energy Use","NNRG","MJ","Resource Use","Megajoules (MJ)","Nonrenewable Energy Use"
-13,"resource use/rnrg/mj","Renewable Energy Use","RNRG","MJ","Resource Use","Megajoules (MJ)","Renewable Energy Use"
-14,"resource use/enrg/mj","Energy Use","ENRG","MJ","Resource Use","Megajoules (MJ)","Energy Use"
-15,"resource use/land/m2*yr","Land Use","LAND","m2*yr","Resource Use","Square Meters per Year","Land Use"
-16,"resource use/watr/m3","Water Use","WATR","m3","Resource Use","Cubic Meters","Water Use"
-17,"resource use/mnrl/kg","Minerals and Metals Use","MNRL","kg","Resource Use","Kilograms","Minerals and Metals Use"
-18,"chemical releases/pest/kg","Pesticides","PEST","kg","Chemical Releases","Kilograms","Pesticides"
-19,"chemical releases/metl/kg","Metals","METL","kg","Chemical Releases","Kilograms","Metals"
-20,"chemical releases/haps/kg","Hazardous Air Pollutants","HAPS","kg","Chemical Releases","Kilograms","Hazardous Air Pollutants"
-21,"economic & social/vadd/$","Value Added","VADD","$","Economic & Social","US Dollars ($)","Value Added"
-22,"economic & social/jobs/jobs","Jobs Supported","JOBS","jobs","Economic & Social","Employees","Jobs Supported"
-23,"waste generated/crhw/kg","Commercial RCRA Hazardous Waste","CRHW","kg","Waste Generated","Kilograms","Hazardous Waste"
-24,"waste generated/cmsw/kg","Commercial Municipal Solid Waste","CMSW","kg","Waste Generated","Kilograms","Municipal Solid Waste"
-25,"waste generated/fmsw/kg","Food in Commercial Municipal Solid Waste","FMSW","kg","Waste Generated","Kilograms","Food Waste"
-26,"waste generated/ccdd/kg","Commercial Construction and Demolition Debris","CCDD","kg","Waste Generated","Kilograms","Construction Debris"
+Index,ID,Name,Code,Unit,Group,SimpleUnit,SimpleName
+0,impact potential/acid/kg so2-eq,Acid Rain,ACID,kg SO2-eq,Impact Potential,Kilograms Sulphur Dioxide (SO2),Acid Rain
+1,impact potential/eutr/kg n-eq,Eutrophication,EUTR,kg N-eq,Impact Potential,Kilograms Nitrogen (N),Water Eutrophication
+2,impact potential/etox/ctue,Freshwater Aquatic Ecotoxicity,ETOX,CTUe,Impact Potential,Comparative Toxic Unit for Ecosystem (CTUe),Freshwater Ecotoxicity
+3,impact potential/ghg/kg co2-eq,Greenhouse Gases,GHG,kg CO2-eq,Impact Potential,Kilograms Carbon Dioxide (CO2),Greenhouse Gases
+4,impact potential/mghg/kg co2-eq,Major Greenhouse Gases,MGHG,kg CO2-eq,Impact Potential,Kilograms Carbon Dioxide (CO2),Major Greenhouse Gases
+5,impact potential/oghg/kg co2-eq,Other Greenhouse Gases,OGHG,kg CO2-eq,Impact Potential,Kilograms Carbon Dioxide (CO2),Other Greenhouse Gases
+6,impact potential/hcan/ctuh,Human Health - Cancer,HCAN,CTUh,Impact Potential,Comparative Toxic Unit for Humans (CTUh),Cancer Disease
+7,impact potential/hncn/ctuh,Human Health - Noncancer,HNCN,CTUh,Impact Potential,Comparative Toxic Unit for Humans (CTUh),Noncancer Disease
+8,impact potential/htox/ctuh,Human Health Toxicity,HTOX,CTUh,Impact Potential,Comparative Toxic Unit for Humans (CTUh),Toxic to Humans
+9,impact potential/hrsp/kg pm2.5-eq,Human Health - Respiratory Effects,HRSP,kg PM2.5-eq,Impact Potential,Kilograms Particulate Matter,Respiratory Effects
+10,impact potential/ozon/kg cfc-11-eq,Ozone Depletion,OZON,kg CFC-11-eq,Impact Potential,Kilograms ChloroFluoroCarbon-11,Ozone Depletion
+11,impact potential/smog/kg o3-eq,Smog Formation,SMOG,kg O3-eq,Impact Potential,Kilograms Ozone (O3),Smog Formation
+12,resource use/nnrg/mj,Nonrenewable Energy Use,NNRG,MJ,Resource Use,Megajoules (MJ),Nonrenewable Energy Use
+13,resource use/rnrg/mj,Renewable Energy Use,RNRG,MJ,Resource Use,Megajoules (MJ),Renewable Energy Use
+14,resource use/enrg/mj,Energy Use,ENRG,MJ,Resource Use,Megajoules (MJ),Energy Use
+15,resource use/land/m2*yr,Land Use,LAND,m2*yr,Resource Use,Square Meters per Year,Land Use
+16,resource use/watr/m3,Water Use,WATR,m3,Resource Use,Cubic Meters,Water Use
+17,resource use/mnrl/kg,Minerals and Metals Use,MNRL,kg,Resource Use,Kilograms,Minerals and Metals Use
+18,chemical releases/pest/kg,Pesticides,PEST,kg,Chemical Releases,Kilograms,Pesticides
+19,chemical releases/metl/kg,Metals,METL,kg,Chemical Releases,Kilograms,Metals
+20,chemical releases/haps/kg,Hazardous Air Pollutants,HAPS,kg,Chemical Releases,Kilograms,Hazardous Air Pollutants
+21,economic & social/vadd/$,Value Added,VADD,$,Economic & Social,US Dollars ($),Value Added
+22,economic & social/jobs/jobs,Jobs Supported,JOBS,jobs,Economic & Social,Employees,Jobs Supported
+23,waste generated/crhw/kg,Commercial RCRA Hazardous Waste,CRHW,kg,Waste Generated,Kilograms,Hazardous Waste
+24,waste generated/cmsw/kg,Commercial Municipal Solid Waste,CMSW,kg,Waste Generated,Kilograms,Municipal Solid Waste
+25,waste generated/fmsw/kg,Food in Commercial Municipal Solid Waste,FMSW,kg,Waste Generated,Kilograms,Food Waste
+26,waste generated/ccdd/kg,Commercial Construction and Demolition Debris,CCDD,kg,Waste Generated,Kilograms,Construction Debris
