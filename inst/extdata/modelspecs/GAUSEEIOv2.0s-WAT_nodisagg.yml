@@ -60,19 +60,19 @@ DemandVectors:
       Type: "Consumption"
       Year: 2012
       System: "Complete"
-      Location: "GA"
+      Location: "US-GA"
     Production:
       Type: "Production"
       Year: 2012
       System: "Complete"
-      Location: "GA"
+      Location: "US-GA"
     HouseholdConsumption:
       Type: "Consumption"
       Year: 2012
       System: "Household"
-      Location: "GA"
+      Location: "US-GA"
     DomesticConsumption:
       Type: "Consumption"
       Year: 2012
       System: "Domestic"
-      Location: "GA"    
+      Location: "US-GA"    
