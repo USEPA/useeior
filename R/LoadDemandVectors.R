@@ -12,8 +12,8 @@ loadDemandVectors <- function(model) {
     # Populate metadata
     i <- specs[[v]]
     i["Name"] <- v
-    i["ID"] <- paste(i$Year,i$Location,i$Type,i$System,sep="_")
-    meta <- rbind(meta,data.frame(i, stringsAsFactors = FALSE) )
+    i["ID"] <- paste(i$Year, i$Location, i$Type, i$System, sep = "_")
+    meta <- rbind(meta, data.frame(i, stringsAsFactors = FALSE) )
 
     #Check if the demand is registered
     if (!is.null(DemandVectorFunctionRegistry[[i$Type]][[i$System]])) {
@@ -21,7 +21,7 @@ loadDemandVectors <- function(model) {
       func_to_eval <- DemandVectorFunctionRegistry[[i$Type]][[i$System]]
       demandFunction <- as.name(func_to_eval)
       dv <- do.call(eval(demandFunction), list(model))
-      model$DemandVectors$vectors[[i$ID]] <- dv
+      model$DemandVectors$vectors[[i$ID]] <- dv[grepl(i$Location, names(dv))]
     } else {
       logging::logerror(paste(v, "not found in registered demand vector functions. This vector must be registered or removed from the model spec."))
       stop()
