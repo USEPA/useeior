@@ -127,7 +127,7 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
 #'@return a totals-by-sector df with the sectors and flow amounts corresponding to the model schema
 conformTbStoIOSchema <- function(tbs, sat_spec, model) {
   # Change Location if model is a state model
-  if (model$specs$ModelRegionAcronyms!="US" & model$specs$IODataSource=="stateior") {
+  if (all(model$specs$ModelRegionAcronyms!="US", model$specs$IODataSource=="stateior")) {
     # Format location in tbs
     tbs$Location <- formatLocationforStateModels(tbs$Location)
   }
@@ -139,18 +139,18 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
   # If not, map data from original sector to BEA.
   if (sat_spec$SectorListSource == "BEA") {
     # If BEA years is not the same as model year, must perform allocation
-    if (sat_spec$SectorListLevel == "Detail" & sat_spec$SectorListYear == 2007 & model$specs$BaseIOSchema == 2012) {
+    if (all(sat_spec$SectorListLevel == "Detail", sat_spec$SectorListYear == 2007, model$specs$BaseIOSchema == 2012)) {
       tbs <- mapFlowTotalsbySectorfromBEASchema2007to2012(tbs)
     }
     # If the original data is at Detail level but model is not, apply aggregation
-    if (sat_spec$SectorListLevel == "Detail" & model$specs$BaseIOLevel != "Detail") {
+    if (all(sat_spec$SectorListLevel == "Detail", model$specs$BaseIOLevel != "Detail")) {
       tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,to_level = model$specs$BaseIOLevel,model)
     }
   } else if ("NAICS" %in% sat_spec$SectorListSource) {
     tbs <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(tbs, sat_spec$DataYears[1], model)
   }
   # Check if disaggregation is needed based on model metadata
-  if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat_spec$StaticFile)){
+  if(all(!is.null(model$specs$DisaggregationSpecs), !is.null(sat_spec$StaticFile))){
     tbs <- disaggregateSatelliteTable(model, tbs, sat_spec)
   }
   
