@@ -6,7 +6,7 @@
 Currently only works for national totals (location="00000") and
 assumes that sector schema is NAICS_2012_Code}
 \usage{
-prepareFlowBySectorCollapsedforSatellite(fbsc, sat_spec)
+prepareFlowBySectorCollapsedforSatellite(fbsc)
 }
 \arguments{
 \item{fbsc}{A FlowBySector collapsed df from flowsa}

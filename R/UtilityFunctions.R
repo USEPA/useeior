@@ -188,7 +188,18 @@ mapFIPS5toLocationNames <- function(fipscodes, fipssystem) {
                                                            mapping[, fipssystem]))
   return(locations)
 }
-  
+
+#' Maps location codes to names
+#' @param codes A vector of location codes
+#' @param codesystem A text value specifying code system, e.g. FIPS.
+#' @return A vector of location names where matches are found.
+mapLocationCodestoNames <- function(codes, codesystem) {
+  func_dict <- list("FIPS" = "mapFIPS5toLocationNames") # add more component for new location codes
+  func_to_eval <- func_dict[[codesystem]]
+  location_names <- do.call(eval(as.name(func_to_eval)), list(codes, codesystem))
+  return(location_names)
+}
+
 #' Replaces all `None` in a dataframe with the R NULL type NA
 #' @param df A data frame
 #' @return A data frame without `None`
