@@ -110,7 +110,7 @@ constructEEIOMatrices <- function(model) {
   
   #Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                     "UseValueAdded", "FinalDemand", "DomesticFinalDemand","CommodityOutput", "IndustryOutput",
+                     "ValueAdded", "FinalDemand", "DomesticFinalDemand","CommodityOutput", "IndustryOutput",
                      "U_n","U_d_n","W")
   if (model$specs$CommodityorIndustryType=="Industry") {
     mat_to_remove <- append(mat_to_remove,c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity"))

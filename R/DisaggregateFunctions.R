@@ -1647,7 +1647,7 @@ balanceDisagg <- function(model, disagg){
   
   if(any(abs(useIndAllocPercentages - makeIndAllocPercentages) > tolerance) || any(abs(useComAllocPercentages - makeComAllocPercentages > tolerance))){
     
-    #Balance. Create FullUse from UseTransanctions, UseValueAdded, and Final Demand, then call ApplyRAS
+    #Balance. Create FullUse from UseTransanctions, ValueAdded, and Final Demand, then call ApplyRAS
     targetIndTotals <- data.frame(rowSums(model$MakeTransactions))
     FDIndTotals <- data.frame(colSums(model$FinalDemand))
     colnames(FDIndTotals) <- colnames(targetIndTotals) #needed for rbind step
@@ -1709,7 +1709,7 @@ buildDisaggFullUse <- function(model, disagg){
 #' Calculate the domestic use transactions and final demand tables after RAS balancing
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
-#' @param balancedFullUse A fullUse table (including UseTransactions, UseValueAdded, and FinalDemand), created to determine whether RAS balancing is needed
+#' @param balancedFullUse A fullUse table (including UseTransactions, ValueAdded, and FinalDemand), created to determine whether RAS balancing is needed
 #' @return list containing balanced domesticFinalDemand and domesticUseTransactions dataframes. 
 calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse) 
 {
