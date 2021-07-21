@@ -17,10 +17,6 @@ buildModel <- function(modelname) {
 #' @param model Model file loaded with IO tables, satellite tables, and indicator tables.
 #' @return A list with EEIO matrices..
 constructEEIOMatrices <- function(model) {
-  if(model$specs$ModelRegionAcronyms!="US"){
-    stop("This function needs to be revised before it is suitable for multi-regional models")
-  }
-  
   # Combine data into a single totals by sector df
   model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
   # Set common year for flow when more than one year exists
