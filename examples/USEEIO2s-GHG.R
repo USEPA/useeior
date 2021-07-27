@@ -1,5 +1,5 @@
 # Example for running useeior, see https://github.com/USEPA/useeior for more information on the model
-# Must install useeior first to run example. See Wiki @ https://github.com/USEPA/useeior/Wiki for install instructions
+# Must install useeior first to run example. See Wiki @ https://github.com/USEPA/useeior/wiki for install instructions
 # Run ?functionname to see documentation and function input options for the functions in this example
 
 library(useeior)
