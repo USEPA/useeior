@@ -10,6 +10,7 @@ disaggregateModel <- function (model){
 
   if(!is.null(model$DisaggregationSpecs$Aggregation)){
     # Handle sector aggregation
+    model <- aggregateModel(model)
   }
   
   counter = 1
