@@ -3,11 +3,34 @@
 #' @return An aggregated model.
 aggregateModel <- function (model){
   
-  temp <-1
-  
+
+  #aggregating economic tables
   model$MakeTransactions <- aggregateMakeTable(model)
   model$UseTransactions <- aggregateUseTable(model)
+  model$DomesticUseTransactions <- aggregateUseTable(model, domestic = TRUE)
+
   
+  #aggregating Crosswalk
+  model$crosswalk <- aggregateMasterCrosswalk(model)
+  
+  #aggregating (i.e. removing) sectors from model lists
+  agg <- model$DisaggregationSpecs$Aggregation[2:length(model$DisaggregationSpecs$Aggregation)]#first item in Aggregation is the sector to aggregate to, not to be removed
+  comIndecesToRemove <- which(model$Commodities$Code_Loc %in% agg) #find row indeces containing references to the sectors to be aggregated
+  indIndecesToRemove <- which(model$Industries$Code_Loc %in% agg)
+  
+  #aggregate Industry lists
+  if(length(indIndecesToRemove)!=0){
+    model$Industries <- removeRowsFromList(model$Industries, indIndecesToRemove)
+    model$MultiYearIndustryCPI <- removeRowsFromList(model$MultiYearIndustryCPI, indIndecesToRemove)
+    
+  }
+  
+  #aggregate Commodity lists
+  if(length(comIndecesToRemove !=0)){
+    
+  }
+    
+  temp <-1  
   
   return(model)
 }
@@ -48,13 +71,15 @@ aggregateMakeTable <- function(model){
 #TODO: rewrite this function to use matrix calculations when possible
 #' Aggregate the UseTable based on specified source file
 #' @param model Model file loaded with IO tables
-#' @return An aggregated UseTable.
-aggregateUseTable <- function(model){
+#' @param domestic Boolean to indicate whether to aggregate the UseTransactions or DomesticUseTransactions table 
+#' @return An aggregated UseTransactions or DomesticUseTransactions Table.
+aggregateUseTable <- function(model, domestic = FALSE){
   
   agg <- model$DisaggregationSpecs$Aggregation
   logging::loginfo(paste0("Aggregating sectors to'", agg[1], "'."))
   
   count <- 1
+  
   
   
   for (sector in agg){
@@ -64,16 +89,30 @@ aggregateUseTable <- function(model){
       next #first sector in agg is the one we are aggregating to, so skip
     } 
     
-    model$UseTransactions <- aggregateSector(model, agg[1], agg[count], "Use")
+    if(domestic == TRUE){
+      model$DomesticUseTransactions <- aggregateSector(model, agg[1], agg[count], "Use", domestic)
+    }else{
+      model$UseTransactions <- aggregateSector(model, agg[1], agg[count], "Use", domestic = FALSE)  
+    }
+    
     count <- count + 1
   }
   
   #remove rows and cols from model
   agg <- agg[2:length(agg)]
-  model$UseTransactions <- model$UseTransactions[!(rownames(model$UseTransactions)) %in% agg,] #remove rows from model that have the same rownames as values in agg list
-  model$UseTransactions <- model$UseTransactions[,!(colnames(model$UseTransactions)) %in% agg] #as above but with cols
   
-  return(model$UseTransactions)
+  if(domestic == TRUE){
+    
+    table <- model$DomesticUseTransactions[!(rownames(model$DomesticUseTransactions)) %in% agg,] #remove rows from model that have the same rownames as values in agg list
+    table <- model$DomesticUseTransactions[,!(colnames(model$DomesticUseTransactions)) %in% agg] #as above but with cols
+    
+  }else{
+    table <- model$UseTransactions[!(rownames(model$UseTransactions)) %in% agg,] #remove rows from model that have the same rownames as values in agg list
+    table <- model$UseTransactions[,!(colnames(model$UseTransactions)) %in% agg] #as above but with cols
+
+  }
+
+  return(table)
   
 }
 
@@ -81,9 +120,10 @@ aggregateUseTable <- function(model){
 #' @param model Model file loaded with IO tables
 #' @param mainSector  Sector to aggregate to (string)
 #' @param sectorToRemove Sector to be aggregated into mainSector, then removed from table (string)
-#' @param tableType String to designate either Make or Use table 
+#' @param tableType String to designate either Make or Use table
+#' @param domestic Boolean to indicate whether to aggregate the UseTransactions or DomesticUseTransactions table 
 #' @return aggregated table 
-aggregateSector <- function(model, mainSector, sectorToRemove, tableType){
+aggregateSector <- function(model, mainSector, sectorToRemove, tableType, domestic = FALSE){
   #get correct indeces
   if(tableType == "Use"){
     mainRowIndex <- getIndex(model$Commodities$Code_Loc, mainSector)
@@ -92,7 +132,12 @@ aggregateSector <- function(model, mainSector, sectorToRemove, tableType){
     removeRowIndex <- getIndex(model$Commodities$Code_Loc, sectorToRemove)
     removeColIndex <- getIndex(model$Industries$Code_Loc, sectorToRemove)
     
-    table <- model$UseTransactions
+    if(domestic == TRUE){
+      table <- model$DomesticUseTransactions
+    }else{
+      table <- model$UseTransactions  
+    }
+    
     
   }else if(tableType == "Make"){
     mainRowIndex <- getIndex(model$Industries$Code_Loc, mainSector)
@@ -140,4 +185,41 @@ getIndex <- function(sectorList, sector){
   
   return(index)
   
+}
+
+
+#' Disaggregate the MasterCrosswalk to include the new sectors for disaggregation
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return crosswalk with aggregated sectors removed
+aggregateMasterCrosswalk <- function (model){
+  
+  
+  agg <- model$DisaggregationSpecs$Aggregation
+
+  crosswalk <- model$crosswalk#temp variable for storing intermediate changes
+  new_cw <- crosswalk#variable to return with complete changes to crosswalk#temp
+
+  #deterime which rows and columns to modify
+  cwColIndex <- match(paste0("BEA_", model$specs$BaseIOLevel), colnames(crosswalk)) #search for concatenation of "BEA" and model$specs$BaseIOlevel object in crosswalk column names
+  OriginalCodeLength <- regexpr(pattern ='/',agg[1]) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
+  aggCodeLength <- regexpr(pattern ='/',agg[2]) - 1 #used to determine length of disaggregated sector codes.
+  
+  rowIndecesToRemove <- which(new_cw[,cwColIndex] %in% substr(agg[2:length(agg)],1,aggCodeLength)) #find row indeces containing references to the sectors to be aggregated
+  new_cw <-new_cw[-(rowIndecesToRemove),] #remove rows from model that have the same rownames as values in agg list
+  
+  
+  return(new_cw)
+  
+}
+
+#' Remove specific rows from the specified list object in the model
+#' @param sectorList Model object to be aggregated 
+#' @param indencesToRemove List of indeces of sectors to remove from list (i.e. aggregated sectors)
+#' @return An aggregated sectorList
+removeRowsFromList <- function(sectorList, indecesToRemove){
+
+  newList <- sectorList[-(indecesToRemove),]
+  
+  return(newList)
+
 }
