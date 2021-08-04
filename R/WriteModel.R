@@ -87,14 +87,11 @@ writeModeltoXLSX <- function(model, outputfolder) {
     colnames(USEEIOtoXLSX_ls[[n]])[1] <- ""
   }
   
-  # List model metadata: demands, flows, indicators
-  basedir <- file.path(rappdirs::user_data_dir(), "useeior", "Model_Builds", model$specs$Model)
-  metadata_dir <- file.path(basedir, "build", "data", model$specs$Model)
-  if (!dir.exists(metadata_dir)) {
-    dirs <- setWriteDirsforAPI(model, basedir)
-    prepareWriteDirs(dirs, model)
-    writeModelMetadata(model, dirs)
-  }
+  # List model metadata: demands, flows, indicators, sectors
+  dirs <- setWriteDirsforAPI(model, file.path(rappdirs::user_data_dir(), "useeior",
+                                              "Model_Builds", model$specs$Model))
+  prepareWriteDirs(model, dirs)
+  writeModelMetadata(model, dirs)
   for (df_name in c("demands", "flows", "indicators", "sectors")) {
     filename <- paste0(df_name, ".csv")
     USEEIOtoXLSX_ls[[df_name]] <- utils::read.table(paste(metadata_dir, filename, sep = "/"),
