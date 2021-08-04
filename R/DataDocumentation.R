@@ -23,6 +23,11 @@
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Detail_Use_2012_PRO_AfterRedef"
 
+#' Detail 2012 Use Purchaser's Value After Redefinition (2012 schema)
+#' @format A dataframe with 403 obs. and 428 variables
+#' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
+"Detail_Use_2012_PUR_AfterRedef"
+
 #' Summary 2010 Make Before Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
@@ -438,6 +443,11 @@
 #' @format A dataframe with 73 obs. and 93 variables
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
 "Summary_Import_2017_BeforeRedef"
+
+#' Summary 2018 Import Before Redefinition (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
+"Summary_Import_2018_BeforeRedef"
 
 #' Detail 2007-2018 Gross Output (2012 schema)
 #' @format A dataframe with 405 obs. and 17 variables
