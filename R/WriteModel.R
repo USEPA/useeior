@@ -11,7 +11,7 @@ matrices <- c("V", "U", "U_d", "A", "A_d", "B", "C", "D", "L", "L_d",
 #' @export
 writeModelforAPI <-function(model, basedir){
   dirs <- setWriteDirsforAPI(model,basedir)
-  prepareWriteDirs(dirs,model)
+  prepareWriteDirs(model, dirs)
   writeModelMatrices(model,"bin",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
   writeModelMetadata(model,dirs)
@@ -24,7 +24,7 @@ writeModelforAPI <-function(model, basedir){
 #' @export
 writeSectorCrosswalk <- function(model, basedir){
   dirs <- setWriteDirsforAPI(NULL,basedir)
-  prepareWriteDirs(dirs)
+  prepareWriteDirs(model, dirs)
   crosswalk <- prepareModelSectorCrosswalk(model)
   crosswalk$ModelSchema <- ""
   utils::write.csv(crosswalk, paste0(dirs$data, "/sectorcrosswalk.csv"),
@@ -155,10 +155,10 @@ setWriteDirsforAPI <- function(model=NULL, basedir) {
 }
 
 #' Sets directories to write model output data to
-#' @param dirs A named list of directories
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param dirs A named list of directories
 #' @description Sets directories to write model output data to. If model is not passed, just uses data directory 
-prepareWriteDirs <- function(dirs,model) {
+prepareWriteDirs <- function(model, dirs) {
   if (missing(model)) {
     if (!dir.exists(dirs$data)) {
       dir.create(dirs$data, recursive = TRUE) 
