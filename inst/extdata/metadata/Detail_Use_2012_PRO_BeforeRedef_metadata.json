@@ -1,0 +1,13 @@
+{
+  "tool": ["useeior"],
+  "name_data": ["Detail_Use_2012_PRO_BeforeRedef"],
+  "tool_version": ["0.4"],
+  "ext": ["json"],
+  "date_created": ["2021-07-30 12:52:37"],
+  "tool_meta": {
+    "data_year": [2012],
+    "author": ["US Bureau of Economic Analysis"],
+    "source_url": ["https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip"],
+    "bib_id": [""]
+  }
+}
