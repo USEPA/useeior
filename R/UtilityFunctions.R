@@ -317,6 +317,16 @@ convertStrEncodingLatintoASCII <- function(s) {
   return(s)
 }
 
+#' Write external data to .rda.
+#' @param data An R data object.
+#' @param data_name A string specifying data name.
+#' @description Write external data to .rda.
+writeDatatoRDA <- function(data, data_name) {
+  assign(data_name, data)
+  do.call(eval(str2expression("usethis::use_data")),
+          list(as.name(data_name), overwrite = TRUE))
+}
+
 #' Write metadata of downloaded data to JSON.
 #' @param name A string specifying data name.
 #' @param year A numeric value specifying data year.

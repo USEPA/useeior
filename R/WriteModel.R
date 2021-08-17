@@ -94,7 +94,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   writeModelMetadata(model, dirs)
   for (df_name in c("demands", "flows", "indicators", "sectors")) {
     filename <- paste0(df_name, ".csv")
-    USEEIOtoXLSX_ls[[df_name]] <- utils::read.table(paste(metadata_dir, filename, sep = "/"),
+    USEEIOtoXLSX_ls[[df_name]] <- utils::read.table(paste(dirs$model, filename, sep = "/"),
                                                     sep = ",", header = TRUE,
                                                     stringsAsFactors = FALSE,
                                                     check.names = FALSE)
