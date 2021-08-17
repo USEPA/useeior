@@ -254,7 +254,6 @@ writeModelMetadata <- function(model, dirs) {
   sectors <- model[[gsub("y", "ies", model$specs$CommodityorIndustryType)]]
   sectors$ID <- sectors$Code_Loc
   sectors$Location <- model$specs$ModelRegionAcronyms
-  sectors$Description <- ""
   sectors$Index <- c(1:nrow(sectors)-1)
   sectors <- sectors[, fields$sectors]
   checkNamesandOrdering(sectors$ID, rownames(model$L), "code in sectors.csv and rows in L matrix")
