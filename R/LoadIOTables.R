@@ -37,10 +37,10 @@ loadNationalIOData <- function(model) {
   BEA <- loadBEAtables(model$specs)
   # model$Commodities
   model$Commodities <- merge(as.data.frame(BEA$Commodities, stringsAsFactors = FALSE),
-                             utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv", package = "useeior"),
+                             utils::read.table(system.file("extdata", "USEEIO_Commodity_Meta.csv", package = "useeior"),
                                                sep = ",", header = TRUE, stringsAsFactors = FALSE),
                              by.x = "BEA$Commodities", by.y = "Code", all.x = TRUE, sort = FALSE)
-  colnames(model$Commodities) <- c("Code", "Name")
+  colnames(model$Commodities) <- c("Code", "Name", "Category", "Subcategory", "Description")
   model$Commodities <- model$Commodities[order(match(BEA$Commodities, model$Commodities$Code)), ]
   model$Commodities$Code_Loc <- apply(cbind(model$Commodities$Code, model$specs$ModelRegionAcronyms), 1, FUN = joinStringswithSlashes)
   
