@@ -78,7 +78,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   USEEIOtoXLSX_ls[names(model$DemandVectors$vectors)] <- model$DemandVectors$vectors
   # Format tables
   for (n in names(USEEIOtoXLSX_ls)) {
-    if (class(USEEIOtoXLSX_ls[[n]])%in%c("matrix", "data.frame")) {
+    if (is.matrix(USEEIOtoXLSX_ls[[n]]) | is.data.frame(USEEIOtoXLSX_ls[[n]])) {
       USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(as.data.frame(rownames(USEEIOtoXLSX_ls[[n]])), USEEIOtoXLSX_ls[[n]])
     } else {
       USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(names(USEEIOtoXLSX_ls[[n]]), USEEIOtoXLSX_ls[[n]])
