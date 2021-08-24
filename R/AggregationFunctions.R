@@ -2,34 +2,44 @@
 #' @param model Model file loaded with IO tables
 #' @return An aggregated model.
 aggregateModel <- function (model){
-  
+
 
   #aggregating economic tables
   model$MakeTransactions <- aggregateMakeTable(model)
   model$UseTransactions <- aggregateUseTable(model)
   model$DomesticUseTransactions <- aggregateUseTable(model, domestic = TRUE)
+  model$UseValueAdded <- aggregateVA(model)
 
   
   #aggregating Crosswalk
   model$crosswalk <- aggregateMasterCrosswalk(model)
   
-  #aggregating (i.e. removing) sectors from model lists
-  agg <- model$DisaggregationSpecs$Aggregation[2:length(model$DisaggregationSpecs$Aggregation)]#first item in Aggregation is the sector to aggregate to, not to be removed
-  comIndecesToRemove <- which(model$Commodities$Code_Loc %in% agg) #find row indeces containing references to the sectors to be aggregated
-  indIndecesToRemove <- which(model$Industries$Code_Loc %in% agg)
+  #obtaining indeces to aggregate sectors in rest of model objects
   
+  agg <- model$DisaggregationSpecs$Aggregation 
+  mainComIndex <- getIndex(model$Commodities$Code_Loc, agg[1])#first item in Aggregation is the sector to aggregate to, not to be removed
+  mainIndIndex <- getIndex(model$Industries$Code_Loc, agg[1])
+  comIndecesToAggregate <- which(model$Commodities$Code_Loc %in% agg[2:length(agg)]) #find com indeces containing references to the sectors to be aggregated
+  indIndecesToAggregate <- which(model$Industries$Code_Loc %in% agg[2:length(agg)]) #find ind indeces containing references to the sectors to be aggregated
+  
+  #aggregating (i.e. removing) sectors from model lists
   #aggregate Industry lists
-  if(length(indIndecesToRemove)!=0){
-    model$Industries <- removeRowsFromList(model$Industries, indIndecesToRemove)
-    model$MultiYearIndustryCPI <- removeRowsFromList(model$MultiYearIndustryCPI, indIndecesToRemove)
+  if(length(indIndecesToAggregate)!=0){
+    model$Industries <- removeRowsFromList(model$Industries, indIndecesToAggregate)
+    model$MultiYearIndustryCPI <- removeRowsFromList(model$MultiYearIndustryCPI, indIndecesToAggregate)
     
+   # model$MultiYearIndustryOutput <- aggregateMultiYearLists(model$MultiYearIndustryOutput, agg)
   }
   
   #aggregate Commodity lists
-  if(length(comIndecesToRemove !=0)){
-    
+  if(length(comIndecesToAggregate !=0)){
+    model$Commodities <- removeRowsFromList(model$Commodities, comIndecesToAggregate)
+    model$MultiYearCommodityCPI <- removeRowsFromList(model$MultiYearCommodityCPI, comIndecesToAggregate)
   }
     
+  #Calculate new  Outputs
+  model <- calculateOutputs(model)
+
   temp <-1  
   
   return(model)
@@ -116,7 +126,43 @@ aggregateUseTable <- function(model, domestic = FALSE){
   
 }
 
-#' Aggregate a sector in a table by adding the values from 
+
+#TODO: rewrite this function to use matrix calculations when possible
+#' Aggregate the MakeTable based on specified source file
+#' @param model Model file loaded with IO tables
+#' @return An aggregated MakeTable.
+aggregateVA <- function(model){
+  
+  agg <- model$DisaggregationSpecs$Aggregation
+  logging::loginfo(paste0("Aggregating sectors to'", agg[1], "'."))
+  
+  count <- 1
+  
+  
+  for (sector in agg){
+    
+    if(count == 1){
+      count <- count + 1
+      next #first sector in agg is the one we are aggregating to, so skip
+    } 
+    
+    model$UseValueAdded <- aggregateSector(model, agg[1], agg[count], "VA")
+    count <- count + 1
+  }
+  
+  #remove rows and cols from model
+  agg <- agg[2:length(agg)]
+  model$UseValueAdded <- model$UseValueAdded[!(rownames(model$UseValueAdded)) %in% agg,] #remove rows from model that have the same rownames as values in agg list
+  model$UseValueAdded <- model$UseValueAdded[,!(colnames(model$UseValueAdded)) %in% agg] #as above but with cols
+  
+  return(model$UseValueAdded)
+  
+}
+
+
+
+
+#' Aggregate a sector in a table
 #' @param model Model file loaded with IO tables
 #' @param mainSector  Sector to aggregate to (string)
 #' @param sectorToRemove Sector to be aggregated into mainSector, then removed from table (string)
@@ -148,7 +194,17 @@ aggregateSector <- function(model, mainSector, sectorToRemove, tableType, domest
     
     table <- model$MakeTransactions
     
-  }else{
+  }else if(tableType == "VA"){
+    mainRowIndex <- getIndex(model$ValueAddedMeta$Code_Loc, mainSector)
+    mainColIndex <- getIndex(model$Industries$Code_Loc, mainSector)
+    
+    removeRowIndex <- getIndex(model$ValueAddedMeta$Code_Loc, sectorToRemove)
+    removeColIndex <- getIndex(model$Industries$Code_Loc, sectorToRemove)
+    
+    table <- model$UseValueAdded
+    
+  }
+  else{
     #continue
   }
   
@@ -176,7 +232,8 @@ aggregateSector <- function(model, mainSector, sectorToRemove, tableType, domest
 #' @return Index of sector in sectorList
 getIndex <- function(sectorList, sector){
   
-  index <- which(sectorList==sector)
+  #index <- which(sectorList==sector)
+  index <- which(sectorList %in% sector)
   
   if(length(index)==0){
     logging::logwarn(paste0("'", sector, "' string does not occur in current list.'"))
@@ -214,12 +271,66 @@ aggregateMasterCrosswalk <- function (model){
 
 #' Remove specific rows from the specified list object in the model
 #' @param sectorList Model object to be aggregated 
-#' @param indencesToRemove List of indeces of sectors to remove from list (i.e. aggregated sectors)
+#' @param indencesToAggregate List of indeces of sectors to remove from list (i.e. aggregated sectors)
 #' @return An aggregated sectorList
-removeRowsFromList <- function(sectorList, indecesToRemove){
+removeRowsFromList <- function(sectorList, indecesToAggregate){
 
-  newList <- sectorList[-(indecesToRemove),]
+  newList <- sectorList[-(indecesToAggregate),]
   
   return(newList)
 
 }
+
+#' Aggregate specific rows of the MultiYear objects in the model
+#' @param sectorList Model object to be aggregated 
+#' @param agg List of sectors to aggregate
+#' @return An aggregated sectorList
+aggregateMultiYearLists <- function(sectorList, agg){
+
+  
+  newList <- sectorList[-(indecesToRemove),]
+  
+  return(newList)
+  
+}
+
+
+#' #' Aggregate  Industry Output model objects
+#' #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' #' @param indencesToAggregate List of indeces of sectors to remove from list (i.e. aggregated sectors)
+#' #' @return model A complete EEIO model: a list with USEEIO model components and attributes.
+#' aggregateIndustryOutput <- function(model, indecesToAggregate)
+#' {
+#'   
+#' 
+#'   if(!is.null(model$IndustryOutput))
+#'   {
+#'    newList <- colSums(model$UseTransactions)+colSums(model$UseValueAdded)
+#'     
+#'   }
+#'   
+#'   newList <- removeRowsFromList(newList, indecesToAggregate)
+#'   
+#'   return(newList)
+#'   
+#' }
+#' 
+#' #' Aggregate  Commodity Output model objects
+#' #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' #' @param indencesToAggregate List of indeces of sectors to remove from list (i.e. aggregated sectors)
+#' #' @return model A complete EEIO model: a list with USEEIO model components and attributes.
+#' aggregateCommodityOutput <- function(model, indecesToAggregate)
+#' {
+#'   
+#' 
+#'   if(!is.null(model$CommodityOutput))
+#'   {
+#'     newList <- rowSums(model$UseTransactions)+rowSums(model$FinalDemand)
+#'     
+#'   }
+#'   
+#'   newList <- removeRowsFromList(newList, indecesToAggregate)
+#'   
+#'   return(newList)
+#'   
+#' }
