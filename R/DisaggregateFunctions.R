@@ -10,7 +10,7 @@ disaggregateModel <- function (model){
 
   if(!is.null(model$DisaggregationSpecs$Aggregation)){
     # Handle sector aggregation
-    #model <- aggregateModel(model)
+    model <- aggregateModel(model)
   }
   
   counter = 1
@@ -62,7 +62,7 @@ disaggregateModel <- function (model){
     }
 
     #Disaggregating model$CommodityOutput and model$IndustryOutput objects 
-    model <- disaggregateOutputs(model)
+    model <- calculateOutputs(model)
     
     #Disaggregating MultiyearIndustryOutput and MultiYearCommodityOutput 
     model$MultiYearCommodityOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
@@ -85,10 +85,10 @@ disaggregateModel <- function (model){
   
 }
 
-#' Disaggregate Commodity and Industry Output model objects
+#' Calculate updated Commodity and Industry Output model objects
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return model A complete EEIO model: a list with USEEIO model components and attributes.
-disaggregateOutputs <- function(model)
+calculateOutputs <- function(model)
 {
 
   if(!is.null(model$CommodityOutput))
@@ -174,7 +174,7 @@ disaggregatedRatios <- function(model, disagg, output_type = "Commodity")
   return(disaggRatios)
 }
 
-#' Disaggregate Commodity Output model object
+#' Disaggregate MultiYear Output model objects
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
 #' @param output_type A string that indicates whether the Commodity or Industry output should be disaggregated
