@@ -26,15 +26,15 @@ aggregateModel <- function (model){
   #aggregate Industry lists
   if(length(indIndecesToAggregate)!=0){
     model$Industries <- removeRowsFromList(model$Industries, indIndecesToAggregate)
-    model$MultiYearIndustryCPI <- removeRowsFromList(model$MultiYearIndustryCPI, indIndecesToAggregate)
+   # model$MultiYearIndustryCPI <- removeRowsFromList(model$MultiYearIndustryCPI, indIndecesToAggregate)
     
-   # model$MultiYearIndustryOutput <- aggregateMultiYearLists(model$MultiYearIndustryOutput, agg)
+   model$MultiYearIndustryOutput <- aggregateMultiYearOutput(model$MultiYearIndustryOutput, mainIndIndex, indIndecesToAggregate)
   }
   
   #aggregate Commodity lists
   if(length(comIndecesToAggregate !=0)){
     model$Commodities <- removeRowsFromList(model$Commodities, comIndecesToAggregate)
-    model$MultiYearCommodityCPI <- removeRowsFromList(model$MultiYearCommodityCPI, comIndecesToAggregate)
+  #  model$MultiYearCommodityCPI <- removeRowsFromList(model$MultiYearCommodityCPI, comIndecesToAggregate)
   }
     
   #Calculate new  Outputs
@@ -281,56 +281,20 @@ removeRowsFromList <- function(sectorList, indecesToAggregate){
 
 }
 
-#' Aggregate specific rows of the MultiYear objects in the model
-#' @param sectorList Model object to be aggregated 
-#' @param agg List of sectors to aggregate
-#' @return An aggregated sectorList
-aggregateMultiYearLists <- function(sectorList, agg){
 
+
+#' Aggregate MultiYear Output model objects
+#' @param originalOutput MultiYear Output dataframe
+#' @param mainIdex Index to aggregate the others to.
+#' @param indecesToAggregate List of indeces to aggregate.
+#' @return model A dataframe with the disaggregated GDPGrossOutputIO by year.
+aggregateMultiYearOutput <- function(originalOutput, mainIndex, indecesToAggregate){
+    
+  newOutput <- originalOutput
   
-  newList <- sectorList[-(indecesToRemove),]
+  newOutput[mainIndex,] <- originalOutput[mainIndex,]+colSums(originalOutput[indecesToAggregate,])
+  newOutput <- newOutput[-(indecesToAggregate),]
   
-  return(newList)
+  return(newOutput)
   
 }
-
-
-#' #' Aggregate  Industry Output model objects
-#' #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' #' @param indencesToAggregate List of indeces of sectors to remove from list (i.e. aggregated sectors)
-#' #' @return model A complete EEIO model: a list with USEEIO model components and attributes.
-#' aggregateIndustryOutput <- function(model, indecesToAggregate)
-#' {
-#'   
-#' 
-#'   if(!is.null(model$IndustryOutput))
-#'   {
-#'    newList <- colSums(model$UseTransactions)+colSums(model$UseValueAdded)
-#'     
-#'   }
-#'   
-#'   newList <- removeRowsFromList(newList, indecesToAggregate)
-#'   
-#'   return(newList)
-#'   
-#' }
-#' 
-#' #' Aggregate  Commodity Output model objects
-#' #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' #' @param indencesToAggregate List of indeces of sectors to remove from list (i.e. aggregated sectors)
-#' #' @return model A complete EEIO model: a list with USEEIO model components and attributes.
-#' aggregateCommodityOutput <- function(model, indecesToAggregate)
-#' {
-#'   
-#' 
-#'   if(!is.null(model$CommodityOutput))
-#'   {
-#'     newList <- rowSums(model$UseTransactions)+rowSums(model$FinalDemand)
-#'     
-#'   }
-#'   
-#'   newList <- removeRowsFromList(newList, indecesToAggregate)
-#'   
-#'   return(newList)
-#'   
-#' }
