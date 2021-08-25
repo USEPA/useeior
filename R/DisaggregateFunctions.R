@@ -20,6 +20,9 @@ disaggregateModel <- function (model){
                                   stringsAsFactors = TRUE))
     disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
     disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
+    disagg$Category <- as.list(levels(newNames[, 'Category']))
+    disagg$Subcategory <- as.list(levels(newNames[, 'Subcategory']))
+    disagg$Description <- as.list(levels(newNames[, 'Description']))
     
     #reordering disaggSectorNames and DIsaggSectorCodes to match the mapping in newNames
     disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
@@ -242,6 +245,9 @@ disaggregateSectorDFs <- function(model, disagg, list_type)
   newSectors$Code <- substr(disagg$DisaggregatedSectorCodes,1,codeLength)
   newSectors$Code_Loc <- sapply(disagg$DisaggregatedSectorCodes, paste0, collapse = "")#sapply needed to convert DisaggregatedSectorCodes from list to char vector
   newSectors$Name <- sapply(disagg$DisaggregatedSectorNames, paste0, collapse = "")
+  newSectors$Category <- sapply(disagg$Category, paste0, collapse = "")
+  newSectors$Subcategory <- sapply(disagg$Subcategory, paste0, collapse = "")
+  newSectors$Description <- sapply(disagg$Description, paste0, collapse = "")
   
   newSectors <- rbind(originalList[1:originalIndex-1,],newSectors,originalList[-(1:originalIndex),])
   rownames(newSectors) <- 1:nrow(newSectors)
