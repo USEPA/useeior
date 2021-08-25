@@ -74,7 +74,7 @@ loadSatTables <- function(model) {
   # Check for duplicate flows across satellite tables
   checkDuplicateFlowsBySector(sattables$totals_by_sector)
   
-  flows <- unique(flows[,flow_fields])
+  flows <- flows[!duplicated(flows[,flow_fields[flow_fields != "FlowUUID"]]),]
   #Re-index the flows
   rownames(flows) <- NULL
   sattables$flows <- flows
