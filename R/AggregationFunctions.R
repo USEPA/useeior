@@ -9,13 +9,18 @@ aggregateModel <- function (model){
   model$UseTransactions <- aggregateUseTable(model)
   model$DomesticUseTransactions <- aggregateUseTable(model, domestic = TRUE)
   model$UseValueAdded <- aggregateVA(model)
-
+  #model$FinalDemand <- aggregateFD(model) #todo
+  #model$DomesticFinalDemand <- aggregateFD(model) #todo
+  #model$MarginSectors <- aggregateMarginSectors(model) #todo
+  #model$Margins <- aggregateMargins(model)
+  
+  #model$ValueAddedMeta <- aggregateVAMeta(model) #todo
+  #model$FinalDemandMeta <- aggregateFDMeta(model) #todo
   
   #aggregating Crosswalk
   model$crosswalk <- aggregateMasterCrosswalk(model)
   
-  #obtaining indeces to aggregate sectors in rest of model objects
-  
+  #obtaining indeces to aggregate sectors in remaining model objects
   agg <- model$DisaggregationSpecs$Aggregation 
   mainComIndex <- getIndex(model$Commodities$Code_Loc, agg[1])#first item in Aggregation is the sector to aggregate to, not to be removed
   mainIndIndex <- getIndex(model$Industries$Code_Loc, agg[1])
@@ -25,25 +30,139 @@ aggregateModel <- function (model){
   #aggregating (i.e. removing) sectors from model lists
   #aggregate Industry lists
   if(length(indIndecesToAggregate)!=0){
-    model$Industries <- removeRowsFromList(model$Industries, indIndecesToAggregate)
-   # model$MultiYearIndustryCPI <- removeRowsFromList(model$MultiYearIndustryCPI, indIndecesToAggregate)
     
-   model$MultiYearIndustryOutput <- aggregateMultiYearOutput(model$MultiYearIndustryOutput, mainIndIndex, indIndecesToAggregate)
+    model$Industries <- removeRowsFromList(model$Industries, indIndecesToAggregate)
+    model$MultiYearIndustryCPI <- aggregateMultiYearCPI(model, mainIndIndex, indIndecesToAggregate, "Industry")
+    model$MultiYearIndustryOutput <- aggregateMultiYearOutput(model$MultiYearIndustryOutput, mainIndIndex, indIndecesToAggregate)
+    model$IndustryOutput <- aggregateOutputs(model, indIndecesToAggregate, "Industry")#aggregate model$IndustryOutput object
   }
   
   #aggregate Commodity lists
   if(length(comIndecesToAggregate !=0)){
     model$Commodities <- removeRowsFromList(model$Commodities, comIndecesToAggregate)
-  #  model$MultiYearCommodityCPI <- removeRowsFromList(model$MultiYearCommodityCPI, comIndecesToAggregate)
+    model$MultiYearCommodityCPI <- aggregateMultiYearCPI(model, mainIndIndex, indIndecesToAggregate, "Commodity")
+    model$MultiYearIndustryOutput <- aggregateMultiYearOutput(model$MultiYearIndustryOutput, mainComIndex, comIndecesToAggregate)
+    model$CommodityOutput <- aggregateOutputs(model, comIndecesToAggregate, "Commodity")#aggregate model$CommoditOutput object
   }
     
-  #Calculate new  Outputs
-  model <- calculateOutputs(model)
-
-  temp <-1  
   
   return(model)
 }
+
+#' Calculate updated Commodity and Industry Output model objects after aggregation
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param indecesToAggregate List of indeces to aggregate.
+#' @param type String to designate either commodity or industry
+#' @return  An aggregated Industry or Commodity output object.
+aggregateOutputs <- function(model, indecesToAggregate, type)
+{
+
+  if(type == "Industry"){
+    model$IndustryOutput <- colSums(model$UseTransactions)+colSums(model$UseValueAdded) #calculate new output total
+    return (model$IndustryOutput)
+
+  }else { #assumes commodity
+    model$CommodityOutput <- rowSums(model$UseTransactions)+rowSums(model$FinalDemand)
+    return(model$CommodityOutput)
+
+  }
+  
+
+}
+
+
+#TODO: Complete this function
+#' Aggregate satellite tables from static file based on specs
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param sattable A standardized satellite table with resource and emission names from original sources.
+#' @param sat The abbreviation for the satellite table.
+#' @return A standardized satellite table with aggregated sectors added.
+aggSatelliteTable <- function (model, sattable, sat){
+  
+
+  #if(!is.null(ENV_AGG_FILE)) #TODO: implement option to aggregate according to specified file
+  #if(FLOWSA) #TODO: implement option to aggregate based on flowsa data (e.g. by NAICS sector as mapped by crosswalk)
+  #else #Default aggregation: sum up the relevant sectors in tbs
+  
+  #obtaining indeces to aggregate sectors in remaining model objects
+  newSatTable <- sattable
+  agg <- model$DisaggregationSpecs$Aggregation
+  
+  #variable to determine length of Code substring, i.e., code length minus geographic identifer and separator character (e.g. "/US")
+  codeLength <- nchar(gsub("/.*", "", agg[1]))
+  aggCodes <- substr(agg,1,codeLength)
+  
+  mainIndeces <- getIndex(newSatTable$Sector, aggCodes[1])#row indeces in sattable where the sector field contains the code for the sector to aggregate to
+  
+  
+  for (sectorCode in aggCodes[2:length(aggCodes)]){
+    indecesToAggregate <- which(newSatTable$Sector %in% sectorCode) #row indeces in sattable where the Sector field contaisn the codes for the sectors to be aggregated
+    
+    if(length(indecesToAggregate) !=0){
+      sattableToAgg <- newSatTable[indecesToAggregate,]#get rows corresponding to flows included in the sector to be aggregated
+      
+      for(currentRow in 1:nrow(sattableToAgg)){
+        
+        print(paste0(currentRow))#todo remove line
+        
+        #get index in sattable that matches the flow in the main sector with the flow in the current sector to be aggregated
+        sattableMainRowIndex <- which(newSatTable$Sector == aggCodes[1] & newSatTable$Flowable == sattableToAgg$Flowable[currentRow])
+        
+        #add value from sector to add to main sector
+        newSatTable$FlowAmount[sattableMainRowIndex] <- newSatTable$FlowAmount[sattableMainRowIndex] + sattableToAgg$FlowAmount[currentRow]
+        
+      }
+      
+      newSatTable <- removeRowsFromList(newSatTable, indecesToAggregate)#remove aggregated sectors
+      
+    }else{
+      next
+    }
+
+  }#end for loop
+  
+  return(newSatTable)
+}
+
+#' Aggregate MultiYear CPI model objects
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param mainIdex Index to aggregate the others to.
+#' @param indecesToAggregate List of indeces to aggregate.
+#' @param type String to designate either commodity or industry
+#' @return newCPI A dataframe with the aggregatded CPI values by year.
+aggregateMultiYearCPI <- function(model, mainIndex, indecesToAggregate, type){
+  
+  if(type == "Industry"){
+    
+    originalCPI <- model$MultiYearIndustryCPI
+    originalOutput <- model$MultiYearIndustryOutput
+    
+  }else {
+    
+    originalCPI <- model$MultiYearCommodityCPI  
+    originalOutput <- model$MultiYearCommodityOutput
+  }
+  
+
+  newCPI <- originalCPI
+  
+  aggOutputs <- originalOutput[mainIndex,] + colSums(originalOutput[indecesToAggregate,])#get aggregated total for all relevant indeces (denominator for ratios)
+  
+  mainIndexOutputRatios <-  originalOutput[mainIndex,] / aggOutputs #get ratio of sector to be aggregated to
+  
+  aggIndecesOutputRatios <- sweep(as.matrix(originalOutput[indecesToAggregate,]),2, as.matrix(aggOutputs), "/") #get ratios of sectors to be aggregated (removed)
+  
+  aggIndecesOutputRatios <- data.frame(aggIndecesOutputRatios)#convert back to df.
+  colnames(aggIndecesOutputRatios) <- colnames(mainIndexOutputRatios)
+  
+  newCPI[mainIndex,] <- newCPI[mainIndex,]*mainIndexOutputRatios + colSums(newCPI[indecesToAggregate,]*aggIndecesOutputRatios)#calculating weighted average for main CPI row
+  
+  newCPI <- removeRowsFromList(newCPI, indecesToAggregate)
+  
+  return(newCPI)
+  
+}
+
 
 #TODO: rewrite this function to use matrix calculations when possible
 #' Aggregate the MakeTable based on specified source file
@@ -129,7 +248,7 @@ aggregateUseTable <- function(model, domestic = FALSE){
 
 #TODO: rewrite this function to use matrix calculations when possible
 #' Aggregate the MakeTable based on specified source file
-#' @param model Model file loaded with IO tables
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return An aggregated MakeTable.
 aggregateVA <- function(model){
   
@@ -232,13 +351,12 @@ aggregateSector <- function(model, mainSector, sectorToRemove, tableType, domest
 #' @return Index of sector in sectorList
 getIndex <- function(sectorList, sector){
   
-  #index <- which(sectorList==sector)
   index <- which(sectorList %in% sector)
   
-  if(length(index)==0){
-    logging::logwarn(paste0("'", sector, "' string does not occur in current list.'"))
-
-  }
+  # if(length(index)==0){
+  #   logging::logwarn(paste0("'", sector, "' string does not occur in current list.'"))
+  # 
+  # }
   
   return(index)
   
@@ -298,3 +416,6 @@ aggregateMultiYearOutput <- function(originalOutput, mainIndex, indecesToAggrega
   return(newOutput)
   
 }
+
+
+
