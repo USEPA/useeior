@@ -41,6 +41,8 @@ disaggregateModel <- function (model){
                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
     #Need to assign these DFs back to the modelspecs
     model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
+    #Assign flag to disaggregationSpecs indicating ratios or totals. If it has FlowRatio field then assign flag as TRUE, otherwise FALSE.#TODO
+    
     
     logging::loginfo("Initializing Disaggregation of IO tables...")
     
@@ -262,7 +264,7 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
   
   # For each disaggregation:
   for (disagg in model$DisaggregationSpecs$Disaggregation){
-    
+    #check for flag indicating ratios or totals #TODO
     if(disagg$OriginalSectorCode %in% sattable$Sector){
       default_disaggregation <- FALSE
       # If satellite table data is provided for the new sector assign it here
