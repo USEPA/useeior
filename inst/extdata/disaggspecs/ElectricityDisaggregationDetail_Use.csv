@@ -167,5 +167,5 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221122/US,221118/US,2.12E-04,Use table intersection
 221122/US,221121/US,3.41E-02,Use table intersection
 221122/US,221122/US,9.61E-02,Use table intersection
-22111B,211000,1.00E+00,Industry disaggregation
-22111A,212100,1.00E+00,Industry disaggregation
+22111B/US,211000/US,1.00E+00,Industry disaggregation
+22111A/US,212100/US,1.00E+00,Industry disaggregation
