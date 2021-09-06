@@ -39,11 +39,15 @@ disaggregateModel <- function (model){
     if(!is.null(disagg$EnvFile)){
       disagg$EnvFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
+      if("FlowRatio" %in% colnames(disagg$EnvFileDF)){
+        disagg$EnvAllocRatio <- TRUE
+      }
+      else{
+        disagg$EnvAllocRatio <- FALSE
+      }
     #Need to assign these DFs back to the modelspecs
     model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
-    #Assign flag to disaggregationSpecs indicating ratios or totals. If it has FlowRatio field then assign flag as TRUE, otherwise FALSE.#TODO
-    
-    
+
     logging::loginfo("Initializing Disaggregation of IO tables...")
     
     #Disaggregating sector lists 
