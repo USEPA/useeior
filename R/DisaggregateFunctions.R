@@ -281,7 +281,11 @@ disaggregateSatelliteSubsetByRatio <- function(sattable, disagg, allocation_vect
     # Update the sector and sector name
     new_sector_totals$Sector <- new_sector
     new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
-    new_sector_totals$FlowAmount <- new_sector_totals$FlowAmount * allocation_vector[[new_sector]]
+    allocation <- 0
+    if (new_sector %in% names(allocation_vector)){
+      allocation <- allocation_vector[[new_sector]]
+    }
+    new_sector_totals$FlowAmount <- new_sector_totals$FlowAmount * allocation
     # Modify other metadata or DQI?
 
     # Append to the original satellite subset
@@ -301,9 +305,21 @@ disaggregateSatelliteTable <- function (disagg, sattable, sat_spec) {
   original_code <- gsub("/.*", "", disagg$OriginalSectorCode)
   if(original_code %in% sattable$Sector) {
     if(!is.null(disagg$EnvFileDF) & disagg$EnvAllocRatio) {
-      # If satellite table data is provided as flow by sector ratios, loop through each flow
-      allocation_vector <- 0
-      sattable <- disaggregateSatelliteSubsetByRatio(sattable, disagg, allocation_vector)
+      # If satellite table data is provided as flow by sector ratios, loop through each flow assigned to original sector
+      sattable_original = subset(sattable, Sector==original_code)
+      for(flow in unique(sattable_original$Flowable)) {
+        # TODO: Temporary link based on flow name; update to UUID
+        allocation_df <- subset(disagg$EnvFileDF, Flowable==flow)
+        if(nrow(allocation_df)==0) {
+          allocation_vector <- NULL
+        } else {
+          allocation_vector <- setNames(allocation_df$FlowRatio, allocation_df$Sector)
+        }
+        disaggregated_flows <- disaggregateSatelliteSubsetByRatio(subset(sattable_original, Flowable==flow, colnames(sattable)),
+                                                                  disagg, allocation_vector)
+        sattable <- rbind(sattable, disaggregated_flows)
+      
+      }
     } else if(!is.null(disagg$EnvFileDF)) {
       # If satellite table data is provided as new flow by sector totals file
       # Select only those rows from the disaggregation env file that apply for this satellite table
