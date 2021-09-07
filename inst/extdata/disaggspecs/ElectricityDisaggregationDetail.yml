@@ -7,4 +7,4 @@ Disaggregation:
     SectorFile: ElectricityDisaggregation_Sectors.csv
     MakeFile: ElectricityDisaggregationDetail_Make.csv
     UseFile: ElectricityDisaggregationDetail_Use.csv
-    # EnvFile: ElectricityDisaggregation_Env.csv 
+    EnvFile: ElectricityDisaggregation_Env.csv 
