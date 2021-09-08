@@ -16,7 +16,7 @@ disaggregateModel <- function (model){
     }
   }
 
-  if(len(model$DisaggregationSpecs$Aggregation) != 0){
+  if(length(model$DisaggregationSpecs$Aggregation) != 0){
     # Handle sector aggregation
     model <- aggregateModel(model)
   }
