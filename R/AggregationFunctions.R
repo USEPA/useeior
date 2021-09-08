@@ -21,7 +21,8 @@ aggregateModel <- function (model){
   model$crosswalk <- aggregateMasterCrosswalk(model)
   
   #obtaining indeces to aggregate sectors in remaining model objects
-  agg <- model$DisaggregationSpecs$Aggregation 
+  #agg <- model$DisaggregationSpecs$Aggregation 
+  agg <- model$DisaggregationSpecs$Aggregation$Sectors
   mainComIndex <- getIndex(model$Commodities$Code_Loc, agg[1])#first item in Aggregation is the sector to aggregate to, not to be removed
   mainIndIndex <- getIndex(model$Industries$Code_Loc, agg[1])
   comIndecesToAggregate <- which(model$Commodities$Code_Loc %in% agg[2:length(agg)]) #find com indeces containing references to the sectors to be aggregated
@@ -86,7 +87,8 @@ aggSatelliteTable <- function (model, sattable, sat){
   
   #obtaining indeces to aggregate sectors in remaining model objects
   newSatTable <- sattable
-  agg <- model$DisaggregationSpecs$Aggregation
+  #agg <- model$DisaggregationSpecs$Aggregation
+  agg <- model$DisaggregationSpecs$Aggregation$Sectors
   
   #variable to determine length of Code substring, i.e., code length minus geographic identifer and separator character (e.g. "/US")
   codeLength <- nchar(gsub("/.*", "", agg[1]))
@@ -170,7 +172,8 @@ aggregateMultiYearCPI <- function(model, mainIndex, indecesToAggregate, type){
 #' @return An aggregated MakeTable.
 aggregateMakeTable <- function(model){
   
-  agg <- model$DisaggregationSpecs$Aggregation
+  #agg <- model$DisaggregationSpecs$Aggregation
+  agg <- model$DisaggregationSpecs$Aggregation$Sectors
   logging::loginfo(paste0("Aggregating sectors to'", agg[1], "'."))
   
   count <- 1
@@ -204,7 +207,8 @@ aggregateMakeTable <- function(model){
 #' @return An aggregated UseTransactions or DomesticUseTransactions Table.
 aggregateUseTable <- function(model, domestic = FALSE){
   
-  agg <- model$DisaggregationSpecs$Aggregation
+  #agg <- model$DisaggregationSpecs$Aggregation
+  agg <- model$DisaggregationSpecs$Aggregation$Sectors
   logging::loginfo(paste0("Aggregating sectors to'", agg[1], "'."))
   
   count <- 1
@@ -252,7 +256,8 @@ aggregateUseTable <- function(model, domestic = FALSE){
 #' @return An aggregated MakeTable.
 aggregateVA <- function(model){
   
-  agg <- model$DisaggregationSpecs$Aggregation
+  #agg <- model$DisaggregationSpecs$Aggregation
+  agg <- model$DisaggregationSpecs$Aggregation$Sectors
   logging::loginfo(paste0("Aggregating sectors to'", agg[1], "'."))
   
   count <- 1
@@ -369,7 +374,8 @@ getIndex <- function(sectorList, sector){
 aggregateMasterCrosswalk <- function (model){
   
   
-  agg <- model$DisaggregationSpecs$Aggregation
+  #agg <- model$DisaggregationSpecs$Aggregation
+  agg <- model$DisaggregationSpecs$Aggregation$Sectors
 
   crosswalk <- model$crosswalk#temp variable for storing intermediate changes
   new_cw <- crosswalk#variable to return with complete changes to crosswalk#temp
