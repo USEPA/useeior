@@ -56,19 +56,26 @@ disaggregateModel <- function (model){
     #Need to assign these DFs back to the modelspecs
     model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
 
-    logging::loginfo("Initializing Disaggregation of IO tables...")
+    counter <- counter + 1
+  }
+
+  logging::loginfo("Initializing Disaggregation of IO tables...")
+  
+  counter = 1
+  for (disagg in model$DisaggregationSpecs$Disaggregation){
+
     
     #Disaggregating sector lists 
     model$Commodities <- disaggregateSectorDFs(model, disagg, "Commodity")
     model$Industries <- disaggregateSectorDFs(model, disagg, "Industry")
 
     #Disaggregating main model components
-    model$UseTransactions <- disaggregateUseTable(model)
-    model$MakeTransactions <- disaggregateMakeTable(model)
-    model$FinalDemand <- disaggregateFinalDemand(model, domestic = FALSE)
-    model$UseValueAdded <- disaggregateVA(model)
-    model$DomesticFinalDemand <- disaggregateFinalDemand(model, domestic = TRUE)
-    model$DomesticUseTransactions <- disaggregateUseTable(model, domestic = TRUE)
+    model$UseTransactions <- disaggregateUseTable(model, disagg)
+    model$MakeTransactions <- disaggregateMakeTable(model, disagg)
+    model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+    model$UseValueAdded <- disaggregateVA(model, disagg)
+    model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+    model$DomesticUseTransactions <- disaggregateUseTable(model, disagg, domestic = TRUE)
     
     #Balancing model
     if(disagg$DisaggregationType == "Userdefined"){
@@ -358,9 +365,9 @@ disaggregateSatelliteTable <- function (disagg, sattable, sat_spec) {
 #' Disaggregate make table based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A standardized make table with old sectors removed and new sectors added.
-disaggregateMakeTable <- function (model){
+disaggregateMakeTable <- function (model, disagg){
   
-  for (disagg in model$DisaggregationSpecs$Disaggregation){
+ # for (disagg in model$DisaggregationSpecs$Disaggregation){
   
     #specify type of disaggregation
     disaggType = disagg$DisaggregationType
@@ -380,7 +387,7 @@ disaggregateMakeTable <- function (model){
       logging::logwarn("Disaggregation not performed, type not defined")
       break
     }
-  }
+ # }
   
   return(disaggTable)
 }
@@ -389,9 +396,9 @@ disaggregateMakeTable <- function (model){
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param domestic A logical value indicating whether to disaggregate domestic final demand.
 #' @return A standardized make table with old sectors removed and new sectors added.
-disaggregateUseTable <- function (model, domestic = FALSE){
+disaggregateUseTable <- function (model, disagg, domestic = FALSE){
   
-  for (disagg in model$DisaggregationSpecs$Disaggregation){
+ # for (disagg in model$DisaggregationSpecs$Disaggregation){
     
     #specify type of disaggregation
     disaggType = disagg$DisaggregationType
@@ -411,7 +418,7 @@ disaggregateUseTable <- function (model, domestic = FALSE){
       logging::logwarn("Disaggregation not performed, type not defined")
       break
     }
-  }
+  #}
   
   return(disaggTable)
 }
@@ -421,7 +428,7 @@ disaggregateUseTable <- function (model, domestic = FALSE){
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param domestic A logical value indicating whether to disaggregate domestic final demand.
 #' @return A standardized final demand table with old sectors removed and new sectors with manual and default allocations added.
-disaggregateFinalDemand <- function(model, domestic = FALSE)
+disaggregateFinalDemand <- function(model, disagg, domestic = FALSE)
 {
 
   if(domestic){
@@ -431,7 +438,7 @@ disaggregateFinalDemand <- function(model, domestic = FALSE)
     originalFD <-model$FinalDemand
   }
 
-  for (disagg in model$DisaggregationSpecs$Disaggregation){
+  #for (disagg in model$DisaggregationSpecs$Disaggregation){
     
     #specify type of disaggregation
     disaggType = disagg$DisaggregationType
@@ -479,7 +486,7 @@ disaggregateFinalDemand <- function(model, domestic = FALSE)
       logging::logwarn("Disaggregation not performed, type not defined")
       break
     }
-  }
+ # }
   
   return(disaggTable)
   
@@ -488,11 +495,11 @@ disaggregateFinalDemand <- function(model, domestic = FALSE)
 #' Disaggregate Value Added based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A standardized Vale Added table with old sectors removed and new sectors with manual and default allocations added.
-disaggregateVA <- function(model)
+disaggregateVA <- function(model, disagg)
 {
   
   
-  for (disagg in model$DisaggregationSpecs$Disaggregation){
+  #for (disagg in model$DisaggregationSpecs$Disaggregation){
     
     #specify type of disaggregation
     disaggType = disagg$DisaggregationType
@@ -542,7 +549,7 @@ disaggregateVA <- function(model)
       logging::logwarn("Disaggregation not performed, type not defined")
       break
     }
-  }
+  #}
   
   return(disaggTable)
   
@@ -640,7 +647,7 @@ uniformMakeDisagg <- function (model, disagg){
 #' @return A standardized use table with old sectors removed and new, uniformly disaggregated sectors added.
 uniformUseDisagg <- function(model, disagg, domestic = FALSE){
   
-  for (disagg in model$DisaggregationSpecs$Disaggregation){
+ # for (disagg in model$DisaggregationSpecs$Disaggregation){
     
     #specify type of disaggregation
     disaggType = disagg$DisaggregationType
@@ -732,7 +739,7 @@ uniformUseDisagg <- function(model, disagg, domestic = FALSE){
       logging::logwarn("Disaggregation not performed, type not defined")
       break
     }
-  }
+ # }
   
   return(disaggTable)
 }
