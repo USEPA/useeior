@@ -16,10 +16,16 @@ disaggregateModel <- function (model){
                                             header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
                                                                                                   "USEEIO_Code"="character"))
     newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code,
-                                  "SectorName"=disagg$NAICSSectorCW$USEEIO_Name,
+                                  "SectorName" = disagg$NAICSSectorCW$USEEIO_Name,
+                                  "Category" = disagg$NAICSSectorCW$Category,
+                                  "Subcategory" = disagg$NAICSSectorCW$Subcategory,
+                                  "Description" = disagg$NAICSSectorCW$Description,
                                   stringsAsFactors = TRUE))
     disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
     disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
+    disagg$Category <- lapply(newNames[, 'Category'], as.character)
+    disagg$Subcategory <- lapply(newNames[, 'Subcategory'], as.character)
+    disagg$Description <- lapply(newNames[, 'Description'], as.character)
     
     #reordering disaggSectorNames and DIsaggSectorCodes to match the mapping in newNames
     disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
@@ -228,6 +234,9 @@ disaggregateSectorDFs <- function(model, disagg, list_type)
     originalIndex <- grep(disagg$OriginalSectorCode, model$Commodities$Code_Loc)
     newSectors <- data.frame(matrix(ncol = ncol(model$Commodities), nrow = length(disagg$DisaggregatedSectorCodes)))
     names(newSectors) <- names(model$Commodities)#rename colums for the df
+    newSectors$Category <- sapply(disagg$Category, paste0, collapse = "")
+    newSectors$Subcategory <- sapply(disagg$Subcategory, paste0, collapse = "")
+    newSectors$Description <- sapply(disagg$Description, paste0, collapse = "")
   }
   else #assume industry if not specified
   {
@@ -242,7 +251,6 @@ disaggregateSectorDFs <- function(model, disagg, list_type)
   newSectors$Code <- substr(disagg$DisaggregatedSectorCodes,1,codeLength)
   newSectors$Code_Loc <- sapply(disagg$DisaggregatedSectorCodes, paste0, collapse = "")#sapply needed to convert DisaggregatedSectorCodes from list to char vector
   newSectors$Name <- sapply(disagg$DisaggregatedSectorNames, paste0, collapse = "")
-  
   newSectors <- rbind(originalList[1:originalIndex-1,],newSectors,originalList[-(1:originalIndex),])
   rownames(newSectors) <- 1:nrow(newSectors)
   

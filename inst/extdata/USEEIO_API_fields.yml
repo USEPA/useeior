@@ -37,6 +37,7 @@ sectors:
   - Name
   - Code
   - Location
+  - Category
   - Description
 
 years:

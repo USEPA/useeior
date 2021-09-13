@@ -106,13 +106,19 @@ writeModeltoXLSX <- function(model, outputfolder) {
                              "_meta")
   USEEIOtoXLSX_ls[[sector_meta_name]] <- USEEIOtoXLSX_ls$sectors
   
+  demand_meta_fields <- colnames(USEEIOtoXLSX_ls$sectors)
+  demand_meta_fields <- demand_meta_fields[(demand_meta_fields != "Category") &
+                                             (demand_meta_fields != "Subcategory")]
+  # Remove USEEIOtoXLSX_ls$sectors
+  USEEIOtoXLSX_ls$sectors <- NULL
+
   # List final demand meta
   final_demand_meta <- model$FinalDemandMeta
   final_demand_meta$Index <- c(1:nrow(final_demand_meta)-1)
   final_demand_meta$ID <- final_demand_meta$Code_Loc
   final_demand_meta$Location <- model$specs$ModelRegionAcronyms
   final_demand_meta$Description <- ""
-  USEEIOtoXLSX_ls[["final_demand_meta"]] <- final_demand_meta[, colnames(USEEIOtoXLSX_ls$sectors)]
+  USEEIOtoXLSX_ls[["final_demand_meta"]] <- final_demand_meta[, demand_meta_fields]
   
   # List value added meta
   value_added_meta <- model$ValueAddedMeta
@@ -120,11 +126,8 @@ writeModeltoXLSX <- function(model, outputfolder) {
   value_added_meta$ID <- value_added_meta$Code_Loc
   value_added_meta$Location <- model$specs$ModelRegionAcronyms
   value_added_meta$Description <- ""
-  USEEIOtoXLSX_ls[["value_added_meta"]] <- value_added_meta[, colnames(USEEIOtoXLSX_ls$sectors)]
-  
-  # Remove USEEIOtoXLSX_ls$sectors
-  USEEIOtoXLSX_ls$sectors <- NULL
-  
+  USEEIOtoXLSX_ls[["value_added_meta"]] <- value_added_meta[, demand_meta_fields]
+
   # List reference tables
   USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- prepareModelSectorCrosswalk(model)
   
@@ -254,8 +257,8 @@ writeModelMetadata <- function(model, dirs) {
   sectors <- model[[gsub("y", "ies", model$specs$CommodityorIndustryType)]]
   sectors$ID <- sectors$Code_Loc
   sectors$Location <- model$specs$ModelRegionAcronyms
-  sectors$Description <- ""
   sectors$Index <- c(1:nrow(sectors)-1)
+  sectors$Category <- paste(sectors$Category, sectors$Subcategory, sep="/")
   sectors <- sectors[, fields$sectors]
   checkNamesandOrdering(sectors$ID, rownames(model$L), "code in sectors.csv and rows in L matrix")
   utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
