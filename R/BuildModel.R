@@ -128,6 +128,35 @@ createBfromFlowDataandOutput <- function(model) {
 
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
+  
+  #Check for new techologies
+  if(!is.null (model$specs$NewTechSpecs)){
+
+    #Read environmental data
+    #GF_envData<-read.csv("inst/extdata/GF_EnvFlow_GHG_V01.csv")
+    envData_read<-read.csv(model$newTechSpecs$NewTechnologies$EnvironmentalFlows)
+    envData<- as.matrix(envData_read[,-1]) 
+  
+    whichI<-model$BiofuelsData$whichNewIn
+    
+    modB<-B
+    
+    # Since at the point this function is called, model$Industries is already updated, the original buildEEIOModel()
+    # has already added a new column with zeros for this new sector. Therefore, now it is only necessary to fill it and not to add the column.
+    
+    #CHECK IF THIS STILL HOLDS TRUE!!!
+    
+    #Determine number of industries in original B
+    n<- model$BiofuelsData$OriginalIndustriesNum
+    
+    #Fill newEnvDataColumn and assign col name (the code)
+    #modB<-cbind(modB,newEnvData)
+    modB[,-(1:n)]<-newEnvData[,whichI]
+    
+    B<-modB
+  
+  }
+  
   # Transform B into a flow x commodity matrix using market shares matrix for commodity models
   if(model$specs$CommodityorIndustryType == "Commodity") {
     B <- B %*% model$V_n
