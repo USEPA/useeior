@@ -6,7 +6,7 @@ disaggregateModel <- function (model){
   model$DisaggregationSpecs$Aggregation <- vector(mode='list')
   model$DisaggregationSpecs$Disaggregation <- vector(mode='list')
   for (configFile in model$specs$DisaggregationSpecs){
-    logging::loginfo(paste("Reading disaggregation for", configFile, sep=" "))
+    logging::loginfo(paste0("Loading disaggregation spes for ", configFile, "..."))
     config <- getConfiguration(configFile, "disagg")
     if('Aggregation' %in% names(config)){
       model$DisaggregationSpecs$Aggregation <- append(model$DisaggregationSpecs$Aggregation, config$Aggregation)
@@ -39,7 +39,7 @@ disaggregateModel <- function (model){
     disagg$Subcategory <- lapply(newNames[, 'Subcategory'], as.character)
     disagg$Description <- lapply(newNames[, 'Description'], as.character)
     
-    #reordering disaggSectorNames and DIsaggSectorCodes to match the mapping in newNames
+    #reordering disaggSectorNames and DisaggSectorCodes to match the mapping in newNames
     disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
     disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
     
@@ -331,7 +331,8 @@ disaggregateSatelliteTable <- function (disagg, sattable, sat_spec) {
       # Select only those rows from the disaggregation env file that apply for this satellite table
       new_sector_totals <- subset(disagg$EnvFileDF, SatelliteTable==sat_spec$Abbreviation, colnames(sattable))
       if(nrow(new_sector_totals)==0) {
-        logging::logwarn(paste0("No data found for disaggregation of ",sat_spec$Abbreviation," - applying default allocation"))
+        logging::logwarn(paste0("No data found for disaggregation of ",sat_spec$Abbreviation, " for ",
+                                disagg$OriginalSectorCode, " - applying default allocation"))
         sattable <- rbind(sattable, disaggregateSatelliteSubsetByRatio(subset(sattable, Sector==original_code, colnames(sattable)), disagg))
       } else {
         # Check for errors in satellite table

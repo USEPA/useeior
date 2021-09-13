@@ -3,7 +3,7 @@
 #' @return An aggregated model.
 aggregateModel <- function (model){
 
-
+  logging::loginfo(paste0("Aggregating sectors to ",model$DisaggregationSpecs$Aggregation$Sectors[1], "..."))
   #aggregating economic tables
   model$MakeTransactions <- aggregateMakeTable(model)
   model$UseTransactions <- aggregateUseTable(model)
@@ -105,8 +105,6 @@ aggSatelliteTable <- function (model, sattable, sat){
       
       for(currentRow in 1:nrow(sattableToAgg)){
         
-        print(paste0(currentRow))#todo remove line
-        
         #get index in sattable that matches the flow in the main sector with the flow in the current sector to be aggregated
         sattableMainRowIndex <- which(newSatTable$Sector == aggCodes[1] & newSatTable$Flowable == sattableToAgg$Flowable[currentRow])
         
@@ -174,8 +172,7 @@ aggregateMakeTable <- function(model){
   
   #agg <- model$DisaggregationSpecs$Aggregation
   agg <- model$DisaggregationSpecs$Aggregation$Sectors
-  logging::loginfo(paste0("Aggregating sectors to'", agg[1], "'."))
-  
+
   count <- 1
   
 
@@ -209,7 +206,7 @@ aggregateUseTable <- function(model, domestic = FALSE){
   
   #agg <- model$DisaggregationSpecs$Aggregation
   agg <- model$DisaggregationSpecs$Aggregation$Sectors
-  logging::loginfo(paste0("Aggregating sectors to'", agg[1], "'."))
+
   
   count <- 1
   
@@ -258,8 +255,7 @@ aggregateVA <- function(model){
   
   #agg <- model$DisaggregationSpecs$Aggregation
   agg <- model$DisaggregationSpecs$Aggregation$Sectors
-  logging::loginfo(paste0("Aggregating sectors to'", agg[1], "'."))
-  
+
   count <- 1
   
   
