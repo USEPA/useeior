@@ -140,9 +140,15 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
   } else if ("NAICS" %in% sat_spec$SectorListSource) {
     tbs <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(tbs, sat_spec$DataYears[1], model)
   }
+  # Check if aggregation is needed based on model metadata
+  if(!is.null(model$DisaggregationSpecs$Aggregation) & !is.null(sat_spec$StaticFile)){
+    tbs <- aggSatelliteTable(model, tbs, sat_spec)
+  }
   # Check if disaggregation is needed based on model metadata
   if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat_spec$StaticFile)){
-    tbs <- disaggregateSatelliteTable(model, tbs, sat_spec)
+    for (disagg in model$DisaggregationSpecs$Disaggregation){
+      tbs <- disaggregateSatelliteTable(disagg, tbs, sat_spec)
+    }
   }
   
   for (r in model$specs$ModelRegionAcronyms) {
