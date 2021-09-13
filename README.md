@@ -1,10 +1,10 @@
 # useeior
 
-`useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models). The [model object](format_specs/model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecification.md) and optional [disaggregation specification](format_specs/DisaggregationSpecification.md). [Model specifications](inst/extdata/modelspecs) and associated [disaggregation specifications](inst/extdata/disaggspecs) for EPA-validated models are included in the package. The package offers various functions for validating, calculating, visualizing, and writing out models or their components. `useeior` is a core component of the [USEEIO Modeling Framework](https://github.com/USEPA/useeio).
+`useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models). The [model object](format_specs/Model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecification.md) and optional [disaggregation specification](format_specs/DisaggregationSpecification.md). [Model specifications](inst/extdata/modelspecs) and associated [disaggregation specifications](inst/extdata/disaggspecs) for EPA-validated models are included in the package. The package offers various functions for validating, calculating, visualizing, and writing out models or their components. `useeior` is a core component of the [USEEIO Modeling Framework](https://github.com/USEPA/useeio).
 
 `useeior` is in a beta development state. See [Releases](https://github.com/USEPA/useeior/releases) for working and tested versions.
 
-See the [Wiki](https://github.com/USEPA/useeior/wiki) for installation instructions for users and developers and contribution guidelines.
+See the [Wiki](https://github.com/USEPA/useeior/wiki) for installation instructions for users and developers, details about built-in data and metadata and how to use and contribute to useeior.
 
 ## Disclaimer
 

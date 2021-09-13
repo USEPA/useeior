@@ -57,9 +57,13 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   # Assign sector names to totals_by_sector_BEA
   totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames, by = "Sector", all.x = TRUE)
   
-  # Aggregate to BEA sectors using unique aggregation functions depending on the quantatitive variable
+  # Add FlowUUID field for backwards compatibility if it does not exist
+  if(!"FlowUUID" %in% colnames(totals_by_sector_BEA)){
+    totals_by_sector_BEA[, "FlowUUID"] <- ""
+  }
+  # Aggregate to BEA sectors using unique aggregation functions depending on the quantitative variable
   totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA,
-                                              Flowable, Context, Sector, SectorName,
+                                              Flowable, Context, FlowUUID, Sector, SectorName,
                                               Location, Unit, Year, DistributionType) 
   totals_by_sector_BEA_agg <- dplyr::summarize(
     totals_by_sector_BEA_agg,
@@ -145,7 +149,7 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
   }
   # Aggregate FlowAmount by specified columns
   aggbycolumns <- c(to_code, "Flowable", "Context", "Unit", dq_fields,
-                    "Year", "MetaSources", "Location")
+                    "Year", "MetaSources", "Location", "FlowUUID")
   # Need particular aggregation functions, e.g. sum, weighted avg on ReliabilityScore
   sattable_agg <- stats::aggregate(sattable$FlowAmount, by = sattable[, aggbycolumns], sum)
   colnames(sattable_agg)[c(1, ncol(sattable_agg))] <- c("Sector", "FlowAmount")

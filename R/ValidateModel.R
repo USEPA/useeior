@@ -95,10 +95,12 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   q <- model$q
   x <- rowSums(model$U_d[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
-    model$DemandVectors$vectors[["2012_US_Production_Complete"]]
-  
-  #Row names should be identical
-  identical(names(q), names(x))
+    model$DemandVectors$vectors[[paste(model$specs$DemandVectors$Production[c("Year", "Location", "Type", "System")],
+                                       collapse = "_")]]
+  # Row names should be identical
+  if (!identical(names(q), names(x))) {
+    stop("Sectors not aligned in model ouput variable and calculation result")
+  }
   
   # Calculate relative differences
   rel_diff <- (q - x)/q

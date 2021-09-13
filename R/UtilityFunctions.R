@@ -316,3 +316,41 @@ convertStrEncodingLatintoASCII <- function(s) {
   s <- iconv(s, from = 'latin1', to = 'ASCII', sub='')
   return(s)
 }
+
+#' Write external data to .rda.
+#' @param data An R data object.
+#' @param data_name A string specifying data name.
+#' @description Write external data to .rda.
+writeDatatoRDA <- function(data, data_name) {
+  assign(data_name, data)
+  do.call(eval(str2expression("usethis::use_data")),
+          list(as.name(data_name), overwrite = TRUE))
+}
+
+#' Write metadata of downloaded data to JSON.
+#' @param name A string specifying data name.
+#' @param year A numeric value specifying data year.
+#' @param source A string specifying data source.
+#' @param url A string specifying data url.
+#' @description Write metadata of downloaded data to JSON.
+writeMetadatatoJSON <- function(name, year, source, url) {
+  metadata <- list("tool" = utils::packageDescription("useeior", fields = "Package"),
+                   #"category" = "",
+                   "name_data" = name,
+                   "tool_version" = utils::packageDescription("useeior", fields = "Version"),
+                   #"git_hash" = "",
+                   "ext" = "json",
+                   "date_created" = Sys.time(),
+                   "tool_meta" = list(#"method_url" = "",
+                                      "data_year" = year,
+                                      "author" = source,
+                                      #"source_name" = "",
+                                      "source_url" = url,
+                                      "bib_id" = ""))
+  metadata_dir <- "inst/extdata/metadata/"
+  if (!dir.exists(metadata_dir)) {
+    dir.create(metadata_dir, recursive = TRUE)
+  }
+  write(jsonlite::toJSON(metadata, pretty = TRUE),
+        paste0(metadata_dir, paste0(name, "_metadata"), ".json"))
+}

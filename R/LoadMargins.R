@@ -35,7 +35,7 @@ getMarginsTable <- function (model) {
   MarginsTable <- stats::aggregate(MarginsTable[, value_columns], by = list(MarginsTable$CommodityCode), sum)
   colnames(MarginsTable)[1] <- "CommodityCode"
   # Keep model Commodities
-  MarginsTable <- merge(MarginsTable, model$Commodities, by.x = "CommodityCode", by.y = "Code", all.y = TRUE)
+  MarginsTable <- merge(MarginsTable, model$Commodities[,c("Code","Name", "Code_Loc")], by.x = "CommodityCode", by.y = "Code", all.y = TRUE)
   MarginsTable[is.na(MarginsTable)] <- 0
   MarginsTable <- MarginsTable[match(model$Commodities$Code, MarginsTable$CommodityCode), ]
   # Transform MarginsTable from Commodity to Industry format

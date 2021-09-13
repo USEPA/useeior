@@ -11,7 +11,7 @@ matrices <- c("V", "U", "U_d", "A", "A_d", "B", "C", "D", "L", "L_d",
 #' @export
 writeModelforAPI <-function(model, basedir){
   dirs <- setWriteDirsforAPI(model,basedir)
-  prepareWriteDirs(dirs,model)
+  prepareWriteDirs(model, dirs)
   writeModelMatrices(model,"bin",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
   writeModelMetadata(model,dirs)
@@ -24,7 +24,7 @@ writeModelforAPI <-function(model, basedir){
 #' @export
 writeSectorCrosswalk <- function(model, basedir){
   dirs <- setWriteDirsforAPI(NULL,basedir)
-  prepareWriteDirs(dirs)
+  prepareWriteDirs(model, dirs)
   crosswalk <- prepareModelSectorCrosswalk(model)
   crosswalk$ModelSchema <- ""
   utils::write.csv(crosswalk, paste0(dirs$data, "/sectorcrosswalk.csv"),
@@ -78,7 +78,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   USEEIOtoXLSX_ls[names(model$DemandVectors$vectors)] <- model$DemandVectors$vectors
   # Format tables
   for (n in names(USEEIOtoXLSX_ls)) {
-    if (class(USEEIOtoXLSX_ls[[n]])%in%c("matrix", "data.frame")) {
+    if (is.matrix(USEEIOtoXLSX_ls[[n]]) | is.data.frame(USEEIOtoXLSX_ls[[n]])) {
       USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(as.data.frame(rownames(USEEIOtoXLSX_ls[[n]])), USEEIOtoXLSX_ls[[n]])
     } else {
       USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(names(USEEIOtoXLSX_ls[[n]]), USEEIOtoXLSX_ls[[n]])
@@ -87,17 +87,14 @@ writeModeltoXLSX <- function(model, outputfolder) {
     colnames(USEEIOtoXLSX_ls[[n]])[1] <- ""
   }
   
-  # List model metadata: demands, flows, indicators
-  basedir <- file.path(rappdirs::user_data_dir(), "useeior", "Model_Builds", model$specs$Model)
-  metadata_dir <- file.path(basedir, "build", "data", model$specs$Model)
-  if (!dir.exists(metadata_dir)) {
-    dirs <- setWriteDirsforAPI(model, basedir)
-    prepareWriteDirs(dirs, model)
-    writeModelMetadata(model, dirs)
-  }
+  # List model metadata: demands, flows, indicators, sectors
+  dirs <- setWriteDirsforAPI(model, file.path(rappdirs::user_data_dir(), "useeior",
+                                              "Model_Builds", model$specs$Model))
+  prepareWriteDirs(model, dirs)
+  writeModelMetadata(model, dirs)
   for (df_name in c("demands", "flows", "indicators", "sectors")) {
     filename <- paste0(df_name, ".csv")
-    USEEIOtoXLSX_ls[[df_name]] <- utils::read.table(paste(metadata_dir, filename, sep = "/"),
+    USEEIOtoXLSX_ls[[df_name]] <- utils::read.table(paste(dirs$model, filename, sep = "/"),
                                                     sep = ",", header = TRUE,
                                                     stringsAsFactors = FALSE,
                                                     check.names = FALSE)
@@ -109,13 +106,19 @@ writeModeltoXLSX <- function(model, outputfolder) {
                              "_meta")
   USEEIOtoXLSX_ls[[sector_meta_name]] <- USEEIOtoXLSX_ls$sectors
   
+  demand_meta_fields <- colnames(USEEIOtoXLSX_ls$sectors)
+  demand_meta_fields <- demand_meta_fields[(demand_meta_fields != "Category") &
+                                             (demand_meta_fields != "Subcategory")]
+  # Remove USEEIOtoXLSX_ls$sectors
+  USEEIOtoXLSX_ls$sectors <- NULL
+
   # List final demand meta
   final_demand_meta <- model$FinalDemandMeta
   final_demand_meta$Index <- c(1:nrow(final_demand_meta)-1)
   final_demand_meta$ID <- final_demand_meta$Code_Loc
   final_demand_meta$Location <- model$specs$ModelRegionAcronyms
   final_demand_meta$Description <- ""
-  USEEIOtoXLSX_ls[["final_demand_meta"]] <- final_demand_meta[, colnames(USEEIOtoXLSX_ls$sectors)]
+  USEEIOtoXLSX_ls[["final_demand_meta"]] <- final_demand_meta[, demand_meta_fields]
   
   # List value added meta
   value_added_meta <- model$ValueAddedMeta
@@ -123,11 +126,8 @@ writeModeltoXLSX <- function(model, outputfolder) {
   value_added_meta$ID <- value_added_meta$Code_Loc
   value_added_meta$Location <- model$specs$ModelRegionAcronyms
   value_added_meta$Description <- ""
-  USEEIOtoXLSX_ls[["value_added_meta"]] <- value_added_meta[, colnames(USEEIOtoXLSX_ls$sectors)]
-  
-  # Remove USEEIOtoXLSX_ls$sectors
-  USEEIOtoXLSX_ls$sectors <- NULL
-  
+  USEEIOtoXLSX_ls[["value_added_meta"]] <- value_added_meta[, demand_meta_fields]
+
   # List reference tables
   USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- prepareModelSectorCrosswalk(model)
   
@@ -155,10 +155,10 @@ setWriteDirsforAPI <- function(model=NULL, basedir) {
 }
 
 #' Sets directories to write model output data to
-#' @param dirs A named list of directories
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param dirs A named list of directories
 #' @description Sets directories to write model output data to. If model is not passed, just uses data directory 
-prepareWriteDirs <- function(dirs,model) {
+prepareWriteDirs <- function(model, dirs) {
   if (missing(model)) {
     if (!dir.exists(dirs$data)) {
       dir.create(dirs$data, recursive = TRUE) 
@@ -257,8 +257,8 @@ writeModelMetadata <- function(model, dirs) {
   sectors <- model[[gsub("y", "ies", model$specs$CommodityorIndustryType)]]
   sectors$ID <- sectors$Code_Loc
   sectors$Location <- model$specs$ModelRegionAcronyms
-  sectors$Description <- ""
   sectors$Index <- c(1:nrow(sectors)-1)
+  sectors$Category <- paste(sectors$Category, sectors$Subcategory, sep="/")
   sectors <- sectors[, fields$sectors]
   checkNamesandOrdering(sectors$ID, rownames(model$L), "code in sectors.csv and rows in L matrix")
   utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
