@@ -266,8 +266,8 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
   
   # For each disaggregation:
   for (disagg in model$DisaggregationSpecs$Disaggregation){
-    
-    if(disagg$OriginalSectorCode %in% sattable$Sector){
+    original_code <- gsub("/.*", "", disagg$OriginalSectorCode)
+    if(original_code %in% sattable$Sector){
       default_disaggregation <- FALSE
       # If satellite table data is provided for the new sector assign it here
       if(!is.null(disagg$EnvFileDF)){
@@ -281,7 +281,7 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
         else{
           # Check for errors in sattelite table
           included_sectors <- unique(new_sector_totals[,"Sector"])
-          if (!identical(sort(included_sectors),sort(unlist(disagg$DisaggregatedSectorCodes)))){
+          if (!identical(sort(included_sectors),sort(unlist(gsub("/.*", "", disagg$DisaggregatedSectorCodes))))){
             logging::logwarn("Satellite table does not include all disaggregated sectors")
           }
           
@@ -295,20 +295,21 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
       
       if(default_disaggregation){
         # Subset the totals from the original sector
-        old_sector_totals <- subset(sattable, Sector==disagg$OriginalSectorCode, colnames(sattable))
+        old_sector_totals <- subset(sattable, Sector==original_code, colnames(sattable))
         
         if(!nrow(old_sector_totals)==0){
           i<-0
-          for (new_sector in disagg$DisaggregatedSectorCodes){
+          for (new_sector in gsub("/.*", "", disagg$DisaggregatedSectorCodes)){
             i<-i+1
             new_sector_totals <- old_sector_totals
-            new_sector_totals$Sector <- disagg$DisaggregatedSectorCodes[[i]]
+            new_sector_totals$Sector <- new_sector
             new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
             
             # If satellite table is disaggregated proportional to gross output do that here
             if(!is.null(disagg$MakeFileDF)){
               GrossOutputAlloc <- subset(disagg$MakeFileDF, 
-                                         (IndustryCode == disagg$OriginalSectorCode & CommodityCode == new_sector))
+                                         (IndustryCode == disagg$OriginalSectorCode & 
+                                            CommodityCode == paste0(new_sector, "/",model$specs$ModelRegionAcronyms)))
               if(nrow(GrossOutputAlloc)==0){
                 allocation <- 0
               }
@@ -331,7 +332,7 @@ disaggregateSatelliteTable <- function (model, sattable, sat){
   
       }}
       # Remove the old_sector_totals
-      sattable_disaggregated <- subset(sattable, Sector!=disagg$OriginalSectorCode)
+      sattable_disaggregated <- subset(sattable, Sector!=original_code)
     }
     else{ # No disaggregation needed
       sattable_disaggregated <- sattable 
