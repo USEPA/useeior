@@ -2,7 +2,8 @@
 #' @param model Model file loaded with IO tables
 #' @return A disaggregated model.
 disaggregateModel <- function (model){
-
+  #TODO: Move lines 6-22 to new functions, one for disagg and one for agg, than can be called from load IO tables individually. 
+  #Also, remove block comment as it was successfully replaced by new disaggregateSetup function.
   model$DisaggregationSpecs$Aggregation <- vector(mode='list')
   model$DisaggregationSpecs$Disaggregation <- vector(mode='list')
   for (configFile in model$specs$DisaggregationSpecs){
@@ -20,50 +21,50 @@ disaggregateModel <- function (model){
     # Handle sector aggregation
     model <- aggregateModel(model)
   }
-  
-  counter = 1
-  for (disagg in model$DisaggregationSpecs$Disaggregation){
-   
-    disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
-                                            header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
-                                                                                                  "USEEIO_Code"="character"))
-    newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code,
-                                  "SectorName" = disagg$NAICSSectorCW$USEEIO_Name,
-                                  "Category" = disagg$NAICSSectorCW$Category,
-                                  "Subcategory" = disagg$NAICSSectorCW$Subcategory,
-                                  "Description" = disagg$NAICSSectorCW$Description,
-                                  stringsAsFactors = TRUE))
-    disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
-    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
-    disagg$Category <- lapply(newNames[, 'Category'], as.character)
-    disagg$Subcategory <- lapply(newNames[, 'Subcategory'], as.character)
-    disagg$Description <- lapply(newNames[, 'Description'], as.character)
-    
-    #reordering disaggSectorNames and DisaggSectorCodes to match the mapping in newNames
-    disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
-    disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
-    
-    if(!is.null(disagg$MakeFile)){
-      disagg$MakeFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
-                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("IndustryCode"="character",
-                                                                                                 "CommodityCode"="character"))}
-    if(!is.null(disagg$UseFile)){
-      disagg$UseFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
-                                          header = TRUE, stringsAsFactors = FALSE)}      
-    if(!is.null(disagg$EnvFile)){
-      disagg$EnvFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
-                                          header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
-      if("FlowRatio" %in% colnames(disagg$EnvFileDF)){
-        disagg$EnvAllocRatio <- TRUE
-      }
-      else{
-        disagg$EnvAllocRatio <- FALSE
-      }
-    #Need to assign these DFs back to the modelspecs
-    model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
-
-    counter <- counter + 1
-  }
+  model <- disaggregateSetup(model)
+  # counter = 1
+  # for (disagg in model$DisaggregationSpecs$Disaggregation){
+  #  
+  #   disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
+  #                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
+  #                                                                                                 "USEEIO_Code"="character"))
+  #   newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code,
+  #                                 "SectorName" = disagg$NAICSSectorCW$USEEIO_Name,
+  #                                 "Category" = disagg$NAICSSectorCW$Category,
+  #                                 "Subcategory" = disagg$NAICSSectorCW$Subcategory,
+  #                                 "Description" = disagg$NAICSSectorCW$Description,
+  #                                 stringsAsFactors = TRUE))
+  #   disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
+  #   disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
+  #   disagg$Category <- lapply(newNames[, 'Category'], as.character)
+  #   disagg$Subcategory <- lapply(newNames[, 'Subcategory'], as.character)
+  #   disagg$Description <- lapply(newNames[, 'Description'], as.character)
+  #   
+  #   #reordering disaggSectorNames and DisaggSectorCodes to match the mapping in newNames
+  #   disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
+  #   disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
+  #   
+  #   if(!is.null(disagg$MakeFile)){
+  #     disagg$MakeFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
+  #                                          header = TRUE, stringsAsFactors = FALSE, colClasses=c("IndustryCode"="character",
+  #                                                                                                "CommodityCode"="character"))}
+  #   if(!is.null(disagg$UseFile)){
+  #     disagg$UseFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
+  #                                         header = TRUE, stringsAsFactors = FALSE)}      
+  #   if(!is.null(disagg$EnvFile)){
+  #     disagg$EnvFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
+  #                                         header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
+  #     if("FlowRatio" %in% colnames(disagg$EnvFileDF)){
+  #       disagg$EnvAllocRatio <- TRUE
+  #     }
+  #     else{
+  #       disagg$EnvAllocRatio <- FALSE
+  #     }
+  #   #Need to assign these DFs back to the modelspecs
+  #   model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
+  # 
+  #   counter <- counter + 1
+  # }
 
   logging::loginfo("Initializing Disaggregation of IO tables...")
   
@@ -110,6 +111,58 @@ disaggregateModel <- function (model){
   
   return(model)
   
+}
+
+#' Setup the configuration specs based on the input files
+#' @param model Model file loaded with IO tables
+#' @return A model object with the correct disaggregation specs.
+disaggregateSetup <- function (model){
+  
+  counter = 1
+  for (disagg in model$DisaggregationSpecs$Disaggregation){
+    
+    disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
+                                            header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
+                                                                                                  "USEEIO_Code"="character"))
+    newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code,
+                                  "SectorName" = disagg$NAICSSectorCW$USEEIO_Name,
+                                  "Category" = disagg$NAICSSectorCW$Category,
+                                  "Subcategory" = disagg$NAICSSectorCW$Subcategory,
+                                  "Description" = disagg$NAICSSectorCW$Description,
+                                  stringsAsFactors = TRUE))
+    disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
+    disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
+    disagg$Category <- lapply(newNames[, 'Category'], as.character)
+    disagg$Subcategory <- lapply(newNames[, 'Subcategory'], as.character)
+    disagg$Description <- lapply(newNames[, 'Description'], as.character)
+    
+    #reordering disaggSectorNames and DisaggSectorCodes to match the mapping in newNames
+    disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
+    disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
+    
+    if(!is.null(disagg$MakeFile)){
+      disagg$MakeFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
+                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("IndustryCode"="character",
+                                                                                                 "CommodityCode"="character"))}
+    if(!is.null(disagg$UseFile)){
+      disagg$UseFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
+                                          header = TRUE, stringsAsFactors = FALSE)}      
+    if(!is.null(disagg$EnvFile)){
+      disagg$EnvFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
+                                          header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
+    if("FlowRatio" %in% colnames(disagg$EnvFileDF)){
+      disagg$EnvAllocRatio <- TRUE
+    }
+    else{
+      disagg$EnvAllocRatio <- FALSE
+    }
+    #Need to assign these DFs back to the modelspecs
+    model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
+    
+    counter <- counter + 1
+  }
+  
+  return(model)
 }
 
 #' Calculate updated Commodity and Industry Output model objects
