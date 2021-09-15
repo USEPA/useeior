@@ -26,6 +26,47 @@ loadIOData <- function(model) {
     model <- disaggregateModel(model)
   }
   
+  #Check for new techologies
+  if(!is.null (model$specs$NewTechSpecs)){
+    #browser()
+    newTechConfigFile <- model$specs$NewTechSpecs
+    logging::loginfo(paste("Reading new technology for", newTechConfigFile, sep=" "))
+    model$newTechSpecs <- getConfiguration(newTechConfigFile, "newTech") 
+    
+    #Extract data from specs
+    inputP_data<-read.csv(model$newTechSpecs$NewTechnologies$InputPurchases)
+    inputPurchasesNewTech<-as.matrix((inputP_data[,(3:5)]))
+    
+    #---THIS ONE NEEDS TO BE READ AS THE INPUT PURCHASES AND THE ENVIRONMENTAL DATA FROM THE CVS FILE OF VALUE ADDED 
+    # ValueAdded: "inst/extdata/newTechspecs/GF_ValueAdded_V02.csv" #Not yet created
+    #This is value added in $/GGE (Includes compensation to employees, taxes and gross operating surplus)
+    valueAdded<-matrix(c(0.08,0.82,2.33,0.06,0.88,2.5,0.05,0.60,1.70), nrow=3, ncol=3) #the gross operating surplus needs to be updated
+    
+    #Read environmental data
+    #GF_envData<-read.csv("inst/extdata/GF_EnvFlow_GHG_V01.csv")
+    envData_read<-read.csv(model$newTechSpecs$NewTechnologies$EnvironmentalFlows)
+    envData<- as.matrix(envData_read[,-1]) 
+    
+    # #Add BEA to model to access the original tables
+    # model$BEA<-BEA
+    
+    model<-addBiofuelsSector(model,inputPurchasesNewTech, valueAdded, envData ,FALSE)
+    
+    browser()
+    #-----------------------------------------------------------------------------------------------------------------------------
+    # HERE I WILL IMPLEMENT THE EASY & TEMPORARY VERSION TO SOLVE THE PROBLEMS WITH TEH AUGMENTATION OF 
+    # DomesticUseTRansactions and DomesticFinalDemand
+    # THIS OPTION WILL IMPLY THAT THE RESULTS OBTAINED FROM THE DOMESTIC MATRICES ARE NOT VALID
+    
+    logging::loginfo(paste("Updating Domestic matrices..."))
+    #This does not update any domestic variable, just augment the size
+    model$BEA$DomesticUseTransactions<-addRowsColsZeros(model$BEA$DomesticUseTransactions,1,model$BiofuelsData$nNewIndustries)
+    model$BEA$DomesticFinalDemand<-addRowsColsZeros(model$BEA$DomesticFinalDemand,1,0)
+    
+    logging::loginfo(paste("Warning: Current domestic matrices are not properly updated so domestic results are not valid."))
+    
+  }
+  
   return(model)
 }
 
@@ -33,6 +74,7 @@ loadIOData <- function(model) {
 #' @param model A model object with model specs loaded.
 #' @return A list with USEEIO model economic components.
 loadNationalIOData <- function(model) {
+  browser()
   # Load BEA IO and gross output tables
   BEA <- loadBEAtables(model$specs)
 
@@ -74,48 +116,6 @@ loadNationalIOData <- function(model) {
   model$ValueAddedMeta <- get(paste(model$specs$BaseIOLevel, "ValueAddedCodeName", model$specs$BaseIOSchema, sep = "_"))
   colnames(model$ValueAddedMeta) <- c("Code", "Name")
   model$ValueAddedMeta$Code_Loc <- apply(cbind(model$ValueAddedMeta$Code, model$specs$ModelRegionAcronyms), 1, FUN = joinStringswithSlashes)
-  
-  #Check for new techologies
-  if(!is.null (model$specs$NewTechSpecs)){
-    #browser()
-    newTechConfigFile <- model$specs$NewTechSpecs
-    logging::loginfo(paste("Reading new technology for", newTechConfigFile, sep=" "))
-    model$newTechSpecs <- getConfiguration(newTechConfigFile, "newTech") 
-    
-    #Extract data from specs
-    inputP_data<-read.csv(model$newTechSpecs$NewTechnologies$InputPurchases)
-    inputPurchasesNewTech<-as.matrix((inputP_data[,(3:5)]))
-    
-    #---THIS ONE NEEDS TO BE READ AS THE INPUT PURCHASES AND THE ENVIRONMENTAL DATA FROM THE CVS FILE OF VALUE ADDED 
-    # ValueAdded: "inst/extdata/newTechspecs/GF_ValueAdded_V02.csv" #Not yet created
-    #This is value added in $/GGE (Includes compensation to employees, taxes and gross operating surplus)
-    valueAdded<-matrix(c(0.08,0.82,2.33,0.06,0.88,2.5,0.05,0.60,1.70), nrow=3, ncol=3) #the gross operating surplus needs to be updated
-    
-    #Read environmental data
-    #GF_envData<-read.csv("inst/extdata/GF_EnvFlow_GHG_V01.csv")
-    envData_read<-read.csv(model$newTechSpecs$NewTechnologies$EnvironmentalFlows)
-    envData<- as.matrix(envData_read[,-1]) 
-    
-    #Add BEA to model to access the original tables
-    model$BEA<-BEA
-    
-    model<-addBiofuelsSector(model,inputPurchasesNewTech, valueAdded, envData )
-    
-    #browser()
-    #-----------------------------------------------------------------------------------------------------------------------------
-    # HERE I WILL IMPLEMENT THE EASY & TEMPORARY VERSION TO SOLVE THE PROBLEMS WITH TEH AUGMENTATION OF 
-    # DomesticUseTRansactions and DomesticFinalDemand
-    # THIS OPTION WILL IMPLY THAT THE RESULTS OBTAINED FROM THE DOMESTIC MATRICES ARE NOT VALID
-    
-    logging::loginfo(paste("Updating Domestic matrices..."))
-    #This does not update any domestic variable, just augment the size
-    model$BEA$DomesticUseTransactions<-addRowsColsZeros(model$BEA$DomesticUseTransactions,1,model$BiofuelsData$nNewIndustries)
-    model$BEA$DomesticFinalDemand<-addRowsColsZeros(model$BEA$DomesticFinalDemand,1,0)
-    
-    logging::loginfo(paste("Warning: Current domestic matrices are not properly updated so domestic results are not valid."))
-  
-    BEA<-model$BEA
-  }
   
   #browser()
   # IO tables
