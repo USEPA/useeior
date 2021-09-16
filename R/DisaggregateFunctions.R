@@ -2,25 +2,7 @@
 #' @param model Model file loaded with IO tables
 #' @return A disaggregated model.
 disaggregateModel <- function (model){
-  #TODO: Move lines 6-22 to new functions, one for disagg and one for agg, than can be called from load IO tables individually. 
-  #Also, remove block comment as it was successfully replaced by new disaggregateSetup function.
-  model$DisaggregationSpecs$Aggregation <- vector(mode='list')
-  model$DisaggregationSpecs$Disaggregation <- vector(mode='list')
-  for (configFile in model$specs$DisaggregationSpecs){
-    logging::loginfo(paste0("Loading disaggregation spes for ", configFile, "..."))
-    config <- getConfiguration(configFile, "disagg")
-    if('Aggregation' %in% names(config)){
-      model$DisaggregationSpecs$Aggregation <- append(model$DisaggregationSpecs$Aggregation, config$Aggregation)
-    }
-    if('Disaggregation' %in% names(config)){
-      model$DisaggregationSpecs$Disaggregation <- append(model$DisaggregationSpecs$Disaggregation, config$Disaggregation)
-    }
-  }
-
-  if(length(model$DisaggregationSpecs$Aggregation) != 0){
-    # Handle sector aggregation
-    model <- aggregateModel(model)
-  }
+ 
   model <- disaggregateSetup(model)
 
   logging::loginfo("Initializing Disaggregation of IO tables...")
@@ -69,6 +51,24 @@ disaggregateModel <- function (model){
   return(model)
   
 }
+
+#' Obtain disaggregation specs from aggregation input files
+#' @param model Model file loaded with IO tables
+#' @return A model with the specified disaggregation specs.
+getDisaggregationSpecs <- function (model){
+  model$DisaggregationSpecs$Disaggregation <- vector(mode='list')
+  for (configFile in model$specs$DisaggregationSpecs){
+    logging::loginfo(paste0("Loading disaggregation spes for ", configFile, "..."))
+    config <- getConfiguration(configFile, "disagg")
+    if('Disaggregation' %in% names(config)){
+      model$DisaggregationSpecs$Disaggregation <- append(model$DisaggregationSpecs$Disaggregation, config$Disaggregation)
+    }
+  }
+  
+  return(model)
+  
+}
+
 
 #' Setup the configuration specs based on the input files
 #' @param model Model file loaded with IO tables

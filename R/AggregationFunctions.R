@@ -50,6 +50,25 @@ aggregateModel <- function (model){
   return(model)
 }
 
+
+#' Obtain aggregation specs from aggregation input files
+#' @param model Model file loaded with IO tables
+#' @return A model with the specified aggregation specs.
+getAggregationSpecs <- function (model){
+  model$DisaggregationSpecs$Aggregation <- vector(mode='list')
+  for (configFile in model$specs$DisaggregationSpecs){
+    logging::loginfo(paste0("Loading aggregation specs for ", configFile, "..."))
+    config <- getConfiguration(configFile, "disagg")
+    if('Aggregation' %in% names(config)){
+      model$DisaggregationSpecs$Aggregation <- append(model$DisaggregationSpecs$Aggregation, config$Aggregation)
+    }
+  }
+  
+  return(model)
+  
+}
+
+
 #' Calculate updated Commodity and Industry Output model objects after aggregation
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param indecesToAggregate List of indeces to aggregate.
