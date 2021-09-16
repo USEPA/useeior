@@ -7,14 +7,12 @@
 #' This function modifies the pre-saved Make table for adding the new biofuels sector.
 #' 
 #' @param modModel the model under modification after initial adjustments for Use Table.
-#' @param UseTransactions dataframe with the input purchases/use transactions for each industry of each commodity after modifying Use Table.
-#' @param TotalIndustryOutputNewInd  a dataframe with the Total Industry Output for the 3 new industries based on the modified Use Table.
 #' @return a dataframe with the original Make table modified.
 #' 
 #' Example: modifyMakeTable(modModel,modUse[1:406,1:408],modUse[412,406:408])
-modifyMakeTable <- function(modModel, UseTransactions, TotalIndustryOutputNewInd){
+modifyMakeTable <- function(modModel, totalF_UseSimComm){
   
-  originalMake<-modModel$Make
+  originalMake<-modModel$BiofuelsData$OriginalBEA$Make
   modMake<-originalMake
   
   nNewI<-modModel$BiofuelsData$nNewIndustries
@@ -46,13 +44,29 @@ modifyMakeTable <- function(modModel, UseTransactions, TotalIndustryOutputNewInd
   similarSectorPrice<-modModel$BiofuelsData$SimilarCommodityInfo$Price
   
   #-------------------------------------------------------------------------------------------------------------------------------
-
+  # FUTURE PRODUCTION OF SIMILAR-COMMODITY BY THE SIMILAR-INDUSTRY IN GGE
+  
+  # How much is currently produced of 324110 commodity in $ USD by secondary industries?
+  
+  CX_sec<-sum(originalMake[1:(nIndustries),colS])-originalMake[rowS,colS]
+  
+  # How much is currently produced of 324110 commodity in GGE by secondary industries?
+  CGP_sec<-transformUSDtoGGE(CX_sec,similarSectorPrice)
+  # How much will the 324110 industry produce of 324110 commodity in GGE?
+  FGP_petr<- transformUSDtoGGE(totalF_UseSimComm,similarSectorPrice)-CGP_sec
+  
+  # How much will the 324110 industry produce of 324110 commodity in $ USD? 
+  FX<- transformGGEtoUSD(FGP_petr,similarSectorPrice) 
+  
+  # Save data in model
+  #browser()
+  modModel$BiofuelsData["FutureFuelGGE"]<-FGP_petr
   
   #-------------------------------------------------------------------------------------------------------------------------------
   
   #Fill rows
   
-  FGP_cols<-as.matrix(modModel$BiofuelsData[c(4,5,6)])[whichI]
+  FGP_cols<-as.matrix(modModel$BiofuelsData[c(3,4,5)])[whichI]
   newIPricesCols<-as.matrix(modModel$BiofuelsData$NewIndustriesInfo[whichI,4])
   #For existing sectors
   for(i in 1:(nIndustries+nNewI)){
@@ -108,32 +122,21 @@ modifyMakeTable <- function(modModel, UseTransactions, TotalIndustryOutputNewInd
   # Total industry output
   modMake[,nCommodities+1+1]<-rowSums(modMake[,1:(nCommodities+1)]) #sum over columns for each row
   
-  modMake
+  list(modMake, modModel)
 }
 
-#' Modify Make and Use Tables.
-#' 
-#' This function modifies the pre-saved Make and Use tables for adding the new biofuels sector.It first modify the industry (intermediate) uses and
-#' the final users uses, including those for the new sectors. Then it obtains the Total Industry Output for the new industries. Then it calls
-#' modifyMakeTable() to modify the Make table and then ends modifying the Use table, adjusting the Value Added components.
-#' 
-#' @param modModel the model under modification after initial adjustments for Use Table.
-#' @param inputPurchases (nComm+1)x 3 matrix with the amount spent in each of the nComm existing commodities to produce 1 GGE of biofuel in each of the new industries.
-#' @param valueAdded 2x3 matrix with the first 2 components of value added (Compensation of employees and Taxes on production and imports, less subsidies) required 
-#' to produce 1 GGE of biofuel in each of the new industries.
-#' @return the model with Make and Use tables updated.
-#' 
-#' Example: modifyMakeandUseTable(modModel,matrix(c(rep(0.1,300),rep(0,106),rep(0.1,100),rep(0,306),rep(0,300),rep(0.102,106)), nrow=406, ncol=3),matrix(c(rep(1,2),rep(2,2),rep(1.5,2)), nrow=2, ncol=3))
-modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
-  
+modifyUseTable<-function(modModel, inputPurchases, valueAdded, isDomestic){
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   #MODIFY USE TABLE-INPUT PURCHASES
   
-  logging::loginfo(paste("Updating Use Table ..."))
-  browser()
-  originalUse<- modModel$Use
+  #browser()
+  
+  originalUse<- modModel$BiofuelsData$OriginalBEA$Use
+  if(isDomestic==TRUE){
+    originalUse<- modModel$BiofuelsData$OriginalBEA$DomesticUse
+  }
   modUse<-originalUse
-
+  
   nNewI<-modModel$BiofuelsData$nNewIndustries
   whichI<-modModel$BiofuelsData$whichNewIn
   #Determine number of commodities and industries in originalUse
@@ -155,7 +158,7 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   rowS<-getRowIndex(modUse,similarSectorCode)
   colS<-getColIndex(modUse,similarSectorCode)
   similarSectorPrice<-modModel$BiofuelsData$SimilarCommodityInfo$Price 
-  similarPrimaryPercentage<-modModel$BiofuelsData$PercentageFuelProducedByPrimary
+  
   
   percentage<-modModel$BiofuelsData$BiofuelsPercentage
   biofuelWeightedPrice<-sum(modModel$BiofuelsData$NewIndustriesInfo$Price*modModel$BiofuelsData$NewIndustriesInfo$Percentage_Prod)
@@ -168,19 +171,19 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   #Fill row nCommodities+1- cycle over columns
   for(j in 1:nIndustries){
     
-      CY_j<-modUse[rowS,j]
-      CGU_j<-transformUSDtoGGE(CY_j,similarSectorPrice)
-      
-      FBU_j<- CGU_j*percentage
-      FGU_j<-CGU_j-FBU_j
-      
-      Y_Fuel_j<- transformGGEtoUSD(FGU_j,similarSectorPrice)
-      Y_Biofuel_j<-transformGGEtoUSD(FBU_j,biofuelWeightedPrice)
-      
-      modUse[nCommodities+1,j]<-Y_Biofuel_j
-      modUse[rowS,j]<-Y_Fuel_j
-      
-      totalUseBiofuel_G<- totalUseBiofuel_G+FBU_j #Adding uses in GGE for all existing industries
+    CY_j<-modUse[rowS,j]
+    CGU_j<-transformUSDtoGGE(CY_j,similarSectorPrice)
+    
+    FBU_j<- CGU_j*percentage
+    FGU_j<-CGU_j-FBU_j
+    
+    Y_Fuel_j<- transformGGEtoUSD(FGU_j,similarSectorPrice)
+    Y_Biofuel_j<-transformGGEtoUSD(FBU_j,biofuelWeightedPrice)
+    
+    modUse[nCommodities+1,j]<-Y_Biofuel_j
+    modUse[rowS,j]<-Y_Fuel_j
+    
+    totalUseBiofuel_G<- totalUseBiofuel_G+FBU_j #Adding uses in GGE for all existing industries
     
   }
   
@@ -253,8 +256,8 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   valueAddedCols<-as.matrix(valueAdded[,whichI])
   for(i in (nCommodities+1+2):(nCommodities+1+4)){
     for(j in (nIndustries+1): (nIndustries+nNewI)){
-
-        modUse[i,j]<-(valueAddedCols[i-(nCommodities+1+1),j-nIndustries]*newTechGGEProdCols[j-nIndustries]) #the value added components in $/GGE times the GGE produced by each tech (in dollars)
+      
+      modUse[i,j]<-(valueAddedCols[i-(nCommodities+1+1),j-nIndustries]*newTechGGEProdCols[j-nIndustries]) #the value added components in $/GGE times the GGE produced by each tech (in dollars)
     }
   }
   
@@ -275,47 +278,23 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   #Total commodity output
   modUse[1:(nCommodities+1),(nIndustries+nNewI+2+21)]<-modUse[1:(nCommodities+1),(nIndustries+nNewI+1)]+modUse[1:(nCommodities+1),(nIndustries+nNewI+2+20)]
   #-------------------------------------------------------------------------------------------------------------------------------
-  
   totalF_UseSimComm<-modUse[rowS,(nIndustries+nNewI+2+21)] #The total commodity output of the similar industry
-  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  # MODIFY MAKE TABLE
   
+  list(modUse, modModel, totalF_UseSimComm)
+}
+
+rebalanceMakeUseAnalytical<-function(modModel, newMake, modUse){
   
-  #Get row and column of similar sector for original make table
-  rowS_M<-getRowIndex(modModel$Make,similarSectorCode)
-  colS_M<-getColIndex(modModel$Make,similarSectorCode)
+  nNewI<-modModel$BiofuelsData$nNewIndustries
   
-  #-------------------------------------------------------------------------------------------------------------------------------
+  #Determine number of commodities and industries in originalUse
+  nCommodities<-modModel$BiofuelsData$OriginalBEA$nCommodities
+  nIndustries<-modModel$BiofuelsData$OriginalBEA$nIndustries
   
-  # FUTURE PRODUCTION OF SIMILAR-COMMODITY BY THE SIMILAR-INDUSTRY IN GGE
-  
-  # How much is currently produced of 324110 commodity in $ USD by secondary industries?
-  
-  CX_sec<-sum(modModel$Make[1:(nIndustries),colS_M])-modModel$Make[rowS_M,colS_M]
-  
-  # How much is currently produced of 324110 commodity in GGE by secondary industries?
-  CGP_sec<-transformUSDtoGGE(CX_sec,similarSectorPrice)
-  # How much will the 324110 industry produce of 324110 commodity in GGE?
-  FGP_petr<- transformUSDtoGGE(totalF_UseSimComm,similarSectorPrice)-CGP_sec
-  
-  # How much will the 324110 industry produce of 324110 commodity in $ USD? 
-  FX<- transformGGEtoUSD(FGP_petr,similarSectorPrice) 
-  
-  # Save data in model
-  
-  modModel$BiofuelsData["FutureFuelGGE"]<-FGP_petr
-  #-------------------------------------------------------------------------------------------------------------------------------
-  
-  logging::loginfo(paste("Updating Make Table ..."))
-  newMake<- modifyMakeTable(modModel, modUse[1:(nCommodities+1), 1:(nIndustries+nNewI)],modUse[nCommodities+1+6,(nIndustries+1):(nIndustries+nNewI)])
-  
-  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  #See make and use tables after augmenting, but before balancing
-  #browser()
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   #REBALANCE MAKE AND USE TABLE, VIA ANALYTICAL FRAMEWORK, SCALING COLUMNS TO KEEP RECIPE UNCHANGED
-  nMake_Commodities<- ncol(modModel$Make)-1 # Number of commodities in original Make
-  nMake_Industries<- nrow(modModel$Make)-1 # Number of commodities in original Use
+  nMake_Commodities<- ncol(modModel$BiofuelsData$OriginalBEA$Make)-1 # Number of commodities in original Make
+  nMake_Industries<- nrow(modModel$BiofuelsData$OriginalBEA$Make)-1 # Number of commodities in original Use
   
   
   #Obtain matrices and vector needed
@@ -387,7 +366,7 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   
   #---Obtain balanced Make table
   V2<-V1%*%m_Make
-
+  
   #Reconstruct/Refill Make table
   modMake2<-newMake
   modMake2[1:(nMake_Industries+nNewI),1:(nMake_Commodities+1)]<-V2
@@ -396,10 +375,60 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded){
   
   modMake2[nMake_Industries+nNewI+1,]<-colSums(modMake2[1:(nMake_Industries+nNewI),]) #sum over rows for each column - Total Commodity Output
   modMake2[,nMake_Commodities+1+1]<-rowSums(modMake2[,1:(nMake_Commodities+1)]) #sum over columns for each row- Total Industry Output
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  list(modMake2, modUse2) #return a list with the rebalanced Make and Use tables
+  
+}
+#' Modify Make and Use Tables.
+#' 
+#' This function modifies the pre-saved Make and Use tables for adding the new biofuels sector.It first modify the industry (intermediate) uses and
+#' the final users uses, including those for the new sectors. Then it obtains the Total Industry Output for the new industries. Then it calls
+#' modifyMakeTable() to modify the Make table and then ends modifying the Use table, adjusting the Value Added components.
+#' 
+#' @param modModel the model under modification after initial adjustments for Use Table.
+#' @param inputPurchases (nComm+1)x 3 matrix with the amount spent in each of the nComm existing commodities to produce 1 GGE of biofuel in each of the new industries.
+#' @param valueAdded 2x3 matrix with the first 2 components of value added (Compensation of employees and Taxes on production and imports, less subsidies) required 
+#' to produce 1 GGE of biofuel in each of the new industries.
+#' @return the model with Make and Use tables updated.
+#' 
+#' Example: modifyMakeandUseTable(modModel,matrix(c(rep(0.1,300),rep(0,106),rep(0.1,100),rep(0,306),rep(0,300),rep(0.102,106)), nrow=406, ncol=3),matrix(c(rep(1,2),rep(2,2),rep(1.5,2)), nrow=2, ncol=3))
+modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded, isDomestic){
+  #browser()
 
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  # MODIFY USE TABLE
+  
+  logging::loginfo(paste("Updating Use Table ..."))
+  resultModifyUse<-modifyUseTable(modModel,inputPurchases,valueAdded, isDomestic)
+  modUse<-resultModifyUse[[1]]
+  modModel<-resultModifyUse[[2]]
+  totalF_UseSimComm<-resultModifyUse[[3]]
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  # MODIFY MAKE TABLE
+
+  logging::loginfo(paste("Updating Make Table ..."))
+  resultModifyMake<-modifyMakeTable(modModel,totalF_UseSimComm)
+  newMake<-resultModifyMake[[1]] 
+  modModel<-resultModifyMake[[2]]
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  #See make and use tables after augmenting, but before balancing
+  #browser()
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  #REBALANCE MAKE AND USE TABLES AFTER AUGMENTATION
+  rebalancingResults<-rebalanceMakeUseAnalytical(modModel, newMake, modUse)
+  balancedMake<-rebalancingResults[[1]]
+  balancedUse<-rebalancingResults[[2]]
+  #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   #---UPDATE MODEL MAKE AND USE TABLE WITH BALANCED MAKE AND USE
-  modModel$Make <- modMake2 
-  modModel$Use<- modUse2 
+  modModel$BiofuelsData$NewBEA<-list(Make=balancedMake, Use=balancedUse)
+  if(isDomestic==FALSE){ #Configured thinking that FALSE will be run before TRUE
+    modModel$BiofuelsData$NewBEA<-list(Make=balancedMake, Use=balancedUse)
+  }
+  else{
+    modModel$BiofuelsData$NewBEA$DomesticMake=balancedMake
+    modModel$BiofuelsData$NewBEA$DomesticUse=balancedUse
+  }
+  
   modModel
 }
 
@@ -482,55 +511,13 @@ addRowsColsZeros<-function(matrix, numRows,numCols){
   matrixRet
 }
 
-#' Do initial calculations to determine the amounts of GGE produced in future bio-economy by each of the 3 new industries.
-#'
-#' @param model the list of USEEIO model components and attributes under modification.
-#' @param newIndustryInfo dataframe with 3 different technologies on the rows and the following variables (Code,Name, Primary_product, Price, Percentage_Prod)
-#' @param newCommodityInfo dataframe with the information of the new commodity. Column variables (Code, Name, Primary_producers)
-#' @param simCommodityInfo list with the information of the similar commodity. Elements (Code, Name, PrimaryProducer_Code, PrimaryProducer_Name, Price) 
-#' @param percentage numeric (0,1] that refers to the \% of the original commodity (fuels) that the new commodity (biofuels) will replace.
-#' @return The model with basic information added and initial calculations, and print the amount of biofuel in GGE produced by each technology/industry in the future bio-economy.
-
-initialCalculations<- function(model,newIndustryInfo, newCommodityInfo,simCommodityInfo, percentage, isDomestic){
-  
-  #' In here, I am going to augment the Make and Use tables after loadNationalIOData(). Therefore, I have no access
-  #' to BEA$Make or BEA$Use nor BEA at all, but to model$V/model$MakeTransactions, model$U/model$UseTransactions , model$DomesticUseTransactions,model$UseValueAdded,
-  #' model$FinalDemand,model$DomesticFinalDemand . The reason of this change is that at this point, domestic matrices have been
-  #' calculated and therefore I can augment them without involving in how they were constructed
-  
- 
-  # NEED TO TAKE OUT THE ACRONYM /US FROM THE COLNAMES AND ROWNAMES ------ TODO!!!!
-  
-  #Reconstruct original Make and use tables
-  
-  # Obtain Make and Use transactions
-  #browser()
-  MakeTransactions1<-model$MakeTransactions
-  UseTransactions1<-model$UseTransactions
-  finalDemand1<-model$FinalDemand
-  valueAdded1<-model$UseValueAdded
-  
-
-  if(isDomestic ==TRUE){
-    UseTransactions1<-model$DomesticUseTransactions
-    finalDemand1<-model$DomesticFinalDemand
-  }
-  
+reconstructMake<-function(MakeTransactions, Commodities, Industries){
+  MakeTransactions1<-MakeTransactions
   #Reassign names for it to not have the acronym /US
-  colnames(MakeTransactions1)<-model$Commodities[,1]
-  rownames(MakeTransactions1)<-model$Industries[,1]
-  colnames(UseTransactions1)<-model$Industries[,1]
-  rownames(UseTransactions1)<-model$Commodities[,1]
-  colnames(finalDemand1)<-model$FinalDemandMeta[,1]
-  rownames(finalDemand1)<-model$Commodities[,1]
-  colnames(valueAdded1)<-model$Industries[,1]
-  rownames(valueAdded1)<-model$ValueAddedMeta[,1]
+  colnames(MakeTransactions1)<-Commodities[,1]
+  rownames(MakeTransactions1)<-Industries[,1]
   #......................................................................................................
   # Reconstruct original Make (being original the one with which the model was input to this function)
-  
-  #Determine number of commodities and industries from UseTransactions
-  nCommUse<-nrow(UseTransactions1)
-  nIndUse<-ncol(UseTransactions1)
   
   #Add column of Total Industry Output
   MakeTransactions1$T008<-rowSums(MakeTransactions1)
@@ -539,7 +526,25 @@ initialCalculations<- function(model,newIndustryInfo, newCommodityInfo,simCommod
   names(totalCommodityOutput)<-names(MakeTransactions1)
   MakeTransactions1<- rbind(MakeTransactions1,totalCommodityOutput)
   originalMake<- MakeTransactions1
-  model$Make<-originalMake
+  originalMake
+}
+
+reconstructUse<-function(UseTransactions, FinalDemand, ValueAdded, Commodities, Industries, FinalDemandMeta, ValueAddedMeta){
+  
+  UseTransactions1<-UseTransactions
+  finalDemand1<-FinalDemand
+  valueAdded1<-ValueAdded
+  
+  nIndUse<-ncol(UseTransactions1)
+  
+  #Reassign names for it to not have the acronym /US
+  
+  colnames(UseTransactions1)<-Industries[,1]
+  rownames(UseTransactions1)<-Commodities[,1]
+  colnames(finalDemand1)<-FinalDemandMeta[,1]
+  rownames(finalDemand1)<-Commodities[,1]
+  colnames(valueAdded1)<-Industries[,1]
+  rownames(valueAdded1)<-ValueAddedMeta[,1]
   #......................................................................................................
   #Reconstruct original Use
   T005<-data.frame(t(colSums(UseTransactions1)), row.names="T005")
@@ -561,7 +566,40 @@ initialCalculations<- function(model,newIndustryInfo, newCommodityInfo,simCommod
   
   UseTransactions1<-rbind(UseTransactions1,piece2)
   originalUse<-UseTransactions1
-  model$Use<-originalUse
+  originalUse
+}
+#' Do initial calculations to determine the amounts of GGE produced in future bio-economy by each of the 3 new industries.
+#'
+#' @param model the list of USEEIO model components and attributes under modification.
+#' @param newIndustryInfo dataframe with 3 different technologies on the rows and the following variables (Code,Name, Primary_product, Price, Percentage_Prod)
+#' @param newCommodityInfo dataframe with the information of the new commodity. Column variables (Code, Name, Primary_producers)
+#' @param simCommodityInfo list with the information of the similar commodity. Elements (Code, Name, PrimaryProducer_Code, PrimaryProducer_Name, Price) 
+#' @param percentage numeric (0,1] that refers to the \% of the original commodity (fuels) that the new commodity (biofuels) will replace.
+#' @return The model with basic information added and initial calculations, and print the amount of biofuel in GGE produced by each technology/industry in the future bio-economy.
+
+initialCalculations<- function(model,newIndustryInfo, newCommodityInfo,simCommodityInfo, percentage){
+  
+  #' In here, I am going to augment the Make and Use tables after loadNationalIOData(). Therefore, I have no access
+  #' to BEA$Make or BEA$Use nor BEA at all, but to model$V/model$MakeTransactions, model$U/model$UseTransactions , model$DomesticUseTransactions,model$UseValueAdded,
+  #' model$FinalDemand,model$DomesticFinalDemand . The reason of this change is that at this point, domestic matrices have been
+  #' calculated and therefore I can augment them without involving in how they were constructed
+
+  
+  #Reconstruct original Make and use tables
+  
+  #browser()
+  #......................................................................................................
+  # Reconstruct original Make (being original the one with which the model was input to this function)
+  originalMake<-reconstructMake(model$MakeTransactions,model$Commodities, model$Industries)
+
+  #......................................................................................................
+  #Reconstruct original Use
+  
+  originalUse<-reconstructUse(model$UseTransactions,model$FinalDemand, model$UseValueAdded, model$Commodities, model$Industries, model$FinalDemandMeta,model$ValueAddedMeta)
+  
+  #Reconstruct original DomesticUse
+  originalDomesticUse<-reconstructUse(model$DomesticUseTransactions,model$DomesticFinalDemand, model$UseValueAdded, model$Commodities, model$Industries, model$FinalDemandMeta,model$ValueAddedMeta)
+  
   #......................................................................................................
   #Get number of rows in Make
   nRowsMake<- nrow(originalMake)
@@ -581,12 +619,12 @@ initialCalculations<- function(model,newIndustryInfo, newCommodityInfo,simCommod
   #---------------------------------------------------------------------------------------------------------------------------------  
   # CURRENT
   
-  # How much does the 324110 industry produce of 324110 commodity in $ USD? 
-  CXP<- originalMake[rowS_Make,cols_Make]
-  # How much does the 324110 industry produce of 324110 commodity in GGE? 
-  CGP<- transformUSDtoGGE(CXP, simCommodityInfo$Price)
-  #% of total 324110 commodity produced by primary producer 324110?
-  primaryFuelPercentage<- CXP/originalMake[nRowsMake,cols_Make]
+  # # How much does the 324110 industry produce of 324110 commodity in $ USD? 
+  # CXP<- originalMake[rowS_Make,cols_Make]
+  # # How much does the 324110 industry produce of 324110 commodity in GGE? 
+  # CGP<- transformUSDtoGGE(CXP, simCommodityInfo$Price)
+  # #% of total 324110 commodity produced by primary producer 324110?
+  # primaryFuelPercentage<- CXP/originalMake[nRowsMake,cols_Make]
   
   # FUTURE
   # Here this values will be initialized in 0, this will be filled up while modifying the make and use tables
@@ -615,11 +653,11 @@ initialCalculations<- function(model,newIndustryInfo, newCommodityInfo,simCommod
       whichI<-c(whichI,i)
     }
   }
-  
- 
+  #browser()
+  originalBEA_data<-list(Make=originalMake, Use=originalUse, DomesticUse=originalDomesticUse, nCommodities=nCommodities, nIndustries=nIndustries)
   # Save data in model
   
-  modModel$BiofuelsData<- list(PercentageFuelProducedByPrimary=primaryFuelPercentage,FutureBiofuelGGE=FBP,FutureFuelGGE=FGP_petr,FutureBiofuelTech1= FGP_tech1,FutureBiofuelTech2=FGP_tech2, FutureBiofuelTech3=FGP_tech3,NewIndustriesInfo= newIndustryInfo,NewCommodityInfo= newCommodityInfo, SimilarCommodityInfo=simCommodityInfo, BiofuelsPercentage=percentage, OriginalCommoditiesNum=nCommodities, OriginalIndustriesNum=nIndustries, nNewIndustries=nNewI, whichNewIn=whichI)
+  modModel$BiofuelsData<- list(FutureBiofuelGGE=FBP,FutureFuelGGE=FGP_petr,FutureBiofuelTech1= FGP_tech1,FutureBiofuelTech2=FGP_tech2, FutureBiofuelTech3=FGP_tech3,NewIndustriesInfo= newIndustryInfo,NewCommodityInfo= newCommodityInfo, SimilarCommodityInfo=simCommodityInfo, BiofuelsPercentage=percentage, OriginalCommoditiesNum=nCommodities, OriginalIndustriesNum=nIndustries, nNewIndustries=nNewI, whichNewIn=whichI, OriginalBEA=originalBEA_data)
   #print(paste("The data you need to gather for input purchases and value added must correspond to the following GGE gallons produced for each new industry:", "Technology 1 (GGE)=",FGP_tech1,"Technology 2 (GGE)=", FGP_tech2, "Technology 3 (GGE)=", FGP_tech3 ))
   modModel
 }
@@ -641,7 +679,7 @@ initialCalculations<- function(model,newIndustryInfo, newCommodityInfo,simCommod
 #' @param newEnvData (# environmental flows x 3) matrix with the data for all the environmental flows per dollar of output for the new industries.
 #' @export
 #' @return A list with USEEIO model components and attributes modified and ready for calculation.
-addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData, isDomestic ){
+addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData){
   #browser()
   # Perfom initial calculations
   newIndustryInfo<-data.frame(Code=rep("",3),Name=rep("",3),PrimaryProduct=rep("",3),Price=rep(0,3),Percentage_Prod=rep(0,3))
@@ -655,13 +693,23 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData, isDom
   newCommodityInfo<-data.frame(model$newTechSpecs$NewTechnologies$NewCommodity)
   simCommodityInfo<-model$newTechSpecs$NewTechnologies$SimilarCommodity
   percentage<-model$newTechSpecs$NewTechnologies$NewCommodity$PercentageSubstitution
-  modModel<-initialCalculations(model,newIndustryInfo, newCommodityInfo,simCommodityInfo, percentage, isDomestic)
+  modModel<-initialCalculations(model,newIndustryInfo, newCommodityInfo,simCommodityInfo, percentage)
+  
+  browser()
   
   # Modify Make and Use Tables
   logging::loginfo(paste("Updating Make and Use Tables ..."))
-  modModel<-modifyMakeandUseTables(modModel,inputPurchases, valueAdded)
+  modModel<-modifyMakeandUseTables(modModel,inputPurchases, valueAdded, isDomestic = FALSE)
   
-  #browser()
+  browser()
+  # Modify Make and Domestic Use Tables
+  
+  #Note that by running this, I rewrite BiofuelsData$
+  logging::loginfo(paste("Updating Make and Domestic Use Tables ..."))
+  modModel<-modifyMakeandUseTables(modModel,inputPurchases, valueAdded, isDomestic = TRUE)
+  
+  #Indeed I verified and the Make table resulted in exactly the same, i.e, Make= DomesticMake
+  browser()
 
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # OTHER MODEL VARIABLES UPDATES
@@ -680,26 +728,32 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData, isDom
   
   #.....................................................................................................................
   # Update model MakeTransactions, UseTransactions, UseFinalDemand, UseValueAdded, UseCommodityOutput, MakeIndustryOutput
-  modModel$MakeTransactions <- modModel$Make[modModel$Industries[,1], modModel$Commodities[,1]]  # data frame, values are in dollars ($)
+  newMake<-modModel$BiofuelsData$NewBEA$Make
+  newUse<-modModel$BiofuelsData$NewBEA$Use
+  newDomesticUse<-modModel$BiofuelsData$NewBEA$DomesticUse
+  
+  modModel$MakeTransactions <- newMake[modModel$Industries[,1], modModel$Commodities[,1]]  # data frame, values are in dollars ($)
   modModel$MakeIndustryOutput <- as.data.frame(rowSums(modModel$MakeTransactions)) # data frame, values are in dollars ($)
-  modModel$UseTransactions <- modModel$Use[modModel$Commodities[,1], modModel$Industries[,1]]  # data frame, values are in dollars ($)
-  browser()
-  modModel$FinalDemand <- modModel$Use[modModel$Commodities[,1], modModel$FinalDemandMeta$Code]  # data frame, values are in dollars ($)
-  modModel$UseValueAdded <- modModel$Use[modModel$ValueAddedMeta$Code, modModel$Industries[,1]]  # data frame, values are in dollars ($)
+  modModel$UseTransactions <- newUse[modModel$Commodities[,1], modModel$Industries[,1]]  # data frame, values are in dollars ($)
+  modModel$FinalDemand <- newUse[modModel$Commodities[,1], modModel$FinalDemandMeta$Code]  # data frame, values are in dollars ($)
+  modModel$UseValueAdded <- newUse[modModel$ValueAddedMeta$Code, modModel$Industries[,1]]  # data frame, values are in dollars ($)
   modModel$UseCommodityOutput <- as.data.frame(rowSums(cbind(modModel$UseTransactions, modModel$FinalDemand))) # data frame, values are in dollars ($)
   
-  #!!!TO DO: the updates if all of these is being used for the domestic matrices!!!!!!
+  #Update doemstic matrices
+  modModel$DomesticUseTransactions <- newDomesticUse[modModel$Commodities[,1], modModel$Industries[,1]]
+  modModel$DomesticFinalDemand <- newDomesticUse[modModel$Commodities[,1], modModel$FinalDemandMeta$Code]
   
+  browser()
   # Change again the names of the Make and Use to have the acronyms
   #.....................................................................................................................
   ## Modify row and column names in the IO tables
   # Use model$Industries
   rownames(modModel$MakeTransactions) <- colnames(modModel$UseTransactions)  <-colnames(modModel$UseValueAdded) <- modModel$Industries$Code_Loc
-  #colnames(modModel$DomesticUseTransactions)<- modModel$Industries$Code_Loc
+  colnames(modModel$DomesticUseTransactions)<- modModel$Industries$Code_Loc
   # Use model$Commodities
   colnames(modModel$MakeTransactions) <- rownames(modModel$UseTransactions) <- rownames(modModel$FinalDemand)<- modModel$Commodities$Code_Loc
     
-  #rownames(modModel$DomesticUseTransactions) <- rownames(modModel$DomesticFinalDemand)<- modModel$Commodities$Code_Loc
+  rownames(modModel$DomesticUseTransactions) <- rownames(modModel$DomesticFinalDemand)<- modModel$Commodities$Code_Loc
      
   # Apply joinStringswithSlashes based on original row/column names
   rownames(modModel$UseValueAdded) <- apply(cbind(rownames(modModel$UseValueAdded), modModel$specs$modModelRegionAcronyms),
@@ -707,11 +761,13 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData, isDom
   colnames(modModel$FinalDemand)<- apply(cbind(colnames(modModel$FinalDemand),
                                                                                     modModel$specs$modModelRegionAcronyms),
                                                                               1, FUN = joinStringswithSlashes)
-  #colnames(modModel$DomesticFinalDemand)<- apply(cbind(colnames(modModel$FinalDemand),
-  #                                                    modModel$specs$modModelRegionAcronyms),
-  #                                              1, FUN = joinStringswithSlashes)
+  colnames(modModel$DomesticFinalDemand)<- apply(cbind(colnames(modModel$FinalDemand),
+                                                      modModel$specs$modModelRegionAcronyms),
+                                                1, FUN = joinStringswithSlashes)
+  
+  
   #.....................................................................................................................
-  #Update IndustryOutput and CommodityOutput
+  #Update IndustryOutput and CommodityOutput from new Use table
   modModel$IndustryOutput <- colSums(modModel$UseTransactions) + colSums(modModel$UseValueAdded)
   modModel$CommodityOutput <- rowSums(modModel$UseTransactions) + rowSums(modModel$FinalDemand)
   

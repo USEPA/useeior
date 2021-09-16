@@ -50,20 +50,10 @@ loadIOData <- function(model) {
     # #Add BEA to model to access the original tables
     # model$BEA<-BEA
     
-    model<-addBiofuelsSector(model,inputPurchasesNewTech, valueAdded, envData ,FALSE)
+    model<-addBiofuelsSector(model,inputPurchasesNewTech, valueAdded, envData)
     
     browser()
     #-----------------------------------------------------------------------------------------------------------------------------
-    # HERE I WILL IMPLEMENT THE EASY & TEMPORARY VERSION TO SOLVE THE PROBLEMS WITH TEH AUGMENTATION OF 
-    # DomesticUseTRansactions and DomesticFinalDemand
-    # THIS OPTION WILL IMPLY THAT THE RESULTS OBTAINED FROM THE DOMESTIC MATRICES ARE NOT VALID
-    
-    logging::loginfo(paste("Updating Domestic matrices..."))
-    #This does not update any domestic variable, just augment the size
-    model$BEA$DomesticUseTransactions<-addRowsColsZeros(model$BEA$DomesticUseTransactions,1,model$BiofuelsData$nNewIndustries)
-    model$BEA$DomesticFinalDemand<-addRowsColsZeros(model$BEA$DomesticFinalDemand,1,0)
-    
-    logging::loginfo(paste("Warning: Current domestic matrices are not properly updated so domestic results are not valid."))
     
   }
   
