@@ -1012,7 +1012,7 @@ assembleTable <- function (originalTable, disagg, disaggCols, disaggRows, disagg
 #' @param vectorToDisagg String. A parameter to indicate what table and what part of that table is being disaggregated (e.g. "MakeCol" or "Intersection") 
 #' @param domestic Boolean. Flag to indicate where to use the DomesticUse or UseTransactions table
 #' @return A dataframe with the values specified in the disaggSpecs assigned to the correct Make or Use table indeces.
-disaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, domestic = FALSE){
+applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, domestic = FALSE){
   
   #Local variable for new sector codes
   newSectorCodes <- disagg$DisaggregatedSectorCodes
@@ -1045,20 +1045,9 @@ disaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
     allocPercentagesRowIndex <- 1
     allocPercentagesColIndex <- 2
 
-    #Set up for default allocations
-    #Get default percentages (i.e. for non-manual allocation) 
-    #Industry allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
-    defaultPercentages <- subset(disagg$MakeFileDF, IndustryCode %in% originalSectorCode) #get all rows from the MakeFileDF that have the OriginalSectorCode in the IndustryCode column  
-    #Make the default Percentages match the disaggregated sector order
-    defaultPercentages <- defaultPercentages[match(disagg$DisaggregatedSectorCodes, defaultPercentages$CommodityCode),]
-    
-    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
-    if(nrow(defaultPercentages)==0) {
-      defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))#assigning default disaggregation percentage totals assuming uniform split
-    } else {
-      defaultPercentages <- defaultPercentages[, 3, drop=FALSE]#Extracting the column with the percentages
-    }
-    
+    defaultPercentages <- getDefaultAllocationPercentages(disagg$MakeFileDF, disagg,
+                                                          numNewSectors, output='Commodity')
+
     #Create new rows to store default allocation values by copying the original row a number of times equal to the number of new sectors
     defaultAllocVector <- rbind(originalVector, originalVector[rep(1,numNewSectors-1),])
     #multiply all elements in row by default percentages to obtain default allocation values
@@ -1090,19 +1079,8 @@ disaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
     allocPercentagesRowIndex <- 1
     allocPercentagesColIndex <- 2
     
-    #Set up for default allocations
-    #Get default percentages (i.e. for non-manual allocation) 
-    #Industry allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
-    defaultPercentages <- subset(disagg$MakeFileDF, IndustryCode %in% originalSectorCode) #get all rows from the MakeFileDF that have the OriginalSectorCode in the IndustryCode column
-    #Make the default Percentages match the disaggregated sector order
-    defaultPercentages <- defaultPercentages[match(disagg$DisaggregatedSectorCodes, defaultPercentages$CommodityCode),]
-    
-    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
-    if(nrow(defaultPercentages)==0) {
-      defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))#assigning default disaggregation percentage totals assuming uniform split
-    } else {
-      defaultPercentages <- defaultPercentages[, 3, drop=FALSE]#Extracting the column with the percentages
-    }
+    defaultPercentages <- getDefaultAllocationPercentages(disagg$MakeFileDF, disagg,
+                                                          numNewSectors, output='Commodity')
     
     #Create new columns to store default allocation values by copying the original column a number of times equal to the number of new sectors
     defaultAllocVector <- cbind(originalVector, originalVector[,rep(1,numNewSectors-1)])
@@ -1136,19 +1114,8 @@ disaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
     allocPercentagesRowIndex <- 1
     allocPercentagesColIndex <- 2
     
-    #Set up for default allocations
-    #Get default percentages (i.e. for non-manual allocation) 
-    #Industry allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
-    defaultPercentages <- subset(disagg$MakeFileDF, IndustryCode %in% originalSectorCode) #get all rows from the MakeFileDF that have the OriginalSectorCode in the IndustryCode column
-    #Make the default Percentages match the disaggregated sector order
-    defaultPercentages <- defaultPercentages[match(disagg$DisaggregatedSectorCodes, defaultPercentages$CommodityCode),]
-    
-    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
-    if(nrow(defaultPercentages)==0) {
-      defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))#assigning default disaggregation percentage totals assuming uniform split
-    } else {
-      defaultPercentages <- defaultPercentages[, 3, drop=FALSE]#Extracting the column with the percentages
-    }
+    defaultPercentages <- getDefaultAllocationPercentages(disagg$MakeFileDF, disagg,
+                                                          numNewSectors, output='Commodity')
     
     #Create a dataframe to store values for the intersection. This dataframe is of dimensions [numNewSectors, 1]
     defaultAllocVector <- data.frame(originalVector[rep(1,numNewSectors),])
@@ -1198,20 +1165,8 @@ disaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
     allocPercentagesRowIndex <- 2
     allocPercentagesColIndex <- 1
     
-    #Set up for default allocations
-    #Get default percentages (i.e. for non-manual allocation) 
-    #Commodity allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
-    defaultPercentages <- subset(disagg$UseFileDF, IndustryCode %in% originalSectorCode)
-    
-    #Make the default Percentages match the disaggregated sector order
-    defaultPercentages <- defaultPercentages[match(disagg$DisaggregatedSectorCodes, defaultPercentages$CommodityCode),]
-    
-    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
-    if(nrow(defaultPercentages)==0) {
-      defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))#assigning default disaggregation percentage totals assuming uniform split
-    } else {
-      defaultPercentages <- defaultPercentages[, 3, drop=FALSE]#Extracting the column with the percentages
-    }
+    defaultPercentages <- getDefaultAllocationPercentages(disagg$UseFileDF, disagg,
+                                                          numNewSectors, output='Commodity')
     
     #Create new rows to store default allocation values by copying the original row a number of times equal to the number of new sectors
     defaultAllocVector <- rbind(originalVector, originalVector[rep(1,numNewSectors-1),])
@@ -1252,20 +1207,8 @@ disaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
     allocPercentagesRowIndex <- 2
     allocPercentagesColIndex <- 1
     
-    #Set up for default allocations
-    #Get default percentages (i.e. for non-manual allocation) 
-    #Commodity allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
-    defaultPercentages <- subset(disagg$UseFileDF, CommodityCode %in% originalSectorCode) #get all rows in UseAllocations that have the OriginalSectorCode in the CommodityCode column
-    #Make the default Percentages match the disaggregated sector order
-    defaultPercentages <- defaultPercentages[match(disagg$DisaggregatedSectorCodes, defaultPercentages$IndustryCode),]
-    
-    
-    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
-    if(nrow(defaultPercentages)==0) {
-      defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))#assigning default disaggregation percentage totals assuming uniform split
-    } else {
-      defaultPercentages <- defaultPercentages[, 3, drop=FALSE]#Extracting the column with the percentages
-    }
+    defaultPercentages <- getDefaultAllocationPercentages(disagg$UseFileDF, disagg,
+                                                          numNewSectors, output='Industry')
     
     #Create new columns to store default allocation values by copying the original column a number of times equal to the number of new sectors
     defaultAllocVector <- cbind(originalVector, originalVector[,rep(1,numNewSectors-1)])
@@ -1303,21 +1246,8 @@ disaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
     allocPercentagesRowIndex <- 1
     allocPercentagesColIndex <- 2
     
-    #Set up for default allocations
-    #Get default percentages (i.e. for non-manual allocation) 
-    #Industry allocation totals (i.e. disaggregated row percentages) of new sectors (e.g. 100% of 562000 split into to 50% 562HAZ and 50% 562OTH; not actual splits).
-    defaultPercentages <- subset(disagg$UseFileDF, CommodityCode %in% originalSectorCode) #get all rows in UseAllocations that have the OriginalSectorCode in the CommodityCode column
-    #Make the default Percentages match the disaggregated sector order
-    defaultPercentages <- defaultPercentages[match(disagg$DisaggregatedSectorCodes, defaultPercentages$IndustryCode),]
-    
-    #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
-    if(nrow(defaultPercentages)==0){
-      
-      defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))#assigning default disaggregation percentage totals assuming uniform split
-      
-    } else {
-      defaultPercentages <- defaultPercentages[, 3, drop=FALSE]#Extracting the column with the percentages
-    }
+    defaultPercentages <- getDefaultAllocationPercentages(disagg$UseFileDF, disagg,
+                                                          numNewSectors, output='Industry')
     
     #Create a dataframe to store values for the intersection. This dataframe is of dimensions [numNewSectors, 1]
     defaultAllocVector <- data.frame(originalVector[rep(1,numNewSectors),])
@@ -1415,7 +1345,30 @@ disaggAllocations <- function (model, disagg, allocPercentages, vectorToDisagg, 
 
   return(defaultAllocVector)
   
-}#end of disaggAllocations function
+}#end of applyAllocation function
+
+
+getDefaultAllocationPercentages <- function(FileDF, disagg, numNewSectors, output) {
+  #Set up for default allocations
+  #Get default allocation percentages based on commodity or industry output
+  if(output == 'Industry') {
+    defaultPercentages <- subset(FileDF, CommodityCode == disagg$OriginalSectorCode)
+    defaultPercentages <- defaultPercentages[match(disagg$DisaggregatedSectorCodes, defaultPercentages$IndustryCode),]
+  } else {
+    defaultPercentages <- subset(FileDF, IndustryCode %in% disagg$OriginalSectorCode)
+    defaultPercentages <- defaultPercentages[match(disagg$DisaggregatedSectorCodes, defaultPercentages$CommodityCode),]
+  }
+
+  #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
+  if(nrow(defaultPercentages)==0) {
+    #Uniform split
+    defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))
+  } else {
+    defaultPercentages <- defaultPercentages[, 3, drop=FALSE] #Extracting the column with the percentages
+  }
+  
+  return(defaultPercentages)
+}
 
 
 #' Obtain default disaggregation percentages for industries from the disaggregation input files. 
