@@ -28,8 +28,8 @@ disaggregateModel <- function (model){
       model <- balanceDisagg(model, disagg)
     }
 
-    #Disaggregating model$CommodityOutput and model$IndustryOutput objects 
-    model <- calculateOutputs(model)
+    #Recalculate model$CommodityOutput and model$IndustryOutput objects 
+    model <- calculateIndustryCommodityOutput(model)
     
     #Disaggregating MultiyearIndustryOutput and MultiYearCommodityOutput 
     model$MultiYearCommodityOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
@@ -121,25 +121,6 @@ disaggregateSetup <- function (model){
   return(model)
 }
 
-#' Calculate updated Commodity and Industry Output model objects
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return model A complete EEIO model: a list with USEEIO model components and attributes.
-calculateOutputs <- function(model)
-{
-
-  if(!is.null(model$CommodityOutput))
-  {
-    model$CommodityOutput <- rowSums(model$UseTransactions)+rowSums(model$FinalDemand)
-    
-  }
-  if(!is.null(model$IndustryOutput))
-  {
-    model$IndustryOutput <- colSums(model$UseTransactions)+colSums(model$UseValueAdded)
-  }
-
-  return(model)
-
-}
 
 #' Disaggregate model$Margins dataframe in the main model object
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
