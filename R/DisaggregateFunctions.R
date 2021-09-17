@@ -439,10 +439,6 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
     #Assigning allocations for FD
     AllocFDDF <- applyAllocation(disagg, FDPercentages, "FinalDemand", originalFD)
 
-    #Determine number of commodities and industries in originalFD
-    nCommodities <- nrow(originalFD)
-    nIndustries <- ncol(originalFD) 
-    
     #Deterine number of commodities and industries in DisaggSpecs
     numNewSectors <- length(disagg$DisaggregatedSectorCodes) 
     
@@ -491,11 +487,7 @@ disaggregateVA <- function(model, disagg) {
 
     ####assembling disaggregated VA
 
-    #Determine number of commodities and industries in originalFD
-    nCommodities <- nrow(model$UseValueAdded)
-    nIndustries <- ncol(model$UseValueAdded)
-
-    #Deterine number of commodities and industries in DisaggSpecs
+    #Determine number of commodities and industries in DisaggSpecs
     numNewSectors <- length(disagg$DisaggregatedSectorCodes)
 
     #Determine commodity and industry indeces corresponding to the original sector code
@@ -506,7 +498,6 @@ disaggregateVA <- function(model, disagg) {
     #endRowIndex <- originalRowIndex + numNewSectors
     endColIndex <- originalColIndex + numNewSectors
 
-    
     tablePartOne <- model$UseValueAdded[, 1:originalColIndex-1]#all rows, columns to the left of diagg col
     tablePartTwo <- model$UseValueAdded[,-(1:originalColIndex)]#all rows, all columns except cols to left of disagg col
     
