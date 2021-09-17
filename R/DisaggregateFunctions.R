@@ -306,15 +306,14 @@ disaggregateSatelliteTable <- function (disagg, sattable, sat_spec) {
     if(!is.null(disagg$EnvFileDF) & disagg$EnvAllocRatio) {
       # If satellite table data is provided as flow by sector ratios, loop through each flow assigned to original sector
       sattable_original = subset(sattable, Sector==original_code)
-      for(flow in unique(sattable_original$Flowable)) {
-        # TODO: Temporary link based on flow name; update to UUID
-        allocation_df <- subset(disagg$EnvFileDF, Flowable==flow)
+      for(flow in unique(sattable_original$FlowUUID)) {
+        allocation_df <- subset(disagg$EnvFileDF, FlowUUID==flow)
         if(nrow(allocation_df)==0) {
           allocation_vector <- NULL
         } else {
           allocation_vector <- setNames(allocation_df$FlowRatio, allocation_df$Sector)
         }
-        disaggregated_flows <- disaggregateSatelliteSubsetByRatio(subset(sattable_original, Flowable==flow, colnames(sattable)),
+        disaggregated_flows <- disaggregateSatelliteSubsetByRatio(subset(sattable_original, FlowUUID==flow, colnames(sattable)),
                                                                   disagg, allocation_vector)
         sattable <- rbind(sattable, disaggregated_flows)
       }
