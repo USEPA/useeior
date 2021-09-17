@@ -394,7 +394,7 @@ disaggregateUseTable <- function (model, disagg, domestic = FALSE) {
   disaggType = disagg$DisaggregationType
   
   #disaggregation can be of types "Predefined" or "UserDefined". 
-  if(disaggType == "Predefined") {
+  if(disaggType == "Predefined" | is.null(disagg$UseFileDF)) {
     disaggTable <- uniformUseDisagg(model, disagg, domestic)
   } else if(disaggType == "Userdefined") {
     disaggTable <- specifiedUseDisagg(model, disagg, domestic)
@@ -904,57 +904,49 @@ specifiedMakeDisagg <- function (model, disagg){
 #' @return A standardized make table with old sectors removed and new disaggregated sectors added based on the allocations in the disaggregation specs.
 specifiedUseDisagg <- function (model, disagg, domestic = FALSE){
   
-  if(!is.null(disagg$UseFileDF)){
-    
-    #Local variable for original sector code
-    originalSectorCode <- disagg$OriginalSectorCode
-    #Local variable for new sector codes
-    newSectorCodes <- disagg$DisaggregatedSectorCodes
-    #Local variable for Use table allocations
-    UseAllocations <- disagg$UseFileDF
-    #Column names in Final Demand
-    fdColNames <- colnames(model$FinalDemand)
-    VARowNames <- rownames(model$UseValueAdded)
+  #Local variable for original sector code
+  originalSectorCode <- disagg$OriginalSectorCode
+  #Local variable for new sector codes
+  newSectorCodes <- disagg$DisaggregatedSectorCodes
+  #Local variable for Use table allocations
+  UseAllocations <- disagg$UseFileDF
+  #Column names in Final Demand
+  fdColNames <- colnames(model$FinalDemand)
+  VARowNames <- rownames(model$UseValueAdded)
 
-    ###Disaggregate Use Rows, Columns, and Intersection while using the allocation data extracted from the Disaggregation.csv
+  ###Disaggregate Use Rows, Columns, and Intersection while using the allocation data extracted from the Disaggregation.csv
 
-    #Extracting intersection allocation. Get rows of DF where only new sector codes are present in both the industryCode and commodityCode columns. 
-    intersectionPercentages <-subset(UseAllocations, IndustryCode %in% newSectorCodes & CommodityCode %in% newSectorCodes)
-    
-    #Applying allocations for disaggregated intersection
-    disaggregatedIntersection <- applyAllocation(model,disagg,intersectionPercentages,"UseIntersection", domestic)
+  #Extracting intersection allocation. Get rows of DF where only new sector codes are present in both the industryCode and commodityCode columns. 
+  intersectionPercentages <-subset(UseAllocations, IndustryCode %in% newSectorCodes & CommodityCode %in% newSectorCodes)
+  
+  #Applying allocations for disaggregated intersection
+  disaggregatedIntersection <- applyAllocation(model,disagg,intersectionPercentages,"UseIntersection", domestic)
 
-    #Allocations for column (industry) disaggregation. 
-    #Get rows of the DF which do not contain the original sector code or the new sector codes in the commodity column,
-    #where no VA row names are present in the commodity Column, and only the new sector codes are present in the industry column
-    colPercentages <- subset(UseAllocations, !(CommodityCode %in% originalSectorCode) & !(CommodityCode %in% newSectorCodes) & !(CommodityCode %in% VARowNames) & IndustryCode %in% newSectorCodes)
-    
-    #Applying allocation to disaggregat columns
-    disaggregatedColumns <- applyAllocation(model,disagg,colPercentages,"UseCol", domestic) 
+  #Allocations for column (industry) disaggregation. 
+  #Get rows of the DF which do not contain the original sector code or the new sector codes in the commodity column,
+  #where no VA row names are present in the commodity Column, and only the new sector codes are present in the industry column
+  colPercentages <- subset(UseAllocations, !(CommodityCode %in% originalSectorCode) & !(CommodityCode %in% newSectorCodes) & !(CommodityCode %in% VARowNames) & IndustryCode %in% newSectorCodes)
+  
+  #Applying allocation to disaggregat columns
+  disaggregatedColumns <- applyAllocation(model,disagg,colPercentages,"UseCol", domestic) 
 
-    #Allocations for the row (commodity) disaggregation. Get all rows of the DF where:
-    #new sector codes are in the CommodityCode column; the FD column codes are not in the IndustryCode; 
-    #and neither the original nor new sector codes are in the IndustryCode column. 
-    rowsPercentages <- subset(UseAllocations, CommodityCode %in% newSectorCodes & !(IndustryCode %in% fdColNames) & !(IndustryCode %in% originalSectorCode) & !(IndustryCode %in% newSectorCodes))
+  #Allocations for the row (commodity) disaggregation. Get all rows of the DF where:
+  #new sector codes are in the CommodityCode column; the FD column codes are not in the IndustryCode; 
+  #and neither the original nor new sector codes are in the IndustryCode column. 
+  rowsPercentages <- subset(UseAllocations, CommodityCode %in% newSectorCodes & !(IndustryCode %in% fdColNames) & !(IndustryCode %in% originalSectorCode) & !(IndustryCode %in% newSectorCodes))
 
-    #Assigning allocations for disaggregated rows
-    disaggregatedRows  <- applyAllocation(model,disagg,rowsPercentages,"UseRow", domestic)
-    
-    if(domestic){
-      originalUse<-model$DomesticUseTransactions  
-    }
-    else{
-      originalUse<-model$UseTransactions
-    }
-
-    DisaggUse <- assembleTable(originalUse, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection)
-
+  #Assigning allocations for disaggregated rows
+  disaggregatedRows  <- applyAllocation(model,disagg,rowsPercentages,"UseRow", domestic)
+  
+  if(domestic) {
+    originalUse<-model$DomesticUseTransactions  
   } else {
-    #No csv was read in, terminate execution
-    DisaggUse <- NULL
+    originalUse<-model$UseTransactions
   }
 
-  return(DisaggUse)
+  DisaggUse <- assembleTable(originalUse, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection)
+
+return(DisaggUse)
   
 }
 
