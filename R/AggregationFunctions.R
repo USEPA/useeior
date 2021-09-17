@@ -35,7 +35,6 @@ aggregateModel <- function (model){
     model$Industries <- removeRowsFromList(model$Industries, indIndecesToAggregate)
     model$MultiYearIndustryCPI <- aggregateMultiYearCPI(model, mainIndIndex, indIndecesToAggregate, "Industry")
     model$MultiYearIndustryOutput <- aggregateMultiYearOutput(model$MultiYearIndustryOutput, mainIndIndex, indIndecesToAggregate)
-    model$IndustryOutput <- aggregateOutputs(model, indIndecesToAggregate, "Industry")#aggregate model$IndustryOutput object
   }
   
   #aggregate Commodity lists
@@ -43,33 +42,13 @@ aggregateModel <- function (model){
     model$Commodities <- removeRowsFromList(model$Commodities, comIndecesToAggregate)
     model$MultiYearCommodityCPI <- aggregateMultiYearCPI(model, mainIndIndex, indIndecesToAggregate, "Commodity")
     model$MultiYearIndustryOutput <- aggregateMultiYearOutput(model$MultiYearIndustryOutput, mainComIndex, comIndecesToAggregate)
-    model$CommodityOutput <- aggregateOutputs(model, comIndecesToAggregate, "Commodity")#aggregate model$CommoditOutput object
   }
-    
+  
+  model <- calculateIndustryCommodityOutput(model)  
   
   return(model)
 }
 
-#' Calculate updated Commodity and Industry Output model objects after aggregation
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param indecesToAggregate List of indeces to aggregate.
-#' @param type String to designate either commodity or industry
-#' @return  An aggregated Industry or Commodity output object.
-aggregateOutputs <- function(model, indecesToAggregate, type)
-{
-
-  if(type == "Industry"){
-    model$IndustryOutput <- colSums(model$UseTransactions)+colSums(model$UseValueAdded) #calculate new output total
-    return (model$IndustryOutput)
-
-  }else { #assumes commodity
-    model$CommodityOutput <- rowSums(model$UseTransactions)+rowSums(model$FinalDemand)
-    return(model$CommodityOutput)
-
-  }
-  
-
-}
 
 
 #TODO: Complete this function
