@@ -432,8 +432,8 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
     #Allocation for FD demand sectors
     FDPercentages <- subset(disagg$UseFileDF, IndustryCode %in% fdColNames)
     #Assigning allocations for FD
-    AllocFDDF <- applyAllocation(model, disagg, FDPercentages, "FinalDemand", domestic)
-    
+    AllocFDDF <- applyAllocation(disagg, FDPercentages, "FinalDemand", originalFD)
+
     #Determine number of commodities and industries in originalFD
     nCommodities <- nrow(originalFD)
     nIndustries <- ncol(originalFD) 
@@ -482,7 +482,7 @@ disaggregateVA <- function(model, disagg) {
     #Allocation for FD demand sectors
     VAPercentages <- subset(disagg$UseFileDF, CommodityCode %in% VARowNames)#if VA codenames are in the CommodityCode Column of the csv.
     #Assigning allocations for FD
-    AllocVADF <- applyAllocation(model, disagg, VAPercentages, "ValueAdded", domestic)#need to edit applyAllocation to handle value added.
+    AllocVADF <- applyAllocation(disagg, VAPercentages, "ValueAdded", model$UseValueAdded)#need to edit applyAllocation to handle value added.
 
     ####assembling disaggregated VA
 
@@ -871,17 +871,17 @@ specifiedMakeDisagg <- function (model, disagg){
   #and where only the new sector codes are present in the commodity column.
   colPercentages <- subset(makeAllocations, !(IndustryCode %in% originalSectorCode) & !(IndustryCode %in% newSectorCodes) & CommodityCode %in% newSectorCodes)
   #Applying allocation to disaggregate columns
-  disaggregatedColumns <- applyAllocation(model,disagg,colPercentages,"MakeCol") 
+  disaggregatedColumns <- applyAllocation(disagg,colPercentages,"MakeCol", model$MakeTransactions) 
   
   #Allocations for make intersection. Get rows of DF where only new sector codes are present in both the industryCode and commodityCode columns. 
   intersectionPercentages <-subset(makeAllocations, IndustryCode %in% newSectorCodes & CommodityCode %in% newSectorCodes)
   #Assigning allocations for disaggregated intersection
-  disaggregatedIntersection <- applyAllocation(model,disagg,intersectionPercentages,"MakeIntersection")
+  disaggregatedIntersection <- applyAllocation(disagg,intersectionPercentages,"MakeIntersection", model$MakeTransactions)
   
   #Allocations for the row (industry) disaggregation. Get all rows of the DF where new sector codes are in the industryCode column, and neither the original nor new sector codes are in the commodityColumn. 
   rowsPercentages <- subset(makeAllocations, IndustryCode %in% newSectorCodes & !(CommodityCode %in% originalSectorCode) & !(CommodityCode %in% newSectorCodes))
   #Assigning allocations for disaggregated rows
-  disaggregatedRows  <- applyAllocation(model,disagg,rowsPercentages,"MakeRow")
+  disaggregatedRows  <- applyAllocation(disagg,rowsPercentages,"MakeRow", model$MakeTransactions)
 
   DisaggMake <- assembleTable(model$MakeTransactions, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection)
   
@@ -907,13 +907,19 @@ specifiedUseDisagg <- function (model, disagg, domestic = FALSE){
   fdColNames <- colnames(model$FinalDemand)
   VARowNames <- rownames(model$UseValueAdded)
 
+  if(domestic) {
+    originalUse<-model$DomesticUseTransactions  
+  } else {
+    originalUse<-model$UseTransactions
+  }
+  
   ###Disaggregate Use Rows, Columns, and Intersection while using the allocation data extracted from the Disaggregation.csv
 
   #Extracting intersection allocation. Get rows of DF where only new sector codes are present in both the industryCode and commodityCode columns. 
   intersectionPercentages <-subset(UseAllocations, IndustryCode %in% newSectorCodes & CommodityCode %in% newSectorCodes)
   
   #Applying allocations for disaggregated intersection
-  disaggregatedIntersection <- applyAllocation(model,disagg,intersectionPercentages,"UseIntersection", domestic)
+  disaggregatedIntersection <- applyAllocation(disagg,intersectionPercentages,"UseIntersection", originalUse)
 
   #Allocations for column (industry) disaggregation. 
   #Get rows of the DF which do not contain the original sector code or the new sector codes in the commodity column,
@@ -921,7 +927,7 @@ specifiedUseDisagg <- function (model, disagg, domestic = FALSE){
   colPercentages <- subset(UseAllocations, !(CommodityCode %in% originalSectorCode) & !(CommodityCode %in% newSectorCodes) & !(CommodityCode %in% VARowNames) & IndustryCode %in% newSectorCodes)
   
   #Applying allocation to disaggregat columns
-  disaggregatedColumns <- applyAllocation(model,disagg,colPercentages,"UseCol", domestic) 
+  disaggregatedColumns <- applyAllocation(disagg,colPercentages,"UseCol", originalUse) 
 
   #Allocations for the row (commodity) disaggregation. Get all rows of the DF where:
   #new sector codes are in the CommodityCode column; the FD column codes are not in the IndustryCode; 
@@ -929,13 +935,7 @@ specifiedUseDisagg <- function (model, disagg, domestic = FALSE){
   rowsPercentages <- subset(UseAllocations, CommodityCode %in% newSectorCodes & !(IndustryCode %in% fdColNames) & !(IndustryCode %in% originalSectorCode) & !(IndustryCode %in% newSectorCodes))
 
   #Assigning allocations for disaggregated rows
-  disaggregatedRows  <- applyAllocation(model,disagg,rowsPercentages,"UseRow", domestic)
-  
-  if(domestic) {
-    originalUse<-model$DomesticUseTransactions  
-  } else {
-    originalUse<-model$UseTransactions
-  }
+  disaggregatedRows  <- applyAllocation(disagg,rowsPercentages,"UseRow", originalUse)
 
   DisaggUse <- assembleTable(originalUse, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection)
 
@@ -990,13 +990,12 @@ assembleTable <- function (originalTable, disagg, disaggCols, disaggRows, disagg
 }
 
 #' Allocate values specified by the .yml disaggregation specs to the correct places in a disaggregated row/column of the Use/Make tables. 
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
 #' @param allocPercentages Dataframe. A subset of the dataframe that contains the percentages to allocate to specific industry and commodity combinations in the disaggregated vector. Parameter use coordinated with @param vectorToDisagg
 #' @param vectorToDisagg String. A parameter to indicate what table and what part of that table is being disaggregated (e.g. "MakeCol" or "Intersection") 
-#' @param domestic Boolean. Flag to indicate where to use the DomesticUse or UseTransactions table
+#' @param originalTable Dataframe. The original dataframe upon which allocation is performed (e.g., Make or Use)
 #' @return A dataframe with the values specified in the disaggSpecs assigned to the correct Make or Use table indeces.
-applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, domestic = FALSE){
+applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalTable){
   
   #Local variable for new sector codes
   newSectorCodes <- disagg$DisaggregatedSectorCodes
@@ -1009,15 +1008,11 @@ applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, do
   #the Make and Use rows and columns. Each block initializes the manual and default allocation values for the relevant rows or columns.
   if(vectorToDisagg == "MakeRow") {
     #Set up for manual allocations
-    #Get original table
-    originalTable <- model$MakeTransactions
     #Get commodity and/or industry indeces corresponding to the original sector code
     originalVectorIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
     originalVector <- originalTable[originalVectorIndex,]
-    #Get original row or column sum
-    originalVectorSum <- data.frame(rowSums(originalVector))
-    
+
     #Create new rows to store manual allocation values (all other values initiated to NA)
     manualAllocVector <- data.frame(matrix(ncol = ncol(originalTable), nrow = length(newSectorCodes)))
     
@@ -1043,15 +1038,11 @@ applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, do
     
   } else if(vectorToDisagg == "MakeCol") {
     
-    #Get original table
-    originalTable <- model$MakeTransactions
     #Get commodity and/or industry indeces corresponding to the original sector code
     originalVectorIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
     originalVector <- originalTable[,originalVectorIndex, drop = FALSE]
-    #Get original row or column sum
-    originalVectorSum <- data.frame(colSums(originalVector))
-    
+
     #Create new cols to store allocation values (all other values initiated to NA)
     manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = nrow(originalTable)))
     
@@ -1077,16 +1068,12 @@ applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, do
     
   } else if(vectorToDisagg == "MakeIntersection") {
     
-    #Get original table
-    originalTable <- model$MakeTransactions
     #Get commodity and/or industry indeces corresponding to the original sector code
     originalRowIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
     originalColIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
     originalVector <- originalTable[originalRowIndex,originalColIndex, drop=FALSE]
-    #Get original row or column sum
-    originalVectorSum <- data.frame(colSums(originalVector))
-    
+
     #Create new intersection to store allocation values (all other values initiated to NA)
     manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = length(newSectorCodes)))
     
@@ -1115,21 +1102,6 @@ applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, do
     rownames(defaultAllocVector) <- newSectorCodes
     
   } else if(vectorToDisagg == "UseRow" || vectorToDisagg == "FinalDemand" ) {
-    
-    #get original table
-    if(domestic == TRUE) {
-      if(vectorToDisagg == "UseRow") {
-        originalTable <- model$DomesticUseTransactions
-      } else {
-        originalTable <- model$DomesticFinalDemand
-      }
-    } else {
-      if(vectorToDisagg == "UseRow") {
-        originalTable <- model$UseTransactions
-      } else {
-        originalTable <- model$FinalDemand
-      }
-    }
     
     #Get commodity and/or industry indeces corresponding to the original sector code
     originalVectorIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
@@ -1160,16 +1132,6 @@ applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, do
     rownames(defaultAllocVector) <- newSectorCodes
     
   } else if (vectorToDisagg == "UseCol" || vectorToDisagg == "ValueAdded") {
-    #get original table
-    if(vectorToDisagg == "UseCol") {
-      if(domestic == TRUE) {
-        originalTable <- model$DomesticUseTransactions
-      } else {
-        originalTable <- model$UseTransactions
-      }
-    } else {
-      originalTable <- model$UseValueAdded
-    }
 
     #Get commodity and/or industry indeces corresponding to the original sector code
     originalVectorIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
@@ -1200,13 +1162,7 @@ applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, do
     rownames(defaultAllocVector) <- rownames(originalVector)
     
   } else if(vectorToDisagg == "UseIntersection") {
-    #get original table
-    if(domestic == TRUE){
-      originalTable <- model$DomesticUseTransactions
-    } else {
-      originalTable <- model$UseTransactions
-    }
-    
+
     #Get commodity and/or industry indeces corresponding to the original sector code
     originalRowIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
     originalColIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
@@ -1323,7 +1279,7 @@ applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, do
 
   return(defaultAllocVector)
   
-}#end of applyAllocation function
+}
 
 
 getDefaultAllocationPercentages <- function(FileDF, disagg, numNewSectors, output) {
