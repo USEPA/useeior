@@ -42,7 +42,7 @@ disaggregateModel <- function (model){
     #Disaggregating Crosswalk
     model$crosswalk <- disaggregateMasterCrosswalk(model, disagg)
     
-    #Disaggreate Margins
+    #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
 
     counter <- counter + 1
@@ -107,10 +107,9 @@ disaggregateSetup <- function (model){
     if(!is.null(disagg$EnvFile)){
       disagg$EnvFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
-    if("FlowRatio" %in% colnames(disagg$EnvFileDF)){
+    if("FlowRatio" %in% colnames(disagg$EnvFileDF)) {
       disagg$EnvAllocRatio <- TRUE
-    }
-    else{
+    } else {
       disagg$EnvAllocRatio <- FALSE
     }
     #Need to assign these DFs back to the modelspecs
@@ -265,7 +264,7 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
     names(newSectors) <- names(model$Industries) #rename columns for the df
   }
 
-  #variable to determine length of Code substring, i.e., code length minus geographic identifer and separator character (e.g. "/US")
+  #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
   codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1]))
   newSectors$Code <- substr(disagg$DisaggregatedSectorCodes,1,codeLength)
   newSectors$Code_Loc <- sapply(disagg$DisaggregatedSectorCodes, paste0, collapse = "")#sapply needed to convert DisaggregatedSectorCodes from list to char vector
@@ -433,7 +432,7 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
     #Allocation for FD demand sectors
     FDPercentages <- subset(disagg$UseFileDF, IndustryCode %in% fdColNames)
     #Assigning allocations for FD
-    AllocFDDF <- disaggAllocations(model, disagg, FDPercentages, "FinalDemand", domestic)
+    AllocFDDF <- applyAllocation(model, disagg, FDPercentages, "FinalDemand", domestic)
     
     #Determine number of commodities and industries in originalFD
     nCommodities <- nrow(originalFD)
@@ -483,7 +482,7 @@ disaggregateVA <- function(model, disagg) {
     #Allocation for FD demand sectors
     VAPercentages <- subset(disagg$UseFileDF, CommodityCode %in% VARowNames)#if VA codenames are in the CommodityCode Column of the csv.
     #Assigning allocations for FD
-    AllocVADF <- disaggAllocations(model, disagg, VAPercentages, "ValueAdded", domestic)#need to edit disaggAllocations to handle value added.
+    AllocVADF <- applyAllocation(model, disagg, VAPercentages, "ValueAdded", domestic)#need to edit applyAllocation to handle value added.
 
     ####assembling disaggregated VA
 
@@ -1151,9 +1150,7 @@ applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, do
     originalVectorIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
     originalVector <- originalTable[originalVectorIndex,]
-    #Get original row or column sum
-    originalVectorSum <- data.frame(rowSums(originalVector))
-    
+
     #Create new rows to store manual allocation values (all other values initiated to NA)
     manualAllocVector <- data.frame(matrix(ncol = ncol(originalTable), nrow = length(newSectorCodes)))
     
@@ -1193,9 +1190,7 @@ applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, do
     originalVectorIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
     originalVector <- originalTable[,originalVectorIndex, drop = FALSE]
-    #Get original row or column sum
-    originalVectorSum <- data.frame(colSums(originalVector))
-    
+
     #Create new cols to store allocation values (all other values initiated to NA)
     manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = nrow(originalTable)))
     
@@ -1232,9 +1227,7 @@ applyAllocation <- function (model, disagg, allocPercentages, vectorToDisagg, do
     originalColIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
     originalVector <- originalTable[originalRowIndex,originalColIndex, drop=FALSE]
-    #Get original row or column sum
-    originalVectorSum <- data.frame(colSums(originalVector))
-    
+
     #Create new intersection to store allocation values (all other values initiated to NA)
     manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = length(newSectorCodes)))
     
