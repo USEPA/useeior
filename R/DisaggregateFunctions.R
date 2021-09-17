@@ -372,7 +372,7 @@ disaggregateMakeTable <- function (model, disagg) {
   disaggType = disagg$DisaggregationType
 
   #disaggregation can be of types "Predefined" or "UserDefined". 
-  if(disaggType == "Predefined") {
+  if(disaggType == "Predefined" | is.null(disagg$MakeFileDF)) {
     disaggTable <- uniformMakeDisagg(model, disagg)
   } else if(disaggType == "Userdefined") {
     disaggTable <- specifiedMakeDisagg(model, disagg)
@@ -857,41 +857,34 @@ disaggregateMasterCrosswalk <- function (model, disagg){
 #' @return A standardized make table with old sectors removed and new disaggregated sectors added based on the allocations in the disaggregation specs.
 specifiedMakeDisagg <- function (model, disagg){
   
-  if(!is.null(disagg$MakeFileDF)){
-    
-    #Local variable for original sector code
-    originalSectorCode <- disagg$OriginalSectorCode
-    #Local variable for new sector codes
-    newSectorCodes <- disagg$DisaggregatedSectorCodes
-    #Local variable for Make table allocations
-    makeAllocations <- disagg$MakeFileDF
-    
-    ###Disaggregate Make Rows, Columns, and Intersection while using the allocation data extracted from the Disaggregation csv. 
-    
-    #Allocations for column (commodity) disaggregation. 
-    #Get rows of the DF which do not contain the original sector code or the new sector codes in the industry column (e.g., get only non 562 sector codes when doing waste disaggregation),
-    #and where only the new sector codes are present in the commodity column.
-    colPercentages <- subset(makeAllocations, !(IndustryCode %in% originalSectorCode) & !(IndustryCode %in% newSectorCodes) & CommodityCode %in% newSectorCodes)
-    #Applying allocation to disaggregate columns
-    disaggregatedColumns <- applyAllocation(model,disagg,colPercentages,"MakeCol") 
-    
-    #Allocations for make intersection. Get rows of DF where only new sector codes are present in both the industryCode and commodityCode columns. 
-    intersectionPercentages <-subset(makeAllocations, IndustryCode %in% newSectorCodes & CommodityCode %in% newSectorCodes)
-    #Assigning allocations for disaggregated intersection
-    disaggregatedIntersection <- applyAllocation(model,disagg,intersectionPercentages,"MakeIntersection")
-    
-    #Allocations for the row (industry) disaggregation. Get all rows of the DF where new sector codes are in the industryCode column, and neither the original nor new sector codes are in the commodityColumn. 
-    rowsPercentages <- subset(makeAllocations, IndustryCode %in% newSectorCodes & !(CommodityCode %in% originalSectorCode) & !(CommodityCode %in% newSectorCodes))
-    #Assigning allocations for disaggregated rows
-    disaggregatedRows  <- applyAllocation(model,disagg,rowsPercentages,"MakeRow")
- 
-    DisaggMake <- assembleTable(model$MakeTransactions, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection)
-    
-  } else {
-    #No csv was read in, terminate execution
-    DisaggMake <- NULL;
-  }
+  #Local variable for original sector code
+  originalSectorCode <- disagg$OriginalSectorCode
+  #Local variable for new sector codes
+  newSectorCodes <- disagg$DisaggregatedSectorCodes
+  #Local variable for Make table allocations
+  makeAllocations <- disagg$MakeFileDF
+  
+  ###Disaggregate Make Rows, Columns, and Intersection while using the allocation data extracted from the Disaggregation csv. 
+  
+  #Allocations for column (commodity) disaggregation. 
+  #Get rows of the DF which do not contain the original sector code or the new sector codes in the industry column (e.g., get only non 562 sector codes when doing waste disaggregation),
+  #and where only the new sector codes are present in the commodity column.
+  colPercentages <- subset(makeAllocations, !(IndustryCode %in% originalSectorCode) & !(IndustryCode %in% newSectorCodes) & CommodityCode %in% newSectorCodes)
+  #Applying allocation to disaggregate columns
+  disaggregatedColumns <- applyAllocation(model,disagg,colPercentages,"MakeCol") 
+  
+  #Allocations for make intersection. Get rows of DF where only new sector codes are present in both the industryCode and commodityCode columns. 
+  intersectionPercentages <-subset(makeAllocations, IndustryCode %in% newSectorCodes & CommodityCode %in% newSectorCodes)
+  #Assigning allocations for disaggregated intersection
+  disaggregatedIntersection <- applyAllocation(model,disagg,intersectionPercentages,"MakeIntersection")
+  
+  #Allocations for the row (industry) disaggregation. Get all rows of the DF where new sector codes are in the industryCode column, and neither the original nor new sector codes are in the commodityColumn. 
+  rowsPercentages <- subset(makeAllocations, IndustryCode %in% newSectorCodes & !(CommodityCode %in% originalSectorCode) & !(CommodityCode %in% newSectorCodes))
+  #Assigning allocations for disaggregated rows
+  disaggregatedRows  <- applyAllocation(model,disagg,rowsPercentages,"MakeRow")
 
+  DisaggMake <- assembleTable(model$MakeTransactions, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection)
+  
   return(DisaggMake)
   
 }
@@ -946,7 +939,7 @@ specifiedUseDisagg <- function (model, disagg, domestic = FALSE){
 
   DisaggUse <- assembleTable(originalUse, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection)
 
-return(DisaggUse)
+  return(DisaggUse)
   
 }
 
