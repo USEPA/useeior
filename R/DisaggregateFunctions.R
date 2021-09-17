@@ -1068,39 +1068,20 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
     
   } else if(vectorToDisagg == "MakeIntersection") {
     
-    #Get commodity and/or industry indeces corresponding to the original sector code
-    originalRowIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
-    originalColIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
-    #Get original row or column
-    originalVector <- originalTable[originalRowIndex,originalColIndex, drop=FALSE]
+    intersection <- originalTable[which(rownames(originalTable)==disagg$OriginalSectorCode),
+                                  which(colnames(originalTable)==disagg$OriginalSectorCode), drop=FALSE]
 
-    #Create new intersection to store allocation values (all other values initiated to NA)
-    manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = length(newSectorCodes)))
+    defaultPercentages <- getDefaultAllocationPercentages(disagg$MakeFileDF, disagg,
+                                                          numNewSectors, output='Commodity')
     
-    #Assign correct column and row names to new rows dataframe
-    colnames(manualAllocVector) <- newSectorCodes
-    rownames(manualAllocVector) <- newSectorCodes
+    defaultAllocVector <- calculateDefaultIntersection(intersection, defaultPercentages, newSectorCodes)
+
+    manualAllocVector <- createBlankIntersection(newSectorCodes)
     
     #Assign lookup index for allocPercentages vector 
     allocPercentagesRowIndex <- 1
     allocPercentagesColIndex <- 2
-    
-    defaultPercentages <- getDefaultAllocationPercentages(disagg$MakeFileDF, disagg,
-                                                          numNewSectors, output='Commodity')
-    
-    #Create a dataframe to store values for the intersection. This dataframe is of dimensions [numNewSectors, 1]
-    defaultAllocVector <- data.frame(originalVector[rep(1,numNewSectors),])
-    #multiply all elements in row by default percentages to obtain default allocation values
-    defaultAllocVector <- defaultAllocVector*defaultPercentages[,1]
-    
-    #Diagonalize the populated column vector
-    defaultAllocVector <- diag(defaultAllocVector[,1],numNewSectors,numNewSectors)
-    defaultAllocVector <- data.frame(defaultAllocVector)
-
-    #rename rows and columns
-    colnames(defaultAllocVector) <- newSectorCodes
-    rownames(defaultAllocVector) <- newSectorCodes
-    
+        
   } else if(vectorToDisagg == "UseRow" || vectorToDisagg == "FinalDemand" ) {
     
     #Get commodity and/or industry indeces corresponding to the original sector code
@@ -1163,38 +1144,19 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
     
   } else if(vectorToDisagg == "UseIntersection") {
 
-    #Get commodity and/or industry indeces corresponding to the original sector code
-    originalRowIndex <- which(rownames(originalTable)==disagg$OriginalSectorCode)
-    originalColIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
-    #Get original row or column
-    originalVector <- originalTable[originalRowIndex,originalColIndex, drop=FALSE]
-
-    #Create new intersection to store allocation values (all other values initiated to NA)
-    manualAllocVector <- data.frame(matrix(ncol = length(newSectorCodes), nrow = length(newSectorCodes)))
-    
-    #Assign correct column and row names to new rows dataframe
-    colnames(manualAllocVector) <- newSectorCodes
-    rownames(manualAllocVector) <- newSectorCodes
-    
-    #Assign lookup index for allocPercentages vector 
-    allocPercentagesRowIndex <- 1
-    allocPercentagesColIndex <- 2
+    intersection <- originalTable[which(rownames(originalTable)==disagg$OriginalSectorCode),
+                                  which(colnames(originalTable)==disagg$OriginalSectorCode), drop=FALSE]
     
     defaultPercentages <- getDefaultAllocationPercentages(disagg$UseFileDF, disagg,
                                                           numNewSectors, output='Industry')
     
-    #Create a dataframe to store values for the intersection. This dataframe is of dimensions [numNewSectors, 1]
-    defaultAllocVector <- data.frame(originalVector[rep(1,numNewSectors),])
-    #multiply all elements in row by default percentages to obtain default allocation values
-    defaultAllocVector <- defaultAllocVector*defaultPercentages[,1]
+    defaultAllocVector <- calculateDefaultIntersection(intersection, defaultPercentages, newSectorCodes)
+
+    manualAllocVector <- createBlankIntersection(newSectorCodes)
     
-    #Diagonalize the populated column vector
-    defaultAllocVector <- diag(defaultAllocVector[,1],numNewSectors,numNewSectors)
-    defaultAllocVector <- data.frame(defaultAllocVector)
-    
-    #rename rows and columns
-    colnames(defaultAllocVector) <- newSectorCodes
-    rownames(defaultAllocVector) <- newSectorCodes
+    #Assign lookup index for allocPercentages vector 
+    allocPercentagesRowIndex <- 1
+    allocPercentagesColIndex <- 2
     
   } else {
     #todo error handling
@@ -1230,7 +1192,7 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
       } else if(vectorToDisagg=="MakeCol" || vectorToDisagg=="UseCol" || vectorToDisagg == "ValueAdded") {
         value <- originalVector[rowAllocIndex, 1, drop = FALSE]*allocationValue #to keep value as a dataframe
       } else if(vectorToDisagg == "MakeIntersection" || vectorToDisagg=="UseIntersection") {
-        value <- originalVector[1, 1, drop = FALSE]*allocationValue #to keep value as a dataframe. Should be a 1x1 DF
+        value <- intersection[1, 1, drop = FALSE]*allocationValue #to keep value as a dataframe. Should be a 1x1 DF
       }
       
       #If either rowAlloc or column are not valid values, set value to 0 to avoid a runtime error
@@ -1302,6 +1264,36 @@ getDefaultAllocationPercentages <- function(FileDF, disagg, numNewSectors, outpu
   }
   
   return(defaultPercentages)
+}
+
+createBlankIntersection <- function (newSectorCodes) {
+  #Create new intersection to store allocation values (all other values initiated to NA)
+  intersection <- data.frame(matrix(ncol = length(newSectorCodes), nrow = length(newSectorCodes)))
+  
+  #Assign correct column and row names to new rows dataframe
+  colnames(intersection) <- newSectorCodes
+  rownames(intersection) <- newSectorCodes
+
+  return(intersection)
+}
+
+
+calculateDefaultIntersection <- function(originalIntersection, defaultPercentages, newSectorCodes) {
+  numNewSectors <- length(newSectorCodes)
+  #Create a dataframe to store values for the intersection. This dataframe is of dimensions [numNewSectors, 1]
+  intersection <- data.frame(originalIntersection[rep(1,numNewSectors),])
+  #multiply all elements in row by default percentages to obtain default allocation values
+  intersection <- intersection*defaultPercentages[,1]
+  
+  #Diagonalize the populated column vector
+  intersection <- diag(intersection[,1],numNewSectors,numNewSectors)
+  intersection <- data.frame(intersection)
+  
+  #rename rows and columns
+  colnames(intersection) <- newSectorCodes
+  rownames(intersection) <- newSectorCodes
+  
+  return(intersection)
 }
 
 
