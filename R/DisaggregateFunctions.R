@@ -3,8 +3,6 @@
 #' @return A disaggregated model.
 disaggregateModel <- function (model){
  
-  model <- disaggregateSetup(model)
-
   logging::loginfo("Initializing Disaggregation of IO tables...")
   
   counter = 1
@@ -52,23 +50,27 @@ disaggregateModel <- function (model){
   
 }
 
-#' Obtain disaggregation specs from aggregation input files
+#' Obtain aggregation and disaggregation specs from input files
 #' @param model Model file loaded with IO tables
-#' @return A model with the specified disaggregation specs.
+#' @return A model with the specified aggregation and disaggregation specs.
 getDisaggregationSpecs <- function (model){
+  model$DisaggregationSpecs$Aggregation <- vector(mode='list')
   model$DisaggregationSpecs$Disaggregation <- vector(mode='list')
   for (configFile in model$specs$DisaggregationSpecs){
     logging::loginfo(paste0("Loading disaggregation spes for ", configFile, "..."))
     config <- getConfiguration(configFile, "disagg")
+    if('Aggregation' %in% names(config)){
+      model$DisaggregationSpecs$Aggregation <- append(model$DisaggregationSpecs$Aggregation, config$Aggregation)
+    }
     if('Disaggregation' %in% names(config)){
       model$DisaggregationSpecs$Disaggregation <- append(model$DisaggregationSpecs$Disaggregation, config$Disaggregation)
     }
   }
   
-  return(model)
+  model <- disaggregateSetup(model)
   
+  return(model)
 }
-
 
 #' Setup the configuration specs based on the input files
 #' @param model Model file loaded with IO tables
