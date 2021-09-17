@@ -50,23 +50,6 @@ aggregateModel <- function (model){
 }
 
 
-#' Obtain aggregation specs from aggregation input files
-#' @param model Model file loaded with IO tables
-#' @return A model with the specified aggregation specs.
-getAggregationSpecs <- function (model){
-  model$DisaggregationSpecs$Aggregation <- vector(mode='list')
-  for (configFile in model$specs$DisaggregationSpecs){
-    logging::loginfo(paste0("Loading aggregation specs for ", configFile, "..."))
-    config <- getConfiguration(configFile, "disagg")
-    if('Aggregation' %in% names(config)){
-      model$DisaggregationSpecs$Aggregation <- append(model$DisaggregationSpecs$Aggregation, config$Aggregation)
-    }
-  }
-  
-  return(model)
-  
-}
-
 
 #TODO: Complete this function
 #' Aggregate satellite tables from static file based on specs
