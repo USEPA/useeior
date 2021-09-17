@@ -421,7 +421,7 @@ S00203,Other state and local government enterprises,Other Activities,Government,
 S00101,Federal electric utilities,Other Activities,Government,BEA Code & Name is 'S00101:Federal electric utilities'.
 S00201,State and local government passenger transit,Other Activities,Government,BEA Code & Name is 'S00201:State and local government passenger transit'.
 S00202,State and local government electric utilities,Other Activities,Government,BEA Code & Name is 'S00202:State and local government electric utilities'.
-S00401,Scrap,,,
+S00401,Scrap,Other Activities,,BEA Code & Name is 'S00401:Scrap'.  We DO NOT recommend this be used for individual analysis - this is only used for model completeness.
 S00402,Used and secondhand goods,Other Activities,,BEA Code & Name is 'S00402:Used and secondhand goods'.  We DO NOT recommend this be used for individual analysis - this is only used for model completeness.
 S00300,Noncomparable imports,Other Activities,,BEA Code & Name is 'S00300:Noncomparable imports'.  
 S00900,Rest of the world adjustment,Other Activities,,BEA Code & Name is 'S00900:Rest of the world adjustment'.  We DO NOT recommend this be used for individual analysis - this is only used for model completeness.

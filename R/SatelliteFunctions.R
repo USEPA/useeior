@@ -147,6 +147,10 @@ aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
   for (f in dq_fields) {
     sattable[is.na(sattable[, f]), f] <- 5
   }
+  # Add FlowUUID field for backwards compatibility if it does not exist
+  if(!"FlowUUID" %in% colnames(sattable)){
+    sattable[, "FlowUUID"] <- ""
+  }
   # Aggregate FlowAmount by specified columns
   aggbycolumns <- c(to_code, "Flowable", "Context", "Unit", dq_fields,
                     "Year", "MetaSources", "Location", "FlowUUID")
