@@ -373,7 +373,7 @@ disaggregateMakeTable <- function (model, disagg) {
 
   #disaggregation can be of types "Predefined" or "UserDefined". 
   if(disaggType == "Predefined" | is.null(disagg$MakeFileDF)) {
-    disaggTable <- uniformMakeDisagg(model, disagg)
+    disaggTable <- uniformDisagg(model, disagg, model$MakeTransactions)
   } else if(disaggType == "Userdefined") {
     disaggTable <- specifiedMakeDisagg(model, disagg)
   } else {
@@ -395,7 +395,12 @@ disaggregateUseTable <- function (model, disagg, domestic = FALSE) {
   
   #disaggregation can be of types "Predefined" or "UserDefined". 
   if(disaggType == "Predefined" | is.null(disagg$UseFileDF)) {
-    disaggTable <- uniformUseDisagg(model, disagg, domestic)
+    if(domestic) {
+      table <- model$DomesticUseTransactions
+    } else {
+      table <- model$UseTransactions
+    }
+    disaggTable <- uniformDisagg(model, disagg, table)
   } else if(disaggType == "Userdefined") {
     disaggTable <- specifiedUseDisagg(model, disagg, domestic)
   } else {
@@ -516,39 +521,38 @@ disaggregateVA <- function(model, disagg) {
   
 }
 
-#' Disaggregate make table uniformly based on the number of new sectors
+#' Disaggregate make or use table uniformly based on the number of new sectors
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
+#' @param table DataFrame of make or use table
 #' @return A standardized make table with old sectors removed and new, uniformly disaggregated sectors added.
-uniformMakeDisagg <- function (model, disagg) {
+uniformDisagg <- function (model, disagg, table) {
   
   #Predefined disaggregation assumes 1 industry/commodity disaggregated uniformly into several, with  
   #values along the intersections disaggregated uniformly along the diagonal.
-  
-  originalMake<-model$MakeTransactions
 
   #Determine number of commodities and industries in DisaggSpecs
   numNewSectors <- length(disagg$DisaggregatedSectorCodes) 
   
   #Determine commodity and industry indeces corresponding to the original sector code
-  originalRowIndex <- which(rownames(originalMake)==disagg$OriginalSectorCode)
-  originalColIndex <- which(colnames(originalMake)==disagg$OriginalSectorCode)
+  originalRowIndex <- which(rownames(table)==disagg$OriginalSectorCode)
+  originalColIndex <- which(colnames(table)==disagg$OriginalSectorCode)
 
   ########Row disaggregation
   #Copy original row (ind) for disaggregation
-  originalRowVector <- originalMake[originalRowIndex,]
+  originalRowVector <- table[originalRowIndex,]
   
   disaggRows <- disaggregateRow(originalRowVector,disagg)
   
   ########Column disaggregation
   #Copy original Column (Com) for disaggregation
-  originalColVector <-originalMake[,originalColIndex, drop = FALSE]#drop = False needed to copy as dataframe
+  originalColVector <-table[,originalColIndex, drop = FALSE]#drop = False needed to copy as dataframe
   
   disaggCols <- disaggregateCol(originalColVector,disagg)
   
   
   ########Intersection Disaggregation
-  originalIntersection <- originalMake[originalRowIndex, originalColIndex]
+  originalIntersection <- table[originalRowIndex, originalColIndex]
   
   #Divide intersection by number of new sectors
   originalIntersection <- originalIntersection/numNewSectors
@@ -564,68 +568,12 @@ uniformMakeDisagg <- function (model, disagg) {
   rownames(disaggIntersection) <- disagg$DisaggregatedSectorCodes
   
   
-  disaggTable <- assembleTable(originalMake, disagg, disaggCols, disaggRows, disaggIntersection)
+  disaggTable <- assembleTable(table, disagg, disaggCols, disaggRows, disaggIntersection)
   
   return(disaggTable)
   
 }
 
-
-#' Disaggregate use table uniformly based on the number of new sectors
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param disagg Specifications for disaggregating the current Table
-#' @param domestic boolean, indicates whether use disagg is for domestic model or full model; FALSE is default
-#' @return A standardized use table with old sectors removed and new, uniformly disaggregated sectors added.
-uniformUseDisagg <- function(model, disagg, domestic = FALSE) {
-
-  #Predefined disaggregation assumes 1 industry/commodity disaggregated uniformly into several, with  
-  #values along the intersections disaggregated uniformly along the diagonal.
-    
-  if(domestic) {
-    originalUse<-model$DomesticUseTransactions  
-  } else {
-    originalUse<-model$UseTransactions
-  }
-  
-  #Determine number of commodities and industries in DisaggSpecs
-  numNewSectors <- length(disagg$DisaggregatedSectorCodes) 
-  
-  #Determine commodity and industry indeces corresponding to the original sector code
-  originalRowIndex <- which(rownames(originalUse)==disagg$OriginalSectorCode)
-  originalColIndex <- which(colnames(originalUse)==disagg$OriginalSectorCode)
-  
-  ########Row disaggregation
-  #Copy original row (com) for disaggregation
-  originalRowVector <- originalUse[originalRowIndex,]
-  
-  disaggRows <- disaggregateRow(originalRowVector,disagg)
-  
-  ########Columnn disaggregation
-  #Copy original Column (ind) for disaggregation
-  originalColVector <-originalUse[,originalColIndex, drop = FALSE]#drop = False needed to copy as dataframe
-  
-  disaggCols <- disaggregateCol(originalColVector,disagg)
-
-  ########Intersection Disaggregation
-  originalIntersection <- originalUse[originalRowIndex, originalColIndex]
-  
-  #Divide intersection by number of new sectors
-  originalIntersection <- originalIntersection/numNewSectors
-  
-  #Populate disaggregated intersection assuming equal values along the diagonal. Matrix variable. 
-  disaggIntersection <- diag(originalIntersection,numNewSectors,numNewSectors)
-  
-  #Convert to data frame
-  disaggIntersection = as.data.frame(t(disaggIntersection))
-  
-  #rename rows and columns
-  colnames(disaggIntersection) <- disagg$DisaggregatedSectorCodes
-  rownames(disaggIntersection) <- disagg$DisaggregatedSectorCodes
-  
-  disaggTable <- assembleTable(originalUse, disagg, disaggCols, disaggRows, disaggIntersection)
-  
-  return(disaggTable)
-}
 
 #' Disaggregate multiple rows from a table.
 #' @param RowVectors A dataframe containing the rows to disaggregate
