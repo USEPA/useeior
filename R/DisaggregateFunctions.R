@@ -526,30 +526,21 @@ uniformMakeDisagg <- function (model, disagg) {
   #values along the intersections disaggregated uniformly along the diagonal.
   
   originalMake<-model$MakeTransactions
-  
-  #Determine number of commodities and industries in originalMake
-  nCommodities <- ncol(originalMake)
-  nIndustries <- nrow(originalMake) 
-  
+
   #Determine number of commodities and industries in DisaggSpecs
   numNewSectors <- length(disagg$DisaggregatedSectorCodes) 
   
   #Determine commodity and industry indeces corresponding to the original sector code
   originalRowIndex <- which(rownames(originalMake)==disagg$OriginalSectorCode)
   originalColIndex <- which(colnames(originalMake)==disagg$OriginalSectorCode)
-  
-  #Determine end index of disaggregated sectors
-  endRowIndex <- originalRowIndex + numNewSectors
-  endColIndex <- originalColIndex + numNewSectors
-  
-  
+
   ########Row disaggregation
   #Copy original row (ind) for disaggregation
   originalRowVector <- originalMake[originalRowIndex,]
   
   disaggRows <- disaggregateRow(originalRowVector,disagg)
   
-  ########Columnn disaggregation
+  ########Column disaggregation
   #Copy original Column (Com) for disaggregation
   originalColVector <-originalMake[,originalColIndex, drop = FALSE]#drop = False needed to copy as dataframe
   
@@ -573,28 +564,7 @@ uniformMakeDisagg <- function (model, disagg) {
   rownames(disaggIntersection) <- disagg$DisaggregatedSectorCodes
   
   
-  ########Assemble table
-  
-  #Assembling all columns above disaggregated rows, including all disaggregated columns
-  disaggTable <- cbind(originalMake[1:originalRowIndex-1,1:originalColIndex-1], #above diagg rows, from 1st col to col right before disaggregation
-                       disaggCols[1:originalRowIndex-1,],                        #insert disaggregated cols before disaggregated rows
-                       originalMake[1:originalRowIndex-1,-(1:originalColIndex)]) #include all cols except from 1st col to disaggregated col
-  
-  #Inserting intersection into disaggregated rows
-  disaggRows <- cbind(disaggRows[,1:originalColIndex-1],  #from 1st col to col right before disaggregation
-                      disaggIntersection,                 #insert disaggregated intersection
-                      disaggRows[,-(1:originalColIndex)]) #include all cols except from 1s col to disaggregated col
-  
-  #Appending rest of original rows to partially assembled DMake
-  disaggTable <- rbind(disaggTable,disaggRows)
-  
-  #Assembling all columns below disaggregated rows, including all disaggregated columns
-  disaggTableBottom <- cbind(originalMake[-(1:originalRowIndex),1:originalColIndex-1],  #below disagg rows, from 1st col to col right before disaggregation
-                             disaggCols[-(1:originalRowIndex),],                        #insert disaggregated cols below disaggregated rows
-                             originalMake[-(1:originalRowIndex),-(1:originalColIndex)]) #below disagg rows, all columns after disagg columns 
-  
-  #Appeding bottom part of the table to top part of the table
-  disaggTable <- rbind(disaggTable, disaggTableBottom)
+  disaggTable <- assembleTable(originalMake, disagg, disaggCols, disaggRows, disaggIntersection)
   
   return(disaggTable)
   
@@ -617,21 +587,12 @@ uniformUseDisagg <- function(model, disagg, domestic = FALSE) {
     originalUse<-model$UseTransactions
   }
   
-  #Determine number of commodities and industries in originalUse
-  nCommodities <- nrow(originalUse)
-  nIndustries <- ncol(originalUse) 
-  
-  #Deterine number of commodities and industries in DisaggSpecs
+  #Determine number of commodities and industries in DisaggSpecs
   numNewSectors <- length(disagg$DisaggregatedSectorCodes) 
   
   #Determine commodity and industry indeces corresponding to the original sector code
   originalRowIndex <- which(rownames(originalUse)==disagg$OriginalSectorCode)
   originalColIndex <- which(colnames(originalUse)==disagg$OriginalSectorCode)
-  
-  #Determine end index of disaggregated sectors
-  endRowIndex <- originalRowIndex + numNewSectors
-  endColIndex <- originalColIndex + numNewSectors
-  
   
   ########Row disaggregation
   #Copy original row (com) for disaggregation
@@ -644,8 +605,7 @@ uniformUseDisagg <- function(model, disagg, domestic = FALSE) {
   originalColVector <-originalUse[,originalColIndex, drop = FALSE]#drop = False needed to copy as dataframe
   
   disaggCols <- disaggregateCol(originalColVector,disagg)
-  
-  
+
   ########Intersection Disaggregation
   originalIntersection <- originalUse[originalRowIndex, originalColIndex]
   
@@ -662,30 +622,8 @@ uniformUseDisagg <- function(model, disagg, domestic = FALSE) {
   colnames(disaggIntersection) <- disagg$DisaggregatedSectorCodes
   rownames(disaggIntersection) <- disagg$DisaggregatedSectorCodes
   
+  disaggTable <- assembleTable(originalUse, disagg, disaggCols, disaggRows, disaggIntersection)
   
-  ########Assemble table
-  
-  #Assembling all columns above disaggregated rows, including all disaggregated columns
-  disaggTable <- cbind(originalUse[1:originalRowIndex-1,1:originalColIndex-1], #above diagg rows, from 1st col to col right before disaggregation
-                       disaggCols[1:originalRowIndex-1,],                        #insert disaggregated cols before disaggregated rows
-                       originalUse[1:originalRowIndex-1,-(1:originalColIndex)]) #include all cols except from 1st col to disaggregated col
-  
-  #Inserting intersection into disaggregated rows
-  disaggRows <- cbind(disaggRows[,1:originalColIndex-1],  #from 1st col to col right before disaggregation
-                      disaggIntersection,                 #insert disaggregated intersection
-                      disaggRows[,-(1:originalColIndex)]) #include all cols except from 1s col to disaggregated col
-  
-  #Appending rest of original rows to partially assembled DMake
-  disaggTable <- rbind(disaggTable,disaggRows)
-  
-  #Assembling all columns below disaggregated rows, including all disaggregated columns
-  disaggTableBottom <- cbind(originalUse[-(1:originalRowIndex),1:originalColIndex-1],  #below disagg rows, from 1st col to col right before disaggregation
-                             disaggCols[-(1:originalRowIndex),],                        #insert disaggregated cols below disaggregated rows
-                             originalUse[-(1:originalRowIndex),-(1:originalColIndex)]) #below disagg rows, all columns after disagg columns 
-  
-  #Appeding bottom part of the table to top part of the table
-  disaggTable <- rbind(disaggTable, disaggTableBottom)
-    
   return(disaggTable)
 }
 
