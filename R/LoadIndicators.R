@@ -4,7 +4,7 @@
 #' @param model A model object with IO data loaded
 #' @return A model object with Indicators added
 loadandbuildIndicators <- function(model) {
-   # Generate C matrix: LCIA indicators
+   # Load model indicators
    indicators <- loadIndicators(model)
    # Add to model object
    model$Indicators <- indicators
