@@ -223,7 +223,7 @@ checkDuplicateFlowsBySector <- function(sattable_ls) {
   rownames(duplicates) <- NULL
   
   if (nrow(duplicates) > 0){
-    logging::logwarn("Duplicate flows exist across satellite tables and should be reviewed.")
+    logging::logdebug("Duplicate flows exist across satellite tables and should be reviewed.")
     logging::logdebug(duplicates)
   } else {
     logging::loginfo("No duplicate flows exist across satellite tables.")
