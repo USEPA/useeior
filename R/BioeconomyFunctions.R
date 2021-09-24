@@ -420,7 +420,7 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded, isDomest
   balancedUse<-rebalancingResults[[2]]
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   #---UPDATE MODEL MAKE AND USE TABLE WITH BALANCED MAKE AND USE
-  modModel$BiofuelsData$NewBEA<-list(Make=balancedMake, Use=balancedUse)
+  
   if(isDomestic==FALSE){ #Configured thinking that FALSE will be run before TRUE
     modModel$BiofuelsData$NewBEA<-list(Make=balancedMake, Use=balancedUse)
   }
@@ -568,6 +568,46 @@ reconstructUse<-function(UseTransactions, FinalDemand, ValueAdded, Commodities, 
   originalUse<-UseTransactions1
   originalUse
 }
+
+modifyMultiYearIndustryOutput<-function(modModel){
+  
+  #Assumption: The new industries output for all industries will be the same as the IO year 
+  ori_MultiYearIndustryOutput<-modModel$MultiYearIndustryOutput
+
+  # Add the number of rows corresponding to the number of new industries
+  nNewI<-modModel$BiofuelsData$nNewIndustries
+  
+  #....Create the rows
+  nYears<-ncol(ori_MultiYearIndustryOutput)
+  nOriginalIndustries<- modModel$BiofuelsData$OriginalIndustriesNum
+  newIndustryOutput<-modModel$IndustryOutput[(nOriginalIndustries+1):length(modModel$IndustryOutput)]
+  newRows<-matrix(rep(newIndustryOutput,nYears), nrow = nNewI, ncol = nYears)
+  
+  #....Add the new rows
+  colnames(newRows)<-colnames(ori_MultiYearIndustryOutput)
+  mod_MultiYearIndustryOutput<-rbind(ori_MultiYearIndustryOutput,newRows)
+  rownames(mod_MultiYearIndustryOutput)<-modModel$Industries$Code_Loc
+  mod_MultiYearIndustryOutput[, as.character(modModel$specs$IOYear)] <- modModel$IndustryOutput #re-update it since it could have change with the rebalancing
+  
+  mod_MultiYearIndustryOutput
+}
+
+modifyMultiYearCommodityOutput<-function(model){
+  
+  #This is literally the same function used in loadNationalIOData() in LoadIOTables.R
+  
+  # Transform multi-year industry output to commodity output
+  model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
+  for (year_col in colnames(model$MultiYearIndustryOutput)) {
+    model$MultiYearCommodityOutput[, year_col] <- transformIndustryOutputtoCommodityOutputforYear(as.numeric(year_col), model)
+  }
+  model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
+  
+  model$MultiYearCommodityOutput
+}
+
+
+
 #' Do initial calculations to determine the amounts of GGE produced in future bio-economy by each of the 3 new industries.
 #'
 #' @param model the list of USEEIO model components and attributes under modification.
@@ -695,25 +735,26 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData){
   percentage<-model$newTechSpecs$NewTechnologies$NewCommodity$PercentageSubstitution
   modModel<-initialCalculations(model,newIndustryInfo, newCommodityInfo,simCommodityInfo, percentage)
   
-  browser()
+  #browser()
   
   # Modify Make and Use Tables
   logging::loginfo(paste("Updating Make and Use Tables ..."))
   modModel<-modifyMakeandUseTables(modModel,inputPurchases, valueAdded, isDomestic = FALSE)
   
-  browser()
+  #browser()
   # Modify Make and Domestic Use Tables
   
   #Note that by running this, I rewrite BiofuelsData$
   logging::loginfo(paste("Updating Make and Domestic Use Tables ..."))
   modModel<-modifyMakeandUseTables(modModel,inputPurchases, valueAdded, isDomestic = TRUE)
   
-  #Indeed I verified and the Make table resulted in exactly the same, i.e, Make= DomesticMake
-  browser()
+  #Indeed I verified and the Make is different from Domestic Make. The biggest difference is Total Industry Output "T008"
+  #browser()
 
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # OTHER MODEL VARIABLES UPDATES
   whichI<-modModel$BiofuelsData$whichNewIn
+  #nNewI<-modModel$BiofuelsData$nNewIndustries
   
   logging::loginfo(paste("Updating BEA information..."))
   
@@ -739,11 +780,11 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData){
   modModel$UseValueAdded <- newUse[modModel$ValueAddedMeta$Code, modModel$Industries[,1]]  # data frame, values are in dollars ($)
   modModel$UseCommodityOutput <- as.data.frame(rowSums(cbind(modModel$UseTransactions, modModel$FinalDemand))) # data frame, values are in dollars ($)
   
-  #Update doemstic matrices
+  #Update domestic matrices
   modModel$DomesticUseTransactions <- newDomesticUse[modModel$Commodities[,1], modModel$Industries[,1]]
   modModel$DomesticFinalDemand <- newDomesticUse[modModel$Commodities[,1], modModel$FinalDemandMeta$Code]
   
-  browser()
+  #browser()
   # Change again the names of the Make and Use to have the acronyms
   #.....................................................................................................................
   ## Modify row and column names in the IO tables
@@ -771,6 +812,12 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData){
   modModel$IndustryOutput <- colSums(modModel$UseTransactions) + colSums(modModel$UseValueAdded)
   modModel$CommodityOutput <- rowSums(modModel$UseTransactions) + rowSums(modModel$FinalDemand)
   
+  #.....................................................................................................................
+  # Modify MultiYearIndustry Output and MultiYearCommodityOutput
+  
+  modModel$MultiYearIndustryOutput<- modifyMultiYearIndustryOutput(modModel)
+  modModel$MultiYearCommodityOutput<- modifyMultiYearCommodityOutput(modModel)
+
   # #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # 
   # # Update B and W matrices
