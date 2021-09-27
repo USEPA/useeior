@@ -10,7 +10,7 @@ getDisaggIndustryPercentages(disagg)
 \item{disagg}{Specifications for disaggregating the current Model}
 }
 \value{
-A dataframe with the default disaggregation percentges for the Industries of the current model
+A dataframe with the default disaggregation percentages for the Industries of the current model
 }
 \description{
 Obtain default disaggregation percentages for industries from the disaggregation input files.

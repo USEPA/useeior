@@ -2,7 +2,7 @@
 % Please edit documentation in R/DisaggregateFunctions.R
 \name{specifiedUseDisagg}
 \alias{specifiedUseDisagg}
-\title{Disaggregate use table based on the allocations specified in the files referenced in the diaggregation specs.}
+\title{Disaggregate use table based on the allocations specified in the files referenced in the disaggregation specs.}
 \usage{
 specifiedUseDisagg(model, disagg, domestic = FALSE)
 }
@@ -11,11 +11,11 @@ specifiedUseDisagg(model, disagg, domestic = FALSE)
 
 \item{disagg}{Specifications for disaggregating the current Table}
 
-\item{domestic}{Flag that indicates where to use the Domestic Use or UseTrasanctions table}
+\item{domestic}{Flag that indicates where to use the Domestic Use or UseTransactions table}
 }
 \value{
 A standardized make table with old sectors removed and new disaggregated sectors added based on the allocations in the disaggregation specs.
 }
 \description{
-Disaggregate use table based on the allocations specified in the files referenced in the diaggregation specs.
+Disaggregate use table based on the allocations specified in the files referenced in the disaggregation specs.
 }

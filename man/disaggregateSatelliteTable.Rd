@@ -4,14 +4,14 @@
 \alias{disaggregateSatelliteTable}
 \title{Disaggregate satellite tables from static file based on specs}
 \usage{
-disaggregateSatelliteTable(model, sattable, sat)
+disaggregateSatelliteTable(disagg, sattable, sat_spec)
 }
 \arguments{
-\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+\item{disagg}{Specifications for disaggregating the current Table}
 
 \item{sattable}{A standardized satellite table with resource and emission names from original sources.}
 
-\item{sat}{The abbreviation for the satellite table.}
+\item{sat_spec, }{a standard specification for a single satellite table.}
 }
 \value{
 A standardized satellite table with old sectors removed and new sectors added.
