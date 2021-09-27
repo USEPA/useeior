@@ -347,6 +347,7 @@ disaggregateSatelliteTable <- function (disagg, sattable, sat_spec) {
 
 #' Disaggregate make table based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
 #' @return A standardized make table with old sectors removed and new sectors added.
 disaggregateMakeTable <- function (model, disagg) {
   
@@ -368,6 +369,7 @@ disaggregateMakeTable <- function (model, disagg) {
 
 #' Disaggregate Use table based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
 #' @param domestic A logical value indicating whether to disaggregate domestic final demand.
 #' @return A standardized make table with old sectors removed and new sectors added.
 disaggregateUseTable <- function (model, disagg, domestic = FALSE) {
@@ -396,6 +398,7 @@ disaggregateUseTable <- function (model, disagg, domestic = FALSE) {
 
 #' Disaggregate Final Demand based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
 #' @param domestic A logical value indicating whether to disaggregate domestic final demand.
 #' @return A standardized final demand table with old sectors removed and new sectors with manual and default allocations added.
 disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
@@ -447,6 +450,7 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
 
 #' Disaggregate Value Added based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
 #' @return A standardized Vale Added table with old sectors removed and new sectors with manual and default allocations added.
 disaggregateVA <- function(model, disagg) {
 
@@ -660,26 +664,21 @@ disaggregateCol <- function (originalColVector, disagg_specs, duplicate = FALSE,
 #' @param disagg Specifications for disaggregating the current Table
 #' @return crosswalk with new sectors added.
 disaggregateMasterCrosswalk <- function (model, disagg){
-
-  
   crosswalk <- model$crosswalk#temp variable for storing intermediate changes
   new_cw <- crosswalk#variable to return with complete changes to crosswalk#temp
-  
-  #model$specs$BaseIOlevel # contains string describing model level
-  
-  #deterime which rows and columns to modify
+
+  #determine which rows and columns to modify
   cwColIndex <- match(paste0("BEA_", model$specs$BaseIOLevel), colnames(crosswalk)) #search for concatenation of "BEA" and model$specs$BaseIOlevel object in crosswalk column names
   OriginalCodeLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
   DisaggCodeLength <- regexpr(pattern ='/',disagg$DisaggregatedSectorCodes[[1]]) - 1 #used to determine length of disaggregated sector codes.
   
   #Update original sector codes with disaggregated sector codes in the relevant column (i.e. cwColIndex) where rows have an exact match for the disaggregated codes in the NAICS column
-  
-  disaggNAICSIndex <- which(new_cw[,cwColIndex] == substr(disagg$OriginalSectorCode,1,OriginalCodeLength))#Get the indeces of the BEA_Detail column that are mapped to the originalSector
-  disaggNAICSRows <- new_cw[disaggNAICSIndex,]#create a dataframe with only the relevant rows
-  codeMatches <- match(disagg$NAICSSectorCW$NAICS_2012_Code,disaggNAICSRows$NAICS)#find matches between the crosswalk included in the disagg specs and NAICS column of the master crosswalk
+  disaggNAICSIndex <- which(new_cw[,cwColIndex] == substr(disagg$OriginalSectorCode,1,OriginalCodeLength)) #Get the indeces of the BEA_Detail column that are mapped to the originalSector
+  disaggNAICSRows <- new_cw[disaggNAICSIndex,] #create a dataframe with only the relevant rows
+  codeMatches <- match(disagg$NAICSSectorCW$NAICS_2012_Code,disaggNAICSRows$NAICS) #find matches between the crosswalk included in the disagg specs and NAICS column of the master crosswalk
   disaggNAICSRows[codeMatches,cwColIndex] <- substr(disagg$NAICSSectorCW$USEEIO_Code,1,DisaggCodeLength)#in the new crosswalk, replace codes in the new column (i.e. USEEIOv2.0) with the disaggregated codes for the rows where there is a match in between the NAICS crosswalk and the disaggregated Crosswalk
-  new_cw[disaggNAICSIndex,] <- disaggNAICSRows#replace the rows that have a match for 6-digit naics for the disaggregated sectors in the crosswalk
-  crosswalk <- new_cw #update crosswalk with the new sectors as a static index refernce for the rows still containing the originalSectorCode in the last column.
+  new_cw[disaggNAICSIndex,] <- disaggNAICSRows #replace the rows that have a match for 6-digit naics for the disaggregated sectors in the crosswalk
+  crosswalk <- new_cw #update crosswalk with the new sectors as a static index reference for the rows still containing the originalSectorCode in the last column.
   
   #Update remaining rows where the original sector is present in cwColIndex but there is no exact match in the NAICS column for the disaggregated sector codes (e.g. 2-5 level NAICS codes)
   #get the indeces of the remaining rows that have 56200 in the new column
@@ -690,17 +689,16 @@ disaggregateMasterCrosswalk <- function (model, disagg){
     disaggNAICSIndex <- which(new_cw[,cwColIndex] == substr(disagg$OriginalSectorCode,1,OriginalCodeLength))
     crosswalkRow <- new_cw[disaggNAICSIndex[1],] #extract current row where code in last column needs to be updated
     
-    rowComparisons <- grepl(crosswalkRow$NAICS[1], disagg$NAICSSectorCW$NAICS_2012_Code)#compare the value in the first column (NAICS) to the NAICS values in the disaggCrosswalk. Result is a string with TRUE where first column is a substring of values in disaggCrosswalk
+    rowComparisons <- grepl(crosswalkRow$NAICS[1], disagg$NAICSSectorCW$NAICS_2012_Code) #compare the value in the first column (NAICS) to the NAICS values in the disaggCrosswalk. Result is a string with TRUE where first column is a substring of values in disaggCrosswalk
     
-    rowReplacements <- disagg$NAICSSectorCW$NAICS_2012_Code[rowComparisons]#Get the NAICS sector codes in the disagg crosswalk that are a match for the NAICS substring in the master crosswalk 
-    rowReplacements <- substr(disagg$NAICSSectorCW$USEEIO_Code[rowComparisons],1,DisaggCodeLength)#Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
-    rowReplacements <- unique(rowReplacements)#reduce the list to the unique number of disaggregated sectors that the row comparisons map to
+    rowReplacements <- disagg$NAICSSectorCW$NAICS_2012_Code[rowComparisons] #Get the NAICS sector codes in the disagg crosswalk that are a match for the NAICS substring in the master crosswalk 
+    rowReplacements <- substr(disagg$NAICSSectorCW$USEEIO_Code[rowComparisons],1,DisaggCodeLength) #Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
+    rowReplacements <- unique(rowReplacements) #reduce the list to the unique number of disaggregated sectors that the row comparisons map to
     
-    crosswalkRow <- crosswalkRow[rep(seq_len(nrow(crosswalkRow)), length(rowReplacements)),, drop=FALSE]#replicate the crosswalk row as many times as there were matches in the substring search
-    crosswalkRow[,cwColIndex] <- rowReplacements#replace the values in the last column (e.g. originalSectorCode) with the newSectorCodes that matched the substring search
-    new_cw <- rbind(new_cw[1:disaggNAICSIndex[1]-1,],crosswalkRow, new_cw[-(1:disaggNAICSIndex[1]),])#include the expanded rows in the crosswalk
-    
-    
+    crosswalkRow <- crosswalkRow[rep(seq_len(nrow(crosswalkRow)), length(rowReplacements)),, drop=FALSE] #replicate the crosswalk row as many times as there were matches in the substring search
+    crosswalkRow[,cwColIndex] <- rowReplacements #replace the values in the last column (e.g. originalSectorCode) with the newSectorCodes that matched the substring search
+    new_cw <- rbind(new_cw[1:disaggNAICSIndex[1]-1,],crosswalkRow, new_cw[-(1:disaggNAICSIndex[1]),]) #include the expanded rows in the crosswalk
+
   }
   
   #renaming rows of crosswalk
@@ -861,7 +859,6 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
   numNewSectors <- length(newSectorCodes)
   #Local variable for original sector code
   originalSectorCode <- disagg$OriginalSectorCode
-  
 
   #These different if blocks are needed because of the different dimensions of the manual and default allocation vectors needed for disaggregating 
   #the Make and Use rows and columns. Each block initializes the manual and default allocation values for the relevant rows or columns.
@@ -1021,7 +1018,6 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
     #todo error handling
   }
   
-  
   if(nrow(allocPercentages)>0) {
     #Check that there are manual allocations to perform
     #Loop to assign the manual allocations
@@ -1095,7 +1091,7 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
     }
 
   } else {
-    manualIndeces <- NA;#temporary values 
+    manualIndeces <- NA #temporary values 
   }
 
   return(defaultAllocVector)
@@ -1103,6 +1099,12 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
 }
 
 
+#' Obtain a vector of allocation percentages from the specified source file based on disaggregations specifications.
+#' @param FileDF dataframe of Make or Use disaggregation data
+#' @param disagg Specifications for disaggregating the current Table
+#' @param numNewSectors Int. Number of new sectors in the disaggregation
+#' @param output String indicating whether allocation values should reference "Commodity" or "Industry" outputs by default
+#' @return vector of allocation percentages
 getDefaultAllocationPercentages <- function(FileDF, disagg, numNewSectors, output) {
   #Set up for default allocations
   #Get default allocation percentages based on commodity or industry output
@@ -1125,6 +1127,10 @@ getDefaultAllocationPercentages <- function(FileDF, disagg, numNewSectors, outpu
   return(defaultPercentages)
 }
 
+
+#' Creates an empty dataframe matrix of disaggregated sectors.
+#' @param newSectorCodes vector of named disaggregated sectors
+#' @return square dataframe matrix with new sectors as row and column names
 createBlankIntersection <- function (newSectorCodes) {
   #Create new intersection to store allocation values (all other values initiated to NA)
   intersection <- data.frame(matrix(ncol = length(newSectorCodes), nrow = length(newSectorCodes)))
@@ -1137,6 +1143,11 @@ createBlankIntersection <- function (newSectorCodes) {
 }
 
 
+#' Creates a square dataframe matrix with values assigned based on default percentages
+#' @param originalIntersection int value of the original intersection to be disaggregated
+#' @param defaultPercentages vector of allocation percentages
+#' @param newSectorCode vector of named disaggregated sectors
+#' @return square dataframe matrix with new sectors as row and column names with default values
 calculateDefaultIntersection <- function(originalIntersection, defaultPercentages, newSectorCodes) {
   numNewSectors <- length(newSectorCodes)
   #Create a dataframe to store values for the intersection. This dataframe is of dimensions [numNewSectors, 1]
@@ -1234,19 +1245,15 @@ balanceDisagg <- function(model, disagg){
   }
   
   #break balancedDisaggFullUse back into model components
-  
   domesticTables <- calculateBalancedDomesticTables(model, disagg, balancedDisaggFullUse)
   
   model$DomesticUseTransactions <- domesticTables$DomesticUseTransactions
   model$DomesticFinalDemand <- domesticTables$DomesticFinalDemand
   
-
   model$UseTransactions <- balancedDisaggFullUse[1:nrow(model$UseTransactions), 1:ncol(model$UseTransactions)]
   model$FinalDemand <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
   model$UseValueAdded <- balancedDisaggFullUse[-(1:nrow(model$UseTransactions)),1:ncol(model$UseTransactions)]
-  
 
- 
   return(model)
   
 }
