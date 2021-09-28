@@ -797,15 +797,13 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData){
   rownames(modModel$DomesticUseTransactions) <- rownames(modModel$DomesticFinalDemand)<- modModel$Commodities$Code_Loc
      
   # Apply joinStringswithSlashes based on original row/column names
-  rownames(modModel$UseValueAdded) <- apply(cbind(rownames(modModel$UseValueAdded), modModel$specs$modModelRegionAcronyms),
+  rownames(modModel$UseValueAdded) <- apply(cbind(rownames(modModel$UseValueAdded), modModel$specs$ModelRegionAcronyms),
                                          1, FUN = joinStringswithSlashes)
-  colnames(modModel$FinalDemand)<- apply(cbind(colnames(modModel$FinalDemand),
-                                                                                    modModel$specs$modModelRegionAcronyms),
-                                                                              1, FUN = joinStringswithSlashes)
-  colnames(modModel$DomesticFinalDemand)<- apply(cbind(colnames(modModel$FinalDemand),
-                                                      modModel$specs$modModelRegionAcronyms),
-                                                1, FUN = joinStringswithSlashes)
   
+
+  colnames(modModel$FinalDemand) <- colnames(modModel$DomesticFinalDemand) <- apply(cbind(colnames(modModel$FinalDemand),
+                                                                                    modModel$specs$ModelRegionAcronyms),
+                                                                              1, FUN = joinStringswithSlashes)
   
   #.....................................................................................................................
   #Update IndustryOutput and CommodityOutput from new Use table
@@ -815,8 +813,8 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData){
   #.....................................................................................................................
   # Modify MultiYearIndustry Output and MultiYearCommodityOutput
   
-  modModel$MultiYearIndustryOutput<- modifyMultiYearIndustryOutput(modModel)
-  modModel$MultiYearCommodityOutput<- modifyMultiYearCommodityOutput(modModel)
+  # modModel$MultiYearIndustryOutput<- modifyMultiYearIndustryOutput(modModel)
+  # modModel$MultiYearCommodityOutput<- modifyMultiYearCommodityOutput(modModel)
 
   # #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # 
