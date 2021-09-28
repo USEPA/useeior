@@ -10,7 +10,7 @@ BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
 ScrapIncluded: FALSE
 DisaggregationSpecs: null
-NewTechSpecs: null #Name of the new technologies yml file.
+NewTechSpecs: "Biofuels3tech" #Name of the new technologies yml file.
 
 SatelliteTable:
   WAT:
