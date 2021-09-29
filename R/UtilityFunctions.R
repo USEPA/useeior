@@ -332,10 +332,14 @@ writeDatatoRDA <- function(data, data_name) {
 #'@return char string
 generateModelSectorSchema <- function(model) {
   SectorSchema <- paste(model$specs$IODataSource, 
-                        model$specs$BaseIOLevel, 
-                        paste(gsub("Disaggregation.*", "",
-                                   model$specs$DisaggregationSpecs), collapse = "_"),
-                        "Disagg",sep = "_")
+                        model$specs$BaseIOLevel, sep = "_")
+  if(!is.null(model$specs$DisaggregationSpecs)){
+    SectorSchema <- paste(SectorSchema,
+                          paste(gsub("Disaggregation.*", "",
+                                     model$specs$DisaggregationSpecs), collapse = "_"),
+                          "Disagg",sep = "_")
+  }
+  
   return(SectorSchema)
 }
 
