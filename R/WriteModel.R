@@ -309,12 +309,12 @@ writeSessionInfotoFile <- function(path) {
 #'@param model, any model object
 #'@return char string
 generateModelSectorSchema <- function(model) {
-  SectorSchema <- paste0(paste(model$specs$IODataSource, 
+  SectorSchema <- paste(model$specs$IODataSource, 
                                model$specs$BaseIOSchema, 
                                model$specs$BaseIOLevel, 
-                               gsub("Disaggregation.*", "",
-                                    model$specs$DisaggregationSpecs),
-                               "Disagg",sep = "_"))
+                               paste(gsub("Disaggregation.*", "",
+                                          model$specs$DisaggregationSpecs), collapse = "_"),
+                               "Disagg",sep = "_")
   return(SectorSchema)
 }
 
