@@ -305,19 +305,6 @@ writeSessionInfotoFile <- function(path) {
   writeLines(utils::capture.output(s), f)
 }
 
-#'Create sector schema for a model
-#'@param model, any model object
-#'@return char string
-generateModelSectorSchema <- function(model) {
-  SectorSchema <- paste(model$specs$IODataSource, 
-                               model$specs$BaseIOSchema, 
-                               model$specs$BaseIOLevel, 
-                               paste(gsub("Disaggregation.*", "",
-                                          model$specs$DisaggregationSpecs), collapse = "_"),
-                               "Disagg",sep = "_")
-  return(SectorSchema)
-}
-
 #' Prepare sectorcrosswalk table for a model
 #' @param model, any model object
 #' @return a data.frame, sectorcrosswalk table
