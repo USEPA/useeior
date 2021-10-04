@@ -343,7 +343,7 @@ getIndex <- function(sectorList, sector){
 }
 
 
-#' Disaggregate the MasterCrosswalk to include the new sectors for disaggregation
+#' Aggregate the MasterCrosswalk to include the new sectors for aggregation
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return crosswalk with aggregated sectors removed
 aggregateMasterCrosswalk <- function (model){
