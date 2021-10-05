@@ -22,9 +22,10 @@ loadIOData <- function(model) {
   }
   
   model <- getDisaggregationSpecs(model)
+  model <- getAggregationSpecs(model)
   
   # Check for aggregation
-  if(length(model$DisaggregationSpecs$Aggregation)!=0){
+  if(length(model$AggregationSpecs$Aggregation)!=0){
     model <- aggregateModel(model)
   }
   # Check for disaggregation
