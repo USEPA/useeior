@@ -135,7 +135,7 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
     }
     # If the original data is at Detail level but model is not, apply aggregation
     if (sat_spec$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
-      tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,to_level = model$specs$BaseIOLevel,model)
+      tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,model)
     }
   } else if ("NAICS" %in% sat_spec$SectorListSource) {
     tbs <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(tbs, sat_spec$DataYears[1], model)

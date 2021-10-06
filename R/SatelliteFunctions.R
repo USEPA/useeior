@@ -14,7 +14,7 @@ getStandardSatelliteTableFormat <- function () {
 #' @return A satellite table aggregated by the USEEIO model sector codes.
 mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year, model) {
   # Consolidate master crosswalk on model level and rename
-  NAICStoBEA <- unique(model$crosswalk[, c("NAICS",paste("BEA", model$specs$BaseIOLevel, sep = "_"))])
+  NAICStoBEA <- unique(model$crosswalk[, c("NAICS","USEEIO")])
   colnames(NAICStoBEA) <- c("NAICS","BEA")
   # Modify TechnologicalCorrelation score based on the the correspondence between NAICS and BEA code
   # If there is allocation (1 NAICS to 2 or more BEA), add one to score = 2
@@ -130,16 +130,15 @@ stackSatelliteTables <- function (sattable1, sattable2) {
   return(rbind(sattable1, sattable2))
 }
 
-#' Aggreagte (FlowAmount in) satellite tables from one BEA level to another
+#' Aggregate (FlowAmount in) satellite tables from one BEA level to another
 #' @param sattable A satellite table to be aggregated based on the level (Detail, Summary, or Sector) of BEA code.
 #' @param from_level The level of BEA code in the satellite table.
-#' @param to_level The level of BEA code this satellite table will be aggregated to.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A more aggregated satellite table.
-aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
+aggregateSatelliteTable <- function(sattable, from_level, model) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste0("BEA_", from_level)
-  to_code <- paste0("BEA_", to_level)
+  to_code <- "USEEIO"
   # Merge the satellite table with model$crosswalk
   sattable <- merge(sattable, unique(model$crosswalk[, c(from_code, to_code)]), by.x = "Sector", by.y = from_code)
   # Replace NA in DQ cols with 5
