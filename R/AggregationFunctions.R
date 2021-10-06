@@ -343,27 +343,18 @@ getIndex <- function(sectorList, sector){
 }
 
 
-#' Disaggregate the MasterCrosswalk to include the new sectors for disaggregation
+#' Aggregate the MasterCrosswalk on the selected sectors
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return crosswalk with aggregated sectors removed
 aggregateMasterCrosswalk <- function (model){
   
-  
-  #agg <- model$DisaggregationSpecs$Aggregation
   agg <- model$DisaggregationSpecs$Aggregation$Sectors
 
-  crosswalk <- model$crosswalk#temp variable for storing intermediate changes
-  new_cw <- crosswalk#variable to return with complete changes to crosswalk#temp
+  new_cw <- model$crosswalk #variable to return with complete changes to crosswalk#temp
 
-  #determine which rows and columns to modify
-  cwColIndex <- match("USEEIO", colnames(crosswalk))
-  OriginalCodeLength <- regexpr(pattern ='/',agg[1]) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
-  aggCodeLength <- regexpr(pattern ='/',agg[2]) - 1 #used to determine length of disaggregated sector codes.
-  
-  rowIndecesToRemove <- which(new_cw[,cwColIndex] %in% substr(agg[2:length(agg)],1,aggCodeLength)) #find row indeces containing references to the sectors to be aggregated
-  new_cw <-new_cw[-(rowIndecesToRemove),] #remove rows from model that have the same rownames as values in agg list
-  
-  
+  secLength <- regexpr(pattern ='/',agg[1]) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
+  new_cw$USEEIO[which(new_cw$USEEIO %in% substr(agg[2:length(agg)],1,secLength))] <- substr(agg[1],1,secLength)
+
   return(new_cw)
   
 }
