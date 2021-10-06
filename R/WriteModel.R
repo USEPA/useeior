@@ -323,7 +323,8 @@ prepareModelSectorCrosswalk <- function(model) {
     colnames(crosswalk)[length(crosswalk)] <- SectorSchema #rename column
     
     #replace disaggregated sector codes in original column with original sector code (e.g. 562HAZ with 562000)
-    for (disagg in model$DisaggregationSpecs$Disaggregation){
+    #for (disagg in model$DisaggregationSpecs$Disaggregation){
+    for (disagg in model$DisaggregationSpecs){
       OriginalCodeLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
       DisaggCodeLength <- regexpr(pattern ='/',disagg$DisaggregatedSectorCodes[[1]]) - 1 #used to determine length of disaggregated sector codes.
       

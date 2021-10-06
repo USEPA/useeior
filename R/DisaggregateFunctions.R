@@ -6,8 +6,8 @@ disaggregateModel <- function (model){
   logging::loginfo("Initializing Disaggregation of IO tables...")
   
   counter = 1
-  for (disagg in model$DisaggregationSpecs$Disaggregation){
-
+  #for (disagg in model$DisaggregationSpecs$Disaggregation){
+  for (disagg in model$DisaggregationSpecs){
     
     #Disaggregating sector lists 
     model$Commodities <- disaggregateSectorDFs(model, disagg, "Commodity")
@@ -55,13 +55,15 @@ disaggregateModel <- function (model){
 #' @return A model with the specified aggregation and disaggregation specs.
 getDisaggregationSpecs <- function (model){
 
-  model$DisaggregationSpecs$Disaggregation <- vector(mode='list')
+  #model$DisaggregationSpecs$Disaggregation <- vector(mode='list')
+  model$DisaggregationSpecs <- vector(mode='list')
   for (configFile in model$specs$DisaggregationSpecs){
     logging::loginfo(paste0("Loading disaggregation specs for ", configFile, "..."))
     config <- getConfiguration(configFile, "disagg")
 
     if('Disaggregation' %in% names(config)){
-      model$DisaggregationSpecs$Disaggregation <- append(model$DisaggregationSpecs$Disaggregation, config$Disaggregation)
+      #model$DisaggregationSpecs$Disaggregation <- append(model$DisaggregationSpecs$Disaggregation, config$Disaggregation)
+      model$DisaggregationSpecs <- append(model$DisaggregationSpecs, config$Disaggregation)
     }
   }
   
@@ -76,8 +78,8 @@ getDisaggregationSpecs <- function (model){
 disaggregateSetup <- function (model){
   
   counter = 1
-  for (disagg in model$DisaggregationSpecs$Disaggregation){
-    
+  #for (disagg in model$DisaggregationSpecs$Disaggregation){
+  for (disagg in model$DisaggregationSpecs){  
     disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
                                             header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
                                                                                                   "USEEIO_Code"="character"))
@@ -113,7 +115,8 @@ disaggregateSetup <- function (model){
       disagg$EnvAllocRatio <- FALSE
     }
     #Need to assign these DFs back to the modelspecs
-    model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
+    #model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
+    model$DisaggregationSpecs[[counter]] <- disagg
     
     counter <- counter + 1
   }
