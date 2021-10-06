@@ -6,7 +6,6 @@ aggregateModel <- function (model){
   counter <- 1
   for (aggSpec in model$AggregationSpecs){
       
-    #logging::loginfo(paste0("Aggregating sectors to ",model$AggregationSpecs$Sectors[1], "..."))
     logging::loginfo(paste0("Aggregating sectors to ",aggSpec$Sectors[1], "..."))
     #aggregating economic tables
     model$MakeTransactions <- aggregateMakeTable(model, aggSpec)
@@ -25,8 +24,6 @@ aggregateModel <- function (model){
     model$crosswalk <- aggregateMasterCrosswalk(model, aggSpec)
     
     #obtaining indeces to aggregate sectors in remaining model objects
-    #agg<- model$AggregationSpecs$Aggregation$Sectors
-    #agg <- model$AggregationSpecs$Sectors
     agg <- aggSpec$Sectors
     
     mainComIndex <- getIndex(model$Commodities$Code_Loc, agg[1])#first item in Aggregation is the sector to aggregate to, not to be removed
@@ -63,14 +60,13 @@ aggregateModel <- function (model){
 #' @param model Model file loaded with IO tables
 #' @return A model with the specified aggregation and disaggregation specs.
 getAggregationSpecs <- function (model){
-  #model$AggregationSpecs$Aggregation <- vector(mode='list')
+
   model$AggregationSpecs <- vector(mode = 'list')
   
   for (configFile in model$specs$AggregationSpecs){
     logging::loginfo(paste0("Loading aggregation specs for ", configFile, "..."))
-    config <- getConfiguration(configFile, "agg")#maybe chnage this flag from disagg to non-BEA
+    config <- getConfiguration(configFile, "agg")
     if('Aggregation' %in% names(config)){
-      #model$AggregationSpecs$Aggregation <- append(model$AggregationSpecs$Aggregation, config$Aggregation)
       model$AggregationSpecs <- append(model$AggregationSpecs, config$Aggregation)
     }
   
@@ -96,8 +92,6 @@ aggSatelliteTable <- function (model, aggregationSpecs, sattable, sat){
   #obtaining indeces to aggregate sectors in remaining model objects
   newSatTable <- sattable
 
-  #agg <- model$AggregationSpecs$Aggregation$Sectors
-  #agg <- model$AggregationSpecs$Sectors 
   agg <- aggregationSpecs$Sectors
   
   #variable to determine length of Code substring, i.e., code length minus geographic identifer and separator character (e.g. "/US")
@@ -181,8 +175,6 @@ aggregateMultiYearCPI <- function(model, mainIndex, indecesToAggregate, type){
 #' @return An aggregated MakeTable.
 aggregateMakeTable <- function(model, aggregationSpecs){
   
-  #agg <- model$AggregationSpecs$Aggregation$Sectors
-  #agg <- model$AggregationSpecs$Sectors
   agg <- aggregationSpecs$Sector
 
   count <- 1
@@ -217,8 +209,6 @@ aggregateMakeTable <- function(model, aggregationSpecs){
 #' @return An aggregated UseTransactions or DomesticUseTransactions Table.
 aggregateUseTable <- function(model, aggregationSpecs, domestic = FALSE){
   
-  #agg <- model$AggregationSpecs$Aggregation$Sectors
-  #agg <- model$AggregationSpecs$Sectors
   agg <- aggregationSpecs$Sectors
 
   
@@ -266,8 +256,6 @@ aggregateUseTable <- function(model, aggregationSpecs, domestic = FALSE){
 #' @return An aggregated MakeTable.
 aggregateVA <- function(model, aggregationSpecs){
   
-  #agg <- model$AggregationSpecs$Aggregation$Sectors
-  #agg <- model$AggregationSpecs$Sectors
   agg <- aggregationSpecs$Sectors
 
   count <- 1
@@ -368,11 +356,6 @@ getIndex <- function(sectorList, sector){
   
   index <- which(sectorList %in% sector)
   
-  # if(length(index)==0){
-  #   logging::logwarn(paste0("'", sector, "' string does not occur in current list.'"))
-  # 
-  # }
-  
   return(index)
   
 }
@@ -384,8 +367,6 @@ getIndex <- function(sectorList, sector){
 #' @return crosswalk with aggregated sectors removed
 aggregateMasterCrosswalk <- function (model, aggregationSpecs){
   
-  #agg <- model$AggregationSpecs$Aggregation$Sectors
-  #agg <- model$AggregationSpecs$Sectors
   agg <- aggregationSpecs$Sectors
 
   crosswalk <- model$crosswalk#temp variable for storing intermediate changes
