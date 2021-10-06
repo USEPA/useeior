@@ -143,7 +143,10 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
   # Check if aggregation is needed based on model metadata
   #if(!is.null(model$AggregationSpecs$Aggregation) & !is.null(sat_spec$StaticFile)){
   if(!is.null(model$AggregationSpecs) & !is.null(sat_spec$StaticFile)){
-    tbs <- aggSatelliteTable(model, tbs, sat_spec)
+    for(aggSpecs in model$AggregationSpecs){
+      tbs <- aggSatelliteTable(model, aggSpecs, tbs, sat_spec)  
+    }
+    
   }
   # Check if disaggregation is needed based on model metadata
   if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat_spec$StaticFile)){
