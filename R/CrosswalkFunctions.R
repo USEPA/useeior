@@ -22,8 +22,9 @@ getNAICStoBEAAllocation <- function (year, model) {
   AllocationCodes <- NAICStoBEA[duplicated(NAICStoBEA$NAICS_Code) | duplicated(NAICStoBEA$NAICS_Code, fromLast = TRUE), ]
   AllocationCodes <- stats::na.omit(AllocationCodes)
   # Merge AllocationCodes with Gross Output table to calculate allocation factors
-  AllocationTable <- merge(AllocationCodes, model$MultiYearIndustryOutput[, as.character(year), drop = FALSE], 
-                           by.x = "BEA_Code", by.y = 0, all.x = TRUE)
+  output <- model$MultiYearIndustryOutput[, as.character(year), drop = FALSE]
+  row.names(output) <- gsub("/.*", "", row.names(output))
+  AllocationTable <- merge(AllocationCodes, output, by.x = "BEA_Code", by.y = 0, all.x = TRUE)
   colnames(AllocationTable)[3] <- "Output"
   # Insert placeholders for NAs in the "Output" column
   AllocationTable[is.na(AllocationTable)] <- 1
