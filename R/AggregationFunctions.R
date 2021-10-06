@@ -355,8 +355,8 @@ aggregateMasterCrosswalk <- function (model){
   crosswalk <- model$crosswalk#temp variable for storing intermediate changes
   new_cw <- crosswalk#variable to return with complete changes to crosswalk#temp
 
-  #deterime which rows and columns to modify
-  cwColIndex <- match(paste0("BEA_", model$specs$BaseIOLevel), colnames(crosswalk)) #search for concatenation of "BEA" and model$specs$BaseIOlevel object in crosswalk column names
+  #determine which rows and columns to modify
+  cwColIndex <- match("USEEIO", colnames(crosswalk))
   OriginalCodeLength <- regexpr(pattern ='/',agg[1]) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
   aggCodeLength <- regexpr(pattern ='/',agg[2]) - 1 #used to determine length of disaggregated sector codes.
   

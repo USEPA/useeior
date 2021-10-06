@@ -207,14 +207,13 @@ calculateFlowContributiontoImpact <- function (model, sector, indicator, domesti
 #' Aggregate result matrix by rows
 #'
 #' @param matrix      A matrix with sectors as rows
-#' @param from_level  The level of BEA code this matrix starts at
 #' @param to_level    The level of BEA code this matrix will be aggregated to
 #' @param crosswalk   Sector crosswalk between levels of detail
 #' @export
 #' @return aggregated matrix with sectors as rows
-aggregateResultTable <- function (matrix, from_level, to_level, crosswalk) {
+aggregateResultTable <- function (matrix, to_level, crosswalk) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
-  from_code <- paste0("BEA_", from_level)
+  from_code <- "USEEIO"
   to_code <- paste0("BEA_", to_level)
   # Remove location codes from sectors
   df <- as.data.frame(matrix)
@@ -233,14 +232,13 @@ aggregateResultTable <- function (matrix, from_level, to_level, crosswalk) {
 #' Aggregate result matrix by rows and columns
 #'
 #' @param matrix      A matrix with sectors as rows and columns
-#' @param from_level  The level of BEA code this matrix starts at
 #' @param to_level    The level of BEA code this matrix will be aggregated to
 #' @param crosswalk   Sector crosswalk between levels of detail
 #' @export
 #' @return aggregated matrix with sectors as rows and columns
-aggregateResultMatrix <- function (matrix, from_level, to_level, crosswalk) {
-  row_agg_matrix <- aggregateResultTable (matrix, from_level, to_level, crosswalk)
-  col_agg_matrix <- aggregateResultTable (t(row_agg_matrix), from_level, to_level, crosswalk)
+aggregateResultMatrix <- function (matrix, to_level, crosswalk) {
+  row_agg_matrix <- aggregateResultTable (matrix, to_level, crosswalk)
+  col_agg_matrix <- aggregateResultTable (t(row_agg_matrix), to_level, crosswalk)
   agg_matrix <- t(col_agg_matrix)
   return(agg_matrix)
 }

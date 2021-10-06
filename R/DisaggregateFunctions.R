@@ -668,7 +668,7 @@ disaggregateMasterCrosswalk <- function (model, disagg){
   new_cw <- crosswalk#variable to return with complete changes to crosswalk#temp
 
   #determine which rows and columns to modify
-  cwColIndex <- match(paste0("BEA_", model$specs$BaseIOLevel), colnames(crosswalk)) #search for concatenation of "BEA" and model$specs$BaseIOlevel object in crosswalk column names
+  cwColIndex <- match("USEEIO", colnames(crosswalk))
   OriginalCodeLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
   DisaggCodeLength <- regexpr(pattern ='/',disagg$DisaggregatedSectorCodes[[1]]) - 1 #used to determine length of disaggregated sector codes.
   
