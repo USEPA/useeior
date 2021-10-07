@@ -59,7 +59,10 @@ loadSatTables <- function(model) {
     
     # Add in DQ columns and additional contextual scores not provided
     # Only setting TemporalCorrelation for now
-    tbs <- scoreContextualDQ(tbs) 
+    tbs <- scoreContextualDQ(tbs)
+    
+    # Convert totals_by_sector to standard satellite table format
+    tbs <- conformTbStoStandardSatTable(tbs)
     
     #Map names for files not already using FEDEFL
     if (!substring(sat_spec$OriginalFlowSource,1,6) == 'FEDEFL') {
