@@ -315,7 +315,7 @@ prepareModelSectorCrosswalk <- function(model) {
   SectorSchema <- generateModelSectorSchema(model)
   #rename "USEEIO" (the last column) as the sector schema 
   colnames(crosswalk)[length(crosswalk)] <- SectorSchema #rename column
-  
+
   return(crosswalk)
   
 }

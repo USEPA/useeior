@@ -10,6 +10,7 @@ BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
 ScrapIncluded: FALSE
 DisaggregationSpecs: ["ElectricityDisaggregationDetail", "WasteDisaggregationDetail"] #Name of disaggregation yml file.
+AggregationSpecs: ["ElectricityAggregationDetail"]
 
 SatelliteTable:
   WAT:
