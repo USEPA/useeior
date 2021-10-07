@@ -682,7 +682,13 @@ disaggregateMasterCrosswalk <- function (model, disagg){
     disaggNAICSIndex <- which(new_cw$USEEIO == substr(disagg$OriginalSectorCode,1,secLength))
     crosswalkRow <- new_cw[disaggNAICSIndex[1],] #extract current row where code in last column needs to be updated
     
-    rowComparisons <- grepl(crosswalkRow$NAICS[1], disagg$NAICSSectorCW$NAICS_2012_Code) #compare the value in the first column (NAICS) to the NAICS values in the disaggCrosswalk. Result is a string with TRUE where first column is a substring of values in disaggCrosswalk
+    # if NAICS is NA map the entire new list of sectors
+    if(is.na(crosswalkRow$NAICS[1])) {
+      rowComparisons[1:length(disagg$DisaggregatedSectorCodes)] <- TRUE
+    } else {
+      #compare the value in the first column (NAICS) to the NAICS values in the disaggCrosswalk. Result is a string with TRUE where first column is a substring of values in disaggCrosswalk
+      rowComparisons <- grepl(crosswalkRow$NAICS[1], disagg$NAICSSectorCW$NAICS_2012_Code) 
+    }
     
     rowReplacements <- disagg$NAICSSectorCW$NAICS_2012_Code[rowComparisons] #Get the NAICS sector codes in the disagg crosswalk that are a match for the NAICS substring in the master crosswalk 
     rowReplacements <- substr(disagg$NAICSSectorCW$USEEIO_Code[rowComparisons],1,secLength) #Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
