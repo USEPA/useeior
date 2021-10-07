@@ -57,28 +57,8 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   # Assign sector names to totals_by_sector_BEA
   totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames, by = "Sector", all.x = TRUE)
   
-  # Add FlowUUID field for backwards compatibility if it does not exist
-  if(!"FlowUUID" %in% colnames(totals_by_sector_BEA)){
-    totals_by_sector_BEA[, "FlowUUID"] <- ""
-  }
-  # Aggregate to BEA sectors using unique aggregation functions depending on the quantitative variable
-  totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA,
-                                              Flowable, Context, FlowUUID, Sector, SectorName,
-                                              Location, Unit, Year, DistributionType) 
-  totals_by_sector_BEA_agg <- dplyr::summarize(
-    totals_by_sector_BEA_agg,
-    FlowAmountAgg = sum(FlowAmount),
-    Min = min(Min),
-    Max = max(Max),
-    DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
-    TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
-    GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
-    TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
-    DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
-    MetaSources = dplyr::nth(MetaSources, which.max(nchar(MetaSources))),
-    .groups = 'drop'
-  )
-  colnames(totals_by_sector_BEA_agg)[colnames(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
+  totals_by_sector_BEA_agg <- collapseTBS(totals_by_sector_BEA)
+
   return(totals_by_sector_BEA_agg)
 }
 
@@ -130,7 +110,7 @@ stackSatelliteTables <- function (sattable1, sattable2) {
   return(rbind(sattable1, sattable2))
 }
 
-#' Aggregate (FlowAmount in) satellite tables from one BEA level to another
+#' Aggregate (FlowAmount in) satellite tables from BEA level to model configuration
 #' @param sattable A satellite table to be aggregated based on the level (Detail, Summary, or Sector) of BEA code.
 #' @param from_level The level of BEA code in the satellite table.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
@@ -141,22 +121,43 @@ aggregateSatelliteTable <- function(sattable, from_level, model) {
   to_code <- "USEEIO"
   # Merge the satellite table with model$crosswalk
   sattable <- merge(sattable, unique(model$crosswalk[, c(from_code, to_code)]), by.x = "Sector", by.y = from_code)
+  sattable_agg <- collapseTBS(sattable)
+  return(sattable_agg)
+}
+
+#' Collapse a totals by sector table so that each flow sector combination exists only once
+#' @param tbs totals by sector sourced from satellite table
+#' @return aggregated totals by sector
+collapseTBS <- function(tbs) {
   # Replace NA in DQ cols with 5
-  dq_fields <- getDQfields(sattable)
+  dq_fields <- getDQfields(tbs)
   for (f in dq_fields) {
-    sattable[is.na(sattable[, f]), f] <- 5
+    tbs[is.na(tbs[, f]), f] <- 5
   }
   # Add FlowUUID field for backwards compatibility if it does not exist
-  if(!"FlowUUID" %in% colnames(sattable)){
-    sattable[, "FlowUUID"] <- ""
+  if(!"FlowUUID" %in% colnames(tbs)){
+    tbs[, "FlowUUID"] <- ""
   }
-  # Aggregate FlowAmount by specified columns
-  aggbycolumns <- c(to_code, "Flowable", "Context", "Unit", dq_fields,
-                    "Year", "MetaSources", "Location", "FlowUUID")
-  # Need particular aggregation functions, e.g. sum, weighted avg on ReliabilityScore
-  sattable_agg <- stats::aggregate(sattable$FlowAmount, by = sattable[, aggbycolumns], sum)
-  colnames(sattable_agg)[c(1, ncol(sattable_agg))] <- c("Sector", "FlowAmount")
-  return(sattable_agg)
+  
+  # Aggregate to BEA sectors using unique aggregation functions depending on the quantitative variable
+  tbs_agg <- dplyr::group_by(tbs, Flowable, Context, FlowUUID, Sector, SectorName,
+                             Location, Unit, Year, DistributionType) 
+  tbs_agg <- dplyr::summarize(
+    tbs_agg,
+    FlowAmountAgg = sum(FlowAmount),
+    Min = min(Min),
+    Max = max(Max),
+    DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
+    TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
+    GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
+    TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
+    DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
+    MetaSources = dplyr::nth(MetaSources, which.max(nchar(MetaSources))),
+    .groups = 'drop'
+  )
+  colnames(tbs_agg)[colnames(tbs_agg)=="FlowAmountAgg"] <- "FlowAmount"
+  return(tbs_agg)
+    
 }
 
 #' Adds an indicator score to a totals by sector table. A short cut alternative to getting totals before model result
