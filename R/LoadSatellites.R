@@ -47,8 +47,11 @@ loadSatTables <- function(model) {
     ### Generate totals_by_sector, tbs
     tbs0 <- generateTbSfromSatSpec(sat_spec, model)
     
+    # Convert totals_by_sector to standard satellite table format
+    tbs <- conformTbStoStandardSatTable(tbs0)
+    
     ### Make tbs conform to the model schema
-    tbs <- conformTbStoIOSchema(tbs0, sat_spec, model)
+    tbs <- conformTbStoIOSchema(tbs, sat_spec, model)
     
     ##Check for any loss of flow data
     checkSatelliteFlowLoss(tbs0,tbs)
@@ -57,9 +60,6 @@ loadSatTables <- function(model) {
     # Add in DQ columns and additional contextual scores not provided
     # Only setting TemporalCorrelation for now
     tbs <- scoreContextualDQ(tbs) 
-    
-    # Convert totals_by_sector to standard satellite table format
-    tbs <- conformTbStoStandardSatTable(tbs)
     
     #Map names for files not already using FEDEFL
     if (!substring(sat_spec$OriginalFlowSource,1,6) == 'FEDEFL') {

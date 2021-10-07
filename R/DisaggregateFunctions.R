@@ -321,13 +321,14 @@ disaggregateSatelliteTable <- function (disagg, sattable, sat_spec) {
     } else if(!is.null(disagg$EnvFileDF)) {
       # If satellite table data is provided as new flow by sector totals file
       # Select only those rows from the disaggregation env file that apply for this satellite table
-      new_sector_totals <- subset(disagg$EnvFileDF, SatelliteTable==sat_spec$Abbreviation, colnames(sattable))
+      new_sector_totals <- subset(disagg$EnvFileDF, SatelliteTable==sat_spec$Abbreviation)
       if(nrow(new_sector_totals)==0) {
         logging::logwarn(paste0("No data found for disaggregation of ",sat_spec$Abbreviation, " for ",
                                 disagg$OriginalSectorCode, " - applying default allocation"))
         sattable <- rbind(sattable, disaggregateSatelliteSubsetByRatio(subset(sattable, Sector==original_code, colnames(sattable)), disagg))
       } else {
         # Check for errors in satellite table
+        new_sector_totals <- conformTbStoStandardSatTable(new_sector_totals)
         included_sectors <- unique(new_sector_totals[,"Sector"])
         if (!identical(sort(included_sectors),sort(unlist(gsub("/.*","",disagg$DisaggregatedSectorCodes))))) {
           logging::logwarn("Satellite table does not include all disaggregated sectors")

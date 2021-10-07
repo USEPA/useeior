@@ -55,8 +55,10 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
     sectornames <- rbind.data.frame(sectornames, c("F010", "Household"))
   }
   # Assign sector names to totals_by_sector_BEA
+  if("SectorName" %in% colnames(totals_by_sector_BEA)){
+    totals_by_sector_BEA$SectorName <- NULL
+  }
   totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames, by = "Sector", all.x = TRUE)
-  
   totals_by_sector_BEA_agg <- collapseTBS(totals_by_sector_BEA)
 
   return(totals_by_sector_BEA_agg)
@@ -134,11 +136,6 @@ collapseTBS <- function(tbs) {
   for (f in dq_fields) {
     tbs[is.na(tbs[, f]), f] <- 5
   }
-  # Add FlowUUID field for backwards compatibility if it does not exist
-  if(!"FlowUUID" %in% colnames(tbs)){
-    tbs[, "FlowUUID"] <- ""
-  }
-  
   # Aggregate to BEA sectors using unique aggregation functions depending on the quantitative variable
   tbs_agg <- dplyr::group_by(tbs, Flowable, Context, FlowUUID, Sector, SectorName,
                              Location, Unit, Year, DistributionType) 
