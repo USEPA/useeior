@@ -75,23 +75,15 @@ getAggregationSpecs <- function (model){
   return(model)
 }
 
-#TODO: Complete this function
 #' Aggregate satellite tables from static file based on specs
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param aggregationSpecs Specifications for aggregation
 #' @param sattable A standardized satellite table with resource and emission names from original sources.
 #' @param sat The abbreviation for the satellite table.
 #' @return A standardized satellite table with aggregated sectors added.
-aggSatelliteTable <- function (model, aggregationSpecs, sattable, sat){
+aggregateSectorsinTBS <- function (model, aggregationSpecs, sattable, sat){
   
-
-  #if(!is.null(ENV_AGG_FILE)) #TODO: implement option to aggregate according to specified file
-  #if(FLOWSA) #TODO: implement option to aggregate based on flowsa data (e.g. by NAICS sector as mapped by crosswalk)
-  #else #Default aggregation: sum up the relevant sectors in tbs
-  
-  #obtaining indeces to aggregate sectors in remaining model objects
   newSatTable <- sattable
-
   agg <- aggregationSpecs$Sectors
   
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
