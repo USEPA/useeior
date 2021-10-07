@@ -69,36 +69,16 @@ aggSatelliteTable <- function (model, sattable, sat){
   #agg <- model$DisaggregationSpecs$Aggregation
   agg <- model$DisaggregationSpecs$Aggregation$Sectors
   
-  #variable to determine length of Code substring, i.e., code length minus geographic identifer and separator character (e.g. "/US")
+  #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
   codeLength <- nchar(gsub("/.*", "", agg[1]))
   aggCodes <- substr(agg,1,codeLength)
   
-  mainIndeces <- getIndex(newSatTable$Sector, aggCodes[1])#row indeces in sattable where the sector field contains the code for the sector to aggregate to
-  
-  
-  for (sectorCode in aggCodes[2:length(aggCodes)]){
-    indecesToAggregate <- which(newSatTable$Sector %in% sectorCode) #row indeces in sattable where the Sector field contaisn the codes for the sectors to be aggregated
-    
-    if(length(indecesToAggregate) !=0){
-      sattableToAgg <- newSatTable[indecesToAggregate,]#get rows corresponding to flows included in the sector to be aggregated
-      
-      for(currentRow in 1:nrow(sattableToAgg)){
-        
-        #get index in sattable that matches the flow in the main sector with the flow in the current sector to be aggregated
-        sattableMainRowIndex <- which(newSatTable$Sector == aggCodes[1] & newSatTable$Flowable == sattableToAgg$Flowable[currentRow])
-        
-        #add value from sector to add to main sector
-        newSatTable$FlowAmount[sattableMainRowIndex] <- newSatTable$FlowAmount[sattableMainRowIndex] + sattableToAgg$FlowAmount[currentRow]
-        
-      }
-      
-      newSatTable <- removeRowsFromList(newSatTable, indecesToAggregate)#remove aggregated sectors
-      
-    }else{
-      next
-    }
-
-  }#end for loop
+  if(any(newSatTable$Sector %in% aggCodes[-1])) {
+    sectorName <- newSatTable$SectorName[newSatTable$Sector == aggCodes[1]][1]
+    newSatTable$SectorName[which(newSatTable$Sector %in% aggCodes[-1])] <- sectorName
+    newSatTable$Sector[which(newSatTable$Sector %in% aggCodes[-1])] <- aggCodes[1]
+    newSatTable <- collapseTBS(newSatTable)
+  }
   
   return(newSatTable)
 }
