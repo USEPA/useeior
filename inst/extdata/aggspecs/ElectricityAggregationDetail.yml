@@ -1,0 +1,4 @@
+Aggregation:
+  221100/US:
+    Sectors: ["221100/US", "S00101/US", "S00202/US"] # Aggregates to first sector listed
+    #AssociatedDisaggregation: 221100/US
