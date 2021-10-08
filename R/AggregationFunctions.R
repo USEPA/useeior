@@ -6,7 +6,7 @@ aggregateModel <- function (model){
   counter <- 1
   for (aggSpec in model$AggregationSpecs){
       
-    logging::loginfo(paste0("Aggregating sectors to ",aggSpec$Sectors[1], "..."))
+    logging::loginfo(paste0("Aggregating ", aggSpec$Sectors[-1], " to ",aggSpec$Sectors[1], "..."))
     #aggregating economic tables
     model$MakeTransactions <- aggregateMakeTable(model, aggSpec)
     model$UseTransactions <- aggregateUseTable(model, aggSpec)
