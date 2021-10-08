@@ -5,8 +5,6 @@ disaggregateModel <- function (model){
  
   logging::loginfo("Initializing Disaggregation of IO tables...")
   
-  counter = 1
-  #for (disagg in model$DisaggregationSpecs$Disaggregation){
   for (disagg in model$DisaggregationSpecs){
     
     #Disaggregating sector lists 
@@ -43,7 +41,6 @@ disaggregateModel <- function (model){
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
 
-    counter <- counter + 1
   }
   
   return(model)
@@ -55,14 +52,12 @@ disaggregateModel <- function (model){
 #' @return A model with the specified aggregation and disaggregation specs.
 getDisaggregationSpecs <- function (model){
 
-  #model$DisaggregationSpecs$Disaggregation <- vector(mode='list')
   model$DisaggregationSpecs <- vector(mode='list')
   for (configFile in model$specs$DisaggregationSpecs){
     logging::loginfo(paste0("Loading disaggregation specs for ", configFile, "..."))
     config <- getConfiguration(configFile, "disagg")
 
     if('Disaggregation' %in% names(config)){
-      #model$DisaggregationSpecs$Disaggregation <- append(model$DisaggregationSpecs$Disaggregation, config$Disaggregation)
       model$DisaggregationSpecs <- append(model$DisaggregationSpecs, config$Disaggregation)
     }
   }
@@ -78,7 +73,6 @@ getDisaggregationSpecs <- function (model){
 disaggregateSetup <- function (model){
   
   counter = 1
-  #for (disagg in model$DisaggregationSpecs$Disaggregation){
   for (disagg in model$DisaggregationSpecs){  
     disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
                                             header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
@@ -115,7 +109,6 @@ disaggregateSetup <- function (model){
       disagg$EnvAllocRatio <- FALSE
     }
     #Need to assign these DFs back to the modelspecs
-    #model$DisaggregationSpecs$Disaggregation[[counter]] <- disagg
     model$DisaggregationSpecs[[counter]] <- disagg
     
     counter <- counter + 1
@@ -479,11 +472,9 @@ disaggregateVA <- function(model, disagg) {
     numNewSectors <- length(disagg$DisaggregatedSectorCodes)
 
     #Determine commodity and industry indeces corresponding to the original sector code
-    #originalRowIndex <- which(rownames(model$UseValueAdded)==disagg$OriginalSectorCode)
     originalColIndex <- which(colnames(model$UseValueAdded)==disagg$OriginalSectorCode)
 
     #Determine end index of disaggregated sectors
-    #endRowIndex <- originalRowIndex + numNewSectors
     endColIndex <- originalColIndex + numNewSectors
 
     tablePartOne <- model$UseValueAdded[, 1:originalColIndex-1]#all rows, columns to the left of diagg col
@@ -622,7 +613,6 @@ disaggregateRow <- function (originalRowVector, disagg_specs, duplicate = FALSE,
     disaggRows <-uniformRowVector[rep(seq_len(nrow(uniformRowVector)), numNewSectors),,drop=FALSE]
   }
 
-  
   #Rename rows to use the disaggregated codes
   rownames(disaggRows) <- disagg_specs$DisaggregatedSectorCodes
   

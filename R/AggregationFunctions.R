@@ -3,10 +3,9 @@
 #' @return An aggregated model.
 aggregateModel <- function (model){
 
-  counter <- 1
   for (aggSpec in model$AggregationSpecs){
       
-    logging::loginfo(paste0("Aggregating ", aggSpec$Sectors[-1], " to ",aggSpec$Sectors[1], "..."))
+    logging::loginfo(paste0("Aggregating [", paste(aggSpec$Sectors[-1], collapse = ', '), "] to ",aggSpec$Sectors[1], "..."))
     #aggregating economic tables
     model$MakeTransactions <- aggregateMakeTable(model, aggSpec)
     model$UseTransactions <- aggregateUseTable(model, aggSpec)
@@ -28,8 +27,8 @@ aggregateModel <- function (model){
     
     mainComIndex <- getIndex(model$Commodities$Code_Loc, agg[1])#first item in Aggregation is the sector to aggregate to, not to be removed
     mainIndIndex <- getIndex(model$Industries$Code_Loc, agg[1])
-    comIndecesToAggregate <- which(model$Commodities$Code_Loc %in% agg[2:length(agg)]) #find com indeces containing references to the sectors to be aggregated
-    indIndecesToAggregate <- which(model$Industries$Code_Loc %in% agg[2:length(agg)]) #find ind indeces containing references to the sectors to be aggregated
+    comIndecesToAggregate <- which(model$Commodities$Code_Loc %in% agg[-1]) #find com indeces containing references to the sectors to be aggregated
+    indIndecesToAggregate <- which(model$Industries$Code_Loc %in% agg[-1]) #find ind indeces containing references to the sectors to be aggregated
     
     #aggregating (i.e. removing) sectors from model lists
     #aggregate Industry lists
@@ -48,8 +47,7 @@ aggregateModel <- function (model){
     }
     
     model <- calculateIndustryCommodityOutput(model)
-    
-    counter <- counter + 1
+
   }
   
   return(model)
@@ -107,17 +105,14 @@ aggregateSectorsinTBS <- function (model, aggregationSpecs, sattable, sat){
 aggregateMultiYearCPI <- function(model, mainIndex, indecesToAggregate, type){
   
   if(type == "Industry"){
-    
     originalCPI <- model$MultiYearIndustryCPI
     originalOutput <- model$MultiYearIndustryOutput
     
-  }else {
-    
+  } else {
     originalCPI <- model$MultiYearCommodityCPI  
     originalOutput <- model$MultiYearCommodityOutput
   }
   
-
   newCPI <- originalCPI
   
   aggOutputs <- originalOutput[mainIndex,] + colSums(originalOutput[indecesToAggregate,])#get aggregated total for all relevant indeces (denominator for ratios)
@@ -162,7 +157,7 @@ aggregateMakeTable <- function(model, aggregationSpecs){
   }
   
   #remove rows and cols from model
-  agg <- agg[2:length(agg)]
+  agg <- agg[-1]
   model$MakeTransactions <- model$MakeTransactions[!(rownames(model$MakeTransactions)) %in% agg,] #remove rows from model that have the same rownames as values in agg list
   model$MakeTransactions <- model$MakeTransactions[,!(colnames(model$MakeTransactions)) %in% agg] #as above but with cols
   
@@ -181,7 +176,6 @@ aggregateUseTable <- function(model, aggregationSpecs, domestic = FALSE){
   
   agg <- aggregationSpecs$Sectors
 
-  
   count <- 1
   
   for (sector in agg){
@@ -201,7 +195,7 @@ aggregateUseTable <- function(model, aggregationSpecs, domestic = FALSE){
   }
   
   #remove rows and cols from model
-  agg <- agg[2:length(agg)]
+  agg <- agg[-1]
   
   if(domestic == TRUE){
     
@@ -229,8 +223,7 @@ aggregateVA <- function(model, aggregationSpecs){
   agg <- aggregationSpecs$Sectors
 
   count <- 1
-  
-  
+
   for (sector in agg){
     
     if(count == 1){
@@ -243,14 +236,13 @@ aggregateVA <- function(model, aggregationSpecs){
   }
   
   #remove rows and cols from model
-  agg <- agg[2:length(agg)]
+  agg <- agg[-1]
   model$UseValueAdded <- model$UseValueAdded[!(rownames(model$UseValueAdded)) %in% agg,] #remove rows from model that have the same rownames as values in agg list
   model$UseValueAdded <- model$UseValueAdded[,!(colnames(model$UseValueAdded)) %in% agg] #as above but with cols
   
   return(model$UseValueAdded)
   
 }
-
 
 
 
@@ -263,21 +255,20 @@ aggregateVA <- function(model, aggregationSpecs){
 #' @return aggregated table 
 aggregateSector <- function(model, mainSector, sectorToRemove, tableType, domestic = FALSE){
   #get correct indeces
-  if(tableType == "Use"){
+  if(tableType == "Use") {
     mainRowIndex <- getIndex(model$Commodities$Code_Loc, mainSector)
     mainColIndex <- getIndex(model$Industries$Code_Loc, mainSector)
     
     removeRowIndex <- getIndex(model$Commodities$Code_Loc, sectorToRemove)
     removeColIndex <- getIndex(model$Industries$Code_Loc, sectorToRemove)
     
-    if(domestic == TRUE){
+    if(domestic == TRUE) {
       table <- model$DomesticUseTransactions
-    }else{
+    } else {
       table <- model$UseTransactions  
     }
     
-    
-  }else if(tableType == "Make"){
+  } else if(tableType == "Make") {
     mainRowIndex <- getIndex(model$Industries$Code_Loc, mainSector)
     mainColIndex <- getIndex(model$Commodities$Code_Loc, mainSector)
     
@@ -286,7 +277,7 @@ aggregateSector <- function(model, mainSector, sectorToRemove, tableType, domest
     
     table <- model$MakeTransactions
     
-  }else if(tableType == "VA"){
+  } else if(tableType == "VA") {
     mainRowIndex <- getIndex(model$ValueAddedMeta$Code_Loc, mainSector)
     mainColIndex <- getIndex(model$Industries$Code_Loc, mainSector)
     
@@ -295,11 +286,9 @@ aggregateSector <- function(model, mainSector, sectorToRemove, tableType, domest
     
     table <- model$UseValueAdded
     
-  }
-  else{
+  } else {
     #continue
   }
-  
   
   if(length(removeRowIndex) != 0 && length(mainRowIndex) !=0){#if there a row to remove and merge with the main sector
     table[mainRowIndex,] <- table[mainRowIndex,] + table[removeRowIndex,]#add rows together
@@ -312,24 +301,20 @@ aggregateSector <- function(model, mainSector, sectorToRemove, tableType, domest
     
   }
 
-  
-  
-  
   return(table)
 }
+
 
 #' Return the index where a sector occurrs in a sectorList 
 #' @param sectorList Dataframe (of strings) to match the index of the sector param
 #' @param sector String of the sector to look the index for
 #' @return Index of sector in sectorList
 getIndex <- function(sectorList, sector){
-  
   index <- which(sectorList %in% sector)
-  
+
   return(index)
   
 }
-
 
 
 #' Aggregate the MasterCrosswalk on the selected sectors
@@ -343,7 +328,7 @@ aggregateMasterCrosswalk <- function (model, aggregationSpecs){
   new_cw <- model$crosswalk #variable to return with complete changes to crosswalk#temp
 
   secLength <- regexpr(pattern ='/',agg[1]) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
-  new_cw$USEEIO[which(new_cw$USEEIO %in% substr(agg[2:length(agg)],1,secLength))] <- substr(agg[1],1,secLength)
+  new_cw$USEEIO[which(new_cw$USEEIO %in% substr(agg[-1],1,secLength))] <- substr(agg[1],1,secLength)
 
   return(new_cw)
   
@@ -360,7 +345,6 @@ removeRowsFromList <- function(sectorList, indecesToAggregate){
   return(newList)
 
 }
-
 
 
 #' Aggregate MultiYear Output model objects
