@@ -45,21 +45,7 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   # Rename BEA to Sector
   colnames(totals_by_sector_BEA)[colnames(totals_by_sector_BEA)=="BEA"] <- "Sector"
   
-  # Add in BEA industry names
-  sectornames <- model$Industries[, c("Code", "Name")]
-  colnames(sectornames) <- c("Sector", "SectorName")
-  # Add F01000 or F010 to sectornames
-  if (model$specs$BaseIOLevel=="Detail") {
-    sectornames <- rbind.data.frame(sectornames, c("F01000", "Household"))
-  } else {
-    sectornames <- rbind.data.frame(sectornames, c("F010", "Household"))
-  }
-  # Assign sector names to totals_by_sector_BEA
-  if("SectorName" %in% colnames(totals_by_sector_BEA)){
-    totals_by_sector_BEA$SectorName <- NULL
-  }
-  totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames, by = "Sector", all.x = TRUE)
-  totals_by_sector_BEA_agg <- collapseTBS(totals_by_sector_BEA)
+  totals_by_sector_BEA_agg <- collapseTBS(totals_by_sector_BEA, model)
 
   return(totals_by_sector_BEA_agg)
 }
@@ -120,17 +106,34 @@ stackSatelliteTables <- function (sattable1, sattable2) {
 aggregateSatelliteTable <- function(sattable, from_level, model) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste0("BEA_", from_level)
-  to_code <- "USEEIO"
   # Merge the satellite table with model$crosswalk
-  sattable <- merge(sattable, unique(model$crosswalk[, c(from_code, to_code)]), by.x = "Sector", by.y = from_code)
-  sattable_agg <- collapseTBS(sattable)
+  sattable <- merge(sattable, unique(model$crosswalk[, c(from_code, "USEEIO")]), by.x = "Sector", by.y = from_code)
+  # Update Sector field
+  sattable$Sector <- sattable$USEEIO
+  sattable_agg <- collapseTBS(sattable, model)
   return(sattable_agg)
 }
 
 #' Collapse a totals by sector table so that each flow sector combination exists only once
 #' @param tbs totals by sector sourced from satellite table
+#' @param model A EEIO model with IOdata, and model specs
 #' @return aggregated totals by sector
-collapseTBS <- function(tbs) {
+collapseTBS <- function(tbs, model) {
+  # Add in BEA industry names
+  sectornames <- model$Industries[, c("Code", "Name")]
+  colnames(sectornames) <- c("Sector", "SectorName")
+  # Add F01000 or F010 to sectornames
+  if (model$specs$BaseIOLevel=="Detail") {
+    sectornames <- rbind.data.frame(sectornames, c("F01000", "Household"))
+  } else {
+    sectornames <- rbind.data.frame(sectornames, c("F010", "Household"))
+  }
+  # Assign sector names to TBS
+  if("SectorName" %in% colnames(tbs)){
+    tbs$SectorName <- NULL
+  }
+  tbs <- merge(tbs, sectornames, by = "Sector", all.x = TRUE)
+  
   # Replace NA in DQ cols with 5
   dq_fields <- getDQfields(tbs)
   for (f in dq_fields) {

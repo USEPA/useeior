@@ -91,10 +91,8 @@ aggregateSectorsinTBS <- function (model, aggregationSpecs, sattable, sat){
   aggCodes <- substr(agg,1,codeLength)
   
   if(any(newSatTable$Sector %in% aggCodes[-1])) {
-    sectorName <- newSatTable$SectorName[newSatTable$Sector == aggCodes[1]][1]
-    newSatTable$SectorName[which(newSatTable$Sector %in% aggCodes[-1])] <- sectorName
     newSatTable$Sector[which(newSatTable$Sector %in% aggCodes[-1])] <- aggCodes[1]
-    newSatTable <- collapseTBS(newSatTable)
+    newSatTable <- collapseTBS(newSatTable, model)
   }
   
   return(newSatTable)
