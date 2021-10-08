@@ -255,25 +255,37 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
 #' Disaggregate a portion of a satellite table based on an allocation_vector
 #' @param sattable A standardized satellite table to be disaggregated.
 #' @param disagg Specifications for disaggregating the current Table
+#' @param allocating_sectors vector of sectors to allocate to, if NULL allocate to all sectors in the disaggregation
 #' @param allocation_vector named vector of allocation ratios
 #' @return A satellite table with new sectors added.
-disaggregateSatelliteSubsetByRatio <- function(sattable, disagg, allocation_vector = NULL) {
+disaggregateSatelliteSubsetByRatio <- function(sattable, disagg, allocating_sectors = NULL, allocation_vector = NULL) {
+  
+  if(is.null(allocating_sectors)) {
+    allocating_sectors <- disagg$DisaggregatedSectorCodes
+  }
   
   if(is.null(allocation_vector) & !is.null(disagg$MakeFileDF)) {
     GrossOutputAlloc <- subset(disagg$MakeFileDF, IndustryCode == disagg$OriginalSectorCode)
     allocation_vector <- setNames(GrossOutputAlloc$PercentMake, gsub("/.*", "", GrossOutputAlloc$CommodityCode))
+    allocation_vector <- allocation_vector[!duplicated(allocation_vector)]
   } else if(is.null(allocation_vector)) {
-    allocation_vector <- setNames(rep(1/length(disagg$DisaggregatedSectorCodes),
-                                      times = length(disagg$DisaggregatedSectorCodes)),
-                                  gsub("/.*", "", disagg$DisaggregatedSectorCodes))
+    allocation_vector <- setNames(rep(1/length(allocating_sectors),
+                                      times = length(allocating_sectors)),
+                                  gsub("/.*", "", allocating_sectors))
   }
+  
+  # only maintain the appropriate sectors in the allocation vector
+  allocation_vector <- subset(allocation_vector, names(allocation_vector) %in% gsub("/.*", "", allocating_sectors))
+  allocation_vector <- sapply(allocation_vector, function(x){x / sum(allocation_vector)})
+  
+  
   sattable_subset_disaggregated <- sattable
   i<-1
-  for (new_sector in gsub("/.*", "", disagg$DisaggregatedSectorCodes)){
+  for (new_sector in gsub("/.*", "", allocating_sectors)){
     new_sector_totals <- sattable
     # Update the sector and sector name
     new_sector_totals$Sector <- new_sector
-    new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[i]]
+    new_sector_totals$SectorName <- disagg$DisaggregatedSectorNames[[match(new_sector, gsub("/.*", "", disagg$DisaggregatedSectorCode))]]
     allocation <- 0
     if (new_sector %in% names(allocation_vector)){
       allocation <- allocation_vector[[new_sector]]
@@ -291,24 +303,37 @@ disaggregateSatelliteSubsetByRatio <- function(sattable, disagg, allocation_vect
 
 #' Disaggregate satellite tables from static file based on specs
 #' @param disagg Specifications for disaggregating the current Table
-#' @param sattable A standardized satellite table with resource and emission names from original sources.
+#' @param tbs A standardized satellite table with resource and emission names from original sources.
 #' @param sat_spec, a standard specification for a single satellite table.
 #' @return A standardized satellite table with old sectors removed and new sectors added.
-disaggregateSatelliteTable <- function (disagg, sattable, sat_spec) {
+disaggregateSatelliteTable <- function (disagg, tbs, sat_spec) {
+  sattable <- tbs
+  # identify NAICS that require further disaggregation
+  naics <- disagg$NAICSSectorCW[c('NAICS_2012_Code','USEEIO_Code')]
+  codes <- unique(naics[duplicated(naics$NAICS_2012_Code),]$NAICS_2012_Code)
+  naics <- naics[which(naics$NAICS_2012_Code %in% codes),]
+  
   original_code <- gsub("/.*", "", disagg$OriginalSectorCode)
-  if(original_code %in% sattable$Sector) {
+  codes <- c(original_code, codes)
+  allocating_sectors <- NULL
+  if(any(codes %in% sattable$Sector)) {
     if(!is.null(disagg$EnvFileDF) & disagg$EnvAllocRatio) {
       # If satellite table data is provided as flow by sector ratios, loop through each flow assigned to original sector
-      sattable_original = subset(sattable, Sector==original_code)
-      for(flow in unique(sattable_original$FlowUUID)) {
+      sattable_to_disaggregate = subset(sattable, Sector %in% codes)
+      # Check if allocating to full sector list from original code or just a subset based on duplicate NAICS
+      if(!(original_code %in% sattable_to_disaggregate$Sector)){
+        allocating_sectors <- naics$USEEIO_Code
+      }
+      for(flow in unique(sattable_to_disaggregate$FlowUUID)) {
         allocation_df <- subset(disagg$EnvFileDF, FlowUUID==flow)
         if(nrow(allocation_df)==0) {
           allocation_vector <- NULL
         } else {
           allocation_vector <- setNames(allocation_df$FlowRatio, allocation_df$Sector)
         }
-        disaggregated_flows <- disaggregateSatelliteSubsetByRatio(subset(sattable_original, FlowUUID==flow, colnames(sattable)),
-                                                                  disagg, allocation_vector)
+        
+        disaggregated_flows <- disaggregateSatelliteSubsetByRatio(subset(sattable_to_disaggregate, FlowUUID==flow, colnames(sattable)),
+                                                                  disagg, allocating_sectors = allocating_sectors, allocation_vector)
         sattable <- rbind(sattable, disaggregated_flows)
       }
     } else if(!is.null(disagg$EnvFileDF)) {
@@ -318,7 +343,8 @@ disaggregateSatelliteTable <- function (disagg, sattable, sat_spec) {
       if(nrow(new_sector_totals)==0) {
         logging::logwarn(paste0("No data found for disaggregation of ",sat_spec$Abbreviation, " for ",
                                 disagg$OriginalSectorCode, " - applying default allocation"))
-        sattable <- rbind(sattable, disaggregateSatelliteSubsetByRatio(subset(sattable, Sector==original_code, colnames(sattable)), disagg))
+        sattable <- rbind(sattable, disaggregateSatelliteSubsetByRatio(subset(sattable, Sector==original_code, colnames(sattable)),
+                                                                       disagg, allocating_sectors = allocating_sectors))
       } else {
         # Check for errors in satellite table
         new_sector_totals <- conformTbStoStandardSatTable(new_sector_totals)
@@ -331,11 +357,12 @@ disaggregateSatelliteTable <- function (disagg, sattable, sat_spec) {
         }
     } else {
       # No satellite table data provided, use default allocation
-      sattable <- rbind(sattable, disaggregateSatelliteSubsetByRatio(subset(sattable, Sector==original_code, colnames(sattable)), disagg))
+      sattable <- rbind(sattable, disaggregateSatelliteSubsetByRatio(subset(sattable, Sector==original_code, colnames(sattable)),
+                                                                     disagg,  allocating_sectors = allocating_sectors))
     }
   } 
   # Remove data for the original sector
-  sattable_disaggregated <- subset(sattable, Sector!=original_code)
+  sattable_disaggregated <- subset(sattable, !(Sector %in% codes))
 
   return(sattable_disaggregated)
 }
