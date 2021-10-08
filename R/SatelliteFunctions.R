@@ -28,6 +28,12 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   # Merge totals_by_sector table with NAICStoBEA mapping
   totals_by_sector_BEA <- merge(totals_by_sector, NAICStoBEA, by = "NAICS", all.x = TRUE)
   
+  # Because this occurs after disaggregation, some sectors may not map, update those sectors
+  disaggNAICS <- unique(totals_by_sector_BEA[is.na(totals_by_sector_BEA$BEA),"NAICS"])
+  totals_by_sector_BEA$BEA <- ifelse(totals_by_sector_BEA$NAICS %in% disaggNAICS, totals_by_sector_BEA$NAICS, totals_by_sector_BEA$BEA)
+  totals_by_sector_BEA$TechnologicalCorrelationAdjustment[is.na(totals_by_sector_BEA$TechnologicalCorrelationAdjustment)] <- 0
+  
+  
   # Generate allocation_factor data frame containing allocation factors between NAICS and BEA sectors
   allocation_factor <- getNAICStoBEAAllocation(totals_by_sector_year, model)
   colnames(allocation_factor) <- c("NAICS", "BEA", "allocation_factor")

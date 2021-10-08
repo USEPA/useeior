@@ -129,6 +129,16 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
 #'@param model an EEIO model with IO tables loaded
 #'@return a totals-by-sector df with the sectors and flow amounts corresponding to the model schema
 conformTbStoIOSchema <- function(tbs, sat_spec, model) {
+  # Check if aggregation or disaggregation are needed based on model metadata
+  if(!is.null(sat_spec$StaticFile)) {
+    for(aggSpecs in model$AggregationSpecs) {
+      tbs <- aggregateSectorsinTBS(model, aggSpecs, tbs, sat_spec)  
+    }
+    for (disagg in model$DisaggregationSpecs) {
+      tbs <- disaggregateSatelliteTable(disagg, tbs, sat_spec)
+    }
+  }
+  
   # Check if the original data is BEA-based. If so, apply necessary allocation or aggregation.
   # If not, map data from original sector to BEA.
   if (sat_spec$SectorListSource == "BEA") {
@@ -142,16 +152,6 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
     }
   } else if ("NAICS" %in% sat_spec$SectorListSource) {
     tbs <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(tbs, sat_spec$DataYears[1], model)
-  }
-  
-  # Check if aggregation or disaggregation are needed based on model metadata
-  if(!is.null(sat_spec$StaticFile)) {
-    for(aggSpecs in model$AggregationSpecs) {
-      tbs <- aggregateSectorsinTBS(model, aggSpecs, tbs, sat_spec)  
-    }
-    for (disagg in model$DisaggregationSpecs) {
-      tbs <- disaggregateSatelliteTable(disagg, tbs, sat_spec)
-    }
   }
   
   for (r in model$specs$ModelRegionAcronyms) {
