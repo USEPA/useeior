@@ -2,16 +2,18 @@
 % Please edit documentation in R/AggregationFunctions.R
 \name{aggregateMasterCrosswalk}
 \alias{aggregateMasterCrosswalk}
-\title{Disaggregate the MasterCrosswalk to include the new sectors for disaggregation}
+\title{Aggregate the MasterCrosswalk on the selected sectors}
 \usage{
-aggregateMasterCrosswalk(model)
+aggregateMasterCrosswalk(model, aggregationSpecs)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{aggregationSpecs}{Specifications for aggregation}
 }
 \value{
 crosswalk with aggregated sectors removed
 }
 \description{
-Disaggregate the MasterCrosswalk to include the new sectors for disaggregation
+Aggregate the MasterCrosswalk on the selected sectors
 }

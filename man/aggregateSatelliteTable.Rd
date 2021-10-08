@@ -2,16 +2,14 @@
 % Please edit documentation in R/SatelliteFunctions.R
 \name{aggregateSatelliteTable}
 \alias{aggregateSatelliteTable}
-\title{Aggreagte (FlowAmount in) satellite tables from one BEA level to another}
+\title{Aggregate (FlowAmount in) satellite tables from BEA level to model configuration}
 \usage{
-aggregateSatelliteTable(sattable, from_level, to_level, model)
+aggregateSatelliteTable(sattable, from_level, model)
 }
 \arguments{
 \item{sattable}{A satellite table to be aggregated based on the level (Detail, Summary, or Sector) of BEA code.}
 
 \item{from_level}{The level of BEA code in the satellite table.}
-
-\item{to_level}{The level of BEA code this satellite table will be aggregated to.}
 
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
@@ -19,5 +17,5 @@ aggregateSatelliteTable(sattable, from_level, to_level, model)
 A more aggregated satellite table.
 }
 \description{
-Aggreagte (FlowAmount in) satellite tables from one BEA level to another
+Aggregate (FlowAmount in) satellite tables from BEA level to model configuration
 }

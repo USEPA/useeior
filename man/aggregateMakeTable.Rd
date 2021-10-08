@@ -4,10 +4,12 @@
 \alias{aggregateMakeTable}
 \title{Aggregate the MakeTable based on specified source file}
 \usage{
-aggregateMakeTable(model)
+aggregateMakeTable(model, aggregationSpecs)
 }
 \arguments{
 \item{model}{Model file loaded with IO tables}
+
+\item{aggregationSpecs}{Specifications for aggregation}
 }
 \value{
 An aggregated MakeTable.

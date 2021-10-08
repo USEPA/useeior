@@ -4,10 +4,12 @@
 \alias{aggregateUseTable}
 \title{Aggregate the UseTable based on specified source file}
 \usage{
-aggregateUseTable(model, domestic = FALSE)
+aggregateUseTable(model, aggregationSpecs, domestic = FALSE)
 }
 \arguments{
 \item{model}{Model file loaded with IO tables}
+
+\item{aggregationSpecs}{Specifications for aggregation}
 
 \item{domestic}{Boolean to indicate whether to aggregate the UseTransactions or DomesticUseTransactions table}
 }

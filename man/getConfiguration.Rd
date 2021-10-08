@@ -9,7 +9,7 @@ getConfiguration(modelname, spectype)
 \arguments{
 \item{modelname, }{str, the name of the model}
 
-\item{spectype, }{str, specification type, either "model" or "disagg"}
+\item{spectype, }{str, specification type, either "model",  "disagg", or "agg"}
 }
 \value{
 A list of model specifications.

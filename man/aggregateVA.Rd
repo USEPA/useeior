@@ -4,10 +4,12 @@
 \alias{aggregateVA}
 \title{Aggregate the MakeTable based on specified source file}
 \usage{
-aggregateVA(model)
+aggregateVA(model, aggregationSpecs)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{aggregationSpecs}{Specifications for aggregation}
 }
 \value{
 An aggregated MakeTable.
