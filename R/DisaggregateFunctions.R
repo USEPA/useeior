@@ -324,6 +324,7 @@ disaggregateSatelliteTable <- function (disagg, tbs, sat_spec) {
       if(!(original_code %in% sattable_to_disaggregate$Sector)){
         allocating_sectors <- naics$USEEIO_Code
       }
+      sattable_to_disaggregate$FlowUUID[is.na(sattable_to_disaggregate$FlowUUID)] <- ""
       for(flow in unique(sattable_to_disaggregate$FlowUUID)) {
         allocation_df <- subset(disagg$EnvFileDF, FlowUUID==flow)
         if(nrow(allocation_df)==0) {
