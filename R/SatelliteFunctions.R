@@ -259,12 +259,12 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
       weight <- useeior::Detail_GrossOutput_IO[industries, as.character(year)]
       mapping_year[mapping_year$BEA_2007_Code==industry, "Ratio"] <- weight/sum(weight)
     }
-    mapping_year[is.na(mapping_year$Ratio), "Ratio"] <- 1
     # Map totals_by_sector from BEA 2007 schema to 2012 schema
     totals_by_sector_year <- merge(totals_by_sector_year, mapping_year,
                                    by.x = "Sector", by.y = "BEA_2007_Code", all.x = TRUE)
+    totals_by_sector_year[is.na(totals_by_sector_year$Ratio), "Ratio"] <- 1
     totals_by_sector_year$FlowAmount <- totals_by_sector_year$FlowAmount*totals_by_sector_year$Ratio
-    totals_by_sector_year$Sector <- totals_by_sector_year$BEA_2012_Code
+    totals_by_sector_year$Sector <- ifelse(is.na(totals_by_sector_year$BEA_2012_Code), totals_by_sector_year$Sector, totals_by_sector_year$BEA_2012_Code)
     totals_by_sector_year[, c("BEA_2012_Code", "Ratio")] <- NULL
     totals_by_sector_new <- rbind(totals_by_sector_new, totals_by_sector_year)
   }
