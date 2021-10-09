@@ -294,7 +294,8 @@ checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.005) {
   lost_flows <- setdiff(tbs0_agg$Flow, tbs_agg$Flow)
 
   if(length(lost_flows) > 0){
-    tbs_agg[, lost_flows] <- 0
+    df <- data.frame(Flow = lost_flows, FlowAmount = 0)
+    tbs_agg <- rbind(tbs_agg, df)
     logging::logdebug("Flows lost upon conforming to model schema  :")
     logging::logdebug(lost_flows)
   }
