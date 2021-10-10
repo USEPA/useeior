@@ -255,14 +255,10 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
 #' Disaggregate a portion of a satellite table based on an allocation_vector
 #' @param sattable A standardized satellite table to be disaggregated.
 #' @param disagg Specifications for disaggregating the current Table
-#' @param allocating_sectors vector of sectors to allocate to, if NULL allocate to all sectors in the disaggregation
+#' @param allocating_sectors vector of sectors to allocate to
 #' @param allocation_vector named vector of allocation ratios
 #' @return A satellite table with new sectors added.
-disaggregateSatelliteSubsetByRatio <- function(sattable, disagg, allocating_sectors = NULL, allocation_vector = NULL) {
-  
-  if(is.null(allocating_sectors)) {
-    allocating_sectors <- disagg$DisaggregatedSectorCodes
-  }
+disaggregateSatelliteSubsetByRatio <- function(sattable, disagg, allocating_sectors, allocation_vector = NULL) {
   
   if(is.null(allocation_vector) & !is.null(disagg$MakeFileDF)) {
     GrossOutputAlloc <- subset(disagg$MakeFileDF, IndustryCode == disagg$OriginalSectorCode)
@@ -315,7 +311,7 @@ disaggregateSatelliteTable <- function (disagg, tbs, sat_spec) {
   
   original_code <- gsub("/.*", "", disagg$OriginalSectorCode)
   codes <- c(original_code, codes)
-  allocating_sectors <- NULL
+  allocating_sectors <- disagg$DisaggregatedSectorCodes
   if(any(codes %in% sattable$Sector)) {
     if(!is.null(disagg$EnvFileDF) & disagg$EnvAllocRatio) {
       # If satellite table data is provided as flow by sector ratios, loop through each flow assigned to original sector
