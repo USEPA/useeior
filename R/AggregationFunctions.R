@@ -328,6 +328,10 @@ aggregateMasterCrosswalk <- function (model, aggregationSpecs){
   new_cw <- model$crosswalk #variable to return with complete changes to crosswalk#temp
 
   secLength <- regexpr(pattern ='/',agg[1]) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
+  # Update the sector and summary fields to match the aggregated sector
+  new_cw$BEA_Sector[which(new_cw$USEEIO %in% substr(agg[-1],1,secLength))] <- new_cw$BEA_Sector[new_cw$USEEIO == substr(agg[1],1,secLength)][1]
+  new_cw$BEA_Summary[which(new_cw$USEEIO %in% substr(agg[-1],1,secLength))] <- new_cw$BEA_Summary[new_cw$USEEIO == substr(agg[1],1,secLength)][1]
+  # Update the value in USEEIO column with the aggregated sector
   new_cw$USEEIO[which(new_cw$USEEIO %in% substr(agg[-1],1,secLength))] <- substr(agg[1],1,secLength)
 
   return(new_cw)
