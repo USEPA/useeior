@@ -21,14 +21,14 @@ loadIOData <- function(model) {
     model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
   }
   
-  model <- getDisaggregationSpecs(model)
-  model <- getAggregationSpecs(model)
-  
   # Check for aggregation
+  model <- getAggregationSpecs(model)
   if(length(model$AggregationSpecs)!=0){
     model <- aggregateModel(model)
   }
+  
   # Check for disaggregation
+  model <- getDisaggregationSpecs(model)
   if(length(model$DisaggregationSpecs)!=0){
     model <- disaggregateModel(model)
   }
