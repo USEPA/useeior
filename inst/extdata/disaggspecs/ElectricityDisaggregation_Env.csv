@@ -1180,3 +1180,10 @@
 "Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","22111A",0.808855207362032
 "Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","22111B",0.0867986402620995
 "Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","22111C",1.03434667825116e-05
+"Biomass","resource/biotic","7feeb363-fbeb-37ad-937f-080834b9dc35","221117",1
+"Energy, geothermal","resource/ground","d2792697-9e22-3380-974f-54b92a3549a9","221116",1
+"Energy, hydro","resource/water","5af7a834-bf92-32eb-a0b2-2f2dcdc9f3d9","221111",1
+"Energy, solar","resource/air","4d1571a6-ffff-3a36-82df-224ed975a094","221114",1
+"Energy, wind","resource/air","35962866-662b-3817-a2a7-39375c7e6a3c","221115",1
+"Uranium","resource/ground","af4664da-60f0-31e5-83ba-0d2518959c5b","221113",1
+"Sulfur hexafluoride","emissions/air","8334c424-1603-3274-bec1-15a7bd5c8e86","221121",1
