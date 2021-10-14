@@ -4,12 +4,12 @@
 \alias{disaggregateSatelliteTable}
 \title{Disaggregate satellite tables from static file based on specs}
 \usage{
-disaggregateSatelliteTable(disagg, sattable, sat_spec)
+disaggregateSatelliteTable(disagg, tbs, sat_spec)
 }
 \arguments{
 \item{disagg}{Specifications for disaggregating the current Table}
 
-\item{sattable}{A standardized satellite table with resource and emission names from original sources.}
+\item{tbs}{A standardized satellite table with resource and emission names from original sources.}
 
 \item{sat_spec, }{a standard specification for a single satellite table.}
 }
