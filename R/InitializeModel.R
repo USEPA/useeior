@@ -16,6 +16,11 @@ initializeModel <- function(modelname) {
                            as.environment("package:useeior"))
     model$crosswalk <- unique(model$crosswalk[, c("NAICS_2012_Code", colnames(model$crosswalk)[startsWith(colnames(model$crosswalk), "BEA")])])
     colnames(model$crosswalk) <- gsub(paste0("_", model$specs$BaseIOSchema, "|_Code"), "", colnames(model$crosswalk))
+    rownames(model$crosswalk) <- NULL
+    # Assign initial model crosswalk based on base schema
+    modelschema <- "USEEIO"
+    baseschema <- paste0("BEA_", model$specs$BaseIOLevel)
+    model$crosswalk[modelschema] <- model$crosswalk[baseschema]
   }
   return(model)
 }

@@ -6,8 +6,7 @@
 \usage{
 assembleTable(
   originalTable,
-  originalRowIndex,
-  originalColIndex,
+  disagg,
   disaggCols,
   disaggRows,
   disaggIntersection
@@ -16,9 +15,7 @@ assembleTable(
 \arguments{
 \item{originalTable}{Dataframe. The original table before disaggregation}
 
-\item{originalRowIndex}{Integer. The row index, in the original table, of the sector to be disaggregated}
-
-\item{originalColIndex}{Integer. The column index, in the original table, of the sector to be disaggregated}
+\item{disagg}{Specifications for disaggregating the current Table}
 
 \item{disaggCols}{Dataframe. Previously disaggregated columns of the table.}
 

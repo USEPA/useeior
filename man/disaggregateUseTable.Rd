@@ -4,10 +4,12 @@
 \alias{disaggregateUseTable}
 \title{Disaggregate Use table based on specs}
 \usage{
-disaggregateUseTable(model, domestic = FALSE)
+disaggregateUseTable(model, disagg, domestic = FALSE)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{disagg}{Specifications for disaggregating the current Table}
 
 \item{domestic}{A logical value indicating whether to disaggregate domestic final demand.}
 }

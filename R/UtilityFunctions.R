@@ -327,6 +327,22 @@ writeDatatoRDA <- function(data, data_name) {
           list(as.name(data_name), overwrite = TRUE))
 }
 
+#'Create sector schema for a model
+#'@param model, any model object
+#'@return char string
+generateModelSectorSchema <- function(model) {
+  SectorSchema <- paste(model$specs$IODataSource, 
+                        model$specs$BaseIOLevel, sep = "_")
+  if(!is.null(model$specs$DisaggregationSpecs)){
+    SectorSchema <- paste(SectorSchema,
+                          paste(gsub("Disaggregation.*", "",
+                                     model$specs$DisaggregationSpecs), collapse = "_"),
+                          "Disagg",sep = "_")
+  }
+  
+  return(SectorSchema)
+}
+
 #' Write metadata of downloaded data to JSON.
 #' @param name A string specifying data name.
 #' @param year A numeric value specifying data year.

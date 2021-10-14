@@ -10,7 +10,7 @@ getDisaggCommodityPercentages(disagg)
 \item{disagg}{Specifications for disaggregating the current Model}
 }
 \value{
-A dataframe with the default disaggregation percentges for the Commodities of the current model
+A dataframe with the default disaggregation percentages for the Commodities of the current model
 }
 \description{
 Obtain default disaggregation percentages for commodities from the disaggregation input files.

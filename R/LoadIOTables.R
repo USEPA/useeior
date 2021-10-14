@@ -21,8 +21,15 @@ loadIOData <- function(model) {
     model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
   }
   
+  # Check for aggregation
+  model <- getAggregationSpecs(model)
+  if(length(model$AggregationSpecs)!=0){
+    model <- aggregateModel(model)
+  }
+  
   # Check for disaggregation
-  if(!is.null(model$specs$DisaggregationSpecs)){
+  model <- getDisaggregationSpecs(model)
+  if(length(model$DisaggregationSpecs)!=0){
     model <- disaggregateModel(model)
   }
   
@@ -95,9 +102,8 @@ loadNationalIOData <- function(model) {
                                                                                     model$specs$ModelRegionAcronyms),
                                                                               1, FUN = joinStringswithSlashes)
   
-  model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
-  model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
-  
+  model <- calculateIndustryCommodityOutput(model)
+
   model$MultiYearIndustryOutput <- loadNationalGrossOutputTable(model$specs)[model$Industries$Code, ]
   rownames(model$MultiYearIndustryOutput) <- model$Industries$Code_Loc
   model$MultiYearIndustryOutput[, as.character(model$specs$IOYear)] <- model$IndustryOutput
@@ -193,5 +199,15 @@ loadBEAMakeorUseTable <- function (iolevel, makeoruse, year, redef){
   }
   
   return(BEA_Table)
+}
+
+#' Calculate industry and commodity output vectors from model components.
+#' @param model An EEIO model with IO tables
+#' @return An EEIO model with industry and commodity output added
+calculateIndustryCommodityOutput <- function(model) {
+  model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+  model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
+  
+  return(model)
 }
 

@@ -14,7 +14,7 @@ loadMasterCrosswalk <- function(){
 #' @return A table of allocation factors between NAICS and BEA sectors.
 getNAICStoBEAAllocation <- function (year, model) {
   # Keep USEEIO and NAICS columns in MasterCrosswalk2012 table based on the model specs
-  NAICStoBEA <- unique(model$crosswalk[, c("NAICS", paste0("BEA_", model$specs$BaseIOLevel))])
+  NAICStoBEA <- unique(model$crosswalk[, c("NAICS", "USEEIO")])
   colnames(NAICStoBEA) <- c("NAICS_Code", "BEA_Code")
   # Drop 2-digit NAICS code
   NAICStoBEA <- NAICStoBEA[nchar(NAICStoBEA$NAICS_Code) > 2, ]
@@ -22,8 +22,9 @@ getNAICStoBEAAllocation <- function (year, model) {
   AllocationCodes <- NAICStoBEA[duplicated(NAICStoBEA$NAICS_Code) | duplicated(NAICStoBEA$NAICS_Code, fromLast = TRUE), ]
   AllocationCodes <- stats::na.omit(AllocationCodes)
   # Merge AllocationCodes with Gross Output table to calculate allocation factors
-  AllocationTable <- merge(AllocationCodes, model$MultiYearIndustryOutput[, as.character(year), drop = FALSE], 
-                           by.x = "BEA_Code", by.y = 0, all.x = TRUE)
+  output <- model$MultiYearIndustryOutput[, as.character(year), drop = FALSE]
+  row.names(output) <- gsub("/.*", "", row.names(output))
+  AllocationTable <- merge(AllocationCodes, output, by.x = "BEA_Code", by.y = 0, all.x = TRUE)
   colnames(AllocationTable)[3] <- "Output"
   # Insert placeholders for NAs in the "Output" column
   AllocationTable[is.na(AllocationTable)] <- 1

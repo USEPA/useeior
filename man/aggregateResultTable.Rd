@@ -4,12 +4,10 @@
 \alias{aggregateResultTable}
 \title{Aggregate result matrix by rows}
 \usage{
-aggregateResultTable(matrix, from_level, to_level, crosswalk)
+aggregateResultTable(matrix, to_level, crosswalk)
 }
 \arguments{
 \item{matrix}{A matrix with sectors as rows}
-
-\item{from_level}{The level of BEA code this matrix starts at}
 
 \item{to_level}{The level of BEA code this matrix will be aggregated to}
 

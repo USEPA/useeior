@@ -70,7 +70,7 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     label_colors <- rev(unique(df[, c("Sector", "color")])[, "color"])
     df$x <- df$Sector
   }
-  
+  df <- df[complete.cases(df), ]
   # plot
   p <- ggplot(df, aes(x = factor(x, levels = rev(unique(x))),
                       y = Value, shape = as.character(modelname)))
@@ -324,7 +324,7 @@ getBEASectorColorMapping <- function(model) {
   # ColorLabelMapping["#42D4F4", ] <- c("Used", "Used", "#42D4F4") # cyan (bright blue)
   # ColorLabelMapping["#469990", ] <- c("Other", "Other", "#469990") # teal
   # Prepare BEA Sector-modelIOLevel mapping
-  mapping <- unique(model$crosswalk[, c("BEA_Sector", paste0("BEA_", model$specs$BaseIOLevel))])
+  mapping <- unique(model$crosswalk[, c("BEA_Sector", "USEEIO")])
   colnames(mapping) <- c("Sector", paste0(model$specs$BaseIOLevel, "Code"))
   # Merge BEA mapping with ColorLabelMapping
   mapping <- merge(mapping, ColorLabelMapping)

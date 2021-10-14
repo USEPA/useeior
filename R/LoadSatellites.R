@@ -47,8 +47,11 @@ loadSatTables <- function(model) {
     ### Generate totals_by_sector, tbs
     tbs0 <- generateTbSfromSatSpec(sat_spec, model)
     
+    # Convert totals_by_sector to standard satellite table format
+    tbs <- conformTbStoStandardSatTable(tbs0)
+    
     ### Make tbs conform to the model schema
-    tbs <- conformTbStoIOSchema(tbs0, sat_spec, model)
+    tbs <- conformTbStoIOSchema(tbs, sat_spec, model)
     
     ##Check for any loss of flow data
     checkSatelliteFlowLoss(tbs0,tbs)
@@ -56,7 +59,7 @@ loadSatTables <- function(model) {
     
     # Add in DQ columns and additional contextual scores not provided
     # Only setting TemporalCorrelation for now
-    tbs <- scoreContextualDQ(tbs) 
+    tbs <- scoreContextualDQ(tbs)
     
     # Convert totals_by_sector to standard satellite table format
     tbs <- conformTbStoStandardSatTable(tbs)
@@ -126,6 +129,16 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
 #'@param model an EEIO model with IO tables loaded
 #'@return a totals-by-sector df with the sectors and flow amounts corresponding to the model schema
 conformTbStoIOSchema <- function(tbs, sat_spec, model) {
+  # Check if aggregation or disaggregation are needed based on model metadata
+  if(!is.null(sat_spec$StaticFile)) {
+    for(aggSpecs in model$AggregationSpecs) {
+      tbs <- aggregateSectorsinTBS(model, aggSpecs, tbs, sat_spec)  
+    }
+    for (disagg in model$DisaggregationSpecs) {
+      tbs <- disaggregateSatelliteTable(disagg, tbs, sat_spec)
+    }
+  }
+  
   # Check if the original data is BEA-based. If so, apply necessary allocation or aggregation.
   # If not, map data from original sector to BEA.
   if (sat_spec$SectorListSource == "BEA") {
@@ -135,14 +148,10 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
     }
     # If the original data is at Detail level but model is not, apply aggregation
     if (sat_spec$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
-      tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,to_level = model$specs$BaseIOLevel,model)
+      tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,model)
     }
   } else if ("NAICS" %in% sat_spec$SectorListSource) {
     tbs <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(tbs, sat_spec$DataYears[1], model)
-  }
-  # Check if disaggregation is needed based on model metadata
-  if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat_spec$StaticFile)){
-    tbs <- disaggregateSatelliteTable(model, tbs, sat_spec)
   }
   
   for (r in model$specs$ModelRegionAcronyms) {
