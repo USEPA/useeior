@@ -3,9 +3,8 @@
 #' @return An aggregated model.
 aggregateModel <- function (model){
 
+  logging::loginfo("Initializing Aggregation of IO tables...")
   for (aggSpec in model$AggregationSpecs){
-      
-    logging::loginfo(paste0("Aggregating [", paste(aggSpec$Sectors[-1], collapse = ', '), "] to ",aggSpec$Sectors[1], "..."))
     #aggregating economic tables
     model$MakeTransactions <- aggregateMakeTable(model, aggSpec)
     model$UseTransactions <- aggregateUseTable(model, aggSpec)
@@ -62,7 +61,7 @@ getAggregationSpecs <- function (model){
   model$AggregationSpecs <- vector(mode = 'list')
   
   for (configFile in model$specs$AggregationSpecs){
-    logging::loginfo(paste0("Loading aggregation specs for ", configFile, "..."))
+    logging::loginfo(paste0("Loading aggregation specification file for ", configFile, "..."))
     config <- getConfiguration(configFile, "agg")
     if('Aggregation' %in% names(config)){
       model$AggregationSpecs <- append(model$AggregationSpecs, config$Aggregation)

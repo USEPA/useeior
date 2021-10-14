@@ -54,7 +54,7 @@ getDisaggregationSpecs <- function (model){
 
   model$DisaggregationSpecs <- vector(mode='list')
   for (configFile in model$specs$DisaggregationSpecs){
-    logging::loginfo(paste0("Loading disaggregation specs for ", configFile, "..."))
+    logging::loginfo(paste0("Loading disaggregation specification file for ", configFile, "..."))
     config <- getConfiguration(configFile, "disagg")
 
     if('Disaggregation' %in% names(config)){
