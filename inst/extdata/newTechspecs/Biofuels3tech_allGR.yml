@@ -15,19 +15,19 @@ NewTechnologies:
    Name: "GasFermentation"
    PrimaryProduct: "Biofuel"
    PriceNewCommodity: 1.6
-   PercentageProduced: 0.33
+   PercentageProduced: 0
   Technology2:
    Code: "324110B2"
    Name: "GuerbetReaction"
    PrimaryProduct: "Biofuel"
    PriceNewCommodity: 1.6
-   PercentageProduced: 0.33
+   PercentageProduced: 1
   Technology3:
    Code: "324110B3"
    Name: "FischerTropsch"
    PrimaryProduct: "Biofuel"
    PriceNewCommodity: 1.6
-   PercentageProduced: 0.34
+   PercentageProduced: 0
  InputPurchases: "inst/extdata/newTechspecs/GF_InputPurchases_V02.csv"
  ValueAdded: "inst/extdata/newTechspecs/GF_ValueAdded_V02.csv" #Not yet created
  EnvironmentalFlows: "inst/extdata/newTechspecs/GF_EnvFlow_V02.csv"

@@ -765,7 +765,7 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData){
   
   newIndustryMatrix<-newIndustryInfo[,1:2]
   newIndustryMatrix$Code_Loc <- apply(cbind(newIndustryMatrix[,1], model$specs$ModelRegionAcronyms), 1, FUN = joinStringswithSlashes)
-  modModel$Industries= rbind(modModel$Industries,newIndustryMatrix)
+  modModel$Industries= rbind(modModel$Industries,newIndustryMatrix[whichI,])
   
   #.....................................................................................................................
   # Update model MakeTransactions, UseTransactions, UseFinalDemand, UseValueAdded, UseCommodityOutput, MakeIndustryOutput
@@ -836,4 +836,28 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData){
   
 }
 
+addNewSector<-function(model){
+  
+  #Obtain specs file
+  newTechConfigFile <- model$specs$NewTechSpecs
+  logging::loginfo(paste("Reading new technology for", newTechConfigFile, sep=" "))
+  model$newTechSpecs <- getConfiguration(newTechConfigFile, "newTech") 
+  
+  #Extract data from specs
+  inputP_data<-read.csv(model$newTechSpecs$NewTechnologies$InputPurchases)
+  inputPurchasesNewTech<-as.matrix((inputP_data[,(3:5)]))
+  
+  #This is value added in $/GGE (Includes compensation to employees, taxes and gross operating surplus)
+  valueAdded_data<-read.csv(model$newTechSpecs$NewTechnologies$ValueAdded, row.names = 1, header = TRUE)
+  valueAddedNewTech<-as.matrix(valueAdded_data)
+  
+  #Read environmental data
+  envData_read<-read.csv(model$newTechSpecs$NewTechnologies$EnvironmentalFlows)
+  envData<- as.matrix(envData_read[,-1]) 
+  
+  
+  model<-addBiofuelsSector(model,inputPurchasesNewTech, valueAddedNewTech, envData)
+  model
+  #browser()
+}
 

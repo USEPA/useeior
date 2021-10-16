@@ -11,7 +11,7 @@ loadIOData <- function(model) {
   } else if (model$specs$IODataSource=="stateior") {
     # Fork for state model here
   }
-  browser()
+  #browser()
   # Add Chain Price Index (CPI) to model
   model$MultiYearIndustryCPI <- loadChainPriceIndexTable(model$specs)[model$Industries$Code, ]
   rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
@@ -26,35 +26,10 @@ loadIOData <- function(model) {
     model <- disaggregateModel(model)
   }
   
-  #Check for new techologies
+  #Check for new technologies
   if(!is.null (model$specs$NewTechSpecs)){
     #browser()
-    newTechConfigFile <- model$specs$NewTechSpecs
-    logging::loginfo(paste("Reading new technology for", newTechConfigFile, sep=" "))
-    model$newTechSpecs <- getConfiguration(newTechConfigFile, "newTech") 
-    
-    #Extract data from specs
-    inputP_data<-read.csv(model$newTechSpecs$NewTechnologies$InputPurchases)
-    inputPurchasesNewTech<-as.matrix((inputP_data[,(3:5)]))
-    
-    #---THIS ONE NEEDS TO BE READ AS THE INPUT PURCHASES AND THE ENVIRONMENTAL DATA FROM THE CVS FILE OF VALUE ADDED 
-    # ValueAdded: "inst/extdata/newTechspecs/GF_ValueAdded_V02.csv" #Not yet created
-    #This is value added in $/GGE (Includes compensation to employees, taxes and gross operating surplus)
-    valueAdded<-matrix(c(0.08,0.82,2.33,0.06,0.88,2.5,0.05,0.60,1.70), nrow=3, ncol=3) #the gross operating surplus needs to be updated
-    
-    #Read environmental data
-    #GF_envData<-read.csv("inst/extdata/GF_EnvFlow_GHG_V01.csv")
-    envData_read<-read.csv(model$newTechSpecs$NewTechnologies$EnvironmentalFlows)
-    envData<- as.matrix(envData_read[,-1]) 
-    
-    # #Add BEA to model to access the original tables
-    # model$BEA<-BEA
-    
-    model<-addBiofuelsSector(model,inputPurchasesNewTech, valueAdded, envData)
-    
-    browser()
-    #-----------------------------------------------------------------------------------------------------------------------------
-    
+    model<-addNewSector(model)
   }
   
   return(model)
@@ -64,7 +39,7 @@ loadIOData <- function(model) {
 #' @param model A model object with model specs loaded.
 #' @return A list with USEEIO model economic components.
 loadNationalIOData <- function(model) {
-  browser()
+  #browser()
   # Load BEA IO and gross output tables
   BEA <- loadBEAtables(model$specs)
 

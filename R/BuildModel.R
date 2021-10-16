@@ -21,7 +21,7 @@ constructEEIOMatrices <- function(model) {
   if(model$specs$ModelRegionAcronyms!="US"){
     stop("This function needs to be revised before it is suitable for multi-regional models")
   }
-  
+  #browser()
   # Combine data into a single totals by sector df
   model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
   # Set common year for flow when more than one year exists
@@ -126,7 +126,7 @@ constructEEIOMatrices <- function(model) {
 #'@param model, a model with econ and flow data loaded
 #'@return B, a matrix in flow x sector format with values of flow per $ output sector
 createBfromFlowDataandOutput <- function(model) {
-
+  #browser()
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
   #browser()
@@ -148,9 +148,26 @@ createBfromFlowDataandOutput <- function(model) {
     n<- model$BiofuelsData$OriginalIndustriesNum
     
     #CAREFUL!! DATA ROWS IMPORTED MUST BE IN EXACTLY THE SAME ORDER AS IN B MATRIXDEV
+    newrow<-as.matrix(envData[,whichI])
+    
+    #-----Add value added for new industries----
+    
+    newIndustriesVA<-model$UseValueAdded[,-(1:n)]
+    newIndustriesTotalProduction<-model$IndustryOutput[-(1:n)]
+    
+    newIndustriesVA_perUSD<-as.matrix(newIndustriesVA/newIndustriesTotalProduction)
+    
+    compensationEmployeesRowIndex<-which(rownames(B)=="Compensation of employees//USD")
+    TaxesRowIndex<-which(rownames(B)=="Taxes on production and imports, less subsidies//USD")
+    GrossOpSurplusRowIndex<-which(rownames(B)=="Gross operating surplus//USD")  
+    
+    newrow[compensationEmployeesRowIndex,]<-as.matrix(newIndustriesVA_perUSD[1,])
+    newrow[TaxesRowIndex,]<-as.matrix(newIndustriesVA_perUSD[2,])
+    newrow[GrossOpSurplusRowIndex,]<-as.matrix(newIndustriesVA_perUSD[3,])
+    #----------------------------------------------
     
     #Fill newEnvDataColumn 
-    modB[,-(1:n)]<-envData[,whichI]
+    modB[,-(1:n)]<-newrow
     
     B<-modB
   
