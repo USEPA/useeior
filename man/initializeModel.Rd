@@ -4,10 +4,12 @@
 \alias{initializeModel}
 \title{Initialize model with specifications and fundamental crosswalk table.}
 \usage{
-initializeModel(modelname)
+initializeModel(modelname, configfile = NULL)
 }
 \arguments{
 \item{modelname}{Name of the model from a config file.}
+
+\item{configfile}{Directory of model configuration file.}
 }
 \value{
 A list of model specifications and fundamental crosswalk table.

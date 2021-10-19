@@ -4,12 +4,14 @@
 \alias{getConfiguration}
 \title{Gets a stored configuration file}
 \usage{
-getConfiguration(modelname, spectype)
+getConfiguration(modelname, spectype, configfile = NULL)
 }
 \arguments{
 \item{modelname, }{str, the name of the model}
 
 \item{spectype, }{str, specification type, either "model",  "disagg", or "agg"}
+
+\item{configfile, }{str, model configuration file directory}
 }
 \value{
 A list of model specifications.

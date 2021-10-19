@@ -3,16 +3,15 @@
 #' Gets a stored configuration file
 #' @param modelname, str, the name of the model
 #' @param spectype, str, specification type, either "model",  "disagg", or "agg"
+#' @param configfile, str, model configuration file directory
 #' @return A list of model specifications.
-getConfiguration <- function(modelname, spectype) {
-  configname <- paste(modelname, ".yml", sep = "")
-  configpath <- paste0("extdata/",spectype,"specs/")
-  configfile <- system.file(configpath, configname, package="useeior")
-  if (configfile == "") {
-    config <- NA
-  } else {
-    config <- configr::read.config(configfile)
+getConfiguration <- function(modelname, spectype, configfile = NULL) {
+  if (is.null(configfile)) {
+    configname <- paste(modelname, ".yml", sep = "")
+    configpath <- paste0("extdata/",spectype,"specs/")
+    configfile <- system.file(configpath, configname, package="useeior")
   }
+  config <- configr::read.config(configfile)
   return(config)
 }
 

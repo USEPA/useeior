@@ -1,9 +1,10 @@
 #' Build an EEIO model.
 #' @param modelname Name of the model from a config file.
+#' @param configfile Directory of model configuration file.
 #' @export
 #' @return A list of EEIO model components and attributes
-buildModel <- function(modelname) {
-  model <- initializeModel(modelname)
+buildModel <- function(modelname, configfile = NULL) {
+  model <- initializeModel(modelname, configfile)
   model <- loadIOData(model)
   model <- loadandbuildSatelliteTables(model)
   model <- loadandbuildIndicators(model)

@@ -4,10 +4,12 @@
 \alias{buildModel}
 \title{Build an EEIO model.}
 \usage{
-buildModel(modelname)
+buildModel(modelname, configfile = NULL)
 }
 \arguments{
 \item{modelname}{Name of the model from a config file.}
+
+\item{configfile}{Directory of model configuration file.}
 }
 \value{
 A list of EEIO model components and attributes

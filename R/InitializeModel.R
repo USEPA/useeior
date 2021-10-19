@@ -1,12 +1,13 @@
 #' Initialize model with specifications and fundamental crosswalk table.
 #' @param modelname Name of the model from a config file.
+#' @param configfile Directory of model configuration file.
 #' @return A list of model specifications and fundamental crosswalk table.
-initializeModel <- function(modelname) {
+initializeModel <- function(modelname, configfile = NULL) {
   startLogging()
   logging::loginfo("Begin model initialization...")
   model <- list()
   # Get model specs
-  model$specs <- getConfiguration(modelname, "model")
+  model$specs <- getConfiguration(modelname, "model", configfile)
   if (rlang::is_na(model$specs)) {
     logging::logerror(paste("No configuration exists for a model named",modelname))
     stop()
