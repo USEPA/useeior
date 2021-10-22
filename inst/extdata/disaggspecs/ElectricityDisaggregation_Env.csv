@@ -1373,6 +1373,24 @@
 "Vanadium compounds","emission/water","52284d66-6c39-3e5c-a406-bcd75379fc85","221117",0.0065960262224871
 "Vanadium compounds","emission/water","52284d66-6c39-3e5c-a406-bcd75379fc85","22111A",0.265305710158688
 "Vanadium compounds","emission/water","52284d66-6c39-3e5c-a406-bcd75379fc85","22111B",0.728098263618824
+"Water, fresh","resource/water/fresh water body","3a10ad4e-2c19-3be8-b199-249d7020bba1","221113",0.230395931895793
+"Water, fresh","resource/water/fresh water body","3a10ad4e-2c19-3be8-b199-249d7020bba1","221114",1.21962438262634e-29
+"Water, fresh","resource/water/fresh water body","3a10ad4e-2c19-3be8-b199-249d7020bba1","221117",3.71440103394613e-06
+"Water, fresh","resource/water/fresh water body","3a10ad4e-2c19-3be8-b199-249d7020bba1","22111A",0.448568094869307
+"Water, fresh","resource/water/fresh water body","3a10ad4e-2c19-3be8-b199-249d7020bba1","22111B",0.321032258833866
+"Water, fresh","resource/water/subterranean/fresh water body","5d717594-2c5c-394c-8eaf-9e9d2fd553fd","221113",0.230395931895793
+"Water, fresh","resource/water/subterranean/fresh water body","5d717594-2c5c-394c-8eaf-9e9d2fd553fd","221114",1.21962438262634e-29
+"Water, fresh","resource/water/subterranean/fresh water body","5d717594-2c5c-394c-8eaf-9e9d2fd553fd","221117",3.71440103394613e-06
+"Water, fresh","resource/water/subterranean/fresh water body","5d717594-2c5c-394c-8eaf-9e9d2fd553fd","22111A",0.448568094869307
+"Water, fresh","resource/water/subterranean/fresh water body","5d717594-2c5c-394c-8eaf-9e9d2fd553fd","22111B",0.321032258833866
+"Water, saline","resource/water/saline water body","272e60cf-1e1f-3997-a93d-17f7698571e6","221113",0.379748786979834
+"Water, saline","resource/water/saline water body","272e60cf-1e1f-3997-a93d-17f7698571e6","22111A",0.0161601149204466
+"Water, saline","resource/water/saline water body","272e60cf-1e1f-3997-a93d-17f7698571e6","22111B",0.598351010648577
+"Water, saline","resource/water/saline water body","272e60cf-1e1f-3997-a93d-17f7698571e6","22111C",0.00574008745114206
+"Water, saline","resource/water/subterranean/saline water body","dcffa66d-c69a-3b45-956c-915dcfe19995","221113",0.379748786979834
+"Water, saline","resource/water/subterranean/saline water body","dcffa66d-c69a-3b45-956c-915dcfe19995","22111A",0.0161601149204466
+"Water, saline","resource/water/subterranean/saline water body","dcffa66d-c69a-3b45-956c-915dcfe19995","22111B",0.598351010648577
+"Water, saline","resource/water/subterranean/saline water body","dcffa66d-c69a-3b45-956c-915dcfe19995","22111C",0.00574008745114206
 "Zinc compounds","emission/air","f654e940-5737-3bc7-9492-f163c47bfbd5","22111A",1
 "Zinc compounds","emission/water","6e8f5792-945d-35a1-a558-663397d47b5b","221111",0.0100271001251767
 "Zinc compounds","emission/water","6e8f5792-945d-35a1-a558-663397d47b5b","221113",0.090068910663191
