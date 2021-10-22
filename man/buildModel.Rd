@@ -4,12 +4,13 @@
 \alias{buildModel}
 \title{Build an EEIO model.}
 \usage{
-buildModel(modelname, configfile = NULL)
+buildModel(modelname, configpaths = NULL)
 }
 \arguments{
 \item{modelname}{Name of the model from a config file.}
 
-\item{configfile}{Directory of model configuration file.}
+\item{configpaths}{str vector, paths (including file name) of model configuration file
+and optional agg/disagg configuration file(s). If NULL, built-in config files are loaded.}
 }
 \value{
 A list of EEIO model components and attributes

@@ -1,10 +1,11 @@
 #' Build an EEIO model.
 #' @param modelname Name of the model from a config file.
-#' @param configfile Directory of model configuration file.
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are loaded.
 #' @export
 #' @return A list of EEIO model components and attributes
-buildModel <- function(modelname, configfile = NULL) {
-  model <- initializeModel(modelname, configfile)
+buildModel <- function(modelname, configpaths = NULL) {
+  model <- initializeModel(modelname, configpaths)
   model <- loadIOData(model)
   model <- loadandbuildSatelliteTables(model)
   model <- loadandbuildIndicators(model)
