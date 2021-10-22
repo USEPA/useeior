@@ -1,0 +1,34 @@
+---
+output: html_document
+params:
+  modelname:
+    - "USEEIOv2.0"
+    - "USEEIOv2.0.1"
+    - "USEEIOv2.1"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  results = "asis"
+)
+
+require(rmarkdown)
+require(knitr)
+require(devtools)
+```
+
+# Load the `useeior` package
+```{r loadpackage}
+devtools::load_all()
+```
+
+# Validate model
+```{r validate}
+for (modelname in params$modelname) {
+  rmarkdown::render("inst/doc/ValidateModel.Rmd",
+                    output_file = paste0("Validate", modelname, ".html"))
+}
+```
