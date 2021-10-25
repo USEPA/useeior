@@ -24,3 +24,13 @@ cat(paste("Number of flow totals by commodity failing:",model_com$N_Fail))
 #cat(paste("Sectors with flow totals failing:", paste(model_com$Failure$rownames, collapse = ", ")))
 ```
 
+```{r echo=FALSE}
+if (!is.null(model_com[["FlowDifference"]])) {
+  cat("There are flow differences between", mA$specs$Model, "and", mB$specs$Model, "\n\n")
+  cat(names(model_com[["FlowDifference"]])[1], "are\n\n")
+  print(unlist(model_com[["FlowDifference"]][1], use.names = FALSE))
+  cat("\n", names(model_com[["FlowDifference"]])[2], "are\n\n")
+  print(unlist(model_com[["FlowDifference"]][2], use.names = FALSE))
+}
+```
+
