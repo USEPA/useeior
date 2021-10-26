@@ -4,7 +4,8 @@ params:
   modelname_pair:
     value:
       # - ["USEEIOv2.0", "USEEIOv2.0_nodisagg"]
-      - ["USEEIOv2.0", "USEEIOv2.1"]
+      - ["USEEIOv2.0", "USEEIOv2.0.1"]
+      - ["USEEIOv2.0.1", "USEEIOv2.1"]
 ---
 
 ```{r setup, include=FALSE}
