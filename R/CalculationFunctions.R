@@ -20,7 +20,7 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
   }
   
   # Prepare demand vector
-  if (class(demand)=="character") {
+  if (is.character(demand)) {
     #assume this is a model build-in demand 
     #try to load the model vector
     meta <- model$DemandVectors$meta
