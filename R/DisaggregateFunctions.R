@@ -1,7 +1,9 @@
 #' Disaggregate a model based on specified source file
 #' @param model Model file loaded with IO tables
+#' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
+#' If NULL, built-in config files are used.
 #' @return A disaggregated model.
-disaggregateModel <- function (model){
+disaggregateModel <- function (model, configpaths = NULL){
  
   logging::loginfo("Initializing Disaggregation of IO tables...")
   
@@ -49,13 +51,15 @@ disaggregateModel <- function (model){
 
 #' Obtain aggregation and disaggregation specs from input files
 #' @param model Model file loaded with IO tables
+#' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
+#' If NULL, built-in config files are used.
 #' @return A model with the specified aggregation and disaggregation specs.
-getDisaggregationSpecs <- function (model){
+getDisaggregationSpecs <- function (model, configpaths = NULL){
 
   model$DisaggregationSpecs <- vector(mode='list')
   for (configFile in model$specs$DisaggregationSpecs){
     logging::loginfo(paste0("Loading disaggregation specification file for ", configFile, "..."))
-    config <- getConfiguration(configFile, "disagg")
+    config <- getConfiguration(configFile, "disagg", configpaths)
 
     if('Disaggregation' %in% names(config)){
       model$DisaggregationSpecs <- append(model$DisaggregationSpecs, config$Disaggregation)
@@ -69,8 +73,10 @@ getDisaggregationSpecs <- function (model){
 
 #' Setup the configuration specs based on the input files
 #' @param model Model file loaded with IO tables
+#' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
+#' If NULL, built-in config files are used.
 #' @return A model object with the correct disaggregation specs.
-disaggregateSetup <- function (model){
+disaggregateSetup <- function (model, configpaths = NULL){
   
   counter = 1
   for (disagg in model$DisaggregationSpecs){  
@@ -93,16 +99,39 @@ disaggregateSetup <- function (model){
     disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
     disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
     
+    # Load Make table
     if(!is.null(disagg$MakeFile)){
-      disagg$MakeFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
-                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("IndustryCode"="character",
-                                                                                                 "CommodityCode"="character"))}
+      filename <- ifelse(is.null(configpaths),
+                         system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
+                         file.path(dirname(configpaths)[1], disagg$MakeFile))
+      disagg$MakeFileDF <- utils::read.table(filename,
+                                             sep = ",", header = TRUE,
+                                             stringsAsFactors = FALSE,
+                                             check.names = FALSE)
+    }
+    
+    # Load Use table
     if(!is.null(disagg$UseFile)){
-      disagg$UseFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
-                                          header = TRUE, stringsAsFactors = FALSE)}      
+      filename <- ifelse(is.null(configpaths),
+                         system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
+                         file.path(dirname(configpaths)[1], disagg$UseFile))
+      disagg$UseFileDF <- utils::read.table(filename,
+                                            sep = ",", header = TRUE,
+                                            stringsAsFactors = FALSE,
+                                            check.names = FALSE)
+    }
+    
+    # Load Environment flows table
     if(!is.null(disagg$EnvFile)){
-      disagg$EnvFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
-                                          header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
+      filename <- ifelse(is.null(configpaths),
+                         system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
+                         file.path(dirname(configpaths)[1], disagg$EnvFile))
+      disagg$EnvFileDF <- utils::read.table(filename,
+                                            sep = ",", header = TRUE,
+                                            stringsAsFactors = FALSE,
+                                            check.names = FALSE)
+    }
+    
     if("FlowRatio" %in% colnames(disagg$EnvFileDF)) {
       disagg$EnvAllocRatio <- TRUE
     } else {

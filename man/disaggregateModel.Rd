@@ -4,10 +4,13 @@
 \alias{disaggregateModel}
 \title{Disaggregate a model based on specified source file}
 \usage{
-disaggregateModel(model)
+disaggregateModel(model, configpaths = NULL)
 }
 \arguments{
 \item{model}{Model file loaded with IO tables}
+
+\item{configpaths}{str vector, paths (including file name) of disagg configuration file(s).
+If NULL, built-in config files are used.}
 }
 \value{
 A disaggregated model.
