@@ -2,8 +2,10 @@
 
 #' Prepare economic components of an EEIO model.
 #' @param model A list of model specs
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @return A list with EEIO model economic components.
-loadIOData <- function(model) {
+loadIOData <- function(model, configpaths = NULL) {
   # Declare model IO objects
   logging::loginfo("Initializing IO tables...")
   if (model$specs$IODataSource=="BEA") {
@@ -22,15 +24,15 @@ loadIOData <- function(model) {
   }
   
   # Check for aggregation
-  model <- getAggregationSpecs(model)
+  model <- getAggregationSpecs(model, configpaths)
   if(length(model$AggregationSpecs)!=0){
     model <- aggregateModel(model)
   }
   
   # Check for disaggregation
-  model <- getDisaggregationSpecs(model)
+  model <- getDisaggregationSpecs(model, configpaths)
   if(length(model$DisaggregationSpecs)!=0){
-    model <- disaggregateModel(model)
+    model <- disaggregateModel(model, configpaths)
   }
   
   return(model)
