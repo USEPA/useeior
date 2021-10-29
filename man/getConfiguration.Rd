@@ -12,7 +12,7 @@ getConfiguration(configname, configtype, configpaths = NULL)
 \item{configtype}{str, configuration type, can be "model", "disagg", or "agg"}
 
 \item{configpaths}{str vector, paths (including file name) of model configuration file
-and optional agg/disagg configuration file(s). If NULL, built-in config files are loaded.}
+and optional agg/disagg configuration file(s). If NULL, built-in config files are used.}
 }
 \value{
 A list of model specifications.
