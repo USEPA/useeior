@@ -13,6 +13,10 @@ getConfiguration <- function(configname, configtype, configpaths = NULL) {
   } else {
     configpath <- configpaths[endsWith(configpaths, configfile)]
   }
+  if (!file.exists(configpath)) {
+    stop(paste(configfile, "must be available in ", dirname(configpath)),
+         call. = FALSE)
+  }
   config <- configr::read.config(configpath)
   return(config)
 }
