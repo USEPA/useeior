@@ -1,9 +1,7 @@
 #' Disaggregate a model based on specified source file
 #' @param model Model file loaded with IO tables
-#' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
-#' If NULL, built-in config files are used.
 #' @return A disaggregated model.
-disaggregateModel <- function (model, configpaths = NULL){
+disaggregateModel <- function (model){
  
   logging::loginfo("Initializing Disaggregation of IO tables...")
   
@@ -66,7 +64,7 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
     }
   }
   
-  model <- disaggregateSetup(model)
+  model <- disaggregateSetup(model, configpaths)
   
   return(model)
 }
@@ -99,7 +97,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
     disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
     disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
     
-    # Load Make table
+    # Load Make table disaggregation file
     if(!is.null(disagg$MakeFile)){
       filename <- ifelse(is.null(configpaths),
                          system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
@@ -110,7 +108,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
                                              check.names = FALSE)
     }
     
-    # Load Use table
+    # Load Use table disaggregation file
     if(!is.null(disagg$UseFile)){
       filename <- ifelse(is.null(configpaths),
                          system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),

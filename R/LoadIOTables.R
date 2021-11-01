@@ -32,7 +32,7 @@ loadIOData <- function(model, configpaths = NULL) {
   # Check for disaggregation
   model <- getDisaggregationSpecs(model, configpaths)
   if(length(model$DisaggregationSpecs)!=0){
-    model <- disaggregateModel(model, configpaths)
+    model <- disaggregateModel(model)
   }
   
   return(model)
