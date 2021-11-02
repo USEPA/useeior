@@ -4,3 +4,4 @@
 ^build-scripts$
 ^examples$
 ^inst/doc$
+^\.github$
