@@ -1160,7 +1160,7 @@ createBlankIntersection <- function (newSectorCodes) {
 #' Creates a square dataframe matrix with values assigned based on default percentages
 #' @param originalIntersection int value of the original intersection to be disaggregated
 #' @param defaultPercentages vector of allocation percentages
-#' @param newSectorCode vector of named disaggregated sectors
+#' @param newSectorCodes vector of named disaggregated sectors
 #' @return square dataframe matrix with new sectors as row and column names with default values
 calculateDefaultIntersection <- function(originalIntersection, defaultPercentages, newSectorCodes) {
   numNewSectors <- length(newSectorCodes)

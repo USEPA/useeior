@@ -9,9 +9,9 @@ aggregateMultiYearOutput(originalOutput, mainIndex, indecesToAggregate)
 \arguments{
 \item{originalOutput}{MultiYear Output dataframe}
 
-\item{indecesToAggregate}{List of indeces to aggregate.}
+\item{mainIndex}{Index to aggregate the others to.}
 
-\item{mainIdex}{Index to aggregate the others to.}
+\item{indecesToAggregate}{List of indeces to aggregate.}
 }
 \value{
 model A dataframe with the disaggregated GDPGrossOutputIO by year.

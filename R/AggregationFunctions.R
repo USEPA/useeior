@@ -97,7 +97,7 @@ aggregateSectorsinTBS <- function (model, aggregationSpecs, sattable, sat){
 
 #' Aggregate MultiYear CPI model objects
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param mainIdex Index to aggregate the others to.
+#' @param mainIndex Index to aggregate the others to.
 #' @param indecesToAggregate List of indeces to aggregate.
 #' @param type String to designate either commodity or industry
 #' @return newCPI A dataframe with the aggregatded CPI values by year.
@@ -339,7 +339,7 @@ aggregateMasterCrosswalk <- function (model, aggregationSpecs){
 
 #' Remove specific rows from the specified list object in the model
 #' @param sectorList Model object to be aggregated 
-#' @param indencesToAggregate List of indeces of sectors to remove from list (i.e. aggregated sectors)
+#' @param indecesToAggregate List of indeces of sectors to remove from list (i.e. aggregated sectors)
 #' @return An aggregated sectorList
 removeRowsFromList <- function(sectorList, indecesToAggregate){
 
@@ -352,7 +352,7 @@ removeRowsFromList <- function(sectorList, indecesToAggregate){
 
 #' Aggregate MultiYear Output model objects
 #' @param originalOutput MultiYear Output dataframe
-#' @param mainIdex Index to aggregate the others to.
+#' @param mainIndex Index to aggregate the others to.
 #' @param indecesToAggregate List of indeces to aggregate.
 #' @return model A dataframe with the disaggregated GDPGrossOutputIO by year.
 aggregateMultiYearOutput <- function(originalOutput, mainIndex, indecesToAggregate){
