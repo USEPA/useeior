@@ -379,8 +379,7 @@ disaggregateMakeTable <- function (model, disagg) {
   } else if(disaggType == "Userdefined") {
     disaggTable <- specifiedMakeDisagg(model, disagg)
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
   
   return(disaggTable)
@@ -407,8 +406,7 @@ disaggregateUseTable <- function (model, disagg, domestic = FALSE) {
   } else if(disaggType == "Userdefined") {
     disaggTable <- specifiedUseDisagg(model, disagg, domestic)
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
 
   return(disaggTable)
@@ -459,8 +457,7 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
                          originalFD[-(1:originalRowIndex),]) #include all rows except from 1st row to disaggregated row
 
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
 
   return(disaggTable)
@@ -507,8 +504,7 @@ disaggregateVA <- function(model, disagg) {
     disaggTable <- cbind(tablePartOne, AllocVADF, tablePartTwo)
 
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
 
   return(disaggTable)
