@@ -19,6 +19,7 @@ on:
       - '**.ya?ml'
       - 'LICENSE'
       - '.gitignore'
+  workflow_dispatch:  # also allow manual trigger, for testing purposes
 
 jobs:
   R-CMD-check:
