@@ -54,16 +54,17 @@ aggregateMatrix <- function (matrix, from_level, to_level, specs) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param output_type Either Commodity or Industry, default is Commodity
 calculateOutputRatio <- function (model, output_type="Commodity") {
-  # Generate Output based on output_type and model Commodity/Industry type 
+  # Generate Output based on output_type 
   if (output_type=="Commodity") {
-    Output <- model$CommodityOutput
+    Output <- model$q
   } else {
-    Output <- model$IndustryOutput
+    Output <- model$x
   }
   # Map CommodityOutput to more aggregated IO levels
-  Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])
+  Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")|
+                                        colnames(model$crosswalk)=="USEEIO"])
   ratio_table <- merge(Crosswalk, as.data.frame(Output, row.names = gsub("/.*", "", names(Output))),
-                       by.x = paste0("BEA_", model$specs$BaseIOLevel), by.y = 0)
+                       by.x = "USEEIO", by.y = 0)
   # Calculate output ratios
   for (iolevel in c("Summary", "Sector")) {
     # Generate flexible sector_code

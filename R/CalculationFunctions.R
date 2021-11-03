@@ -257,3 +257,41 @@ calculateConsumptionContributiontoImpact <- function (y, model, indicator) {
   colnames(impacts) <- rownames(impacts)
   return(impacts)
 }
+
+#' Calculate sector margin impacts in the form of M and N Matrix
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @export
+#' @return A list with M_margin and N_margin
+calculateMarginSectorImpacts <- function(model) {
+  # Calculation fractions of producer price for each margin
+  MarginCoefficients <- as.matrix(model$Margins[, c("Transportation", "Wholesale", "Retail")]/model$Margins[, c("ProducersValue")])
+  rownames(MarginCoefficients) <- model$Margins$SectorCode
+  
+  # Create margin_allocation matrix to allocate fractions by margin sector
+  # In the matrix, rows are three margin types and columns are margin sectors
+  margin_allocation <- matrix(nrow = 3, ncol = nrow(model$MarginSectors), 0)
+  rownames(margin_allocation) <- colnames(MarginCoefficients)
+  colnames(margin_allocation) <- model$MarginSectors$Code
+  # Assign allocation factors to margin sectors based on total Commodity output
+  output_ratio <- calculateOutputRatio(model, output_type="Commodity")
+  for (i in rownames(margin_allocation)) {
+    codes <- model$MarginSectors[model$MarginSectors$Name==i, "Code"]
+    margin_allocation[i, codes] <- output_ratio[output_ratio$SectorCode%in%codes, "toSectorRatio"]
+  }
+  # Multiply fractions by allocation matrix to get a fraction per margin sector for each commodity
+  margins_by_sector <- MarginCoefficients %*% margin_allocation
+  
+  # Put margins_by_sector into a matrix in the form of A
+  A_margin <- model$A
+  # Make sure sector ordering is the same
+  A_margin[,] <- 0 
+  for (i in model$MarginSectors$Code_Loc) {
+    A_margin[i, ] <- margins_by_sector[gsub("/.*", "", colnames(A_margin)),
+                                       gsub("/.*", "", i)]
+  }
+  # Multiply M and N by margins_by_sector to derive M_margin and N_margin
+  ls <- list("M_margin" = model$M %*% A_margin,
+             "N_margin" = model$N %*% A_margin)
+  logging::loginfo("Model margin impacts calculated.")
+  return(ls)
+}
