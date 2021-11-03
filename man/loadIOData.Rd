@@ -4,10 +4,13 @@
 \alias{loadIOData}
 \title{Prepare economic components of an EEIO model.}
 \usage{
-loadIOData(model)
+loadIOData(model, configpaths = NULL)
 }
 \arguments{
 \item{model}{A list of model specs}
+
+\item{configpaths}{str vector, paths (including file name) of model configuration file
+and optional agg/disagg configuration file(s). If NULL, built-in config files are used.}
 }
 \value{
 A list with EEIO model economic components.

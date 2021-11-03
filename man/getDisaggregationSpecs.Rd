@@ -4,10 +4,13 @@
 \alias{getDisaggregationSpecs}
 \title{Obtain aggregation and disaggregation specs from input files}
 \usage{
-getDisaggregationSpecs(model)
+getDisaggregationSpecs(model, configpaths = NULL)
 }
 \arguments{
 \item{model}{Model file loaded with IO tables}
+
+\item{configpaths}{str vector, paths (including file name) of disagg configuration file(s).
+If NULL, built-in config files are used.}
 }
 \value{
 A model with the specified aggregation and disaggregation specs.

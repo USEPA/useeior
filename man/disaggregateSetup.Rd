@@ -4,10 +4,13 @@
 \alias{disaggregateSetup}
 \title{Setup the configuration specs based on the input files}
 \usage{
-disaggregateSetup(model)
+disaggregateSetup(model, configpaths = NULL)
 }
 \arguments{
 \item{model}{Model file loaded with IO tables}
+
+\item{configpaths}{str vector, paths (including file name) of disagg configuration file(s).
+If NULL, built-in config files are used.}
 }
 \value{
 A model object with the correct disaggregation specs.

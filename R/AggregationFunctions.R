@@ -55,14 +55,16 @@ aggregateModel <- function (model){
 
 #' Obtain aggregation specs from input files
 #' @param model Model file loaded with IO tables
+#' @param configpaths str vector, paths (including file name) of agg configuration file(s).
+#' If NULL, built-in config files are used.
 #' @return A model with the specified aggregation and disaggregation specs.
-getAggregationSpecs <- function (model){
+getAggregationSpecs <- function (model, configpaths = NULL){
 
   model$AggregationSpecs <- vector(mode = 'list')
   
   for (configFile in model$specs$AggregationSpecs){
     logging::loginfo(paste0("Loading aggregation specification file for ", configFile, "..."))
-    config <- getConfiguration(configFile, "agg")
+    config <- getConfiguration(configFile, "agg", configpaths)
     if('Aggregation' %in% names(config)){
       model$AggregationSpecs <- append(model$AggregationSpecs, config$Aggregation)
     }
