@@ -266,6 +266,7 @@ calculateMarginSectorImpacts <- function(model) {
   # Calculation fractions of producer price for each margin
   MarginCoefficients <- as.matrix(model$Margins[, c("Transportation", "Wholesale", "Retail")]/model$Margins[, c("ProducersValue")])
   rownames(MarginCoefficients) <- model$Margins$SectorCode
+  MarginCoefficients[is.na(MarginCoefficients)] <- 0
   
   # Create margin_allocation matrix to allocate fractions by margin sector
   # In the matrix, rows are three margin types and columns are margin sectors
