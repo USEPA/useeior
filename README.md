@@ -53,7 +53,7 @@ N_adj <- useeior::adjustResultMatrixPrice("N",
 
 ### Calculate Model LCI and LCIA
 
-Calculate model total emissions/resources (LCI) and total impacts (LCIA) under user-specified perspective, demand vector and direct requirements
+Calculate model life cycle inventory (LCI) and life cycle impact assessment (LCIA) results under user-specified perspective, demand vector and direct requirements
 
 ```
 result <- useeior::calculateEEIOModel(model,
