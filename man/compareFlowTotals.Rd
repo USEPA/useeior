@@ -7,12 +7,12 @@
 compareFlowTotals(modelA, modelB)
 }
 \arguments{
-\item{modelA, }{a useeior model}
+\item{modelA}{a useeior model}
 
 \item{modelB}{a useeior model}
 }
 \value{
-comparison, a list with pass/fail comparison results
+a list with pass/fail comparison results
 }
 \description{
 Compare flow totals for two models
