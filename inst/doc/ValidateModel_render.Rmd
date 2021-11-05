@@ -1,4 +1,5 @@
 ---
+title: "ValidateModel_render"
 output: html_document
 params:
   modelname:
@@ -15,6 +16,8 @@ knitr::opts_chunk$set(
   results = "asis"
 )
 
+knitr::opts_knit$set(progress = FALSE, verbose = FALSE) #, root.dir = "../..")  # set as repo top level
+
 require(rmarkdown)
 require(knitr)
 require(devtools)
@@ -28,7 +31,8 @@ devtools::load_all()
 # Validate model
 ```{r validate}
 for (modelname in params$modelname) {
-  rmarkdown::render("inst/doc/ValidateModel.Rmd",
-                    output_file = paste0("Validate", modelname, ".html"))
+  rmarkdown::render("ValidateModel.Rmd", # "inst/doc/ValidateModel.Rmd", # 
+                    output_file = paste0("output/Validate", modelname, ".html"),
+                    quiet = TRUE)
 }
 ```
