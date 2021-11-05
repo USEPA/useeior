@@ -15,7 +15,7 @@ calculateDefaultIntersection(
 
 \item{defaultPercentages}{vector of allocation percentages}
 
-\item{newSectorCode}{vector of named disaggregated sectors}
+\item{newSectorCodes}{vector of named disaggregated sectors}
 }
 \value{
 square dataframe matrix with new sectors as row and column names with default values

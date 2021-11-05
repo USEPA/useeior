@@ -411,8 +411,7 @@ disaggregateMakeTable <- function (model, disagg) {
   } else if(disaggType == "Userdefined") {
     disaggTable <- specifiedMakeDisagg(model, disagg)
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
   
   return(disaggTable)
@@ -439,8 +438,7 @@ disaggregateUseTable <- function (model, disagg, domestic = FALSE) {
   } else if(disaggType == "Userdefined") {
     disaggTable <- specifiedUseDisagg(model, disagg, domestic)
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
 
   return(disaggTable)
@@ -491,8 +489,7 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
                          originalFD[-(1:originalRowIndex),]) #include all rows except from 1st row to disaggregated row
 
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
 
   return(disaggTable)
@@ -539,8 +536,7 @@ disaggregateVA <- function(model, disagg) {
     disaggTable <- cbind(tablePartOne, AllocVADF, tablePartTwo)
 
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
 
   return(disaggTable)
@@ -1192,7 +1188,7 @@ createBlankIntersection <- function (newSectorCodes) {
 #' Creates a square dataframe matrix with values assigned based on default percentages
 #' @param originalIntersection int value of the original intersection to be disaggregated
 #' @param defaultPercentages vector of allocation percentages
-#' @param newSectorCode vector of named disaggregated sectors
+#' @param newSectorCodes vector of named disaggregated sectors
 #' @return square dataframe matrix with new sectors as row and column names with default values
 calculateDefaultIntersection <- function(originalIntersection, defaultPercentages, newSectorCodes) {
   numNewSectors <- length(newSectorCodes)

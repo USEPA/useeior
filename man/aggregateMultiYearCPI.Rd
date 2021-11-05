@@ -9,11 +9,11 @@ aggregateMultiYearCPI(model, mainIndex, indecesToAggregate, type)
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
+\item{mainIndex}{Index to aggregate the others to.}
+
 \item{indecesToAggregate}{List of indeces to aggregate.}
 
 \item{type}{String to designate either commodity or industry}
-
-\item{mainIdex}{Index to aggregate the others to.}
 }
 \value{
 newCPI A dataframe with the aggregatded CPI values by year.
