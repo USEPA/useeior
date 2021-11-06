@@ -42,9 +42,8 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
       stop()
     }
   }
-  #convert demand vector into a matrix
+  # Convert demand vector into a matrix
   f <- as.matrix(d)  
-
   # Calculate LCI and LCIA in direct or final perspective
   if (perspective=="DIRECT") {
     # Calculate DirectPerspectiveLCI (transposed m_d with total impacts in form of sectorxflows)
@@ -84,7 +83,7 @@ getScalingVector <- function(L, demand) {
 #' Multiply the B matrix and the scaling vector c.
 #' @param B Marginal impact per unit of the environmental flows.
 #' @param c Scaling vector.
-#' @return Transposed m_d with total impacts in form of sector x flows.
+#' @return A transposed matrix with total impacts in form of sector x flows.
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
@@ -100,7 +99,7 @@ calculateDirectPerspectiveLCI <- function(B, c) {
 #' Multiply the M matrix and the diagonal of demand, y.
 #' @param M, a model M matrix, direct + indirect flows per $ output of sector.
 #' @param y, a model demand vector
-#' @return matrix, model sectors x model flows with total flows per sector
+#' @return A matrix of model sectors x model flows with total flows per sector
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
@@ -117,7 +116,7 @@ calculateFinalPerspectiveLCI <- function(M, y) {
 #' @param B Marginal impact per unit of the environmental flows.
 #' @param C LCIA indicators.
 #' @param c Scaling vector.
-#' @return Transposed u_d with total impacts in form of sector x impact categories.
+#' @return A transposed matrix with total impacts in form of sector x impact categories.
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
@@ -133,7 +132,7 @@ calculateDirectPerspectiveLCIA <- function(B, C, c) {
 #' Multiply the N matrix and the diagonal of demand, y.
 #' @param N, a model N matrix, direct + indirect impact per unit of the environmental flows.
 #' @param y, a model demand vector
-#' @return Transposed u_d with total impacts in form of sector x impact categories.
+#' @return A transposed matrix with total impacts in form of sector x impact categories.
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
@@ -148,8 +147,8 @@ calculateFinalPerspectiveLCIA <- function(N, y) {
 
 #' Divide/Normalize a sector x flows matrix by the total of respective flow (column sum)
 #' @param m A sector x flows matrix.
-#' @export
 #' @return A normalized sector x flows matrix.
+#' @export
 normalizeResultMatrixByTotalImpacts <- function(m) {
   #Use sweep function to prevent error
   m_norm <- sweep(m, MARGIN = 2, FUN = "/", STATS = colSums(m))
@@ -159,7 +158,7 @@ normalizeResultMatrixByTotalImpacts <- function(m) {
 #' Dot multiplies two vectors to calculate an impact score and the percent contribution each score to the total
 #' @param x, numeric vector of length n
 #' @param y, numeric vector of length n
-#' @return df, dataframe sorted from highest "contribution", also showing "x","y","impact" 
+#' @return A dataframe sorted from highest "contribution", also showing "x","y","impact" 
 calculatePercentContributiontoImpact <- function (x,y) {
   df <- cbind.data.frame(x,y)
   df["impact"] <- df[,"x"]*df[,"y"] 
@@ -174,7 +173,7 @@ calculatePercentContributiontoImpact <- function (x,y) {
 #' @param sector, str, index of a model sector for use in the M matrix, e.g. "221100/us"
 #' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential" 
 #' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
-#' @return df, dataframe sorted from highest process contribution "contribution", also showing "x","y","impact" 
+#' @return A dataframe sorted from highest process contribution "contribution", also showing "x","y","impact" 
 #' @export 
 calculateSectorContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
   L <- model$L
@@ -192,7 +191,7 @@ calculateSectorContributiontoImpact <- function (model, sector, indicator, domes
 #' @param sector, str, index of a model sector for use in the M matrix, e.g. "221100/us"
 #' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential" 
 #' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
-#' @return df, dataframe sorted from highest flow contribution "contribution", also showing "x","y","impact" 
+#' @return A dataframe sorted from highest flow contribution "contribution", also showing "x","y","impact" 
 #' @export 
 calculateFlowContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
   M <- model$M
@@ -209,8 +208,8 @@ calculateFlowContributiontoImpact <- function (model, sector, indicator, domesti
 #' @param matrix      A matrix with sectors as rows
 #' @param to_level    The level of BEA code this matrix will be aggregated to
 #' @param crosswalk   Sector crosswalk between levels of detail
+#' @return An aggregated matrix with sectors as rows
 #' @export
-#' @return aggregated matrix with sectors as rows
 aggregateResultTable <- function (matrix, to_level, crosswalk) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- "USEEIO"
@@ -234,8 +233,8 @@ aggregateResultTable <- function (matrix, to_level, crosswalk) {
 #' @param matrix      A matrix with sectors as rows and columns
 #' @param to_level    The level of BEA code this matrix will be aggregated to
 #' @param crosswalk   Sector crosswalk between levels of detail
+#' @return An aggregated matrix with sectors as rows and columns
 #' @export
-#' @return aggregated matrix with sectors as rows and columns
 aggregateResultMatrix <- function (matrix, to_level, crosswalk) {
   row_agg_matrix <- aggregateResultTable (matrix, to_level, crosswalk)
   col_agg_matrix <- aggregateResultTable (t(row_agg_matrix), to_level, crosswalk)
@@ -247,7 +246,7 @@ aggregateResultMatrix <- function (matrix, to_level, crosswalk) {
 #' @param y, a model demand vector
 #' @param model, A complete EEIO Model object
 #' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential"
-#' @return impacts, matrix of impacts sector purchased x sector sourced
+#' @return A matrix of impacts sector purchased x sector sourced
 #' @export
 calculateConsumptionContributiontoImpact <- function (y, model, indicator) {
   L <- model$L
@@ -260,8 +259,8 @@ calculateConsumptionContributiontoImpact <- function (y, model, indicator) {
 
 #' Calculate sector margin impacts in the form of M and N Matrix
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @export
 #' @return A list with M_margin and N_margin
+#' @export
 calculateMarginSectorImpacts <- function(model) {
   # Calculation fractions of producer price for each margin
   MarginCoefficients <- as.matrix(model$Margins[, c("Transportation", "Wholesale", "Retail")]/model$Margins[, c("ProducersValue")])

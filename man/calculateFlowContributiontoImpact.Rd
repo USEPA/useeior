@@ -17,7 +17,7 @@ calculateFlowContributiontoImpact(model, sector, indicator, domestic = FALSE)
 \item{domestic, }{boolean, sets model to use domestic flow matrix.  Default is FALSE.}
 }
 \value{
-df, dataframe sorted from highest flow contribution "contribution", also showing "x","y","impact"
+A dataframe sorted from highest flow contribution "contribution", also showing "x","y","impact"
 }
 \description{
 Calculate the percent contribution of M flows to an N indicator result

@@ -12,7 +12,7 @@ createCfromFactorsandBflows(factors, B_flows)
 \item{B_flows}{Flows from B matrix to use for reference}
 }
 \value{
-a C matrix in indicator x flow format
+C, a matrix in indicator x flow format
 }
 \description{
 Generate C matrix from indicator factors and a model B matrix

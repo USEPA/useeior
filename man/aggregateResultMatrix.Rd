@@ -14,7 +14,7 @@ aggregateResultMatrix(matrix, to_level, crosswalk)
 \item{crosswalk}{Sector crosswalk between levels of detail}
 }
 \value{
-aggregated matrix with sectors as rows and columns
+An aggregated matrix with sectors as rows and columns
 }
 \description{
 Aggregate result matrix by rows and columns

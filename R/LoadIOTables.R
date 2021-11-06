@@ -150,8 +150,6 @@ loadBEAtables <- function(specs) {
   BEA$FinalDemandCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
                             BEA$ChangeInventoriesCodes, BEA$ExportCodes,
                             BEA$ImportCodes, BEA$GovernmentDemandCodes)
-#  BEA$TotalConsumptionCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
-#                                 BEA$GovernmentDemandCodes)
   BEA$ScrapCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Scrap")
   BEA$TransportationCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Distribution")
   BEA$WholesaleCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Wholesale")

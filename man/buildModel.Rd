@@ -13,7 +13,7 @@ buildModel(modelname, configpaths = NULL)
 and optional agg/disagg configuration file(s). If NULL, built-in config files are used.}
 }
 \value{
-A list of EEIO model components and attributes
+A list of EEIO model complete components and attributes
 }
 \description{
 Build an EEIO model.

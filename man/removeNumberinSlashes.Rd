@@ -10,7 +10,7 @@ removeNumberinSlashes(s)
 \item{s, }{string}
 }
 \value{
-s, string with numbers in slashes removed
+A string with numbers in slashes removed
 }
 \description{
 Remove numbers in slashes from a string, like /1/

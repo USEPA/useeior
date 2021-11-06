@@ -18,7 +18,7 @@ RAS(m0, t_r, t_c, t, max_itr = 1e+06)
 \item{t}{A numeric value setting the tolerance of RAS.}
 
 \item{max_itr}{A numeric value setting the maximum number of iterations to try for convergence.
-Defualt: 1000000.}
+Default is 1,000,000.}
 }
 \value{
 A RAS balanced matrix.

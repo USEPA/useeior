@@ -13,7 +13,7 @@ calculateFinalPerspectiveLCI(M, y)
 \item{y, }{a model demand vector}
 }
 \value{
-matrix, model sectors x model flows with total flows per sector
+A matrix of model sectors x model flows with total flows per sector
 }
 \description{
 The final perspective LCI aligns flows with sectors consumed by final users

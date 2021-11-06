@@ -11,7 +11,7 @@ DemandVectorFunctionRegistry$Consumption$Domestic <- "prepareDomesticConsumption
 #'Sums across sectors for a given set of codes/cols in a given final demand df
 #'@param Y, a model Demand df 
 #'@param codes, sector code(s) for a subset of Final Demand cols
-#'@return a named vector with model sectors and demand amounts
+#'@return A named vector with model sectors and demand amounts
 sumDemandCols <- function(Y,codes) {
   if (length(codes)>1) {
     y <- rowSums(Y[,codes])
@@ -27,7 +27,7 @@ sumDemandCols <- function(Y,codes) {
 #'Domestic portion of national consumption: y_dc <- Y_dh + Y_dv + Y_dg
 #'@param model, a model
 #'@param Y, a model Demand df.
-#'@return a named vector with model sectors and demand amounts
+#'@return A named vector with model sectors and demand amounts
 sumforConsumption <- function(model, Y) {
   codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household", "Investment", "Government"),
                                     "Code_Loc"]
@@ -38,7 +38,7 @@ sumforConsumption <- function(model, Y) {
 #'Prepares a demand vector representing production
 #'Formula for production vector: y_p <- y_dc + y_e + y_d_delta
 #'@param model, a model
-#'@return a named vector with demand
+#'@return A named vector with demand
 prepareProductionDemand <- function(model) {
   y_dc <- sumforConsumption(model, model$DomesticFinalDemand)
   export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export", "Code_Loc"]
@@ -59,7 +59,7 @@ prepareConsumptionDemand <- function(model) {
 
 #'Prepares a demand vector representing domestic consumption
 #'@param model, a model
-#'@return a named vector with demand
+#'@return A named vector with demand
 prepareDomesticConsumptionDemand <- function(model) {
   y_c_d <- sumforConsumption(model, model$DomesticFinalDemand)
   return(y_c_d)
@@ -67,7 +67,7 @@ prepareDomesticConsumptionDemand <- function(model) {
 
 #'Prepares a demand vector representing household consumption
 #'@param model, a model
-#'@return a named vector with demand
+#'@return A named vector with demand
 prepareHouseholdDemand <- function(model) {
   Y <- model$FinalDemand
   household_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Household", "Code_Loc"]
@@ -89,7 +89,7 @@ isDemandVectorValid <- function(dv, L){
 #' Format a named demand vector with partial sectors to have all the rows and ordering needed
 #' @param dv, a user provided demand vector. See calculateEEIOModel()
 #' @param L, the L matrix for the given model, used as a reference
-#' @return a named vector with values for all names in L and ordered like L
+#' @return A named vector with values for all names in L and ordered like L
 formatDemandVector <- function(dv,L) {
   #create a named vector using the first col of L
   d <- c(L[,1])
