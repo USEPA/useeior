@@ -100,3 +100,25 @@ formatDemandVector <- function(dv,L) {
   d[match(names(dv),names(d))] <- dv
   return(d)
 }
+
+#' Read demand vector from a csv file and format for use in model calculations
+#' @param file_path str, path to csv file containing demand data
+#' @param demand_name str, name of demand data as field header
+#' @param model, a model
+#' @return a demand vector formatted for use in calculating model results
+#' @export
+extractAndFormatDemandVector <- function(file_path, demand_name, model){
+  demand_df <- read.csv(file_path, stringsAsFactors = FALSE)
+  row.names(demand_df) <- demand_df$Code
+  demand_df$Code <- NULL
+  y <- na.omit(demand_df[,demand_name])
+  names(y) <- row.names(demand_df)
+  if(isDemandVectorValid(y, model$L)) {
+    y <- formatDemandVector(y, model$L)
+  }
+  else {
+    logging::logerror("Format of the demand vector is invalid.")
+    stop()
+  }
+  return(y)
+}
