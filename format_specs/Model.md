@@ -167,7 +167,7 @@ The Indicators object contains meta and factors dataframes.
 The DemandVector object contains the demand vectors and a metadata table.
 
 #### vectors
- A data table of the demand vectors included in the model
+ A data table of the demand vectors included in the model. Each vector is in the format of a named vector with names assigned in [Code_Loc](#sector-meta) (e.g. `1111A0/US`) format.
  
 #### meta
  A table of metadata for the demand vectors included in the model.
