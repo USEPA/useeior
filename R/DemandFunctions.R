@@ -115,10 +115,8 @@ extractAndFormatDemandVector <- function(file_path, demand_name, model){
   names(y) <- row.names(demand_df)
   if(isDemandVectorValid(y, model$L)) {
     y <- formatDemandVector(y, model$L)
-  }
-  else {
-    logging::logerror("Format of the demand vector is invalid.")
-    stop()
+  } else {
+    stop("Format of the demand vector is invalid.")
   }
   return(y)
 }
