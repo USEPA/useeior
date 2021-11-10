@@ -10,8 +10,7 @@ initializeModel <- function(modelname, configpaths = NULL) {
   # Get model specs
   model$specs <- getConfiguration(modelname, "model", configpaths)
   if (rlang::is_na(model$specs)) {
-    logging::logerror(paste("No configuration exists for a model named", modelname))
-    stop()
+    stop(paste("No configuration exists for a model named", modelname))
   } else {
     # Get model crosswalk
     crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema),

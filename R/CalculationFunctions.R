@@ -29,8 +29,7 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
       id <- meta[which(meta$Name==demand),"ID"]
       d <- model$DemandVectors$vectors[[id]]
     } else {
-      logging::logerror(paste0("'", demand, "' is not a valid demand vector name in model."))
-      stop()
+      stop(paste0("'", demand, "' is not a valid demand vector name in model."))
     }
   } else {
     # Assume this is a user-defined demand vector
@@ -38,8 +37,7 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
     if (isDemandVectorValid(demand,L)) {
       d <- formatDemandVector(demand,L)
     } else {
-      logging::logerror("Format of the demand vector is invalid. Cannot calculate result.")
-      stop()
+      stop("Format of the demand vector is invalid. Cannot calculate result.")
     }
   }
   # Convert demand vector into a matrix
