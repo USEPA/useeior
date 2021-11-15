@@ -82,7 +82,11 @@ jobs:
         run: |
           pwd
           ls
+          find inst
           mkdir inst/doc/output/temp_artifact
+          mkdir /inst/doc/output/temp_artifact_1/
+          mkdir ./inst/doc/output/temp_artifact_2/
+          mkdir -p inst/doc/output/temp_artifact_3
           cd inst/doc/output/temp_artifact
           echo 'example text' > example.html
           echo 'sample text'  > sample.md
