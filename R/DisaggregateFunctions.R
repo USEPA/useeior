@@ -1024,7 +1024,7 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
 
     manualAllocVector <- createBlankIntersection(newSectorCodes)
     
-    #Assign lookup index for allocPercentages vector 
+    #Assign lookup index for allocPercentages vector #TODO: Need to check these values, might be backwards
     allocPercentagesRowIndex <- 1
     allocPercentagesColIndex <- 2
     
@@ -1131,7 +1131,8 @@ getDefaultAllocationPercentages <- function(FileDF, disagg, numNewSectors, outpu
   }
 
   #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
-  if(nrow(defaultPercentages)==0) {
+#  if(nrow(defaultPercentages)==0) {
+  if(all(is.na(defaultPercentages))){
     #Uniform split
     defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))
   } else {
