@@ -68,28 +68,11 @@ jobs:
         shell: bash
 
       - name: Upload check results
-        #if: failure()  # if any of the previous steps fail, export a log
+        if: failure()  # if any of the previous steps fail, export a log
         uses: actions/upload-artifact@main
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: check
-    
-    
-    # testing shell path syntaxes
-      - name: Display the path
-        run: echo $PATH
-        shell: bash
-        
-      - name: Display the path
-        run: echo %PATH%
-        shell: pwsh
-      
-      - name: Display the path
-        run: |
-          import os
-          print(os.environ['PATH'])
-        shell: python
-    
+          path: check    
     
     # artifacts temp test
         # if: matrix.os == 'windows-latest'
@@ -97,11 +80,12 @@ jobs:
       - name: Generate test artifacts
         # if: matrix.os == 'windows-latest'
         run: |
-          mkdir ./inst/doc/output/temp_artifact
-          cd ./inst/doc/output/temp_artifact
+          pwd
+          ls
+          mkdir inst/doc/output/temp_artifact
+          cd inst/doc/output/temp_artifact
           echo 'example text' > example.html
           echo 'sample text'  > sample.md
-          cd ..
         shell: bash
     
       - name: Upload test artifacts
