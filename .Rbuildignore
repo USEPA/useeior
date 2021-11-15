@@ -3,5 +3,5 @@
 ^data-raw$
 ^build-scripts$
 ^examples$
-^inst/doc$
 ^\.github$
+#^inst/doc$ # commenting this out to test actions/checkout@v2's behavior
