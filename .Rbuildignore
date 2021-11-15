@@ -3,4 +3,5 @@
 ^data-raw$
 ^build-scripts$
 ^examples$
+^inst/doc$
 ^\.github$
