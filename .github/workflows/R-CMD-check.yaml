@@ -8,7 +8,7 @@ on:
     paths-ignore:
       - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
       - '**.bib'
-      #- '**.ya?ml'  # captures both .yml and .yaml
+      - '**.ya?ml'  # captures both .yml and .yaml
       - 'LICENSE'
       - '.gitignore'
   pull_request:
@@ -27,10 +27,6 @@ jobs:
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
-  # defaults:
-      # run:
-        # shell: bash
-
     strategy:
       fail-fast: false
       matrix:
@@ -42,7 +38,7 @@ jobs:
           - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}  # increases api rate limit, per https://github.com/r-lib/actions/issues/208
+      #GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }} 
       R_KEEP_PKG_SOURCE: yes
 
     steps:
@@ -62,6 +58,15 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v1
 
+      - name: Simple buildModel execution
+        run: |
+          require(devtools)
+          devtools::load_all()
+          useeior::buildModel(USEEIOv2.0)
+          useeior::buildModel(USEEIOv2.0.1)
+          useeior::buildModel(USEEIOv2.1)
+        shell: Rscript {0}
+      
       - name: Show testthat output
         if: always()  # step will run even if previous steps fail
         run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
@@ -74,41 +79,3 @@ jobs:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check    
     
-    # artifacts temp test
-        # if: matrix.os == 'windows-latest'
-
-      - name: Generate test artifacts
-        # if: matrix.os == 'windows-latest'
-        run: |
-          pwd
-          ls
-          find inst
-          cd inst
-          ls
-          cd doc
-          cd ../..
-          mkdir -p inst/doc/output/temp_artifact
-          cd inst/doc/output/temp_artifact
-          echo 'example text' > example.html
-          echo 'sample text'  > sample.md
-        shell: bash
-    
-    
-      - name: Upload test artifacts
-        # if: matrix.os == 'windows-latest'
-        uses: actions/upload-artifact@v2
-        with: 
-          name: example_artifacts
-          path: |
-            inst/doc/output/temp_artifact/
-         #   !inst/doc/output/**.md
-         # retention-days: 30
-  
-      - name: Commit .md validation files on PR
-        if: github.event_name == 'pull_request' && matrix.os == 'windows-latest'
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add --all
-          git commit -m "gh actions validation output"
-          git push 
