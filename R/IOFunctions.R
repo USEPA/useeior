@@ -200,7 +200,7 @@ generateDomesticUse <- function(Use, specs) {
   ratio <- sweep(Use, 1, FUN = "/", row_sum)
   ratio[is.na(ratio)] <- 0
   # Subtract Import from Use, then allocate ImportCost to each Industry (column), except for Export and Import
-  DomesticUse <- Use - Import + sweep(ratio, 1, FUN = "*", ImportCost)
+  DomesticUse <- Use - Import #+ sweep(ratio, 1, FUN = "*", ImportCost)
   # Adjust Export and Import columns
   DomesticUse[, ExportCode] <- Use[, ExportCode]
   DomesticUse[, ImportCode] <- 0
