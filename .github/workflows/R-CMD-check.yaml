@@ -69,6 +69,22 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
+    
+    # artifacts temp test
+      - name: generate test artifacts
+        run: |
+          mkdir ./inst/doc/output/temp_artifact
+          cd ./inst/doc/output/temp_artifact
+          echo 'example' > example.html
+          echo 'sample'  > sample.md
+          cd ..
+    
+      - name: upload test artifacts
+        uses: actions/upload-artifact@v2
+        with: 
+          name: example_artifacts
+          path: |
+            inst/doc/output/temp_artifact/
+         #   !inst/doc/output/**.md
+         # retention-days: 30
   
-  # Another job:
-    # runs-on: ?
