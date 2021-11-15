@@ -23,13 +23,13 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   
   # Read in a detail level model
   # todo: check if this line needs to  be replaced by a "load summary model from repo" line if this script is to be used outside the package, e.g. USEEIO teams. 
-  detailModel <- buildModel(modelname)#build summary model
+  detailModel <- buildModel(modelname)#build detail model
   
   # Get the detail sector codes that correspond to the summary code to be disaggregated
   summaryCodeCw <- subset(detailModel$crosswalk, BEA_Summary %in% summaryCode)
   summaryCodeCw <- as.list(unique(summaryCodeCw$BEA_Detail))
   
-  
+  # Get economic allocations for make and use tables
   fullUseTableColAlloc <- generateEconomicAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Use", "Column")
   makeTableColAlloc <- generateEconomicAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Make", "Column")
   fullUseTableRowAlloc <- generateEconomicAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Use", "Row")
@@ -37,44 +37,68 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   fullUseIntersection <- generateEconomicAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Use", "Intersection")
   makeIntersection <-  generateEconomicAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Make", "Intersection")
   
-  envAlloc <- generateEnvironmentalcAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Use", "Intersection")
+  # Get environmental allocations
+  envAllocDF <- generateEnvironmentalAllocations(detailModel, summaryCode, summaryCodeCw)
   
-  ####Code for testing, remove when finished. 
-  tempFullUseTableColAlloc <- generateColumnAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Use")
-  tempMakeTableColAlloc <- generateColumnAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Make")
-  tempFullUseTableRowAlloc <- generateRowAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Use")
-  tempMakeTableRowAlloc <- generateRowAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Make")
-  temp <-1
+  # ####Code for testing, remove when finished. 
+  # tempFullUseTableColAlloc <- generateColumnAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Use")
+  # tempMakeTableColAlloc <- generateColumnAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Make")
+  # tempFullUseTableRowAlloc <- generateRowAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Use")
+  # tempMakeTableRowAlloc <- generateRowAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Make")
+  # 
+  # 
+  # tempEqual1 <- all.equal(fullUseTableColAlloc, tempFullUseTableColAlloc)
+  # tempEqual2 <- all.equal(makeTableColAlloc, tempMakeTableColAlloc)
+  # tempEqual3 <- all.equal(fullUseTableRowAlloc, tempFullUseTableRowAlloc)
+  # tempEqual4 <- all.equal(makeTableRowAlloc, tempMakeTableRowAlloc)
+  # 
+  # print(paste0("Use Cols Equal =", tempEqual1))
+  # print(paste0("Make Cols Equal =", tempEqual2))
+  # print(paste0("Use Rows Equal =", tempEqual3))
+  # print(paste0("Make Rows Equal =", tempEqual4))
+  # #####end testing code
   
-  tempEqual1 <- all.equal(fullUseTableColAlloc, tempFullUseTableColAlloc)
-  tempEqual2 <- all.equal(makeTableColAlloc, tempMakeTableColAlloc)
-  tempEqual3 <- all.equal(fullUseTableRowAlloc, tempFullUseTableRowAlloc)
-  tempEqual4 <- all.equal(makeTableRowAlloc, tempMakeTableRowAlloc)
-  
-  print(paste0("Use Cols Equal =", tempEqual1))
-  print(paste0("Make Cols Equal =", tempEqual2))
-  print(paste0("Use Rows Equal =", tempEqual3))
-  print(paste0("Make Rows Equal =", tempEqual4))
-  #####end testing code
-
+  # Create output DFs
   useOutputDF <- rbind(fullUseIntersection, fullUseTableColAlloc, fullUseTableRowAlloc)
   makeOutputDF <- rbind(makeIntersection, makeTableColAlloc, makeTableRowAlloc)
-  temp <-2
+  sectorsDF <- createSectorsCSV(detailModel, summaryCode, summaryCodeCw)
+  
+  #Write DFs to correct folder
+  write.csv(useOutputDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Use.csv", row.names = FALSE)
+  write.csv(makeOutputDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Make.csv", row.names = FALSE)
+  write.csv(envAllocDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Env.csv", row.names = FALSE)
   
   return(detailModel)#temporay return statement
 }
 
 
-#' Generate the environmental allocation percentages required to disaggregate environmental to detail level. 
-#' Note that this function is desgined to work with model$V and model$U objects, rather the the intermediary model$MakeTransactions and UseTransactions objects.
+#' Generate the _Sectors.csv file that contains a list of sectors to disaggregate
 #' @param detailModel Model file loaded with IO tables
 #' @param summaryCode String containing summary level code to be disaggregated
 #' @param summaryCodeCw List of detail sectors that map to the summary level sector to be disaggregated
-#' @param summaryLoc_Code String containing location code of the summary level sector to be disaggregated 
-#' @param Table String that denotes which table the allocation values refer to. Can be either "Make" or "Use"
-#' @param vectorToDisagg String that denotes whether to disagg rows or columns. Only acceptable string values are "Row"m "Column", or "Intersection"
 #' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
-generateEnvironmentalcAllocations <- function (detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, Table, vectorToDisagg){
+createSectorsCSV <- function (detailModel, summaryCode, summaryCodeCw){
+  # Initialize dataframe that contains allocation values
+  outputDF <- data.frame(NAICS_2012_Code = character(), USEEIO_Code = character(), USEEIO_Name = character(), Category = character(), Subcategory = character(), Description = character())
+  sectorIndeces <- which(detailModel$crosswalk$BEA_Detail %in% summaryCodeCw)
+  sectorDF <- detailModel$crosswalk[sectorIndeces,]
+  # Get only rows that have 6 digit NAICS codes
+  sectorDF <- sectorDF[nchar(sectorDF$NAICS) == 6, ]
+  
+  #TODO: Need to finish this function. Remember to use detailModel$Commodities to get Category, Subcategory, and Description fields
+  
+  temp <-1
+  return(outputDF)
+  
+  
+}
+
+#' Generate the environmental allocation percentages required to disaggregate environmental to detail level. 
+#' @param detailModel Model file loaded with IO tables
+#' @param summaryCode String containing summary level code to be disaggregated
+#' @param summaryCodeCw List of detail sectors that map to the summary level sector to be disaggregated
+#' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
+generateEnvironmentalAllocations <- function (detailModel, summaryCode, summaryCodeCw){
   
   # Initialize dataframe that contains allocation values
   outputDF <- data.frame(Flowable = character(), Context = character(), FlowUUID = character(), Sector = character(), FlowAmount = double())
