@@ -54,7 +54,9 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          extra-packages: rcmdcheck
+          extra-packages: |
+            rcmdcheck
+            devtools
 
       - uses: r-lib/actions/check-r-package@v1
 
