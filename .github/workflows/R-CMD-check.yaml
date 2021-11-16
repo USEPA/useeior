@@ -64,9 +64,10 @@ jobs:
         run: |
           require(devtools)
           devtools::load_all()
-          useeior::buildModel("USEEIOv2.0")
-          useeior::buildModel("USEEIOv2.0.1")
-          useeior::buildModel("USEEIOv2.1")
+          run1 <- useeior::buildModel("USEEIOv2.0")
+          run2 <- useeior::buildModel("USEEIOv2.0.1")
+          run3 <- useeior::buildModel("USEEIOv2.1")
+          exists("run1"); exists("run2"); exists("run3")
         shell: Rscript {0}
       
       - name: Show testthat output
