@@ -217,11 +217,16 @@ generateEconomicAllocations <- function (detailModel, summaryCode, summaryCodeCw
     originalVector <- originalTable[detailRowIndeces, detailColIndeces]# Get detail intersection
     originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
     allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
-    allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+    #allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
     
     if(Table == "Use"){
+      # Transpose vector to get allocations in correct order when reshaping
+      allocationVector <- t(allocationVector)
+      allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
       # Need to change order of columns after reshaping to ensure Industry is in column 1.
       allocDF <- allocDF[,c(2,1,3)]
+    }else{
+      allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
     }
     
     colnames(allocDF) <- c("IndustryCode", "CommodityCode", allocName)# Rename DF columns
