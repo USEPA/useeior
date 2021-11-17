@@ -5,6 +5,7 @@
 DemandVectorFunctionRegistry <- list()
 # Production
 DemandVectorFunctionRegistry$Production$Complete <- "prepareProductionDemand"
+DemandVectorFunctionRegistry$Production$Domestic <- "prepareDomesticProductionDemand"
 # Consumption
 DemandVectorFunctionRegistry$Consumption$Complete <- "prepareConsumptionDemand"
 DemandVectorFunctionRegistry$Consumption$Domestic <- "prepareDomesticConsumptionDemand"
@@ -47,6 +48,20 @@ prepareProductionDemand <- function(model) {
   y_e <- sumDemandCols(model$FinalDemand, export_code)
   changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories", "Code_Loc"]
   y_d_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
+  y_p <- y_dc + y_e + y_d_delta
+  return(y_p)
+}
+
+#'Prepares a demand vector representing domestic production
+#'Formula for production vector: y_p <- y_dc + y_e + y_d_delta
+#'@param model, a model
+#'@return A named vector with demand
+prepareDomesticProductionDemand <- function(model) {
+  y_dc <- sumforConsumption(model, model$DomesticFinalDemand)
+  export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export", "Code_Loc"]
+  y_e <- sumDemandCols(model$DomesticFinalDemand, export_code)
+  changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories", "Code_Loc"]
+  y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
   y_p <- y_dc + y_e + y_d_delta
   return(y_p)
 }
