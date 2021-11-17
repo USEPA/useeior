@@ -10,6 +10,8 @@ DemandVectorFunctionRegistry$Production$Domestic <- "prepareDomesticProductionDe
 DemandVectorFunctionRegistry$Consumption$Complete <- "prepareConsumptionDemand"
 DemandVectorFunctionRegistry$Consumption$Domestic <- "prepareDomesticConsumptionDemand"
 DemandVectorFunctionRegistry$Consumption$Household <- "prepareHouseholdDemand"
+# Import
+DemandVectorFunctionRegistry$Import$Complete <- "prepareImportDemand"
 
 #'Sums across sectors for a given set of codes/cols in a given final demand df
 #'@param Y, a model Demand df 
@@ -90,6 +92,16 @@ prepareHouseholdDemand <- function(model) {
   household_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Household", "Code_Loc"]
   y_h <- sumDemandCols(Y, household_code)
   return(y_h)
+}
+
+#'Prepares a demand vector representing imports
+#'@param model, a model
+#'@return A named vector with demand
+prepareImportDemand <- function(model) {
+  Y <- model$FinalDemand
+  import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import", "Code_Loc"]
+  y_i <- sumDemandCols(Y, import_code)
+  return(y_i)
 }
 
 #'A function to validate a user provided demand vector
