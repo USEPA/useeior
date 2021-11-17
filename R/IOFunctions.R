@@ -203,11 +203,12 @@ generateImportCostVector <- function(Use, specs) {
   # Define Import code
   ImportCode <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")
   # Calculate ImportCost.
-  # The imports column in the Import matrix is in foreign port value.
-  # But in the Use table it is in domestic port value.
+  # In the Import matrix, the imports column is in domestic (US) port value.
+  # But in the Use table, it is in foreign port value.
   # domestic port value = foreign port value + value of all transportation and insurance services to import + customs duties
-  # See documentation of the Import matrix (https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2019.xlsx)
+  # See documentation of the Import matrix (https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx)
   # So, ImportCost <- Use$Imports - Import$Imports
+  # ImportCost is essentially 'value of all transportation and insurance services to import' and 'customs duties'
   ImportCost <- Use[, ImportCode] - Import[rownames(Use), ImportCode]
   names(ImportCost) <- rownames(Use)
   return(ImportCost)
