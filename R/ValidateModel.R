@@ -7,18 +7,7 @@
 #'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export
 compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) {
-  #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
-  #c = diag(L%*%y)
-  if (use_domestic) {
-    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-    y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
-    c <- getScalingVector(model$L_d, y)
-  } else {
-    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-    y <- as.matrix(formatDemandVector(rowSums(f), model$L))
-    c <- getScalingVector(model$L, y)
-  }
-  
+  # Prepare left side of the equation
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
   Chi <- generateChiMatrix(model, "Industry")
@@ -28,18 +17,40 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   }
   B_chi <- B*Chi
   
-  ##Prepare left side of the equation
+  # Generate E
   E <- prepareEfromtbs(model)
   E <- as.matrix(E[rownames(B), colnames(B)])
   
+  # Adjust E and B_chi if model is commodity-based
+  # Calculate scaling factor c
   if (model$specs$CommodityorIndustryType=="Commodity") {
     #transform E with commodity mix to put in commodity form
-    E <-  t(model$C_m %*% t(E)) 
+    E <- t(model$C_m %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
     B_chi <- B_chi %*% model$V_n
+    #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
+    if (use_domestic) {
+      f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
+      y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
+      c <- getScalingVector(model$L_d, y)
+    } else {
+      f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
+      y <- as.matrix(formatDemandVector(rowSums(f), model$L))
+      c <- getScalingVector(model$L, y)
+    }
+  } else {
+    if (use_domestic) {
+      f <- model$DemandVectors$vectors$`2012_US_Production_Domestic`
+      y <- as.matrix(formatDemandVector(f, model$L_d))
+      c <- getScalingVector(model$L_d, y)
+    } else {
+      f <- model$DemandVectors$vectors$`2012_US_Production_Complete` + model$DemandVectors$vectors$`2012_US_Import_Complete`
+      y <- as.matrix(formatDemandVector(f, model$L))
+      c <- getScalingVector(model$L, y)
+    }
   }
   
-  #LCI = B dot Chi %*% c   
+  #LCI = B dot Chi %*% c
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
   
   # Calculate relative differences
@@ -59,21 +70,31 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 #'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #'@export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
-  if (use_domestic) {
-    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-    y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
-    c <- getScalingVector(model$L_d, y)
-  } else {
-    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-    y <- as.matrix(formatDemandVector(rowSums(f), model$L))
-    c <- getScalingVector(model$L, y)
-  }
-  
+  # Generate output and scaling vector
   if(model$specs$CommodityorIndustryType == "Commodity") {
-    #determine if output to compare is commodity or industry
     x <- model$q
+    
+    if (use_domestic) {
+      f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
+      y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
+      c <- getScalingVector(model$L_d, y)
+    } else {
+      f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
+      y <- as.matrix(formatDemandVector(rowSums(f), model$L))
+      c <- getScalingVector(model$L, y)
+    }
   } else {
     x <- model$x
+    
+    if (use_domestic) {
+      f <- model$DemandVectors$vectors$`2012_US_Production_Domestic`
+      y <- as.matrix(formatDemandVector(f, model$L_d))
+      c <- getScalingVector(model$L_d, y)
+    } else {
+      f <- model$DemandVectors$vectors$`2012_US_Production_Complete` + model$DemandVectors$vectors$`2012_US_Import_Complete`
+      y <- as.matrix(formatDemandVector(f, model$L))
+      c <- getScalingVector(model$L, y)
+    }
   }
   # Row names should be identical
   if (!identical(rownames(c), names(x))) {
