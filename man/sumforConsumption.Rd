@@ -14,7 +14,7 @@ sumforConsumption(model, Y)
 \item{Y, }{a model Demand df.}
 }
 \value{
-a named vector with model sectors and demand amounts
+A named vector with model sectors and demand amounts
 }
 \description{
 Sums the demand cols representing final consumption, i.e. household, investment, and government

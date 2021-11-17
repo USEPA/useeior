@@ -10,7 +10,7 @@ removeExtraSpaces(s)
 \item{s, }{string}
 }
 \value{
-s, string with spaces removed
+A string with spaces removed
 }
 \description{
 Remove spaces around strings, like "321A "

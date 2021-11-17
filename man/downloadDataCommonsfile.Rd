@@ -9,7 +9,8 @@ downloadDataCommonsfile(source, subdirectory, debug_url)
 \arguments{
 \item{source}{The name of the source file (e.g. "TRACI_2.1_v1.parquet")}
 
-\item{subdirectory}{The name of the package where the source file is stored on Data Commons including any subfolders (e.g. "lciafmt/traci_2_1")}
+\item{subdirectory}{The name of the package where the source file is stored on
+Data Commons including any subfolders (e.g. "lciafmt/traci_2_1")}
 
 \item{debug_url}{The Data Commons base url, including directory and subdirectories}
 }

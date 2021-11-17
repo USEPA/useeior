@@ -12,7 +12,7 @@ calculateDirectPerspectiveLCI(B, c)
 \item{c}{Scaling vector.}
 }
 \value{
-Transposed m_d with total impacts in form of sector x flows.
+A transposed matrix with total impacts in form of sector x flows.
 }
 \description{
 Multiply the B matrix and the scaling vector c.

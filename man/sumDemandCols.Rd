@@ -12,7 +12,7 @@ sumDemandCols(Y, codes)
 \item{codes, }{sector code(s) for a subset of Final Demand cols}
 }
 \value{
-a named vector with model sectors and demand amounts
+A named vector with model sectors and demand amounts
 }
 \description{
 Sums across sectors for a given set of codes/cols in a given final demand df

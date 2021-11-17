@@ -14,7 +14,7 @@ calculateConsumptionContributiontoImpact(y, model, indicator)
 \item{indicator, }{str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential"}
 }
 \value{
-impacts, matrix of impacts sector purchased x sector sourced
+A matrix of impacts sector purchased x sector sourced
 }
 \description{
 Calculates the result matrix by sector for a specified indciator

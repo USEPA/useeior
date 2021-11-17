@@ -11,6 +11,9 @@ calculateOutputRatio(model, output_type = "Commodity")
 
 \item{output_type}{Either Commodity or Industry, default is Commodity}
 }
+\value{
+A data frame of output ratio
+}
 \description{
 Generate Output Ratio table, flexible to Commodity/Industry output and model Commodity/Industry type
 }

@@ -5,12 +5,13 @@
 #' @param currency_year An integer representing the currency year, e.g. 2018.
 #' @param purchaser_price A logical value indicating whether to adjust producer's price to purchaser's price.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @export
 #' @return A model result matrix after price adjustment
+#' @export
 adjustResultMatrixPrice <- function(matrix_name, currency_year, purchaser_price=TRUE, model) {
   # Adjust price year of matrix
   if (currency_year!=model$specs$IOYear) {
-    logging::loginfo(paste("Adjusting", matrix_name, "matrix from", model$specs$IOYear, "to", currency_year, "dollar..."))
+    logging::loginfo(paste("Adjusting", matrix_name, "matrix from",
+                           model$specs$IOYear, "to", currency_year, "dollar..."))
     mat <- adjustMultiplierPriceYear(matrix_name, currency_year, model)
   } else {
     logging::loginfo(paste("Keeping", matrix_name, "matrix in", model$specs$IOYear, "dollar..."))
@@ -29,7 +30,7 @@ adjustResultMatrixPrice <- function(matrix_name, currency_year, purchaser_price=
 
 #' Calculate year by model IO year price ratio.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return A data.frame of year by model IO year price ratio.
+#' @return A dataframe of year by model IO year price ratio.
 calculateYearbyModelIOYearPriceRatio <- function(model) {
   CPI_df <- model[[paste0("MultiYear", model$specs$CommodityorIndustryType, "CPI")]]
   CPI_ratio_matrix <- as.matrix(CPI_df/CPI_df[, as.character(model$specs$IOYear)])
@@ -38,7 +39,7 @@ calculateYearbyModelIOYearPriceRatio <- function(model) {
 
 #' Calculate producer to purchaser price ratio.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return A data.frame of producer to purchaser price ratio.
+#' @return A dataframe of producer to purchaser price ratio.
 calculateProducerbyPurchaserPriceRatio <- function(model) {
   # Get Margins table
   Margins <- merge(model$Margins, model$Rho, by.x = "Code_Loc", by.y = 0, all.y = TRUE)
@@ -47,10 +48,10 @@ calculateProducerbyPurchaserPriceRatio <- function(model) {
   PHI <- model$Rho
   for (year in colnames(model$Rho)) {
     # Adjust ProducersValue from model$specs$IOyear to currency year using model$Rho
-    ProducersValue <- Margins$ProducersValue * (Margins[, year]/Margins[, as.character(model$specs$BaseIOSchema)])
+    ProducersValue <- Margins$ProducersValue * (Margins[, year]/Margins[, as.character(model$specs$IOYear)])
     # Adjust Transportation, Wholesale and Retail using corresponding CPI_ratio
     TWR_CPI <- useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), ]
-    TWR_CPI_ratio <- TWR_CPI[, year]/TWR_CPI[, as.character(model$specs$BaseIOSchema)]
+    TWR_CPI_ratio <- TWR_CPI[, year]/TWR_CPI[, as.character(model$specs$IOYear)]
     TWRValue <- sweep(Margins[, c("Transportation", "Wholesale", "Retail")], 2, TWR_CPI_ratio, "*")
     # Calculate PurchasersValue
     PurchasersValue <- rowSums(Margins[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])

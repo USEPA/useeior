@@ -10,7 +10,7 @@ calculateYearbyModelIOYearPriceRatio(model)
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
-A data.frame of year by model IO year price ratio.
+A dataframe of year by model IO year price ratio.
 }
 \description{
 Calculate year by model IO year price ratio.

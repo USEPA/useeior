@@ -10,7 +10,7 @@ convertStrEncodingLatintoASCII(s)
 \item{s, }{string with Latin-1 encoding}
 }
 \value{
-s, string with ASCII encoding
+A string with ASCII encoding
 }
 \description{
 Forces a string encoding to ASCII from Latin-1

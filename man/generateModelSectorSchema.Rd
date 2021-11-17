@@ -10,7 +10,7 @@ generateModelSectorSchema(model)
 \item{model, }{any model object}
 }
 \value{
-char string
+A string of sector schema for a model
 }
 \description{
 Create sector schema for a model

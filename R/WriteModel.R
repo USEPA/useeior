@@ -180,8 +180,7 @@ prepareWriteDirs <- function(model, dirs) {
 writeModelDemandstoJSON <- function(model, demandsfolder) {
   #!WARNING: Only works for single region model
   if (model$specs$ModelRegionAcronyms!="US") {
-    logging::logerror("Currently only works for single region US models.")
-    stop()
+    stop("Currently only works for single region US models.")
   }
   
   for (n in names(model$DemandVectors$vectors)) {
@@ -204,8 +203,7 @@ writeModelDemandstoJSON <- function(model, demandsfolder) {
 writeModelMetadata <- function(model, dirs) {
   #!WARNING: Only works for single region model
   if (model$specs$ModelRegionAcronyms!="US") {
-    logging::logerror("Currently only works for single region US models.")
-    stop()
+    stop("Currently only works for single region US models.")
   }
   
   # Load metadata fields for API

@@ -29,20 +29,26 @@ joinStringswithSlashes <- function(...) {
 #' @param from_level  The level of BEA code this matrix starts at
 #' @param to_level    The level of BEA code this matrix will be aggregated to
 #' @param specs       Model specifications
+#' @return An aggregated matrix
 aggregateMatrix <- function (matrix, from_level, to_level, specs) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste0("BEA_", from_level)
   to_code <- paste0("BEA_", to_level)
   # Aggregate by rows
   value_columns_1 <- colnames(matrix)
-  df_fromlevel <- merge(matrix, unique(model$crosswalk[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
-  df_fromlevel_agg <- stats::aggregate(df_fromlevel[, value_columns_1], by = list(df_fromlevel[, to_code]), sum)
+  df_fromlevel <- merge(matrix, unique(model$crosswalk[, c(from_code, to_code)]),
+                        by.x = 0, by.y = from_code)
+  df_fromlevel_agg <- stats::aggregate(df_fromlevel[, value_columns_1],
+                                       by = list(df_fromlevel[, to_code]), sum)
   rownames(df_fromlevel_agg) <- df_fromlevel_agg[, 1]
   df_fromlevel_agg[, 1] <- NULL
   # aggregate by columns
   value_columns_2 <- rownames(df_fromlevel_agg)
-  df_fromlevel_agg <- merge(t(df_fromlevel_agg), unique(model$crosswalk[, c(from_code, to_code)]), by.x = 0, by.y = from_code)
-  matrix_fromlevel_agg <- stats::aggregate(df_fromlevel_agg[, value_columns_2], by = list(df_fromlevel_agg[, to_code]), sum)
+  df_fromlevel_agg <- merge(t(df_fromlevel_agg),
+                            unique(model$crosswalk[, c(from_code, to_code)]),
+                            by.x = 0, by.y = from_code)
+  matrix_fromlevel_agg <- stats::aggregate(df_fromlevel_agg[, value_columns_2],
+                                           by = list(df_fromlevel_agg[, to_code]), sum)
   # reshape back to orginal CxI (IxC) format
   rownames(matrix_fromlevel_agg) <- matrix_fromlevel_agg[, 1]
   matrix_fromlevel_agg <- t(matrix_fromlevel_agg[, -1])
@@ -53,17 +59,20 @@ aggregateMatrix <- function (matrix, from_level, to_level, specs) {
 #'
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param output_type Either Commodity or Industry, default is Commodity
+#' @return A data frame of output ratio
 calculateOutputRatio <- function (model, output_type="Commodity") {
-  # Generate Output based on output_type and model Commodity/Industry type 
+  # Generate Output based on output_type 
   if (output_type=="Commodity") {
-    Output <- model$CommodityOutput
+    Output <- model$q
   } else {
-    Output <- model$IndustryOutput
+    Output <- model$x
   }
   # Map CommodityOutput to more aggregated IO levels
-  Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")])
-  ratio_table <- merge(Crosswalk, as.data.frame(Output, row.names = gsub("/.*", "", names(Output))),
-                       by.x = paste0("BEA_", model$specs$BaseIOLevel), by.y = 0)
+  Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")|
+                                        colnames(model$crosswalk)=="USEEIO"])
+  ratio_table <- merge(Crosswalk,
+                       as.data.frame(Output, row.names = gsub("/.*", "", names(Output))),
+                       by.x = "USEEIO", by.y = 0)
   # Calculate output ratios
   for (iolevel in c("Summary", "Sector")) {
     # Generate flexible sector_code
@@ -124,7 +133,8 @@ writeMatrixasBinFile <- function(matrix, path) {
 
 #' downloads files from the Data Commons and stores in a local temporary data directory
 #' @param source The name of the source file (e.g. "TRACI_2.1_v1.parquet")
-#' @param subdirectory The name of the package where the source file is stored on Data Commons including any subfolders (e.g. "lciafmt/traci_2_1")
+#' @param subdirectory The name of the package where the source file is stored on
+#' Data Commons including any subfolders (e.g. "lciafmt/traci_2_1")
 #' @param debug_url The Data Commons base url, including directory and subdirectories
 downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
   # Define file directory
@@ -135,10 +145,13 @@ downloadDataCommonsfile <- function(source, subdirectory, debug_url) {
   }
   
   # Download file
-  utils::download.file(paste0(debug_url, "/", source), paste0(directory, "/", source), mode = "wb", quiet = TRUE)
+  utils::download.file(paste0(debug_url, "/", source),
+                       paste0(directory, "/", source),
+                       mode = "wb", quiet = TRUE)
 }
 
-#' Load the static file originating from Data Commons either by loading from local directory or downloading from Data Commons and 
+#' Load the static file originating from Data Commons either by loading from local directory
+#' or downloading from Data Commons and 
 #' saving to local directory
 #' @param static_file The name of a static file, including the subdirectories
 #' @return The static file originating from Data Commons
@@ -224,7 +237,7 @@ setToleranceforRAS <- function(t_r, t_c, relative_diff = NULL, absolute_diff = N
 #' @param t_c A vector setting the target column sums of the matrix.
 #' @param t A numeric value setting the tolerance of RAS.
 #' @param max_itr A numeric value setting the maximum number of iterations to try for convergence.
-#' Defualt: 1000000.
+#' Default is 1,000,000.
 #' @return A RAS balanced matrix.
 RAS <- function(m0, t_r, t_c, t, max_itr = 1E6) {
   m <- m0
@@ -276,7 +289,7 @@ RAS <- function(m0, t_r, t_c, t, max_itr = 1E6) {
 #' @param relative_diff A numeric value setting the relative difference of the two numerical vectors.
 #' @param absolute_diff A numeric value setting the mean absolute difference of the two numerical vectors.
 #' @param max_itr A numeric value setting the maximum number of iterations to try for convergence.
-#' Defualt: 1000000.
+#' Default is 1,000,000.
 #' @return A RAS balanced matrix.
 applyRAS <- function(m0, t_r, t_c, relative_diff, absolute_diff, max_itr) {
   # Adjust t_c/t_r, make sum(t_c)==sum(t_r)
@@ -294,7 +307,7 @@ applyRAS <- function(m0, t_r, t_c, relative_diff, absolute_diff, max_itr) {
 
 #' Remove spaces around strings, like "321A "
 #' @param s, string
-#' @return s, string with spaces removed
+#' @return A string with spaces removed
 removeExtraSpaces <- function(s) {
   s <- gsub("\\s", "",s)
   return(s)
@@ -303,7 +316,7 @@ removeExtraSpaces <- function(s) {
 
 #' Remove numbers in slashes from a string, like /1/
 #' @param s, string
-#' @return s, string with numbers in slashes removed
+#' @return A string with numbers in slashes removed
 removeNumberinSlashes <- function(s) {
   s <- gsub(" /.*", "",s)
   return(s)
@@ -311,7 +324,7 @@ removeNumberinSlashes <- function(s) {
 
 #' Forces a string encoding to ASCII from Latin-1
 #' @param s, string with Latin-1 encoding
-#' @return s, string with ASCII encoding
+#' @return A string with ASCII encoding
 convertStrEncodingLatintoASCII <- function(s) {
   s <- iconv(s, from = 'latin1', to = 'ASCII', sub='')
   return(s)
@@ -329,7 +342,7 @@ writeDatatoRDA <- function(data, data_name) {
 
 #'Create sector schema for a model
 #'@param model, any model object
-#'@return char string
+#'@return A string of sector schema for a model
 generateModelSectorSchema <- function(model) {
   SectorSchema <- paste(model$specs$IODataSource, 
                         model$specs$BaseIOLevel, sep = "_")

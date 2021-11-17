@@ -12,7 +12,7 @@ standardizeandcastSatelliteTable(df, model)
 \item{model}{an EEIO model with IO tables loaded}
 }
 \value{
-a flows x sector matrix-like dataframe
+A matrix-like dataframe of flows x sector
 }
 \description{
 Converts flows table into flows x sector matrix-like format

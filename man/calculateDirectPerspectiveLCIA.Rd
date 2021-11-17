@@ -14,7 +14,7 @@ calculateDirectPerspectiveLCIA(B, C, c)
 \item{c}{Scaling vector.}
 }
 \value{
-Transposed u_d with total impacts in form of sector x impact categories.
+A transposed matrix with total impacts in form of sector x impact categories.
 }
 \description{
 Multiply the C matrix and the product of B matrix and scaling vector c.

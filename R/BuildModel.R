@@ -1,11 +1,12 @@
 #' Build an EEIO model.
 #' @param modelname Name of the model from a config file.
-#' @param configfile Directory of model configuration file.
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @return A list of EEIO model complete components and attributes
 #' @export
-#' @return A list of EEIO model components and attributes
-buildModel <- function(modelname, configfile = NULL) {
-  model <- initializeModel(modelname, configfile)
-  model <- loadIOData(model)
+buildModel <- function(modelname, configpaths = NULL) {
+  model <- initializeModel(modelname, configpaths)
+  model <- loadIOData(model, configpaths)
   model <- loadandbuildSatelliteTables(model)
   model <- loadandbuildIndicators(model)
   model <- loadDemandVectors(model)
@@ -139,7 +140,7 @@ createBfromFlowDataandOutput <- function(model) {
 
 #'Prepare coefficients (x unit/$) from the totals by flow and sector (x unit)
 #'@param model, a model with econ and flow data loaded
-#'@return df, a Coefficients-by-sector table
+#'@return A dataframe of Coefficients-by-Sector (CbS) table
 generateCbSfromTbSandModel <- function(model) {
   CbS <- data.frame()
     
@@ -168,7 +169,7 @@ generateCbSfromTbSandModel <- function(model) {
 #'Converts flows table into flows x sector matrix-like format
 #'@param df a dataframe of flowables, contexts, units, sectors and locations
 #'@param model an EEIO model with IO tables loaded
-#'@return a flows x sector matrix-like dataframe 
+#'@return A matrix-like dataframe of flows x sector 
 standardizeandcastSatelliteTable <- function(df,model) {
   # Add fields for sector as combinations of existing fields
   df[, "Sector"] <- apply(df[, c("Sector", "Location")],
@@ -188,7 +189,7 @@ standardizeandcastSatelliteTable <- function(df,model) {
 #' Generate C matrix from indicator factors and a model B matrix
 #' @param factors df in model$Indicators$factors format
 #' @param B_flows Flows from B matrix to use for reference
-#' @return a C matrix in indicator x flow format
+#' @return C, a matrix in indicator x flow format
 createCfromFactorsandBflows <- function(factors,B_flows) {
   # Add flow field to factors
   factors$Flow <- apply(factors[, c("Flowable", "Context", "Unit")],

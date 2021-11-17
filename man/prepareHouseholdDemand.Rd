@@ -10,7 +10,7 @@ prepareHouseholdDemand(model)
 \item{model, }{a model}
 }
 \value{
-a named vector with demand
+A named vector with demand
 }
 \description{
 Prepares a demand vector representing household consumption
