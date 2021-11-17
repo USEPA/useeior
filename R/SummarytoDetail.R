@@ -1,3 +1,6 @@
+#TODO: add functionality to adjust disaggregation from Summary to detail based on summary model IO year. 
+#by "bringing the detail model to summary year" for the specified disagg sector.
+
 #' Disaggregate a specific sector in a summary level model to detail level
 #' @param modelname String indicating which model to generate. Must be a detail level model.
 #' @param sectorToDisaggregate String with the summary level code of the sector to be disaggregated from Summary to Detail Level
