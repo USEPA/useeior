@@ -58,6 +58,8 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  # Add LCI and E to validation list
+  validation <- c(list("LCI" = LCI, "E" = E), validation)
   return(validation)
 }
 
@@ -105,6 +107,8 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  # Add c and x to validation list
+  validation <- c(list("c" = c, "x" = x), validation)
   return(validation)
 }
 
@@ -128,6 +132,8 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  # Add q and x to validation list
+  validation <- c(list("q" = q, "x" = x), validation)
   return(validation)
 }
 
@@ -152,6 +158,8 @@ compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- func
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  # Add q and x to validation list
+  validation <- c(list("q" = q, "x" = x), validation)
   return(validation)
 }
 
@@ -216,6 +224,8 @@ compareIndustryOutputinMakeandUse <- function(model) {
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  # Add x_use and x_make to validation list
+  validation <- c(list("x_use" = x_use, "x_make" = x_make), validation)
   return(validation)
 }
 
