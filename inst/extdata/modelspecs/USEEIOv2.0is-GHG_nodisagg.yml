@@ -55,13 +55,18 @@ Indicators:
         Primary: TRUE
 
 DemandVectors:
-    Consumption:
-      Type: "Consumption"
+    Production:
+      Type: "Production"
       Year: 2012
       System: "Complete"
       Location: "US"
-    Production:
+    DomesticProduction:
       Type: "Production"
+      Year: 2012
+      System: "Domestic"
+      Location: "US"
+    Consumption:
+      Type: "Consumption"
       Year: 2012
       System: "Complete"
       Location: "US"
@@ -74,4 +79,9 @@ DemandVectors:
       Type: "Consumption"
       Year: 2012
       System: "Domestic"
-      Location: "US"    
+      Location: "US"
+    Import:
+      Type: "Import"
+      Year: 2012
+      System: "Complete"
+      Location: "US"
