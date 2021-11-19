@@ -64,10 +64,13 @@ Items are listed in the order in which they appear in a built Model object in R.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| NAICS | str | 6-digit [NAICS code](https://www.census.gov/naics/) |
+| NAICS | str | 2-6 digit [NAICS code](https://www.census.gov/naics/)<sup>2</sup> |
 | BEA_Sector | str | Code used at the BEA Sector level |
 | BEA_Summary | str | Code used at the BEA Summary level |
 | BEA_Detail | str | Code used at the BEA Detail level |
+| USEEIO | str | Code used at the model level of detail |
+
+<sup>2</sup> 7-10 digit NAICS code exists for manufacturing and mining industries.
 
 ### Sector Meta
 
