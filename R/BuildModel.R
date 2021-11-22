@@ -116,7 +116,8 @@ constructEEIOMatrices <- function(model) {
                      "U_n","U_d_n","W")
   if (model$specs$CommodityorIndustryType=="Industry") {
     mat_to_remove <- c(mat_to_remove,
-                       c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity", "ImportCostbyCommodity"))
+                       c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity",
+                         "InternationalTradeAdjustmentbyCommodity"))
   }
   model <- within(model, rm(list=mat_to_remove))
   

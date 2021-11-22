@@ -186,11 +186,11 @@ generateDomesticUse <- function(Use, specs) {
   return(DomesticUse)
 }
 
-#' Generate import cost vector from Use and Import matrix.
+#' Generate international trade adjustment vector from Use and Import matrix.
 #' @param Use, dataframe of a Use table
 #' @param specs, list of model specifications
-#' @return An import cost vector with names as commodity codes
-generateImportCostVector <- function(Use, specs) {
+#' @return An international trade adjustment vector with names as commodity codes
+generateInternationalTradeAdjustmentVector <- function(Use, specs) {
   # Load Import matrix
   if (specs$BaseIOLevel!="Sector") {
     Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
@@ -202,14 +202,14 @@ generateImportCostVector <- function(Use, specs) {
   }
   # Define Import code
   ImportCode <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")
-  # Calculate ImportCost.
+  # Calculate InternationalTradeAdjustment
   # In the Import matrix, the imports column is in domestic (US) port value.
   # But in the Use table, it is in foreign port value.
   # domestic port value = foreign port value + value of all transportation and insurance services to import + customs duties
   # See documentation of the Import matrix (https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx)
-  # So, ImportCost <- Use$Imports - Import$Imports
-  # ImportCost is essentially 'value of all transportation and insurance services to import' and 'customs duties'
-  ImportCost <- Use[, ImportCode] - Import[rownames(Use), ImportCode]
-  names(ImportCost) <- rownames(Use)
-  return(ImportCost)
+  # So, InternationalTradeAdjustment <- Use$Imports - Import$Imports
+  # InternationalTradeAdjustment is essentially 'value of all transportation and insurance services to import' and 'customs duties'
+  InternationalTradeAdjustment <- Use[, ImportCode] - Import[rownames(Use), ImportCode]
+  names(InternationalTradeAdjustment) <- rownames(Use)
+  return(InternationalTradeAdjustment)
 }

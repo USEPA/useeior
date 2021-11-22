@@ -90,7 +90,7 @@ loadNationalIOData <- function(model) {
   model$UseValueAdded <- BEA$UseValueAdded
   model$FinalDemand <- BEA$UseFinalDemand
   model$DomesticFinalDemand <- BEA$DomesticFinalDemand
-  model$ImportCost <- BEA$ImportCost
+  model$InternationalTradeAdjustment <- BEA$InternationalTradeAdjustment
   ## Modify row and column names in the IO tables
   # Use model$Industries
   rownames(model$MakeTransactions) <- colnames(model$UseTransactions) <- colnames(model$DomesticUseTransactions) <-
@@ -117,15 +117,15 @@ loadNationalIOData <- function(model) {
   }
   model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
   
-  # Transform model FinalDemand, DomesticFinalDemand, and ImportCost to by-industry form
+  # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
   if (model$specs$CommodityorIndustryType=="Industry") {
     # Keep the orignal FinalDemand (in by-commodity form)
     model$FinalDemandbyCommodity <- model$FinalDemand
     model$DomesticFinalDemandbyCommodity <- model$DomesticFinalDemand
-    model$ImportCostbyCommodity <- model$ImportCost
+    model$InternationalTradeAdjustmentbyCommodity <- model$InternationalTradeAdjustment
     model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)
     model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)
-    model$ImportCost <- transformFinalDemandwithMarketShares(model$ImportCost, model)
+    model$InternationalTradeAdjustment <- transformFinalDemandwithMarketShares(model$InternationalTradeAdjustment, model)
   }
   
   # Add Margins table
@@ -175,7 +175,7 @@ loadBEAtables <- function(specs) {
   BEA$DomesticUseTransactions <- DomesticUse[, BEA$Industries]
   BEA$DomesticFinalDemand <- DomesticUse[, BEA$FinalDemandCodes]
   # Generate Import Cost vector
-  BEA$ImportCost <- generateImportCostVector(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
+  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
   # Replace NA with 0 in IO tables
   if(specs$BaseIOSchema==2007){
     BEA$MakeTransactions[is.na(BEA$MakeTransactions)] <- 0
