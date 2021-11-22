@@ -64,37 +64,37 @@ jobs:
         run: |
           require(devtools)
           devtools::load_all()
-          for (modelname in c("USEEIOv2.0", "USEEIOv2.0.01", "USEEIOv2.1")) {
+          for (modelname in c("USEEIOv2.0", "USEEIOv2.0.1", "USEEIOv2.1")) {
           m <- useeior::buildModel(modelname)
           
           econval <- compareOutputandLeontiefXDemand(m, tolerance = 0.01)
-          paste("Number of sectors passing:",econval$N_Pass)
-          paste("Number of sectors failing:",econval$N_Fail)
-          paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", "))
+          print(paste("Number of sectors passing:",econval$N_Pass))
+          print(paste("Number of sectors failing:",econval$N_Fail))
+          print(paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", ")))
           
           econval <- compareOutputandLeontiefXDemand(m,use_domestic=TRUE, tolerance = 0.01)
-          paste("Number of sectors passing:",econval$N_Pass)
-          paste("Number of sectors failing:",econval$N_Fail)
-          paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", "))
+          print(paste("Number of sectors passing:",econval$N_Pass))
+          print(paste("Number of sectors failing:",econval$N_Fail))
+          print(paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", ")))
           
           modelval <- compareEandLCIResult(m, tolerance = 0.01)
-          paste("Number of flow totals by commodity passing:",modelval$N_Pass)
-          paste("Number of flow totals by commodity failing:",modelval$N_Fail)
+          print(paste("Number of flow totals by commodity passing:",modelval$N_Pass))
+          print(paste("Number of flow totals by commodity failing:",modelval$N_Fail))
           
           dom_val <- compareEandLCIResult(m, use_domestic=TRUE, tolerance = 0.01)
-          paste("Number of flow totals by commodity passing:",dom_val$N_Pass)
-          paste("Number of flow totals by commodity failing:",dom_val$N_Fail)
-          paste("Sectors with flow totals failing:", paste(dom_val$Failure$variable, collapse = ", "))  
+          print(paste("Number of flow totals by commodity passing:",dom_val$N_Pass))
+          print(paste("Number of flow totals by commodity failing:",dom_val$N_Fail))
+          print(paste("Sectors with flow totals failing:", paste(dom_val$Failure$variable, collapse = ", ")))  
 
           q_x_val <- compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation(m, tolerance = 0.01)
-          paste("Number of flow totals by commodity passing:",q_x_val$N_Pass)
-          paste("Number of flow totals by commodity failing:",q_x_val$N_Fail)
-          paste("Sectors with flow totals failing:", paste(q_x_val$Failure$rownames, collapse = ", "))
+          print(paste("Number of flow totals by commodity passing:",q_x_val$N_Pass))
+          print(paste("Number of flow totals by commodity failing:",q_x_val$N_Fail))
+          print(paste("Sectors with flow totals failing:", paste(q_x_val$Failure$rownames, collapse = ", ")))
           
           q_val <- compareCommodityOutputandDomesticUseplusProductionDemand(m, tolerance = 0.01)
-          paste("Number of flow totals by commodity passing:",q_val$N_Pass)
-          paste("Number of flow totals by commodity failing:",q_val$N_Fail)
-          paste("Sectors with flow totals failing:", paste(q_val$Failure$rownames, collapse = ", "))             
+          print(paste("Number of flow totals by commodity passing:",q_val$N_Pass))
+          print(paste("Number of flow totals by commodity failing:",q_val$N_Fail))
+          print(paste("Sectors with flow totals failing:", paste(q_val$Failure$rownames, collapse = ", ")))             
           }
         shell: Rscript {0}
       
