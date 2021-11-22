@@ -15,6 +15,11 @@ model <- buildModel("USEEIOv2.0s-GHG")
 # result using total US production
 result <- calculateEEIOModel(model, perspective = "DIRECT", demand = "Production")
 
+# Calculate a sector by sector result matrix for a specified indicator based on one of the demand
+# vectors included in the model
+y <- model[["DemandVectors"]][["vectors"]][["2012_US_Consumption_Complete"]]
+impact_result <- calculateConsumptionContributiontoImpact(y, model, indicator = "Greenhouse Gases")
+
 # Adjust N matrix (direct + indirect impacts per dollar) to 2018 dollar and purchaser price
 N_adj <- adjustResultMatrixPrice("N", currency_year = 2012, purchaser_price = FALSE, model)
 
