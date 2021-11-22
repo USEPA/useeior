@@ -28,12 +28,12 @@ adjustResultMatrixPrice <- function(matrix_name, currency_year, purchaser_price=
   return(mat)
 }
 
-#' Calculate year by model IO year price ratio.
+#' Calculate model IO year by year price ratio.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return A dataframe of year by model IO year price ratio.
-calculateYearbyModelIOYearPriceRatio <- function(model) {
+#' @return A dataframe of model IO year by year price ratio.
+calculateModelIOYearbyYearPriceRatio <- function(model) {
   CPI_df <- model[[paste0("MultiYear", model$specs$CommodityorIndustryType, "CPI")]]
-  CPI_ratio_matrix <- as.matrix(CPI_df/CPI_df[, as.character(model$specs$IOYear)])
+  CPI_ratio_matrix <- as.matrix(CPI_df[, as.character(model$specs$IOYear)]/CPI_df)
   return(CPI_ratio_matrix)
 }
 
