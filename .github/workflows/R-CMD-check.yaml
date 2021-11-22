@@ -64,7 +64,7 @@ jobs:
         run: |
           require(devtools)
           devtools::load_all()
-          for modelname in c("USEEIOv2.0", "USEEIOv2.0.01", "USEEIOv2.1"){
+          for (modelname in c("USEEIOv2.0", "USEEIOv2.0.01", "USEEIOv2.1")) {
           m <- useeior::buildModel(modelname)
           
           econval <- compareOutputandLeontiefXDemand(m, tolerance = 0.01)
