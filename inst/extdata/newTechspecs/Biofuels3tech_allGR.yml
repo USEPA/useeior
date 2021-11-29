@@ -8,25 +8,25 @@ NewTechnologies:
   Name: "Petroleum Refineries"
   PrimaryProducerCode: "324110"
   PrimaryProducerName: "Petroleum Refineries"
-  Price: 1.60
+  Price: 1.226783
  NewIndustries:
   Technology1:
    Code: "324110B1"
    Name: "GasFermentation"
    PrimaryProduct: "Biofuel"
-   PriceNewCommodity: 1.6
+   PriceNewCommodity: 1.226783
    PercentageProduced: 0
   Technology2:
    Code: "324110B2"
    Name: "GuerbetReaction"
    PrimaryProduct: "Biofuel"
-   PriceNewCommodity: 1.6
+   PriceNewCommodity: 1.226783
    PercentageProduced: 1
   Technology3:
    Code: "324110B3"
    Name: "FischerTropsch"
    PrimaryProduct: "Biofuel"
-   PriceNewCommodity: 1.6
+   PriceNewCommodity: 1.226783
    PercentageProduced: 0
  InputPurchases: "inst/extdata/newTechspecs/GF_InputPurchases_V02.csv"
  ValueAdded: "inst/extdata/newTechspecs/GF_ValueAdded_V02.csv" #Not yet created
