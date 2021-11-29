@@ -71,9 +71,9 @@ loadNationalIOData <- function(model) {
                                              1, FUN = joinStringswithSlashes)
   
   # model$InternationalTradeAdjustmentMeta
-  model$InternationalTradeAdjustment <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import", ]
-  model$InternationalTradeAdjustment[, c("Code", "Code_Loc")] <- gsub("F050", "F051", model$InternationalTradeAdjustment[, c("Code", "Code_Loc")])
-  model$InternationalTradeAdjustment[, "Name"] <- "International Trad Adjustment"
+  model$InternationalTradeAdjustmentMeta <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import", ]
+  model$InternationalTradeAdjustmentMeta[, c("Code", "Code_Loc")] <- gsub("F050", "F051", model$InternationalTradeAdjustmentMeta[, c("Code", "Code_Loc")])
+  model$InternationalTradeAdjustmentMeta[, "Name"] <- "International Trad Adjustment"
   
   # model$MarginSectors
   model$MarginSectors <- utils::stack(BEA[c("TransportationCodes", "WholesaleCodes", "RetailCodes")])
