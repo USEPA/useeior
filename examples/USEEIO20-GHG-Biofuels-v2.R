@@ -24,7 +24,7 @@ resultNewTech <- calculateEEIOModel(modelNewTech, perspective = "DIRECT", demand
 N_adj <- adjustResultMatrixPrice("N", currency_year = 2012, purchaser_price = FALSE, model)
 
 #-------------------------------------------------------------------------------------------------------------------------------
-result$LCIA_d[c("324110/US","324110B/US"),]
+resultNewTech$LCIA_d[c("324110/US","324110B/US"),]
 
 #Original tables
 modelNewTech$BiofuelsData$OriginalBEA$Make["324110", "324110"]
@@ -76,12 +76,7 @@ xtable(LCIA_results_comparative_Formatted, type= "latex", align=c("l","r","r"))
 #### BROADER IMPACTS ####
 #Comparative table current and +NewTech
 
-table_rowNames<- c("Economic", "Total Purchases- Petroleum Refineries", "Total commodity output- Petroleum Refineries", "Total Purchases- Biorefineries","Total commodity output-  Biorefineries", "Total production-Whole Economy"
-                   , "Environmental", colnames(resultNewTech$LCIA_d) )
 
-# Re-order indicators by alphabetic order
-indicators_info<-model$Indicators$meta[order(model$Indicators$meta$Name),]
-units_vector<-c("---", "USD", "USD", "USD","USD", "USD", "---", indicators_info$Unit)
 
 # Format numbers
 cur_totalPur_Petroleum<-format(result$TotalPurchases["324110/US",], digits=6, scientific=TRUE)
@@ -102,17 +97,78 @@ new_totComOut_Bio<- format(modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110
 new_totProd_Whole<-format(sum(modelNewTech$BiofuelsData$NewBEA$Make[,"T008"]), digits=6, scientific=TRUE)
 new_EnvImpacts<- format(colSums(resultNewTech$LCIA_d), digits=6, scientific=TRUE)
 
+#----
+diff_totalPur_Petroleum<- format(resultNewTech$TotalPurchases["324110/US",]-result$TotalPurchases["324110/US",], digits=6, scientific=TRUE)
+diff_totComOut_Petroleum<-format(modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110"]-modelNewTech$BiofuelsData$OriginalBEA$Make["T007", "324110"], digits=6, scientific=TRUE)
+diff_totalPur_Bio<-format(resultNewTech$TotalPurchases["324110B/US",], digits=6, scientific=TRUE)
+diff_totalComOut_Bio<-format(modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110B"], digits=6, scientific=TRUE)
+diff_totProd_Whole<-format(sum(modelNewTech$BiofuelsData$NewBEA$Make[,"T008"])-sum(modelNewTech$BiofuelsData$OriginalBEA$Make[,"T008"]), digits=6, scientific=TRUE)
+diff_EnvImpacts<- format(colSums(resultNewTech$LCIA_d)-colSums(result$LCIA_d), digits=6, scientific=TRUE)
+#----
+# Percentage change/ percentage of substitution
+percentual_change_totalPur_Petroleum<-((resultNewTech$TotalPurchases["324110/US",]-result$TotalPurchases["324110/US",])/result$TotalPurchases["324110/US",])*100
+percentual_change_totComOut_Petroleum<-((modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110"]-modelNewTech$BiofuelsData$OriginalBEA$Make["T007", "324110"])/
+  modelNewTech$BiofuelsData$OriginalBEA$Make["T007", "324110"])*100
+percentual_change_totProd_Whole<-((sum(modelNewTech$BiofuelsData$NewBEA$Make[,"T008"])-sum(modelNewTech$BiofuelsData$OriginalBEA$Make[,"T008"]))/
+  sum(modelNewTech$BiofuelsData$OriginalBEA$Make[,"T008"]))*100
+percentual_change_EnvImpacts<-((colSums(resultNewTech$LCIA_d)-colSums(result$LCIA_d))/colSums(result$LCIA_d))*100
+
+wrt_per_bio_totalPur_Petroleum<-percentual_change_totalPur_Petroleum/(modelNewTech$BiofuelsData$BiofuelsPercentage*100)
+wrt_per_bio_totComOut_Petroleum<-percentual_change_totComOut_Petroleum/(modelNewTech$BiofuelsData$BiofuelsPercentage*100)
+wrt_per_bio_totProd_Whole<-percentual_change_totProd_Whole/(modelNewTech$BiofuelsData$BiofuelsPercentage*100)
+wrt_per_bio_EnvImpacts<-percentual_change_EnvImpacts/(modelNewTech$BiofuelsData$BiofuelsPercentage*100)
+
+#Format
+format_change_totalPur_Petroleum<- format(wrt_per_bio_totalPur_Petroleum, digits=4)
+format_change_totComOut_Petroleum<- format(wrt_per_bio_totComOut_Petroleum, digits=4)
+format_change_totProd_Whole<- format(wrt_per_bio_totProd_Whole, digits=4)
+format_change_EnvImpacts<- format(wrt_per_bio_EnvImpacts, digits = 4)
+format_change_EnvImpacts<- round(wrt_per_bio_EnvImpacts, digits = 3) #test to see if this works better
+#----
+#Comparative table with differences
+
+table_rowNames<- c("Economic", "Total Purchases- Petroleum Refineries", "Total commodity output- Petroleum Refineries", "Total Purchases- Biorefineries","Total commodity output-  Biorefineries", "Total production-Whole Economy"
+                   , "Environmental", colnames(resultNewTech$LCIA_d) )
+
+# Re-order indicators by alphabetic order
+indicators_info<-model$Indicators$meta[order(model$Indicators$meta$Name),]
+units_vector<-c("---", "USD", "USD", "USD","USD", "USD", "---", indicators_info$Unit)
+
 
 current_vector<- c("---", cur_totalPur_Petroleum , cur_totComOut_Petroleum,"NA", "NA",cur_totProd_Whole,
                    "---", cur_EnvImpacts)
 newTech_vector<- c("---", new_totalPur_Petroleum , new_totComOut_Petroleum, new_totalPur_Bio, new_totComOut_Bio,new_totProd_Whole,
                    "---", new_EnvImpacts)
+difference_vector<-c("---", diff_totalPur_Petroleum,diff_totComOut_Petroleum,diff_totalPur_Bio, diff_totalComOut_Bio,diff_totProd_Whole,
+                     "---",diff_EnvImpacts)
 
-table<- data.frame("Units"=units_vector,"Current"=current_vector, "With New Tech"=newTech_vector, row.names = table_rowNames)
+table<- data.frame("Units"=units_vector,"Current"=current_vector, "With New Tech"=newTech_vector, "Difference"=difference_vector,row.names = table_rowNames)
 
-xtable(table, type= "latex", align=c("l","c","r","r"), 
+xtable(table, type= "latex", align=c("l","c","r","r","r"), 
        caption = paste("Whole economy comparative results with ", modelNewTech$BiofuelsData$BiofuelsPercentage*100,"% of substitution"),label="Table:Comparative_results")
 
+#----
+# Table without units 
+
+table_rowNames<- c("Economic", "Total Purchases- Petroleum Refineries", "Total commodity output- Petroleum Refineries", "Total production-Whole Economy"
+                   , "Environmental", colnames(resultNewTech$LCIA_d) )
+
+difference_rate<-c("---", format_change_totalPur_Petroleum,format_change_totComOut_Petroleum,format_change_totProd_Whole,
+                     "---",format_change_EnvImpacts)
+
+
+table<- data.frame( "% change/ % substitution"=difference_rate,row.names = table_rowNames)
+
+xtable(table, type= "latex", align=c("l","c"), 
+       caption = paste("Whole economy changes with respect to ", modelNewTech$BiofuelsData$BiofuelsPercentage*100,"% of substitution"),label="Table:Changes_rate")
+
+#Don't like how the format of the numbers are looking
+
+#Figure
+par(mar=c(3,20,3,2))
+figure<-barplot(wrt_per_bio_EnvImpacts, names.arg = colnames(resultNewTech$LCIA_d), main = "% change emissions / % substitution", horiz = TRUE, las=1, xlim=c(-1,13),xaxp=c(-1,11,6))
+abline(v=0) #add vertical line in 0
+text(wrt_per_bio_EnvImpacts+1.2,figure, labels = format_change_EnvImpacts, cex=0.8) #Adding the values as labels for each bar
 #............................................................................................................................
 # Commodities associated GHG changes
 orig_GHG_existingCommodities<-result$LCIA_d[,"Greenhouse Gases"]
@@ -150,15 +206,26 @@ par(mar=c(5,22,4,2))
 barplot(increasedSectors[1:6,"Abs_difference"]/10^6, names.arg = increasedSectors[1:6,"Name"], main = "Top 6 commodities that increased GHG", xlab="Increased emissions (Million kg of CO2e) ", horiz = TRUE, las=1)
 
 #...Graph for decreasing sectors...
-#Order from biggest to smallest
-decreasedSectors<-decreasedSectors[order(-decreasedSectors$Difference),]
+#Order from smallest to biggest, then I take the last 6 and strangely the graph is order as I wanted
+decreasedSectors<-decreasedSectors[order(decreasedSectors$Difference),]
 
 #Graph the biggest ones
 n<-6
 #Increase margin size
 par(mar=c(5,22,4,2))
-barplot(decreasedSectors[1:6,"Difference"]/10^6, names.arg = decreasedSectors[1:6,"Name"], main = "Top 6 commodities that decreased GHG", xlab="Decreased emissions (Million kg of CO2e) ", horiz = TRUE, las=1)
+barplot(decreasedSectors[222:227,"Difference"]/10^6, names.arg = decreasedSectors[222:227,"Name"], main = "Top 6 commodities that decreased GHG", xlab="Decreased emissions (Million kg of CO2e) ", horiz = TRUE, las=1)
 
+#...Graph all together in the same graph...
+#Open png file
+png("Top6_up_down.png", width=700, height=350)
+#Create plot
+par(mar=c(5,22,4,2))
+barplot(c(increasedSectors[1:6,"Abs_difference"]/10^6,-decreasedSectors[222:227,"Difference"]/10^6), names.arg = c(increasedSectors[1:6,"Name"],decreasedSectors[222:227,"Name"]), main = "Top 6 commodities with increased and decreased GHG", xlab="Change in emissions (Million kg of CO2e) ", horiz = TRUE, las=1, 
+        xlim=c(-15500,700), xaxp=c(-15300,700,10))
+abline(v=0) #add vertical line in 0
+
+#Close file
+dev.off()
 #-------------------------------------------------------------------------------------------------------------------------------
 
 #### BIO-PRODUCT IMPACTS ####
@@ -182,7 +249,7 @@ bio_EnvImpacts<- format(colSums(bio_results$LCIA_d), digits=4, scientific=TRUE)
 table1<-data.frame("Units"=indicators_info$Unit, "Impacts per GGE"=bio_EnvImpacts,row.names = colnames(bio_results$LCIA_d))
 xtable(table1, type="latex", align=c("l","c","r"), 
        caption = paste("Biofuels impacts with ", modelNewTech$BiofuelsData$BiofuelsPercentage*100,"% of substitution"),label="Table:biofuels_results")  
-
+#Recall to add the \ before the % in overleaf
 #...........................................................................................................
 # Construct additional three scenarios in which only one industry is used.
 modelGF<-buildModel("USEEIOv2.0_nodisagg_newTech_allGF")
@@ -210,3 +277,4 @@ table2<-data.frame("Units"=indicators_info$Unit, "All technologies"=bio_EnvImpac
                    "Fischer Tropsch"=bio_EnvImpacts_FT, row.names = colnames(bio_results$LCIA_d))
 xtable(table2, type="latex", align=c("l","c","r", "r", "r", "r"), 
        caption = paste("Biofuels impacts per GGE with ", modelNewTech$BiofuelsData$BiofuelsPercentage*100,"% of substitution"),label="Table:biofuels_results")  
+#Recall to add the \ before the % in overleaf
