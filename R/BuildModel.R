@@ -42,11 +42,15 @@ constructEEIOMatrices <- function(model) {
     DomesticFinalDemand_df <- model$DomesticFinalDemand
   }
   model$U <- as.matrix(dplyr::bind_rows(cbind(model$UseTransactions,
-                                              FinalDemand_df),
+                                              FinalDemand_df,
+                                              model$InternationalTradeAdjustment),
                                         model$UseValueAdded)) # Use
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
-                                                DomesticFinalDemand_df),
+                                                DomesticFinalDemand_df,
+                                                model$InternationalTradeAdjustment),
                                           model$UseValueAdded)) # DomesticUse
+  colnames(model$U)[which(colnames(model$U)=="model$InternationalTradeAdjustment")] <- model$InternationalTradeAdjustmentMeta$Code_Loc
+  colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
@@ -112,7 +116,8 @@ constructEEIOMatrices <- function(model) {
   
   #Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                     "UseValueAdded", "FinalDemand", "DomesticFinalDemand","CommodityOutput", "IndustryOutput",
+                     "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
+                     "InternationalTradeAdjustment", "CommodityOutput", "IndustryOutput",
                      "U_n","U_d_n","W")
   if (model$specs$CommodityorIndustryType=="Industry") {
     mat_to_remove <- c(mat_to_remove,
