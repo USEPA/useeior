@@ -153,6 +153,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
 #' Disaggregate model$InternationalTradeAdjustments vector in the main model object
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
+#' @param ratios Specific ratios to be used for the disaggregation of the InternationalTradeAdjusment object in place of using economic totals to derive the ratios.
 #' @return newInternationalTradeAdjustment A vector which contains the InternationalTradeAdjustment for the disaggregated sectors
 disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NULL){
   
