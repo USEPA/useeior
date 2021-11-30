@@ -40,6 +40,7 @@ disaggregateModel <- function (model){
     
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
+    model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
 
   }
   
@@ -149,6 +150,42 @@ disaggregateSetup <- function (model, configpaths = NULL){
   return(model)
 }
 
+#' Disaggregate model$InternationalTradeAdjustments vector in the main model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' @return newInternationalTradeAdjustment A vector which contains the InternationalTradeAdjustment for the disaggregated sectors
+disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NULL){
+  
+  originalInternationalTradeAdjustment <- model$InternationalTradeAdjustment
+  originalNameList <- names(model$InternationalTradeAdjustment) # Get names from named vector
+  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1])) # Calculate code length (needed for summary vs. detail level code lengths)
+  originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
+  originalRow <- model$InternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
+  disaggInternationalTradeAdjustment <- rep(originalRow,length(disagg$DisaggregatedSectorCodes)) # Replicate the original a number of times equal to the number of disaggregate sectors
+ 
+  if(is.null(ratios)){# Use default ratios, i.e., commodity output ratios
+    disaggRatios <- unname(disaggregatedRatios(model, disagg, "Commodity"))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
+  }else{
+    #todo: need to discuss if other ratios are relevant/needed and where they would come from.
+    disaggRatios <- ratios
+  }
+  
+  disaggInternationalTradeAdjustment <- disaggInternationalTradeAdjustment * disaggRatios
+  
+  # Rename the rows of the vector
+  disaggRowNames <- unlist(disagg$DisaggregatedSectorCodes)
+  disaggRowNames <- sapply(strsplit(disaggRowNames, split = "/"), "[",1)
+  names(disaggInternationalTradeAdjustment) <- disaggRowNames
+  
+  # Combine elements in a new vector
+  part1 <- originalInternationalTradeAdjustment[1:(originalIndex-1)]
+  part3 <- originalInternationalTradeAdjustment[(originalIndex+1):length(originalInternationalTradeAdjustment)]
+  
+  newITA <- c(part1, disaggInternationalTradeAdjustment, part3)
+ 
+  return(newITA)
+
+}
 
 #' Disaggregate model$Margins dataframe in the main model object
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
