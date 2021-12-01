@@ -52,11 +52,11 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 #'@return c, a numeric vector with total $ values for each sector in model
 calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) {
   if (use_domestic) {
-    f <- model$DemandVectors$vectors$`2012_US_Production_Domestic`
+    f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors),"Production_Domestic")]
     y <- as.matrix(formatDemandVector(f, model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    f <- model$DemandVectors$vectors$`2012_US_Production_Complete`
+    f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors),"Production_Complete")]
     y <- as.matrix(formatDemandVector(f, model$L))
     c <- getScalingVector(model$L, y)
   }
