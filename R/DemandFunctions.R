@@ -41,16 +41,20 @@ sumforConsumption <- function(model, Y) {
 }
 
 #'Prepares a demand vector representing production
-#'Formula for production vector: y_p <- y_dc + y_e + y_d_delta
+#'Formula for production vector: y_p <- y_c + y_e + y_m + y_delta
+#'where y_c = consumption, y_e = exports, y_m = imports, y_delta = change in inventories
+#'y_m values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)
 #'@param model, a model
 #'@return A named vector with demand
 prepareProductionDemand <- function(model) {
-  y_dc <- sumforConsumption(model, model$FinalDemand)
   export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export", "Code_Loc"]
-  y_e <- sumDemandCols(model$FinalDemand, export_code)
   changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories", "Code_Loc"]
-  y_d_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
-  y_p <- y_dc + y_e + y_d_delta
+  import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import", "Code_Loc"]
+  y_c <- sumforConsumption(model, model$FinalDemand)
+  y_e <- sumDemandCols(model$FinalDemand, export_code)
+  y_m <- sumDemandCols(model$FinalDemand, import_code)
+  y_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
+  y_p <- y_c + y_e + y_m + y_delta
   return(y_p)
 }
 
