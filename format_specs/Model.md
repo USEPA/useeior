@@ -38,6 +38,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | U_d | matrix | component matrix | [The domestic Use matrix](#U) |
 | q | numeric vector | component matrix | [Total output by commodity](#output-vectors) |
 | x | numeric vector | component matrix | [Total output by industry](#output-vectors) |
+| mu | numeric vector | component matrix | [International trade adjustment by commodity](#international-trade-adjustment-vector) |
 | A | matrix | component matrix | [The direct requirements matrix](#A) |
 | A_d | matrix | component matrix | [The domestic direct requirements matrix](#A) |
 | L | matrix | component matrix | [The Leontief inverse matrix](#L) |
@@ -200,6 +201,13 @@ When used in matrix indices, items below take the following format:
 commodities +----q----+
 
 industries +----x----+
+```
+#### International Trade Adjustment vector
+
+`mu` is an international trade adjustment vector containing value of all transportation and insurance services to import and customs duties in model year US dollars.
+
+```
+commodities +----mu----+
 ```
 
 #### V
