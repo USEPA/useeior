@@ -31,7 +31,7 @@ devtools::load_all()
 # Validate model
 ```{r validate}
 for (modelname in params$modelname) {
-  rmarkdown::render("ValidateModel.Rmd", # "inst/doc/ValidateModel.Rmd", # 
+  rmarkdown::render("inst/doc/ValidateModel.Rmd",
                     output_file = paste0("output/Validate", modelname, ".html"),
                     quiet = TRUE)
 }
