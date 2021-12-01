@@ -96,16 +96,6 @@ prepareHouseholdDemand <- function(model) {
   return(y_h)
 }
 
-#'Prepares a demand vector representing imports
-#'@param model, a model
-#'@return A named vector with demand
-prepareImportDemand <- function(model) {
-  Y <- model$FinalDemand
-  import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import", "Code_Loc"]
-  y_i <- sumDemandCols(Y, import_code)
-  return(y_i)
-}
-
 #'A function to validate a user provided demand vector
 #' @param dv a user provided demand vector
 #' @param L, the L matrix for the given model, used as a reference
