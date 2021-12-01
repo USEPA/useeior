@@ -63,13 +63,13 @@ prepareProductionDemand <- function(model) {
 #'@param model, a model
 #'@return A named vector with demand
 prepareDomesticProductionDemand <- function(model) {
-  y_dc <- sumforConsumption(model, model$DomesticFinalDemand)
   export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export", "Code_Loc"]
-  y_e <- sumDemandCols(model$DomesticFinalDemand, export_code)
   changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories", "Code_Loc"]
+  y_d_c <- sumforConsumption(model, model$DomesticFinalDemand)
+  y_d_e <- sumDemandCols(model$DomesticFinalDemand, export_code)
   y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
-  y_p <- y_dc + y_e + y_d_delta
-  return(y_p)
+  y_d_p <- y_d_c + y_d_e + y_d_delta
+  return(y_d_p)
 }
 
 #'Prepares a demand vector representing consumption
