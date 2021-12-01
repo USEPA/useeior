@@ -10,8 +10,6 @@ DemandVectorFunctionRegistry$Production$Domestic <- "prepareDomesticProductionDe
 DemandVectorFunctionRegistry$Consumption$Complete <- "prepareConsumptionDemand"
 DemandVectorFunctionRegistry$Consumption$Domestic <- "prepareDomesticConsumptionDemand"
 DemandVectorFunctionRegistry$Consumption$Household <- "prepareHouseholdDemand"
-# Import
-DemandVectorFunctionRegistry$Import$Complete <- "prepareImportDemand"
 
 #'Sums across sectors for a given set of codes/cols in a given final demand df
 #'@param Y, a model Demand df 
