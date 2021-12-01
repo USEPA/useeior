@@ -42,12 +42,10 @@ constructEEIOMatrices <- function(model) {
     DomesticFinalDemand_df <- model$DomesticFinalDemand
   }
   model$U <- as.matrix(dplyr::bind_rows(cbind(model$UseTransactions,
-                                              FinalDemand_df,
-                                              model$InternationalTradeAdjustment),
+                                              FinalDemand_df),
                                         model$UseValueAdded)) # Use
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
-                                                DomesticFinalDemand_df,
-                                                model$InternationalTradeAdjustment),
+                                                DomesticFinalDemand_df),
                                           model$UseValueAdded)) # DomesticUse
   colnames(model$U)[which(colnames(model$U)=="model$InternationalTradeAdjustment")] <- model$InternationalTradeAdjustmentMeta$Code_Loc
   colnames(model$U_d) <- colnames(model$U)
@@ -58,6 +56,7 @@ constructEEIOMatrices <- function(model) {
   model$W <- as.matrix(model$UseValueAdded)
   model$q <- model$CommodityOutput
   model$x <- model$IndustryOutput
+  model$mu <- model$InternationalTradeAdjustment
   if(model$specs$CommodityorIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements)...")
     model$A <- model$U_n %*% model$V_n
