@@ -259,19 +259,6 @@ sectors |       |
 
 The related `L_d` matrix provides direct + indirect sector inputs per dollar output that are only from the US.
 
-#### B
-The satellite matrix `B` is a `flow x sector` matrix and contains in
-each column `i` the amount of a flow given in the reference
-units of the respective flow per 1 USD output from sector `i`:
-
-```
-       sectors
-      +-------+
-flows |       |
-      |     B |
-      +-------+
-```
-
 #### C
 In the matrix `C`, each column `k` contains the characterization factors of
 the different indicators related to one reference unit of flow `k`:
@@ -309,6 +296,19 @@ flows |       |
 
 ### Model Result Matrices
 
+
+#### B
+The satellite matrix `B` is a `flow x sector` matrix and contains in
+each column `i` the amount of a flow given in the reference
+units of the respective flow per 1 USD output from sector `i`:
+
+```
+       sectors
+      +-------+
+flows |       |
+      |     B |
+      +-------+
+```
 
 #### D
 The matrix `D` contains in each column `i` the direct impact result per USD output from sector `i`:
