@@ -2,7 +2,7 @@
 % Please edit documentation in R/LoadDemandVectors.R
 \name{loadDemandVectors}
 \alias{loadDemandVectors}
-\title{Adds demand vectors and metadata based on model specs to model object}
+\title{Adds demand vectors and metadata based on useeior defaults and model specs to model object}
 \usage{
 loadDemandVectors(model)
 }
@@ -10,8 +10,8 @@ loadDemandVectors(model)
 \item{model}{A model list object with the specs object listed}
 }
 \value{
-model with a list of demand vectors and a meta file
+model with a list of demand vectors and a meta file stored appended as model$DemandVectors
 }
 \description{
-Adds demand vectors and metadata based on model specs to model object
+Adds demand vectors and metadata based on useeior defaults and model specs to model object
 }
