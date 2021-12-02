@@ -55,4 +55,5 @@ Indicators:
         Primary: TRUE
 
 DemandVectors:
+    DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
 # Additional demand vectors beyond useeior defaults
