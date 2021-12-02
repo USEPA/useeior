@@ -22,33 +22,16 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   E <- as.matrix(E[rownames(B), colnames(B)])
   
   # Adjust E and B_chi if model is commodity-based
-  # Calculate scaling factor c
   if (model$specs$CommodityorIndustryType=="Commodity") {
     #transform E with commodity mix to put in commodity form
     E <- t(model$C_m %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
     B_chi <- B_chi %*% model$V_n
     #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
-    if (use_domestic) {
-      f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-      y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
-      c <- getScalingVector(model$L_d, y)
-    } else {
-      f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-      y <- as.matrix(formatDemandVector(rowSums(f), model$L))
-      c <- getScalingVector(model$L, y)
-    }
-  } else {
-    if (use_domestic) {
-      f <- model$DemandVectors$vectors$`2012_US_Production_Domestic`
-      y <- as.matrix(formatDemandVector(f, model$L_d))
-      c <- getScalingVector(model$L_d, y)
-    } else {
-      f <- model$DemandVectors$vectors$`2012_US_Production_Complete` + model$DemandVectors$vectors$`2012_US_Import_Complete`
-      y <- as.matrix(formatDemandVector(f, model$L))
-      c <- getScalingVector(model$L, y)
-    }
   }
+
+  # Calculate scaling factor c=Ly
+  c <- calculateProductofLeontiefAndProductionDemand(model, use_domestic)
   
   #LCI = B dot Chi %*% c
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
@@ -63,6 +46,23 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   return(validation)
 }
 
+#' Calculate scaling vector with appropriate production demand vector
+#'@param model, EEIOmodel object completely built
+#'@param use_domestic, a logical value indicating whether to use domestic demand vector
+#'@return c, a numeric vector with total $ values for each sector in model
+calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) {
+  if (use_domestic) {
+    f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[1]]
+    y <- as.matrix(formatDemandVector(f, model$L_d))
+    c <- getScalingVector(model$L_d, y)
+  } else {
+    f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[1]]
+    y <- as.matrix(formatDemandVector(f, model$L))
+    c <- getScalingVector(model$L, y)
+  }
+  return(c)  
+}
+
 #'Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
 #'Uses the model$FinalDemand and model$L
 #'Works for the domestic model with the equivalent tables
@@ -75,29 +75,12 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
   # Generate output and scaling vector
   if(model$specs$CommodityorIndustryType == "Commodity") {
     x <- model$q
-    
-    if (use_domestic) {
-      f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-      y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
-      c <- getScalingVector(model$L_d, y)
-    } else {
-      f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-      y <- as.matrix(formatDemandVector(rowSums(f), model$L))
-      c <- getScalingVector(model$L, y)
-    }
   } else {
     x <- model$x
-    
-    if (use_domestic) {
-      f <- model$DemandVectors$vectors$`2012_US_Production_Domestic`
-      y <- as.matrix(formatDemandVector(f, model$L_d))
-      c <- getScalingVector(model$L_d, y)
-    } else {
-      f <- model$DemandVectors$vectors$`2012_US_Production_Complete` + model$DemandVectors$vectors$`2012_US_Import_Complete`
-      y <- as.matrix(formatDemandVector(f, model$L))
-      c <- getScalingVector(model$L, y)
-    }
   }
+  # Calculate scaling factor c=Ly
+  c <- calculateProductofLeontiefAndProductionDemand(model, use_domestic)
+  
   # Row names should be identical
   if (!identical(rownames(c), names(x))) {
     stop("Sectors not aligned in model ouput variable and calculation result")
@@ -120,8 +103,7 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   q <- model$q
   x <- rowSums(model$U_d[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
-    model$DemandVectors$vectors[[paste(model$specs$DemandVectors$Production[c("Year", "Location", "Type", "System")],
-                                       collapse = "_")]]
+    model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[1]]
   # Row names should be identical
   if (!identical(names(q), names(x))) {
     stop("Sectors not aligned in model ouput variable and calculation result")
