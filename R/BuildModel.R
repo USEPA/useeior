@@ -53,7 +53,6 @@ constructEEIOMatrices <- function(model) {
                                  function(x) ifelse(is.na(x), 0, x))
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
-  model$W <- as.matrix(model$UseValueAdded)
   model$q <- model$CommodityOutput
   model$x <- model$IndustryOutput
   model$mu <- model$InternationalTradeAdjustment
@@ -117,13 +116,13 @@ constructEEIOMatrices <- function(model) {
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
                      "InternationalTradeAdjustment", "CommodityOutput", "IndustryOutput",
-                     "U_n","U_d_n","W")
+                     "U_n", "U_d_n")
   if (model$specs$CommodityorIndustryType=="Industry") {
     mat_to_remove <- c(mat_to_remove,
                        c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity",
                          "InternationalTradeAdjustmentbyCommodity"))
   }
-  model <- within(model, rm(list=mat_to_remove))
+  model <- within(model, rm(list = mat_to_remove))
   
   logging::loginfo("Model build complete.")
   return(model)
