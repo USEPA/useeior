@@ -8,7 +8,7 @@ loadDemandVectors <- function(model) {
   meta <- loadDefaultDemandVectorMeta(model)
   
   specs <- model$specs$DemandVectors
-  for (v in names(specs)) {
+  for (v in setdiff(names(specs), "DefaultDemand")) {
     # Populate metadata
     i <- specs[[v]]
     i["Name"] <- v
@@ -45,21 +45,16 @@ loadDemandVectors <- function(model) {
 #' @param model An EEIO model that has been initialized
 #' @return a data frame of metadata with cols Type, System, Name, Year, Location and ID with rows for each default
 loadDefaultDemandVectorMeta <- function(model) {
-  meta <- data.frame(Type=character(),
-                     System=character(),
-                     Name=character(),
-                     Year=character(),
-                     Location=character(),
-                     ID=character())
-  demands <- utils::read.table(system.file("extdata", "default_demand_vectors.csv", package = "useeior"),
-                    sep = ",", header = TRUE, stringsAsFactors = FALSE)
-  for (row in 1:nrow(demands)) {
-    i <- demands[row,]
-    i["Name"] <- paste0(i$Type,"_",i$System) 
+  meta <- data.frame()
+  specs <- getConfiguration("DefaultDemandVectors", "demand")
+  for (v in names(specs)) {
+    # Populate metadata
+    i <- specs[[v]]
+    i["Name"] <- v
     i["Year"] <- model$specs$IOYear
     i["Location"] <- model$specs$ModelRegionAcronyms[1]
     i["ID"] <- createDemandID(i)
-    meta <- rbind(meta,data.frame(i, stringsAsFactors = FALSE) )
+    meta <- rbind(meta, as.data.frame(i, stringsAsFactors = FALSE))
   }
   return(meta)
 }
