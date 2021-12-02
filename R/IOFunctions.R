@@ -167,7 +167,6 @@ calculateLeontiefInverse <- function(A) {
   return(L)
 }
 
-
 #' Generate domestic Use table by adjusting Use table based on Import matrix.
 #' @param Use, dataframe of a Use table
 #' @param specs, list of model specifications
@@ -182,27 +181,35 @@ generateDomesticUse <- function(Use, specs) {
     # Aggregate Import from Summary to Sector
     Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", specs))
   }
-  # Sort rows and columns in Import to match those in Use
-  Import <- Import[rownames(Use), colnames(Use)]
-  # Define Export and Import codes
-  ExportCode <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Export")
-  ImportCode <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")
-  # Calculate ImportCost.
-  # The imports column in the Import matrix is in foreign port value.
-  # But in the Use table it is in domestic port value.
-  # domestic port value = foreign port value + value of all transportation and insurance services to import + customs duties
-  # See documentation of the Import matrix (https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2019.xlsx)
-  # So, ImportCost <- Use$Imports - Import$Imports
-  ImportCost <- Use[, ImportCode] - Import[, ImportCode]
-  # Calculate row_sum of Use, except for Export and Import, for allocating ImportCost
-  row_sum <- rowSums(Use) - (Use[, ExportCode] + Use[, ImportCode])
-  # Calculate allocation ratios
-  ratio <- sweep(Use, 1, FUN = "/", row_sum)
-  ratio[is.na(ratio)] <- 0
-  # Subtract Import from Use, then allocate ImportCost to each Industry (column), except for Export and Import
-  DomesticUse <- Use - Import + sweep(ratio, 1, FUN = "*", ImportCost)
-  # Adjust Export and Import columns
-  DomesticUse[, ExportCode] <- Use[, ExportCode]
-  DomesticUse[, ImportCode] <- 0
+  # Subtract Import from Use
+  DomesticUse <- Use - Import[rownames(Use), colnames(Use)]
   return(DomesticUse)
+}
+
+#' Generate international trade adjustment vector from Use and Import matrix.
+#' @param Use, dataframe of a Use table
+#' @param specs, list of model specifications
+#' @return An international trade adjustment vector with names as commodity codes
+generateInternationalTradeAdjustmentVector <- function(Use, specs) {
+  # Load Import matrix
+  if (specs$BaseIOLevel!="Sector") {
+    Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+  } else {
+    # Load Summary level Import matrix
+    Import <- get(paste("Summary_Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+    # Aggregate Import from Summary to Sector
+    Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", specs))
+  }
+  # Define Import code
+  ImportCode <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")
+  # Calculate InternationalTradeAdjustment
+  # In the Import matrix, the imports column is in domestic (US) port value.
+  # But in the Use table, it is in foreign port value.
+  # domestic port value = foreign port value + value of all transportation and insurance services to import + customs duties
+  # See documentation of the Import matrix (https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx)
+  # So, InternationalTradeAdjustment <- Use$Imports - Import$Imports
+  # InternationalTradeAdjustment is essentially 'value of all transportation and insurance services to import' and 'customs duties'
+  InternationalTradeAdjustment <- Use[, ImportCode] - Import[rownames(Use), ImportCode]
+  names(InternationalTradeAdjustment) <- rownames(Use)
+  return(InternationalTradeAdjustment)
 }

@@ -43,6 +43,7 @@ aggregateModel <- function (model){
       model$Commodities <- removeRowsFromList(model$Commodities, comIndecesToAggregate)
       model$MultiYearCommodityCPI <- aggregateMultiYearCPI(model, mainIndIndex, indIndecesToAggregate, "Commodity")
       model$MultiYearIndustryOutput <- aggregateMultiYearOutput(model$MultiYearIndustryOutput, mainComIndex, comIndecesToAggregate)
+      #model$ImportCosts <- aggregateImportCosts(model$Commodities, comIndecesToAggregate) #todo
     }
     
     model <- calculateIndustryCommodityOutput(model)

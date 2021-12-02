@@ -47,6 +47,8 @@ constructEEIOMatrices <- function(model) {
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
                                                 DomesticFinalDemand_df),
                                           model$UseValueAdded)) # DomesticUse
+  colnames(model$U)[which(colnames(model$U)=="model$InternationalTradeAdjustment")] <- model$InternationalTradeAdjustmentMeta$Code_Loc
+  colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
@@ -54,6 +56,7 @@ constructEEIOMatrices <- function(model) {
   model$W <- as.matrix(model$UseValueAdded)
   model$q <- model$CommodityOutput
   model$x <- model$IndustryOutput
+  model$mu <- model$InternationalTradeAdjustment
   if(model$specs$CommodityorIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements)...")
     model$A <- model$U_n %*% model$V_n
@@ -112,10 +115,13 @@ constructEEIOMatrices <- function(model) {
   
   #Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                     "UseValueAdded", "FinalDemand", "DomesticFinalDemand","CommodityOutput", "IndustryOutput",
+                     "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
+                     "InternationalTradeAdjustment", "CommodityOutput", "IndustryOutput",
                      "U_n","U_d_n","W")
   if (model$specs$CommodityorIndustryType=="Industry") {
-    mat_to_remove <- append(mat_to_remove,c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity"))
+    mat_to_remove <- c(mat_to_remove,
+                       c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity",
+                         "InternationalTradeAdjustmentbyCommodity"))
   }
   model <- within(model, rm(list=mat_to_remove))
   

@@ -70,6 +70,11 @@ loadNationalIOData <- function(model) {
   model$FinalDemandMeta$Code_Loc <- apply(cbind(model$FinalDemandMeta$Code, model$specs$ModelRegionAcronyms),
                                              1, FUN = joinStringswithSlashes)
   
+  # model$InternationalTradeAdjustmentMeta
+  model$InternationalTradeAdjustmentMeta <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import", ]
+  model$InternationalTradeAdjustmentMeta[, c("Code", "Code_Loc")] <- gsub("F050", "F051", model$InternationalTradeAdjustmentMeta[, c("Code", "Code_Loc")])
+  model$InternationalTradeAdjustmentMeta[, "Name"] <- "International Trad Adjustment"
+  
   # model$MarginSectors
   model$MarginSectors <- utils::stack(BEA[c("TransportationCodes", "WholesaleCodes", "RetailCodes")])
   model$MarginSectors[] <- lapply(model$MarginSectors, as.character)
@@ -90,6 +95,7 @@ loadNationalIOData <- function(model) {
   model$UseValueAdded <- BEA$UseValueAdded
   model$FinalDemand <- BEA$UseFinalDemand
   model$DomesticFinalDemand <- BEA$DomesticFinalDemand
+  model$InternationalTradeAdjustment <- BEA$InternationalTradeAdjustment
   ## Modify row and column names in the IO tables
   # Use model$Industries
   rownames(model$MakeTransactions) <- colnames(model$UseTransactions) <- colnames(model$DomesticUseTransactions) <-
@@ -116,13 +122,15 @@ loadNationalIOData <- function(model) {
   }
   model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
   
-  # Transform model FinalDemand and DomesticFinalDemand to by-industry form
+  # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
   if (model$specs$CommodityorIndustryType=="Industry") {
     # Keep the orignal FinalDemand (in by-commodity form)
     model$FinalDemandbyCommodity <- model$FinalDemand
     model$DomesticFinalDemandbyCommodity <- model$DomesticFinalDemand
-    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
-    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
+    model$InternationalTradeAdjustmentbyCommodity <- model$InternationalTradeAdjustment
+    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)
+    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)
+    model$InternationalTradeAdjustment <- transformFinalDemandwithMarketShares(model$InternationalTradeAdjustment, model)
   }
   
   # Add Margins table
@@ -171,6 +179,8 @@ loadBEAtables <- function(specs) {
   DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
   BEA$DomesticUseTransactions <- DomesticUse[, BEA$Industries]
   BEA$DomesticFinalDemand <- DomesticUse[, BEA$FinalDemandCodes]
+  # Generate Import Cost vector
+  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
   # Replace NA with 0 in IO tables
   if(specs$BaseIOSchema==2007){
     BEA$MakeTransactions[is.na(BEA$MakeTransactions)] <- 0
