@@ -8,7 +8,7 @@ for a given perspective and demand vector.}
 calculateEEIOModel(
   model,
   perspective,
-  demand = "Production",
+  demand = "CompleteProduction",
   use_domestic_requirements = FALSE
 )
 }
@@ -17,7 +17,7 @@ calculateEEIOModel(
 
 \item{perspective}{Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".}
 
-\item{demand}{A demand vector, can be name of a built-in model demand vector
+\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "CompleteProduction",
 or an actual demand vector with names as one or more model sectors and
 numeric values in USD with the same dollar year as model.}
 
