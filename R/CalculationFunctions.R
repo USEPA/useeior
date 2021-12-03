@@ -4,13 +4,14 @@
 #' for a given perspective and demand vector.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param perspective Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".
-#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "CompleteProduction",
+#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production",
 #' or an actual demand vector with names as one or more model sectors and
 #' numeric values in USD with the same dollar year as model.
-#' @param use_domestic_requirements A logical value: if TRUE, use domestic A_d; if FALSE, use A matrices.
+#' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
+#' if FALSE, use complete demand and L matrix.
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateEEIOModel <- function(model, perspective, demand = "CompleteProduction", use_domestic_requirements = FALSE) {
+calculateEEIOModel <- function(model, perspective, demand = "Production", use_domestic_requirements = FALSE) {
   result <- list()
   # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
   if (use_domestic_requirements) {
@@ -24,9 +25,12 @@ calculateEEIOModel <- function(model, perspective, demand = "CompleteProduction"
     #assume this is a model build-in demand 
     #try to load the model vector
     meta <- model$DemandVectors$meta
-    if (demand %in% meta$Name) {
+    if (demand %in% meta$Type) {
+      demand_name <- ifelse(use_domestic_requirements,
+                            paste0("Domestic", demand),
+                            paste0("Complete", demand))
       # Get vector name (ID) from the meta table
-      id <- meta[which(meta$Name==demand),"ID"]
+      id <- meta[which(meta$Name==demand_name),"ID"]
       d <- model$DemandVectors$vectors[[id]]
     } else {
       stop(paste0("'", demand, "' is not a valid demand vector name in model."))
