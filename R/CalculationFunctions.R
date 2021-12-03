@@ -88,7 +88,7 @@ getScalingVector <- function(L, demand) {
 #' SI1, Equation 8.
 calculateDirectPerspectiveLCI <- function(B, c) {
   m_d <- t(B %*% diag(as.vector(c), nrow(c)))
-  colnames(m_d) <- rownames(c)
+  rownames(m_d) <- rownames(c)
   return(m_d)
 }
 
@@ -119,7 +119,7 @@ calculateFinalPerspectiveLCI <- function(M, y) {
 #' SI1, Equation 8.
 calculateDirectPerspectiveLCIA <- function(B, C, c) {
   lcia_d <- t(C %*% (B %*% diag(as.vector(c), nrow(c))))
-  colnames(lcia_d) <- rownames(c)
+  rownames(lcia_d) <- rownames(c)
   return(lcia_d)
 }
 
