@@ -3,7 +3,7 @@
 
 `useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models). The [model object](format_specs/Model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecification.md) and optional [disaggregation specification](format_specs/DisaggregationSpecification.md). [Model specifications](inst/extdata/modelspecs) and associated [disaggregation specifications](inst/extdata/disaggspecs) for EPA-validated models are included in the package. The package offers various functions for validating, calculating, visualizing, and writing out models and/or their components. `useeior` is a core component of the [USEEIO Modeling Framework](https://github.com/USEPA/useeio).
 
-`useeior` is in a beta development state. See [Releases](https://github.com/USEPA/useeior/releases) for working and tested versions.
+`useeior` is in a stable development state. Users intending to use the package for production purposes and applications should use [Releases](https://github.com/USEPA/useeior/releases).
 
 See the following sections for installation and basic usage of `useeior`. See [Wiki](https://github.com/USEPA/useeior/wiki) for advanced uses, details about built-in data and metadata and how to contribute to `useeior`.
 
@@ -43,7 +43,7 @@ This generates a complete USEEIO model with components described in the [Model](
 
 ### Adjust Price Year and Type of Model Results
 
-Adjust model results (e.g. `N` matrix) to user-specified price year (e.g. `2018`) and type (producer's or purchaser's)
+Adjust model results (e.g. `N` matrix) to user-specified price year (e.g. `2018`) and type (producer's or purchaser's).
 
 ```
 N_adj <- useeior::adjustResultMatrixPrice("N", 
@@ -54,7 +54,7 @@ N_adj <- useeior::adjustResultMatrixPrice("N",
 
 ### Calculate Model LCI and LCIA
 
-Calculate model life cycle inventory (LCI) and life cycle impact assessment (LCIA) results under user-specified perspective, demand vector and direct requirements
+Calculate model life cycle inventory (LCI) and life cycle impact assessment (LCIA) results under user-specified perspective, demand vector (from DemandVectors in the model object or a user-provided vector) and a selected direct requirements matrix (complete or domestic).
 
 ```
 result <- useeior::calculateEEIOModel(model,
@@ -65,12 +65,12 @@ result <- useeior::calculateEEIOModel(model,
 
 ### Write Model Results to File
 
-Write selected model matrices, demand vectors, and metadata as one `.xlsx` file to output folder
+Write selected model matrices, demand vectors, and metadata as one `.xlsx` file to a given output folder.
 ```
 useeior::writeModeltoXLSX(model, outputfolder)
 ```
 
-Write model matrices as `.csv` files to output folder
+Write model matrices as `.csv` files to a given output folder.
 ```
 useeior::writeModelMatrices(model, to_format = "csv", outputfolder)
 ```
@@ -79,7 +79,7 @@ useeior::writeModelMatrices(model, to_format = "csv", outputfolder)
 
 Once a model is built, model results can be validated, exported, and visualized for further applications.
 
-Complete list of available functions for calculating, validating, exporting and visualizing model can be found [here](https://github.com/USEPA/useeior/wiki/Using-useeior#calculate-validate-export-visualize-model) in Wiki.
+A complete list of available functions for calculating, validating, exporting and visualizing model can be found [here](https://github.com/USEPA/useeior/wiki/Using-useeior#calculate-validate-export-visualize-model) in the Wiki.
 
 ## Disclaimer
 
