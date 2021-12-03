@@ -54,7 +54,7 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
     result$LCI_d <- calculateDirectPerspectiveLCI(model$B, c)
     # Calculate DirectPerspectiveLCIA (transposed u_d with total impacts in form of sectorximpact categories)
     logging::loginfo("Calculating Direct Perspective LCIA...")
-    result$LCIA_d <- calculateDirectPerspectiveLCIA(model$B, model$C, c)
+    result$LCIA_d <- calculateDirectPerspectiveLCIA(model$D, c)
   } else if (perspective=="FINAL") {
     # Calculate FinalPerspectiveLCI 
     logging::loginfo("Calculating Final Perspective LCI...")
@@ -113,16 +113,15 @@ calculateFinalPerspectiveLCI <- function(M, y) {
 }
 
 #' Multiply the C matrix and the product of B matrix and scaling vector c.
-#' @param B Marginal impact per unit of the environmental flows.
-#' @param C LCIA indicators.
+#' @param D Direct impact per unit of the environmental flows.
 #' @param c Scaling vector.
 #' @return A transposed matrix with total impacts in form of sector x impact categories.
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 8.
-calculateDirectPerspectiveLCIA <- function(B, C, c) {
-  lcia_d <- t(C %*% (B %*% diag(as.vector(c), nrow(c))))
+calculateDirectPerspectiveLCIA <- function(D, c) {
+  lcia_d <- t(D %*% diag(as.vector(c), nrow(c)))
   rownames(lcia_d) <- rownames(c)
   return(lcia_d)
 }
