@@ -43,7 +43,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | A_d | matrix | component matrix | [The domestic direct requirements matrix](#A) |
 | L | matrix | component matrix | [The Leontief inverse matrix](#L) |
 | L_d | matrix | component matrix | [The domestic Leontief inverse matrix](#L) |
-| B | matrix | result matrix | [The direct emissions and resource use matrix](#B) |
+| B | matrix | component matrix | [The direct emissions and resource use matrix](#B) |
 | C | matrix | component matrix | [The characterization factor matrix](#C) |
 | D | matrix | result matrix | [The direct impact matrix](#D) |
 | M | matrix | result matrix | [The total emissions and resource use matrix](#M) |
@@ -267,6 +267,19 @@ sectors |       |
 
 The related `L_d` matrix provides direct + indirect sector inputs per dollar output that are only from the US.
 
+#### B
+The satellite matrix `B` is a `flow x sector` matrix and contains in
+each column `i` the amount of a flow given in the reference
+units of the respective flow per 1 USD output from sector `i`:
+
+```
+       sectors
+      +-------+
+flows |       |
+      |     B |
+      +-------+
+```
+
 #### C
 In the matrix `C`, each column `k` contains the characterization factors of
 the different indicators related to one reference unit of flow `k`:
@@ -304,19 +317,6 @@ flows |       |
 
 ### Model Result Matrices
 
-
-#### B
-The satellite matrix `B` is a `flow x sector` matrix and contains in
-each column `i` the amount of a flow given in the reference
-units of the respective flow per 1 USD output from sector `i`:
-
-```
-       sectors
-      +-------+
-flows |       |
-      |     B |
-      +-------+
-```
 
 #### D
 The matrix `D` contains in each column `i` the direct impact result per USD output from sector `i`:
