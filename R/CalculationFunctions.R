@@ -87,9 +87,8 @@ getScalingVector <- function(L, demand) {
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 8.
 calculateDirectPerspectiveLCI <- function(B, c) {
-  m_d <- B %*% diag(as.vector(c), nrow(c))
+  m_d <- t(B %*% diag(as.vector(c), nrow(c)))
   colnames(m_d) <- rownames(c)
-  m_d <- t(m_d)
   return(m_d)
 }
 
@@ -103,8 +102,7 @@ calculateDirectPerspectiveLCI <- function(B, c) {
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 8.
 calculateFinalPerspectiveLCI <- function(M, y) {
-  lci_f <-  M %*% diag(as.vector(y))
-  lci_f <- t(lci_f)
+  lci_f <- t(M %*% diag(as.vector(y)))
   colnames(lci_f) <- rownames(M)
   rownames(lci_f) <- colnames(M)
   return(lci_f)
@@ -120,9 +118,8 @@ calculateFinalPerspectiveLCI <- function(M, y) {
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 8.
 calculateDirectPerspectiveLCIA <- function(B, C, c) {
-  lcia_d <-  C %*% (B %*% diag(as.vector(c), nrow(c)))
+  lcia_d <- t(C %*% (B %*% diag(as.vector(c), nrow(c))))
   colnames(lcia_d) <- rownames(c)
-  lcia_d <- t(lcia_d)
   return(lcia_d)
 }
 
@@ -136,8 +133,7 @@ calculateDirectPerspectiveLCIA <- function(B, C, c) {
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 8.
 calculateFinalPerspectiveLCIA <- function(N, y) {
-  lcia_f <-  N %*% diag(as.vector(y))
-  lcia_f <- t(lcia_f)
+  lcia_f <- t(N %*% diag(as.vector(y)))
   colnames(lcia_f) <- rownames(N)
   rownames(lcia_f) <- colnames(N)
   return(lcia_f)
