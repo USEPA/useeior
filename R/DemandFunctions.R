@@ -33,7 +33,7 @@ sumDemandCols <- function(Y,codes) {
 #'@return A named vector with model sectors and demand amounts
 sumforConsumption <- function(model, Y) {
   codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household", "Investment", "Government"),
-                                    "Code_Loc"]
+                                 "Code_Loc"]
   y_c <- sumDemandCols(Y, codes)
   return (y_c) 
 }
@@ -57,7 +57,7 @@ prepareProductionDemand <- function(model) {
 }
 
 #'Prepares a demand vector representing domestic production
-#'Formula for production vector: y_p <- y_dc + y_e + y_d_delta
+#'Formula for production vector: y_p <- y_dc + y_e + y_d_delta + mu
 #'@param model, a model
 #'@return A named vector with demand
 prepareDomesticProductionDemand <- function(model) {
@@ -66,7 +66,7 @@ prepareDomesticProductionDemand <- function(model) {
   y_d_c <- sumforConsumption(model, model$DomesticFinalDemand)
   y_d_e <- sumDemandCols(model$DomesticFinalDemand, export_code)
   y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
-  y_d_p <- y_d_c + y_d_e + y_d_delta
+  y_d_p <- y_d_c + y_d_e + y_d_delta + model$InternationalTradeAdjustment
   return(y_d_p)
 }
 

@@ -3,7 +3,7 @@
 \name{prepareDomesticProductionDemand}
 \alias{prepareDomesticProductionDemand}
 \title{Prepares a demand vector representing domestic production
-Formula for production vector: y_p <- y_dc + y_e + y_d_delta}
+Formula for production vector: y_p <- y_dc + y_e + y_d_delta + mu}
 \usage{
 prepareDomesticProductionDemand(model)
 }
@@ -15,5 +15,5 @@ A named vector with demand
 }
 \description{
 Prepares a demand vector representing domestic production
-Formula for production vector: y_p <- y_dc + y_e + y_d_delta
+Formula for production vector: y_p <- y_dc + y_e + y_d_delta + mu
 }
