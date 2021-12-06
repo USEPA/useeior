@@ -27,7 +27,6 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
     E <- t(model$C_m %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
     B_chi <- B_chi %*% model$V_n
-    #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
   }
 
   # Calculate scaling factor c=Ly
