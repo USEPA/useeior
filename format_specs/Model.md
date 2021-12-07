@@ -69,7 +69,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | BEA_Sector | str | Code used at the BEA Sector level |
 | BEA_Summary | str | Code used at the BEA Summary level |
 | BEA_Detail | str | Code used at the BEA Detail level |
-| USEEIO | str | Code used at the model level of detail |
+| USEEIO | str | Codes used by the model |
 
 <sup>2</sup> 7-10 digit NAICS code exists for manufacturing and mining industries.
 
@@ -131,14 +131,14 @@ Year | int | Year of data, e.g. `2010`
 MetaSources | str | The major data source(s) value is based on.
 
 #### flows
-The unique flows found across all satellite tables with fields sourced from the [Federal LCA Commons Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md)
+The unique flows found across all satellite tables with fields sourced from the [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) format of the Federal LCA Commons Elementary Flow List.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Flowable | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
-| Context | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
-| Unit | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
-| FlowUUID | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Flowable | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Context | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Unit | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| FlowUUID | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 
 ### Indicators
 The Indicators object contains meta and factors dataframes.
@@ -148,12 +148,12 @@ The Indicators object contains meta and factors dataframes.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Name | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
-| Code | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
-| Group | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
-| Unit | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
-| SimpleUnit | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
-| SimpleName | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| Name | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| Code | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| Group | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| Unit | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| SimpleUnit | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| SimpleName | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
 
 #### factors
  A data table of the characterization factors for indicators included in the model
@@ -161,9 +161,9 @@ The Indicators object contains meta and factors dataframes.
 | Item | Type | Description |
 | --- | --- | --------- |
 | Indicator | str | Matches the [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) of the indicator |
-| Flowable | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
-| Context | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
-| Unit | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Flowable | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Context | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Unit | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 | Amount | numeric | Characterization factor linking one unit of the flow to the indicator |
 
 ## DemandVectors
@@ -178,12 +178,12 @@ The DemandVector object contains the demand vectors and a metadata table.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Type | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
-| Year | int | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
-| System | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
-| Location | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
-| Name | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
-| ID | str | Year_Location_Type_System |
+| Type | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| Year | int | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| System | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| Location | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| Name | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| ID | str | A unique ID for that demand vector|
 
 ### Model Component Matrices
 
@@ -292,8 +292,8 @@ indicators |       |
            +-------+
 ```
 
-#### Rho
-`Rho` is a `sector x year` matrix and contains in each column `y` the price year ratios.
+#### Rho, 
+`Rho` is a `sector x year` matrix and contains in each column `y` the price year ratios. Rho ratios are in the form of model IO_year/year (where year is the column).
 
 ```
         years
@@ -305,7 +305,7 @@ flows |       |
 
 #### Phi
 
-`Phi` is also a `sector x year` matrix and contains in each column `y` producer-to-purchaser price ratios.
+`Phi` is also a `sector x year` matrix and contains in each column `y` producer-to-purchaser price ratios. Phi ratios are year-specific ratios in the form of value in producer price/value in purchaser price.
 
 ```
         years
