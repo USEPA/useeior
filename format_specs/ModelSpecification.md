@@ -58,7 +58,15 @@ Model specifications are assigned in a yml file based on the parameters shown be
 
 
 ## Demand Vector Specifications
-Each demand vector list is given a unique `Name`
+Default demand vectors (`CompleteProduction`, `DomesticProduction`, `CompleteConsumption`, `DomesticConsumption`)
+| Item | Type | Required? | Description |
+| --- | --- | --- | --------- |
+| Type | str | Y |  |
+| Year | int | N | Use model IO data year |
+| System | str | Y |  |
+| Location | str | N | Use model region acronym |
+
+Customizable demand vector list is given a unique `Name`, such as `HouseholdConsumption`
 | Item | Type | Required? | Description |
 | --- | --- | --- | --------- |
 | Type | str | Y |  |
