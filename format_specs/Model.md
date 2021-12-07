@@ -25,6 +25,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | Margins | data.frame | supporting data | [The final consumer margins table](#margins) |
 | MultiYearIndustryCPI | data.frame | supporting data | Multi-year industry CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityCPI | data.frame |   supporting data | Multi-year commodity CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
+| AggregationSpecs | list | metadata | Specifications for one or more aggregations
 | DisaggregationSpecs | list | metadata | Specifications for one or more [disaggregation](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecification.md) |
 | SatelliteTables | list | component data | [Satellite tables](#satellitetables) |
 | Indicators | list | component data | [Indicators](#indicators) |
