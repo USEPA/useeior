@@ -7,7 +7,7 @@
 generateCbSfromTbSandModel(model)
 }
 \arguments{
-\item{model, }{a model with econ and flow data loaded}
+\item{model}{An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded}
 }
 \value{
 A dataframe of Coefficients-by-Sector (CbS) table

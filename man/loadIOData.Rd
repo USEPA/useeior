@@ -7,7 +7,7 @@
 loadIOData(model, configpaths = NULL)
 }
 \arguments{
-\item{model}{A list of model specs}
+\item{model}{An EEIO model object with model specs loaded}
 
 \item{configpaths}{str vector, paths (including file name) of model configuration file
 and optional agg/disagg configuration file(s). If NULL, built-in config files are used.}

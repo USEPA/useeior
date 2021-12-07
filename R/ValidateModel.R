@@ -1,11 +1,11 @@
 # Validation functions
 
-#'Compares the total flows against the model flow totals result calculation with the total demand
-#'@param model, EEIOmodel object completely built
-#'@param use_domestic, a logical value indicating whether to use domestic demand vector
-#'@param tolerance, a numeric value, tolerance level of the comparison
-#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#'@export
+#' Compares the total flows against the model flow totals result calculation with the total demand
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param use_domestic, a logical value indicating whether to use domestic demand vector
+#' @param tolerance, a numeric value, tolerance level of the comparison
+#' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
+#' @export
 compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) {
   # Prepare left side of the equation
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
@@ -46,9 +46,9 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 }
 
 #' Calculate scaling vector with appropriate production demand vector
-#'@param model, EEIOmodel object completely built
-#'@param use_domestic, a logical value indicating whether to use domestic demand vector
-#'@return c, a numeric vector with total $ values for each sector in model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param use_domestic, a logical value indicating whether to use domestic demand vector
+#' @return c, a numeric vector with total $ values for each sector in model
 calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) {
   if (use_domestic) {
     f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[1]]
@@ -62,14 +62,14 @@ calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) 
   return(c)  
 }
 
-#'Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
-#'Uses the model$FinalDemand and model$L
-#'Works for the domestic model with the equivalent tables
-#'@param model, EEIOmodel object completely built
-#'@param use_domestic, a logical value indicating whether to use domestic demand vector
-#'@param tolerance, a numeric value, tolerance level of the comparison
-#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#'@export
+#' Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
+#' Uses the model$FinalDemand and model$L
+#' Works for the domestic model with the equivalent tables
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param use_domestic, a logical value indicating whether to use domestic demand vector
+#' @param tolerance, a numeric value, tolerance level of the comparison
+#' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
+#' @export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   # Generate output and scaling vector
   if(model$specs$CommodityorIndustryType == "Commodity") {
@@ -94,11 +94,11 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
   return(validation)
 }
 
-#'Compares the total commodity output against the summation of model domestic Use and production demand
-#'@param model, EEIOmodel object completely built
-#'@param tolerance, a numeric value, tolerance level of the comparison
-#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#'@export 
+#' Compares the total commodity output against the summation of model domestic Use and production demand
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param tolerance, a numeric value, tolerance level of the comparison
+#' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
+#' @export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   q <- model$q
   x <- rowSums(model$U_d[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
@@ -118,12 +118,12 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
   return(validation)
 }
 
-#'Compares the total commodity output multiplied by Market Share matrix and transformed by commodity CPI
-#'against the total industry output transformed by industry CPI
-#'@param model, EEIOmodel object completely built
-#'@param tolerance, a numeric value, tolerance level of the comparison
-#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#'@export 
+#' Compares the total commodity output multiplied by Market Share matrix and transformed by commodity CPI
+#' against the total industry output transformed by industry CPI
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param tolerance, a numeric value, tolerance level of the comparison
+#' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
+#' @export 
 compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- function(model, tolerance=0.05) {
   commodityCPI_ratio <- model$MultiYearCommodityCPI[, "2017"]/model$MultiYearCommodityCPI[, "2012"]
   commodityCPI_ratio[is.na(commodityCPI_ratio)] <- 1
@@ -144,15 +144,15 @@ compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- func
   return(validation)
 }
 
-#'Concatenate all satellite flows in model
-#'@param model, EEIOmodel object completely built
+#' Concatenate all satellite flows in model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 prepareEfromtbs <- function(model) {
   E <- standardizeandcastSatelliteTable(model$TbS,model)
   return(E)
 }
 
 #' Generate Chi matrix, i.e. ratios of model IO year commodity output over the output of the flow year in model IO year dollar.
-#' @param model A completely built EEIOmodel object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param output_type Either Commodity or Industry, default is Commodity
 #' @return Chi matrix contains ratios of model IO year commodity output over the output of the flow year in model IO year dollar.
 generateChiMatrix <- function(model, output_type = "Commodity") {
@@ -187,7 +187,7 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
 }
 
 #' Gets industry output from model Use and Make and checks if they are the same
-#' @param model, a built model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 compareIndustryOutputinMakeandUse <- function(model) {
   # Calculate Industry Output (x) from Make and Use tables
   x_make <-rowSums(model$V)

@@ -9,7 +9,7 @@ Domestic portion of national consumption: y_dc <- Y_dh + Y_dv + Y_dg}
 sumforConsumption(model, Y)
 }
 \arguments{
-\item{model, }{a model}
+\item{model}{An EEIO model object with model specs and IO tables loaded}
 
 \item{Y, }{a model Demand df.}
 }

@@ -7,7 +7,7 @@
 heatmapSectorRanking(model, matrix, indicators, sector_to_remove, N_sector)
 }
 \arguments{
-\item{model}{A complete EEIO model}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
 \item{matrix}{A matrix from model result}
 

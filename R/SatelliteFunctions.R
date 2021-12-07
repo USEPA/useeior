@@ -122,7 +122,7 @@ aggregateSatelliteTable <- function(sattable, from_level, model) {
 
 #' Collapse a totals by sector table so that each flow sector combination exists only once
 #' @param tbs totals by sector sourced from satellite table
-#' @param model A EEIO model with IOdata, and model specs
+#' @param model An EEIO model object with model specs and IO table loaded
 #' @return aggregated totals by sector
 collapseTBS <- function(tbs, model) {
   # Add in BEA industry names
@@ -167,7 +167,7 @@ collapseTBS <- function(tbs, model) {
 }
 
 #' Adds an indicator score to a totals by sector table. A short cut alternative to getting totals before model result
-#' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
+#' @param model A EEIO model with model specs, IO tables, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
 #' @param indicator_name The name of the indicator of interest from the model$Indicators$factors
 #' @return a totals_by_sector table with fields from the Indicator table "Code" and "Amount", and calculated "IndicatorScore" added
@@ -184,7 +184,7 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
 }
 
 #' Get value added from BEA input-output use table, convert to standard totals_by_sector format.
-#' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
+#' @param model A EEIO model with model specs and IO tables loaded
 #' @return A value-added totals_by_sector table with fields of standard totals_by_sector
 getValueAddedTotalsbySector <- function(model) {
   # Extract ValueAdded from Use table, add names

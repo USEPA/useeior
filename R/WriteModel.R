@@ -63,7 +63,7 @@ writeModelMatrices <- function(model, to_format, outputfolder) {
 }
 
 #' Write selected model matrices, demand vectors, and metadata as XLSX file to output folder
-#' @param model, any model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param outputfolder A directory to write model matrices and metadata as XLSX file out to
 #' @description Writes model matrices demand vectors, and metadata as XLSX file to output folder.
 #' @export
@@ -286,9 +286,9 @@ writeModelMetadata <- function(model, dirs) {
 }
 
 #'Create a unique hash identifier for a model
-#'@param model, any model object
-#'@return char string
-#'@export
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return char string
+#' @export
 generateModelIdentifier <- function(model) {
   id <- digest::digest(model, algo="sha256")
   return(id)
@@ -304,7 +304,7 @@ writeSessionInfotoFile <- function(path) {
 }
 
 #' Prepare sectorcrosswalk table for a model
-#' @param model, any model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return a data.frame, sectorcrosswalk table
 prepareModelSectorCrosswalk <- function(model) {
   crosswalk <- model$crosswalk

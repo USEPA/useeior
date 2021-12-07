@@ -8,10 +8,10 @@ and indicator tables.}
 constructEEIOMatrices(model)
 }
 \arguments{
-\item{model}{Model file loaded with IO tables, satellite tables, and indicator tables.}
+\item{model}{An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded}
 }
 \value{
-A list with EEIO matrices..
+A list with EEIO matrices.
 }
 \description{
 Construct EEIO matrices based on loaded IO tables, built satellite tables,

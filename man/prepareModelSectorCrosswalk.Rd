@@ -7,7 +7,7 @@
 prepareModelSectorCrosswalk(model)
 }
 \arguments{
-\item{model, }{any model object}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 }
 \value{
 a data.frame, sectorcrosswalk table

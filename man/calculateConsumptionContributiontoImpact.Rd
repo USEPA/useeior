@@ -9,7 +9,7 @@ calculateConsumptionContributiontoImpact(y, model, indicator)
 \arguments{
 \item{y, }{a model demand vector}
 
-\item{model, }{A complete EEIO Model object}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
 \item{indicator, }{str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential"}
 }

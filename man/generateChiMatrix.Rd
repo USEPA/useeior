@@ -7,7 +7,7 @@
 generateChiMatrix(model, output_type = "Commodity")
 }
 \arguments{
-\item{model}{A completely built EEIOmodel object}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
 \item{output_type}{Either Commodity or Industry, default is Commodity}
 }

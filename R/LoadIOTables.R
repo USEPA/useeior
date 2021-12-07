@@ -1,7 +1,7 @@
 # Functions for loading input-output tables
 
 #' Prepare economic components of an EEIO model.
-#' @param model A list of model specs
+#' @param model An EEIO model object with model specs loaded
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @return A list with EEIO model economic components.
@@ -212,7 +212,7 @@ loadBEAMakeorUseTable <- function (iolevel, makeoruse, year, redef){
 }
 
 #' Calculate industry and commodity output vectors from model components.
-#' @param model An EEIO model with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @return An EEIO model with industry and commodity output added
 calculateIndustryCommodityOutput <- function(model) {
   model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)

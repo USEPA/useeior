@@ -1,5 +1,5 @@
 #' Aggregate a model based on specified source file
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @return An aggregated model.
 aggregateModel <- function (model){
 
@@ -55,7 +55,7 @@ aggregateModel <- function (model){
 
 
 #' Obtain aggregation specs from input files
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of agg configuration file(s).
 #' If NULL, built-in config files are used.
 #' @return A model with the specified aggregation and disaggregation specs.
@@ -99,7 +99,7 @@ aggregateSectorsinTBS <- function (model, aggregationSpecs, sattable, sat){
 }
 
 #' Aggregate MultiYear CPI model objects
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param model An EEIO model object with model specs and IO tables loaded.
 #' @param mainIndex Index to aggregate the others to.
 #' @param indecesToAggregate List of indeces to aggregate.
 #' @param type String to designate either commodity or industry
@@ -137,7 +137,7 @@ aggregateMultiYearCPI <- function(model, mainIndex, indecesToAggregate, type){
 
 #TODO: rewrite this function to use matrix calculations when possible
 #' Aggregate the MakeTable based on specified source file
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded.
 #' @param aggregationSpecs Specifications for aggregation
 #' @return An aggregated MakeTable.
 aggregateMakeTable <- function(model, aggregationSpecs){
@@ -170,7 +170,7 @@ aggregateMakeTable <- function(model, aggregationSpecs){
 
 #TODO: rewrite this function to use matrix calculations when possible
 #' Aggregate the UseTable based on specified source file
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @param aggregationSpecs Specifications for aggregation
 #' @param domestic Boolean to indicate whether to aggregate the UseTransactions or DomesticUseTransactions table 
 #' @return An aggregated UseTransactions or DomesticUseTransactions Table.
@@ -249,7 +249,7 @@ aggregateVA <- function(model, aggregationSpecs){
 
 
 #' Aggregate a sector in a table
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @param mainSector  Sector to aggregate to (string)
 #' @param sectorToRemove Sector to be aggregated into mainSector, then removed from table (string)
 #' @param tableType String to designate either Make or Use table

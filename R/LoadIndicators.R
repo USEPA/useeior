@@ -1,7 +1,7 @@
 # Functions for loading and checking indicator data
 
 #' Loads data for all model indicators as listed in model specs
-#' @param model A model object with IO data loaded
+#' @param model A model object with model specs, IO tables, and satelilte tables loaded
 #' @return A model object with Indicators added
 loadandbuildIndicators <- function(model) {
    # Load model indicators
@@ -12,7 +12,7 @@ loadandbuildIndicators <- function(model) {
 }
 
 #' Load indicators and associated factors in a list based on model config.
-#' @param model A model object with IO tables and satellite tables loaded.
+#' @param model A model object with model specs, IO tables, and satellite tables loaded.
 #' @return A list with a dataframe for indicator meta and a dataframe for indicator factors.
 loadIndicators <- function(model) {
    logging::loginfo("Initializing model indicators...")

@@ -1,5 +1,5 @@
 #' Adds demand vectors and metadata based on useeior defaults and model specs to model object
-#' @param model A model list object with the specs object listed
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @return model with a list of demand vectors and a meta file stored appended as model$DemandVectors
 loadDemandVectors <- function(model) {
   logging::loginfo("Loading demand vectors ...")
@@ -40,10 +40,10 @@ loadDemandVectors <- function(model) {
   return(model)
 }
 
-#' Loads a package stored csv of demand vector meta for vectors to be created for every model with type and system specified
-#' This function adds additional year, location and IDs along with the type and system based on the model given
-#' @param model An EEIO model that has been initialized
-#' @return a data frame of metadata with cols Type, System, Name, Year, Location and ID with rows for each default
+#' Loads a package stored demand vector metadata (.yml) for vectors to be created for every model with type and system specified
+#' This function adds additional year, location and IDs along with the type and system based on the model specs.
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return a data frame of metadata with columns Type, System, Name, Year, Location and ID with rows for each default
 loadDefaultDemandVectorMeta <- function(model) {
   meta <- data.frame()
   specs <- getConfiguration("DefaultDemandVectors", "demand")

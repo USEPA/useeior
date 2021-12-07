@@ -166,7 +166,7 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
 }
 
 #' Heatmap showing coverage of satellite tables
-#' @param model A complete EEIO model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param form Form of sectors in satellite table, can be"Commodity" and "Industry".
 #' @export
 heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
@@ -218,7 +218,7 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
 }
 
 #' SMM tool like heatmap showing ranking of sectors
-#' @param model A complete EEIO model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param matrix A matrix from model result
 #' @param indicators A vector of indicators to plot
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
@@ -309,7 +309,7 @@ barplotFloworImpactFractionbyRegion <- function(R1_calc_result, Total_calc_resul
 ## Helper functions for plotting
 
 #' Uses VizualizationEssentials.yml to get a mapping of the to the BEA Sector Color scheme
-#' @param model A complete EEIO model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @return df with mapping with model BaseIOLevel codes to BEA Sector Codes, Names, and colors
 getBEASectorColorMapping <- function(model) {
   # Load VisualizationEssentials.yml and convert it to a data frame ColorLabelMapping

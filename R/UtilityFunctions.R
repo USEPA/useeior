@@ -340,9 +340,9 @@ writeDatatoRDA <- function(data, data_name) {
           list(as.name(data_name), overwrite = TRUE))
 }
 
-#'Create sector schema for a model
-#'@param model, any model object
-#'@return A string of sector schema for a model
+#' Create sector schema for a model
+#' @param model An EEIO model object with model specs loaded
+#' @return A string of sector schema for a model
 generateModelSectorSchema <- function(model) {
   SectorSchema <- paste(model$specs$IODataSource, 
                         model$specs$BaseIOLevel, sep = "_")

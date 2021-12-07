@@ -7,7 +7,7 @@
 loadIndicators(model)
 }
 \arguments{
-\item{model}{A model object with IO tables and satellite tables loaded.}
+\item{model}{A model object with model specs, IO tables, and satellite tables loaded.}
 }
 \value{
 A list with a dataframe for indicator meta and a dataframe for indicator factors.

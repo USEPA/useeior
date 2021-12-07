@@ -8,7 +8,7 @@ Uses model M matrix for flows and C matrix for indicator}
 calculateFlowContributiontoImpact(model, sector, indicator, domestic = FALSE)
 }
 \arguments{
-\item{model, }{A complete EEIO Model object}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
 \item{sector, }{str, index of a model sector for use in the M matrix, e.g. "221100/us"}
 

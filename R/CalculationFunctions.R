@@ -166,7 +166,7 @@ calculatePercentContributiontoImpact <- function (x,y) {
 
 #' Calculate the percent contribution of sectors to an N indicator result
 #' Uses model L matrix for total requirements and D matrix for direct indicator result
-#' @param model, A complete EEIO Model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param sector, str, index of a model sector for use in the M matrix, e.g. "221100/us"
 #' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential" 
 #' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
@@ -184,7 +184,7 @@ calculateSectorContributiontoImpact <- function (model, sector, indicator, domes
 
 #' Calculate the percent contribution of M flows to an N indicator result
 #' Uses model M matrix for flows and C matrix for indicator
-#' @param model, A complete EEIO Model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param sector, str, index of a model sector for use in the M matrix, e.g. "221100/us"
 #' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential" 
 #' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
@@ -241,7 +241,7 @@ aggregateResultMatrix <- function (matrix, to_level, crosswalk) {
 
 #' Calculates the result matrix by sector for a specified indciator
 #' @param y, a model demand vector
-#' @param model, A complete EEIO Model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential"
 #' @return A matrix of impacts sector purchased x sector sourced
 #' @export

@@ -7,7 +7,7 @@
 aggregateMultiYearCPI(model, mainIndex, indecesToAggregate, type)
 }
 \arguments{
-\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+\item{model}{An EEIO model object with model specs and IO tables loaded.}
 
 \item{mainIndex}{Index to aggregate the others to.}
 

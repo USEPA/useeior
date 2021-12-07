@@ -7,7 +7,7 @@
 disaggregateSetup(model, configpaths = NULL)
 }
 \arguments{
-\item{model}{Model file loaded with IO tables}
+\item{model}{An EEIO model object with model specs and IO tables loaded}
 
 \item{configpaths}{str vector, paths (including file name) of disagg configuration file(s).
 If NULL, built-in config files are used.}

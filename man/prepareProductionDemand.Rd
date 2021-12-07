@@ -10,7 +10,7 @@ y_m values are generally negative in the BEA data and thus are added (whereas wh
 prepareProductionDemand(model)
 }
 \arguments{
-\item{model, }{a model}
+\item{model}{An EEIO model object with model specs and IO tables loaded}
 }
 \value{
 A named vector with demand

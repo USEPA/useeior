@@ -1,5 +1,5 @@
 #' Disaggregate a model based on specified source file
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @return A disaggregated model.
 disaggregateModel <- function (model){
  
@@ -49,7 +49,7 @@ disaggregateModel <- function (model){
 }
 
 #' Obtain aggregation and disaggregation specs from input files
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
 #' If NULL, built-in config files are used.
 #' @return A model with the specified aggregation and disaggregation specs.
@@ -71,7 +71,7 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
 }
 
 #' Setup the configuration specs based on the input files
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
 #' If NULL, built-in config files are used.
 #' @return A model object with the correct disaggregation specs.

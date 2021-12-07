@@ -11,10 +11,10 @@ DemandVectorFunctionRegistry$Consumption$Complete <- "prepareConsumptionDemand"
 DemandVectorFunctionRegistry$Consumption$Domestic <- "prepareDomesticConsumptionDemand"
 DemandVectorFunctionRegistry$Consumption$Household <- "prepareHouseholdDemand"
 
-#'Sums across sectors for a given set of codes/cols in a given final demand df
-#'@param Y, a model Demand df 
-#'@param codes, sector code(s) for a subset of Final Demand cols
-#'@return A named vector with model sectors and demand amounts
+#' Sums across sectors for a given set of codes/cols in a given final demand df
+#' @param Y, a model Demand df 
+#' @param codes, sector code(s) for a subset of Final Demand cols
+#' @return A named vector with model sectors and demand amounts
 sumDemandCols <- function(Y,codes) {
   if (length(codes)>1) {
     y <- rowSums(Y[,codes])
@@ -25,12 +25,12 @@ sumDemandCols <- function(Y,codes) {
   return(y)
 }
 
-#'Sums the demand cols representing final consumption, i.e. household, investment, and government
-#'Complete national consumption formula: y_c <-  Y_h + Y_v + Y_g 
-#'Domestic portion of national consumption: y_dc <- Y_dh + Y_dv + Y_dg
-#'@param model, a model
-#'@param Y, a model Demand df.
-#'@return A named vector with model sectors and demand amounts
+#' Sums the demand cols representing final consumption, i.e. household, investment, and government
+#' Complete national consumption formula: y_c <-  Y_h + Y_v + Y_g 
+#' Domestic portion of national consumption: y_dc <- Y_dh + Y_dv + Y_dg
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param Y, a model Demand df.
+#' @return A named vector with model sectors and demand amounts
 sumforConsumption <- function(model, Y) {
   codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household", "Investment", "Government"),
                                  "Code_Loc"]
@@ -38,12 +38,12 @@ sumforConsumption <- function(model, Y) {
   return (y_c) 
 }
 
-#'Prepares a demand vector representing production
-#'Formula for production vector: y_p <- y_c + y_e + y_m + y_delta
-#'where y_c = consumption, y_e = exports, y_m = imports, y_delta = change in inventories
-#'y_m values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)
-#'@param model, a model
-#'@return A named vector with demand
+#' Prepares a demand vector representing production
+#' Formula for production vector: y_p <- y_c + y_e + y_m + y_delta
+#' where y_c = consumption, y_e = exports, y_m = imports, y_delta = change in inventories
+#' y_m values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return A named vector with demand
 prepareProductionDemand <- function(model) {
   export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export", "Code_Loc"]
   changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories", "Code_Loc"]
@@ -56,10 +56,10 @@ prepareProductionDemand <- function(model) {
   return(y_p)
 }
 
-#'Prepares a demand vector representing domestic production
-#'Formula for production vector: y_p <- y_dc + y_e + y_d_delta + mu
-#'@param model, a model
-#'@return A named vector with demand
+#' Prepares a demand vector representing domestic production
+#' Formula for production vector: y_p <- y_dc + y_e + y_d_delta + mu
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return A named vector with demand
 prepareDomesticProductionDemand <- function(model) {
   export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export", "Code_Loc"]
   changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories", "Code_Loc"]
@@ -70,25 +70,25 @@ prepareDomesticProductionDemand <- function(model) {
   return(y_d_p)
 }
 
-#'Prepares a demand vector representing consumption
-#'@param model, a model
-#'@return a named vector with demand
+#' Prepares a demand vector representing consumption
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return a named vector with demand
 prepareConsumptionDemand <- function(model) {
   y_c <- sumforConsumption(model, model$FinalDemand)
   return(y_c)
 }
 
-#'Prepares a demand vector representing domestic consumption
-#'@param model, a model
-#'@return A named vector with demand
+#' Prepares a demand vector representing domestic consumption
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return A named vector with demand
 prepareDomesticConsumptionDemand <- function(model) {
   y_c_d <- sumforConsumption(model, model$DomesticFinalDemand)
   return(y_c_d)
 }
 
-#'Prepares a demand vector representing household consumption
-#'@param model, a model
-#'@return A named vector with demand
+#' Prepares a demand vector representing household consumption
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return A named vector with demand
 prepareHouseholdDemand <- function(model) {
   Y <- model$FinalDemand
   household_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Household", "Code_Loc"]
@@ -96,7 +96,7 @@ prepareHouseholdDemand <- function(model) {
   return(y_h)
 }
 
-#'A function to validate a user provided demand vector
+#' A function to validate a user provided demand vector
 #' @param dv a user provided demand vector
 #' @param L, the L matrix for the given model, used as a reference
 #' @return A logical value indicating demand vector is valid or not.

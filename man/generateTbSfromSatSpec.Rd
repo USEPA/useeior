@@ -9,7 +9,7 @@ generateTbSfromSatSpec(sat_spec, model)
 \arguments{
 \item{sat_spec, }{a standard specification for a single satellite table}
 
-\item{model}{A model object with IO and satellite data loaded}
+\item{model}{A model list object with model specs and IO tables listed}
 }
 \value{
 a totals-by-sector dataframe

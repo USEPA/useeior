@@ -16,8 +16,8 @@ buildModel <- function(modelname, configpaths = NULL) {
 
 #' Construct EEIO matrices based on loaded IO tables, built satellite tables,
 #' and indicator tables.
-#' @param model Model file loaded with IO tables, satellite tables, and indicator tables.
-#' @return A list with EEIO matrices..
+#' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
+#' @return A list with EEIO matrices.
 constructEEIOMatrices <- function(model) {
   if(model$specs$ModelRegionAcronyms!="US"){
     stop("This function needs to be revised before it is suitable for multi-regional models")
@@ -143,9 +143,9 @@ createBfromFlowDataandOutput <- function(model) {
   return(B)
 }
 
-#'Prepare coefficients (x unit/$) from the totals by flow and sector (x unit)
-#'@param model, a model with econ and flow data loaded
-#'@return A dataframe of Coefficients-by-Sector (CbS) table
+#' Prepare coefficients (x unit/$) from the totals by flow and sector (x unit)
+#' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
+#' @return A dataframe of Coefficients-by-Sector (CbS) table
 generateCbSfromTbSandModel <- function(model) {
   CbS <- data.frame()
     
@@ -171,10 +171,10 @@ generateCbSfromTbSandModel <- function(model) {
   return(CbS)
 }
 
-#'Converts flows table into flows x sector matrix-like format
-#'@param df a dataframe of flowables, contexts, units, sectors and locations
-#'@param model an EEIO model with IO tables loaded
-#'@return A matrix-like dataframe of flows x sector 
+#' Converts flows table into flows x sector matrix-like format
+#' @param df a dataframe of flowables, contexts, units, sectors and locations
+#' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
+#' @return A matrix-like dataframe of flows x sector 
 standardizeandcastSatelliteTable <- function(df,model) {
   # Add fields for sector as combinations of existing fields
   df[, "Sector"] <- apply(df[, c("Sector", "Location")],

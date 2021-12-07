@@ -1,8 +1,8 @@
 # Functions for comparing models
 
 #' Compare flow totals for two models
-#' @param modelA a useeior model
-#' @param modelB a useeior model 
+#' @param modelA A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param modelB A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return a list with pass/fail comparison results
 #' @export
 compareFlowTotals <- function(modelA, modelB) {

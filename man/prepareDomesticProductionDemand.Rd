@@ -8,7 +8,7 @@ Formula for production vector: y_p <- y_dc + y_e + y_d_delta + mu}
 prepareDomesticProductionDemand(model)
 }
 \arguments{
-\item{model, }{a model}
+\item{model}{An EEIO model object with model specs and IO tables loaded}
 }
 \value{
 A named vector with demand
