@@ -18,6 +18,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | Commodities | data.frame | metadata | Commodity metadata in [sector meta format](#sector-meta) |
 | Industries | data.frame | metadata | Industry metadata in [sector meta format](#sector-meta) |
 | FinalDemandMeta | data.frame | metadata | Final demand metadata in [sector meta with group format](#Sector-Meta-with-Group) |
+| InternationalTradeAdjustmentMeta | data.frame | metadata | Metadata for international trade adjusment in [sector meta with group format](#Sector-Meta-with-Group) |
 | MarginSectors | data.frame | metadata | Margin sector metadata in [sector meta format](#sector-meta) |
 | ValueAddedMeta | data.frame | metadata | Value added metadata in [sector meta format](#sector-meta) |
 | MultiYearIndustryOutput | data.frame | supporting data | Multi-year industry output in [sector-by-year format](#sector-by-year) |
