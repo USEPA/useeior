@@ -81,6 +81,14 @@ Items are listed in the order in which they appear in a built Model object in R.
 | Name | str | Name of sector or component |
 | Code_Loc | str | Code joined with a location acronym by a forward slash (e.g. `1111A0/US`) |
 
+Commodity sector meta may also have the following fields:
+
+| Item | Type | Description |
+| --- | --- | --------- |
+| Category | str | A 2 digit NAICS code and name |
+| Subcategory | str | A 4 digit NAICS code and name |
+| Description | str | A description of the sector |
+
 ### Sector Meta with Group
 
 A [sector meta table](#sector-meta) with an additional group field.
