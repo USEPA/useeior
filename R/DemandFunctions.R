@@ -39,9 +39,9 @@ sumforConsumption <- function(model, Y) {
 }
 
 #' Prepares a demand vector representing production
-#' Formula for production vector: y_p <- y_c + y_e + y_i + y_delta
-#' where y_c = consumption, y_e = exports, y_i = imports, y_delta = change in inventories
-#' y_i values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)
+#' Formula for production vector: y_p <- y_c + y_e + y_m + y_delta
+#' where y_c = consumption, y_e = exports, y_m = imports, y_delta = change in inventories
+#' y_m values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @return A named vector with demand
 prepareProductionDemand <- function(model) {
@@ -50,9 +50,9 @@ prepareProductionDemand <- function(model) {
   import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import", "Code_Loc"]
   y_c <- sumforConsumption(model, model$FinalDemand)
   y_e <- sumDemandCols(model$FinalDemand, export_code)
-  y_i <- sumDemandCols(model$FinalDemand, import_code)
+  y_m <- sumDemandCols(model$FinalDemand, import_code)
   y_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
-  y_p <- y_c + y_e + y_i + y_delta
+  y_p <- y_c + y_e + y_m + y_delta
   return(y_p)
 }
 
