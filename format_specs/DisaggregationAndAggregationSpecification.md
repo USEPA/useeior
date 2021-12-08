@@ -1,8 +1,15 @@
-# Disaggregation File Specification
-Disaggregation specifications are assigned in a yml file based on the parameters shown below. Each disaggregation is a list, named based on the [Code/location](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#sector-meta) of the original sector (e.g. `562000/US`)
+# Disaggregation and Aggregation File Specifications
+This page describes the file formats needed to run the aggregation and disaggregation functions in USEEIOR. Aggregating a sector requires only one .yml input file, while disaggregation requires a .yml input file and several .csv files to specifiy the disaggregation parameters. 
+
+# Disaggreation and Aggregation .yml File Specification
+The disaggregation and aggregation files are assigned in a yml file based on the parameters shown below. Each file is a list, named based on the [Code/location](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#sector-meta) of the sector to be disaggregated or aggregated to (e.g. `221100/US`)
+
+
+## Disaggregation 
+
 
 | Item | Type | Required? | Description |
-| --- | --- | --- | --------- |
+| ---  | ---  | ---       | ---------   |
 | OriginalSectorCode | str | Y | Code/location of the sector to be disaggregated |
 | OriginalSectorName | str | Y | Name of the sector to be disaggregated |
 | DisaggregationType | str | Y |  Can be "Predefined" for a uniform disaggregation or "User Defined" for a custom disaggregation with user-supplied inputs|
@@ -11,17 +18,32 @@ Disaggregation specifications are assigned in a yml file based on the parameters
 | UseFile | str | N | Pointer to a file containing [use table allocations for disaggregated sectors](#disaggregated-table-format) |
 | EnvFile | str | N | Pointer to a file containing satellite table data for [disaggregated sectors](#disaggregated-satellite-table-format) |
 
+## Aggregation
+
+| Item | Type | Required? | Description |
+| ---  | ---  | ---       | ---------   |
+| Sectors | str | Y | Bracketed list of strings of the Code/location of the sectors to be aggregated, with the first item in the list being the main aggregation sector (i.e., where all sectors will be aggregated to).  |
+
+
 # Disaggregation Table Specifications
 Input disaggregation tables are in csv format with the fields shown below. The Disaggregated Table format applies to both the Disaggregated Make and Disaggregated Use tables. 
 
 ## Disaggregated Sectors Format
-| Field | Type | Required? | Description |
-| --- | --- | --- | ---
-| NAICS_2012_Code | string | Y | NAICS 2012 6-digit code |
-| USEEIO_Code | string | Y | Code for new sector in the form of Code/location |
-| USEEIO_Name | string | Y | Name for new sector |
+This .csv file is a crosswalk between the most relevant 6-digit NAICS codes and the disaggregated sectors.
+
+
+|  Field             |  Type   |  Required? |  Description                                 |
+| ------------------ | ------- | ---------- | ---------------------------------------------|
+|  NAICS\_2012\_Code |  string |  Y         |  NAICS 2012 6-digit code                     |
+|  USEEIO\_Code      |  string |  Y         |  Code for new sector in the form of Code/location |
+|  USEEIO\_Name      |  string |  Y         |  Name for new sector                         |
+|  Category          |  string |  Y         |  2-digit NAICS Code:Description combination which the disaggregated sector would fall under (e.g., 22:Utilities for disaggregated electricity sector 221111/US)                                                              |
+|  Subcategory       |  string |  Y         |  3- or 4-digit NAICS Code:Description combination which the disaggregated sector would fall under (e.g., 2211:Electric Power Generation, Transmission, and Distribution for disaggregated electricity sector 221111/US) |
+|  Description       |  string |  Y         |  Description of the disaggregated sector     |
 
 ## Disaggregated Table Format
+These .csv files contain the input values required for the disaggregation of the Make and Use tables. One file is required for each table.  
+
 Field | Type | Required? | Description |
 -- | -- | -- | -- |
 IndustryCode | string | Y | Code/location for industry. Values included in this column can represent the original industry code to be disaggregated; the new industry codes representing disaggregated sectors; or existing industries where an allocation for a newly disaggregated commodity is to be assigned.  |
