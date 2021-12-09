@@ -284,23 +284,23 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_
 #' Proportional bar chart splitting out flows or impacts by a region and the Rest of the region
 #' @param R1_calc_result A matrix from model result.
 #' @param Total_calc_result A matrix from model result.
-#' @param y_title The title of y axis, excluding unit.
+#' @param x_title The title of x axis, excluding unit.
 #' @return a ggplot bar chart with horizontal orientation
 #' @export
-barplotFloworImpactFractionbyRegion <- function(R1_calc_result, Total_calc_result, y_title) {
+barplotFloworImpactFractionbyRegion <- function(R1_calc_result, Total_calc_result, x_title) {
   rel_diff <- as.data.frame(colSums(R1_calc_result)/colSums(Total_calc_result))
-  colnames(rel_diff) <- y_title
+  colnames(rel_diff) <- "Fraction"
   rel_diff[["Indicator"]] <- rownames(rel_diff)
   mapping <- getIndicatorColorMapping()
   rel_diff <- merge(rel_diff, mapping, by.x = 0, by.y = "Indicator")
   rel_diff <- rel_diff[rev(match(mapping$Indicator, rel_diff$Indicator)), ]
   p <- ggplot(rel_diff, aes(y = factor(Indicator, levels = Indicator),
-                            x = !!as.name(y_title), fill = Indicator)) +
+                            x = Fraction, fill = Indicator)) +
     scale_fill_manual(limits = rel_diff$Indicator, values = rel_diff$color) +
     scale_x_continuous(expand = expansion(mult = c(0, 0.1)),
                        breaks = scales::pretty_breaks(),
                        labels = scales::label_percent(accuracy = 1)) +
-    geom_col() + theme_bw() +
+    geom_col() + labs(x = x_title, y = "") + theme_bw() +
     theme(axis.text = element_text(color = "black", size = 15),
           axis.title.x = element_text(size = 15),
           axis.title.y = element_blank(),

@@ -4,14 +4,14 @@
 \alias{barplotFloworImpactFractionbyRegion}
 \title{Proportional bar chart splitting out flows or impacts by a region and the Rest of the region}
 \usage{
-barplotFloworImpactFractionbyRegion(R1_calc_result, Total_calc_result, y_title)
+barplotFloworImpactFractionbyRegion(R1_calc_result, Total_calc_result, x_title)
 }
 \arguments{
 \item{R1_calc_result}{A matrix from model result.}
 
 \item{Total_calc_result}{A matrix from model result.}
 
-\item{y_title}{The title of y axis, excluding unit.}
+\item{x_title}{The title of x axis, excluding unit.}
 }
 \value{
 a ggplot bar chart with horizontal orientation
