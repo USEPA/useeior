@@ -10,7 +10,7 @@ calculateSectorContributiontoImpact(model, sector, indicator, domestic = FALSE)
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
-\item{sector, }{str, index of a model sector for use in the M matrix, e.g. "221100/us"}
+\item{sector, }{str, index of a model sector for use in the M matrix, e.g. "221100/US"}
 
 \item{indicator, }{str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential"}
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/VisualizationFunctions.R
 \name{barplotFloworImpactFractionbyRegion}
 \alias{barplotFloworImpactFractionbyRegion}
-\title{Proportional bar chart splitting out flows or impacts by a region and the Rest of the regions}
+\title{Proportional bar chart splitting out flows or impacts by a region and the Rest of the region}
 \usage{
 barplotFloworImpactFractionbyRegion(R1_calc_result, Total_calc_result, y_title)
 }
@@ -17,5 +17,5 @@ barplotFloworImpactFractionbyRegion(R1_calc_result, Total_calc_result, y_title)
 a ggplot bar chart with horizontal orientation
 }
 \description{
-Proportional bar chart splitting out flows or impacts by a region and the Rest of the regions
+Proportional bar chart splitting out flows or impacts by a region and the Rest of the region
 }

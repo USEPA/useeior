@@ -279,7 +279,7 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_
   return(p)
 }
 
-#' Proportional bar chart splitting out flows or impacts by a region and the Rest of the regions
+#' Proportional bar chart splitting out flows or impacts by a region and the Rest of the region
 #' @param R1_calc_result A matrix from model result.
 #' @param Total_calc_result A matrix from model result.
 #' @param y_title The title of y axis, excluding unit.
