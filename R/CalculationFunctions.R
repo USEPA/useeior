@@ -207,7 +207,7 @@ calculateFlowContributiontoImpact <- function (model, sector, indicator, domesti
 #' @param crosswalk   Sector crosswalk between levels of detail
 #' @return An aggregated matrix with sectors as rows
 #' @export
-aggregateResultTable <- function (matrix, to_level, crosswalk) {
+aggregateResultMatrixbyRow <- function (matrix, to_level, crosswalk) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- "USEEIO"
   to_code <- paste0("BEA_", to_level)
@@ -233,8 +233,8 @@ aggregateResultTable <- function (matrix, to_level, crosswalk) {
 #' @return An aggregated matrix with sectors as rows and columns
 #' @export
 aggregateResultMatrix <- function (matrix, to_level, crosswalk) {
-  row_agg_matrix <- aggregateResultTable (matrix, to_level, crosswalk)
-  col_agg_matrix <- aggregateResultTable (t(row_agg_matrix), to_level, crosswalk)
+  row_agg_matrix <- aggregateResultMatrixbyRow (matrix, to_level, crosswalk)
+  col_agg_matrix <- aggregateResultMatrixbyRow (t(row_agg_matrix), to_level, crosswalk)
   agg_matrix <- t(col_agg_matrix)
   return(agg_matrix)
 }
