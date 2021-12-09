@@ -223,8 +223,9 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
 #' @param indicators A vector of indicators to plot
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
 #' @param N_sector A numeric value indicating number of sectors to show in the ranking
+#' @param x_title A string specifying desired title on the x-axis, default is NULL, the title will be "modelname indicators"
 #' @export
-heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_sector) {
+heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_sector, x_title = NULL) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
   mapping$GroupName <- mapping$SectorName
@@ -260,6 +261,7 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_
   
   # Prepare axis label color
   label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
+  x_title <- ifelse(is.null(x_title), paste(model$specs$Model, "Indicators"), x_title)
   
   # plot
   p <- ggplot(df, aes(x = factor(Indicator, levels = c("Score", indicators)),
@@ -269,7 +271,7 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_
     scale_fill_gradient(low = "white", high = "black") +
     scale_x_discrete(expand = c(0, 0), position = "top") +
     scale_y_discrete(expand = c(0, 0), labels = function(x) stringr::str_wrap(x, 30)) +
-    labs(x = paste(model$specs$Model, "Indicators"), y = "") + theme_bw() +
+    labs(x = x_title, y = "") + theme_bw() +
     theme(axis.text = element_text(color = "black", size = 15),
           axis.title.x = element_text(size = 20),
           axis.text.x = element_text(angle = 45, hjust = 0, vjust = 1),
