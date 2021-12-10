@@ -132,7 +132,7 @@ SatelliteTable:
     FullName: "Land use"
     Abbreviation: "LAND"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/Land_national_2012_v0.3.1_f3cdf5b.parquet"
+    StaticFile: "flowsa/FlowBySector/Land_national_2012_v1.0.0_c31cd44.parquet"
     FileLocation: "DataCommons"
     DataYears: [2012]
     Locations: ["US"]
