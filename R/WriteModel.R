@@ -23,7 +23,7 @@ writeModelforAPI <-function(model, basedir){
 #' @description Writes the model sector crosswalk as .csv file
 #' @export
 writeSectorCrosswalk <- function(model, basedir){
-  dirs <- setWriteDirsforAPI(NULL,basedir)
+  dirs <- setWriteDirsforAPI(model, basedir)
   prepareWriteDirs(model, dirs)
   crosswalk <- prepareModelSectorCrosswalk(model)
   crosswalk$ModelSchema <- ""
