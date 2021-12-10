@@ -180,6 +180,7 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
   # Mergeflows_in_indicator and totals_by_sector and calculate IndicatorScore
   df <- merge(totals_by_sector, flows_in_indicator, by = c("Flowable", "Context", "Unit")) 
   df$IndicatorScore <- df$FlowAmount*df$Amount
+  df$Unit <- model$Indicators$meta[model$Indicators$meta$Name==indicator_name, 'Unit']
   return(df)
 }
 
