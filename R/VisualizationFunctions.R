@@ -267,7 +267,7 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_
   p <- ggplot(df, aes(x = factor(Indicator, levels = c("Score", indicators)),
                       y = factor(SectorName, levels = rev(unique(SectorName))),
                       fill = Value)) +
-    geom_tile(color = "white", size = 0.2) +
+    geom_tile(color = "black", size = 0.2) +
     scale_fill_gradient(low = "white", high = "black") +
     scale_x_discrete(expand = c(0, 0), position = "top") +
     scale_y_discrete(expand = c(0, 0), labels = function(x) stringr::str_wrap(x, 30)) +
