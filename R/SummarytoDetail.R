@@ -1,6 +1,7 @@
 #TODO: add functionality to adjust disaggregation from Summary to detail based on summary model IO year. 
 #by "bringing the detail model to summary year" for the specified disagg sector.
 
+
 #' Disaggregate a specific sector in a summary level model to detail level
 #' @param modelname String indicating which model to generate. Must be a detail level model.
 #' @param sectorToDisaggregate String with the summary level code of the sector to be disaggregated from Summary to Detail Level
@@ -32,6 +33,14 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   summaryCodeCw <- subset(detailModel$crosswalk, BEA_Summary %in% summaryCode)
   summaryCodeCw <- as.list(unique(summaryCodeCw$BEA_Detail))
   
+  # Consolidate disaggregation parameters in a list. 
+  disaggParams <- list()
+  disaggParams$detailModel <- detailModel
+  disaggParams$summaryCode <- summaryCode
+  disaggParams$summaryCodeCw <- summaryCodeCw
+  disaggParams$summaryLoc_Code <-summaryLoc_Code
+  
+  ##new function: strictSummaryDisagg?
   # Get economic allocations for make and use tables
   fullUseTableColAlloc <- generateEconomicAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Use", "Column")
   makeTableColAlloc <- generateEconomicAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Make", "Column")
@@ -41,7 +50,7 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   makeIntersection <-  generateEconomicAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Make", "Intersection")
   
   # Get environmental allocations
-  envAllocDF <- generateEnvironmentalAllocations(detailModel, summaryCode, summaryCodeCw)
+  envAllocationsDF <- generateEnvironmentalAllocations(detailModel, summaryCode, summaryCodeCw)
   
   # ####Code for testing, remove when finished. 
   # tempFullUseTableColAlloc <- generateColumnAllocations(detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, "Use")
@@ -62,16 +71,21 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   # #####end testing code
   
   # Create output DFs
-  useOutputDF <- rbind(fullUseIntersection, fullUseTableColAlloc, fullUseTableRowAlloc)
-  makeOutputDF <- rbind(makeIntersection, makeTableColAlloc, makeTableRowAlloc)
+  useAllocationsDF <- rbind(fullUseIntersection, fullUseTableColAlloc, fullUseTableRowAlloc)
+  makeAllocationsDF <- rbind(makeIntersection, makeTableColAlloc, makeTableRowAlloc)
   sectorsDF <- createSectorsCSV(detailModel, summaryCode, summaryCodeCw)
   
-  #Write DFs to correct folder
-  write.csv(useOutputDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Use.csv", row.names = FALSE)
-  write.csv(makeOutputDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Make.csv", row.names = FALSE)
-  write.csv(envAllocDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Env.csv", row.names = FALSE)
+  allocationsDF <- list()
+  allocationsDF$useAllocationsDF <- useAllocationsDF
+  allocationsDF$makeAllocationsDF <- makeAllocationsDF
+  allocationsDF$envAllocationsDF <- envAllocationsDF
   
-  return(detailModel)#temporay return statement
+  #Write DFs to correct folder
+  write.csv(allocationsDF$useAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Use.csv", row.names = FALSE)
+  write.csv(allocationsDF$makeAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Make.csv", row.names = FALSE)
+  write.csv(allocationsDF$envAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Env.csv", row.names = FALSE)
+  
+  return(allocationsDF)#temporay return statement
 }
 
 
@@ -340,229 +354,206 @@ generateEconomicAllocations <- function (detailModel, summaryCode, summaryCodeCw
 }
 
 
-
-#' Generate the allocation percentages required to disaggregate the columns of the make and use tables. 
+#' Generate the economic allocation percentages required to disaggregate the columns of the make and use tables. 
 #' Note that this function is desgined to work with model$V and model$U objects, rather the the intermediary model$MakeTransactions and UseTransactions objects.
-#' @param detailModel Model file loaded with IO tables
-#' @param summaryCode String containing summary level code to be disaggregated
-#' @param summaryCodeCw List of detail sectors that map to the summary level sector to be disaggregated
-#' @param summaryLoc_Code String containing location code of the summary level sector to be disaggregated 
+#' @param disaggParams List of disaggregation paramaters
 #' @param Table String that denotes which table the allocation values refer to. Can be either "Make" or "Use"
+#' @param vectorToDisagg String that denotes whether to disagg rows or columns. Only acceptable string values are "Row"m "Column", or "Intersection"
 #' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
-generateColumnAllocations <- function (detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, Table){
+generateEconomicAllocationsTest <- function (disaggParams, Table, vectorToDisagg){
+  
+  # Initialize dataframe that contains allocation values
+  outputDF <- data.frame(IndustryCode = character(), CommodityCode = character(), PercentUse = double(), Note = character())
+  # Get a list of all summary sectors
+  summarySectorList <- as.list(unique(disaggParams$detailModel$crosswalk$BEA_Summary))
+  
   # Obtain the correct table
   if(Table == "Use"){
-    originalTable <- detailModel$U
+    originalTable <- disaggParams$detailModel$U
     # Bind ValeAdded codes for Commodities and FinalDemand codes for Industries to match dimensions of as model$U object, which includes VA and FD values. 
-    originalRowCodes <- rbind(detailModel$Commodities[c("Code", "Name", "Code_Loc")], detailModel$ValueAddedMeta)
-    originalColCodes <- rbind(detailModel$Industries, detailModel$FinalDemandMeta[c("Code", "Name", "Code_Loc")])
-
+    originalRowCodes <- rbind(disaggParams$detailModel$Commodities[c("Code", "Name", "Code_Loc")], disaggParams$detailModel$ValueAddedMeta)
+    originalColCodes <- rbind(disaggParams$detailModel$Industries, disaggParams$detailModel$FinalDemandMeta[c("Code", "Name", "Code_Loc")])
+    allocName <- "PercentUse"
+    
     # DetailCodeOutput index indicates which column in the output data to assign the detail (disaggregated) codes. 
     # For Use column disagg (industries) the index is 1. 
-    detailCodeOutputIndex <- 1
-    summaryCodeOutputIndex <- 2
-    allocName <- "PercentUse"
+    # For Use row disagg (commodities) the index is 2.
+    if(vectorToDisagg == "Column"){
+      detailCodeOutputIndex <- 1
+      summaryCodeOutputIndex <- 2
+      
+      # Get indeces of the detail level columns that match the the summary level code
+      detailDisaggIndeces <- which(originalColCodes$Code %in% disaggParams$summaryCodeCw)
+      detailOutputNames <- originalColCodes$Code_Loc[detailDisaggIndeces]
+      
+    }else if(vectorToDisagg == "Row"){
+      detailCodeOutputIndex <- 2
+      summaryCodeOutputIndex <- 1
+      
+      detailDisaggIndeces <- which(originalRowCodes$Code %in% disaggParams$summaryCodeCw)
+      detailOutputNames <- originalRowCodes$Code_Loc[detailDisaggIndeces]
+    }else{
+      #for Use intersection
+      detailRowIndeces <- which(originalRowCodes$Code %in% disaggParams$summaryCodeCw)
+      detailColIndeces <- which(originalColCodes$Code %in% disaggParams$summaryCodeCw)
+      detailOutputNames <- disaggParams$summaryCodeCw
+    }
+    
   }else{
-    originalTable <- detailModel$V
-    originalRowCodes <- detailModel$Industries
+    originalTable <- disaggParams$detailModel$V
+    originalRowCodes <- disaggParams$detailModel$Industries
     # Limit colCodes object to three columns as in the "Use" case for consistency
-    originalColCodes <- detailModel$Commodities[c("Code", "Name", "Code_Loc")]
-    # Detail code output index for Make column disagg (commodities) is 2. 
-    detailCodeOutputIndex <- 2
-    summaryCodeOutputIndex <- 1
+    originalColCodes <- disaggParams$detailModel$Commodities[c("Code", "Name", "Code_Loc")]
     allocName <- "PercentMake"
+    
+    # Detail code output index for Make column disagg (commodities) is 2.
+    # For make row disagg (industries) the code index is 1.
+    if(vectorToDisagg == "Column"){
+      detailCodeOutputIndex <- 2
+      summaryCodeOutputIndex <- 1  
+      
+      detailDisaggIndeces <- which(originalColCodes$Code %in% disaggParams$summaryCodeCw)
+      detailOutputNames <- originalColCodes$Code_Loc[detailDisaggIndeces]
+      
+    }else if (vectorToDisagg == "Row"){
+      detailCodeOutputIndex <- 1
+      summaryCodeOutputIndex <- 2
+      
+      detailDisaggIndeces <- which(originalRowCodes$Code %in% disaggParams$summaryCodeCw)
+      detailOutputNames <- originalRowCodes$Code_Loc[detailDisaggIndeces]
+    }else{
+      #for Make intersection
+      detailRowIndeces <- which(originalRowCodes$Code %in% disaggParams$summaryCodeCw)
+      detailColIndeces <- which(originalColCodes$Code %in% disaggParams$summaryCodeCw)
+      detailOutputNames <- disaggParams$summaryCodeCw
+      
+      
+    }
+    
   }
   
-  # Initialize dataframe that contains allocation values
-  outputDF <- data.frame(IndustryCode = character(), CommodityCode = character(), PercentUse = double(), Note = character())
-  
-  # Get indeces of the detail level columns that match the the summary level code
-  detailColIndeces <- which(originalColCodes$Code %in% summaryCodeCw)
-  detailColOutputNames <- originalColCodes$Code_Loc[detailColIndeces]
-  
-  # Get a list of all summary sectors
-  summarySectorList <- as.list(unique(detailModel$crosswalk$BEA_Summary))
-  # Calculate allocation percentages for each summary level commodity
-  for (sector in summarySectorList){
-    # Get summary to detail mapping of the current sector (row) 
-    currentDetailSectors <- subset(detailModel$crosswalk, BEA_Summary %in% sector)
-    currentDetailSectors <- as.list(unique(currentDetailSectors$BEA_Detail))
-    currentDetailRowIndeces <- which(originalRowCodes$Code %in% currentDetailSectors)
-
-    # The allocation values of the intersection of the summary sector with itself are calculated differently from the allocation values of the rest of the column
-    if(sector != summaryCode){
-      # Calculation allocation values for disaggregation of the columns
-
-      currentRows <- originalTable[currentDetailRowIndeces, detailColIndeces]      
-      # Find colsums. If statement necessary to avoid error in case currentDetailROwIndeces is of length 1, i.e., summary to detail level mapping is 1:1
-      if(length(currentDetailRowIndeces) > 1 ){
-        summarySectorColSums <- colSums(currentRows)
-      }else{
-        summarySectorColSums <- currentRows
-      }
-
-      # If sum of detail level colums for the current row != 0, add allocation of the current detail rows to the allocation dataframe.
-      if(sum(summarySectorColSums) != 0){
-        # Build current section of outputDF with current industry/commodity allocations
-
-        # If there are more than 1 detail sectors to the summary sector, need to change dataframe from wide to long format.
-        if(length(currentDetailRowIndeces) > 1){  
-          allocDF <- currentRows/sum(summarySectorColSums)
-          allocDF <- data.frame(colSums(allocDF))
-        }else{
-          allocDF <- data.frame(Percent = currentRows/sum(summarySectorColSums))
-        }
-        
-        colnames(allocDF)[1] <- allocName
-        
-        # detailCodeOutputIndex determines whether the summaryCode goes under the Industry or Commodity column in the output file. 
-        if(detailCodeOutputIndex == 1){
-          industryDF <- data.frame(IndustryCode =I(paste(summaryCodeCw,summaryLoc_Code,sep = "/")))
-          commodityDF <- data.frame(CommodityCode = I(rep(paste(sector, summaryLoc_Code, sep = "/"), nrow(industryDF))))
-          #commodityDF <- data.frame(paste(currentDetailSectors, summaryLoc_Code, sep = "/")) #adding location to current detail sectors
-          #commodityDF <- data.frame(commodityDF[rep(seq_len(nrow(commodityDF)), each = length(summaryCodeCw)),])#replicating the detail commodities a number of times equal to the number of 
-           noteDF <- data.frame(Note = I(rep("IndustryDisagg", nrow(industryDF))))
-           
-        }else{
-          commodityDF <- data.frame(CommodityCode =I(paste(summaryCodeCw,summaryLoc_Code,sep="/")))
-          industryDF <- data.frame(IndustryCode = I(rep(paste(sector, summaryLoc_Code, sep = "/"), nrow(commodityDF))))
-          noteDF <- data.frame(Note = I(rep("CommodityDisagg", nrow(commodityDF))))
-        }
-
-        currentDF <- cbind(industryDF, commodityDF, allocDF[1], noteDF)
-        
-        
-        temp <-1
-        
-        outputDF <- rbind(outputDF, currentDF)
-        
-      }else{
-        # If sum of detail level colums for the current row = 0, don't need to add allocation of the current detail rows to the allocation dataframe.
-        next
-      }
-      
-    }#end of if sector != summaryCode
-
+  if(vectorToDisagg == "Intersection"){
+    # Disaggregate Intersection
     
-  }#end of for sector loop
-  
-  rownames(outputDF) <- 1:nrow(outputDF)
-
-  return(outputDF)
-  
-}
-
-
-
-#' Generate the allocation percentages required to disaggregate the rows of the make and use tables. 
-#' Note that this function is desgined to work with model$V and model$U objects, rather the the intermediary model$MakeTransactions and UseTransactions objects.
-#' @param detailModel Model file loaded with IO tables
-#' @param summaryCode String containing summary level code to be disaggregated
-#' @param summaryCodeCw List of detail sectors that map to the summary level sector to be disaggregated
-#' @param summaryLoc_Code String containing location code of the summary level sector to be disaggregated 
-#' @param Table String that denotes which table the allocation values refer to. Can be either "Make" or "Use"
-#' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
-generateRowAllocations <- function (detailModel, summaryCode, summaryCodeCw, summaryLoc_Code, Table){
-  # Obtain the correct table
-  if(Table == "Use"){
-    originalTable <- detailModel$U
-    # Bind ValeAdded codes for Commodities and FinalDemand codes for Industries to match dimensions of as model$U object, which includes VA and FD values. 
-    originalRowCodes <- rbind(detailModel$Commodities[c("Code", "Name", "Code_Loc")], detailModel$ValueAddedMeta)
-    originalColCodes <- rbind(detailModel$Industries, detailModel$FinalDemandMeta[c("Code", "Name", "Code_Loc")])
+    originalVector <- originalTable[detailRowIndeces, detailColIndeces]# Get detail intersection
+    originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
+    allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
+    #allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
     
-    # DetailCodeOutput index indicates which column in the output data to assign the detail (disaggregated) codes. 
-    # For Use row disagg (commodities) the index is 2. 
-    detailCodeOutputIndex <- 2
-    summaryCodeOutputIndex <- 1
-    allocName <- "PercentUse"
+    if(Table == "Use"){
+      # Transpose vector to get allocations in correct order when reshaping
+      allocationVector <- t(allocationVector)
+      allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+      # Need to change order of columns after reshaping to ensure Industry is in column 1.
+      allocDF <- allocDF[,c(2,1,3)]
+    }else{
+      allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+    }
+    
+    colnames(allocDF) <- c("IndustryCode", "CommodityCode", allocName)# Rename DF columns
+    noteDF <-  data.frame(Note = I(rep("IntersectionDisagg", nrow(allocDF))))# Add a note for output DF to indicate intersectiond disaggregation
+    outputDF <- cbind(allocDF, noteDF)
+    
+    
   }else{
-    originalTable <- detailModel$V
-    originalRowCodes <- detailModel$Industries
-    # Limit colCodes object to three columns as in the "Use" case for consistency
-    originalColCodes <- detailModel$Commodities[c("Code", "Name", "Code_Loc")]
-    # Detail code output index for Make row disagg (industries) is 1. 
-    detailCodeOutputIndex <- 1
-    summaryCodeOutputIndex <- 2
-    allocName <- "PercentMake"
-  }
-  
-  # Initialize dataframe that contains allocation values
-  outputDF <- data.frame(IndustryCode = character(), CommodityCode = character(), PercentUse = double(), Note = character())
-
-  # Get indeces of the detail level columns that match the the summary level code
-  detailRowIndeces <- which(originalRowCodes$Code %in% summaryCodeCw)
-  detailRowOutputNames <- originalRowCodes$Code_Loc[detailRowIndeces]
-  
-  # Get a list of all summary sectors
-  summarySectorList <- as.list(unique(detailModel$crosswalk$BEA_Summary))
-  # Calculate allocation percentages for each summary level commodity
-  for (sector in summarySectorList){
-    # Get summary to detail mapping of the current sector (row) 
-    currentDetailSectors <- subset(detailModel$crosswalk, BEA_Summary %in% sector)
-    currentDetailSectors <- as.list(unique(currentDetailSectors$BEA_Detail))
-    currentDetailColIndeces <- which(originalColCodes$Code %in% currentDetailSectors)
-    
-    # The allocation values of the intersection of the summary sector with itself are calculated differently from the allocation values of the rest of the column
-    if(sector != summaryCode){
-      # Calculation allocation values for disaggregation of the rows
+    ##TODO: code below needs to be its own function
+    ###function declaration:
+    ###calculateAllocations <- function (disaggParams$detailModel, disaggParams$summaryCode, disaggParams$summaryCodeCw, disaggParams$summaryLoc_Code, originalTable, originalRowCodes, originalColCodes, detailDisaggIndeces, allocName, vectorToDisagg){}
+    # Calculate allocation percentages for each summary level commodity
+    for (sector in summarySectorList){
+      # Get summary to detail mapping of the current sector (row) 
+      currentDetailSectors <- subset(disaggParams$detailModel$crosswalk, BEA_Summary %in% sector)
+      currentDetailSectors <- as.list(unique(currentDetailSectors$BEA_Detail))
       
-      currentCols <- originalTable[detailRowIndeces, currentDetailColIndeces]      
-      # Find colsums. If statement necessary to avoid error in case currentDetailColIndeces is of length 1, i.e., summary to detail level mapping is 1:1
-      if(length(currentDetailColIndeces) > 1 ){
-        summarySectorRowSums <- rowSums(currentCols)
-      }else{
-        summarySectorRowSums <- currentCols
-      }
- 
-      # If sum of detail level rows for the current col != 0, add allocation of the current detail cols to the allocation dataframe.
-      if(sum(summarySectorRowSums) != 0){
-        # Build current section of outputDF with current industry/commodity allocations
+      # Get list of currentDetailIndeces. These are the detail indeces that map to the vector not being disaggregated
+      # I.e., if vectorToDisagg == "Column", then currentDetailIndeces refer to row indeces. 
+      if(vectorToDisagg == "Column"){
+        currentDetailIndeces <- which(originalRowCodes$Code %in% currentDetailSectors)
+        currentDetailVector <- originalTable[currentDetailIndeces, detailDisaggIndeces]
         
-        # If there are more than 1 detail sectors to the summary sector, need to change dataframe from wide to long format.
-        if(length(currentDetailColIndeces) > 1){  
-          allocDF <- currentCols/sum(summarySectorRowSums)
-          allocDF <- data.frame(rowSums(allocDF))
-        }else{
-          allocDF <- data.frame(Percent = currentCols/sum(summarySectorRowSums))
+      }else if(vectorToDisagg == "Row"){
+        currentDetailIndeces <- which(originalColCodes$Code %in% currentDetailSectors)
+        currentDetailVector <- originalTable[detailDisaggIndeces, currentDetailIndeces]
+      }
+      
+      # Find vector sums. If statement necessary to avoid error in case currentDetailIndeces is of length 1, i.e., summary to detail level mapping is 1:1
+      # Also this if statement is necessary prior to calculating allocDF below to check whether it is necessary to calculate allocation factors or if there are no values in the current vector.
+      if(length(currentDetailIndeces) > 1){
+        if(vectorToDisagg == "Column"){
+          summarySectorVectorSums <- colSums(currentDetailVector)
+        }else if(vectorToDisagg == "Row"){
+          summarySectorVectorSums <- rowSums(currentDetailVector)
         }
         
-        colnames(allocDF)[1] <- allocName
+      }else{
+        summarySectorVectorSums <- currentDetailVector
         
-        # detailCodeOutputIndex determines whether the summaryCode goes under the Industry or Commodity column in the output file. 
-        if(detailCodeOutputIndex == 1){#check this real carefully
-          industryDF <- data.frame(IndustryCode =I(paste(summaryCodeCw,summaryLoc_Code,sep = "/")))
-          commodityDF <- data.frame(CommodityCode = I(rep(paste(sector, summaryLoc_Code, sep = "/"), nrow(industryDF))))
-          #commodityDF <- data.frame(paste(currentDetailSectors, summaryLoc_Code, sep = "/")) #adding location to current detail sectors
-          #commodityDF <- data.frame(commodityDF[rep(seq_len(nrow(commodityDF)), each = length(summaryCodeCw)),])#replicating the detail commodities a number of times equal to the number of 
-          noteDF <- data.frame(Note = I(rep("IndustryDisagg", nrow(industryDF))))
+      }
+      
+      # If the current set of detail sectors are not all 0, then we need to perform an allocation to disaggregate.
+      if(sum(summarySectorVectorSums) !=0){ 
+        
+        # The allocation values of the intersection of the summary sector with itself are calculated differently from the allocation values of the rest of the column
+        if(sector != disaggParams$summaryCode){
+          # Build current section of outputDF with current industry/commodity allocations
           
-        }else{
-          commodityDF <- data.frame(CommodityCode =I(paste(summaryCodeCw,summaryLoc_Code,sep="/")))
-          industryDF <- data.frame(IndustryCode = I(rep(paste(sector, summaryLoc_Code, sep = "/"), nrow(commodityDF))))
-          noteDF <- data.frame(Note = I(rep("CommodityDisagg", nrow(commodityDF))))
+          # If there are more than 1 detail sectors to the summary sector, need to change dataframe from wide to long format.
+          if(length(currentDetailIndeces) > 1){
+            if(vectorToDisagg == "Column"){
+              allocDF <- currentDetailVector/sum(summarySectorVectorSums)
+              allocDF <- data.frame(colSums(allocDF))
+            }else if(vectorToDisagg == "Row"){
+              allocDF <- currentDetailVector/sum(summarySectorVectorSums)
+              allocDF <- data.frame(rowSums(allocDF))
+            }
+            
+          }else{
+            allocDF <- data.frame(Percent = currentDetailVector/sum(summarySectorVectorSums))
+          }
+          
+          colnames(allocDF)[1] <- allocName
+          
+          # detailCodeOutputIndex determines whether the disaggParams$summaryCode goes under the Industry or Commodity column in the output file. 
+          if(detailCodeOutputIndex == 1){
+            industryDF <- data.frame(IndustryCode =I(paste(disaggParams$summaryCodeCw,disaggParams$summaryLoc_Code,sep = "/")))
+            commodityDF <- data.frame(CommodityCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(industryDF))))
+            #commodityDF <- data.frame(paste(currentDetailSectors, disaggParams$summaryLoc_Code, sep = "/")) #adding location to current detail sectors
+            #commodityDF <- data.frame(commodityDF[rep(seq_len(nrow(commodityDF)), each = length(disaggParams$summaryCodeCw)),])#replicating the detail commodities a number of times equal to the number of 
+            noteDF <- data.frame(Note = I(rep("IndustryDisagg", nrow(industryDF))))
+            
+          }else{
+            commodityDF <- data.frame(CommodityCode =I(paste(disaggParams$summaryCodeCw,disaggParams$summaryLoc_Code,sep="/")))
+            industryDF <- data.frame(IndustryCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(commodityDF))))
+            noteDF <- data.frame(Note = I(rep("CommodityDisagg", nrow(commodityDF))))
+          }
+          
+          currentDF <- cbind(industryDF, commodityDF, allocDF[1], noteDF)
+          
+          
+          temp <-1
+          
+          outputDF <- rbind(outputDF, currentDF)
+          
         }
         
-        currentDF <- cbind(industryDF, commodityDF, allocDF[1], noteDF)
-        
-        
-        temp <-1
-        
-        outputDF <- rbind(outputDF, currentDF)
-        
-      }else{
+      }
+      else{
         # If sum of detail level colums for the current row = 0, don't need to add allocation of the current detail rows to the allocation dataframe.
         next
-      }
+        
+        
+      }# End of if(sum(summarySectorVectorSums)) !=0 statement
       
-    }#end of if sector != summaryCode
+      
+    }# End of for sector loop
     
-    
-  }#end of for sector loop
+  }# End of else statement for disaaggregating non-intersection vectors
+  
+  
   
   rownames(outputDF) <- 1:nrow(outputDF)
-
+  
   return(outputDF)
   
 }
-
 
