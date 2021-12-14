@@ -183,6 +183,8 @@ generateDomesticUse <- function(Use, specs) {
   }
   # Subtract Import from Use
   DomesticUse <- Use - Import[rownames(Use), colnames(Use)]
+  # Adjust Import column in DomesticUse to 0
+  DomesticUse[, getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")] <- 0
   return(DomesticUse)
 }
 
