@@ -5,8 +5,9 @@
 #' Disaggregate a specific sector in a summary level model to detail level
 #' @param modelname String indicating which model to generate. Must be a detail level model.
 #' @param sectorToDisaggregate String with the summary level code of the sector to be disaggregated from Summary to Detail Level
+#' @param specificiedDetailLevelSector String to denote whether to disaggregate only the specified summary level sector to all related detail level sectors, or only one related detail level sector (if value is TRUE)
 #' @return A summary level model with the specified sectors disaggregated at the Detail level.
-disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorToDisaggregate = NULL){
+disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorToDisaggregate = NULL, specifiedDetailLevelSector = NULL){
   # Check for appropriate input in sectorToDisaggregate and make sure format matches BEA_Summary column in model$crosswalk.
   if(is.null(sectorToDisaggregate)){
     stop("No summary level sector specified for disaggregation to detail level")
@@ -35,6 +36,7 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   
   # Consolidate disaggregation parameters in a list. 
   disaggParams <- list()
+  disaggParams$detailLevelSector <- specifiedDetailLevelSector
   disaggParams$detailModel <- detailModel
   disaggParams$summaryCode <- summaryCode
   disaggParams$summaryCodeCw <- summaryCodeCw
@@ -127,6 +129,37 @@ generateEnvironmentalAllocations <- function (detailModel, summaryCode, summaryC
   
 }
 
+#' Generate the allocation percentages for intersection portions of the Use and Make tables
+#' @param disaggParams List of disaggregation paramaters
+#' @param Table String that denotes which table the allocation values refer to. Can be either "Make" or "Use"
+#' @param vectorToDisagg String indicating whether a "Column" or "Row" is being disaggregated. These are the only two permitted values for this paramter.
+#' @param specifiedDetailLevelSector String that denotes which table the allocation values refer to. Can be either "Make" or "Use"
+#' @return Allocation percentages for disaggregating the non-intersection portion of the summary level model into the detail level for the current vectorToDisagg.
+intersectionAllocation <- function (disaggParams, Table, outputDF, vectorToDisagg){
+  
+  originalVector <- disaggParams$originalTable[disaggParams$detailRowIndeces, disaggParams$detailColIndeces]# Get detail intersection
+  originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
+  allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
+  #allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+  
+  if(Table == "Use"){
+    # Transpose vector to get allocations in correct order when reshaping
+    allocationVector <- t(allocationVector)
+    allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+    # Need to change order of columns after reshaping to ensure Industry is in column 1.
+    allocDF <- allocDF[,c(2,1,3)]
+  }else{
+    allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+  }
+  
+  colnames(allocDF) <- c("IndustryCode", "CommodityCode", disaggParams$allocName)# Rename DF columns
+  noteDF <-  data.frame(Note = I(rep("IntersectionDisagg", nrow(allocDF))))# Add a note for output DF to indicate intersectiond disaggregation
+  outputDF <- cbind(allocDF, noteDF)
+  
+  return(outputDF)
+  
+}
+
 #' Generate the allocation percentages for non-intersection portions of the Use and Make tables
 #' @param disaggParams List of disaggregation paramaters
 #' @param sector String, name of sector being disaggregated
@@ -191,7 +224,7 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
   # Get a list of all summary sectors
   summarySectorList <- as.list(unique(disaggParams$detailModel$crosswalk$BEA_Summary))
   
-  # Obtain the correct table
+  # Obtain the correct table and disaggregation parameters
   if(Table == "Use"){
     originalTable <- disaggParams$detailModel$U
     # Bind ValeAdded codes for Commodities and FinalDemand codes for Industries to match dimensions of as model$U object, which includes VA and FD values. 
@@ -250,39 +283,41 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
       detailRowIndeces <- which(originalRowCodes$Code %in% disaggParams$summaryCodeCw)
       detailColIndeces <- which(originalColCodes$Code %in% disaggParams$summaryCodeCw)
       detailOutputNames <- disaggParams$summaryCodeCw
-      
-      
     }
     
   }
   
   if(vectorToDisagg == "Intersection"){
     # Disaggregate Intersection
+    disaggParams$originalTable <- originalTable
+    disaggParams$detailRowIndeces <- detailRowIndeces
+    disaggParams$detailColIndeces <- detailColIndeces
+    disaggParams$allocName <- allocName
     
-    originalVector <- originalTable[detailRowIndeces, detailColIndeces]# Get detail intersection
-    originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
-    allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
-    #allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+    outputDF <- intersectionAllocation(disaggParams, Table, outputDF, vectorToDisagg)
     
-    if(Table == "Use"){
-      # Transpose vector to get allocations in correct order when reshaping
-      allocationVector <- t(allocationVector)
-      allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
-      # Need to change order of columns after reshaping to ensure Industry is in column 1.
-      allocDF <- allocDF[,c(2,1,3)]
-    }else{
-      allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
-    }
+    # originalVector <- originalTable[detailRowIndeces, detailColIndeces]# Get detail intersection
+    # originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
+    # allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
+    # #allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+    # 
+    # if(Table == "Use"){
+    #   # Transpose vector to get allocations in correct order when reshaping
+    #   allocationVector <- t(allocationVector)
+    #   allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+    #   # Need to change order of columns after reshaping to ensure Industry is in column 1.
+    #   allocDF <- allocDF[,c(2,1,3)]
+    # }else{
+    #   allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+    # }
+    # 
+    # colnames(allocDF) <- c("IndustryCode", "CommodityCode", allocName)# Rename DF columns
+    # noteDF <-  data.frame(Note = I(rep("IntersectionDisagg", nrow(allocDF))))# Add a note for output DF to indicate intersectiond disaggregation
+    # outputDF <- cbind(allocDF, noteDF)
     
-    colnames(allocDF) <- c("IndustryCode", "CommodityCode", allocName)# Rename DF columns
-    noteDF <-  data.frame(Note = I(rep("IntersectionDisagg", nrow(allocDF))))# Add a note for output DF to indicate intersectiond disaggregation
-    outputDF <- cbind(allocDF, noteDF)
-    
+    temp<-1
     
   }else{
-    ##TODO: code below needs to be its own function
-    ###function declaration:
-    ###calculateAllocations <- function (disaggParams$detailModel, disaggParams$summaryCode, disaggParams$summaryCodeCw, disaggParams$summaryLoc_Code, originalTable, originalRowCodes, originalColCodes, detailDisaggIndeces, allocName, vectorToDisagg){}
     # Calculate allocation percentages for each summary level commodity
     for (sector in summarySectorList){
       # Get summary to detail mapping of the current sector (row) 
