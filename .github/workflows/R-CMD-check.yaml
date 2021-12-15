@@ -64,7 +64,7 @@ jobs:
         run: |
           require(devtools)
           devtools::load_all()
-          for (modelname in c("USEEIOv2.0", "USEEIOv2.0.1", "USEEIOv2.1")) {
+          for (modelname in c("USEEIOv2.0", "USEEIOv2.0i-GHG_nodisagg", "USEEIOv2.0s-GHG", "USEEIOv2.0.1")) {
           m <- useeior::buildModel(modelname)
           
           print("-----")
