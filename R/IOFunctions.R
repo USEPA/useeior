@@ -183,7 +183,9 @@ generateDomesticUse <- function(Use, specs) {
   }
   # Subtract Import from Use
   DomesticUse <- Use - Import[rownames(Use), colnames(Use)]
-  # Adjust Import column in DomesticUse to 0
+  # Adjust Import column in DomesticUse to 0.
+  # Note: the original values in Import column are essentially the International Trade Adjustment
+  # that are reserved and added as an additional column (F050/F05000) in DomesticUse.
   DomesticUse[, getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")] <- 0
   return(DomesticUse)
 }
