@@ -1,6 +1,6 @@
 Model: "USEEIOv2.0"
 BaseIOSchema: 2012
-BaseIOLevel: "Detail"
+BaseIOLevel: &BaseIOLevel "Detail"
 IOYear: 2012 # Year for IO data
 ModelRegionAcronyms: ["US"]
 ModelType: "EEIO"
@@ -398,7 +398,7 @@ SatelliteTable:
     Locations: ["US"]
     SectorListSource: "BEA"
     SectorListYear: 2012
-    SectorListLevel: "Detail"
+    SectorListLevel: *BaseIOLevel
     OriginalFlowSource: "Input-Output Tables"
     ScriptFunctionCall: "getValueAddedTotalsbySector" #function to call for script
     ScriptFunctionParameters: ["model"] #list of parameters
