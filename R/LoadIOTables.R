@@ -24,7 +24,16 @@ loadIOData <- function(model) {
   # Check for aggregation
   model <- getAggregationSpecs(model)
   if(length(model$AggregationSpecs)!=0){
-    model <- aggregateModel(model)
+    
+    #if(length(model$AggregationSpecs$AssociatedDisaggregation %in% model$DisaggregationSpecs)) != 0{
+      # If there is an associated disaggregation with this aggregation, skip and handle in that disaggregation
+      #next
+    #}else{
+    
+     model <- aggregateModel(model)
+    #}
+    
+
   }
   
   # Check for disaggregation
