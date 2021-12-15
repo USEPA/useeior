@@ -7,7 +7,7 @@
 #' @param sectorToDisaggregate String with the summary level code of the sector to be disaggregated from Summary to Detail Level
 #' @param specificiedDetailLevelSector String to denote whether to disaggregate only the specified summary level sector to all related detail level sectors, or only one related detail level sector (if value is TRUE)
 #' @return A summary level model with the specified sectors disaggregated at the Detail level.
-disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorToDisaggregate = NULL, specifiedDetailLevelSector = NULL){
+disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorToDisaggregate = NULL, specifiedDetailLevelSector = FALSE){
   # Check for appropriate input in sectorToDisaggregate and make sure format matches BEA_Summary column in model$crosswalk.
   if(is.null(sectorToDisaggregate)){
     stop("No summary level sector specified for disaggregation to detail level")
@@ -36,7 +36,7 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   
   # Consolidate disaggregation parameters in a list. 
   disaggParams <- list()
-  disaggParams$detailLevelSector <- specifiedDetailLevelSector
+  disaggParams$specifiedDetailLevelSector <- specifiedDetailLevelSector
   disaggParams$detailModel <- detailModel
   disaggParams$summaryCode <- summaryCode
   disaggParams$summaryCodeCw <- summaryCodeCw
