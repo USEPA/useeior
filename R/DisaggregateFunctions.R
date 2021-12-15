@@ -159,7 +159,7 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
   
   originalInternationalTradeAdjustment <- model$InternationalTradeAdjustment
   originalNameList <- names(model$InternationalTradeAdjustment) # Get names from named vector
-  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1])) # Calculate code length (needed for summary vs. detail level code lengths)
+  codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
   originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
   originalRow <- model$InternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
   disaggInternationalTradeAdjustment <- rep(originalRow,length(disagg$DisaggregatedSectorCodes)) # Replicate the original a number of times equal to the number of disaggregate sectors
