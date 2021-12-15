@@ -302,9 +302,11 @@ printValidationResults <- function(model) {
   print(paste("Number of flow totals by commodity failing:",q_x_val$N_Fail))
   print(paste("Sectors with flow totals failing:", paste(unique(q_x_val$Failure$rownames), collapse = ", ")))
   
+if (model$specs$CommodityorIndustryType=="Commodity") {
   print("Validate that commodity output equals to domestic use plus production demand")
   q_val <- compareCommodityOutputandDomesticUseplusProductionDemand(model, tolerance = 0.01)
   print(paste("Number of flow totals by commodity passing:",q_val$N_Pass))
   print(paste("Number of flow totals by commodity failing:",q_val$N_Fail))
   print(paste("Sectors with flow totals failing:", paste(unique(q_val$Failure$rownames), collapse = ", ")))
+}
 }
