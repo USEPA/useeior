@@ -1,7 +1,7 @@
 # useeior
 [![R CI/CD test](https://github.com/USEPA/useeior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/USEPA/useeior/actions/workflows/R-CMD-check.yaml)
 
-`useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models). The [model object](format_specs/Model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecification.md) and optional [disaggregation specification](format_specs/DisaggregationAndAggregationSpecification.md). [Model specifications](inst/extdata/modelspecs) and associated [disaggregation specifications](inst/extdata/disaggspecs) for EPA-validated models are included in the package. The package offers various functions for validating, calculating, visualizing, and writing out models and/or their components. `useeior` is a core component of the [USEEIO Modeling Framework](https://github.com/USEPA/useeio).
+`useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models). The [model object](format_specs/Model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecification.md) and optional [disaggregation specification](format_specs/DisaggregationSpecification.md). [Model specifications](inst/extdata/modelspecs) and associated [disaggregation specifications](inst/extdata/disaggspecs) for EPA-validated models are included in the package. The package offers various functions for validating, calculating, visualizing, and writing out models and/or their components. `useeior` is a core component of the [USEEIO Modeling Framework](https://github.com/USEPA/useeio).
 
 `useeior` is in a stable development state. Users intending to use the package for production purposes and applications should use [Releases](https://github.com/USEPA/useeior/releases).
 
@@ -15,8 +15,8 @@ devtools::install_github("USEPA/useeior")
 ```
 
 ```
-# Install a previously released version (e.g. v0.4) from GitHub
-devtools::install_github("USEPA/useeior@v0.4")
+# Install a previously released version (e.g. v1.0) from GitHub
+devtools::install_github("USEPA/useeior@v1.0")
 ```
 
 See [Releases](https://github.com/USEPA/useeior/releases) for all previously realeased versions.
@@ -31,10 +31,10 @@ View all models with existing config files that can be built using useeior
 useeior::seeAvailableModels()
 ```
 
-Build a model available in useeior (e.g. USEEIOv2.0)
+Build a model that is available in useeior (e.g. the latest USEEIOv2.0.1 model)
 
 ```
-model <- useeior::buildModel('USEEIOv2.0')
+model <- useeior::buildModel('USEEIOv2.0.1')
 ```
 
 To build a customized model, refer to [Advanced Uses](https://github.com/USEPA/useeior/wiki/Using-useeior#advanced-uses) in Wiki.
