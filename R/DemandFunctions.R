@@ -66,7 +66,8 @@ prepareDomesticProductionDemand <- function(model) {
   y_d_c <- sumforConsumption(model, model$DomesticFinalDemand)
   y_d_e <- sumDemandCols(model$DomesticFinalDemand, export_code)
   y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
-  y_d_p <- y_d_c + y_d_e + y_d_delta + model$InternationalTradeAdjustment
+  mu <- model$InternationalTradeAdjustment
+  y_d_p <- y_d_c + y_d_e + y_d_delta + mu
   return(y_d_p)
 }
 
