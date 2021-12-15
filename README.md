@@ -15,8 +15,8 @@ devtools::install_github("USEPA/useeior")
 ```
 
 ```
-# Install a previously released version (e.g. v0.4) from GitHub
-devtools::install_github("USEPA/useeior@v0.4")
+# Install a previously released version (e.g. v1.0) from GitHub
+devtools::install_github("USEPA/useeior@v1.0")
 ```
 
 See [Releases](https://github.com/USEPA/useeior/releases) for all previously realeased versions.
@@ -31,10 +31,10 @@ View all models with existing config files that can be built using useeior
 useeior::seeAvailableModels()
 ```
 
-Build a model available in useeior (e.g. USEEIOv2.0)
+Build a model that is available in useeior (e.g. the latest USEEIOv2.0.1 model)
 
 ```
-model <- useeior::buildModel('USEEIOv2.0')
+model <- useeior::buildModel('USEEIOv2.0.1')
 ```
 
 To build a customized model, refer to [Advanced Uses](https://github.com/USEPA/useeior/wiki/Using-useeior#advanced-uses) in Wiki.
