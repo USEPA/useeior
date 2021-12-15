@@ -61,50 +61,42 @@ jobs:
       - uses: r-lib/actions/check-r-package@v1
 
       - name: Build and validate models - USEEIOv2.0
+        if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          modelname <- "USEEIOv2.0"
-          m <- useeior::buildModel(modelname)
-          print("-----")
-          print(paste("Validation for ", modelname))
-          printValidationResults(m)
+          m <- useeior::buildModel("USEEIOv2.0")
+          useeior::printValidationResults(m)
 
         shell: Rscript {0}
 
       - name: Build and validate models - USEEIOv2.0 industry model
+        if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          modelname <- "USEEIOv2.0i-GHG_nodisagg"
-          m <- useeior::buildModel(modelname)
-          print("-----")
-          print(paste("Validation for ", modelname))
-          printValidationResults(m)
+          m <- useeior::buildModel("USEEIOv2.0i-GHG_nodisagg")
+          useeior::printValidationResults(m)
 
         shell: Rscript {0}
 
       - name: Build and validate models - USEEIOv2.0 summary model
+        if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          modelname <- "USEEIOv2.0s-GHG"
-          m <- useeior::buildModel(modelname)
-          print("-----")
-          print(paste("Validation for ", modelname))
-          printValidationResults(m)
+          m <- useeior::buildModel("USEEIOv2.0s-GHG")
+          useeior::printValidationResults(m)
 
         shell: Rscript {0}
 
       - name: Build and validate models - USEEIOv2.0.1
+        if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          modelname <- "USEEIOv2.0.1"
-          m <- useeior::buildModel(modelname)
-          print("-----")
-          print(paste("Validation for ", modelname))
-          printValidationResults(m)
+          m <- useeior::buildModel("USEEIOv2.0.1")
+          useeior::printValidationResults(m)
 
         shell: Rscript {0}
 
