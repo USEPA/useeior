@@ -60,53 +60,46 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v1
 
-      - name: Build and validate models
+      - name: Build and validate models - USEEIOv2.0
+        if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          for (modelname in c("USEEIOv2.0", "USEEIOv2.0i-GHG_nodisagg", "USEEIOv2.0s-GHG", "USEEIOv2.0.1")) {
-          m <- useeior::buildModel(modelname)
-          
-          print("-----")
-          print(paste("Validation for ", modelname))
-          print("Validate that commodity output can be recalculated (within 1%) with the model total requirements matrix (L) and demand vector (y) for US production")
-          econval <- compareOutputandLeontiefXDemand(m, tolerance = 0.01)
-          print(paste("Number of sectors passing:",econval$N_Pass))
-          print(paste("Number of sectors failing:",econval$N_Fail))
-          print(paste("Sectors failing:", paste(unique(econval$Failure$rownames), collapse = ", ")))
-          
-          print("Validate that commodity output can be recalculated (within 1%) with model total domestic requirements matrix (L_d) and model demand (y) for US production")
-          econval <- compareOutputandLeontiefXDemand(m,use_domestic=TRUE, tolerance = 0.01)
-          print(paste("Number of sectors passing:",econval$N_Pass))
-          print(paste("Number of sectors failing:",econval$N_Fail))
-          print(paste("Sectors failing:", paste(unique(econval$Failure$rownames), collapse = ", ")))
-          
-          print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total requirements matrix (L), and demand vector (y) for US production")
-          modelval <- compareEandLCIResult(m, tolerance = 0.01)
-          print(paste("Number of flow totals by commodity passing:",modelval$N_Pass))
-          print(paste("Number of flow totals by commodity failing:",modelval$N_Fail))
-          
-          print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total domestic requirements matrix (L_d), and demand vector (y) for US production")
-          dom_val <- compareEandLCIResult(m, use_domestic=TRUE, tolerance = 0.01)
-          print(paste("Number of flow totals by commodity passing:",dom_val$N_Pass))
-          print(paste("Number of flow totals by commodity failing:",dom_val$N_Fail))
-          print(paste("Sectors with flow totals failing:", paste(unique(dom_val$Failure$variable), collapse = ", ")))  
+          m <- useeior::buildModel("USEEIOv2.0")
+          useeior::printValidationResults(m)
 
-          print("Validate that commodity output are properly transformed to industry output via MarketShare")
-          q_x_val <- compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation(m, tolerance = 0.01)
-          print(paste("Number of flow totals by commodity passing:",q_x_val$N_Pass))
-          print(paste("Number of flow totals by commodity failing:",q_x_val$N_Fail))
-          print(paste("Sectors with flow totals failing:", paste(unique(q_x_val$Failure$rownames), collapse = ", ")))
-          
-          print("Validate that commodity output equals to domestic use plus production demand")
-          q_val <- compareCommodityOutputandDomesticUseplusProductionDemand(m, tolerance = 0.01)
-          print(paste("Number of flow totals by commodity passing:",q_val$N_Pass))
-          print(paste("Number of flow totals by commodity failing:",q_val$N_Fail))
-          print(paste("Sectors with flow totals failing:", paste(unique(q_val$Failure$rownames), collapse = ", ")))
-          print("-----")
-          }
         shell: Rscript {0}
-      
+
+      - name: Build and validate models - USEEIOv2.0 industry model
+        if: always()
+        run: |
+          require(devtools)
+          devtools::load_all()
+          m <- useeior::buildModel("USEEIOv2.0i-GHG_nodisagg")
+          useeior::printValidationResults(m)
+
+        shell: Rscript {0}
+
+      - name: Build and validate models - USEEIOv2.0 summary model
+        if: always()
+        run: |
+          require(devtools)
+          devtools::load_all()
+          m <- useeior::buildModel("USEEIOv2.0s-GHG")
+          useeior::printValidationResults(m)
+
+        shell: Rscript {0}
+
+      - name: Build and validate models - USEEIOv2.0.1
+        if: always()
+        run: |
+          require(devtools)
+          devtools::load_all()
+          m <- useeior::buildModel("USEEIOv2.0.1")
+          useeior::printValidationResults(m)
+
+        shell: Rscript {0}
+
       #- name: Show testthat output
       #  if: always()  # step will run even if previous steps fail
       #  run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
