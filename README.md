@@ -80,7 +80,7 @@ useeior::writeModelMatrices(model, to_format = "csv", outputfolder)
 Validate that flow totals by commodity `E_c` can be recalculated (within 1%) using the model satellite matrix `B`, market shares matrix `V_n`, total requirements matrix `L`, and demand vector `y` for US production.
 
 ```
-> modelval <- compareEandLCIResult(model, tolerance = 0.01)
+> modelval <- useeior::compareEandLCIResult(model, tolerance = 0.01)
 > print(paste("Number of flow totals by commodity passing:", modelval$N_Pass))
 [1] "Number of flow totals by commodity passing: 1118742"
 > print(paste("Number of flow totals by commodity failing:", modelval$N_Fail))
@@ -90,7 +90,7 @@ Validate that flow totals by commodity `E_c` can be recalculated (within 1%) usi
 Validate that commodity output can be recalculated (within 1%) with the model total requirements matrix `L` and demand vector `y` for US production.
 
 ```
-> econval <- compareOutputandLeontiefXDemand(model, tolerance = 0.01)
+> econval <- useeior::compareOutputandLeontiefXDemand(model, tolerance = 0.01)
 > print(paste("Number of sectors passing:",econval$N_Pass))
 [1] "Number of sectors passing: 409"
 > print(paste("Number of sectors failing:",econval$N_Fail))
@@ -118,19 +118,19 @@ colnames(result$LCIA_f) <- colnames(result$LCIA_d)
 indicators <- c("ACID", "CCDD", "CMSW", "CRHW", "ENRG", "ETOX", "EUTR", "GHG",
                 "HRSP", "HTOX", "LAND", "MNRL", "OZON", "SMOG", "WATR")
 # Create figure on the left
-heatmapSectorRanking(model,
-                     matrix = result$LCIA_d,
-                     indicators,
-                     sector_to_remove = "",
-                     N_sector = 20,
-                     x_title = "LCIA_d (DIRECT perspective) & US production demand")
+useeior::heatmapSectorRanking(model,
+                              matrix = result$LCIA_d,
+                              indicators,
+                              sector_to_remove = "",
+                              N_sector = 20,
+                              x_title = "LCIA_d (DIRECT perspective) & US production demand")
 # Create figure on the right
-heatmapSectorRanking(model,
-                     matrix = result$LCIA_f,
-                     indicators,
-                     sector_to_remove = "",
-                     N_sector = 20,
-                     x_title = "LCIA_f (FINAL perspective) & US consumption demand")
+useeior::heatmapSectorRanking(model,
+                              matrix = result$LCIA_f,
+                              indicators,
+                              sector_to_remove = "",
+                              N_sector = 20,
+                              x_title = "LCIA_f (FINAL perspective) & US consumption demand")
 ```
 
 ![](https://github.com/USEPA/useeior/blob/develop/inst/img/ranking_direct_prod_final_cons_v2.0.1.png)
@@ -140,7 +140,7 @@ heatmapSectorRanking(model,
 Analyze `flow` contribution to `Acidification Potential` in the `Electricity` sector (`221100/US`).
 
 ```
-> ACID_elec <- calculateFlowContributiontoImpact(model, "221100/US", "Acidification Potential")
+> ACID_elec <- useeior::calculateFlowContributiontoImpact(model, "221100/US", "Acidification Potential")
 > ACID_elec$contribution <- scales::percent(ACID_elec$contribution, accuracy = 0.1)
 > head(subset(ACID_elec, TRUE, select = "contribution"), 5)
                                   contribution
@@ -154,7 +154,7 @@ Hydrofluoric acid/emission/air/kg         0.2%
 Analyze `sector` contribution to `Human Health - Respiratory Effects` in the `Flours and malts` sector (`311210/US`).
 
 ```
-> HHRP_flour <- calculateSectorContributiontoImpact(model, "311210/US", "Human Health - Respiratory Effects")
+> HHRP_flour <- useeior::calculateSectorContributiontoImpact(model, "311210/US", "Human Health - Respiratory Effects")
 > HHRP_flour$contribution <- scales::percent(HHRP_flour$contribution, accuracy = 0.1)
 > head(subset(HHRP_flour, TRUE, select = "contribution"), 5)
                                                                       contribution
