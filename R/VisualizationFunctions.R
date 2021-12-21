@@ -75,7 +75,7 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
   p <- ggplot(df, aes(x = factor(x, levels = rev(unique(x))),
                       y = Value, shape = as.character(modelname)))
   if (length(model_list)>1) {
-    p <- p + geom_line(aes(group = x))
+    p <- p + geom_line(aes(group = x), color='red')
   }
   p <- p + geom_point(aes(color = GroupName), size = 3) +
     scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
