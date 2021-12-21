@@ -135,6 +135,36 @@ heatmapSectorRanking(model,
 
 ![](https://github.com/USEPA/useeior/blob/develop/inst/img/ranking_direct_prod_final_cons_v2.0.1.png)
 
+### Analyze Flow and Sector Contribution to Impact
+
+Analyze `flow` contribution to `Acidification Potential` in the `Electricity` sector (`221100/US`).
+
+```
+> ACID_elec <- calculateFlowContributiontoImpact(model, "221100/US", "Acidification Potential")
+> ACID_elec$contribution <- scales::percent(ACID_elec$contribution, accuracy = 0.1)
+> head(subset(ACID_elec, TRUE, select = "contribution"), 5)
+                                  contribution
+Sulfur dioxide/emission/air/kg           57.4%
+Nitrogen dioxide/emission/air/kg         39.2%
+Ammonia/emission/air/kg                   2.3%
+Sulfuric acid/emission/air/kg             0.7%
+Hydrofluoric acid/emission/air/kg         0.2%
+```
+
+Analyze `sector` contribution to `Human Health - Respiratory Effects` in the `Flours and malts` sector (`311210/US`).
+
+```
+> HHRP_flour <- calculateSectorContributiontoImpact(model, "311210/US", "Human Health - Respiratory Effects")
+> HHRP_flour$contribution <- scales::percent(HHRP_flour$contribution, accuracy = 0.1)
+> head(subset(HHRP_flour, TRUE, select = "contribution"), 5)
+                                                                      contribution
+1111B0/US - Fresh wheat, corn, rice, and other grains                        90.7%
+311210/US - Flours and malts                                                  1.5%
+115000/US - Agriculture and forestry support                                  0.9%
+2123A0/US - Sand, gravel, clay, phosphate, other nonmetallic minerals         0.8%
+1111A0/US - Fresh soybeans, canola, flaxseeds, and other oilseeds             0.8%
+```
+
 A complete list of available functions for calculating, validating, exporting and visualizing model can be found [here](https://github.com/USEPA/useeior/wiki/Using-useeior#calculate-validate-export-visualize-model) in the Wiki.
 
 ## Disclaimer
