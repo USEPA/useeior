@@ -75,9 +75,34 @@ Write model matrices as `.csv` files to a given output folder.
 useeior::writeModelMatrices(model, to_format = "csv", outputfolder)
 ```
 
-### Validate and Visualize Model
+### Validate Model (examples)
 
-Once a model is built, model results can be validated, exported, and visualized for further applications.
+Validate that flow totals by commodity `E_c` can be recalculated (within 1%) using the model satellite matrix `B`, market shares matrix `V_n`, total requirements matrix `L`, and demand vector `y` for US production.
+
+```
+> modelval <- compareEandLCIResult(model, tolerance = 0.01)
+> print(paste("Number of flow totals by commodity passing:", modelval$N_Pass))
+[1] "Number of flow totals by commodity passing: 1118742"
+> print(paste("Number of flow totals by commodity failing:", modelval$N_Fail))
+[1] "Number of flow totals by commodity failing: 0"
+```
+
+Validate that commodity output can be recalculated (within 1%) with the model total requirements matrix `L` and demand vector `y` for US production.
+
+```
+> econval <- compareOutputandLeontiefXDemand(model, tolerance = 0.01)
+> print(paste("Number of sectors passing:",econval$N_Pass))
+[1] "Number of sectors passing: 409"
+> print(paste("Number of sectors failing:",econval$N_Fail))
+[1] "Number of sectors failing: 2"
+> print(paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", ")))
+[1] "Sectors failing: S00402/US, S00300/US"
+```
+Note: `S00402/US - Used and secondhand goods` and `S00300/US - Noncomparable imports` are two commodities that are not produced by any industry in the US, therefore their commodity output naturally cannot recalculated with the model total requirements matrix `L` and demand vector `y` for US production.
+
+
+### Visualize Model Results
+
 
 A complete list of available functions for calculating, validating, exporting and visualizing model can be found [here](https://github.com/USEPA/useeior/wiki/Using-useeior#calculate-validate-export-visualize-model) in the Wiki.
 
