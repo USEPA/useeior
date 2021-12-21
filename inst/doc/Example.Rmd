@@ -57,9 +57,9 @@ model_list <- list("USEEIOv2.0.1" = model)
 
 ```{r "ranking_direct_prod_final_cons_v2.0.1", fig.width = 20, fig.height = 12}
 p1 <- heatmapSectorRanking(model, matrix = result$LCIA_d, indicators,
-                           sector_to_remove = "", N_sector = 20, x_title = "US production demand & direct perspective")
+                           sector_to_remove = "", N_sector = 20, x_title = "LCIA_d (DIRECT perspective) & US production demand")
 p2 <- heatmapSectorRanking(model, matrix = result$LCIA_f, indicators,
-                           sector_to_remove = "", N_sector = 20, x_title = "US consumption demand & final perspective")
+                           sector_to_remove = "", N_sector = 20, x_title = "LCIA_f (FINAL perspective) & US consumption demand")
 gridExtra::grid.arrange(p1, p2, nrow = 1)
 ```
 
