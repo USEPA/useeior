@@ -178,7 +178,12 @@ calculateSectorContributiontoImpact <- function (model, sector, indicator, domes
     L <- model$L_d
   }
   D <- model$D
-  df <- calculatePercentContributiontoImpact( L[,sector],D[indicator,])
+  df <- calculatePercentContributiontoImpact(L[,sector],D[indicator,])
+  # Add sector name for easier interpretation of results 
+  rownames(df) <- paste(rownames(df),
+                        model$Commodities[match(rownames(df),
+                                                model$Commodities$Code_Loc), "Name"],
+                        sep = " - ")
   return(df)
 }
 
