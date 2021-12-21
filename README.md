@@ -103,6 +103,37 @@ Note: `S00402/US - Used and secondhand goods` and `S00300/US - Noncomparable imp
 
 ### Visualize Model Results
 
+Rank sectors based a composite score of selected total impacts (LCIA_d or LCIA_f) associated with total US demand (US production or consumption vector).
+The ranking is an effective means to identify prioritization opportunity in practices like the EPA's [Sustainable Materials Management program](https://www.epa.gov/smm).
+Comparing rankings may also be used as another form of model validation that incorporates the demand vectors and the indicators as well as the model result matrices.
+
+```
+# Calculate model LCIA_d and LCIA_f
+result <- c(useeior::calculateEEIOModel(model, perspective = 'DIRECT', demand = "Production"),
+            useeior::calculateEEIOModel(model, perspective = 'FINAL', demand = "Consumption"))
+colnames(result$LCIA_d) <- model$Indicators$meta[match(colnames(result$LCIA_d),
+                                                       model$Indicators$meta$Name), "Code"]
+colnames(result$LCIA_f) <- colnames(result$LCIA_d)
+# Define indicators
+indicators <- c("ACID", "CCDD", "CMSW", "CRHW", "ENRG", "ETOX", "EUTR", "GHG",
+                "HRSP", "HTOX", "LAND", "MNRL", "OZON", "SMOG", "WATR")
+# Create figure on the left
+heatmapSectorRanking(model,
+                     matrix = result$LCIA_d,
+                     indicators,
+                     sector_to_remove = "",
+                     N_sector = 20,
+                     x_title = "LCIA_d (DIRECT perspective) & US production demand")
+# Create figure on the right
+heatmapSectorRanking(model,
+                     matrix = result$LCIA_f,
+                     indicators,
+                     sector_to_remove = "",
+                     N_sector = 20,
+                     x_title = "LCIA_f (FINAL perspective) & US consumption demand")
+```
+
+![](https://github.com/USEPA/useeior/blob/develop/inst/img/ranking_direct_prod_final_cons_v2.0.1.png)
 
 A complete list of available functions for calculating, validating, exporting and visualizing model can be found [here](https://github.com/USEPA/useeior/wiki/Using-useeior#calculate-validate-export-visualize-model) in the Wiki.
 
