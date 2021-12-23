@@ -77,7 +77,9 @@ Write model matrices as `.csv` files to a given output folder.
 useeior::writeModelMatrices(model, to_format = "csv", outputfolder)
 ```
 
-### Validate Model (examples)
+### Validate Model
+
+#### Full model validation
 
 Validate that flow totals by commodity `E_c` can be recalculated (within 1%) using the model satellite matrix `B`, market shares matrix `V_n`, total requirements matrix `L`, and demand vector `y` for US production.
 
@@ -100,7 +102,11 @@ Validate that commodity output can be recalculated (within 1%) with the model to
 > print(paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", ")))
 [1] "Sectors failing: S00402/US, S00300/US"
 ```
-Note: `S00402/US - Used and secondhand goods` and `S00300/US - Noncomparable imports` are two commodities that are not produced by any industry in the US, therefore their commodity output naturally cannot recalculated with the model total requirements matrix `L` and demand vector `y` for US production. Results for these sectors are not recommended for use.
+Note: `S00402/US - Used and secondhand goods` and `S00300/US - Noncomparable imports` are two commodities that are not produced by any industry in the US, therefore their commodity output naturally cannot be recalculated with the model total requirements matrix `L` and demand vector `y` for US production. Results for these sectors are not recommended for use.
+
+#### Economic validation
+
+Additional economic validations are performed in [ValidateModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel.Rmd).
 
 ### Visualize Model Results
 
