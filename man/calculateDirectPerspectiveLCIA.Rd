@@ -4,7 +4,7 @@
 \alias{calculateDirectPerspectiveLCIA}
 \title{Multiply the C matrix and the product of B matrix and scaling vector c.}
 \usage{
-calculateDirectPerspectiveLCIA(D, c)
+calculateDirectPerspectiveLCIA(D, s)
 }
 \arguments{
 \item{D}{Direct impact per unit of the environmental flows.}
