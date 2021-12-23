@@ -79,7 +79,7 @@ useeior::writeModelMatrices(model, to_format = "csv", outputfolder)
 
 ### Validate Model
 
-Complete model validation checks can be found in [ValidateModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel.Rmd). Knit [ValidateModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel_render.Rmd) to perform all validation checks on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/729ef3ff36aa877cba9c3a3e57ebf180e1dea8e2/inst/doc/ValidateModel_render.Rmd#L5)). This will return an `html` and a `md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containg validation results for each model.
+Complete model validation checks can be found in [ValidateModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel.Rmd). Knit [ValidateModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel_render.Rmd) to perform all validation checks on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel_render.Rmd#L5)). This will return an `html` and a `md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containg validation results for each model.
 
 #### Examples
 
@@ -107,6 +107,8 @@ Validate that commodity output can be recalculated (within 1%) with the model to
 Note: `S00402/US - Used and secondhand goods` and `S00300/US - Noncomparable imports` are two commodities that are not produced by any industry in the US, therefore their commodity output naturally cannot be recalculated with the model total requirements matrix `L` and demand vector `y` for US production. Results for these sectors are not recommended for use.
 
 ### Visualize Model Results
+
+#### Examples
 
 Rank sectors based a composite score of selected total impacts (LCIA_d or LCIA_f) associated with total US demand (US production or consumption vector).
 The ranking is an effective means to identify prioritization opportunity in practices like the EPA's [Sustainable Materials Management program](https://www.epa.gov/smm).
@@ -144,6 +146,8 @@ More visualization examples are available in [Example.Rmd](https://github.com/US
 
 ### Analyze Flow and Sector Contribution to Impact
 
+#### Examples
+
 Analyze `flow` contribution to `Acidification Potential` in the `Electricity` sector (`221100/US`).
 
 ```
@@ -173,6 +177,14 @@ Analyze `sector` contribution to `Human Health - Respiratory Effects` in the `Fl
 ```
 
 More analysis examples are available in [Example.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/Example.Rmd).
+
+### Compare Model Results
+
+Comparison betwen two models can be found in [CompareModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModel.Rmd). Knit [CompareModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModel_render.Rmd) to perform comparison on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModel_render.Rmd#L5)). This will return an `html` and a `md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containg comparison results for each model.
+
+Currently, it only compares flow totals between two models. More comparisons will be added in the future.
+
+### Additional Information
 
 A complete list of available functions for calculating, validating, exporting and visualizing model can be found [here](https://github.com/USEPA/useeior/wiki/Using-useeior#calculate-validate-export-visualize-model) in the Wiki.
 
