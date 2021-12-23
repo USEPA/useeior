@@ -114,7 +114,7 @@ calculateFinalPerspectiveLCI <- function(M, y) {
 
 #' Multiply the C matrix and the product of B matrix and scaling vector c.
 #' @param D Direct impact per unit of the environmental flows.
-#' @param c Scaling vector.
+#' @param s Scaling vector.
 #' @return A transposed matrix with total impacts in form of sector x impact categories.
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”

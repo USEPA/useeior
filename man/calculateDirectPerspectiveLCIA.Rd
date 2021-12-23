@@ -9,7 +9,7 @@ calculateDirectPerspectiveLCIA(D, s)
 \arguments{
 \item{D}{Direct impact per unit of the environmental flows.}
 
-\item{c}{Scaling vector.}
+\item{s}{Scaling vector.}
 }
 \value{
 A transposed matrix with total impacts in form of sector x impact categories.
