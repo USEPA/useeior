@@ -54,7 +54,7 @@ N_adj <- useeior::adjustResultMatrixPrice("N",
 
 ### Calculate Model LCI and LCIA
 
-Calculate model life cycle inventory (LCI) and life cycle impact assessment (LCIA) results under user-specified [perspective](../format-specs/result.md#calculation-perspectives), demand vector (from DemandVectors in the model object or a user-provided vector) and a selected direct requirements matrix (complete or domestic).
+Calculate model life cycle inventory (LCI) and life cycle impact assessment (LCIA) results with a user-specified [calculation perspective](format_specs/Calculation.md#calculation-perspectives), demand vector (from DemandVectors in the model object or a user-provided vector) and  a model [direct requirements matrix](format_specs/Model.md#a). 
 
 ```
 result <- useeior::calculateEEIOModel(model,
@@ -62,6 +62,8 @@ result <- useeior::calculateEEIOModel(model,
                                       demand = "CompleteProduction",
                                       use_domestic_requirements = FALSE)
 ```
+
+This returns a [Calculation Result](format_specs/Calculation.md#calculation-result). 
 
 ### Write Model to File
 
