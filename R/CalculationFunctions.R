@@ -50,11 +50,11 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
   if (perspective=="DIRECT") {
     # Calculate DirectPerspectiveLCI (transposed m_d with total impacts in form of sectorxflows)
     logging::loginfo("Calculating Direct Perspective LCI...")
-    c <- getScalingVector(L, f)
-    result$LCI_d <- calculateDirectPerspectiveLCI(model$B, c)
+    s <- getScalingVector(L, f)
+    result$LCI_d <- calculateDirectPerspectiveLCI(model$B, s)
     # Calculate DirectPerspectiveLCIA (transposed u_d with total impacts in form of sectorximpact categories)
     logging::loginfo("Calculating Direct Perspective LCIA...")
-    result$LCIA_d <- calculateDirectPerspectiveLCIA(model$D, c)
+    result$LCIA_d <- calculateDirectPerspectiveLCIA(model$D, s)
   } else if (perspective=="FINAL") {
     # Calculate FinalPerspectiveLCI 
     logging::loginfo("Calculating Final Perspective LCI...")
@@ -78,22 +78,22 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 8.
 getScalingVector <- function(L, demand) {
-  c <- L %*% demand
-  return(c)
+  s <- L %*% demand
+  return(s)
 }
 
 #' Multiply the B matrix and the scaling vector c.
 #' @param B Marginal impact per unit of the environmental flows.
-#' @param c Scaling vector.
+#' @param s Scaling vector.
 #' @return A transposed matrix with total impacts in form of sector x flows.
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 8.
-calculateDirectPerspectiveLCI <- function(B, c) {
-  m_d <- t(B %*% diag(as.vector(c), nrow(c)))
-  rownames(m_d) <- rownames(c)
-  return(m_d)
+calculateDirectPerspectiveLCI <- function(B, s) {
+  lci_d <- t(B %*% diag(as.vector(s), nrow(s)))
+  rownames(lci_d) <- rownames(s)
+  return(lci_d)
 }
 
 #' The final perspective LCI aligns flows with sectors consumed by final users
@@ -120,9 +120,9 @@ calculateFinalPerspectiveLCI <- function(M, y) {
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 8.
-calculateDirectPerspectiveLCIA <- function(D, c) {
-  lcia_d <- t(D %*% diag(as.vector(c), nrow(c)))
-  rownames(lcia_d) <- rownames(c)
+calculateDirectPerspectiveLCIA <- function(D, s) {
+  lcia_d <- t(D %*% diag(as.vector(s), nrow(s)))
+  rownames(lcia_d) <- rownames(s)
   return(lcia_d)
 }
 
