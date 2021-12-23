@@ -137,6 +137,15 @@ writeModeltoXLSX <- function(model, outputfolder) {
   logging::loginfo(paste0("Model matrices written to Excel workbook (.xlsx) in /", outputfolder, "."))
 }  
 
+#'Create a unique hash identifier for a model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return char string
+#' @export
+generateModelIdentifier <- function(model) {
+  id <- digest::digest(model, algo="sha256")
+  return(id)
+}
+
 ###All functions below here are internal
 
 #' Sets directories to write model output data to
@@ -283,15 +292,6 @@ writeModelMetadata <- function(model, dirs) {
   writeSessionInfotoFile(dirs$model)
   
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
-}
-
-#'Create a unique hash identifier for a model
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @return char string
-#' @export
-generateModelIdentifier <- function(model) {
-  id <- digest::digest(model, algo="sha256")
-  return(id)
 }
 
 #' Write out session information to a "Rsessioninfo.txt file in the given path
