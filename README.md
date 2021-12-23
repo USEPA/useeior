@@ -140,6 +140,8 @@ useeior::heatmapSectorRanking(model,
 
 ![](https://github.com/USEPA/useeior/blob/develop/inst/img/ranking_direct_prod_final_cons_v2.0.1.png)
 
+More visualization examples are available in [Example.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/Example.Rmd).
+
 ### Analyze Flow and Sector Contribution to Impact
 
 Analyze `flow` contribution to `Acidification Potential` in the `Electricity` sector (`221100/US`).
@@ -169,6 +171,8 @@ Analyze `sector` contribution to `Human Health - Respiratory Effects` in the `Fl
 2123A0/US - Sand, gravel, clay, phosphate, other nonmetallic minerals         0.8%
 1111A0/US - Fresh soybeans, canola, flaxseeds, and other oilseeds             0.8%
 ```
+
+More analysis examples are available in [Example.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/Example.Rmd).
 
 A complete list of available functions for calculating, validating, exporting and visualizing model can be found [here](https://github.com/USEPA/useeior/wiki/Using-useeior#calculate-validate-export-visualize-model) in the Wiki.
 
