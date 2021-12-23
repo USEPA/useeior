@@ -14,7 +14,7 @@ writeModelforAPI <-function(model, basedir){
   prepareWriteDirs(model, dirs)
   writeModelMatrices(model,"bin",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
-  writeModelMetadata(model,dirs)
+  writeModelMetadata(model,dirs$data)
 }
 
 #' Write the model sector crosswalk as .csv file
@@ -64,7 +64,7 @@ writeModelMatrices <- function(model, to_format, outputfolder) {
 
 #' Write selected model matrices, demand vectors, and metadata as XLSX file to output folder
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param outputfolder A directory to write model matrices and metadata as XLSX file out to
+#' @param outputfolder A directory to write model matrices and metadata as XLSX file.
 #' @description Writes model matrices demand vectors, and metadata as XLSX file to output folder.
 #' @export
 writeModeltoXLSX <- function(model, outputfolder) {
@@ -184,9 +184,9 @@ prepareWriteDirs <- function(model, dirs) {
 
 #' Write model demand vectors as JSON files for API to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param demandsfolder Path to output folder.
+#' @param outputfolder A directory to write model demand vectors.
 #' @description Writes model demand vectors, including y and y_d for consumption and production.
-writeModelDemandstoJSON <- function(model, demandsfolder) {
+writeModelDemandstoJSON <- function(model, outputfolder) {
   #!WARNING: Only works for single region model
   if (model$specs$ModelRegionAcronyms!="US") {
     stop("Currently only works for single region US models.")
@@ -199,17 +199,17 @@ writeModelDemandstoJSON <- function(model, demandsfolder) {
     rownames(f) <- NULL
     f <- f[, c("sector", "amount")]
     f <- jsonlite::toJSON(f, pretty = TRUE)
-    write(f, paste0(demandsfolder, "/", n, ".json"))
+    write(f, paste0(outputfolder, "/", n, ".json"))
   }
-  logging::loginfo(paste0("Model demand vectors for API written to ", demandsfolder, "."))
+  logging::loginfo(paste0("Model demand vectors for API written to ", outputfolder, "."))
 }
 
 #' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder
 #' format for file is here https://github.com/USEPA/USEEIO_API/blob/master/doc/data_format.md
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param dirs A named list of directories
+#' @param outputfolder A directory to write model metadata.
 #' @description Writes model metadata, including indicators and demands.
-writeModelMetadata <- function(model, dirs) {
+writeModelMetadata <- function(model, outputfolder) {
   #!WARNING: Only works for single region model
   if (model$specs$ModelRegionAcronyms!="US") {
     stop("Currently only works for single region US models.")
@@ -217,8 +217,6 @@ writeModelMetadata <- function(model, dirs) {
   
   # Load metadata fields for API
   fields <- configr::read.config(system.file("extdata/USEEIO_API_fields.yml", package="useeior"))
-  # Define output folder
-  outputfolder <- dirs$model
   
   # Write model description to models.csv
   model_desc <- file.path(dirs$data, "models.csv")

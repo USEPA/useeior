@@ -9,7 +9,7 @@ writeModeltoXLSX(model, outputfolder)
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{outputfolder}{A directory to write model matrices and metadata as XLSX file out to}
+\item{outputfolder}{A directory to write model matrices and metadata as XLSX file.}
 }
 \description{
 Writes model matrices demand vectors, and metadata as XLSX file to output folder.
