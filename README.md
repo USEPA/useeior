@@ -31,7 +31,7 @@ View all models with existing config files that can be built using useeior
 useeior::seeAvailableModels()
 ```
 
-Build a model that is available in useeior (e.g. the latest USEEIOv2.0.1 model)
+Build a model that is available in useeior (e.g. the USEEIOv2.0.1 model)
 
 ```
 model <- useeior::buildModel('USEEIOv2.0.1')
@@ -63,7 +63,7 @@ result <- useeior::calculateEEIOModel(model,
                                       use_domestic_requirements = FALSE)
 ```
 
-### Write Model Results to File
+### Write Model to File
 
 Write selected model matrices, demand vectors, and metadata as one `.xlsx` file to a given output folder.
 ```
@@ -98,8 +98,7 @@ Validate that commodity output can be recalculated (within 1%) with the model to
 > print(paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", ")))
 [1] "Sectors failing: S00402/US, S00300/US"
 ```
-Note: `S00402/US - Used and secondhand goods` and `S00300/US - Noncomparable imports` are two commodities that are not produced by any industry in the US, therefore their commodity output naturally cannot recalculated with the model total requirements matrix `L` and demand vector `y` for US production.
-
+Note: `S00402/US - Used and secondhand goods` and `S00300/US - Noncomparable imports` are two commodities that are not produced by any industry in the US, therefore their commodity output naturally cannot recalculated with the model total requirements matrix `L` and demand vector `y` for US production. Results for these sectors are not recommended for use.
 
 ### Visualize Model Results
 
