@@ -79,7 +79,9 @@ useeior::writeModelMatrices(model, to_format = "csv", outputfolder)
 
 ### Validate Model
 
-#### Full model validation
+Complete model validation checks can be found in [ValidateModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel.Rmd). Knit [ValidateModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel_render.Rmd) to perform all validation checks on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/729ef3ff36aa877cba9c3a3e57ebf180e1dea8e2/inst/doc/ValidateModel_render.Rmd#L5)). This will return an `html` and a `md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containg validation results for each model.
+
+#### Examples
 
 Validate that flow totals by commodity `E_c` can be recalculated (within 1%) using the model satellite matrix `B`, market shares matrix `V_n`, total requirements matrix `L`, and demand vector `y` for US production.
 
@@ -103,10 +105,6 @@ Validate that commodity output can be recalculated (within 1%) with the model to
 [1] "Sectors failing: S00402/US, S00300/US"
 ```
 Note: `S00402/US - Used and secondhand goods` and `S00300/US - Noncomparable imports` are two commodities that are not produced by any industry in the US, therefore their commodity output naturally cannot be recalculated with the model total requirements matrix `L` and demand vector `y` for US production. Results for these sectors are not recommended for use.
-
-#### Economic validation
-
-Additional economic validations are performed in [ValidateModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel.Rmd).
 
 ### Visualize Model Results
 
