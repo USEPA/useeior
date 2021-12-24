@@ -1,11 +1,17 @@
 # useeior
 [![R CI/CD test](https://github.com/USEPA/useeior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/USEPA/useeior/actions/workflows/R-CMD-check.yaml)
 
-`useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models). The [model object](format_specs/Model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecification.md) and optional hybridization specification, e.g. [disaggregation](format_specs/DisaggregationAndAggregationSpecification.md). [Model specifications](inst/extdata/modelspecs) and associated hybridization specifications, e.g. [disaggregation](inst/extdata/disaggspecs), for EPA-validated models are included in the package. The package offers various functions for validating, calculating, visualizing, and writing out models and/or their components. `useeior` is a core component of the [USEEIO Modeling Framework](https://github.com/USEPA/useeio).
+`useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models).
+The [model object](format_specs/Model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecification.md) and optional hybridization specification, e.g. [disaggregation](format_specs/DisaggregationAndAggregationSpecification.md).
+[Model specifications](inst/extdata/modelspecs) and associated hybridization specifications, e.g. [disaggregation](inst/extdata/disaggspecs), for EPA-validated models are included in the package.
+The package offers various functions for validating, calculating, visualizing, and writing out models and/or their components.
+`useeior` is a core component of the [USEEIO Modeling Framework](https://github.com/USEPA/useeio).
 
-`useeior` is in a stable development state. Users intending to use the package for production purposes and applications should use [Releases](https://github.com/USEPA/useeior/releases).
+`useeior` is in a stable development state.
+Users intending to use the package for production purposes and applications should use [Releases](https://github.com/USEPA/useeior/releases).
 
-See the following sections for installation and basic usage of `useeior`. See [Wiki](https://github.com/USEPA/useeior/wiki) for advanced uses, details about built-in data and metadata and how to contribute to `useeior`.
+See the following sections for installation and basic usage of `useeior`.
+See [Wiki](https://github.com/USEPA/useeior/wiki) for advanced uses, details about built-in data and metadata and how to contribute to `useeior`.
 
 ## Installation
 
@@ -79,7 +85,9 @@ useeior::writeModelMatrices(model, to_format = "csv", outputfolder)
 
 ### Validate Model
 
-Complete model validation checks can be found in [ValidateModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel.Rmd). Knit [ValidateModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel_render.Rmd) to perform all validation checks on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel_render.Rmd#L5)). This will return an `html` and a `md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containg validation results for each model.
+Complete model validation checks can be found in [ValidateModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel.Rmd).
+Knit [ValidateModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel_render.Rmd) to perform all validation checks on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel_render.Rmd#L5)).
+This will return an `.html` and a `.md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containing validation results for each model.
 
 #### Examples
 
@@ -180,7 +188,9 @@ More analysis examples are available in [Example.Rmd](https://github.com/USEPA/u
 
 ### Compare Model Results
 
-Comparison betwen two models can be found in [CompareModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels.Rmd). Knit [CompareModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels_render.Rmd) to perform comparison on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels_render.Rmd#L5)). This will return an `html` and a `md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containing comparison results for each model.
+Comparison betwen two models can be found in [CompareModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels.Rmd).
+Knit [CompareModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels_render.Rmd) to perform comparison on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels_render.Rmd#L5)).
+This will return an `.html` and a `.md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containing comparison results for each model.
 
 Currently, it only compares flow totals between two models. More comparisons will be added in the future.
 
