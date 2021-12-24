@@ -180,7 +180,7 @@ More analysis examples are available in [Example.Rmd](https://github.com/USEPA/u
 
 ### Compare Model Results
 
-Comparison betwen two models can be found in [CompareModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModel.Rmd). Knit [CompareModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModel_render.Rmd) to perform comparison on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModel_render.Rmd#L5)). This will return an `html` and a `md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containg comparison results for each model.
+Comparison betwen two models can be found in [CompareModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels.Rmd). Knit [CompareModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels_render.Rmd) to perform comparison on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels_render.Rmd#L5)). This will return an `html` and a `md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containing comparison results for each model.
 
 Currently, it only compares flow totals between two models. More comparisons will be added in the future.
 
