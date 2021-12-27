@@ -244,13 +244,15 @@ aggregateResultMatrix <- function (matrix, to_level, crosswalk) {
   return(agg_matrix)
 }
 
-#' Calculates the result matrix by sector for a specified indciator
-#' @param y, a model demand vector
+#' Calculates sector x sector impacts from a given demand vector.
+#' @param y a model demand vector or user-specified demand vector
+#' that must have the same dimension with the model demand vector
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
-#' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential"
-#' @return A matrix of impacts sector purchased x sector sourced
+#' @param indicator str, index of a model indicator, e.g. "Acidification Potential"
+#' @return A matrix of impacts in the form of sector purchased x sector sourced,
+#' negative values should be interpreted as "reduced impacts".
 #' @export
-calculateConsumptionContributiontoImpact <- function (y, model, indicator) {
+calculateSectorPurchasedbySectorSourcedImpact <- function (y, model, indicator) {
   L <- model$L
   total_req <- L %*% diag(y)
   colnames(total_req) <- rownames(total_req)
