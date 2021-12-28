@@ -1,6 +1,6 @@
-Model: "USEEIOv2.0is-GHG"
+Model: "USEEIOv2.0-i-GHG" # 2012 Detail, Industry
 BaseIOSchema: 2012
-BaseIOLevel: "Summary"
+BaseIOLevel: "Detail"
 IOYear: 2012 # Year for IO data
 ModelRegionAcronyms: ["US"]
 ModelType: "EEIO"

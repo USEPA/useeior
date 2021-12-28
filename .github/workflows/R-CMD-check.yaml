@@ -81,7 +81,7 @@ jobs:
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0i-GHG")
+          m <- useeior::buildModel("USEEIOv2.0-i-GHG")
           useeior::printValidationResults(m)
 
         shell: Rscript {0}
@@ -91,7 +91,7 @@ jobs:
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0s-GHG")
+          m <- useeior::buildModel("USEEIOv2.0-s-GHG")
           useeior::printValidationResults(m)
 
         shell: Rscript {0}
