@@ -3,9 +3,9 @@ title: "ValidateModel_render"
 output: html_document
 params:
   modelname:
-    - "USEEIO v2.0"
-    - "USEEIO v2.0.1"
-    - "USEEIO v2.1"
+    - "USEEIOv2.0"
+    - "USEEIOv2.0.1"
+    - "USEEIOv2.1"
 ---
 
 ```{r setup, include=FALSE}

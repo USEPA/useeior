@@ -66,42 +66,42 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v1
 
-      - name: Build and validate models - USEEIO v2.0 detail model with waste disaggregation
+      - name: Build and validate models - USEEIOv2.0 detail model with waste disaggregation
         if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIO v2.0-411")
+          m <- useeior::buildModel("USEEIOv2.0-411")
           useeior::printValidationResults(m)
 
         shell: Rscript {0}
 
-      - name: Build and validate models - USEEIO v2.0 industry model
+      - name: Build and validate models - USEEIOv2.0 industry model
         if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIO v2.0-i-GHG")
+          m <- useeior::buildModel("USEEIOv2.0-i-GHG")
           useeior::printValidationResults(m)
 
         shell: Rscript {0}
 
-      - name: Build and validate models - USEEIO v2.0 summary model
+      - name: Build and validate models - USEEIOv2.0 summary model
         if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIO v2.0-s-GHG")
+          m <- useeior::buildModel("USEEIOv2.0-s-GHG")
           useeior::printValidationResults(m)
 
         shell: Rscript {0}
 
-      - name: Build and validate models - USEEIO v2.0.1 detail model with waste disaggregation
+      - name: Build and validate models - USEEIOv2.0.1 detail model with waste disaggregation
         if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIO v2.0.1-411")
+          m <- useeior::buildModel("USEEIOv2.0.1-411")
           useeior::printValidationResults(m)
 
         shell: Rscript {0}

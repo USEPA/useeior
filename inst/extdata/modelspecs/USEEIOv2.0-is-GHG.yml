@@ -1,4 +1,4 @@
-Model: "USEEIO v2.0-is-GHG"
+Model: "USEEIOv2.0-is-GHG"
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2012 # Year for IO data
