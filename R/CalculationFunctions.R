@@ -171,6 +171,7 @@ calculatePercentContributiontoImpact <- function (x,y) {
 #' @param indicator, str, index of a model indicator for use in the D matrix, e.g. "Acidification Potential".
 #' @param domestic, boolean, sets model to use domestic flow matrix. Default is FALSE.
 #' @return A dataframe sorted by contribution (high-to-low), also showing "L", "D", "impact".
+#' @export
 calculateSectorContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
   L <- model$L
   if (domestic) {
