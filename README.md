@@ -31,10 +31,10 @@ View all models with existing config files that can be built using useeior
 useeior::seeAvailableModels()
 ```
 
-Build a model that is available in useeior (e.g. the USEEIOv2.0.1 model)
+Build a model that is available in useeior (e.g. the USEEIO v2.0.1 model)
 
 ```
-model <- useeior::buildModel('USEEIOv2.0.1')
+model <- useeior::buildModel('USEEIO v2.0.1')
 ```
 
 To build a customized model, refer to [Advanced Uses](https://github.com/USEPA/useeior/wiki/Using-useeior#advanced-uses) in Wiki.

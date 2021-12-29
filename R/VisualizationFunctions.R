@@ -231,7 +231,7 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_
   mapping$GroupName <- mapping$SectorName
   # Prepare data frame for plot
   df <- as.data.frame(prop.table(matrix, margin = 2))
-  if (model$specs$Model=="USEEIOv2.0") {
+  if (model$specs$Model=="USEEIO v2.0") {
     colnames(df) <- model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
   }
   df$Sector <- toupper(gsub("/.*", "", rownames(df)))
