@@ -12,7 +12,7 @@ calculatePercentContributiontoImpact(x, y)
 \item{y, }{numeric vector of length n}
 }
 \value{
-A dataframe sorted from highest "contribution", also showing "x","y","impact"
+A dataframe sorted by contribution (high-to-low), also showing "x","y","impact"
 }
 \description{
 Dot multiplies two vectors to calculate an impact score and the percent contribution each score to the total
