@@ -9,7 +9,7 @@ writeSectorCrosswalk(model, outputfolder)
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{basedir}{Base directory to write the model components to}
+\item{outputfolder}{A directory to write model sector crosswalk}
 }
 \description{
 Writes the model sector crosswalk as .csv file

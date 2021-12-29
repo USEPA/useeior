@@ -280,7 +280,7 @@ writeModelMetadata <- function(model, outputfolder) {
 
 #' Write the model sector crosswalk as .csv file
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param basedir Base directory to write the model components to
+#' @param outputfolder A directory to write model sector crosswalk
 #' @description Writes the model sector crosswalk as .csv file
 writeSectorCrosswalk <- function(model, outputfolder){
   crosswalk <- prepareModelSectorCrosswalk(model)
