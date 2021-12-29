@@ -1,0 +1,64 @@
+---
+title: "Validating `r modelname` Model"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    keep_md: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+This document presents validation results of `r modelname` model.
+
+### Build and Calculate Model
+```{r, results='markup'}
+model <- buildModel(modelname)
+```
+
+### Validate that commodity output can be recalculated (within 1%) with the model total requirements matrix (L) and demand vector (y) for US production
+```{r}
+econval <- compareOutputandLeontiefXDemand(model, tolerance = 0.01)
+cat(paste("Number of sectors passing:",econval$N_Pass))
+cat(paste("Number of sectors failing:",econval$N_Fail))
+cat(paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", ")))
+```
+
+### Validate that commodity output can be recalculated (within 1%) with model total domestic requirements matrix (L_d) and model demand (y) for US production
+```{r}
+econval <- compareOutputandLeontiefXDemand(model,use_domestic=TRUE, tolerance = 0.01)
+cat(paste("Number of sectors passing:",econval$N_Pass))
+cat(paste("Number of sectors failing:",econval$N_Fail))
+cat(paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", ")))
+```
+
+### Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total requirements matrix (L), and demand vector (y) for US production 
+```{r}
+modelval <- compareEandLCIResult(model, tolerance = 0.01)
+cat(paste("Number of flow totals by commodity passing:",modelval$N_Pass))
+cat(paste("Number of flow totals by commodity failing:",modelval$N_Fail))
+#cat(paste("Sectors failing:", paste(modelval$Failure$variable, collapse = ", ")))
+```
+
+### Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total domestic requirements matrix (L_d), and demand vector (y) for US production
+```{r}
+dom_val <- compareEandLCIResult(model,use_domestic=TRUE, tolerance = 0.01)
+cat(paste("Number of flow totals by commodity passing:",dom_val$N_Pass))
+cat(paste("Number of flow totals by commodity failing:",dom_val$N_Fail))
+cat(paste("Sectors with flow totals failing:", paste(dom_val$Failure$variable, collapse = ", ")))
+```
+
+### Validate that commodity output are properly transformed to industry output via MarketShare
+```{r}
+q_x_val <- compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation(model, tolerance = 0.01)
+cat(paste("Number of flow totals by commodity passing:",q_x_val$N_Pass))
+cat(paste("Number of flow totals by commodity failing:",q_x_val$N_Fail))
+cat(paste("Sectors with flow totals failing:", paste(q_x_val$Failure$rownames, collapse = ", ")))
+```
+
+### Validate that commodity output equals to domestic use plus production demand
+```{r}
+q_val <- compareCommodityOutputandDomesticUseplusProductionDemand(model, tolerance = 0.01)
+cat(paste("Number of flow totals by commodity passing:",q_val$N_Pass))
+cat(paste("Number of flow totals by commodity failing:",q_val$N_Fail))
+cat(paste("Sectors with flow totals failing:", paste(q_val$Failure$rownames, collapse = ", ")))
+```

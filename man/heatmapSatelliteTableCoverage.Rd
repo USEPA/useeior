@@ -7,7 +7,7 @@
 heatmapSatelliteTableCoverage(model, form = "Commodity")
 }
 \arguments{
-\item{model}{A complete EEIO model}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
 \item{form}{Form of sectors in satellite table, can be"Commodity" and "Industry".}
 }

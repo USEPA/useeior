@@ -1,10 +1,12 @@
 #' Build an EEIO model.
 #' @param modelname Name of the model from a config file.
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @return A list of EEIO model complete components and attributes
 #' @export
-#' @return A list of EEIO model components and attributes
-buildModel <- function(modelname) {
-  model <- initializeModel(modelname)
-  model <- loadIOData(model)
+buildModel <- function(modelname, configpaths = NULL) {
+  model <- initializeModel(modelname, configpaths)
+  model <- loadIOData(model, configpaths)
   model <- loadandbuildSatelliteTables(model)
   model <- loadandbuildIndicators(model)
   model <- loadDemandVectors(model)
@@ -14,8 +16,8 @@ buildModel <- function(modelname) {
 
 #' Construct EEIO matrices based on loaded IO tables, built satellite tables,
 #' and indicator tables.
-#' @param model Model file loaded with IO tables, satellite tables, and indicator tables.
-#' @return A list with EEIO matrices..
+#' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
+#' @return A list with EEIO matrices.
 constructEEIOMatrices <- function(model) {
   if(model$specs$ModelRegionAcronyms!="US"){
     stop("This function needs to be revised before it is suitable for multi-regional models")
@@ -45,13 +47,15 @@ constructEEIOMatrices <- function(model) {
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
                                                 DomesticFinalDemand_df),
                                           model$UseValueAdded)) # DomesticUse
+  colnames(model$U)[which(colnames(model$U)=="model$InternationalTradeAdjustment")] <- model$InternationalTradeAdjustmentMeta$Code_Loc
+  colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
-  model$W <- as.matrix(model$UseValueAdded)
   model$q <- model$CommodityOutput
   model$x <- model$IndustryOutput
+  model$mu <- model$InternationalTradeAdjustment
   if(model$specs$CommodityorIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A matrix (direct requirements)...")
     model$A <- model$U_n %*% model$V_n
@@ -102,7 +106,7 @@ constructEEIOMatrices <- function(model) {
   
   # Calculate year over model IO year price ratio
   logging::loginfo("Calculating Rho matrix (price year ratio)...")
-  model$Rho <- calculateYearbyModelIOYearPriceRatio(model)
+  model$Rho <- calculateModelIOYearbyYearPriceRatio(model)
   
   # Calculate producer over purchaser price ratio.
   logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
@@ -110,12 +114,15 @@ constructEEIOMatrices <- function(model) {
   
   #Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                     "UseValueAdded", "FinalDemand", "DomesticFinalDemand","CommodityOutput", "IndustryOutput",
-                     "U_n","U_d_n","W")
+                     "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
+                     "InternationalTradeAdjustment", "CommodityOutput", "IndustryOutput",
+                     "U_n", "U_d_n")
   if (model$specs$CommodityorIndustryType=="Industry") {
-    mat_to_remove <- append(mat_to_remove,c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity"))
+    mat_to_remove <- c(mat_to_remove,
+                       c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity",
+                         "InternationalTradeAdjustmentbyCommodity"))
   }
-  model <- within(model, rm(list=mat_to_remove))
+  model <- within(model, rm(list = mat_to_remove))
   
   logging::loginfo("Model build complete.")
   return(model)
@@ -136,9 +143,9 @@ createBfromFlowDataandOutput <- function(model) {
   return(B)
 }
 
-#'Prepare coefficients (x unit/$) from the totals by flow and sector (x unit)
-#'@param model, a model with econ and flow data loaded
-#'@return df, a Coefficients-by-sector table
+#' Prepare coefficients (x unit/$) from the totals by flow and sector (x unit)
+#' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
+#' @return A dataframe of Coefficients-by-Sector (CbS) table
 generateCbSfromTbSandModel <- function(model) {
   CbS <- data.frame()
     
@@ -164,10 +171,10 @@ generateCbSfromTbSandModel <- function(model) {
   return(CbS)
 }
 
-#'Converts flows table into flows x sector matrix-like format
-#'@param df a dataframe of flowables, contexts, units, sectors and locations
-#'@param model an EEIO model with IO tables loaded
-#'@return a flows x sector matrix-like dataframe 
+#' Converts flows table into flows x sector matrix-like format
+#' @param df a dataframe of flowables, contexts, units, sectors and locations
+#' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
+#' @return A matrix-like dataframe of flows x sector 
 standardizeandcastSatelliteTable <- function(df,model) {
   # Add fields for sector as combinations of existing fields
   df[, "Sector"] <- apply(df[, c("Sector", "Location")],
@@ -187,7 +194,7 @@ standardizeandcastSatelliteTable <- function(df,model) {
 #' Generate C matrix from indicator factors and a model B matrix
 #' @param factors df in model$Indicators$factors format
 #' @param B_flows Flows from B matrix to use for reference
-#' @return a C matrix in indicator x flow format
+#' @return C, a matrix in indicator x flow format
 createCfromFactorsandBflows <- function(factors,B_flows) {
   # Add flow field to factors
   factors$Flow <- apply(factors[, c("Flowable", "Context", "Unit")],

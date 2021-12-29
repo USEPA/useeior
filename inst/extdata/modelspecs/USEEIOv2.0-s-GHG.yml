@@ -1,0 +1,59 @@
+Model: "USEEIOv2.0-s-GHG"
+BaseIOSchema: 2012
+BaseIOLevel: "Summary"
+IOYear: 2012 # Year for IO data
+ModelRegionAcronyms: ["US"]
+ModelType: "EEIO"
+IODataSource: "BEA"
+BasePriceType: "PRO" #producer
+BasewithRedefinitions: FALSE
+CommodityorIndustryType: "Commodity"
+ScrapIncluded: FALSE
+DisaggregationSpecs: null
+
+SatelliteTable:
+  GHG:
+    FullName: "Greenhouse Gases"
+    Abbreviation: "GHG"
+    StaticSource: TRUE
+    StaticFile: "useeior/NGHGIAM_GHG_TotalsBySector.csv"
+    FileLocation: "DataCommons"
+    DataYears: [2016]
+    Locations: ["US"]
+    SectorListSource: "BEA" # or, NAICS
+    SectorListYear: 2012
+    SectorListLevel: "Detail"
+    OriginalFlowSource: "FEDEFLv1.0.6"
+    DataSources:
+      USEPA_GHG_2018:
+        Title: "GHG Inventory"
+        Author: "USEPA"
+        DataYear: 2016
+        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
+        Primary: TRUE
+
+Indicators:
+  GreenhouseGases:
+    Name: "Greenhouse Gases"
+    Code: "GHG"
+    Group: "Impact Potential"
+    Unit: "kg CO2 eq"
+    SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
+    SimpleName: "Greenhouse Gases"
+    StaticSource: TRUE
+    StaticFile: "lciafmt/traci/TRACI_2.1_v1.0.0_5555779.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["Global warming"]
+    DataSources:
+      USEPA_TRACI_2.1:
+        Title: "TRACI 2.1"
+        Author: "USEPA"
+        DataYear: NA
+        URL: "https://www.epa.gov/chemical-research/tool-reduction-and-assessment-chemicals-and-other-environmental-impacts-traci"
+        Primary: TRUE
+
+DemandVectors:
+    DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
+# Additional demand vectors beyond useeior defaults

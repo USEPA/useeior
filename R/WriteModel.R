@@ -14,22 +14,8 @@ writeModelforAPI <-function(model, basedir){
   prepareWriteDirs(model, dirs)
   writeModelMatrices(model,"bin",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
-  writeModelMetadata(model,dirs)
-}
-
-#' Write the model sector crosswalk as .csv file
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param basedir Base directory to write the model components to
-#' @description Writes the model sector crosswalk as .csv file
-#' @export
-writeSectorCrosswalk <- function(model, basedir){
-  dirs <- setWriteDirsforAPI(NULL,basedir)
-  prepareWriteDirs(model, dirs)
-  crosswalk <- prepareModelSectorCrosswalk(model)
-  crosswalk$ModelSchema <- ""
-  utils::write.csv(crosswalk, paste0(dirs$data, "/sectorcrosswalk.csv"),
-                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
-  logging::loginfo(paste0("Sector crosswalk written as sectorcrosswalk.csv to ", dirs$data, "."))
+  writeModelMetadata(model,dirs$data)
+  writeSectorCrosswalk(model, dirs$data)
 }
 
 #' Write model matrices as .csv or .bin files to output folder.
@@ -63,8 +49,8 @@ writeModelMatrices <- function(model, to_format, outputfolder) {
 }
 
 #' Write selected model matrices, demand vectors, and metadata as XLSX file to output folder
-#' @param model, any model object
-#' @param outputfolder A directory to write model matrices and metadata as XLSX file out to
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param outputfolder A directory to write model matrices and metadata as XLSX file.
 #' @description Writes model matrices demand vectors, and metadata as XLSX file to output folder.
 #' @export
 writeModeltoXLSX <- function(model, outputfolder) {
@@ -137,6 +123,15 @@ writeModeltoXLSX <- function(model, outputfolder) {
   logging::loginfo(paste0("Model matrices written to Excel workbook (.xlsx) in /", outputfolder, "."))
 }  
 
+#'Create a unique hash identifier for a model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return char string
+#' @export
+generateModelIdentifier <- function(model) {
+  id <- digest::digest(model, algo="sha256")
+  return(id)
+}
+
 ###All functions below here are internal
 
 #' Sets directories to write model output data to
@@ -175,13 +170,12 @@ prepareWriteDirs <- function(model, dirs) {
 
 #' Write model demand vectors as JSON files for API to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param demandsfolder Path to output folder.
+#' @param outputfolder A directory to write model demand vectors.
 #' @description Writes model demand vectors, including y and y_d for consumption and production.
-writeModelDemandstoJSON <- function(model, demandsfolder) {
+writeModelDemandstoJSON <- function(model, outputfolder) {
   #!WARNING: Only works for single region model
   if (model$specs$ModelRegionAcronyms!="US") {
-    logging::logerror("Currently only works for single region US models.")
-    stop()
+    stop("Currently only works for single region US models.")
   }
   
   for (n in names(model$DemandVectors$vectors)) {
@@ -191,27 +185,24 @@ writeModelDemandstoJSON <- function(model, demandsfolder) {
     rownames(f) <- NULL
     f <- f[, c("sector", "amount")]
     f <- jsonlite::toJSON(f, pretty = TRUE)
-    write(f, paste0(demandsfolder, "/", n, ".json"))
+    write(f, paste0(outputfolder, "/", n, ".json"))
   }
-  logging::loginfo(paste0("Model demand vectors for API written to ", demandsfolder, "."))
+  logging::loginfo(paste0("Model demand vectors for API written to ", outputfolder, "."))
 }
 
 #' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder
 #' format for file is here https://github.com/USEPA/USEEIO_API/blob/master/doc/data_format.md
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param dirs A named list of directories
+#' @param outputfolder A directory to write model metadata.
 #' @description Writes model metadata, including indicators and demands.
-writeModelMetadata <- function(model, dirs) {
+writeModelMetadata <- function(model, outputfolder) {
   #!WARNING: Only works for single region model
   if (model$specs$ModelRegionAcronyms!="US") {
-    logging::logerror("Currently only works for single region US models.")
-    stop()
+    stop("Currently only works for single region US models.")
   }
   
   # Load metadata fields for API
   fields <- configr::read.config(system.file("extdata/USEEIO_API_fields.yml", package="useeior"))
-  # Define output folder
-  outputfolder <- dirs$model
   
   # Write model description to models.csv
   model_desc <- file.path(dirs$data, "models.csv")
@@ -287,13 +278,16 @@ writeModelMetadata <- function(model, dirs) {
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
 }
 
-#'Create a unique hash identifier for a model
-#'@param model, any model object
-#'@return char string
-#'@export
-generateModelIdentifier <- function(model) {
-  id <- digest::digest(model, algo="sha256")
-  return(id)
+#' Write the model sector crosswalk as .csv file
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param outputfolder A directory to write model sector crosswalk
+#' @description Writes the model sector crosswalk as .csv file
+writeSectorCrosswalk <- function(model, outputfolder){
+  crosswalk <- prepareModelSectorCrosswalk(model)
+  crosswalk$ModelSchema <- ""
+  utils::write.csv(crosswalk, paste0(outputfolder, "/sectorcrosswalk.csv"),
+                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  logging::loginfo(paste0("Sector crosswalk written as sectorcrosswalk.csv to ", dirs$data, "."))
 }
 
 #' Write out session information to a "Rsessioninfo.txt file in the given path
@@ -305,49 +299,17 @@ writeSessionInfotoFile <- function(path) {
   writeLines(utils::capture.output(s), f)
 }
 
-#'Create sector schema for a model
-#'@param model, any model object
-#'@return char string
-generateModelSectorSchema <- function(model) {
-  SectorSchema <- paste0(paste(model$specs$IODataSource, 
-                               model$specs$BaseIOSchema, 
-                               model$specs$BaseIOLevel, 
-                               gsub("Disaggregation.*", "",
-                                    model$specs$DisaggregationSpecs),
-                               "Disagg",sep = "_"))
-  return(SectorSchema)
-}
-
 #' Prepare sectorcrosswalk table for a model
-#' @param model, any model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return a data.frame, sectorcrosswalk table
 prepareModelSectorCrosswalk <- function(model) {
   crosswalk <- model$crosswalk
-  
-  # Check for disaggregation
-  if(!is.null(model$specs$DisaggregationSpecs)){
-    #create name to use as column header for disaggregated schema
-    SectorSchema <- generateModelSectorSchema(model)
-    #deterime which rows and columns to modify
-    cwColIndex <- match(paste0("BEA_", model$specs$BaseIOLevel), colnames(crosswalk))#search for concatenation of "BEA" and model$specs$BaseIOlevel object in crosswalk column names
-    
-    #copy relevant column over as last column
-    crosswalk <- cbind(model$crosswalk, model$crosswalk[, paste0("BEA_", model$specs$BaseIOLevel)])
-    colnames(crosswalk)[length(crosswalk)] <- SectorSchema #rename column
-    
-    #replace disaggregated sector codes in original column with original sector code (e.g. 562HAZ with 562000)
-    for (disagg in model$DisaggregationSpecs$Disaggregation){
-      OriginalCodeLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
-      DisaggCodeLength <- regexpr(pattern ='/',disagg$DisaggregatedSectorCodes[[1]]) - 1 #used to determine length of disaggregated sector codes.
-      
-      disaggNAICSIndex <- crosswalk[,cwColIndex] %in% substr(disagg$DisaggregatedSectorCodes,1,DisaggCodeLength) #find all the indeces in crosswalk where there disaggregated codes
-      crosswalk[disaggNAICSIndex,cwColIndex] <- substr(disagg$OriginalSectorCode,1,OriginalCodeLength) #replace the disaggregated codes with the original sector code
-      
-    }
-    
-    
-  }
-  
+
+  #create name to use as column header for disaggregated schema
+  SectorSchema <- generateModelSectorSchema(model)
+  #rename "USEEIO" (the last column) as the sector schema 
+  colnames(crosswalk)[length(crosswalk)] <- SectorSchema #rename column
+
   return(crosswalk)
   
 }

@@ -7,7 +7,7 @@
 getBEASectorColorMapping(model)
 }
 \arguments{
-\item{model}{A complete EEIO model}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 }
 \value{
 df with mapping with model BaseIOLevel codes to BEA Sector Codes, Names, and colors

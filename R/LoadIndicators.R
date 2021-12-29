@@ -1,7 +1,7 @@
 # Functions for loading and checking indicator data
 
 #' Loads data for all model indicators as listed in model specs
-#' @param model A model object with IO data loaded
+#' @param model A model object with model specs, IO tables, and satelilte tables loaded
 #' @return A model object with Indicators added
 loadandbuildIndicators <- function(model) {
    # Load model indicators
@@ -12,8 +12,8 @@ loadandbuildIndicators <- function(model) {
 }
 
 #' Load indicators and associated factors in a list based on model config.
-#' @param model A model object with IO tables and satellite tables loaded.
-#' @return A list with data.frame for indicators and data.frame for factors.
+#' @param model A model object with model specs, IO tables, and satellite tables loaded.
+#' @return A list with a dataframe for indicator meta and a dataframe for indicator factors.
 loadIndicators <- function(model) {
    logging::loginfo("Initializing model indicators...")
    meta <- data.frame()
@@ -60,7 +60,7 @@ loadFactors <- function(ind_spec) {
 }
 
 #' Loads all LCIA factors from static source file after melting it to long file
-#' @return A dataframe with "Flowable", "UUID", "Context", "Unit", "Amount", "Code".
+#' @return A dataframe of LCIA factors.
 loadLCIAfactors <- function() {
    # Load static LCIA factors
    lciafact <- utils::read.table(system.file("extdata", "USEEIO_LCIA_Factors.csv", package = "useeior"),
@@ -77,8 +77,8 @@ loadLCIAfactors <- function() {
 }
 
 #' Checks an LCIA indicator to ensure that flows exist in the model for that indicator
-#' @param factors a df of indicator characterization factors
-#' @param flows a df of model$SatelliteTables$flows
+#' @param factors A dataframe of indicator characterization factors
+#' @param flows A dataframe of flows from model SatelliteTables
 checkIndicatorforFlows <- function(factors, flows){
    if(is.null(flows)){
       logging::logwarn("No flows found in model")

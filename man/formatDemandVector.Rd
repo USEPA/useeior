@@ -12,7 +12,7 @@ formatDemandVector(dv, L)
 \item{L, }{the L matrix for the given model, used as a reference}
 }
 \value{
-a named vector with values for all names in L and ordered like L
+A named vector with values for all names in L and ordered like L
 }
 \description{
 Format a named demand vector with partial sectors to have all the rows and ordering needed

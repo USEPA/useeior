@@ -7,7 +7,7 @@
 prepareEfromtbs(model)
 }
 \arguments{
-\item{model, }{EEIOmodel object completely built}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 }
 \description{
 Concatenate all satellite flows in model

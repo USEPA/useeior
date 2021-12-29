@@ -7,10 +7,10 @@
 prepareHouseholdDemand(model)
 }
 \arguments{
-\item{model, }{a model}
+\item{model}{An EEIO model object with model specs and IO tables loaded}
 }
 \value{
-a named vector with demand
+A named vector with demand
 }
 \description{
 Prepares a demand vector representing household consumption

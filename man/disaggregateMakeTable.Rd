@@ -4,10 +4,12 @@
 \alias{disaggregateMakeTable}
 \title{Disaggregate make table based on specs}
 \usage{
-disaggregateMakeTable(model)
+disaggregateMakeTable(model, disagg)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{disagg}{Specifications for disaggregating the current Table}
 }
 \value{
 A standardized make table with old sectors removed and new sectors added.

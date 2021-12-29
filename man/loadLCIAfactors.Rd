@@ -7,7 +7,7 @@
 loadLCIAfactors()
 }
 \value{
-A dataframe with "Flowable", "UUID", "Context", "Unit", "Amount", "Code".
+A dataframe of LCIA factors.
 }
 \description{
 Loads all LCIA factors from static source file after melting it to long file

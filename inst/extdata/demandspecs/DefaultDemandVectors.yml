@@ -1,0 +1,12 @@
+CompleteProduction:
+      Type: "Production"
+      System: "Complete"
+DomesticProduction:
+      Type: "Production"
+      System: "Domestic"
+CompleteConsumption:
+      Type: "Consumption"
+      System: "Complete"
+DomesticConsumption:
+      Type: "Consumption"
+      System: "Domestic"

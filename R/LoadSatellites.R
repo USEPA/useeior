@@ -1,5 +1,5 @@
 #' Load totals by sector/region and prepares them based on model specs.
-#' @param model A model list object with the specs object listed
+#' @param model A model list object with model specs and IO tables listed
 #' @return Lists of totals by sector by region and unique flows
 #' @format A list with lists of totals by sector
 #' \describe{
@@ -47,8 +47,11 @@ loadSatTables <- function(model) {
     ### Generate totals_by_sector, tbs
     tbs0 <- generateTbSfromSatSpec(sat_spec, model)
     
+    # Convert totals_by_sector to standard satellite table format
+    tbs <- conformTbStoStandardSatTable(tbs0)
+    
     ### Make tbs conform to the model schema
-    tbs <- conformTbStoIOSchema(tbs0, sat_spec, model)
+    tbs <- conformTbStoIOSchema(tbs, sat_spec, model)
     
     ##Check for any loss of flow data
     checkSatelliteFlowLoss(tbs0,tbs)
@@ -56,7 +59,7 @@ loadSatTables <- function(model) {
     
     # Add in DQ columns and additional contextual scores not provided
     # Only setting TemporalCorrelation for now
-    tbs <- scoreContextualDQ(tbs) 
+    tbs <- scoreContextualDQ(tbs)
     
     # Convert totals_by_sector to standard satellite table format
     tbs <- conformTbStoStandardSatTable(tbs)
@@ -82,7 +85,7 @@ loadSatTables <- function(model) {
 }
 
 #' Loads data for all satellite tables as lists in model specs
-#' @param model A model object with IO data loaded
+#' @param model A model list object with model specs and IO tables listed
 #' @return A model object with Satellite tables added
 loadandbuildSatelliteTables <- function(model) {
   # Generate satellite tables
@@ -92,7 +95,7 @@ loadandbuildSatelliteTables <- function(model) {
 
 #'Reads a satellite table specification and generates a totals-by-sector table
 #'@param sat_spec, a standard specification for a single satellite table
-#'@param model A model object with IO and satellite data loaded
+#' @param model A model list object with model specs and IO tables listed
 #'@return a totals-by-sector dataframe
 generateTbSfromSatSpec <- function(sat_spec, model) {
   # Check if the satellite table uses a file from within useeior. If so, proceed.
@@ -101,7 +104,6 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
     totals_by_sector <- utils::read.table(system.file("extdata", sat_spec$StaticFile, package = "useeior"),
                                             sep = ",", header = TRUE, stringsAsFactors = FALSE,
                                             fileEncoding = 'UTF-8-BOM')
-
   } else if (!is.null(sat_spec$ScriptFunctionCall)) {
     func_to_eval <- sat_spec$ScriptFunctionCall
     totalsgenfunction <- as.name(func_to_eval)
@@ -126,6 +128,16 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
 #'@param model an EEIO model with IO tables loaded
 #'@return a totals-by-sector df with the sectors and flow amounts corresponding to the model schema
 conformTbStoIOSchema <- function(tbs, sat_spec, model) {
+  # Check if aggregation or disaggregation are needed based on model metadata
+  if(!is.null(sat_spec$StaticFile)) {
+    for(aggSpecs in model$AggregationSpecs) {
+      tbs <- aggregateSectorsinTBS(model, aggSpecs, tbs, sat_spec)  
+    }
+    for (disagg in model$DisaggregationSpecs) {
+      tbs <- disaggregateSatelliteTable(disagg, tbs, sat_spec)
+    }
+  }
+  
   # Check if the original data is BEA-based. If so, apply necessary allocation or aggregation.
   # If not, map data from original sector to BEA.
   if (sat_spec$SectorListSource == "BEA") {
@@ -135,14 +147,10 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
     }
     # If the original data is at Detail level but model is not, apply aggregation
     if (sat_spec$SectorListLevel == "Detail" && model$specs$BaseIOLevel != "Detail") {
-      tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,to_level = model$specs$BaseIOLevel,model)
+      tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,model)
     }
   } else if ("NAICS" %in% sat_spec$SectorListSource) {
     tbs <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(tbs, sat_spec$DataYears[1], model)
-  }
-  # Check if disaggregation is needed based on model metadata
-  if(!is.null(model$specs$DisaggregationSpecs) & !is.null(sat_spec$StaticFile)){
-    tbs <- disaggregateSatelliteTable(model, tbs, sat_spec)
   }
   
   for (r in model$specs$ModelRegionAcronyms) {

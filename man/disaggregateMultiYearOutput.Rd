@@ -2,7 +2,7 @@
 % Please edit documentation in R/DisaggregateFunctions.R
 \name{disaggregateMultiYearOutput}
 \alias{disaggregateMultiYearOutput}
-\title{Disaggregate Commodity Output model object}
+\title{Disaggregate MultiYear Output model objects}
 \usage{
 disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
 }
@@ -17,5 +17,5 @@ disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
 model A dataframe with the disaggregated GDPGrossOutputIO by year
 }
 \description{
-Disaggregate Commodity Output model object
+Disaggregate MultiYear Output model objects
 }
