@@ -17,6 +17,7 @@ See [Wiki](https://github.com/USEPA/useeior/wiki) for advanced uses, details abo
 
 ```
 # Install development version from GitHub
+install.packages("devtools")
 devtools::install_github("USEPA/useeior")
 ```
 
@@ -156,7 +157,7 @@ More visualization examples are available in [Example.Rmd](https://github.com/US
 
 #### Examples
 
-Analyze `flow` contribution to total `Acidification Potential` in the `Electricity` sector (`221100/US`).
+Analyze `flow` contribution to total `Acidification Potential` in the `Electricity` sector (`221100/US`), showing top 5 contributors below.
 
 ```
 > ACID_elec <- useeior::calculateFlowContributiontoImpact(model, "221100/US", "Acidification Potential")
@@ -170,7 +171,7 @@ Sulfuric acid/emission/air/kg             0.7%
 Hydrofluoric acid/emission/air/kg         0.2%
 ```
 
-Analyze `sector` contribution to direct `Human Health - Respiratory Effects` in the `Flours and malts` sector (`311210/US`).
+Analyze `sector` contribution to direct `Human Health - Respiratory Effects` in the `Flours and malts` sector (`311210/US`), showing top 5 contributors below.
 
 ```
 > HHRP_flour <- useeior::calculateSectorContributiontoImpact(model, "311210/US", "Human Health - Respiratory Effects")
