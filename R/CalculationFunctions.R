@@ -167,8 +167,8 @@ calculatePercentContributiontoImpact <- function (x,y) {
 #' Calculate the percent contribution of sectors to an N indicator result
 #' Uses model L matrix for total requirements and D matrix for direct indicator result
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
-#' @param sector, str, index of a model sector for use in the M matrix, e.g. "221100/US"
-#' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential" 
+#' @param sector, str, name of a model sector to inspect contribution to, e.g. "221100/US"
+#' @param indicator, str, name of a model indicator to evaluate contribution of sector to, e.g. "Acidification Potential" 
 #' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
 #' @return A dataframe sorted from highest process contribution "contribution", also showing "x","y","impact" 
 #' @export 

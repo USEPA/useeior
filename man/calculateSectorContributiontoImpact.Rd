@@ -10,9 +10,9 @@ calculateSectorContributiontoImpact(model, sector, indicator, domestic = FALSE)
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
-\item{sector, }{str, index of a model sector for use in the M matrix, e.g. "221100/US"}
+\item{sector, }{str, name of a model sector to inspect contribution to, e.g. "221100/US"}
 
-\item{indicator, }{str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential"}
+\item{indicator, }{str, name of a model indicator to evaluate contribution of sector to, e.g. "Acidification Potential"}
 
 \item{domestic, }{boolean, sets model to use domestic flow matrix.  Default is FALSE.}
 }
