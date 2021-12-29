@@ -135,3 +135,12 @@ LAND_for <- calculateSectorContributiontoImpact(model, "113000/US", "Land use")
 LAND_for$contribution <- scales::percent(LAND_for$contribution, accuracy = 0.1)
 head(subset(LAND_for, TRUE, select = "contribution"))
 ```
+
+# Sector-by-Sector Impacts
+
+Total Greenhouse Gases impacts induced by a sector (row) purchasing from another (column) for total consumption.
+```{r echo=FALSE, warning=FALSE}
+sector2sector_impact <- calculateSectorPurchasedbySectorSourcedImpact(y = model$DemandVectors$vectors$`2012_US_Consumption_Complete`,
+                                                                      model,
+                                                                      indicator = "Greenhouse Gases")
+```
