@@ -4,7 +4,7 @@
 \alias{writeSectorCrosswalk}
 \title{Write the model sector crosswalk as .csv file}
 \usage{
-writeSectorCrosswalk(model, basedir)
+writeSectorCrosswalk(model, outputfolder)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}

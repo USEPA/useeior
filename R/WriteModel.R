@@ -15,21 +15,7 @@ writeModelforAPI <-function(model, basedir){
   writeModelMatrices(model,"bin",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
   writeModelMetadata(model,dirs$data)
-}
-
-#' Write the model sector crosswalk as .csv file
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param basedir Base directory to write the model components to
-#' @description Writes the model sector crosswalk as .csv file
-#' @export
-writeSectorCrosswalk <- function(model, basedir){
-  dirs <- setWriteDirsforAPI(model, basedir)
-  prepareWriteDirs(model, dirs)
-  crosswalk <- prepareModelSectorCrosswalk(model)
-  crosswalk$ModelSchema <- ""
-  utils::write.csv(crosswalk, paste0(dirs$data, "/sectorcrosswalk.csv"),
-                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
-  logging::loginfo(paste0("Sector crosswalk written as sectorcrosswalk.csv to ", dirs$data, "."))
+  writeSectorCrosswalk(model, dirs$data)
 }
 
 #' Write model matrices as .csv or .bin files to output folder.
@@ -290,6 +276,18 @@ writeModelMetadata <- function(model, outputfolder) {
   writeSessionInfotoFile(dirs$model)
   
   logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
+}
+
+#' Write the model sector crosswalk as .csv file
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param basedir Base directory to write the model components to
+#' @description Writes the model sector crosswalk as .csv file
+writeSectorCrosswalk <- function(model, outputfolder){
+  crosswalk <- prepareModelSectorCrosswalk(model)
+  crosswalk$ModelSchema <- ""
+  utils::write.csv(crosswalk, paste0(outputfolder, "/sectorcrosswalk.csv"),
+                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  logging::loginfo(paste0("Sector crosswalk written as sectorcrosswalk.csv to ", dirs$data, "."))
 }
 
 #' Write out session information to a "Rsessioninfo.txt file in the given path
