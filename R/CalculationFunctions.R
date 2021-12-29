@@ -155,7 +155,7 @@ normalizeResultMatrixByTotalImpacts <- function(m) {
 #' Dot multiplies two vectors to calculate an impact score and the percent contribution each score to the total
 #' @param x, numeric vector of length n
 #' @param y, numeric vector of length n
-#' @return A dataframe sorted from highest "contribution", also showing "x","y","impact" 
+#' @return A dataframe sorted by contribution (high-to-low), also showing "x","y","impact" 
 calculatePercentContributiontoImpact <- function (x,y) {
   df <- cbind.data.frame(x,y)
   df["impact"] <- df[,"x"]*df[,"y"] 
@@ -164,14 +164,13 @@ calculatePercentContributiontoImpact <- function (x,y) {
   return(df) 
 }
 
-#' Calculate the percent contribution of sectors to an N indicator result
-#' Uses model L matrix for total requirements and D matrix for direct indicator result
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes
-#' @param sector, str, name of a model sector to inspect contribution to, e.g. "221100/US"
-#' @param indicator, str, name of a model indicator to evaluate contribution of sector to, e.g. "Acidification Potential" 
-#' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
-#' @return A dataframe sorted from highest process contribution "contribution", also showing "x","y","impact" 
-#' @export 
+#' Calculate the percent contribution of sectors to direct+indirect impacts by an indicator,
+#' using the product of model L matrix (total requirements) and D matrix (direct impacts by indicator).
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param sector, str, index of a model sector for use in the L matrix, e.g. "221100/US".
+#' @param indicator, str, index of a model indicator for use in the D matrix, e.g. "Acidification Potential".
+#' @param domestic, boolean, sets model to use domestic flow matrix. Default is FALSE.
+#' @return A dataframe sorted by contribution (high-to-low), also showing "L", "D", "impact".
 calculateSectorContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
   L <- model$L
   if (domestic) {
@@ -179,6 +178,8 @@ calculateSectorContributiontoImpact <- function (model, sector, indicator, domes
   }
   D <- model$D
   df <- calculatePercentContributiontoImpact(L[,sector],D[indicator,])
+  # Rename x and y cols
+  colnames(df)[colnames(df)==c("x", "y")] <- c("L", "D")
   # Add sector name for easier interpretation of results 
   rownames(df) <- paste(rownames(df),
                         model$Commodities[match(rownames(df),
@@ -187,13 +188,13 @@ calculateSectorContributiontoImpact <- function (model, sector, indicator, domes
   return(df)
 }
 
-#' Calculate the percent contribution of M flows to an N indicator result
-#' Uses model M matrix for flows and C matrix for indicator
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes
-#' @param sector, str, index of a model sector for use in the M matrix, e.g. "221100/US"
-#' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential" 
-#' @param domestic, boolean, sets model to use domestic flow matrix.  Default is FALSE.
-#' @return A dataframe sorted from highest flow contribution "contribution", also showing "x","y","impact" 
+#' Calculate the percent contribution of flows to direct+indirect impacts by an indicator,
+#' using model M matrix for total impacts of flows and C matrix for indicator.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param sector, str, index of a model sector for use in the M matrix, e.g. "221100/US".
+#' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential".
+#' @param domestic, boolean, sets model to use domestic flow matrix. Default is FALSE.
+#' @return A dataframe sorted by contribution (high-to-low), also showing "M", "C", "impact".
 #' @export 
 calculateFlowContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
   M <- model$M
@@ -202,6 +203,8 @@ calculateFlowContributiontoImpact <- function (model, sector, indicator, domesti
     M <- model$M_d
   }
   df <- calculatePercentContributiontoImpact(M[,sector], C[indicator,])
+  # Rename x and y cols
+  colnames(df)[colnames(df)==c("x", "y")] <- c("M", "C")
   return(df)
 }
 

@@ -2,24 +2,24 @@
 % Please edit documentation in R/CalculationFunctions.R
 \name{calculateSectorContributiontoImpact}
 \alias{calculateSectorContributiontoImpact}
-\title{Calculate the percent contribution of sectors to an N indicator result
-Uses model L matrix for total requirements and D matrix for direct indicator result}
+\title{Calculate the percent contribution of sectors to direct+indirect impacts by an indicator,
+using the product of model L matrix (total requirements) and D matrix (direct impacts by indicator).}
 \usage{
 calculateSectorContributiontoImpact(model, sector, indicator, domestic = FALSE)
 }
 \arguments{
-\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{sector, }{str, name of a model sector to inspect contribution to, e.g. "221100/US"}
+\item{sector, }{str, index of a model sector for use in the L matrix, e.g. "221100/US".}
 
-\item{indicator, }{str, name of a model indicator to evaluate contribution of sector to, e.g. "Acidification Potential"}
+\item{indicator, }{str, index of a model indicator for use in the D matrix, e.g. "Acidification Potential".}
 
-\item{domestic, }{boolean, sets model to use domestic flow matrix.  Default is FALSE.}
+\item{domestic, }{boolean, sets model to use domestic flow matrix. Default is FALSE.}
 }
 \value{
-A dataframe sorted from highest process contribution "contribution", also showing "x","y","impact"
+A dataframe sorted by contribution (high-to-low), also showing "L", "D", "impact".
 }
 \description{
-Calculate the percent contribution of sectors to an N indicator result
-Uses model L matrix for total requirements and D matrix for direct indicator result
+Calculate the percent contribution of sectors to direct+indirect impacts by an indicator,
+using the product of model L matrix (total requirements) and D matrix (direct impacts by indicator).
 }
