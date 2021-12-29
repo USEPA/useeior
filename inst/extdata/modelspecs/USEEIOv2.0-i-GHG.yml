@@ -1,4 +1,4 @@
-Model: "USEEIOv2.0i-GHG_nodisagg" # 2012 Detail, Industry
+Model: "USEEIOv2.0-i-GHG" # 2012 Detail, Industry
 BaseIOSchema: 2012
 BaseIOLevel: "Detail"
 IOYear: 2012 # Year for IO data

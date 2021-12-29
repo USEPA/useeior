@@ -66,12 +66,12 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v1
 
-      - name: Build and validate models - USEEIOv2.0
+      - name: Build and validate models - USEEIOv2.0 detail model with waste disaggregation
         if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0")
+          m <- useeior::buildModel("USEEIOv2.0-411")
           useeior::printValidationResults(m)
 
         shell: Rscript {0}
@@ -81,7 +81,7 @@ jobs:
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0i-GHG_nodisagg")
+          m <- useeior::buildModel("USEEIOv2.0-i-GHG")
           useeior::printValidationResults(m)
 
         shell: Rscript {0}
@@ -91,17 +91,17 @@ jobs:
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0s-GHG")
+          m <- useeior::buildModel("USEEIOv2.0-s-GHG")
           useeior::printValidationResults(m)
 
         shell: Rscript {0}
 
-      - name: Build and validate models - USEEIOv2.0.1
+      - name: Build and validate models - USEEIOv2.0.1 detail model with waste disaggregation
         if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0.1")
+          m <- useeior::buildModel("USEEIOv2.0.1-411")
           useeior::printValidationResults(m)
 
         shell: Rscript {0}
