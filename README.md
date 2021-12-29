@@ -157,7 +157,7 @@ More visualization examples are available in [Example.Rmd](https://github.com/US
 
 #### Examples
 
-Analyze `flow` contribution to total `Acidification Potential` in the `Electricity` sector (`221100/US`), showing top 5 contributors below.
+Analyze `flow` contribution to total (direct+indirect) `Acidification Potential` in the `Electricity` sector (`221100/US`), showing top 5 contributors below.
 
 ```
 > ACID_elec <- useeior::calculateFlowContributiontoImpact(model, "221100/US", "Acidification Potential")
@@ -171,7 +171,7 @@ Sulfuric acid/emission/air/kg             0.7%
 Hydrofluoric acid/emission/air/kg         0.2%
 ```
 
-Analyze `sector` contribution to direct `Human Health - Respiratory Effects` in the `Flours and malts` sector (`311210/US`), showing top 5 contributors below.
+Analyze `sector` contribution to total (direct+indirect) `Human Health - Respiratory Effects` in the `Flours and malts` sector (`311210/US`), showing top 5 contributors below.
 
 ```
 > HHRP_flour <- useeior::calculateSectorContributiontoImpact(model, "311210/US", "Human Health - Respiratory Effects")
