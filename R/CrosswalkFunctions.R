@@ -195,3 +195,30 @@ getNAICSCodeName <- function(year) {
   return(NAICSCodeName_2to10)
 }
 
+#' Get 2012 NAICS to 2007 NAICS concordances at 6-digit level.
+#' @return data frame with columns '2012 NAICS Code', '2012 NAICS Title',
+#' '2007 NAICS Code', and '2007 NAICS Title'.
+getNAICS2012to2007Concordances <- function() {
+  filename <- "inst/extdata/2012_to_2007_NAICS.xls"
+  if(!file.exists(filename)) {
+    utils::download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2007_NAICS.xls",
+                         filename, mode = "wb")
+  }
+  df <- as.data.frame(readxl::read_excel(filename, sheet = 1, col_names = TRUE, skip = 2))
+  df <- df[, startsWith(colnames(df), "20")]
+  return(df)
+}
+
+#' Get 2012 NAICS to 2017 NAICS concordances at 6-digit level.
+#' @return data frame with columns '2012 NAICS Code', '2012 NAICS Title',
+#' '2017 NAICS Code', and '2017 NAICS Title'.
+getNAICS2012to2017Concordances <- function() {
+  filename <- "inst/extdata/2012_to_2017_NAICS.xlsx"
+  if(!file.exists(filename)) {
+    utils::download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2017_NAICS.xlsx",
+                         filename, mode = "wb")
+  }
+  df <- as.data.frame(readxl::read_excel(filename, sheet = 1, col_names = TRUE, skip = 2))
+  df <- df[, startsWith(colnames(df), "20")]
+  return(df)
+}

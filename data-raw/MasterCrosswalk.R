@@ -204,22 +204,10 @@ getMasterCrosswalk <- function (year) {
   BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[order(BEAtoUSEEIOtoNAICS[, paste("NAICS_", year, "_Code", sep = "")]), ]
   
   # Add 2007 and 2017 NAICS Code column
-  # Download 2012 to 2007 NAICS code concordance (6-digit)
-  NAICS2012to2007_filename <- "inst/extdata/2012_to_2007_NAICS.xls"
-  if(!file.exists(NAICS2012to2007_filename)) {
-    utils::download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2007_NAICS.xls",
-                         NAICS2012to2007_filename, mode = "wb")
-  }
-  # Download 2012 to 2017 NAICS code concordance (6-digit)
-  NAICS2012to2017_filename <- "inst/extdata/2012_to_2017_NAICS.xlsx"
-  if(!file.exists(NAICS2012to2017_filename)) {
-    utils::download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2017_NAICS.xlsx",
-                         NAICS2012to2017_filename, mode = "wb")
-  }
-  # Load 2012 to 2007 NAICS
-  NAICS2012to2007 <- as.data.frame(readxl::read_excel(NAICS2012to2007_filename, sheet = 1, col_names = TRUE, skip = 2))
-  # Load 2012 to 2017 NAICS
-  NAICS2012to2017 <- as.data.frame(readxl::read_excel(NAICS2012to2017_filename, sheet = 1, col_names = TRUE, skip = 2))
+  # Load 2012 to 2007 NAICS code concordance (6-digit)
+  NAICS2012to2007 <- getNAICS2012to2007Concordances()
+  # Load 2012 to 2017 NAICS code concordance (6-digit)
+  NAICS2012to2017 <- getNAICS2012to2017Concordances()
   # Merge to get 2012-2007-2017 NAICS table
   NAICS2012to2007to2017 <- merge(NAICS2012to2007[, c("2012 NAICS Code", "2007 NAICS Code")],
                                  NAICS2012to2017[, c("2012 NAICS Code", "2017 NAICS Code")],
