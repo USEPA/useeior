@@ -189,7 +189,7 @@ More analysis examples are available in [Example.Rmd](inst/doc/Example.Rmd).
 ### Compare Model Results
 
 Comparison betwen two models can be found in [CompareModel.Rmd](inst/doc/CompareModels.Rmd).
-Knit [CompareModel_render.Rmd](inst/doc/CompareModels_render.Rmd) to perform comparison on selected models (specified under the [YAML header](hinst/doc/CompareModels_render.Rmd#L5)).
+Knit [CompareModel_render.Rmd](inst/doc/CompareModels_render.Rmd) to perform comparison on selected models (specified under the [YAML header](inst/doc/CompareModels_render.Rmd#L5)).
 This will return an `.html` and a `.md` file containing comparison results for each model specified in the header. An example can be found [inst/doc/output/](inst/doc/output)
 
 Currently, it only compares flow totals between two models. More comparisons will be added in the future.
