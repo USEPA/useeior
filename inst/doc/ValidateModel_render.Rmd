@@ -4,8 +4,8 @@ output: html_document
 params:
   modelname:
     - "USEEIOv2.0"
-    - "USEEIOv2.0.1"
-    - "USEEIOv2.1"
+    - "USEEIOv2.0.1-411"
+    - "USEEIOv2.1-422"
 ---
 
 ```{r setup, include=FALSE}
