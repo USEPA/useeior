@@ -24,7 +24,7 @@ library(useeior)
 # Build Model
 
 ```{r include=FALSE}
-model <- buildModel("USEEIOv2.0.1")
+model <- buildModel("USEEIOv2.0.1-411")
 ```
 
 # Validation
@@ -52,7 +52,7 @@ colnames(result$LCIA_d) <- model$Indicators$meta[match(colnames(result$LCIA_d), 
 colnames(result$LCIA_f) <- colnames(result$LCIA_d)
 indicators <- c("ACID", "CCDD", "CMSW", "CRHW", "ENRG", "ETOX", "EUTR", "GHG",
                 "HRSP", "HTOX", "LAND", "MNRL", "OZON", "SMOG", "WATR")
-model_list <- list("USEEIOv2.0.1" = model)
+model_list <- list("USEEIOv2.0.1-411" = model)
 ```
 
 ```{r "ranking_direct_prod_final_cons_v2.0.1", fig.width = 20, fig.height = 12}
