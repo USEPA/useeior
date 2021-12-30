@@ -61,7 +61,7 @@ N_adj <- useeior::adjustResultMatrixPrice("N",
 
 ### Calculate Model LCI and LCIA
 
-Calculate model life cycle inventory (LCI) and life cycle impact assessment (LCIA) results with a user-specified [calculation perspective](format_specs/Calculation.md#calculation-perspectives), [demand vector](https://github.com/USEPA/useeior/blob/develop/format_specs/Model.md#demandvectors) (from `DemandVectors` in the model object, which includes four [default vectors](https://github.com/USEPA/useeior/blob/develop/format_specs/ModelSpecification.md#demand-vector-specifications), or a user-provided vector) and a model [direct requirements matrix](format_specs/Model.md#a).
+Calculate model life cycle inventory (LCI) and life cycle impact assessment (LCIA) results with a user-specified [calculation perspective](format_specs/Calculation.md#calculation-perspectives), [demand vector](format_specs/Model.md#demandvectors) (from `DemandVectors` in the model object, which includes four [default vectors](format_specs/ModelSpecification.md#demand-vector-specifications), or a user-provided vector) and a model [direct requirements matrix](format_specs/Model.md#a).
 
 ```
 result <- useeior::calculateEEIOModel(model,
@@ -86,9 +86,9 @@ useeior::writeModelMatrices(model, to_format = "csv", outputfolder)
 
 ### Validate Model
 
-Complete model validation checks can be found in [ValidateModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel.Rmd).
-Knit [ValidateModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel_render.Rmd) to perform all validation checks on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/develop/inst/doc/ValidateModel_render.Rmd#L5)).
-This will return an `.html` and a `.md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containing validation results for each model.
+Complete model validation checks can be found in [ValidateModel.Rmd](inst/doc/ValidateModel.Rmd).
+Knit [ValidateModel_render.Rmd](inst/doc/ValidateModel_render.Rmd) to perform all validation checks on selected models (specified under the [YAML header](inst/doc/ValidateModel_render.Rmd#L5)).
+This will generate an `.html` and a `.md` file containing validation results for each model. See example output in  [inst/doc/output/](inst/doc/output). 
 
 #### Examples
 
@@ -120,7 +120,6 @@ Note: `S00402/US - Used and secondhand goods` and `S00300/US - Noncomparable imp
 #### Examples
 
 Rank sectors based a composite score of selected total impacts (LCIA_d or LCIA_f) associated with total US demand (US production or consumption vector).
-The ranking is an effective means to identify prioritization opportunity in practices like the EPA's [Sustainable Materials Management program](https://www.epa.gov/smm).
 Comparing rankings may also be used as another form of model validation that incorporates the demand vectors and the indicators as well as the model result matrices.
 
 ```
@@ -149,9 +148,9 @@ useeior::heatmapSectorRanking(model,
                               x_title = "LCIA_f (FINAL perspective) & US consumption demand")
 ```
 
-![](https://github.com/USEPA/useeior/blob/develop/inst/img/ranking_direct_prod_final_cons_v2.0.1.png)
+![](inst/img/ranking_direct_prod_final_cons_v2.0.1.png)
 
-More visualization examples are available in [Example.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/Example.Rmd).
+More visualization examples are available in [Example.Rmd](inst/doc/Example.Rmd).
 
 ### Analyze Flow and Sector Contribution to Impact
 
@@ -185,13 +184,13 @@ Analyze `sector` contribution to total (direct+indirect) `Human Health - Respira
 1111A0/US - Fresh soybeans, canola, flaxseeds, and other oilseeds             0.8%
 ```
 
-More analysis examples are available in [Example.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/Example.Rmd).
+More analysis examples are available in [Example.Rmd](inst/doc/Example.Rmd).
 
 ### Compare Model Results
 
-Comparison betwen two models can be found in [CompareModel.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels.Rmd).
-Knit [CompareModel_render.Rmd](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels_render.Rmd) to perform comparison on selected models (specified under the [YAML header](https://github.com/USEPA/useeior/blob/develop/inst/doc/CompareModels_render.Rmd#L5)).
-This will return an `.html` and a `.md` file in [inst/doc/output/](https://github.com/USEPA/useeior/tree/develop/inst/doc/output) containing comparison results for each model.
+Comparison betwen two models can be found in [CompareModel.Rmd](inst/doc/CompareModels.Rmd).
+Knit [CompareModel_render.Rmd](inst/doc/CompareModels_render.Rmd) to perform comparison on selected models (specified under the [YAML header](inst/doc/CompareModels_render.Rmd#L5)).
+This will return an `.html` and a `.md` file containing comparison results for each model specified in the header. An example can be found [inst/doc/output/](inst/doc/output)
 
 Currently, it only compares flow totals between two models. More comparisons will be added in the future.
 
