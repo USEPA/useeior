@@ -10,11 +10,11 @@ matrices <- c("V", "U", "U_d", "A", "A_d", "B", "C", "D", "L", "L_d",
 #' @description Writes all model data and metadata components to the API
 #' @export
 writeModelforAPI <-function(model, basedir){
-  dirs <- setWriteDirsforAPI(model,basedir)
+  dirs <- setWriteDirs(model,basedir)
   prepareWriteDirs(model, dirs)
   writeModelMatrices(model,"bin",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
-  writeModelMetadata(model,dirs$data)
+  writeModelMetadata(model,dirs)
   writeSectorCrosswalk(model, dirs$data)
 }
 
@@ -74,7 +74,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   }
   
   # List model metadata: demands, flows, indicators, sectors
-  dirs <- setWriteDirsforAPI(model, file.path(rappdirs::user_data_dir(), "useeior",
+  dirs <- setWriteDirs(model, file.path(rappdirs::user_data_dir(), "useeior",
                                               "Model_Builds", model$specs$Model))
   prepareWriteDirs(model, dirs)
   writeModelMetadata(model, dirs)
@@ -118,9 +118,9 @@ writeModeltoXLSX <- function(model, outputfolder) {
   USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- prepareModelSectorCrosswalk(model)
   
   # Write to Excel workbook
-  writexl::write_xlsx(USEEIOtoXLSX_ls, paste0(outputfolder, "/", model$specs$Model, "_Matrices.xlsx"),
+  writexl::write_xlsx(USEEIOtoXLSX_ls, paste0(outputfolder, "/", model$specs$Model, ".xlsx"),
                       format_headers = FALSE)
-  logging::loginfo(paste0("Model matrices written to Excel workbook (.xlsx) in /", outputfolder, "."))
+  logging::loginfo(paste0("Model  written to Excel workbook (.xlsx) in ", outputfolder, "."))
 }  
 
 #'Create a unique hash identifier for a model
@@ -139,7 +139,7 @@ generateModelIdentifier <- function(model) {
 #' @param basedir Base directory to write the model components to
 #' @description Sets directories to write model output data to. If model is not passed, just sets data directory. 
 #' @return A named list of directories for model output writing
-setWriteDirsforAPI <- function(model=NULL, basedir) {
+setWriteDirs <- function(model=NULL, basedir) {
   dirs <- list()
   dirs$data <-  file.path(basedir,"build","data")
   if (!is.null(model)) {
@@ -193,9 +193,9 @@ writeModelDemandstoJSON <- function(model, outputfolder) {
 #' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder
 #' format for file is here https://github.com/USEPA/USEEIO_API/blob/master/doc/data_format.md
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param outputfolder A directory to write model metadata.
+#' @param dirs A named list of directories with model and data directory paths
 #' @description Writes model metadata, including indicators and demands.
-writeModelMetadata <- function(model, outputfolder) {
+writeModelMetadata <- function(model, dirs) {
   #!WARNING: Only works for single region model
   if (model$specs$ModelRegionAcronyms!="US") {
     stop("Currently only works for single region US models.")
@@ -236,13 +236,13 @@ writeModelMetadata <- function(model, outputfolder) {
   indicators$Index <- c(1:nrow(indicators)-1)
   indicators <- indicators[,fields$indicators]
   checkNamesandOrdering(indicators$Name, rownames(model$C), "code in indicators.csv and rows in C matrix")
-  utils::write.csv(indicators, paste0(outputfolder, "/indicators.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(indicators, paste0(dirs$model, "/indicators.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write demands to demands.csv
   demands <- model$DemandVectors$meta
   demands$Index <- c(1:nrow(demands)-1)
   demands <- demands[,fields$demands]
-  utils::write.csv(demands, paste0(outputfolder, "/demands.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(demands, paste0(dirs$model, "/demands.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write sectors to csv
   sectors <- model[[gsub("y", "ies", model$specs$CommodityorIndustryType)]]
@@ -252,7 +252,7 @@ writeModelMetadata <- function(model, outputfolder) {
   sectors$Category <- paste(sectors$Category, sectors$Subcategory, sep="/")
   sectors <- sectors[, fields$sectors]
   checkNamesandOrdering(sectors$ID, rownames(model$L), "code in sectors.csv and rows in L matrix")
-  utils::write.csv(sectors, paste0(outputfolder, "/sectors.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(sectors, paste0(dirs$model, "/sectors.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write flows to csv
   flows <- model$SatelliteTables$flows
@@ -262,7 +262,7 @@ writeModelMetadata <- function(model, outputfolder) {
   flows$Index <- c(1:nrow(flows)-1)
   flows <- flows[, fields$flows]
   checkNamesandOrdering(flows$ID, rownames(model$B), "flows in flows.csv and rows in B matrix")
-  utils::write.csv(flows, paste0(outputfolder, "/flows.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write years to csv
   years <- data.frame(ID=colnames(model$Rho), stringsAsFactors = FALSE)
@@ -270,12 +270,12 @@ writeModelMetadata <- function(model, outputfolder) {
   years <- years[, fields$years]
   checkNamesandOrdering(years$ID, colnames(model$Phi), "years in years.csv and cols in Phi matrix")
   checkNamesandOrdering(years$ID, colnames(model$Rho), "years in years.csv and cols in Rho matrix")
-  utils::write.csv(years, paste0(outputfolder, "/years.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(years, paste0(dirs$model, "/years.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write session info to R sessioninfo.txt inside the model folder
   writeSessionInfotoFile(dirs$model)
   
-  logging::loginfo(paste0("Model metadata written to ", outputfolder, "."))
+  logging::loginfo(paste0("Model metadata written to ", dirs$model, "."))
 }
 
 #' Write the model sector crosswalk as .csv file
@@ -287,7 +287,7 @@ writeSectorCrosswalk <- function(model, outputfolder){
   crosswalk$ModelSchema <- ""
   utils::write.csv(crosswalk, paste0(outputfolder, "/sectorcrosswalk.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
-  logging::loginfo(paste0("Sector crosswalk written as sectorcrosswalk.csv to ", dirs$data, "."))
+  logging::loginfo(paste0("Sector crosswalk written as sectorcrosswalk.csv to ", outputfolder, "."))
 }
 
 #' Write out session information to a "Rsessioninfo.txt file in the given path

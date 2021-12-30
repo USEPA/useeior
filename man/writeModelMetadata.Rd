@@ -5,12 +5,12 @@
 \title{Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder
 format for file is here https://github.com/USEPA/USEEIO_API/blob/master/doc/data_format.md}
 \usage{
-writeModelMetadata(model, outputfolder)
+writeModelMetadata(model, dirs)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{outputfolder}{A directory to write model metadata.}
+\item{dirs}{A named list of directories with model and data directory paths}
 }
 \description{
 Writes model metadata, including indicators and demands.
