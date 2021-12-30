@@ -12,5 +12,6 @@ prepareWriteDirs(model, dirs)
 \item{dirs}{A named list of directories}
 }
 \description{
-Sets directories to write model output data to. If model is not passed, just uses data directory
+Sets directories to write model output data to.
+If model is not passed, just uses data directory.
 }

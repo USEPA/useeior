@@ -65,9 +65,11 @@ writeModeltoXLSX <- function(model, outputfolder) {
   # Format tables
   for (n in names(USEEIOtoXLSX_ls)) {
     if (is.matrix(USEEIOtoXLSX_ls[[n]]) | is.data.frame(USEEIOtoXLSX_ls[[n]])) {
-      USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(as.data.frame(rownames(USEEIOtoXLSX_ls[[n]])), USEEIOtoXLSX_ls[[n]])
+      USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(rownames(USEEIOtoXLSX_ls[[n]]),
+                                               USEEIOtoXLSX_ls[[n]])
     } else {
-      USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(names(USEEIOtoXLSX_ls[[n]]), USEEIOtoXLSX_ls[[n]])
+      USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(names(USEEIOtoXLSX_ls[[n]]),
+                                               USEEIOtoXLSX_ls[[n]])
       colnames(USEEIOtoXLSX_ls[[n]])[2] <- n
     }
     colnames(USEEIOtoXLSX_ls[[n]])[1] <- ""
@@ -75,7 +77,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   
   # List model metadata: demands, flows, indicators, sectors
   dirs <- setWriteDirs(model, file.path(rappdirs::user_data_dir(), "useeior",
-                                              "Model_Builds", model$specs$Model))
+                                        "Model_Builds", model$specs$Model))
   prepareWriteDirs(model, dirs)
   writeModelMetadata(model, dirs)
   for (df_name in c("demands", "flows", "indicators", "sectors")) {
@@ -97,7 +99,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
                                              (demand_meta_fields != "Subcategory")]
   # Remove USEEIOtoXLSX_ls$sectors
   USEEIOtoXLSX_ls$sectors <- NULL
-
+  
   # List final demand meta
   final_demand_meta <- model$FinalDemandMeta
   final_demand_meta$Index <- c(1:nrow(final_demand_meta)-1)
@@ -113,14 +115,14 @@ writeModeltoXLSX <- function(model, outputfolder) {
   value_added_meta$Location <- model$specs$ModelRegionAcronyms
   value_added_meta$Description <- ""
   USEEIOtoXLSX_ls[["value_added_meta"]] <- value_added_meta[, demand_meta_fields]
-
+  
   # List reference tables
   USEEIOtoXLSX_ls[["SectorCrosswalk"]] <- prepareModelSectorCrosswalk(model)
   
   # Write to Excel workbook
   writexl::write_xlsx(USEEIOtoXLSX_ls, paste0(outputfolder, "/", model$specs$Model, ".xlsx"),
                       format_headers = FALSE)
-  logging::loginfo(paste0("Model  written to Excel workbook (.xlsx) in ", outputfolder, "."))
+  logging::loginfo(paste0("Model written to Excel workbook (.xlsx) in ", outputfolder, "."))
 }  
 
 #'Create a unique hash identifier for a model
@@ -128,7 +130,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
 #' @return char string
 #' @export
 generateModelIdentifier <- function(model) {
-  id <- digest::digest(model, algo="sha256")
+  id <- digest::digest(model, algo = "sha256")
   return(id)
 }
 
@@ -137,7 +139,8 @@ generateModelIdentifier <- function(model) {
 #' Sets directories to write model output data to
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes. Optional
 #' @param basedir Base directory to write the model components to
-#' @description Sets directories to write model output data to. If model is not passed, just sets data directory. 
+#' @description Sets directories to write model output data to.
+#' If model is not passed, just sets data directory. 
 #' @return A named list of directories for model output writing
 setWriteDirs <- function(model=NULL, basedir) {
   dirs <- list()
@@ -152,7 +155,8 @@ setWriteDirs <- function(model=NULL, basedir) {
 #' Sets directories to write model output data to
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param dirs A named list of directories
-#' @description Sets directories to write model output data to. If model is not passed, just uses data directory 
+#' @description Sets directories to write model output data to.
+#' If model is not passed, just uses data directory.
 prepareWriteDirs <- function(model, dirs) {
   if (missing(model)) {
     if (!dir.exists(dirs$data)) {
@@ -202,7 +206,8 @@ writeModelMetadata <- function(model, dirs) {
   }
   
   # Load metadata fields for API
-  fields <- configr::read.config(system.file("extdata/USEEIO_API_fields.yml", package="useeior"))
+  fields <- configr::read.config(system.file("extdata/USEEIO_API_fields.yml",
+                                             package="useeior"))
   
   # Write model description to models.csv
   model_desc <- file.path(dirs$data, "models.csv")
@@ -212,12 +217,18 @@ writeModelMetadata <- function(model, dirs) {
   Description <- ""
   #Add in sector schema for model
   if (is.null(model$specs$DisaggregationSpecs)) {
-    Sector_Schema <- paste("BEA", model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Code", sep = "_")
+    Sector_Schema <- paste("BEA", model$specs$BaseIOSchema,
+                           model$specs$BaseIOLevel, "Code", sep = "_")
   } else {
     Sector_Schema <- generateModelSectorSchema(model)
   }
   Hash <- generateModelIdentifier(model)
-  model_fields <- list("ID"=ID, "Name"=Name, "Location"=Location, "Description"=Description, "Sector_Schema"=Sector_Schema, "Hash"=Hash)
+  model_fields <- list("ID" = ID,
+                       "Name" = Name,
+                       "Location" = Location,
+                       "Description" = Description,
+                       "Sector_Schema" = Sector_Schema,
+                       "Hash" = Hash)
   if (!file.exists(model_desc)) {
     df <- cbind.data.frame(model_fields)
   } else {
@@ -231,18 +242,22 @@ writeModelMetadata <- function(model, dirs) {
   
   # Write indicators to indicators.csv
   indicators <- model$Indicators$meta  
-  indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")], 1, FUN = joinStringswithSlashes)
+  indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")], 1,
+                         FUN = joinStringswithSlashes)
   indicators <- indicators[order(indicators$Name), ]
   indicators$Index <- c(1:nrow(indicators)-1)
   indicators <- indicators[,fields$indicators]
-  checkNamesandOrdering(indicators$Name, rownames(model$C), "code in indicators.csv and rows in C matrix")
-  utils::write.csv(indicators, paste0(dirs$model, "/indicators.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  checkNamesandOrdering(indicators$Name, rownames(model$C),
+                        "code in indicators.csv and rows in C matrix")
+  utils::write.csv(indicators, paste0(dirs$model, "/indicators.csv"), na = "",
+                   row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write demands to demands.csv
   demands <- model$DemandVectors$meta
   demands$Index <- c(1:nrow(demands)-1)
   demands <- demands[,fields$demands]
-  utils::write.csv(demands, paste0(dirs$model, "/demands.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  utils::write.csv(demands, paste0(dirs$model, "/demands.csv"), na = "",
+                   row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write sectors to csv
   sectors <- model[[gsub("y", "ies", model$specs$CommodityorIndustryType)]]
@@ -251,8 +266,10 @@ writeModelMetadata <- function(model, dirs) {
   sectors$Index <- c(1:nrow(sectors)-1)
   sectors$Category <- paste(sectors$Category, sectors$Subcategory, sep="/")
   sectors <- sectors[, fields$sectors]
-  checkNamesandOrdering(sectors$ID, rownames(model$L), "code in sectors.csv and rows in L matrix")
-  utils::write.csv(sectors, paste0(dirs$model, "/sectors.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  checkNamesandOrdering(sectors$ID, rownames(model$L),
+                        "code in sectors.csv and rows in L matrix")
+  utils::write.csv(sectors, paste0(dirs$model, "/sectors.csv"), na = "",
+                   row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write flows to csv
   flows <- model$SatelliteTables$flows
@@ -261,20 +278,24 @@ writeModelMetadata <- function(model, dirs) {
   flows <- flows[order(flows$ID),]
   flows$Index <- c(1:nrow(flows)-1)
   flows <- flows[, fields$flows]
-  checkNamesandOrdering(flows$ID, rownames(model$B), "flows in flows.csv and rows in B matrix")
-  utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  checkNamesandOrdering(flows$ID, rownames(model$B),
+                        "flows in flows.csv and rows in B matrix")
+  utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "",
+                   row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write years to csv
   years <- data.frame(ID=colnames(model$Rho), stringsAsFactors = FALSE)
   years$Index <- c(1:length(years$ID)-1)
   years <- years[, fields$years]
-  checkNamesandOrdering(years$ID, colnames(model$Phi), "years in years.csv and cols in Phi matrix")
-  checkNamesandOrdering(years$ID, colnames(model$Rho), "years in years.csv and cols in Rho matrix")
-  utils::write.csv(years, paste0(dirs$model, "/years.csv"), na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  checkNamesandOrdering(years$ID, colnames(model$Phi),
+                        "years in years.csv and cols in Phi matrix")
+  checkNamesandOrdering(years$ID, colnames(model$Rho),
+                        "years in years.csv and cols in Rho matrix")
+  utils::write.csv(years, paste0(dirs$model, "/years.csv"), na = "",
+                   row.names = FALSE, fileEncoding = "UTF-8")
   
   # Write session info to R sessioninfo.txt inside the model folder
   writeSessionInfotoFile(dirs$model)
-  
   logging::loginfo(paste0("Model metadata written to ", dirs$model, "."))
 }
 
@@ -287,7 +308,8 @@ writeSectorCrosswalk <- function(model, outputfolder){
   crosswalk$ModelSchema <- ""
   utils::write.csv(crosswalk, paste0(outputfolder, "/sectorcrosswalk.csv"),
                    na = "", row.names = FALSE, fileEncoding = "UTF-8")
-  logging::loginfo(paste0("Sector crosswalk written as sectorcrosswalk.csv to ", outputfolder, "."))
+  logging::loginfo(paste0("Sector crosswalk written as sectorcrosswalk.csv to ",
+                          outputfolder, "."))
 }
 
 #' Write out session information to a "Rsessioninfo.txt file in the given path
@@ -304,12 +326,9 @@ writeSessionInfotoFile <- function(path) {
 #' @return a data.frame, sectorcrosswalk table
 prepareModelSectorCrosswalk <- function(model) {
   crosswalk <- model$crosswalk
-
   #create name to use as column header for disaggregated schema
   SectorSchema <- generateModelSectorSchema(model)
   #rename "USEEIO" (the last column) as the sector schema 
   colnames(crosswalk)[length(crosswalk)] <- SectorSchema #rename column
-
   return(crosswalk)
-  
 }

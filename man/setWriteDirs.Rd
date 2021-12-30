@@ -15,5 +15,6 @@ setWriteDirs(model = NULL, basedir)
 A named list of directories for model output writing
 }
 \description{
-Sets directories to write model output data to. If model is not passed, just sets data directory.
+Sets directories to write model output data to.
+If model is not passed, just sets data directory.
 }
