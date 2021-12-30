@@ -201,7 +201,7 @@ getNAICSCodeName <- function(year) {
 getNAICS2012to2007Concordances <- function() {
   filename <- "inst/extdata/2012_to_2007_NAICS.xls"
   if(!file.exists(filename)) {
-    utils::download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2007_NAICS.xls",
+    utils::download.file("https://www.census.gov/naics/concordances/2012_to_2007_NAICS.xls",
                          filename, mode = "wb")
   }
   df <- as.data.frame(readxl::read_excel(filename, sheet = 1, col_names = TRUE, skip = 2))
@@ -215,7 +215,7 @@ getNAICS2012to2007Concordances <- function() {
 getNAICS2012to2017Concordances <- function() {
   filename <- "inst/extdata/2012_to_2017_NAICS.xlsx"
   if(!file.exists(filename)) {
-    utils::download.file("https://www.census.gov/eos/www/naics/concordances/2012_to_2017_NAICS.xlsx",
+    utils::download.file("https://www.census.gov/naics/concordances/2012_to_2017_NAICS.xlsx",
                          filename, mode = "wb")
   }
   df <- as.data.frame(readxl::read_excel(filename, sheet = 1, col_names = TRUE, skip = 2))
