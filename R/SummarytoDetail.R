@@ -296,25 +296,6 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
     
     outputDF <- intersectionAllocation(disaggParams, Table, outputDF, vectorToDisagg)
     
-    # originalVector <- originalTable[detailRowIndeces, detailColIndeces]# Get detail intersection
-    # originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
-    # allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
-    # #allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
-    # 
-    # if(Table == "Use"){
-    #   # Transpose vector to get allocations in correct order when reshaping
-    #   allocationVector <- t(allocationVector)
-    #   allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
-    #   # Need to change order of columns after reshaping to ensure Industry is in column 1.
-    #   allocDF <- allocDF[,c(2,1,3)]
-    # }else{
-    #   allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
-    # }
-    # 
-    # colnames(allocDF) <- c("IndustryCode", "CommodityCode", allocName)# Rename DF columns
-    # noteDF <-  data.frame(Note = I(rep("IntersectionDisagg", nrow(allocDF))))# Add a note for output DF to indicate intersectiond disaggregation
-    # outputDF <- cbind(allocDF, noteDF)
-    
     temp<-1
     
   }else{
@@ -362,46 +343,9 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
         # The allocation values of the intersection of the summary sector with itself are calculated differently from the allocation values of the rest of the column
         if(sector != disaggParams$summaryCode){
           
-          ##STEP: TEST THIS FUNCTION CALL, comment out up to temp <- 1 line --> DONE
           ##NEXT STEP: Change reported outputDF based on type of disagg, whether 1) strict BEA schema or 2) summary-to-disagg sectors
           outputDF <- nonIntersectionAllocation(disaggParams, sector, outputDF, vectorToDisagg)
           
-          # # Build current section of outputDF with current industry/commodity allocations
-          # 
-          # # If there are more than 1 detail sectors to the summary sector, need to change dataframe from wide to long format.
-          # if(length(currentDetailIndeces) > 1){
-          #   if(vectorToDisagg == "Column"){
-          #     allocDF <- currentDetailVector/sum(summarySectorVectorSums)
-          #     allocDF <- data.frame(colSums(allocDF))
-          #   }else if(vectorToDisagg == "Row"){
-          #     allocDF <- currentDetailVector/sum(summarySectorVectorSums)
-          #     allocDF <- data.frame(rowSums(allocDF))
-          #   }
-          #   
-          # }else{
-          #   allocDF <- data.frame(Percent = currentDetailVector/sum(summarySectorVectorSums))
-          # }
-          # 
-          # colnames(allocDF)[1] <- allocName
-          # 
-          # # detailCodeOutputIndex determines whether the disaggParams$summaryCode goes under the Industry or Commodity column in the output file. 
-          # if(detailCodeOutputIndex == 1){
-          #   industryDF <- data.frame(IndustryCode =I(paste(disaggParams$summaryCodeCw,disaggParams$summaryLoc_Code,sep = "/")))
-          #   commodityDF <- data.frame(CommodityCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(industryDF))))
-          #   #commodityDF <- data.frame(paste(currentDetailSectors, disaggParams$summaryLoc_Code, sep = "/")) #adding location to current detail sectors
-          #   #commodityDF <- data.frame(commodityDF[rep(seq_len(nrow(commodityDF)), each = length(disaggParams$summaryCodeCw)),])#replicating the detail commodities a number of times equal to the number of 
-          #   noteDF <- data.frame(Note = I(rep("IndustryDisagg", nrow(industryDF))))
-          #   
-          # }else{
-          #   commodityDF <- data.frame(CommodityCode =I(paste(disaggParams$summaryCodeCw,disaggParams$summaryLoc_Code,sep="/")))
-          #   industryDF <- data.frame(IndustryCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(commodityDF))))
-          #   noteDF <- data.frame(Note = I(rep("CommodityDisagg", nrow(commodityDF))))
-          # }
-          # 
-          # currentDF <- cbind(industryDF, commodityDF, allocDF[1], noteDF)
-          # 
-          # outputDF <- rbind(outputDF, currentDF)
-          # temp <- 1
         }
         
       }
