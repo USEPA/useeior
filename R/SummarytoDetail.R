@@ -25,7 +25,7 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
       summaryLoc_Code <- 'US'
     }
   }
-  
+  temp <- getwd()
   # Read in a detail level model
   # todo: check if this line needs to  be replaced by a "load summary model from repo" line if this script is to be used outside the package, e.g. USEEIO teams. 
   detailModel <- buildModel(modelname)#build detail model
@@ -64,9 +64,10 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   allocationsDF$envAllocationsDF <- envAllocationsDF
   
   #Write DFs to correct folder
-  write.csv(allocationsDF$useAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Use.csv", row.names = FALSE)
-  write.csv(allocationsDF$makeAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Make.csv", row.names = FALSE)
-  write.csv(allocationsDF$envAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Env.csv", row.names = FALSE)
+  writeAllocationsToCSV(allocationDF)
+  # write.csv(allocationsDF$useAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Use.csv", row.names = FALSE)
+  # write.csv(allocationsDF$makeAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Make.csv", row.names = FALSE)
+  # write.csv(allocationsDF$envAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Env.csv", row.names = FALSE)
   
   return(allocationsDF)#temporay return statement
 }
@@ -90,6 +91,26 @@ createSectorsCSV <- function (detailModel, summaryCode, summaryCodeCw){
   temp <-1
   return(outputDF)
   
+  
+}
+
+
+#' Write allocation dataframes to csv files at the specified directory
+#' @param allocationsDF A dataframe containing a list of allocations for the Use and Make tables, as well as for environmental allocations for TbS object
+#' @description Write allocation dataframes to csv files at the specified directory
+writeAllocationsToCSV <- function(allocationsDF){
+  
+  # todo: make this function more general, i.e., for writing files not related to utilities
+  # Path pointing to write directory
+  writePath <- "inst/extdata/disaggspecs/"
+  filePrepend <- "UtilityDisaggregationSummary"
+  useAllocFileName <- paste0(writePath, filePrepend, "_Use.csv")
+  makeAllocFileName <- paste0(writePath, filePrepend, "_Make.csv")
+  envAllocFileName <- paste0(writePath, filePrepend, "_Env.csv")
+  
+  write.csv(allocationsDF$useAllocationsDF, useAllocFileName, row.names = FALSE)
+  write.csv(allocationsDF$makeAllocationsDF, makeAllocFileName, row.names = FALSE)
+  write.csv(allocationsDF$envAllocationsDF, envAllocFileName, row.names = FALSE)
   
 }
 
@@ -140,7 +161,39 @@ intersectionAllocation <- function (disaggParams, Table, outputDF, vectorToDisag
   originalVector <- disaggParams$originalTable[disaggParams$detailRowIndeces, disaggParams$detailColIndeces]# Get detail intersection
   originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
   allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
-  #allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
+
+  # if(!(is.null(disaggParams$specfiedDetailLevelSector))){# If a particular detail level sector is specified, re-calculate the allocation factors for other sectors
+  #   
+  #   # Create new DF to house modified allocation values. 
+  #   # The allocations are split between the specified detail sectors and a new sector containing 
+  #   # all other sectors part of the summary level sector except for the specified detail sector
+  #   newAlloc <- data.frame(matrix(ncol = 2, nrow = 2))
+  #   specifiedDetailRowIndex <- which(rownames(allocationVector) == disaggParams$specifiedDetailLevelSector)
+  #   specifiedDetailColIndex <- which(colnames(allocationVector) == disaggParams$specifiedDetailLevelSector)
+  #   
+  #   # Need to add values in the originalVector that correspond various parts of the intersection:
+  #   # Assigning of intersection of specifiedDetailLevelSector with itself
+  #   newAlloc[1,1] <- allocationVector[specifiedDetailRowIndex,specifiedDetailColIndex]
+  #   
+  #   
+  #   # Addition of all rows (except specifiedDetailRowIndex) under  (bottom left section of newAlloc)
+  #   summaryRowAndDetailColValue <- colSums(data.frame(allocationVector[-(specifiedDetailRowIndex),specifiedDetailColIndex]))
+  #   newAlloc[2,1] <- summaryRowAndDetailColValue
+  #   
+  #   # Addition of all columns (except specifiedDetailColIndex) along  (top right section of newAlloc)
+  #   summaryColAndDetailRowValue <- colSums(data.frame(allocationVector[specifiedDetailRowIndex, -(specifiedDetailColIndex)]))
+  #   newAlloc[1,2] <- summaryColAndDetailRowValue 
+  #   
+  #   # Addition of all columns and rows excluding specifiedDetailColIndex and specifiedDetailRowIndex (bottom right section of newAlloc)
+  #   summaryRowAndSummaryColValue <- sum(sum((data.frame(allocationVector[-(specifiedDetailRowIndex), -(specifiedDetailColIndex)]))))
+  #   newAlloc[2,2] <- summaryRowAndSummaryColValue
+  #   
+  #   colnames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+  #   rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+  #   
+  #   allocationVector <- newAlloc	
+  #   
+  # } 
   
   if(Table == "Use"){
     # Transpose vector to get allocations in correct order when reshaping
@@ -184,6 +237,28 @@ nonIntersectionAllocation <- function (disaggParams, sector, outputDF, vectorToD
   }else{
     allocDF <- data.frame(Percent = disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums))
   }
+  
+  # Determine whether we want to create allocation values for all detail level sectors or just one
+  
+  # if(!(is.null(disaggParams$specfiedDetailLevelSector))){# If a particular detail level sector is specified, re-calculate the allocation factors for other sectors
+  # 
+  #   # Create new DF to house modified allocation values.
+  #   # The allocations are split between the specified detail sectors and a new sector containing
+  #   # all other sectors part of the summary level sector except for the specified detail sector
+  #   newAlloc <- data.frame(matrix(ncol = 1, nrow = 2))
+  #   specifiedDetailIndex <- which(rownames(allocDF) == disaggParams$specifiedDetailLevelSector)
+  #   newAlloc[1,1] <- allocDF[specifiedDetailIndex,1]
+  #   newAlloc[2,1] <- colSums(allocDF) - allocDF[specifiedDetailIndex,1]
+  # 
+  #   colnames(newAlloc) <- c("PercentUse")
+  #   # Code for the new, "all other" sector is the same as the summary level sector, but with an "X" appended at the end of the summary code
+  #   rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+  # 
+  #   allocDF <- newAlloc
+  # 
+  # }else{
+  #   colnames(allocDF)[1] <- disaggParams$allocName
+  # }
   
   colnames(allocDF)[1] <- disaggParams$allocName
   
