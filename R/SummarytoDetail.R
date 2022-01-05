@@ -25,7 +25,7 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
       summaryLoc_Code <- 'US'
     }
   }
-  temp <- getwd()
+ 
   # Read in a detail level model
   # todo: check if this line needs to  be replaced by a "load summary model from repo" line if this script is to be used outside the package, e.g. USEEIO teams. 
   detailModel <- buildModel(modelname)#build detail model
@@ -65,11 +65,8 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   
   #Write DFs to correct folder
   writeAllocationsToCSV(allocationDF)
-  # write.csv(allocationsDF$useAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Use.csv", row.names = FALSE)
-  # write.csv(allocationsDF$makeAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Make.csv", row.names = FALSE)
-  # write.csv(allocationsDF$envAllocationsDF, "C:/Users/jvend/Documents/R/Projects/useeior-jvendries/inst/extdata/disaggspecs/UtilityDisaggregationSummary_Env.csv", row.names = FALSE)
+  return(allocationsDF)#temporary return statement
   
-  return(allocationsDF)#temporay return statement
 }
 
 
@@ -79,7 +76,10 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
 #' @param summaryCodeCw List of detail sectors that map to the summary level sector to be disaggregated
 #' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
 createSectorsCSV <- function (detailModel, summaryCode, summaryCodeCw){
-  # Initialize dataframe that contains allocation values
+ 
+  # Check to see if the file is already present
+  
+   # Initialize dataframe that contains allocation values
   outputDF <- data.frame(NAICS_2012_Code = character(), USEEIO_Code = character(), USEEIO_Name = character(), Category = character(), Subcategory = character(), Description = character())
   sectorIndeces <- which(detailModel$crosswalk$BEA_Detail %in% summaryCodeCw)
   sectorDF <- detailModel$crosswalk[sectorIndeces,]
