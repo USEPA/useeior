@@ -4,9 +4,11 @@
 \alias{writeMetadatatoJSON}
 \title{Write metadata of downloaded data to JSON.}
 \usage{
-writeMetadatatoJSON(name, year, source, url)
+writeMetadatatoJSON(package, name, year, source, url)
 }
 \arguments{
+\item{package}{A string specifying package.}
+
 \item{name}{A string specifying data name.}
 
 \item{year}{A numeric value specifying data year.}
