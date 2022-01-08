@@ -56,7 +56,8 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   # Create output DFs
   useAllocationsDF <- rbind(fullUseIntersection, fullUseTableColAlloc, fullUseTableRowAlloc)
   makeAllocationsDF <- rbind(makeIntersection, makeTableColAlloc, makeTableRowAlloc)
-  sectorsDF <- createSectorsCSV(detailModel, summaryCode, summaryCodeCw)
+  #sectorsDF <- createSectorsCSV(detailModel, summaryCode, summaryCodeCw)
+  sectorsDF <- createSectorsCSV(disaggParams)
   
   allocationsDF <- list()
   allocationsDF$useAllocationsDF <- useAllocationsDF
@@ -71,24 +72,68 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
 
 
 #' Generate the _Sectors.csv file that contains a list of sectors to disaggregate
-#' @param detailModel Model file loaded with IO tables
-#' @param summaryCode String containing summary level code to be disaggregated
-#' @param summaryCodeCw List of detail sectors that map to the summary level sector to be disaggregated
+#' @param disaggParams List of disaggregation parameters
 #' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
-createSectorsCSV <- function (detailModel, summaryCode, summaryCodeCw){
+createSectorsCSV <- function (disaggParams){
  
-  # Check to see if the file is already present
+  # TODO: Check to see if the sectorsCSV file is already present
+  temp <- 1
   
-   # Initialize dataframe that contains allocation values
-  outputDF <- data.frame(NAICS_2012_Code = character(), USEEIO_Code = character(), USEEIO_Name = character(), Category = character(), Subcategory = character(), Description = character())
-  sectorIndeces <- which(detailModel$crosswalk$BEA_Detail %in% summaryCodeCw)
-  sectorDF <- detailModel$crosswalk[sectorIndeces,]
-  # Get only rows that have 6 digit NAICS codes
-  sectorDF <- sectorDF[nchar(sectorDF$NAICS) == 6, ]
+  # Check to see if only one detail level sector is to be disaggregated (!is.null) or if all detail level sectors mapped to the current summary level sector are to be disaggregated
+  if(!(is.null(disaggParams$specfiedDetailLevelSector))){
+    
+  }else{
+    
+    # Initialize dataframe that contains allocation values
+    #outputDF <- data.frame(NAICS_2012_Code = character(), USEEIO_Code = character(), USEEIO_Name = character(), Category = character(), Subcategory = character(), Description = character())
+    sectorIndeces <- which(disaggParams$detailModel$crosswalk$BEA_Detail %in% disaggParams$summaryCodeCw)
+    sectorDF <- disaggParams$detailModel$crosswalk[sectorIndeces,]
+    # Get only rows that have 6 digit NAICS codes
+    sectorDF <- sectorDF[nchar(sectorDF$NAICS) == 6, ]
+    
+    #TODO: Need to finish this function. Remember to use detailModel$Commodities to get Category, Subcategory, and Description fields
+    
+    outputDF <- sectorDF[-c(2:4)] # Keep only the NAICS and USEEIO 6-digit codes
+    outputDF[,2] <- data.frame(paste0(outputDF[,2], "/", disaggParams$summaryLoc_Code)) # Add location code to USEEIO code column
+    
+    # Get index of detail sectors in detailModel$Commodity to copy descriptions in that model object    
+    detailIndeces <- which(disaggParams$detailModel$Commodities$Code %in% disaggParams$summaryCodeCw)
+    
+    # Get descriptions from the commodity
+    descriptionsDF <- data.frame(matrix(nrow = nrow(outputDF), ncol = 4))
+    for(dfRow in 1:nrow(outputDF)){
+      outputRow <- outputDF[dfRow,]
+      commodityIndex <- which(disaggParams$detailModel$Commodities$Code_Loc %in% outputRow[,2])
+      
+      # If the description is available in the model$Commodities object, use it
+      if(length(commodityIndex != 0)){
+        descriptionsDF[dfRow, ] <- disaggParams$detailModel$Commodities[commodityIndex, 2:5]
+        
+      }else{ # If the description is not available in the model$Commodities object, put simple, default descriptions
+        sectorName <- paste0("Unspecified name for code ",outputRow[,2])
+        sectorCategory <- disaggParams$summaryCode
+        sectorSubcategory <- paste0("unspecified subcategory for code ", outputRow[,2])
+        sectorDescription <- paste0("Unspecified description for code ", outputRow[,2])
+        
+        descriptionsDF[dfRow, ] <- c(sectorName, sectorCategory, sectorSubcategory, sectorDescription)
+        
+      }
+      
+      # else do following
+      ##Code if error
+      
+      temp <- 2
+    }# end of for dfRow loop
+    
+    ####newcode
+    colnames(descriptionsDF) <- colnames(disaggParams$detailModel$Commodities[commodityIndex, 2:5])
+    colnames(descriptionsDF)[1] <- c("USEEIO_Name")
+    colnames(outputDF) <- c("NAICS_2012_Code","USEEIO_Code")
+    outputDF <- cbind(outputDF, descriptionsDF)
+  }
   
-  #TODO: Need to finish this function. Remember to use detailModel$Commodities to get Category, Subcategory, and Description fields
-  
-  temp <-1
+
+  temp <- 1
   return(outputDF)
   
   
