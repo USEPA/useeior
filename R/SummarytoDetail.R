@@ -93,13 +93,6 @@ createSectorsCSV <- function (disaggParams){
   outputDF <- sectorDF[-c(2:4)] # Keep only the NAICS and USEEIO 6-digit codes
   outputDF[,2] <- data.frame(paste0(outputDF[,2], "/", disaggParams$summaryLoc_Code)) # Add location code to USEEIO code column
   
-  # Check to see if only one detail level sector is to be disaggregated (!is.null) or if all detail level sectors mapped to the current summary level sector are to be disaggregated
-##  if(!(is.null(disaggParams$specifiedDetailLevelSector))){
-    temp <-1
-    
-##  }else{
-
-    
     # Get index of detail sectors in detailModel$Commodity to copy descriptions in that model object    
     detailIndeces <- which(disaggParams$detailModel$Commodities$Code %in% disaggParams$summaryCodeCw)
     
@@ -108,18 +101,23 @@ createSectorsCSV <- function (disaggParams){
     for(dfRow in 1:nrow(outputDF)){
       outputRow <- outputDF[dfRow,]
       
-      # If we are disaggregating only the specifiedDetailLevelSector, and not the other detail level sectors mapped to the current summary level sector AND
-      # outputRow currently refers to a detail level sector other than the specifiedDetailLevelSector
-      if(!is.null(disaggParams$specifiedDetailLevelSector)& (outputRow[1,2] != disaggParams$specifiedDetailLevelSector)){ #new block
+      # If we are disaggregating only the specifiedDetailLevelSector, and not the other detail level sectors mapped to the current summary level sector 
+
+      if(!is.null(disaggParams$specifiedDetailLevelSector)){ #new block
         
-        sectorName <- paste0(disaggParams$summaryCode, "/", disaggParams$summaryLoc_Code, " without ", disaggParams$specifiedDetailLevelSector)
-        sectorCategory <- paste0(disaggParams$summaryCode, "X/", disaggParams$summaryLoc_Code)
-        sectorSubcategory <- paste0(disaggParams$summaryCode, "X/", disaggParams$summaryLoc_Code)
-        sectorDescription <-paste0(disaggParams$summaryCode, "/", disaggParams$summaryLoc_Code, " after disaggregation of ", disaggParams$specifiedDetailLevelSector)
+        # If outputRow currently refers to a detail level sector other than the specifiedDetailLevelSector
+        if((outputRow[1,2] != disaggParams$specifiedDetailLevelSector)){
+          sectorName <- paste0(disaggParams$summaryCode, "/", disaggParams$summaryLoc_Code, " without ", disaggParams$specifiedDetailLevelSector)
+          sectorCategory <- paste0(disaggParams$summaryCode, "X/", disaggParams$summaryLoc_Code)
+          sectorSubcategory <- paste0(disaggParams$summaryCode, "X/", disaggParams$summaryLoc_Code)
+          sectorDescription <-paste0(disaggParams$summaryCode, "/", disaggParams$summaryLoc_Code, " after disaggregation of ", disaggParams$specifiedDetailLevelSector)
+          
+          descriptionsDF[dfRow, ] <- c(sectorName, sectorCategory, sectorSubcategory, sectorDescription)
+          next
+        }
         
-        descriptionsDF[dfRow, ] <- c(sectorName, sectorCategory, sectorSubcategory, sectorDescription)
-        next
-      }
+
+      } # End of for dfRow loop
       
       commodityIndex <- which(disaggParams$detailModel$Commodities$Code_Loc %in% outputRow[,2])
       
@@ -143,13 +141,11 @@ createSectorsCSV <- function (disaggParams){
       temp <- 2
     }# end of for dfRow loop
     
-    ####newcode
     colnames(descriptionsDF) <- colnames(disaggParams$detailModel$Commodities[commodityIndex, 2:5])
     colnames(descriptionsDF)[1] <- c("USEEIO_Name")
     colnames(outputDF) <- c("NAICS_2012_Code","USEEIO_Code")
     outputDF <- cbind(outputDF, descriptionsDF)
-##  }
-  
+
 
   temp <- 1
   return(outputDF)
