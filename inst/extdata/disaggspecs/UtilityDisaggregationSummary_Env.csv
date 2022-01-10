@@ -1,0 +1,1180 @@
+"Flowable","Context","FlowUUID","Sector","FlowRatio"
+"Water","emission/air/troposphere/ground-level","","221100",1
+"Water, fresh","emission/air/troposphere/ground-level","","221100",1
+"Water, fresh","resource/water/fresh water body","","221100",0.907847888636718
+"Water, fresh","resource/water/fresh water body","","221300",0.0921521113632819
+"Water, fresh","resource/water/subterranean/fresh water body","","221100",0.0700765446579275
+"Water, fresh","resource/water/subterranean/fresh water body","","221300",0.929923455342073
+"Water, saline","resource/water/saline water body","","221100",1
+"Water, saline","resource/water/subterranean/saline water body","","221100",1
+"1,1-Dichloroethane","emission/air","","221100",0.623240890992679
+"1,1-Dichloroethane","emission/air","","221200",0.0255357966388812
+"1,1-Dichloroethane","emission/air","","221300",0.35122331236844
+"1,1-Dichloroethylene","emission/air","","221100",0.107341784437035
+"1,1-Dichloroethylene","emission/air","","221300",0.892658215562965
+"1,1-Dimethylhydrazine","emission/air","","221100",1
+"1,1,1-Trichloroethane","emission/air","","221100",0.218288244999612
+"1,1,1-Trichloroethane","emission/air","","221300",0.781711755000388
+"1,1,2-Trichloroethane","emission/air","","221100",0.426043113374257
+"1,1,2-Trichloroethane","emission/air","","221200",0.117527522802421
+"1,1,2-Trichloroethane","emission/air","","221300",0.456429363823322
+"1,1,2,2-Tetrachloroethane","emission/air","","221100",0.235799339929909
+"1,1,2,2-Tetrachloroethane","emission/air","","221200",0.0758213868023184
+"1,1,2,2-Tetrachloroethane","emission/air","","221300",0.688379273267773
+"1,2-Dichloroethane","emission/air","","221100",0.703198130352856
+"1,2-Dichloroethane","emission/air","","221200",0.00691521868732921
+"1,2-Dichloroethane","emission/air","","221300",0.289886650959814
+"1,2-Dichloropropane","emission/air","","221100",0.383310095438901
+"1,2-Dichloropropane","emission/air","","221200",0.0221168187960939
+"1,2-Dichloropropane","emission/air","","221300",0.594573085765005
+"1,2,4-Trichlorobenzene","emission/air","","221100",0.539050462943468
+"1,2,4-Trichlorobenzene","emission/air","","221300",0.460949537056532
+"1,2,4-Trimethylbenzene","emission/air","","221100",0.996494371518716
+"1,2,4-Trimethylbenzene","emission/air","","221300",0.00350562848128384
+"1,3-Butadiene","emission/air","","221100",0.717595194352346
+"1,3-Butadiene","emission/air","","221200",0.149200649935943
+"1,3-Butadiene","emission/air","","221300",0.133204155711711
+"1,3-Dichloropropene","emission/air","","221100",0.431393800568674
+"1,3-Dichloropropene","emission/air","","221200",0.12046858464949
+"1,3-Dichloropropene","emission/air","","221300",0.448137614781837
+"1,4-Dioxane","emission/air","","221100",0.00097388499783038
+"1,4-Dioxane","emission/air","","221300",0.99902611500217
+"2-Chloroacetophenone","emission/air","","221100",0.999534322944684
+"2-Chloroacetophenone","emission/air","","221300",0.000465677055315895
+"2-Chlorobiphenyl","emission/air","","221100",0.324194778144233
+"2-Chlorobiphenyl","emission/air","","221300",0.675805221855767
+"2-Chloronaphthalene","emission/air","","221100",0.750453786056516
+"2-Chloronaphthalene","emission/air","","221300",0.249546213943484
+"2-Methylnaphthalene","emission/air","","221100",0.707203180405566
+"2-Methylnaphthalene","emission/air","","221200",0.0442380037003079
+"2-Methylnaphthalene","emission/air","","221300",0.248558815894127
+"2,2,4-Trimethylpentane","emission/air","","221100",0.311890811283507
+"2,2,4-Trimethylpentane","emission/air","","221200",0.49820539840994
+"2,2,4-Trimethylpentane","emission/air","","221300",0.189903790306552
+"2,4-Dinitrophenol","emission/air","","221100",0.857877624521288
+"2,4-Dinitrophenol","emission/air","","221300",0.142122375478712
+"2,4-Dinitrotoluene","emission/air","","221100",0.671030815846188
+"2,4-Dinitrotoluene","emission/air","","221300",0.328969184153812
+"2,4,5-Trichlorophenol","emission/air","","221100",1
+"2,4,6-Trichlorophenol","emission/air","","221100",0.309174204077361
+"2,4,6-Trichlorophenol","emission/air","","221300",0.690825795922639
+"3-Methylcholanthrene","emission/air","","221100",0.962866833764136
+"3-Methylcholanthrene","emission/air","","221200",0.000498791677332626
+"3-Methylcholanthrene","emission/air","","221300",0.0366343745585315
+"5-Methylchrysene","emission/air","","221100",0.998428431681342
+"5-Methylchrysene","emission/air","","221300",0.00157156831865828
+"7,12-Dimethylbenz[a]anthracene","emission/air","","221100",0.970497834230408
+"7,12-Dimethylbenz[a]anthracene","emission/air","","221200",0.000332768062379497
+"7,12-Dimethylbenz[a]anthracene","emission/air","","221300",0.0291693977072126
+"Acenaphthene","emission/air","","221100",0.0590937141624503
+"Acenaphthene","emission/air","","221200",0.000251656724996389
+"Acenaphthene","emission/air","","221300",0.940654629112553
+"Acenaphthylene","emission/air","","221100",0.633134755117857
+"Acenaphthylene","emission/air","","221200",0.0460486545133872
+"Acenaphthylene","emission/air","","221300",0.320816590368756
+"Acetaldehyde","emission/air","","221100",0.823916640762069
+"Acetaldehyde","emission/air","","221200",0.0815065526280234
+"Acetaldehyde","emission/air","","221300",0.0945768066099078
+"Acetonitrile","emission/air","","221100",0.000248184025125329
+"Acetonitrile","emission/air","","221200",0.970864698028121
+"Acetonitrile","emission/air","","221300",0.028887117946754
+"Acetophenone","emission/air","","221100",0.984807047160379
+"Acetophenone","emission/air","","221300",0.015192952839621
+"Acrolein","emission/air","","221100",0.722005844221816
+"Acrolein","emission/air","","221200",0.110441124637758
+"Acrolein","emission/air","","221300",0.167553031140426
+"Acrylonitrile","emission/air","","221100",0.574779470509358
+"Acrylonitrile","emission/air","","221300",0.425220529490642
+"Allyl chloride","emission/air","","221100",0.977137897435704
+"Allyl chloride","emission/air","","221300",0.0228621025642957
+"Ammonia","emission/air","","221100",0.809458095211295
+"Ammonia","emission/air","","221200",0.0640775988631357
+"Ammonia","emission/air","","221300",0.12646430592557
+"Aniline","emission/air","","221100",0.81684070943146
+"Aniline","emission/air","","221300",0.18315929056854
+"Anthracene","emission/air","","221100",0.834141471381339
+"Anthracene","emission/air","","221200",0.0024788767332967
+"Anthracene","emission/air","","221300",0.163379651885364
+"Antimony","emission/air","","221100",0.970053294093946
+"Antimony","emission/air","","221300",0.0299467059060538
+"Antimony compounds","emission/air","","221100",1
+"Arsenic","emission/air","","221100",0.958627320389616
+"Arsenic","emission/air","","221200",7.38304745051349e-05
+"Arsenic","emission/air","","221300",0.0412988491358793
+"Arsenic compounds","emission/air","","221100",1
+"Asbestos","emission/air","","221100",0.999447887289797
+"Asbestos","emission/air","","221300",0.000552112710202651
+"Barium","emission/air","","221100",1
+"Barium compounds","emission/air","","221100",1
+"Benz[a]anthracene","emission/air","","221100",0.996219416718387
+"Benz[a]anthracene","emission/air","","221200",0.00206243850725712
+"Benz[a]anthracene","emission/air","","221300",0.00171814477435615
+"Benzene","emission/air","","221100",0.780410485736284
+"Benzene","emission/air","","221200",0.0401357517851054
+"Benzene","emission/air","","221300",0.179453762478611
+"Benzidine","emission/air","","221100",1
+"Benzo(b)fluoranthene","emission/air","","221100",0.784272707099009
+"Benzo(b)fluoranthene","emission/air","","221200",0.0140937430190534
+"Benzo(b)fluoranthene","emission/air","","221300",0.201633549881938
+"Benzo[a]pyrene","emission/air","","221100",0.992797761962282
+"Benzo[a]pyrene","emission/air","","221200",0.00270405076257185
+"Benzo[a]pyrene","emission/air","","221300",0.00449818727514633
+"Benzo[e]pyrene","emission/air","","221100",0.538581254692943
+"Benzo[e]pyrene","emission/air","","221200",0.103472053626217
+"Benzo[e]pyrene","emission/air","","221300",0.357946691680839
+"Benzo[ghi]perylene","emission/air","","221100",0.99298144383352
+"Benzo[ghi]perylene","emission/air","","221200",0.00114842784453017
+"Benzo[ghi]perylene","emission/air","","221300",0.00587012832194955
+"Benzo[k]fluoranthene","emission/air","","221100",0.913257035866361
+"Benzo[k]fluoranthene","emission/air","","221200",0.00102318029336661
+"Benzo[k]fluoranthene","emission/air","","221300",0.0857197838402728
+"Benzofluoranthene","emission/air","","221100",0.995550489863991
+"Benzofluoranthene","emission/air","","221300",0.0044495101360094
+"Benzyl chloride","emission/air","","221100",0.999014908717941
+"Benzyl chloride","emission/air","","221300",0.00098509128205888
+"Beryllium","emission/air","","221100",0.963452448361344
+"Beryllium","emission/air","","221200",9.29542913123354e-06
+"Beryllium","emission/air","","221300",0.0365382562095248
+"Beryllium compounds","emission/air","","221100",1
+"Biphenyl","emission/air","","221100",0.884907320525374
+"Biphenyl","emission/air","","221200",0.0746942833643919
+"Biphenyl","emission/air","","221300",0.0403983961102344
+"Bromine","emission/air","","221100",1
+"Cadmium","emission/air","","221100",0.961352387123784
+"Cadmium","emission/air","","221200",0.00128188102587004
+"Cadmium","emission/air","","221300",0.0373657318503456
+"Cadmium compounds","emission/air","","221100",1
+"Calcium cyanamide","emission/air","","221100",1
+"Carbon disulfide","emission/air","","221100",0.371224607154202
+"Carbon disulfide","emission/air","","221300",0.628775392845798
+"Carbon monoxide","emission/air","","221100",0.96063808111591
+"Carbon monoxide","emission/air","","221200",0.0145948848144748
+"Carbon monoxide","emission/air","","221300",0.0247670340696154
+"Carbon tetrachloride","emission/air","","221100",0.121635370306292
+"Carbon tetrachloride","emission/air","","221200",0.0155786432563091
+"Carbon tetrachloride","emission/air","","221300",0.862785986437399
+"Carbonyl sulfide","emission/air","","221100",0.364343002058295
+"Carbonyl sulfide","emission/air","","221300",0.635656997941704
+"Catechol","emission/air","","221100",0.11190053285968
+"Catechol","emission/air","","221200",0.88809946714032
+"Chlorine","emission/air","","221100",0.93529099930446
+"Chlorine","emission/air","","221300",0.0647090006955405
+"Chlorine dioxide","emission/air","","221100",1
+"Chlorobenzene","emission/air","","221100",0.496485013771821
+"Chlorobenzene","emission/air","","221200",0.00830709812026015
+"Chlorobenzene","emission/air","","221300",0.495207888107919
+"Chloroethane","emission/air","","221100",0.984161005893058
+"Chloroethane","emission/air","","221200",5.91322698524858e-05
+"Chloroethane","emission/air","","221300",0.0157798618370897
+"Chloroform","emission/air","","221100",0.348226429896114
+"Chloroform","emission/air","","221200",0.000659123082505304
+"Chloroform","emission/air","","221300",0.651114447021381
+"Chloromethane","emission/air","","221100",0.993665577030142
+"Chloromethane","emission/air","","221300",0.00633442296985765
+"Chromic(VI) acid","emission/air","","221100",0.995064964876999
+"Chromic(VI) acid","emission/air","","221300",0.00493503512300092
+"Chromium","emission/air","","221100",1
+"Chromium compounds","emission/air","","221100",1
+"Chromium(III)","emission/air","","221100",0.992320760586347
+"Chromium(III)","emission/air","","221200",0.000258272205009384
+"Chromium(III)","emission/air","","221300",0.00742096720864325
+"Chromium(VI)","emission/air","","221100",0.967651954936091
+"Chromium(VI)","emission/air","","221200",8.28013405114754e-05
+"Chromium(VI)","emission/air","","221300",0.0322652437233979
+"Chrysene","emission/air","","221100",0.997848328198706
+"Chrysene","emission/air","","221200",0.000667810576594857
+"Chrysene","emission/air","","221300",0.00148386122469901
+"Cobalt","emission/air","","221100",0.961698539219469
+"Cobalt","emission/air","","221200",5.69857812073088e-05
+"Cobalt","emission/air","","221300",0.0382444749993235
+"Cobalt compounds","emission/air","","221100",1
+"Copper","emission/air","","221100",1
+"Copper compounds","emission/air","","221100",1
+"Cresol","emission/air","","221100",0.977225356817737
+"Cresol","emission/air","","221300",0.0227746431822634
+"Cumene","emission/air","","221100",0.786552805576773
+"Cumene","emission/air","","221300",0.213447194423227
+"Cyanide","emission/air","","221100",0.998595102214601
+"Cyanide","emission/air","","221200",4.00237325504133e-06
+"Cyanide","emission/air","","221300",0.00140089541214392
+"Cyanide compounds","emission/air","","221100",1
+"Cyclohexane","emission/air","","221100",0.848360655737705
+"Cyclohexane","emission/air","","221300",0.151639344262295
+"Decachlorobiphenyl","emission/air","","221100",0.104881252624991
+"Decachlorobiphenyl","emission/air","","221300",0.895118747375009
+"Di(2-ethylhexyl) phthalate","emission/air","","221100",0.765227849661429
+"Di(2-ethylhexyl) phthalate","emission/air","","221300",0.234772150338571
+"Dibenz[a,h]acridine","emission/air","","221100",0.960336838748954
+"Dibenz[a,h]acridine","emission/air","","221300",0.0396631612510458
+"Dibenz[a,h]anthracene","emission/air","","221100",0.974110387430834
+"Dibenz[a,h]anthracene","emission/air","","221200",0.000199846786810686
+"Dibenz[a,h]anthracene","emission/air","","221300",0.0256897657823549
+"Dibenz[a,j]acridine","emission/air","","221100",1
+"Dibenzofuran","emission/air","","221100",0.645712085794709
+"Dibenzofuran","emission/air","","221200",0.345249286587739
+"Dibenzofuran","emission/air","","221300",0.00903862761755183
+"Dibutyl phthalate","emission/air","","221100",0.672836897723486
+"Dibutyl phthalate","emission/air","","221300",0.327163102276514
+"Dimethyl phthalate","emission/air","","221100",1
+"Dimethyl sulfate","emission/air","","221100",0.990496908082786
+"Dimethyl sulfate","emission/air","","221300",0.00950309191721369
+"Dioxins","emission/air","","221100",1
+"Ethylbenzene","emission/air","","221100",0.764996895938197
+"Ethylbenzene","emission/air","","221200",0.0152227069580685
+"Ethylbenzene","emission/air","","221300",0.219780397103735
+"Ethylene dibromide","emission/air","","221100",0.778731148025949
+"Ethylene dibromide","emission/air","","221200",0.0905176267024211
+"Ethylene dibromide","emission/air","","221300",0.13075122527163
+"Ethylene glycol","emission/air","","221100",0.0798295254736875
+"Ethylene glycol","emission/air","","221200",0.520503857754757
+"Ethylene glycol","emission/air","","221300",0.399666616771555
+"Ethylene glycol monobutyl ether acetate","emission/air","","221100",1
+"Fluoranthene","emission/air","","221100",0.95786370269218
+"Fluoranthene","emission/air","","221200",0.000506083961503605
+"Fluoranthene","emission/air","","221300",0.041630213346316
+"Fluorene","emission/air","","221100",0.779606788348136
+"Fluorene","emission/air","","221200",0.0348458420372702
+"Fluorene","emission/air","","221300",0.185547369614594
+"Fluorine","emission/air","","221100",1
+"Formaldehyde","emission/air","","221100",0.876407359533006
+"Formaldehyde","emission/air","","221200",0.0775326435602644
+"Formaldehyde","emission/air","","221300",0.0460599969067299
+"Formic acid","emission/air","","221100",1
+"Glycol ethers","emission/air","","221100",8.41814032983214e-06
+"Glycol ethers","emission/air","","221200",0.00149764589588874
+"Glycol ethers","emission/air","","221300",0.998493935963781
+"Glycol ethers, subset","emission/air","","221100",1
+"Heptachlorobiphenyl","emission/air","","221100",0.104888086115952
+"Heptachlorobiphenyl","emission/air","","221300",0.895111913884048
+"Hexachlorobenzene","emission/air","","221100",0.714505695049855
+"Hexachlorobenzene","emission/air","","221300",0.285494304950145
+"Hexachlorobiphenyl","emission/air","","221100",0.324214102514466
+"Hexachlorobiphenyl","emission/air","","221300",0.675785897485534
+"Hexachlorobutadiene","emission/air","","221100",0.460720341492598
+"Hexachlorobutadiene","emission/air","","221300",0.539279658507402
+"Hexachlorocyclopentadiene","emission/air","","221100",0.959793692929608
+"Hexachlorocyclopentadiene","emission/air","","221300",0.0402063070703914
+"Hexachloroethane","emission/air","","221100",0.989930351598557
+"Hexachloroethane","emission/air","","221300",0.0100696484014433
+"Hexamethylene-1,6-diisocyanate","emission/air","","221100",0.19000602980005
+"Hexamethylene-1,6-diisocyanate","emission/air","","221300",0.80999397019995
+"Hexane","emission/air","","221100",0.82540879959887
+"Hexane","emission/air","","221200",0.0866006555606553
+"Hexane","emission/air","","221300",0.0879905448404745
+"Hydrazine","emission/air","","221100",1
+"Hydrochloric acid","emission/air","","221100",0.943951112658544
+"Hydrochloric acid","emission/air","","221200",0.0015069920288635
+"Hydrochloric acid","emission/air","","221300",0.0545418953125926
+"Hydrofluoric acid","emission/air","","221100",0.997636324557212
+"Hydrofluoric acid","emission/air","","221300",0.00236367544278818
+"Hydrogen cyanide","emission/air","","221100",0.999327686515196
+"Hydrogen cyanide","emission/air","","221300",0.000672313484803894
+"Hydrogen sulfide","emission/air","","221100",0.705392973008274
+"Hydrogen sulfide","emission/air","","221200",0.00378010915429437
+"Hydrogen sulfide","emission/air","","221300",0.290826917837432
+"Indeno[1,2,3-cd]pyrene","emission/air","","221100",0.898922355718961
+"Indeno[1,2,3-cd]pyrene","emission/air","","221200",0.000986131887554662
+"Indeno[1,2,3-cd]pyrene","emission/air","","221300",0.100091512393485
+"Isophorone","emission/air","","221100",0.999585566848344
+"Isophorone","emission/air","","221300",0.000414433151655605
+"Lead","emission/air","","221100",0.884516882175613
+"Lead","emission/air","","221200",0.000134833232265916
+"Lead","emission/air","","221300",0.115348284592121
+"Lead compounds","emission/air","","221100",0.995956706481933
+"Lead compounds","emission/air","","221300",0.0040432935180671
+"m-Cresol","emission/air","","221100",0.0206488189338535
+"m-Cresol","emission/air","","221200",0.979348616105485
+"m-Cresol","emission/air","","221300",2.56496066122865e-06
+"m-Xylene","emission/air","","221100",0.74817044917603
+"m-Xylene","emission/air","","221300",0.25182955082397
+"Manganese","emission/air","","221100",0.958202926944397
+"Manganese","emission/air","","221200",0.000546114291429449
+"Manganese","emission/air","","221300",0.0412509587641739
+"Manganese compounds","emission/air","","221100",1
+"Mercury","emission/air","","221100",0.919855388490771
+"Mercury","emission/air","","221200",0.00123826748288416
+"Mercury","emission/air","","221300",0.0789063440263448
+"Mercury compounds","emission/air","","221100",1
+"Methanol","emission/air","","221100",0.159380251234089
+"Methanol","emission/air","","221200",0.620257075510572
+"Methanol","emission/air","","221300",0.220362673255339
+"Methyl bromide","emission/air","","221100",0.976154981049565
+"Methyl bromide","emission/air","","221300",0.0238450189504347
+"Methyl hydrazine","emission/air","","221100",0.999656494477333
+"Methyl hydrazine","emission/air","","221300",0.000343505522666656
+"Methyl iodide","emission/air","","221100",0.70207499697692
+"Methyl iodide","emission/air","","221300",0.29792500302308
+"Methyl isobutyl ketone","emission/air","","221100",0.162874936278984
+"Methyl isobutyl ketone","emission/air","","221200",0.00340895256286349
+"Methyl isobutyl ketone","emission/air","","221300",0.833716111158153
+"Methyl methacrylate","emission/air","","221100",0.573471316697697
+"Methyl methacrylate","emission/air","","221300",0.426528683302303
+"Methyl tert-butyl ether","emission/air","","221100",0.525154336277499
+"Methyl tert-butyl ether","emission/air","","221300",0.474845663722501
+"Methylene chloride","emission/air","","221100",0.658835961681127
+"Methylene chloride","emission/air","","221200",0.00149005964898226
+"Methylene chloride","emission/air","","221300",0.33967397866989
+"Molybdenum trioxide","emission/air","","221100",1
+"N-Nitrosodimethylamine","emission/air","","221100",1
+"N-Nitrosomorpholine","emission/air","","221100",1
+"Naphthalene","emission/air","","221100",0.663289681448239
+"Naphthalene","emission/air","","221200",0.0393003395047109
+"Naphthalene","emission/air","","221300",0.29740997904705
+"Nickel","emission/air","","221100",0.957935398271312
+"Nickel","emission/air","","221200",0.0207514591212107
+"Nickel","emission/air","","221300",0.0213131426074776
+"Nickel compounds","emission/air","","221100",1
+"Nitrobenzene","emission/air","","221100",0.44855224161089
+"Nitrobenzene","emission/air","","221300",0.55144775838911
+"Nitrogen dioxide","emission/air","","221100",0.97626464991262
+"Nitrogen dioxide","emission/air","","221200",0.0108561941361575
+"Nitrogen dioxide","emission/air","","221300",0.0128791559512226
+"o-Cresol","emission/air","","221100",0.508424966624193
+"o-Cresol","emission/air","","221200",0.491456784696026
+"o-Cresol","emission/air","","221300",0.000118248679780534
+"o-Xylene","emission/air","","221100",0.717254448039029
+"o-Xylene","emission/air","","221300",0.282745551960971
+"p-Cresol","emission/air","","221100",0.408893694198862
+"p-Cresol","emission/air","","221200",0.590669017495041
+"p-Cresol","emission/air","","221300",0.00043728830609634
+"p-Dichlorobenzene","emission/air","","221100",0.25527787607066
+"p-Dichlorobenzene","emission/air","","221300",0.74472212392934
+"p-Nitrophenol","emission/air","","221100",0.11222894218564
+"p-Nitrophenol","emission/air","","221300",0.88777105781436
+"p-Xylene","emission/air","","221100",0.784430816276126
+"p-Xylene","emission/air","","221300",0.215569183723874
+"PAH/POM, unspecified","emission/air","","221100",0.975954577902492
+"PAH/POM, unspecified","emission/air","","221200",0.0188132579825469
+"PAH/POM, unspecified","emission/air","","221300",0.00523216411496078
+"Particulate matter, = 2.5µm","emission/air","","221100",0.978362321284935
+"Particulate matter, = 2.5µm","emission/air","","221200",0.00770148430558551
+"Particulate matter, = 2.5µm","emission/air","","221300",0.0139361944094798
+"Particulate matter, > 2.5µm and = 10µm","emission/air","","221100",0.990606680033475
+"Particulate matter, > 2.5µm and = 10µm","emission/air","","221200",0.00047286075736233
+"Particulate matter, > 2.5µm and = 10µm","emission/air","","221300",0.00892045920916243
+"Pentachlorobiphenyl","emission/air","","221100",0.324176008264763
+"Pentachlorobiphenyl","emission/air","","221300",0.675823991735237
+"Pentachlorophenol","emission/air","","221100",0.115761021226301
+"Pentachlorophenol","emission/air","","221300",0.884238978773699
+"Perylene","emission/air","","221100",0.722544165706923
+"Perylene","emission/air","","221200",0.00777369527794853
+"Perylene","emission/air","","221300",0.269682139015128
+"Phenanthrene","emission/air","","221100",0.884486273521378
+"Phenanthrene","emission/air","","221200",0.0136871471667281
+"Phenanthrene","emission/air","","221300",0.101826579311894
+"Phenol","emission/air","","221100",0.516296804597348
+"Phenol","emission/air","","221200",0.192864998495272
+"Phenol","emission/air","","221300",0.29083819690738
+"Phosphorus","emission/air","","221100",0.835567629634426
+"Phosphorus","emission/air","","221200",4.32789732011043e-05
+"Phosphorus","emission/air","","221300",0.164389091392373
+"Phthalic anhydride","emission/air","","221100",1
+"Polychlorinated biphenyls","emission/air","","221100",0.257958862389887
+"Polychlorinated biphenyls","emission/air","","221300",0.742041137610113
+"Polycyclic aromatic hydrocarbons","emission/air","","221100",0.146129980409218
+"Polycyclic aromatic hydrocarbons","emission/air","","221200",0.784175847103961
+"Polycyclic aromatic hydrocarbons","emission/air","","221300",0.0696941724868214
+"Propionaldehyde","emission/air","","221100",0.965631466362563
+"Propionaldehyde","emission/air","","221300",0.0343685336374372
+"Propylene","emission/air","","221100",1
+"Propylene oxide","emission/air","","221100",0.946192933425549
+"Propylene oxide","emission/air","","221200",0.0115517159279884
+"Propylene oxide","emission/air","","221300",0.0422553506464625
+"Pyrene","emission/air","","221100",0.871626496386317
+"Pyrene","emission/air","","221200",0.00288057571794611
+"Pyrene","emission/air","","221300",0.125492927895737
+"Quinoline","emission/air","","221100",0.00544430132832143
+"Quinoline","emission/air","","221200",0.994555698671679
+"Selenium","emission/air","","221100",0.997655447300439
+"Selenium","emission/air","","221200",1.16018275006751e-07
+"Selenium","emission/air","","221300",0.00234443668128606
+"Selenium compounds","emission/air","","221100",1
+"Styrene","emission/air","","221100",0.675900695772747
+"Styrene","emission/air","","221200",0.00115646759118074
+"Styrene","emission/air","","221300",0.322942836636072
+"Styrene oxide","emission/air","","221100",1
+"Sulfur dioxide","emission/air","","221100",0.993405239007915
+"Sulfur dioxide","emission/air","","221200",0.00402681499905937
+"Sulfur dioxide","emission/air","","221300",0.00256794599302598
+"Sulfuric acid","emission/air","","221100",1
+"Tetrachlorobiphenyl","emission/air","","221100",0.324231547730229
+"Tetrachlorobiphenyl","emission/air","","221300",0.675768452269771
+"Tetrachloroethylene","emission/air","","221100",0.147077970292167
+"Tetrachloroethylene","emission/air","","221200",1.49062653001911e-05
+"Tetrachloroethylene","emission/air","","221300",0.852907123442532
+"Thallium compounds","emission/air","","221100",1
+"Toluene","emission/air","","221100",0.85188174759143
+"Toluene","emission/air","","221200",0.0264020164315515
+"Toluene","emission/air","","221300",0.121716235977019
+"Tribromomethane","emission/air","","221100",0.990647417399612
+"Tribromomethane","emission/air","","221300",0.0093525826003876
+"Trichloroethylene","emission/air","","221100",0.224095565830913
+"Trichloroethylene","emission/air","","221300",0.775904434169087
+"Vanadium","emission/air","","221100",1
+"Vanadium compounds","emission/air","","221100",1
+"Vinyl acetate","emission/air","","221100",0.777048549839004
+"Vinyl acetate","emission/air","","221300",0.222951450160996
+"Vinyl chloride","emission/air","","221100",0.547823985636961
+"Vinyl chloride","emission/air","","221200",0.0134839300643513
+"Vinyl chloride","emission/air","","221300",0.438692084298688
+"Volatile organic compounds","emission/air","","221100",0.767291401384913
+"Volatile organic compounds","emission/air","","221200",0.0329516908175736
+"Volatile organic compounds","emission/air","","221300",0.199756907797513
+"Xylene","emission/air","","221100",0.47752880226004
+"Xylene","emission/air","","221200",0.0151892446003544
+"Xylene","emission/air","","221300",0.507281953139605
+"Zinc","emission/air","","221100",1
+"Zinc compounds","emission/air","","221100",1
+"Diethanolamine","emission/air","","221200",0.574707083772465
+"Diethanolamine","emission/air","","221300",0.425292916227535
+"2-Methoxyethanol","emission/air","","221300",1
+"2-Nitropropane","emission/air","","221300",1
+"4,6-Dinitro-o-cresol","emission/air","","221300",1
+"Acrylic acid","emission/air","","221300",1
+"Benzo[ghi]fluoranthene","emission/air","","221300",1
+"Benzo[j]fluoranthene","emission/air","","221300",1
+"Chloroprene","emission/air","","221300",1
+"Dichlorvos","emission/air","","221300",1
+"Epichlorohydrin","emission/air","","221300",1
+"Ethyl acrylate","emission/air","","221300",1
+"Ethylene glycol monopropyl ether","emission/air","","221300",1
+"Ethylene oxide","emission/air","","221300",1
+"Heptachlor","emission/air","","221300",1
+"Hydroquinone","emission/air","","221300",1
+"Maleic anhydride","emission/air","","221300",1
+"N,N-Dimethylaniline","emission/air","","221300",1
+"N,N-Dimethylformamide","emission/air","","221300",1
+"o-Toluidine","emission/air","","221300",1
+"Phosgene","emission/air","","221300",1
+"Quinone","emission/air","","221300",1
+"Toxaphene","emission/air","","221300",1
+"Triethylamine","emission/air","","221300",1
+"Ammonia","emission/ground","","221100",1
+"Anthracene","emission/ground","","221100",1
+"Antimony compounds","emission/ground","","221100",1
+"Arsenic compounds","emission/ground","","221100",1
+"Barium compounds","emission/ground","","221100",1
+"Benzo[ghi]perylene","emission/ground","","221100",1
+"Beryllium compounds","emission/ground","","221100",1
+"Chromium compounds","emission/ground","","221100",0.999982897798094
+"Chromium compounds","emission/ground","","221300",1.7102201905759e-05
+"Cobalt","emission/ground","","221100",1
+"Cobalt compounds","emission/ground","","221100",0.999896945463539
+"Cobalt compounds","emission/ground","","221300",0.000103054536460695
+"Copper compounds","emission/ground","","221100",0.998405239498309
+"Copper compounds","emission/ground","","221300",0.00159476050169137
+"Dioxins","emission/ground","","221100",1
+"Formic acid","emission/ground","","221100",1
+"Lead","emission/ground","","221100",0.510388208097512
+"Lead","emission/ground","","221300",0.489611791902488
+"Lead compounds","emission/ground","","221100",0.997548583551255
+"Lead compounds","emission/ground","","221300",0.00245141644874504
+"Manganese","emission/ground","","221100",1
+"Manganese compounds","emission/ground","","221100",1
+"Mercury","emission/ground","","221100",1
+"Mercury compounds","emission/ground","","221100",1
+"Naphthalene","emission/ground","","221100",1
+"Nickel compounds","emission/ground","","221100",0.999872955823917
+"Nickel compounds","emission/ground","","221300",0.000127044176083228
+"Phenanthrene","emission/ground","","221100",1
+"Selenium compounds","emission/ground","","221100",1
+"Thallium compounds","emission/ground","","221100",1
+"Vanadium","emission/ground","","221100",1
+"Vanadium compounds","emission/ground","","221100",1
+"Zinc compounds","emission/ground","","221100",0.998797428190524
+"Zinc compounds","emission/ground","","221300",0.0012025718094764
+"Copper","emission/ground","","221300",1
+"Hydrogen sulfide","emission/ground","","221300",1
+"1,2-Dichloroethane","emission/water","","221100",0.0356407264705551
+"1,2-Dichloroethane","emission/water","","221300",0.964359273529445
+"Aluminum","emission/water","","221100",0.748543992874645
+"Aluminum","emission/water","","221300",0.251456007125355
+"Ammonia","emission/water","","221100",1
+"Antimony","emission/water","","221100",0.284055519919786
+"Antimony","emission/water","","221300",0.715944480080214
+"Antimony compounds","emission/water","","221100",1
+"Arsenic","emission/water","","221100",0.416015249439957
+"Arsenic","emission/water","","221300",0.583984750560043
+"Arsenic compounds","emission/water","","221100",1
+"Barium","emission/water","","221100",0.110999371245549
+"Barium","emission/water","","221300",0.889000628754451
+"Barium compounds","emission/water","","221100",1
+"Benzene","emission/water","","221100",0.0183775210670722
+"Benzene","emission/water","","221200",0.00111922350885353
+"Benzene","emission/water","","221300",0.980503255424074
+"Benzo[ghi]perylene","emission/water","","221100",0.00167035604716825
+"Benzo[ghi]perylene","emission/water","","221300",0.998329643952832
+"Beryllium","emission/water","","221100",0.0971306320125592
+"Beryllium","emission/water","","221300",0.902869367987441
+"Beryllium compounds","emission/water","","221100",1
+"Biological Oxygen Demand","emission/water","","221100",0.000391807771238533
+"Biological Oxygen Demand","emission/water","","221300",0.999608192228762
+"Boron","emission/water","","221100",0.956514048918537
+"Boron","emission/water","","221300",0.0434859510814635
+"Bromide","emission/water","","221100",0.00876724520587406
+"Bromide","emission/water","","221300",0.991232754794126
+"Cadmium","emission/water","","221100",0.000826311015402505
+"Cadmium","emission/water","","221300",0.999173688984598
+"Chemical Oxygen Demand","emission/water","","221100",0.988541880567035
+"Chemical Oxygen Demand","emission/water","","221300",0.0114581194329653
+"Chloride","emission/water","","221100",0.0214004458573142
+"Chloride","emission/water","","221300",0.978599554142686
+"Chlorides and sulfates, total","emission/water","","221100",1
+"Chlorine","emission/water","","221100",0.0931204723881564
+"Chlorine","emission/water","","221200",4.68868677608197e-08
+"Chlorine","emission/water","","221300",0.906879480724976
+"Chloroform","emission/water","","221100",0.0389729846356503
+"Chloroform","emission/water","","221300",0.96102701536435
+"Chromium","emission/water","","221100",0.0572770315784793
+"Chromium","emission/water","","221300",0.942722968421521
+"Chromium compounds","emission/water","","221100",0.983100872615757
+"Chromium compounds","emission/water","","221300",0.0168991273842427
+"Chromium(III)","emission/water","","221100",0.0212449852350946
+"Chromium(III)","emission/water","","221300",0.978755014764905
+"Chromium(VI)","emission/water","","221100",0.0399448721827804
+"Chromium(VI)","emission/water","","221300",0.96005512781722
+"Cobalt compounds","emission/water","","221100",0.849462365591398
+"Cobalt compounds","emission/water","","221300",0.150537634408602
+"Copper","emission/water","","221100",0.18550069924345
+"Copper","emission/water","","221300",0.81449930075655
+"Copper compounds","emission/water","","221100",0.995465479482424
+"Copper compounds","emission/water","","221300",0.00453452051757599
+"Cyanide","emission/water","","221100",0.00260179891997081
+"Cyanide","emission/water","","221300",0.997398201080029
+"Di(2-ethylhexyl) phthalate","emission/water","","221100",0.00108768727904124
+"Di(2-ethylhexyl) phthalate","emission/water","","221300",0.998912312720959
+"Dioxins","emission/water","","221100",1
+"Ethylbenzene","emission/water","","221100",0.00104480878250932
+"Ethylbenzene","emission/water","","221200",0.00077258096656405
+"Ethylbenzene","emission/water","","221300",0.998182610250927
+"Fluoride","emission/water","","221100",0.109556579794518
+"Fluoride","emission/water","","221300",0.890443420205482
+"Formic acid","emission/water","","221100",1
+"Hydrazine","emission/water","","221100",1
+"Hydrocarbons","emission/water","","221100",0.999442183760607
+"Hydrocarbons","emission/water","","221300",0.000557816239393137
+"Hydrocarbons, petroleum","emission/water","","221100",0.968455785305763
+"Hydrocarbons, petroleum","emission/water","","221300",0.0315442146942367
+"Iron","emission/water","","221100",0.963185866469421
+"Iron","emission/water","","221300",0.0368141335305793
+"Lead","emission/water","","221100",0.0106572701684001
+"Lead","emission/water","","221300",0.9893427298316
+"Lead compounds","emission/water","","221100",0.960676674091761
+"Lead compounds","emission/water","","221300",0.0393233259082392
+"Manganese","emission/water","","221100",0.192944586425856
+"Manganese","emission/water","","221300",0.807055413574144
+"Manganese compounds","emission/water","","221100",1
+"Mercury","emission/water","","221100",0.00157205727740415
+"Mercury","emission/water","","221300",0.998427942722596
+"Mercury compounds","emission/water","","221100",1
+"Methanol","emission/water","","221100",1
+"Molybdenum","emission/water","","221100",0.0237201859411087
+"Molybdenum","emission/water","","221300",0.976279814058891
+"Molybdenum trioxide","emission/water","","221100",1
+"Nickel","emission/water","","221100",0.00734455472535467
+"Nickel","emission/water","","221300",0.992655445274645
+"Nickel compounds","emission/water","","221100",0.992549347496182
+"Nickel compounds","emission/water","","221300",0.00745065250381763
+"Nitrate compounds","emission/water","","221100",1
+"Nitrogen","emission/water","","221100",0.0271047491808082
+"Nitrogen","emission/water","","221300",0.972895250819192
+"Oxygen","emission/water","","221100",0.314407090239892
+"Oxygen","emission/water","","221300",0.685592909760108
+"Phosphorus","emission/water","","221100",0.000169080341574315
+"Phosphorus","emission/water","","221300",0.999830919658426
+"Selenium","emission/water","","221100",0.679915602729808
+"Selenium","emission/water","","221300",0.320084397270192
+"Selenium compounds","emission/water","","221100",1
+"Silver","emission/water","","221100",0.432663871415449
+"Silver","emission/water","","221300",0.567336128584551
+"Sulfate","emission/water","","221100",0.486243101495168
+"Sulfate","emission/water","","221300",0.513756898504832
+"Thallium","emission/water","","221100",0.129476802682787
+"Thallium","emission/water","","221300",0.870523197317213
+"Thallium compounds","emission/water","","221100",1
+"Titanium","emission/water","","221100",1
+"Total dissolved solids","emission/water","","221100",0.857414387088286
+"Total dissolved solids","emission/water","","221300",0.142585612911714
+"Total metals","emission/water","","221100",1
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","","221100",0.653873869000955
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","","221200",5.915330107257e-05
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","","221300",0.346066977697973
+"Total Organic Carbon","emission/water","","221100",0.115235840253257
+"Total Organic Carbon","emission/water","","221200",0.000629972795052456
+"Total Organic Carbon","emission/water","","221300",0.88413418695169
+"Total suspended solids","emission/water","","221100",0.276813897168242
+"Total suspended solids","emission/water","","221200",5.5040851823331e-05
+"Total suspended solids","emission/water","","221300",0.723131061979935
+"Vanadium","emission/water","","221100",1
+"Vanadium compounds","emission/water","","221100",1
+"Zinc","emission/water","","221100",0.0608217141295712
+"Zinc","emission/water","","221200",1.18286434635222e-08
+"Zinc","emission/water","","221300",0.939178274041785
+"Zinc compounds","emission/water","","221100",0.995345355441044
+"Zinc compounds","emission/water","","221300",0.00465464455895608
+"Toluene","emission/water","","221200",0.000554540207029098
+"Toluene","emission/water","","221300",0.999445459792971
+"Xylene","emission/water","","221200",0.00537775995302217
+"Xylene","emission/water","","221300",0.994622240046978
+".alpha.-Endosulfan","emission/water","","221300",1
+".alpha.-Hexachlorocyclohexane","emission/water","","221300",1
+".beta.-Endosulfan","emission/water","","221300",1
+".beta.-Hexachlorocyclohexane","emission/water","","221300",1
+".delta.-Hexachlorocyclohexane","emission/water","","221300",1
+"1,1-Dichloroethane","emission/water","","221300",1
+"1,1-Dichloroethylene","emission/water","","221300",1
+"1,1,1-Trichloroethane","emission/water","","221300",1
+"1,1,2-Trichloroethane","emission/water","","221300",1
+"1,1,2,2-Tetrachloroethane","emission/water","","221300",1
+"1,2-Dichloropropane","emission/water","","221300",1
+"1,2-Diphenylhydrazine","emission/water","","221300",1
+"1,2,4-Trichlorobenzene","emission/water","","221300",1
+"1,2,4-Trimethylbenzene","emission/water","","221300",1
+"1,3-Dichloropropene","emission/water","","221300",1
+"2-Chloroethyl vinyl ether","emission/water","","221300",1
+"2-Chloronaphthalene","emission/water","","221300",1
+"2,3,7,8-Tetrachlorodibenzo-p-dioxin","emission/water","","221300",1
+"2,4-Dichlorophenol","emission/water","","221300",1
+"2,4-Dimethylphenol","emission/water","","221300",1
+"2,4-Dinitrophenol","emission/water","","221300",1
+"2,4-Dinitrotoluene","emission/water","","221300",1
+"2,4,6-Trichlorophenol","emission/water","","221300",1
+"2,6-Dinitrotoluene","emission/water","","221300",1
+"3,3'-Dichlorobenzidine","emission/water","","221300",1
+"4,6-Dinitro-o-cresol","emission/water","","221300",1
+"Acenaphthene","emission/water","","221300",1
+"Acenaphthylene","emission/water","","221300",1
+"Acetaldehyde","emission/water","","221300",1
+"Acrolein","emission/water","","221300",1
+"Acrylonitrile","emission/water","","221300",1
+"Aldrin","emission/water","","221300",1
+"Anthracene","emission/water","","221300",1
+"Aroclor 1016","emission/water","","221300",1
+"Aroclor 1221","emission/water","","221300",1
+"Aroclor 1232","emission/water","","221300",1
+"Aroclor 1242","emission/water","","221300",1
+"Aroclor 1248","emission/water","","221300",1
+"Aroclor 1254","emission/water","","221300",1
+"Aroclor 1260","emission/water","","221300",1
+"Aromatic hydrocarbons","emission/water","","221300",1
+"Atrazine","emission/water","","221300",1
+"Benz[a]anthracene","emission/water","","221300",1
+"Benzidine","emission/water","","221300",1
+"Benzo(b)fluoranthene","emission/water","","221300",1
+"Benzo[a]pyrene","emission/water","","221300",1
+"Benzo[k]fluoranthene","emission/water","","221300",1
+"Bicarbonate","emission/water","","221300",1
+"Bis(2-chloroethoxy)methane","emission/water","","221300",1
+"Bis(2-chloroethyl) ether","emission/water","","221300",1
+"Bis(2-chloroisopropyl) ether","emission/water","","221300",1
+"Bromine","emission/water","","221300",1
+"Butyl benzyl phthalate","emission/water","","221300",1
+"Carbon tetrachloride","emission/water","","221300",1
+"Carbonate","emission/water","","221300",1
+"Chlordane, technical","emission/water","","221300",1
+"Chlorobenzene","emission/water","","221300",1
+"Chlorodibromomethane","emission/water","","221300",1
+"Chloroethane","emission/water","","221300",1
+"Chloromethane","emission/water","","221300",1
+"Chlorophyll a","emission/water","","221300",1
+"Chrysene","emission/water","","221300",1
+"Cyclohexane","emission/water","","221300",1
+"Di-n-octyl phthalate","emission/water","","221300",1
+"Dibenz[a,h]anthracene","emission/water","","221300",1
+"Dibutyl phthalate","emission/water","","221300",1
+"Dichlorobromomethane","emission/water","","221300",1
+"Dieldrin","emission/water","","221300",1
+"Diethanolamine","emission/water","","221300",1
+"Diethyl phthalate","emission/water","","221300",1
+"Dimethyl phthalate","emission/water","","221300",1
+"Endosulfan sulfate","emission/water","","221300",1
+"Endrin","emission/water","","221300",1
+"Endrin aldehyde","emission/water","","221300",1
+"Ethylene glycol","emission/water","","221300",1
+"Fluoranthene","emission/water","","221300",1
+"Fluorene","emission/water","","221300",1
+"Heptachlor","emission/water","","221300",1
+"Heptachlor epoxide","emission/water","","221300",1
+"Hexachlorobenzene","emission/water","","221300",1
+"Hexachlorobutadiene","emission/water","","221300",1
+"Hexachlorocyclopentadiene","emission/water","","221300",1
+"Hexachloroethane","emission/water","","221300",1
+"Hydrocarbons, halogenated","emission/water","","221300",1
+"Hydrogen sulfide","emission/water","","221300",1
+"Indeno[1,2,3-cd]pyrene","emission/water","","221300",1
+"Isophorone","emission/water","","221300",1
+"Lindane","emission/water","","221300",1
+"m-Dichlorobenzene","emission/water","","221300",1
+"Magnesium","emission/water","","221300",1
+"Methyl bromide","emission/water","","221300",1
+"Methyl tert-butyl ether","emission/water","","221300",1
+"Methylene chloride","emission/water","","221300",1
+"N-Nitrosodi-n-propylamine","emission/water","","221300",1
+"N-Nitrosodimethylamine","emission/water","","221300",1
+"N-Nitrosodiphenylamine","emission/water","","221300",1
+"Naphthalene","emission/water","","221300",1
+"Nitrobenzene","emission/water","","221300",1
+"Nonylphenol","emission/water","","221300",1
+"o-Chlorophenol","emission/water","","221300",1
+"o-Dichlorobenzene","emission/water","","221300",1
+"o-Nitrophenol","emission/water","","221300",1
+"p-Bromophenyl phenyl ether","emission/water","","221300",1
+"p-Chloro-m-cresol","emission/water","","221300",1
+"p-Chlorophenyl phenyl ether","emission/water","","221300",1
+"p-Dichlorobenzene","emission/water","","221300",1
+"p-Nitrophenol","emission/water","","221300",1
+"p,p'-DDD","emission/water","","221300",1
+"p,p'-DDE","emission/water","","221300",1
+"p,p'-DDT","emission/water","","221300",1
+"Pentachlorophenol","emission/water","","221300",1
+"Peracetic acid","emission/water","","221300",1
+"Phenanthrene","emission/water","","221300",1
+"Phenol","emission/water","","221300",1
+"Phenols","emission/water","","221300",1
+"Polychlorinated biphenyls","emission/water","","221300",1
+"Potassium","emission/water","","221300",1
+"Pyrene","emission/water","","221300",1
+"Sodium","emission/water","","221300",1
+"Strontium","emission/water","","221300",1
+"Styrene","emission/water","","221300",1
+"Tetrachloroethylene","emission/water","","221300",1
+"Toxaphene","emission/water","","221300",1
+"trans-1,2-Dichloroethylene","emission/water","","221300",1
+"Tribromomethane","emission/water","","221300",1
+"Trichloroethylene","emission/water","","221300",1
+"Uranium","emission/water","","221300",1
+"Vinyl chloride","emission/water","","221300",1
+"Hexafluoroethane","emission/air","","221100",NA
+"Hexafluoroethane","emission/air","","221200",NA
+"Hexafluoroethane","emission/air","","221300",NA
+"Perfluoropropane","emission/air","","221100",NA
+"Perfluoropropane","emission/air","","221200",NA
+"Perfluoropropane","emission/air","","221300",NA
+"Perfluorocyclobutane","emission/air","","221100",NA
+"Perfluorocyclobutane","emission/air","","221200",NA
+"Perfluorocyclobutane","emission/air","","221300",NA
+"Carbon tetrafluoride","emission/air","","221100",NA
+"Carbon tetrafluoride","emission/air","","221200",NA
+"Carbon tetrafluoride","emission/air","","221300",NA
+"Methane","emission/air","","221100",0.0329263408794968
+"Methane","emission/air","","221200",0.433008844967677
+"Methane","emission/air","","221300",0.534064814152826
+"Carbon dioxide","emission/air","","221100",0.999356984296759
+"Carbon dioxide","emission/air","","221200",0.000423787656543493
+"Carbon dioxide","emission/air","","221300",0.000219228046697633
+"HFC-125","emission/air","","221100",NA
+"HFC-125","emission/air","","221200",NA
+"HFC-125","emission/air","","221300",NA
+"HFC-134a","emission/air","","221100",NA
+"HFC-134a","emission/air","","221200",NA
+"HFC-134a","emission/air","","221300",NA
+"HFC-143a","emission/air","","221100",NA
+"HFC-143a","emission/air","","221200",NA
+"HFC-143a","emission/air","","221300",NA
+"HFC-23","emission/air","","221100",NA
+"HFC-23","emission/air","","221200",NA
+"HFC-23","emission/air","","221300",NA
+"HFC-236fa","emission/air","","221100",NA
+"HFC-236fa","emission/air","","221200",NA
+"HFC-236fa","emission/air","","221300",NA
+"HFC-32","emission/air","","221100",NA
+"HFC-32","emission/air","","221200",NA
+"HFC-32","emission/air","","221300",NA
+"Nitrous oxide","emission/air","","221100",0.711955430410141
+"Nitrous oxide","emission/air","","221200",2.59631897100034e-05
+"Nitrous oxide","emission/air","","221300",0.288018606400149
+"Nitrogen trifluoride","emission/air","","221100",NA
+"Nitrogen trifluoride","emission/air","","221200",NA
+"Nitrogen trifluoride","emission/air","","221300",NA
+"Sulfur hexafluoride","emission/air","","221100",1
+"Sulfur hexafluoride","emission/air","","221200",0
+"Sulfur hexafluoride","emission/air","","221300",0
+"Land use","resource/ground/human-dominated/industrial","","221100",1
+"Uranium","resource/ground","","221100",1
+"Energy, geothermal","resource/ground","","221100",1
+"Biomass","resource/biotic","","221100",0.999239672579092
+"Biomass","resource/biotic","","221300",0.000760327420907702
+"Energy, hydro","resource/water","","221100",0.999890504140938
+"Energy, hydro","resource/water","","221300",0.000109495859062353
+"Energy, solar","resource/air","","221100",0.999526211082044
+"Energy, solar","resource/air","","221300",0.000473788917955755
+"Energy, wind","resource/air","","221100",0.999937732386147
+"Energy, wind","resource/air","","221300",6.2267613852585e-05
+"Aluminum Cans","Waste Flows/MSW","","221100",0.752368580191692
+"Aluminum Cans","Waste Flows/MSW","","221300",0.034731710229525
+"Aluminum Cans","Waste Flows/MSW","","221200",0.212899709578783
+"Ash","Waste Flows/MSW","","221200",0.212899709616764
+"Ash","Waste Flows/MSW","","221100",0.752368580151817
+"Ash","Waste Flows/MSW","","221300",0.0347317102314194
+"Asphalt Shingles","Waste Flows/CDD","","221200",0.212899709548641
+"Asphalt Shingles","Waste Flows/CDD","","221100",0.752368580216653
+"Asphalt Shingles","Waste Flows/CDD","","221300",0.034731710234706
+"Batteries","Waste Flows/MSW","","221200",0.21289970955127
+"Batteries","Waste Flows/MSW","","221100",0.752368580221996
+"Batteries","Waste Flows/MSW","","221300",0.0347317102267343
+"Brown Glass Bottles and Containers","Waste Flows/MSW","","221200",0.212899709600987
+"Brown Glass Bottles and Containers","Waste Flows/MSW","","221100",0.752368580161846
+"Brown Glass Bottles and Containers","Waste Flows/MSW","","221300",0.0347317102371668
+"Brown Goods","Waste Flows/MSW","","221200",0.21289970958599
+"Brown Goods","Waste Flows/MSW","","221100",0.752368580191653
+"Brown Goods","Waste Flows/MSW","","221300",0.0347317102223574
+"Bulky Items","Waste Flows/MSW","","221100",0.752368580253461
+"Bulky Items","Waste Flows/MSW","","221300",0.034731710225405
+"Bulky Items","Waste Flows/MSW","","221200",0.212899709521134
+"Carpet","Waste Flows/MSW","","221100",0.752368580195973
+"Carpet","Waste Flows/MSW","","221200",0.212899709577876
+"Carpet","Waste Flows/MSW","","221300",0.0347317102261517
+"Wood","Waste Flows/CDD","","221100",0.0360977517941775
+"Wood","Waste Flows/CDD","","221300",0.00166638624776546
+"Wood","Waste Flows/CDD","","221200",0.0102146754611644
+"Wood","Waste Flows/CDD","","221100",0.353968343893987
+"Wood","Waste Flows/CDD","","221200",0.100163350272452
+"Wood","Waste Flows/CDD","","221300",0.0163402968662859
+"Wood","Waste Flows/CDD","","221200",0.079808412777503
+"Wood","Waste Flows/CDD","","221100",0.282035810848575
+"Wood","Waste Flows/CDD","","221300",0.0130196639169939
+"Wood","Waste Flows/CDD","","221300",0.00370536320061601
+"Wood","Waste Flows/CDD","","221100",0.0802666736419143
+"Wood","Waste Flows/CDD","","221200",0.0227132710785651
+"Clear Glass Bottles and Containers","Waste Flows/MSW","","221200",0.212899709547647
+"Clear Glass Bottles and Containers","Waste Flows/MSW","","221300",0.03473171022134
+"Clear Glass Bottles and Containers","Waste Flows/MSW","","221100",0.752368580231013
+"Computer-related Electronics","Waste Flows/MSW","","221300",0.034731710230177
+"Computer-related Electronics","Waste Flows/MSW","","221200",0.212899709561897
+"Computer-related Electronics","Waste Flows/MSW","","221100",0.752368580207926
+"Concrete","Waste Flows/CDD","","221300",0.0347317102414778
+"Concrete","Waste Flows/CDD","","221200",0.212899709573186
+"Concrete","Waste Flows/CDD","","221100",0.752368580185336
+"Durable Plastic Items - Number 2 and 5 Bulky Rigids","Waste Flows/MSW","","221300",0.0347317102297259
+"Durable Plastic Items - Number 2 and 5 Bulky Rigids","Waste Flows/MSW","","221100",0.752368580190669
+"Durable Plastic Items - Number 2 and 5 Bulky Rigids","Waste Flows/MSW","","221200",0.212899709579605
+"Durable Plastic Items - Other","Waste Flows/MSW","","221200",0.212899709614063
+"Durable Plastic Items - Other","Waste Flows/MSW","","221300",0.0347317102326581
+"Durable Plastic Items - Other","Waste Flows/MSW","","221100",0.752368580153279
+"Film Products","Waste Flows/MSW","","221100",0.752368580155251
+"Film Products","Waste Flows/MSW","","221300",0.0347317102259393
+"Film Products","Waste Flows/MSW","","221200",0.212899709618809
+"Flat Glass","Waste Flows/MSW","","221300",0.0347317102246929
+"Flat Glass","Waste Flows/MSW","","221100",0.752368580176105
+"Flat Glass","Waste Flows/MSW","","221200",0.212899709599202
+"Food","Waste Flows/MSW","","221100",0.752368580230101
+"Food","Waste Flows/MSW","","221300",0.0347317102248209
+"Food","Waste Flows/MSW","","221200",0.212899709545079
+"Green Glass Bottles and Containers","Waste Flows/MSW","","221100",0.752368580135576
+"Green Glass Bottles and Containers","Waste Flows/MSW","","221300",0.0347317102378338
+"Green Glass Bottles and Containers","Waste Flows/MSW","","221200",0.21289970962659
+"Gypsum Drywall","Waste Flows/CDD","","221100",0.752368580230285
+"Gypsum Drywall","Waste Flows/CDD","","221200",0.212899709539935
+"Gypsum Drywall","Waste Flows/CDD","","221300",0.0347317102297802
+"HDPE Plastic Containers","Waste Flows/MSW","","221200",0.212899709635968
+"HDPE Plastic Containers","Waste Flows/MSW","","221300",0.0347317102450287
+"HDPE Plastic Containers","Waste Flows/MSW","","221100",0.752368580119004
+"Leaves and Grass","Waste Flows/MSW","","221300",0.0347317102300042
+"Leaves and Grass","Waste Flows/MSW","","221100",0.752368580192246
+"Leaves and Grass","Waste Flows/MSW","","221200",0.21289970957775
+"Magazines and Catalogs","Waste Flows/MSW","","221200",0.212899709610666
+"Magazines and Catalogs","Waste Flows/MSW","","221100",0.752368580159833
+"Magazines and Catalogs","Waste Flows/MSW","","221300",0.0347317102295015
+"Manures","Waste Flows/MSW","","221200",0.212899709534226
+"Manures","Waste Flows/MSW","","221100",0.752368580246013
+"Manures","Waste Flows/MSW","","221300",0.0347317102197609
+"Miscellaneous Plastic Containers","Waste Flows/MSW","","221300",0.0347317102257506
+"Miscellaneous Plastic Containers","Waste Flows/MSW","","221200",0.212899709551021
+"Miscellaneous Plastic Containers","Waste Flows/MSW","","221100",0.752368580223228
+"Mixed Residue","Waste Flows/MSW","","221100",0.752368580192374
+"Mixed Residue","Waste Flows/MSW","","221300",0.0347317102333691
+"Mixed Residue","Waste Flows/MSW","","221200",0.212899709574256
+"Newspaper","Waste Flows/MSW","","221100",0.752368580195454
+"Newspaper","Waste Flows/MSW","","221300",0.0347317102271221
+"Newspaper","Waste Flows/MSW","","221200",0.212899709577424
+"Non-Bag Commercial and Industrial Packaging Film","Waste Flows/MSW","","221100",0.752368580216081
+"Non-Bag Commercial and Industrial Packaging Film","Waste Flows/MSW","","221300",0.034731710223812
+"Non-Bag Commercial and Industrial Packaging Film","Waste Flows/MSW","","221200",0.212899709560107
+"Other Ferrous","Waste Flows/MSW","","221100",0.752368580173383
+"Other Ferrous","Waste Flows/MSW","","221300",0.0347317102276057
+"Other Ferrous","Waste Flows/MSW","","221200",0.212899709599011
+"Other Film - Other","Waste Flows/MSW","","221100",0.752368580151488
+"Other Film - Other","Waste Flows/MSW","","221300",0.0347317102330971
+"Other Film - Other","Waste Flows/MSW","","221200",0.212899709615415
+"Other Miscellaneous Paper - Compostable","Waste Flows/MSW","","221100",0.752368580210728
+"Other Miscellaneous Paper - Compostable","Waste Flows/MSW","","221300",0.0347317102352825
+"Other Miscellaneous Paper - Compostable","Waste Flows/MSW","","221200",0.212899709553989
+"Other Miscellaneous Paper - Other","Waste Flows/MSW","","221100",0.752368580190779
+"Other Miscellaneous Paper - Other","Waste Flows/MSW","","221200",0.212899709580379
+"Other Miscellaneous Paper - Other","Waste Flows/MSW","","221300",0.0347317102288422
+"Other Non-Ferrous","Waste Flows/MSW","","221300",0.0347317102301099
+"Other Non-Ferrous","Waste Flows/MSW","","221100",0.752368580216978
+"Other Non-Ferrous","Waste Flows/MSW","","221200",0.212899709552912
+"Other Office Paper","Waste Flows/MSW","","221100",0.752368580151028
+"Other Office Paper","Waste Flows/MSW","","221300",0.0347317102293382
+"Other Office Paper","Waste Flows/MSW","","221200",0.212899709619634
+"Other Small Consumer Electronics","Waste Flows/MSW","","221100",0.752368580229723
+"Other Small Consumer Electronics","Waste Flows/MSW","","221200",0.212899709545158
+"Other Small Consumer Electronics","Waste Flows/MSW","","221300",0.0347317102251191
+"Paper Bags","Waste Flows/MSW","","221100",0.752368580172896
+"Paper Bags","Waste Flows/MSW","","221200",0.21289970959618
+"Paper Bags","Waste Flows/MSW","","221300",0.0347317102309238
+"PETE Plastic Containers","Waste Flows/MSW","","221200",0.212899709545876
+"PETE Plastic Containers","Waste Flows/MSW","","221100",0.752368580228084
+"PETE Plastic Containers","Waste Flows/MSW","","221300",0.0347317102260394
+"Phone Books and Directories","Waste Flows/MSW","","221100",0.75236858020103
+"Phone Books and Directories","Waste Flows/MSW","","221200",0.212899709565836
+"Phone Books and Directories","Waste Flows/MSW","","221300",0.034731710233134
+"Plastic Grocery and Other Merchandise Bags","Waste Flows/MSW","","221100",0.752368580167092
+"Plastic Grocery and Other Merchandise Bags","Waste Flows/MSW","","221200",0.212899709606903
+"Plastic Grocery and Other Merchandise Bags","Waste Flows/MSW","","221300",0.0347317102260051
+"Plastic Trash Bags","Waste Flows/MSW","","221300",0.0347317102280166
+"Plastic Trash Bags","Waste Flows/MSW","","221200",0.212899709593981
+"Plastic Trash Bags","Waste Flows/MSW","","221100",0.752368580178003
+"Prunings and Trimmings","Waste Flows/MSW","","221300",0.0347317102352355
+"Prunings and Trimmings","Waste Flows/MSW","","221200",0.212899709607407
+"Prunings and Trimmings","Waste Flows/MSW","","221100",0.752368580157357
+"Glass","Waste Flows/MSW","","221100",0.752368580252491
+"Glass","Waste Flows/MSW","","221200",0.212899709514388
+"Glass","Waste Flows/MSW","","221300",0.0347317102331214
+"Remainder/Composite Household Hazardous","Waste Flows/MSW","","221200",0.212899709566948
+"Remainder/Composite Household Hazardous","Waste Flows/MSW","","221100",0.752368580202784
+"Remainder/Composite Household Hazardous","Waste Flows/MSW","","221300",0.0347317102302683
+"Other","Waste Flows/CDD","","221200",0.2128997095422
+"Other","Waste Flows/CDD","","221300",0.0347317102385463
+"Other","Waste Flows/CDD","","221100",0.752368580219253
+"Remainder/Composite Metal","Waste Flows/MSW","","221200",0.212899709561764
+"Remainder/Composite Metal","Waste Flows/MSW","","221100",0.752368580201816
+"Remainder/Composite Metal","Waste Flows/MSW","","221300",0.0347317102364207
+"Organics","Waste Flows/MSW","","221300",0.0347317102268485
+"Organics","Waste Flows/MSW","","221200",0.212899709532057
+"Organics","Waste Flows/MSW","","221100",0.752368580241094
+"Remainder/Composite Paper - Compostable","Waste Flows/MSW","","221300",0.0347317102247669
+"Remainder/Composite Paper - Compostable","Waste Flows/MSW","","221200",0.212899709575381
+"Remainder/Composite Paper - Compostable","Waste Flows/MSW","","221100",0.752368580199852
+"Remainder/Composite Paper - Other","Waste Flows/MSW","","221100",0.752368580181532
+"Remainder/Composite Paper - Other","Waste Flows/MSW","","221200",0.212899709589114
+"Remainder/Composite Paper - Other","Waste Flows/MSW","","221300",0.0347317102293542
+"Plastic","Waste Flows/MSW","","221200",0.21289970962566
+"Plastic","Waste Flows/MSW","","221300",0.0347317102358545
+"Plastic","Waste Flows/MSW","","221100",0.752368580138486
+"Fines","Waste Flows/MSW","","221100",0.752368580213215
+"Fines","Waste Flows/MSW","","221200",0.212899709554519
+"Fines","Waste Flows/MSW","","221300",0.0347317102322659
+"Textiles","Waste Flows/MSW","","221200",0.21289970954735
+"Textiles","Waste Flows/MSW","","221300",0.0347317102335842
+"Textiles","Waste Flows/MSW","","221100",0.752368580219065
+"Tin/Steel Cans","Waste Flows/MSW","","221200",0.212899709542798
+"Tin/Steel Cans","Waste Flows/MSW","","221100",0.752368580225801
+"Tin/Steel Cans","Waste Flows/MSW","","221300",0.0347317102314009
+"Tires","Waste Flows/MSW","","221200",0.212899709579604
+"Tires","Waste Flows/MSW","","221100",0.752368580197955
+"Tires","Waste Flows/MSW","","221300",0.0347317102224411
+"Cardboard","Waste Flows/MSW","","221200",0.212899709547421
+"Cardboard","Waste Flows/MSW","","221300",0.0347317102284273
+"Cardboard","Waste Flows/MSW","","221100",0.752368580224152
+"Used Oil","Waste Flows/MSW","","221200",0.212899709551767
+"Used Oil","Waste Flows/MSW","","221300",0.0347317102333282
+"Used Oil","Waste Flows/MSW","","221100",0.752368580214905
+"Used Oil Filters","Waste Flows/MSW","","221300",0.0347317102400359
+"Used Oil Filters","Waste Flows/MSW","","221200",0.212899709585852
+"Used Oil Filters","Waste Flows/MSW","","221100",0.752368580174112
+"Video Display Devices","Waste Flows/MSW","","221100",0.752368580241927
+"Video Display Devices","Waste Flows/MSW","","221200",0.21289970953275
+"Video Display Devices","Waste Flows/MSW","","221300",0.034731710225323
+"White Ledger Paper","Waste Flows/MSW","","221100",0.752368580256075
+"White Ledger Paper","Waste Flows/MSW","","221300",0.0347317102339967
+"White Ledger Paper","Waste Flows/MSW","","221200",0.212899709509928
+"1,2-BENZENEDICARBOXYLIC ACID, DIBUTYL ESTER (OR) DIBUTYL PHTHALATE","Waste Flows/Hazardous Waste","","221100",1
+"1,2-DICHLOROETHANE","Waste Flows/Hazardous Waste","","221300",1
+"1,2,3-PROPANETRIOL, TRINITRATE (R) (OR) NITROGLYCERINE (R)","Waste Flows/Hazardous Waste","","221100",1
+"1,4-DICHLOROBENZENE","Waste Flows/Hazardous Waste","","221200",1
+"2-BUTANONE (I,T) (OR) METHYL ETHYL KETONE (MEK) (I,T)","Waste Flows/Hazardous Waste","","221100",1
+"2-BUTANONE, PEROXIDE (R,T) (OR) METHYL ETHYL KETONE PEROXIDE (R,T)","Waste Flows/Hazardous Waste","","221100",1
+"2-PROPANONE (I) (OR) ACETONE (I)","Waste Flows/Hazardous Waste","","221100",1
+"2-PROPENAMIDE (OR) ACRYLAMIDE","Waste Flows/Hazardous Waste","","221100",1
+"2-PROPENOIC ACID (I) (OR) ACRYLIC ACID (I)","Waste Flows/Hazardous Waste","","221100",1
+"2,4-D (2,4-DICHLOROPHENOXYACETIC ACID)","Waste Flows/Hazardous Waste","","221100",1
+"2,4-D, SALTS & ESTERS (OR) ACETIC ACID, (2,4-DICHLOROPHENOXY)-, SALTS & ESTERS (OR) DICHLOROPHENOXYACETIC ACID 2,4-D","Waste Flows/Hazardous Waste","","221100",1
+"2,4-DINITROPHENOL (OR) PHENOL, 2,4-DINITRO-","Waste Flows/Hazardous Waste","","221100",1
+"ACETIC ACID, LEAD(2+) SALT (OR) LEAD ACETATE","Waste Flows/Hazardous Waste","","221300",1
+"ACIDIC AQUEOUS WST","Waste Flows/Hazardous Waste","","221300",0.0609072835712995
+"ACIDIC AQUEOUS WST","Waste Flows/Hazardous Waste","","221100",0.939092716428701
+"ALPHA,ALPHA-DIMETHYLBENZYLHYDROPEROXIDE (R) (OR) HYDROPEROXIDE, 1-METHYL-1-PHENYLETHYL- (R)","Waste Flows/Hazardous Waste","","221100",1
+"ANILINE (I,T) (OR) BENZENAMINE (I,T)","Waste Flows/Hazardous Waste","","221100",1
+"AQUEOUS W/O CYANIDES","Waste Flows/Hazardous Waste","","221300",0.0144328002486448
+"AQUEOUS W/O CYANIDES","Waste Flows/Hazardous Waste","","221100",0.985567199751355
+"AQUEOUS/CYANIDES","Waste Flows/Hazardous Waste","","221300",0.00170164492342598
+"AQUEOUS/CYANIDES","Waste Flows/Hazardous Waste","","221100",0.998298355076574
+"ARSENIC","Waste Flows/Hazardous Waste","","221300",0.00418967469407883
+"ARSENIC","Waste Flows/Hazardous Waste","","221200",0.197899463272437
+"ARSENIC","Waste Flows/Hazardous Waste","","221100",0.797910862033484
+"ASH","Waste Flows/Hazardous Waste","","221100",0.385142878614237
+"ASH","Waste Flows/Hazardous Waste","","221300",0.614857121385763
+"BARIUM","Waste Flows/Hazardous Waste","","221200",0.240677966101695
+"BARIUM","Waste Flows/Hazardous Waste","","221300",0.0277966101694915
+"BARIUM","Waste Flows/Hazardous Waste","","221100",0.731525423728814
+"BENZENE","Waste Flows/Hazardous Waste","","221100",0.340964259072098
+"BENZENE","Waste Flows/Hazardous Waste","","221200",0.658881330530499
+"BENZENE","Waste Flows/Hazardous Waste","","221300",0.000154410397403398
+"BENZENE (I,T)","Waste Flows/Hazardous Waste","","221200",1
+"BENZENE, 1,3-DIISOCYANATOMETHYL- (R,T) (OR) TOLUENE DIISOCYANATE (R,T)","Waste Flows/Hazardous Waste","","221100",1
+"BENZENE, DIMETHYL- (I,T) (OR) XYLENE (I)","Waste Flows/Hazardous Waste","","221100",1
+"BENZENE, METHYL- (OR) TOLUENE","Waste Flows/Hazardous Waste","","221100",1
+"BENZENEDIAMINE, AR-METHYL- (OR) TOLUENEDIAMINE","Waste Flows/Hazardous Waste","","221200",1
+"CADMIUM","Waste Flows/Hazardous Waste","","221200",0.125432208577037
+"CADMIUM","Waste Flows/Hazardous Waste","","221100",0.848961600215172
+"CADMIUM","Waste Flows/Hazardous Waste","","221300",0.0256061912077912
+"CARBON TETRACHLORIDE","Waste Flows/Hazardous Waste","","221100",1
+"CARBON TETRACHLORIDE (OR) METHANE, TETRACHLORO-","Waste Flows/Hazardous Waste","","221100",1
+"CHLOROFORM","Waste Flows/Hazardous Waste","","221300",1
+"CHLOROFORM (OR) METHANE, TRICHLORO-","Waste Flows/Hazardous Waste","","221300",0.153846153846154
+"CHLOROFORM (OR) METHANE, TRICHLORO-","Waste Flows/Hazardous Waste","","221100",0.846153846153846
+"CHROMIUM","Waste Flows/Hazardous Waste","","221200",0.0174997826009602
+"CHROMIUM","Waste Flows/Hazardous Waste","","221100",0.590126611379664
+"CHROMIUM","Waste Flows/Hazardous Waste","","221300",0.392373606019376
+"COMPRESSED GAS","Waste Flows/Hazardous Waste","","221200",0.477937565766398
+"COMPRESSED GAS","Waste Flows/Hazardous Waste","","221100",0.519326552086987
+"COMPRESSED GAS","Waste Flows/Hazardous Waste","","221300",0.00273588214661522
+"CONT. DEBRIS","Waste Flows/Hazardous Waste","","221200",0.594329424075642
+"CONT. DEBRIS","Waste Flows/Hazardous Waste","","221300",0.0365845154239022
+"CONT. DEBRIS","Waste Flows/Hazardous Waste","","221100",0.369086060500456
+"CONTAMINATED SOIL","Waste Flows/Hazardous Waste","","221200",0.000393776342162883
+"CONTAMINATED SOIL","Waste Flows/Hazardous Waste","","221300",0.87753663066436
+"CONTAMINATED SOIL","Waste Flows/Hazardous Waste","","221100",0.122069592993477
+"CORROSIVE WASTE","Waste Flows/Hazardous Waste","","221200",0.105118030565648
+"CORROSIVE WASTE","Waste Flows/Hazardous Waste","","221300",0.546573487322911
+"CORROSIVE WASTE","Waste Flows/Hazardous Waste","","221100",0.348308482111442
+"CRESOL","Waste Flows/Hazardous Waste","","221200",1
+"CYANIDE","Waste Flows/Hazardous Waste","","221100",1
+"CYANIDES (SOLUBLE CYANIDE SALTS), NOT OTHERWISE SPECIFIED","Waste Flows/Hazardous Waste","","221100",1
+"CYANOGEN BROMIDE (CN)BR","Waste Flows/Hazardous Waste","","221300",1
+"DICHLORODIFLUOROMETHANE (OR) METHANE, DICHLORODIFLUORO-","Waste Flows/Hazardous Waste","","221100",1
+"DILUTE AQUEOUS WST","Waste Flows/Hazardous Waste","","221200",0.00181994343772913
+"DILUTE AQUEOUS WST","Waste Flows/Hazardous Waste","","221100",0.998180056562271
+"DRIED PAINT","Waste Flows/Hazardous Waste","","221200",0.671851368101491
+"DRIED PAINT","Waste Flows/Hazardous Waste","","221100",0.328148631898509
+"ELECTRICAL DEVICES","Waste Flows/Hazardous Waste","","221100",1
+"ETHANE, 1,1,1-TRICHLORO- (OR) METHYL CHLOROFORM","Waste Flows/Hazardous Waste","","221100",1
+"ETHANE, 1,2-DICHLORO- (OR) ETHYLENE DICHLORIDE","Waste Flows/Hazardous Waste","","221100",1
+"EXPLOSIVES, ETC.","Waste Flows/Hazardous Waste","","221200",0.911214953271028
+"EXPLOSIVES, ETC.","Waste Flows/Hazardous Waste","","221100",0.0887850467289719
+"FORMIC ACID (C,T)","Waste Flows/Hazardous Waste","","221100",1
+"HALOGENATED SOLVENT","Waste Flows/Hazardous Waste","","221300",0.00929091719934592
+"HALOGENATED SOLVENT","Waste Flows/Hazardous Waste","","221100",0.904563698528319
+"HALOGENATED SOLVENT","Waste Flows/Hazardous Waste","","221200",0.0861453842723354
+"HYDRAZINE (R,T)","Waste Flows/Hazardous Waste","","221100",1
+"HYDROFLUORIC ACID (C,T) (OR) HYDROGEN FLUORIDE (C,T)","Waste Flows/Hazardous Waste","","221300",1
+"HYDROGEN SULFIDE (OR) HYDROGEN SULFIDE H2S","Waste Flows/Hazardous Waste","","221100",1
+"IGNITABLE WASTE","Waste Flows/Hazardous Waste","","221200",0.112008365739537
+"IGNITABLE WASTE","Waste Flows/Hazardous Waste","","221100",0.802825594462651
+"IGNITABLE WASTE","Waste Flows/Hazardous Waste","","221300",0.0851660397978119
+"LAB PACK","Waste Flows/Hazardous Waste","","221100",1
+"LAB PACKS/ACUTE","Waste Flows/Hazardous Waste","","221100",0.806912991656734
+"LAB PACKS/ACUTE","Waste Flows/Hazardous Waste","","221300",0.193087008343266
+"LAB PACKS/NO ACUTE","Waste Flows/Hazardous Waste","","221200",0.150758894432306
+"LAB PACKS/NO ACUTE","Waste Flows/Hazardous Waste","","221100",0.669505305100102
+"LAB PACKS/NO ACUTE","Waste Flows/Hazardous Waste","","221300",0.179735800467592
+"LEAD","Waste Flows/Hazardous Waste","","221200",0.0948920855335172
+"LEAD","Waste Flows/Hazardous Waste","","221100",0.890913158388566
+"LEAD","Waste Flows/Hazardous Waste","","221300",0.0141947560779172
+"MERCURY","Waste Flows/Hazardous Waste","","221100",0.984049433554063
+"MERCURY","Waste Flows/Hazardous Waste","","221200",0.000590360158264397
+"MERCURY","Waste Flows/Hazardous Waste","","221300",0.0153602062876724
+"METAL BEARING SLUDGE","Waste Flows/Hazardous Waste","","221100",1
+"METAL SALTS/CHEM.","Waste Flows/Hazardous Waste","","221100",1
+"METAL SCALE, ETC.","Waste Flows/Hazardous Waste","","221100",1
+"METHANE, DICHLORO- (OR) METHYLENE CHLORIDE","Waste Flows/Hazardous Waste","","221100",1
+"METHANE, TRICHLOROFLUORO- (OR) TRICHLOROMONOFLUOROMETHANE","Waste Flows/Hazardous Waste","","221100",1
+"METHANOL (I) (OR) METHYL ALCOHOL (I)","Waste Flows/Hazardous Waste","","221100",1
+"METHYL ETHYL KETONE","Waste Flows/Hazardous Waste","","221100",1
+"NAPHTHALENE","Waste Flows/Hazardous Waste","","221200",0.39160218191044
+"NAPHTHALENE","Waste Flows/Hazardous Waste","","221100",0.60839781808956
+"NONHALOGEN. SOLVENT","Waste Flows/Hazardous Waste","","221100",0.928323391722217
+"NONHALOGEN. SOLVENT","Waste Flows/Hazardous Waste","","221200",0.0514313648422982
+"NONHALOGEN. SOLVENT","Waste Flows/Hazardous Waste","","221300",0.0202452434354851
+"OIL-WATER EMULSION","Waste Flows/Hazardous Waste","","221100",0.0887138254187054
+"OIL-WATER EMULSION","Waste Flows/Hazardous Waste","","221300",0.0892992119038422
+"OIL-WATER EMULSION","Waste Flows/Hazardous Waste","","221200",0.821986962677452
+"OILY SLUDGE","Waste Flows/Hazardous Waste","","221300",0.712810770628562
+"OILY SLUDGE","Waste Flows/Hazardous Waste","","221200",0.287189229371438
+"OTH INORGANIC LIQUID","Waste Flows/Hazardous Waste","","221200",0.419418590234943
+"OTH INORGANIC LIQUID","Waste Flows/Hazardous Waste","","221100",0.353447219994932
+"OTH INORGANIC LIQUID","Waste Flows/Hazardous Waste","","221300",0.227134189770126
+"OTH INORGANIC SLUDGE","Waste Flows/Hazardous Waste","","221100",1
+"OTH INORGANIC SOLIDS","Waste Flows/Hazardous Waste","","221100",0.873850197109067
+"OTH INORGANIC SOLIDS","Waste Flows/Hazardous Waste","","221300",0.00171963465874986
+"OTH INORGANIC SOLIDS","Waste Flows/Hazardous Waste","","221200",0.124430168232183
+"OTH ORGANIC LIQUID","Waste Flows/Hazardous Waste","","221100",0.232168658353881
+"OTH ORGANIC LIQUID","Waste Flows/Hazardous Waste","","221200",0.114657269427326
+"OTH ORGANIC LIQUID","Waste Flows/Hazardous Waste","","221300",0.653174072218793
+"OTH ORGANIC SOLIDS","Waste Flows/Hazardous Waste","","221200",0.477197221383268
+"OTH ORGANIC SOLIDS","Waste Flows/Hazardous Waste","","221300",0.0151011778918756
+"OTH ORGANIC SOLIDS","Waste Flows/Hazardous Waste","","221100",0.507701600724856
+"OTHER AQUEOUS WST","Waste Flows/Hazardous Waste","","221200",0.496688609430238
+"OTHER AQUEOUS WST","Waste Flows/Hazardous Waste","","221300",0.00249597121781433
+"OTHER AQUEOUS WST","Waste Flows/Hazardous Waste","","221100",0.500815419351948
+"OTHER ORGANIC SLUDGE","Waste Flows/Hazardous Waste","","221100",0.0547913906835733
+"OTHER ORGANIC SLUDGE","Waste Flows/Hazardous Waste","","221200",0.945208609316427
+"OTHER SLUDGES","Waste Flows/Hazardous Waste","","221200",0.570753001091306
+"OTHER SLUDGES","Waste Flows/Hazardous Waste","","221100",0.429246998908694
+"PAINT THINNER","Waste Flows/Hazardous Waste","","221300",0.0160299645744285
+"PAINT THINNER","Waste Flows/Hazardous Waste","","221200",0.0251192439883047
+"PAINT THINNER","Waste Flows/Hazardous Waste","","221100",0.958850791437267
+"PAINT, INK SLUDGE","Waste Flows/Hazardous Waste","","221300",1
+"PAINT, INK, ETC.","Waste Flows/Hazardous Waste","","221100",0.818077790897941
+"PAINT, INK, ETC.","Waste Flows/Hazardous Waste","","221300",0.0297826082049426
+"PAINT, INK, ETC.","Waste Flows/Hazardous Waste","","221200",0.152139600897116
+"PESTICIDE SOLIDS","Waste Flows/Hazardous Waste","","221100",1
+"PHENOL","Waste Flows/Hazardous Waste","","221200",0.851063829787234
+"PHENOL","Waste Flows/Hazardous Waste","","221300",0.148936170212766
+"POTASSIUM CYANIDE (OR) POTASSIUM CYANIDE K(CN)","Waste Flows/Hazardous Waste","","221300",1
+"PYRIDINE","Waste Flows/Hazardous Waste","","221300",1
+"REACTIVE ORG. LIQUID","Waste Flows/Hazardous Waste","","221200",0.319936012797441
+"REACTIVE ORG. LIQUID","Waste Flows/Hazardous Waste","","221100",0.678664267146571
+"REACTIVE ORG. LIQUID","Waste Flows/Hazardous Waste","","221300",0.0013997200559888
+"REACTIVE WASTE","Waste Flows/Hazardous Waste","","221300",0.000778434965635227
+"REACTIVE WASTE","Waste Flows/Hazardous Waste","","221100",0.999221565034365
+"SELENIUM","Waste Flows/Hazardous Waste","","221300",0.540896785163106
+"SELENIUM","Waste Flows/Hazardous Waste","","221200",0.000316495563336822
+"SELENIUM","Waste Flows/Hazardous Waste","","221100",0.458786719273557
+"SILVER","Waste Flows/Hazardous Waste","","221300",0.072490253411306
+"SILVER","Waste Flows/Hazardous Waste","","221100",0.927509746588694
+"SODIUM AZIDE","Waste Flows/Hazardous Waste","","221300",1
+"SODIUM CYANIDE (OR) SODIUM CYANIDE NA(CN)","Waste Flows/Hazardous Waste","","221300",1
+"SOLVENT MIXTURE","Waste Flows/Hazardous Waste","","221200",0.973978442680729
+"SOLVENT MIXTURE","Waste Flows/Hazardous Waste","","221100",0.0260215573192707
+"SPENT ACID","Waste Flows/Hazardous Waste","","221300",0.985030867383809
+"SPENT ACID","Waste Flows/Hazardous Waste","","221100",0.0149691326161914
+"SPENT CYANIDE PLATING BATH SOLUTIONS FROM ELECTROPLATING OPERATIONS.","Waste Flows/Hazardous Waste","","221100",1
+"SPENT FILTERS","Waste Flows/Hazardous Waste","","221300",0.0353961812510624
+"SPENT FILTERS","Waste Flows/Hazardous Waste","","221200",0.853827129373111
+"SPENT FILTERS","Waste Flows/Hazardous Waste","","221100",0.110776689375827
+"STILL BOTTOMS","Waste Flows/Hazardous Waste","","221300",1
+"TETRACHLOROETHYLENE","Waste Flows/Hazardous Waste","","221300",0.00549833512752085
+"TETRACHLOROETHYLENE","Waste Flows/Hazardous Waste","","221200",0.00194361862698472
+"TETRACHLOROETHYLENE","Waste Flows/Hazardous Waste","","221100",0.992558046245494
+"THE FOLLOWING SPENT HALOGENATED SOLVENTS USED IN DEGREASING: TETRACHLOROETHYLENE, TRICHLORETHYLENE, METHYLENE CHLORIDE, 1,1,1-TRICHLOROETHANE, CARBON TETRACHLORIDE AND CHLORINATED FLUOROCARBONS; ALL SPENT SOLVENT MIXTURES/BLENDS USED IN DEGREASING CONTAIN","Waste Flows/Hazardous Waste","","221300",0.10623070026214
+"THE FOLLOWING SPENT HALOGENATED SOLVENTS USED IN DEGREASING: TETRACHLOROETHYLENE, TRICHLORETHYLENE, METHYLENE CHLORIDE, 1,1,1-TRICHLOROETHANE, CARBON TETRACHLORIDE AND CHLORINATED FLUOROCARBONS; ALL SPENT SOLVENT MIXTURES/BLENDS USED IN DEGREASING CONTAIN","Waste Flows/Hazardous Waste","","221100",0.89376929973786
+"THE FOLLOWING SPENT HALOGENATED SOLVENTS: TETRACHLOROETHYLENE, METHYLENE CHLORIDE, TRICHLOROETHYLENE, 1,1,1-TRICHLOROETHANE, CHLOROBENZENE, 1,1,2-TRICHLORO-1,2,2-TRIFLUOROETHANE, ORTHO-DICHLOROBENZENE, TRICHLOROFLUOROMETHANE, AND 1,1,2, TRICHLOROETHANE; A","Waste Flows/Hazardous Waste","","221300",0.00405100238179835
+"THE FOLLOWING SPENT HALOGENATED SOLVENTS: TETRACHLOROETHYLENE, METHYLENE CHLORIDE, TRICHLOROETHYLENE, 1,1,1-TRICHLOROETHANE, CHLOROBENZENE, 1,1,2-TRICHLORO-1,2,2-TRIFLUOROETHANE, ORTHO-DICHLOROBENZENE, TRICHLOROFLUOROMETHANE, AND 1,1,2, TRICHLOROETHANE; A","Waste Flows/Hazardous Waste","","221200",0.741885695402534
+"THE FOLLOWING SPENT HALOGENATED SOLVENTS: TETRACHLOROETHYLENE, METHYLENE CHLORIDE, TRICHLOROETHYLENE, 1,1,1-TRICHLOROETHANE, CHLOROBENZENE, 1,1,2-TRICHLORO-1,2,2-TRIFLUOROETHANE, ORTHO-DICHLOROBENZENE, TRICHLOROFLUOROMETHANE, AND 1,1,2, TRICHLOROETHANE; A","Waste Flows/Hazardous Waste","","221100",0.254063302215668
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: CRESOLS, CRESYLIC ACID, AND NITROBENZENE; AND THE STILL BOTTOMS FROM THE RECOVERY OF THESE SOLVENTS; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, A TOTAL OF TEN PERCENT OR MORE (BY VOLUME) OF ONE O","Waste Flows/Hazardous Waste","","221100",1
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: TOLUENE, METHYL ETHYL KETONE, CARBON DISULFIDE, ISOBUTANOL, PYRIDINE, BENZENE, 2-ETHOXYETHANOL, AND 2-NITROPROPANE; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, A TOTAL OF TEN PERCENT OR MORE (BY V","Waste Flows/Hazardous Waste","","221300",0.00504023667607368
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: TOLUENE, METHYL ETHYL KETONE, CARBON DISULFIDE, ISOBUTANOL, PYRIDINE, BENZENE, 2-ETHOXYETHANOL, AND 2-NITROPROPANE; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, A TOTAL OF TEN PERCENT OR MORE (BY V","Waste Flows/Hazardous Waste","","221100",0.994959763323926
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: XYLENE, ACETONE, ETHYL ACETATE, ETHYL BENZENE, ETHYL ETHER, METHYL ISOBUTYL KETONE, N-BUTYL ALCOHOL, CYCLOHEXANONE, AND METHANOL; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, ONLY THE ABOVE SPENT N","Waste Flows/Hazardous Waste","","221100",0.608334511954014
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: XYLENE, ACETONE, ETHYL ACETATE, ETHYL BENZENE, ETHYL ETHER, METHYL ISOBUTYL KETONE, N-BUTYL ALCOHOL, CYCLOHEXANONE, AND METHANOL; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, ONLY THE ABOVE SPENT N","Waste Flows/Hazardous Waste","","221200",0.335545442342479
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: XYLENE, ACETONE, ETHYL ACETATE, ETHYL BENZENE, ETHYL ETHER, METHYL ISOBUTYL KETONE, N-BUTYL ALCOHOL, CYCLOHEXANONE, AND METHANOL; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, ONLY THE ABOVE SPENT N","Waste Flows/Hazardous Waste","","221300",0.0561200457035062
+"TRICHLORETHYLENE","Waste Flows/Hazardous Waste","","221100",1
+"VANADIUM OXIDE V2O5 (OR) VANADIUM PENTOXIDE","Waste Flows/Hazardous Waste","","221100",1
+"VINYL CHLORIDE","Waste Flows/Hazardous Waste","","221100",1
+"WASTE OIL","Waste Flows/Hazardous Waste","","221200",0.429970151838564
+"WASTE OIL","Waste Flows/Hazardous Waste","","221300",0.0892240028427213
+"WASTE OIL","Waste Flows/Hazardous Waste","","221100",0.480805845318715
+"Jobs","","","221100",0.589698645245311
+"Jobs","","","221200",0.145652746560184
+"Jobs","","","221300",0.264648608194506
+"Compensation of employees","","","221100",0.780805619266055
+"Compensation of employees","","","221200",0.161983944954128
+"Compensation of employees","","","221300",0.0572104357798165
+"Gross operating surplus","","","221100",0.786933022467147
+"Gross operating surplus","","","221200",0.191248940228911
+"Gross operating surplus","","","221300",0.0218180373039423
+"Taxes on production and imports, less subsidies","","","221100",0.838787426166067
+"Taxes on production and imports, less subsidies","","","221200",0.141574444972503
+"Taxes on production and imports, less subsidies","","","221300",0.0196381288614298
