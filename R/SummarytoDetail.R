@@ -11,7 +11,7 @@
 #' @param modelname String indicating which model to generate. Must be a detail level model.
 #' @param sectorToDisaggregate String with the summary level code of the sector to be disaggregated from Summary to Detail Level
 #' @param specificiedDetailLevelSector String to denote whether to disaggregate only the specified summary level sector to all related detail level sectors, or only one related detail level sector (if value is TRUE)
-#' @return A summary level model with the specified sectors disaggregated at the Detail level.
+#' @return A list object containing dataframes with the economic allocations for the Use and Make tables; environmental allocations for the TbS object; and the Sector CSV file output required for disaggregation.  
 disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorToDisaggregate = NULL, specifiedDetailLevelSector = NULL){
   # Check for appropriate input in sectorToDisaggregate and make sure format matches BEA_Summary column in model$crosswalk.
   if(is.null(sectorToDisaggregate)){
@@ -64,14 +64,15 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   #sectorsDF <- createSectorsCSV(detailModel, summaryCode, summaryCodeCw)
   sectorsDF <- createSectorsCSV(disaggParams)
   
-  allocationsDF <- list()
-  allocationsDF$useAllocationsDF <- useAllocationsDF
-  allocationsDF$makeAllocationsDF <- makeAllocationsDF
-  allocationsDF$envAllocationsDF <- envAllocationsDF
+  outputDF <- list()
+  outputDF$useAllocationsDF <- useAllocationsDF
+  outputDF$makeAllocationsDF <- makeAllocationsDF
+  outputDF$envAllocationsDF <- envAllocationsDF
+  outputDF$sectorsDF <- sectorsDF
   
   #Write DFs to correct folder
-  writeAllocationsToCSV(allocationDF)
-  return(allocationsDF)#temporary return statement
+  writeAllocationsToCSV(outputDF)
+  return(outputDF)#temporary return statement
   
 }
 
@@ -158,9 +159,9 @@ createSectorsCSV <- function (disaggParams){
 
 
 #' Write allocation dataframes to csv files at the specified directory
-#' @param allocationsDF A dataframe containing a list of allocations for the Use and Make tables, as well as for environmental allocations for TbS object
+#' @param outputDF A dataframe containing a list of outputDFs to write to CSV: Use table, Make table, and environmental allocations for TbS object, as well as the Sectors CSV. 
 #' @description Write allocation dataframes to csv files at the specified directory
-writeAllocationsToCSV <- function(allocationsDF){
+writeAllocationsToCSV <- function(outputDF){
   
   # todo: make this function more general, i.e., for writing files not related to utilities
   # Path pointing to write directory
@@ -169,10 +170,12 @@ writeAllocationsToCSV <- function(allocationsDF){
   useAllocFileName <- paste0(writePath, filePrepend, "_Use.csv")
   makeAllocFileName <- paste0(writePath, filePrepend, "_Make.csv")
   envAllocFileName <- paste0(writePath, filePrepend, "_Env.csv")
+  sectorsFileName <- paste0(writePath, filePrepend,"_Sectors.csv")
   
-  write.csv(allocationsDF$useAllocationsDF, useAllocFileName, row.names = FALSE)
-  write.csv(allocationsDF$makeAllocationsDF, makeAllocFileName, row.names = FALSE)
-  write.csv(allocationsDF$envAllocationsDF, envAllocFileName, row.names = FALSE)
+  write.csv(outputDF$useAllocationsDF, useAllocFileName, row.names = FALSE)
+  write.csv(outputDF$makeAllocationsDF, makeAllocFileName, row.names = FALSE)
+  write.csv(outputDF$envAllocationsDF, envAllocFileName, row.names = FALSE)
+  write.csv(outputDF$sectorsDF, sectorsFileName, row.names = FALSE)
   
 }
 
