@@ -3,9 +3,10 @@
 
 ## NEXT STEPS: 
 ## 1 TEST THE DISAGGREGATION OF THE UTILITY LEVEL SECTOR, FOR ALL 3 DETAIL LEVEL SECTORS (I.E. TEST 1 IN MODEL BUILD MARKDOWN FILE), USING THE OUTPUT FROM ALL FUNCTIONS HERE
-##        -->Done. Also tested this with the code used for step 3 included (i.e., not commented out), and it was the same result as with it commetned out.
+##        -->Need to test again given all the alterations to the code
 ## 2 Write code to be able to disaggregate utility env file when going to 221100 and 22X sectors.
-## 3 TEST THE DISAGGREGATION OF THE UTILITY LEVEL SECTOR, FOR 221100 AND 22X (I.E. TEST 2 IN MODEL BUILD MARKDOWN FILE) USING THE OUTPUT FROM ALL FUNCTIONS HERE
+##        --> Partially done, need to test
+## 3 LEFT OF HERE --> TEST THE DISAGGREGATION OF THE UTILITY LEVEL SECTOR, FOR 221100 AND 22X (I.E. TEST 2 IN MODEL BUILD MARKDOWN FILE) USING THE OUTPUT FROM ALL FUNCTIONS HERE
 ## 4 AFTER THAT START WORKING/TESTING DISAGGREGATION OF THE GOVERNMENT ELECTRICITY SECTORS (MANY STEPS)
 
 #' Disaggregate a specific sector in a summary level model to detail level
@@ -57,7 +58,6 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   makeIntersection <-  generateEconomicAllocations(disaggParams, "Make", "Intersection")
   
   # Get environmental allocations
- ## envAllocationsDF <- generateEnvironmentalAllocations(detailModel, summaryCode, summaryCodeCw)
   envAllocationsDF <- generateEnvironmentalAllocations(disaggParams)
   
   testAllocations <- generateEnvironmentalAllocations2(disaggParams)
@@ -242,7 +242,7 @@ intersectionAllocation2 <- function (disaggParams, Table, outputDF, vectorToDisa
 #' @param summaryCode String containing summary level code to be disaggregated
 #' @param summaryCodeCw List of detail sectors that map to the summary level sector to be disaggregated
 #' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
-generateEnvironmentalAllocations2 <- function (detailModel, summaryCode, summaryCodeCw){
+generateEnvironmentalAllocations2 <- function (disaggParams){
   
   temp <-1
   # Initialize dataframe that contains allocation values
@@ -264,7 +264,6 @@ generateEnvironmentalAllocations2 <- function (detailModel, summaryCode, summary
     # Get current subset from TbS dataframe
     currentTbSFlows <- disaggParams$detailModel$TbS[currentTbsIndeces, TbSColIndeces]
     
-    ######new Code
     # If we are disaggregating only one detail level sector  
     if(!is.null(disaggParams$specifiedDetailLevelSector)){
       
@@ -278,37 +277,30 @@ generateEnvironmentalAllocations2 <- function (detailModel, summaryCode, summary
         outputDF <- rbind(outputDF, specifiedTBSFlow)
         
       }
-      ####LEFT OF HERE
-      remainingTBSFlows <- currentTbSFlows[-(specifiedDetailRowIndex),]
+      remainingTBSFlows <- which(currentTbSFlows$Sector != specifiedCode)
       
-      if(nrow(remainingTBSFlows)!=0){ # If there are other sectors with this flow besides the specified sector
-        
+      if(length(remainingTBSFlows)!=0){ # If there are other sectors with this flow besides the specified sector
+        newTBSFlow <- currentTbSFlows[1,] # DF to store allocation of new summary level sector (e.g., 22X)		
+        newTBSFlow$Sector <- paste0(disaggParams$summaryCode,"X") # Add new sector code to DF
+        newTBSFlow$FlowAmount <-  sum(currentTbSFlows$FlowAmount[remainingTBSFlows])/sum(currentTbSFlows$FlowAmount)
+        outputDF <- rbind(outputDF, newTBSFlow)
       }
       
-      newTBSFlow <- currentTbSFlows[1,] # DF to store allocation of new summary level sector (e.g., 22X)		
-      newTBSFlow$Sector <- paste0(disaggParams$summaryCode,"X")
+
       ####LEFT OF HERE
-    } else{
+    } else{ # If we are disaggregating all detail level sectors mapped to this summary sector
       # Calculate amount ratios for current subset
       currentRatios <- currentTbSFlows$FlowAmount/sum(currentTbSFlows$FlowAmount)
       # Replace amounts with ratios in current subset
       currentTbSFlows$FlowAmount <- currentRatios
       # Bind current subset to output DF
+      outputDF <- rbind(outputDF, currentTbSFlows)
       
-    }
+    }# End of If-Else for !is.null(disaggParams$specifiedDetailLevelSector)
     
-    
-    ######end new cpde
-    
-    # Calculate amount ratios for current subset
- #   currentRatios <- currentTbSFlows$FlowAmount/sum(currentTbSFlows$FlowAmount)
-    # Replace amounts with ratios in current subset
-    currentTbSFlows$FlowAmount <- currentRatios
-    # Bind current subset to output DF
-#    outputDF <- rbind(outputDF, currentTbSFlows)
-    
-  }
+  } # End of for current flow loop
   
+  outputDF$FlowAmount[is.na(outputDF$FlowAmount)] <- 0 # Remove all NAs, product of division by 0 in some flows.  
   names(outputDF)[names(outputDF) == 'FlowAmount'] <- 'FlowRatio'
   
   temp <-1
