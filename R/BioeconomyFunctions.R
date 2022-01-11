@@ -1,15 +1,17 @@
 # This script contains the functions that modificate the Make and Use tables, the A and B matrices and the Y vector
-# to recalculate the USEEIO model with an additional biofuels sector (3 new industries that produce 1 new commodity-biofuels)
-# More infromation about the methodology can be found at "LCA New tech Methodology (v01 CGA 2020-07-23).pdf".
+# to recalculate the USEEIO model with an additional sector (3 new industries that produce 1 new commodity)
+# More information about the methodology can be found at manuscript.
 
 #' Modify Make BEA Table.
 #' 
-#' This function modifies the pre-saved Make table for adding the new biofuels sector.
+#' This function modifies the pre-saved Make table for adding the new sector.
 #' 
 #' @param modModel the model under modification after initial adjustments for Use Table.
-#' @return a dataframe with the original Make table modified.
+#' @param totalF_UseSimComm the modified total commodity output of the similar commodity in the Use table, 
+#' this will be the future production of the similar commodity.
+#' @return a list with a dataframe with the modified Make table, and the modified model. In that order.
 #' 
-#' Example: modifyMakeTable(modModel,modUse[1:406,1:408],modUse[412,406:408])
+#' Example: modifyMakeTable(modModel,newProd)
 modifyMakeTable <- function(modModel, totalF_UseSimComm){
   
   originalMake<-modModel$BiofuelsData$OriginalBEA$Make
@@ -125,6 +127,14 @@ modifyMakeTable <- function(modModel, totalF_UseSimComm){
   list(modMake, modModel)
 }
 
+#' Augments Use table with information for the new industries producing the new commodity.
+#' 
+#' @param modModel the model under modification after initial calculations.
+#' @param inputPurchases (nComm+1)x #newTech matrix with the amount spent in each of the nComm existing commodities to produce 1 physical unit of the new commodity in each of the new industries.
+#' @param valueAdded 3x #newTech matrix with the 3 components of value added (Compensation of employees; Taxes on production and imports, less subsidies; Gross operating surplus) required 
+#' to produce 1 physical unit of the new commodity in each of the new industries.
+#' @param isDomestic boolean that takes TRUE if the modification is for domestic use table.
+#' @result List that includes the modified Use table, the model with updates and total future use of the similar commodity, in that order.
 modifyUseTable<-function(modModel, inputPurchases, valueAdded, isDomestic){
   #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   #MODIFY USE TABLE-INPUT PURCHASES
@@ -283,6 +293,12 @@ modifyUseTable<-function(modModel, inputPurchases, valueAdded, isDomestic){
   list(modUse, modModel, totalF_UseSimComm)
 }
 
+#' Function that implements the analytical methodology proposed in paper to rebalance Make and Use augmented tables.
+#' 
+#' @param modModel the list of USEEIO model components and attributes under modification.
+#' @param newMake Augmented Make matrix.
+#' @param modUse Augmented Use matrix.
+#' @result A list with balanced Make (1st position) and Use tables (2nd position).
 rebalanceMakeUseAnalytical<-function(modModel, newMake, modUse){
   
   nNewI<-modModel$BiofuelsData$nNewIndustries
@@ -381,17 +397,15 @@ rebalanceMakeUseAnalytical<-function(modModel, newMake, modUse){
 }
 #' Modify Make and Use Tables.
 #' 
-#' This function modifies the pre-saved Make and Use tables for adding the new biofuels sector.It first modify the industry (intermediate) uses and
-#' the final users uses, including those for the new sectors. Then it obtains the Total Industry Output for the new industries. Then it calls
-#' modifyMakeTable() to modify the Make table and then ends modifying the Use table, adjusting the Value Added components.
+#' This function modifies the pre-saved Make and Use tables for adding the new sector.
+#' First calls modifyUseTable(), then modifyMakeTable() and then rebalance the augmented Make and Use Tables. 
 #' 
-#' @param modModel the model under modification after initial adjustments for Use Table.
-#' @param inputPurchases (nComm+1)x 3 matrix with the amount spent in each of the nComm existing commodities to produce 1 GGE of biofuel in each of the new industries.
-#' @param valueAdded 2x3 matrix with the first 2 components of value added (Compensation of employees and Taxes on production and imports, less subsidies) required 
-#' to produce 1 GGE of biofuel in each of the new industries.
+#' @param modModel the model under modification after initial calculations.
+#' @param inputPurchases (nComm+1)x #newTech matrix with the amount spent in each of the nComm existing commodities to produce 1 physical unit of the new commodity in each of the new industries.
+#' @param valueAdded 3x #newTech matrix with the 3 components of value added (Compensation of employees; Taxes on production and imports, less subsidies; Gross operating surplus) required 
+#' to produce 1 physical unit of the new commodity in each of the new industries.
+#' @param isDomestic boolean that takes TRUE if the modification is for domestic use table.
 #' @return the model with Make and Use tables updated.
-#' 
-#' Example: modifyMakeandUseTable(modModel,matrix(c(rep(0.1,300),rep(0,106),rep(0.1,100),rep(0,306),rep(0,300),rep(0.102,106)), nrow=406, ncol=3),matrix(c(rep(1,2),rep(2,2),rep(1.5,2)), nrow=2, ncol=3))
 modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded, isDomestic){
   #browser()
 
@@ -432,37 +446,43 @@ modifyMakeandUseTables <- function(modModel,inputPurchases, valueAdded, isDomest
   modModel
 }
 
-#' This function modifies the B table created in buildEEIOModel() for adding one new bioeconomy sector
-#' @param newSectorCode string/character that refers to the code/identifier that will be used for the new sector in the matrices.
-#' @param newEnvData (# environmental flows x 1) column vector with the data for all the environmental flows per dollar of output for the new sector.
+#' This function modifies the B table created in buildEEIOModel() for adding the new sector.
+#' @param envData (# environmental flows x #new Tech) matrix with the data for all the environmental flows per dollar of output for the each new industry.
+#' @param B unmodified B matrix. (# environmental flows x(405 + #newTech)) with the columns for the new technologies in zeros.
 #' @param model the list of USEEIO model components and attributes under modification.
 #' @return B matrix modified.
-modifyBmatrix <- function(newEnvData, model){
-  # This is not a pretty version, a prettier version is probably to modify the satellite tables.
-  # Here I require that the untransformed B matrix is saved in model in buildEEIOModel().
+modifyBmatrix <- function(envData, B, model){
+  
   whichI<-model$BiofuelsData$whichNewIn
+  modB<-B
   
-  #Obtain data from original model construction
-  primaryRegionAcronym<- model$specs$PrimaryRegionAcronym
-  commodityByIndustryType<- model$specs$CommoditybyIndustryType
-  modB<-model$B_untransformed
-  
-  # Since at the point this function is called, model$Industries is already updated, the original buildEEIOModel()
+  # Since at the point this function is called, model$Industries is already updated, the B matrix already has the proper dimension, i.e, 
   # has already added a new column with zeros for this new sector. Therefore, now it is only necessary to fill it and not to add the column.
   
   #Determine number of industries in original B
   n<- model$BiofuelsData$OriginalIndustriesNum
   
-  #Fill newEnvDataColumn and assign col name (the code)
-  #modB<-cbind(modB,newEnvData)
-  modB[,-(1:n)]<-newEnvData[,whichI]
+  #CAREFUL!! DATA ROWS IMPORTED MUST BE IN EXACTLY THE SAME ORDER AS IN B MATRIXDEV
+  newrow<-as.matrix(envData[,whichI])
   
-  # If commodity model, transform B into a flowxcommodity matrix using market shares matrix
-  if(commodityByIndustryType == "Commodity") {
-    modB <- modB %*% model$V_n
-    colnames(modB) <- tolower(paste(colnames(modB), primaryRegionAcronym, sep = "/"))
-  }
+  #-----Add value added for new industries----
   
+  newIndustriesVA<-model$UseValueAdded[,-(1:n)]
+  newIndustriesTotalProduction<-model$IndustryOutput[-(1:n)]
+  
+  newIndustriesVA_perUSD<-as.matrix(newIndustriesVA/newIndustriesTotalProduction)
+  
+  compensationEmployeesRowIndex<-which(rownames(B)=="Compensation of employees//USD")
+  TaxesRowIndex<-which(rownames(B)=="Taxes on production and imports, less subsidies//USD")
+  GrossOpSurplusRowIndex<-which(rownames(B)=="Gross operating surplus//USD")  
+  
+  newrow[compensationEmployeesRowIndex,]<-as.matrix(newIndustriesVA_perUSD[1,])
+  newrow[TaxesRowIndex,]<-as.matrix(newIndustriesVA_perUSD[2,])
+  newrow[GrossOpSurplusRowIndex,]<-as.matrix(newIndustriesVA_perUSD[3,])
+  #----------------------------------------------
+  
+  #Fill newEnvDataColumn 
+  modB[,-(1:n)]<-newrow
   modB
 }
 
@@ -484,33 +504,35 @@ getColIndex<-function (table, code){
   column
 }
 
+
+#' Unit transformation from USD to GGE (Gallon of Gasoline Equivalent).
+#' 
+#' @param USD amount of dollars to transform.
+#' @param price price in dollars per GGE.
+#' @return Amount of GGE.
 transformUSDtoGGE <- function(USD, price){
   GGE<- USD*1/price
   GGE
 }
 
+#' Unit transformation from GGE(Gallon of Gasoline Equivalent) to USD.
+#' 
+#' @param GGE amount of gallons to transform.
+#' @param price price in dollars per GGE.
+#' @return Amount of dollars.
 transformGGEtoUSD <- function(GGE, price){
   USD<- GGE*price
   USD
 }
 
-addRowsColsZeros<-function(matrix, numRows,numCols){
-  #browser()
-  origRows<-nrow(matrix)
-  origCols<-ncol(matrix)
-  
-  #Add columns of zeros
-  colZeros<- matrix(rep(0, times=(origRows)*numCols),nrow = origRows, ncol=numCols)
-  matrixRet<-cbind(matrix,colZeros)
-  
-  #add rows of zeros
-  rowZeros<- matrix(rep(0, times=(origCols+numCols)*numRows), nrow =numRows, ncol = origCols+numCols) 
-  colnames(rowZeros)<-colnames(matrixRet)
-  matrixRet<-rbind(matrixRet,rowZeros)
-  
-  matrixRet
-}
-
+#' Reconstruct Make table using model$V/model$MakeTransactions, model$Commodities and model$Industries.
+#' Based on 2012 BEA tables.
+#'
+#' @param MakeTransactions dataframe 405 x 405 with transactions between industries and commodities from the Make table. 
+#' Excludes Total commodity output and Total industry output.
+#' @param Commodities dataframe 405 x 3 with commodities names.
+#' @param Industries dataframe 405 x3 with information about industries names.
+#' @return A dataframe with the Make table reconstructed.
 reconstructMake<-function(MakeTransactions, Commodities, Industries){
   MakeTransactions1<-MakeTransactions
   #Reassign names for it to not have the acronym /US
@@ -529,6 +551,18 @@ reconstructMake<-function(MakeTransactions, Commodities, Industries){
   originalMake
 }
 
+#' Reconstruct Use table using model$U/model$UseTransactions or model$DomesticUseTransactions,model$UseValueAdded and
+#' model$FinalDemand or model$DomesticFinalDemand. Based on 2012 BEA tables.
+#'
+#' @param UseTransactions dataframe 405 x 405 with transactions between commodities and industries from the Use table. 
+#' Excludes Total commodity output, Total industry output, value added components and final demand.
+#' @param FinalDemand dataframe 405 x 20 with final demand for each commodity.
+#' @param ValueAdded dataframe 3x 405 with the 3 value added components for each industry.
+#' @param Commodities dataframe 405 x 3 with commodities names.
+#' @param Industries dataframe 405 x3 with information about industries names.
+#' @param FinalDemandMeta dataframe 20 x 4 with Code, Name, Group and Code_Loc for each element of final demand.
+#' @param ValueAddedMeta dataframe 3 x 3 with Code, Name, Code_Loc for each element of value added.
+#' @return A dataframe with the Use table reconstructed.
 reconstructUse<-function(UseTransactions, FinalDemand, ValueAdded, Commodities, Industries, FinalDemandMeta, ValueAddedMeta){
   
   UseTransactions1<-UseTransactions
@@ -608,14 +642,17 @@ modifyMultiYearCommodityOutput<-function(model){
 
 
 
-#' Do initial calculations to determine the amounts of GGE produced in future bio-economy by each of the 3 new industries.
+#' Do initial calculations required for augmentation of Make and Use tables. Include, reconstructing Make and Use tables (Usual and Domestic) from 
+#' model$V/model$MakeTransactions, model$U/model$UseTransactions , model$DomesticUseTransactions,model$UseValueAdded,
+#' model$FinalDemand,model$DomesticFinalDemand and gather other information necessary.Creates the list model$BiofuelsData that saves all information
+#' about the new sector.
 #'
 #' @param model the list of USEEIO model components and attributes under modification.
-#' @param newIndustryInfo dataframe with 3 different technologies on the rows and the following variables (Code,Name, Primary_product, Price, Percentage_Prod)
-#' @param newCommodityInfo dataframe with the information of the new commodity. Column variables (Code, Name, Primary_producers)
-#' @param simCommodityInfo list with the information of the similar commodity. Elements (Code, Name, PrimaryProducer_Code, PrimaryProducer_Name, Price) 
-#' @param percentage numeric (0,1] that refers to the \% of the original commodity (fuels) that the new commodity (biofuels) will replace.
-#' @return The model with basic information added and initial calculations, and print the amount of biofuel in GGE produced by each technology/industry in the future bio-economy.
+#' @param newIndustryInfo dataframe with # different technologies on the rows and the following variables on the columns (Code,Name, PrimaryProduct, Price, Percentage_Prod)
+#' @param newCommodityInfo dataframe with the information of the new commodity (1 row). Column variables (Code, Name, PercentageSubstitution)
+#' @param simCommodityInfo list with the information of the similar commodity. Elements (Code, Name, PrimaryProducerCode, PrimaryProducerName, Price) 
+#' @param percentage double (0,1] that refers to the \% of the similar commodity that the new commodity will replace.
+#' @return The model with basic information about new sector added and initial calculations.
 
 initialCalculations<- function(model,newIndustryInfo, newCommodityInfo,simCommodityInfo, percentage){
   
@@ -704,22 +741,21 @@ initialCalculations<- function(model,newIndustryInfo, newCommodityInfo,simCommod
 
 
 
-#' Adds a new biofuels sector to an existing model. This includes 3 new industries and 1 new commodity.
+#' Adds a new sector to an existing model by augmenting the Make and Use tables and updating all necessary components in the mdoel.
+#' This includes 3 new industries and 1 new commodity.
 #' 
-#' This function adds 3 new industries (that correspond to 3 different technologies) to produce 1 new commodity (biofuels).
-#' This new commodity (biofuels) will be a perfect substitute of fuels (commodity) produced by Petroleum Refineries.
-#' This function prepares (read and organize data from the BEA tables), modify the Make and Use table to add the new biofuels sector, 
-#' build the model (create the required matrices) and update B and W matrices after its construction to return a model including the new sector
-#' ready for calculation.See details of the methodology on "LCA New tech Methodology (v01 CGA 2020-07-23).pdf".
+#' This function adds 3 new industries (that correspond to 3 different technologies) to produce 1 new commodity.
+#' This new commodity will be a perfect substitute of a commodity in baseline economy, referred as similar commodity.
+#' This function calls modifyMakeandUseTables() and update other elements in the model for consistency.
 #' 
 #' @param model the list of USEEIO model components and attributes for modification.
-#' @param inputPurchases (nComm+1)x 3 matrix with the amount spent in each of the nComm existing commodities to produce 1 GGE of biofuel in each of the new industries.
-#' @param valueAdded 2x3 matrix with the first 2 components of value added (Compensation of employees and Taxes on production and imports, less subsidies) required 
-#' to produce 1 GGE of biofuel in each of the new industries.
-#' @param newEnvData (# environmental flows x 3) matrix with the data for all the environmental flows per dollar of output for the new industries.
+#' @param inputPurchases (nComm+1)x #newTech matrix with the amount spent in each of the nComm existing commodities to produce 1 physical unit of the new commodity in each of the new industries.
+#' @param valueAdded 3x #newTech matrix with the 3 components of value added (Compensation of employees; Taxes on production and imports, less subsidies; Gross operating surplus) required 
+#' to produce 1 physical unit of the new commodity in each of the new industries.
+#' @param newEnvData (# environmental flows x #newTech) matrix with the data for all the environmental flows per dollar of output for the new industries.
 #' @export
 #' @return A list with USEEIO model components and attributes modified and ready for calculation.
-addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData){
+augmentTablesWithNewSector<- function(model,inputPurchases, valueAdded, newEnvData){
   #browser()
   # Perfom initial calculations
   newIndustryInfo<-data.frame(Code=rep("",3),Name=rep("",3),PrimaryProduct=rep("",3),Price=rep(0,3),Percentage_Prod=rep(0,3))
@@ -836,6 +872,14 @@ addBiofuelsSector<- function(model,inputPurchases, valueAdded, newEnvData){
   
 }
 
+#' Add new sector by augmenting Make and Use tables.
+#' 
+#' This function reads data from the specs files, organize it in the proper format and call augmentTablesWithNewSector() function.
+#' 
+#' @param model the model under modification.
+#' @return the model with Make and Use tables updated.
+#' 
+#' Example: addNewSector(model)
 addNewSector<-function(model){
   
   #Obtain specs file
@@ -855,8 +899,7 @@ addNewSector<-function(model){
   envData_read<-read.csv(model$newTechSpecs$NewTechnologies$EnvironmentalFlows)
   envData<- as.matrix(envData_read[,-1]) 
   
-  
-  model<-addBiofuelsSector(model,inputPurchasesNewTech, valueAddedNewTech, envData)
+  model<-augmentTablesWithNewSector(model,inputPurchasesNewTech, valueAddedNewTech, envData)
   model
   #browser()
 }

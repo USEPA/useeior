@@ -130,46 +130,14 @@ createBfromFlowDataandOutput <- function(model) {
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
   #browser()
-  #Check for new techologies
+  #Check for new technologies
   if(!is.null (model$specs$NewTechSpecs)){
 
     #Read environmental data
     envData_read<-read.csv(model$newTechSpecs$NewTechnologies$EnvironmentalFlows)
     envData<- as.matrix(envData_read[,-1]) 
     
-    whichI<-model$BiofuelsData$whichNewIn
-    
-    modB<-B
-    
-    # Since at the point this function is called, model$Industries is already updated, the B matrix already has the proper dimension, i.e, 
-    # has already added a new column with zeros for this new sector. Therefore, now it is only necessary to fill it and not to add the column.
-    
-    #Determine number of industries in original B
-    n<- model$BiofuelsData$OriginalIndustriesNum
-    
-    #CAREFUL!! DATA ROWS IMPORTED MUST BE IN EXACTLY THE SAME ORDER AS IN B MATRIXDEV
-    newrow<-as.matrix(envData[,whichI])
-    
-    #-----Add value added for new industries----
-    
-    newIndustriesVA<-model$UseValueAdded[,-(1:n)]
-    newIndustriesTotalProduction<-model$IndustryOutput[-(1:n)]
-    
-    newIndustriesVA_perUSD<-as.matrix(newIndustriesVA/newIndustriesTotalProduction)
-    
-    compensationEmployeesRowIndex<-which(rownames(B)=="Compensation of employees//USD")
-    TaxesRowIndex<-which(rownames(B)=="Taxes on production and imports, less subsidies//USD")
-    GrossOpSurplusRowIndex<-which(rownames(B)=="Gross operating surplus//USD")  
-    
-    newrow[compensationEmployeesRowIndex,]<-as.matrix(newIndustriesVA_perUSD[1,])
-    newrow[TaxesRowIndex,]<-as.matrix(newIndustriesVA_perUSD[2,])
-    newrow[GrossOpSurplusRowIndex,]<-as.matrix(newIndustriesVA_perUSD[3,])
-    #----------------------------------------------
-    
-    #Fill newEnvDataColumn 
-    modB[,-(1:n)]<-newrow
-    
-    B<-modB
+    B<-modifyBmatrix(envData,B,model)
   
   }
   
@@ -178,6 +146,7 @@ createBfromFlowDataandOutput <- function(model) {
     B <- B %*% model$V_n
     colnames(B) <- model$Commodities$Code_Loc
   }
+  #browser()
   return(B)
 }
 
