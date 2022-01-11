@@ -24,6 +24,11 @@ resultNewTech <- calculateEEIOModel(modelNewTech, perspective = "DIRECT", demand
 N_adj <- adjustResultMatrixPrice("N", currency_year = 2012, purchaser_price = FALSE, model)
 
 #-------------------------------------------------------------------------------------------------------------------------------
+
+# Export C matrix, relationship between LCI and impacts
+write.table(modelNewTech$C,file="C.csv", sep=",",row.names = TRUE, col.names = TRUE)
+
+#---------------------------------------------------
 resultNewTech$LCIA_d[c("324110/US","324110B/US"),]
 
 #Original tables
@@ -165,10 +170,16 @@ xtable(table, type= "latex", align=c("l","c"),
 #Don't like how the format of the numbers are looking
 
 #Figure
+#Open png file
+png("per change impact per per substitution.png", width=892, height=611)
+#Create plot
 par(mar=c(3,20,3,2))
-figure<-barplot(wrt_per_bio_EnvImpacts, names.arg = colnames(resultNewTech$LCIA_d), main = "% change emissions / % substitution", horiz = TRUE, las=1, xlim=c(-1,13),xaxp=c(-1,11,6))
+figure<-barplot(wrt_per_bio_EnvImpacts, names.arg = colnames(resultNewTech$LCIA_d), main = "% change impact / % substitution", horiz = TRUE, las=1, xlim=c(-1,6.5),xaxp=c(-1,6.5,6))
 abline(v=0) #add vertical line in 0
-text(wrt_per_bio_EnvImpacts+1.2,figure, labels = format_change_EnvImpacts, cex=0.8) #Adding the values as labels for each bar
+text(wrt_per_bio_EnvImpacts+0.25*sign(wrt_per_bio_EnvImpacts),figure, labels = format_change_EnvImpacts, cex=0.8) #Adding the values as labels for each bar
+#Close file
+dev.off()
+
 #............................................................................................................................
 # Commodities associated GHG changes
 orig_GHG_existingCommodities<-result$LCIA_d[,"Greenhouse Gases"]
