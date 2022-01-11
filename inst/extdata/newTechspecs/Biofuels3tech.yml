@@ -29,5 +29,5 @@ NewTechnologies:
    PriceNewCommodity: 1.226783
    PercentageProduced: 0.34
  InputPurchases: "inst/extdata/newTechspecs/GF_InputPurchases_V02.csv"
- ValueAdded: "inst/extdata/newTechspecs/GF_ValueAdded_V02.csv" #Not yet created
- EnvironmentalFlows: "inst/extdata/newTechspecs/GF_EnvFlow_V02.csv"
+ ValueAdded: "inst/extdata/newTechspecs/GF_ValueAdded_V02.csv"
+ EnvironmentalFlows: "inst/extdata/newTechspecs/GF_EnvFlow_V03.csv"
