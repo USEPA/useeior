@@ -58,9 +58,9 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   makeIntersection <-  generateEconomicAllocations(disaggParams, "Make", "Intersection")
   
   # Get environmental allocations
-  envAllocationsDF <- generateEnvironmentalAllocations(disaggParams)
+  envAllocationsDF <- generateEnvironmentalAllocations2(disaggParams)
   
-  testAllocations <- generateEnvironmentalAllocations2(disaggParams)
+  #testAllocations <- generateEnvironmentalAllocations(disaggParams)
 
   # Create output DFs
   useAllocationsDF <- rbind(fullUseIntersection, fullUseTableColAlloc, fullUseTableRowAlloc)
@@ -75,7 +75,7 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   outputDF$sectorsDF <- sectorsDF
   
   #Write DFs to correct folder
-  writeAllocationsToCSV(outputDF)
+  writeAllocationsToCSV(outputDF, disaggParams)
   return(outputDF)#temporary return statement
   
 }
@@ -339,12 +339,17 @@ createSectorsCSV <- function (disaggParams){
         
         # If outputRow currently refers to a detail level sector other than the specifiedDetailLevelSector
         if((outputRow[1,2] != disaggParams$specifiedDetailLevelSector)){
+          # Specify the details for Sector description
+          newSectorCode <- paste0(disaggParams$summaryCode, "X/", disaggParams$summaryLoc_Code)
           sectorName <- paste0(disaggParams$summaryCode, "/", disaggParams$summaryLoc_Code, " without ", disaggParams$specifiedDetailLevelSector)
-          sectorCategory <- paste0(disaggParams$summaryCode, "X/", disaggParams$summaryLoc_Code)
-          sectorSubcategory <- paste0(disaggParams$summaryCode, "X/", disaggParams$summaryLoc_Code)
-          sectorDescription <-paste0(disaggParams$summaryCode, "/", disaggParams$summaryLoc_Code, " after disaggregation of ", disaggParams$specifiedDetailLevelSector)
-          
+          sectorCategory <- newSectorCode
+          sectorSubcategory <- newSectorCode
+          sectorDescription <-paste0(disaggParams$summaryCode, "/", disaggParams$summaryLoc_Code, " after separating ", disaggParams$specifiedDetailLevelSector)
           descriptionsDF[dfRow, ] <- c(sectorName, sectorCategory, sectorSubcategory, sectorDescription)
+          
+          # Make sure to mark this NAICS code with the new, modified summary level sector that does not contain the specified detail level sector (e.g. 22X)
+          outputDF[dfRow,2] <- newSectorCode
+          
           next
         }
         
@@ -388,17 +393,30 @@ createSectorsCSV <- function (disaggParams){
 
 #' Write allocation dataframes to csv files at the specified directory
 #' @param outputDF A dataframe containing a list of outputDFs to write to CSV: Use table, Make table, and environmental allocations for TbS object, as well as the Sectors CSV. 
+#' @param disaggParams List of disaggregation parameters
 #' @description Write allocation dataframes to csv files at the specified directory
-writeAllocationsToCSV <- function(outputDF){
+writeAllocationsToCSV <- function(outputDF, disaggParams){
   
   # todo: make this function more general, i.e., for writing files not related to utilities
   # Path pointing to write directory
   writePath <- "inst/extdata/disaggspecs/"
-  filePrepend <- "UtilityDisaggregationSummary"
-  useAllocFileName <- paste0(writePath, filePrepend, "_Use.csv")
-  makeAllocFileName <- paste0(writePath, filePrepend, "_Make.csv")
-  envAllocFileName <- paste0(writePath, filePrepend, "_Env.csv")
-  sectorsFileName <- paste0(writePath, filePrepend,"_Sectors.csv")
+ 
+  # If we are creating csvs to disaggregate a specific detail level sector rather than all detail level sectors mapped to the summary level sector
+  if(!is.null(disaggParams$specifiedDetailLevelSector)){
+    detailCode <- strsplit(disaggParams$specifiedDetailLevelSector,"/")[[1]]
+    detailCode <- detailCode[1]
+    filePrefix <- paste0("S",disaggParams$summaryCode,"To",detailCode,"Disagg")
+    
+  }else{
+    filePrefix <- paste0("S",disaggParams$summaryCode,"ToBEADetDisagg")# S for summary
+    
+  }
+  
+  #filePrepend <- "UtilityDisaggregationSummary"
+  useAllocFileName <- paste0(writePath, filePrefix, "_Use.csv")
+  makeAllocFileName <- paste0(writePath, filePrefix, "_Make.csv")
+  envAllocFileName <- paste0(writePath, filePrefix, "_Env.csv")
+  sectorsFileName <- paste0(writePath, filePrefix,"_Sectors.csv")
   
   write.csv(outputDF$useAllocationsDF, useAllocFileName, row.names = FALSE)
   write.csv(outputDF$makeAllocationsDF, makeAllocFileName, row.names = FALSE)
