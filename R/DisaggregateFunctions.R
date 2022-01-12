@@ -124,7 +124,8 @@ disaggregateSetup <- function (model){
 #' @return newMargins A dataframe which contain the margins for the disaggregated sectors
 disaggregateMargins <- function(model, disagg) {
   originalMargins <- model$Margins
-  originalIndex <-  grep(disagg$OriginalSectorCode, model$Margins$Code_Loc)#get row index of the original aggregate sector in the model$Margins object
+#  originalIndex <-  grep(disagg$OriginalSectorCode, model$Margins$Code_Loc)#get row index of the original aggregate sector in the model$Margins object
+  originalIndex <- grep(paste0("^",disagg$OriginalSectorCode,"$"), model$Margins$Code_Loc) # The ^ and $ characters are needed so that grep returns the EXACT match for disagg$OriginalSectorCode. Otherwise multiple indeces can be returned for summary level models.
   originalRow <- model$Margins[originalIndex,]#copy row containing the Margins information for the original aggregate sector
   disaggMargins <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]#replicate the original a number of times equal to the number of disaggregate sectors
   disaggRatios <- unname(disaggregatedRatios(model, disagg, "Commodity"))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
@@ -227,7 +228,8 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
 
   if(list_type == "Commodity") {
     originalList <- model$Commodities
-    originalIndex <- grep(disagg$OriginalSectorCode, model$Commodities$Code_Loc)
+#    originalIndex <- grep(disagg$OriginalSectorCode, model$Commodities$Code_Loc)
+    originalIndex <- grep(paste0("^",disagg$OriginalSectorCode,"$"), model$Commodities$Code_Loc) # The ^ and $ characters are needed so that grep returns the EXACT match for disagg$OriginalSectorCode. Otherwise multiple indeces can be returned for summary level models.
     newSectors <- data.frame(matrix(ncol = ncol(model$Commodities), nrow = length(disagg$DisaggregatedSectorCodes)))
     names(newSectors) <- names(model$Commodities) #rename columns for the df
     newSectors$Category <- sapply(disagg$Category, paste0, collapse = "")
@@ -236,7 +238,8 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
   } else {
     #assume industry if not specified
     originalList <- model$Industries
-    originalIndex <- grep(disagg$OriginalSectorCode, model$Industries$Code_Loc)
+#    originalIndex <- grep(disagg$OriginalSectorCode, model$Industries$Code_Loc)
+    originalIndex <- grep(paste0("^",disagg$OriginalSectorCode,"$"), model$Industries$Code_Loc)
     newSectors <- data.frame(matrix(ncol = ncol(model$Industries), nrow = length(disagg$DisaggregatedSectorCodes)))
     names(newSectors) <- names(model$Industries) #rename columns for the df
   }
