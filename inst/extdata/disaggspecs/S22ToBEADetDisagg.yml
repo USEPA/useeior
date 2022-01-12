@@ -1,0 +1,10 @@
+Disaggregation:
+  22/US:
+    OriginalSectorCode: "22/US"
+    OriginalSectorName: "Utilities"
+    DisaggregationType: "Userdefined"
+    SectorFile: S22ToBEADetDisagg_Sectors.csv 
+    MakeFile: S22ToBEADetDisagg_Make.csv
+    UseFile: S22ToBEADetDisagg_Use.csv
+    EnvFile: S22ToBEADetDisagg_Env.csv #Update of GHGs from NGIAM for waste sectors
+
