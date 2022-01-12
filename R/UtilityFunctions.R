@@ -357,16 +357,17 @@ generateModelSectorSchema <- function(model) {
 }
 
 #' Write metadata of downloaded data to JSON.
+#' @param package A string specifying package.
 #' @param name A string specifying data name.
 #' @param year A numeric value specifying data year.
 #' @param source A string specifying data source.
 #' @param url A string specifying data url.
 #' @description Write metadata of downloaded data to JSON.
-writeMetadatatoJSON <- function(name, year, source, url) {
-  metadata <- list("tool" = utils::packageDescription("useeior", fields = "Package"),
+writeMetadatatoJSON <- function(package, name, year, source, url) {
+  metadata <- list("tool" = utils::packageDescription(package, fields = "Package"),
                    #"category" = "",
                    "name_data" = name,
-                   "tool_version" = utils::packageDescription("useeior", fields = "Version"),
+                   "tool_version" = utils::packageDescription(package, fields = "Version"),
                    #"git_hash" = "",
                    "ext" = "json",
                    "date_created" = Sys.time(),
