@@ -3,10 +3,12 @@
 
 ## NEXT STEPS: 
 ## 1 TEST THE DISAGGREGATION OF THE UTILITY LEVEL SECTOR, FOR ALL 3 DETAIL LEVEL SECTORS (I.E. TEST 1 IN MODEL BUILD MARKDOWN FILE), USING THE OUTPUT FROM ALL FUNCTIONS HERE
-##        -->Need to test again given all the alterations to the code
+##        --> DONE
 ## 2 Write code to be able to disaggregate utility env file when going to 221100 and 22X sectors.
-##        --> Partially done, need to test
+##        --> DONE
 ## 3 LEFT OF HERE --> TEST THE DISAGGREGATION OF THE UTILITY LEVEL SECTOR, FOR 221100 AND 22X (I.E. TEST 2 IN MODEL BUILD MARKDOWN FILE) USING THE OUTPUT FROM ALL FUNCTIONS HERE
+##        --> DONE for 221100 and 22X disagg; 
+##        --> TODO: need to do for gov utility sectors.
 ## 4 AFTER THAT START WORKING/TESTING DISAGGREGATION OF THE GOVERNMENT ELECTRICITY SECTORS (MANY STEPS)
 
 #' Disaggregate a specific sector in a summary level model to detail level
@@ -322,8 +324,8 @@ createSectorsCSV <- function (disaggParams){
   sectorIndeces <- which(disaggParams$detailModel$crosswalk$BEA_Summary %in% disaggParams$summaryCode) # Find indeces in crosswalk that match summary level sector to be disaggregated
   sectorDF <- disaggParams$detailModel$crosswalk[sectorIndeces,] # Get part of crosswalk corresponding to the summary level code to be disaggregated
   sectorDF <- sectorDF[nchar(sectorDF$NAICS) == 6, ]   # Get only rows that have 6 digit NAICS codes
-  outputDF <- sectorDF[-c(2:4)] # Keep only the NAICS and USEEIO 6-digit codes
-  outputDF[,2] <- data.frame(paste0(outputDF[,2], "/", disaggParams$summaryLoc_Code)) # Add location code to USEEIO code column
+  outputDF <- data.frame(sectorDF[-c(2:4)]) # Keep only the NAICS and USEEIO 6-digit codes
+  outputDF[,2] <- data.frame(paste0(outputDF[,2], "/", disaggParams$summaryLoc_Code), stringsAsFactors = FALSE) # Add location code to USEEIO code column
   
     # Get index of detail sectors in detailModel$Commodity to copy descriptions in that model object    
     detailIndeces <- which(disaggParams$detailModel$Commodities$Code %in% disaggParams$summaryCodeCw)
