@@ -34,7 +34,12 @@ loadIOData <- function(model, configpaths = NULL) {
   if(length(model$DisaggregationSpecs)!=0){
     model <- disaggregateModel(model)
   }
-  
+
+  model <- getHybridizationSpecs(model, configpaths)
+  if(length(model$HybridizationSpecs)!=0){
+    model <- getHybridizationFiles(model, configpaths)
+  }
+    
   return(model)
 }
 

@@ -68,6 +68,10 @@ constructEEIOMatrices <- function(model) {
     model$A_d <- model$V_n %*% model$U_d_n
   }
   
+  if(length(model$HybridizationSpecs)!=0){
+    model$A <- hybridizeAMatrix(model)
+  }
+
   # Calculate total requirements matrix as Leontief inverse (L) of A
   logging::loginfo("Calculating L matrix (total requirements)...")
   I <- diag(nrow(model$A))
@@ -79,7 +83,11 @@ constructEEIOMatrices <- function(model) {
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
   model$B <- createBfromFlowDataandOutput(model)
-  
+
+  if(length(model$HybridizationSpecs)!=0){
+    model$B <- hybridizeBMatrix(model)
+  }
+    
   # Generate C matrix
   logging::loginfo("Building C matrix (characterization factors for model indicators)...")
   model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
