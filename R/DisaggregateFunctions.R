@@ -245,7 +245,7 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
   }
 
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
-  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1]))
+  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1])) #TODO: CHANGE THIS FROM disaggregatedSectorCodes[1] to whichever length is longest as there are some codes that are being copied incorrectly
   newSectors$Code <- substr(disagg$DisaggregatedSectorCodes,1,codeLength)
   newSectors$Code_Loc <- sapply(disagg$DisaggregatedSectorCodes, paste0, collapse = "")#sapply needed to convert DisaggregatedSectorCodes from list to char vector
   newSectors$Name <- sapply(disagg$DisaggregatedSectorNames, paste0, collapse = "")
@@ -1254,7 +1254,7 @@ balanceDisagg <- function(model, disagg){
     colnames(VAComTotals) <- colnames(targetComTotals) #needed for rbind step
     targetComTotals <- rbind(targetComTotals, VAComTotals)
     
-    balancedDisaggFulluse <- applyRAS(data.matrix(disaggFullUse), targetComTotals[,1], targetIndTotals[,1], relative_diff = NULL, absolute_diff = 1E8, max_itr = 1E5)
+    balancedDisaggFullUse <- applyRAS(data.matrix(disaggFullUse), targetComTotals[,1], targetIndTotals[,1], relative_diff = NULL, absolute_diff = 1E8, max_itr = 1E5)
     
     
   } else {
