@@ -6,9 +6,14 @@
 ##        --> DONE
 ## 2 Write code to be able to disaggregate utility env file when going to 221100 and 22X sectors.
 ##        --> DONE
+
 ## 3 LEFT OF HERE --> TEST THE DISAGGREGATION OF THE UTILITY LEVEL SECTOR, FOR 221100 AND 22X (I.E. TEST 2 IN MODEL BUILD MARKDOWN FILE) USING THE OUTPUT FROM ALL FUNCTIONS HERE
 ##        --> DONE for 221100 and 22X disagg; 
-##        --> TODO: need to do for gov utility sectors.
+##        --> LEFT OFF HERE: THERE IS AN ERROR WHEN DISAGGREGATING S00101 FROM GFE. IT HAPPENS IN THE 
+##              CREATE SCV FILE FUNCTION, LINE 511:
+##              colnames(descriptionsDF) <- colnames(disaggParams$detailModel$Commodities[commodityIndex, 2:5])
+
+
 ## 4 AFTER THAT START WORKING/TESTING DISAGGREGATION OF THE GOVERNMENT ELECTRICITY SECTORS (MANY STEPS)
 
 #' Disaggregate a specific sector in a summary level model to detail level
@@ -107,39 +112,90 @@ nonIntersectionAllocation2 <- function (disaggParams, sector, outputDF, vectorTo
     allocDF <- data.frame(Percent = disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums))
   }
   
+  specifiedDetailIndex <- which(rownames(allocDF) == disaggParams$specifiedDetailLevelSector)
   # Determine whether we want to create allocation values for all detail level sectors or just one
-  
   if(!(is.null(disaggParams$specifiedDetailLevelSector))){# If a particular detail level sector is specified, re-calculate the allocation factors for other sectors
     
     # Create new DF to house modified allocation values.
     # The allocations are split between the specified detail sectors and a new sector containing
     # all other sectors part of the summary level sector except for the specified detail sector
-    newAlloc <- data.frame(matrix(ncol = 1, nrow = 2))
-    specifiedDetailIndex <- which(rownames(allocDF) == disaggParams$specifiedDetailLevelSector)
-    newAlloc[1,1] <- allocDF[specifiedDetailIndex,1]
-    newAlloc[2,1] <- colSums(allocDF) - allocDF[specifiedDetailIndex,1]
     
-    colnames(newAlloc) <- disaggParams$allocName
-    # Code for the new, "all other" sector is the same as the summary level sector, but with an "X" appended at the end of the summary code
-    rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-    
-    allocDF <- newAlloc
-    #####new
-    # detailCodeOutputIndex determines whether the summaryCode goes under the Industry or Commodity column in the output file. 
-    if(disaggParams$detailCodeOutputIndex == 1){
-      industryDF <- data.frame(IndustryCode =I(rownames(newAlloc)))
-      commodityDF <- data.frame(CommodityCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(industryDF))))
-      noteDF <- data.frame(Note = I(rep("IndustryDisagg", nrow(industryDF))))
+    if(length(specifiedDetailIndex) == 0){ # IF the specified sector does not exist for this Table/Vector combination (i.e., commodity does not exist, only industry, so it is only present as a Make table row rather than a column)
+      newAlloc <- data.frame(matrix(ncol = 1, nrow = 1))
+      newAlloc[1,1] <- colSums(allocDF)
       
-    }else{
-      commodityDF <- data.frame(CommodityCode =I(rownames(newAlloc)))
-      industryDF <- data.frame(IndustryCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(commodityDF))))
-      noteDF <- data.frame(Note = I(rep("CommodityDisagg", nrow(commodityDF))))
+      colnames(newAlloc) <- disaggParams$allocName
+      # Code for the new, "all other" sector is the same as the summary level sector, but with an "X" appended at the end of the summary code
+      rownames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      
+      allocDF <- newAlloc
+      # detailCodeOutputIndex determines whether the summaryCode goes under the Industry or Commodity column in the output file. 
+      if(disaggParams$detailCodeOutputIndex == 1){
+        industryDF <- data.frame(IndustryCode =I(rownames(newAlloc)))
+        commodityDF <- data.frame(CommodityCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(industryDF))))
+        noteDF <- data.frame(Note = I(rep("IndustryDisagg", nrow(industryDF))))
+        
+      }else{
+        commodityDF <- data.frame(CommodityCode =I(rownames(newAlloc)))
+        industryDF <- data.frame(IndustryCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(commodityDF))))
+        noteDF <- data.frame(Note = I(rep("CommodityDisagg", nrow(commodityDF))))
+      }
+      currentDF <- cbind(industryDF, commodityDF, allocDF[1], noteDF)
+      
+      outputDF <- rbind(outputDF, currentDF)
+      
+      
+    }else{ #If the specified sector exists as both a commodity and industry for this Table
+      newAlloc <- data.frame(matrix(ncol = 1, nrow = 2))
+      #specifiedDetailIndex <- which(rownames(allocDF) == disaggParams$specifiedDetailLevelSector)
+      newAlloc[1,1] <- allocDF[specifiedDetailIndex,1]
+      newAlloc[2,1] <- colSums(allocDF) - allocDF[specifiedDetailIndex,1]
+      
+      colnames(newAlloc) <- disaggParams$allocName
+      # Code for the new, "all other" sector is the same as the summary level sector, but with an "X" appended at the end of the summary code
+      rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      
+      allocDF <- newAlloc
+      # detailCodeOutputIndex determines whether the summaryCode goes under the Industry or Commodity column in the output file. 
+      if(disaggParams$detailCodeOutputIndex == 1){
+        industryDF <- data.frame(IndustryCode =I(rownames(newAlloc)))
+        commodityDF <- data.frame(CommodityCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(industryDF))))
+        noteDF <- data.frame(Note = I(rep("IndustryDisagg", nrow(industryDF))))
+        
+      }else{
+        commodityDF <- data.frame(CommodityCode =I(rownames(newAlloc)))
+        industryDF <- data.frame(IndustryCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(commodityDF))))
+        noteDF <- data.frame(Note = I(rep("CommodityDisagg", nrow(commodityDF))))
+      }
+      currentDF <- cbind(industryDF, commodityDF, allocDF[1], noteDF)
+      
+      outputDF <- rbind(outputDF, currentDF)
+      
     }
-    currentDF <- cbind(industryDF, commodityDF, allocDF[1], noteDF)
     
-    outputDF <- rbind(outputDF, currentDF)
+
     
+    # colnames(newAlloc) <- disaggParams$allocName
+    # # Code for the new, "all other" sector is the same as the summary level sector, but with an "X" appended at the end of the summary code
+    # rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+    # 
+    # allocDF <- newAlloc
+    # #####new
+    # # detailCodeOutputIndex determines whether the summaryCode goes under the Industry or Commodity column in the output file. 
+    # if(disaggParams$detailCodeOutputIndex == 1){
+    #   industryDF <- data.frame(IndustryCode =I(rownames(newAlloc)))
+    #   commodityDF <- data.frame(CommodityCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(industryDF))))
+    #   noteDF <- data.frame(Note = I(rep("IndustryDisagg", nrow(industryDF))))
+    #   
+    # }else{
+    #   commodityDF <- data.frame(CommodityCode =I(rownames(newAlloc)))
+    #   industryDF <- data.frame(IndustryCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(commodityDF))))
+    #   noteDF <- data.frame(Note = I(rep("CommodityDisagg", nrow(commodityDF))))
+    # }
+    # currentDF <- cbind(industryDF, commodityDF, allocDF[1], noteDF)
+    # 
+    # outputDF <- rbind(outputDF, currentDF)
+    # 
     #####new
     
   }else{ # If a particular detail level is not specified, just carry on with current allocation factors and assign them to the correct places in the DFs
@@ -182,37 +238,111 @@ intersectionAllocation2 <- function (disaggParams, Table, outputDF, vectorToDisa
   originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
   allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
   
+  # Create new DF to house modified allocation values.
+  # The allocations are split between the specified detail sectors and a new sector containing
+  # all other sectors part of the summary level sector except for the specified detail sector
+  ##newAlloc <- data.frame(matrix(ncol = 2, nrow = 2))
+  specifiedDetailRowIndex <- which(rownames(allocationVector) == disaggParams$specifiedDetailLevelSector)
+  specifiedDetailColIndex <- which(colnames(allocationVector) == disaggParams$specifiedDetailLevelSector)
+  
+  
   if(!(is.null(disaggParams$specifiedDetailLevelSector))){# If a particular detail level sector is specified, re-calculate the allocation factors for other sectors
     
+    ############new code
+    
+    if(length(specifiedDetailColIndex)==0 && length(specifiedDetailRowIndex)==0){
+      # Should never happen
+      stop("No sector selected for calculating the allocation of its intersection")
+    }
+    
+    if(length(specifiedDetailColIndex) ==  0){ # If specified column index does not exist for this Table/Vector combination (e.g., industry doesn't exist for Use table)
+      newAlloc <-data.frame(matrix(ncol =1, nrow =2)) # Create DF for new intersection
+      # Assign proper allocations to the proper sections of the intersection
+      newAlloc[1,1] <- sum(allocationVector[specifiedDetailRowIndex,])
+      newAlloc[2,1] <- sum(allocationVector[-(specifiedDetailRowIndex),])
+      
+      # Rename rows and columns appropriately
+      colnames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      allocationVector <- newAlloc
+      temp <-1
+      
+    }else if(length(specifiedDetailRowIndex) == 0){ # If specified row index does not exist for this Table/Vector combination (e.g., commodity doesn't exist for Use table)
+      newAlloc <-data.frame(matrix(ncol =2, nrow =1)) # Create DF for new intersection
+      # Assign proper allocations to the proper sections of the intersection
+      newAlloc[1,1] <- sum(allocationVector[,specifiedDetailColIndex])
+      newAlloc[1,2] <- sum(allocationVector[,-(specifiedDetailColIndex)])
+      
+      # Rename rows and columns appropriately
+      colnames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      rownames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      allocationVector <- newAlloc
+      temp <-1
+      
+    }else{ # IF both are speciied (as should be the case most of time)
+      
+      # Create new DF to house modified allocation values.
+      # The allocations are split between the specified detail sectors and a new sector containing
+      # all other sectors part of the summary level sector except for the specified detail sector
+      newAlloc <- data.frame(matrix(ncol = 2, nrow = 2))
+      
+      # Need to add values in the originalVector that correspond various parts of the intersection:
+      # Assigning of intersection of specifiedDetailLevelSector with itself
+      newAlloc[1,1] <- allocationVector[specifiedDetailRowIndex,specifiedDetailColIndex]
+      
+      
+      # Addition of all rows (except specifiedDetailRowIndex) under  (bottom left section of newAlloc)
+      summaryRowAndDetailColValue <- colSums(data.frame(allocationVector[-(specifiedDetailRowIndex),specifiedDetailColIndex]))
+      newAlloc[2,1] <- summaryRowAndDetailColValue
+      
+      # Addition of all columns (except specifiedDetailColIndex) along  (top right section of newAlloc)
+      summaryColAndDetailRowValue <- colSums(data.frame(allocationVector[specifiedDetailRowIndex, -(specifiedDetailColIndex)]))
+      newAlloc[1,2] <- summaryColAndDetailRowValue
+      
+      # Addition of all columns and rows excluding specifiedDetailColIndex and specifiedDetailRowIndex (bottom right section of newAlloc)
+      summaryRowAndSummaryColValue <- sum(sum((data.frame(allocationVector[-(specifiedDetailRowIndex), -(specifiedDetailColIndex)]))))
+      newAlloc[2,2] <- summaryRowAndSummaryColValue
+      
+      colnames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      
+      allocationVector <- newAlloc
+    }
+    
+    
+    
+    
+    
+    ###########end new Code
     # Create new DF to house modified allocation values.
     # The allocations are split between the specified detail sectors and a new sector containing
     # all other sectors part of the summary level sector except for the specified detail sector
-    newAlloc <- data.frame(matrix(ncol = 2, nrow = 2))
-    specifiedDetailRowIndex <- which(rownames(allocationVector) == disaggParams$specifiedDetailLevelSector)
-    specifiedDetailColIndex <- which(colnames(allocationVector) == disaggParams$specifiedDetailLevelSector)
+##    newAlloc <- data.frame(matrix(ncol = 2, nrow = 2))
+##    specifiedDetailRowIndex <- which(rownames(allocationVector) == disaggParams$specifiedDetailLevelSector)
+##    specifiedDetailColIndex <- which(colnames(allocationVector) == disaggParams$specifiedDetailLevelSector)
     
-    # Need to add values in the originalVector that correspond various parts of the intersection:
-    # Assigning of intersection of specifiedDetailLevelSector with itself
-    newAlloc[1,1] <- allocationVector[specifiedDetailRowIndex,specifiedDetailColIndex]
-    
-    
-    # Addition of all rows (except specifiedDetailRowIndex) under  (bottom left section of newAlloc)
-    summaryRowAndDetailColValue <- colSums(data.frame(allocationVector[-(specifiedDetailRowIndex),specifiedDetailColIndex]))
-    newAlloc[2,1] <- summaryRowAndDetailColValue
-    
-    # Addition of all columns (except specifiedDetailColIndex) along  (top right section of newAlloc)
-    summaryColAndDetailRowValue <- colSums(data.frame(allocationVector[specifiedDetailRowIndex, -(specifiedDetailColIndex)]))
-    newAlloc[1,2] <- summaryColAndDetailRowValue
-    
-    # Addition of all columns and rows excluding specifiedDetailColIndex and specifiedDetailRowIndex (bottom right section of newAlloc)
-    summaryRowAndSummaryColValue <- sum(sum((data.frame(allocationVector[-(specifiedDetailRowIndex), -(specifiedDetailColIndex)]))))
-    newAlloc[2,2] <- summaryRowAndSummaryColValue
-    
-    colnames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-    rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-    
-    allocationVector <- newAlloc
-    
+    # # Need to add values in the originalVector that correspond various parts of the intersection:
+    # # Assigning of intersection of specifiedDetailLevelSector with itself
+    # newAlloc[1,1] <- allocationVector[specifiedDetailRowIndex,specifiedDetailColIndex]
+    # 
+    # 
+    # # Addition of all rows (except specifiedDetailRowIndex) under  (bottom left section of newAlloc)
+    # summaryRowAndDetailColValue <- colSums(data.frame(allocationVector[-(specifiedDetailRowIndex),specifiedDetailColIndex]))
+    # newAlloc[2,1] <- summaryRowAndDetailColValue
+    # 
+    # # Addition of all columns (except specifiedDetailColIndex) along  (top right section of newAlloc)
+    # summaryColAndDetailRowValue <- colSums(data.frame(allocationVector[specifiedDetailRowIndex, -(specifiedDetailColIndex)]))
+    # newAlloc[1,2] <- summaryColAndDetailRowValue
+    # 
+    # # Addition of all columns and rows excluding specifiedDetailColIndex and specifiedDetailRowIndex (bottom right section of newAlloc)
+    # summaryRowAndSummaryColValue <- sum(sum((data.frame(allocationVector[-(specifiedDetailRowIndex), -(specifiedDetailColIndex)]))))
+    # newAlloc[2,2] <- summaryRowAndSummaryColValue
+    # 
+    # colnames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+    # rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+    # 
+    # allocationVector <- newAlloc
+    # 
   }
   
   if(Table == "Use"){
