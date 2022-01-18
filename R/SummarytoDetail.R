@@ -55,6 +55,9 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   disaggParams$summaryCode <- summaryCode
   disaggParams$summaryCodeCw <- summaryCodeCw
   disaggParams$summaryLoc_Code <-summaryLoc_Code
+  # This is required to add a value to the NAICS code column of the model crosswalk object. 
+  # TODO: ASK WHETHER THIS IS THE BEST WAY OF HANDLING THIS
+  disaggParams$sectorsWithoutNAICS <- list("S00101","S00202") 
   
   # Get economic allocations
   fullUseTableColAlloc <- generateEconomicAllocations(disaggParams, "Use", "Column")
@@ -449,8 +452,13 @@ createSectorsCSV <- function (disaggParams){
   # TODO: Check to see if the sectorsCSV file is already present
   temp <- 1
   
-  # Initialize dataframe that contains allocation values
+  # Add values in the NAICS columns for the sectors without NAICS marked in disaggParams
   
+  noNAICSIndeces <- which(disaggParams$detailModel$crosswalk$BEA_Detail %in% disaggParams$sectorsWithoutNAICS)
+  disaggParams$detailModel$crosswalk$NAICS[noNAICSIndeces] <- unlist(disaggParams$sectorsWithoutNAICS)
+  
+  
+  # Initialize dataframe that contains allocation values
   sectorIndeces <- which(disaggParams$detailModel$crosswalk$BEA_Summary %in% disaggParams$summaryCode) # Find indeces in crosswalk that match summary level sector to be disaggregated
   sectorDF <- disaggParams$detailModel$crosswalk[sectorIndeces,] # Get part of crosswalk corresponding to the summary level code to be disaggregated
   sectorDF <- sectorDF[nchar(sectorDF$NAICS) == 6, ]   # Get only rows that have 6 digit NAICS codes
