@@ -9,9 +9,7 @@
 
 ## 3 LEFT OF HERE --> TEST THE DISAGGREGATION OF THE UTILITY LEVEL SECTOR, FOR 221100 AND 22X (I.E. TEST 2 IN MODEL BUILD MARKDOWN FILE) USING THE OUTPUT FROM ALL FUNCTIONS HERE
 ##        --> DONE for 221100 and 22X disagg; 
-##        --> LEFT OFF HERE: THERE IS AN ERROR WHEN DISAGGREGATING S00101 FROM GFE. IT HAPPENS IN THE 
-##              CREATE SCV FILE FUNCTION, LINE 511:
-##              colnames(descriptionsDF) <- colnames(disaggParams$detailModel$Commodities[commodityIndex, 2:5])
+##        --> LEFT OFF HERE: files printed for s00101 and GFEX disagg; need to test actual disaggregation of that sector
 
 
 ## 4 AFTER THAT START WORKING/TESTING DISAGGREGATION OF THE GOVERNMENT ELECTRICITY SECTORS (MANY STEPS)
@@ -259,27 +257,44 @@ intersectionAllocation2 <- function (disaggParams, Table, outputDF, vectorToDisa
     }
     
     if(length(specifiedDetailColIndex) ==  0){ # If specified column index does not exist for this Table/Vector combination (e.g., industry doesn't exist for Use table)
-      newAlloc <-data.frame(matrix(ncol =1, nrow =2)) # Create DF for new intersection
-      # Assign proper allocations to the proper sections of the intersection
-      newAlloc[1,1] <- sum(allocationVector[specifiedDetailRowIndex,])
-      newAlloc[2,1] <- sum(allocationVector[-(specifiedDetailRowIndex),])
+      # newAlloc <-data.frame(matrix(ncol =1, nrow =2)) # Create DF for new intersection
+      # # Assign proper allocations to the proper sections of the intersection
+      # newAlloc[1,1] <- sum(allocationVector[specifiedDetailRowIndex,])
+      # newAlloc[2,1] <- sum(allocationVector[-(specifiedDetailRowIndex),])
+      # 
+      # # Rename rows and columns appropriately
+      # colnames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      # rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      # allocationVector <- newAlloc
       
-      # Rename rows and columns appropriately
+      newAlloc <- data.frame(matrix(ncol =1, nrow = 1)) # Create DF for new intersection; as it is missing one index, then we only need to allocate to the other
+      # Assign proper allocation to intersection
+      newAlloc [1,1] <- sum(allocationVector[-(specifiedDetailRowIndex),]) # Should add up to 1
+      # Rename cols and rows appropriately
       colnames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-      rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      rownames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
       allocationVector <- newAlloc
       temp <-1
       
     }else if(length(specifiedDetailRowIndex) == 0){ # If specified row index does not exist for this Table/Vector combination (e.g., commodity doesn't exist for Use table)
-      newAlloc <-data.frame(matrix(ncol =2, nrow =1)) # Create DF for new intersection
-      # Assign proper allocations to the proper sections of the intersection
-      newAlloc[1,1] <- sum(allocationVector[,specifiedDetailColIndex])
-      newAlloc[1,2] <- sum(allocationVector[,-(specifiedDetailColIndex)])
+      # newAlloc <-data.frame(matrix(ncol =2, nrow =1)) # Create DF for new intersection
+      # # Assign proper allocations to the proper sections of the intersection
+      # newAlloc[1,1] <- sum(allocationVector[,specifiedDetailColIndex])
+      # newAlloc[1,2] <- sum(allocationVector[,-(specifiedDetailColIndex)])
+      # 
+      # # Rename rows and columns appropriately
+      # colnames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      # rownames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      # allocationVector <- newAlloc
       
-      # Rename rows and columns appropriately
-      colnames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
+      newAlloc <- data.frame(matrix(ncol =1, nrow = 1)) # Create DF for new intersection; as it is missing one index, then we only need to allocate to the other
+      # Assign proper allocation to intersection
+      newAlloc[1,1] <- sum(allocationVector[,-(specifiedDetailColIndex)]) # Should add up to 1
+      # Rename cols and rows appropriately
+      colnames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
       rownames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
       allocationVector <- newAlloc
+      
       temp <-1
       
     }else{ # IF both are speciied (as should be the case most of time)
