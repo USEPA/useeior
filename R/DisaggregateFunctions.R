@@ -245,12 +245,33 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
   }
 
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
-  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1])) #TODO: CHANGE THIS FROM disaggregatedSectorCodes[1] to whichever length is longest as there are some codes that are being copied incorrectly
+  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes)) ## TODO: replace codeLength with this line, to ensure codes of variable lengths are properly maintained. 
+  #codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1])) ## Original with respect to line above; revert to this if above change does not work.
   newSectors$Code <- substr(disagg$DisaggregatedSectorCodes,1,codeLength)
   newSectors$Code_Loc <- sapply(disagg$DisaggregatedSectorCodes, paste0, collapse = "")#sapply needed to convert DisaggregatedSectorCodes from list to char vector
   newSectors$Name <- sapply(disagg$DisaggregatedSectorNames, paste0, collapse = "")
   newSectors <- rbind(originalList[1:originalIndex-1,],newSectors,originalList[-(1:originalIndex),])
   rownames(newSectors) <- 1:nrow(newSectors)
+  
+  
+  # If we are dealing with an asymetrical disaggregation
+  #NEW CODE
+  # If we are dealing with a non-symmetrical disaggregation, remove extra index from tables
+  if(!is.null(disagg$IndustryOnly)){
+    if(list_type == "Commodity"){
+      extraIndex <- which(newSectors$Code_Loc %in% disagg$IndustryOnly) # As it is an industry only, there should be no rows (commodities) with this code in the Use table
+      newSectors <- newSectors[-(extraIndex),]
+    }
+  }else if(!is.null(disagg$CommodityOnly)){
+    if(list_type == "Industry"){
+      extraIndex <- which(newSectors$Code_Loc %in% disagg$CommodityOnly)
+      newSectors <- newSectors[-(extraIndex),]
+    }
+  }
+  
+  ##END NEW CODE
+  
+  
   
   return(newSectors)
 }
@@ -466,6 +487,24 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
     break
   }
 
+  # If we are dealing with an asymetrical disaggregation
+  #NEW CODE
+  # If we are dealing with a non-symmetrical disaggregation, remove extra index from tables
+  if(!is.null(disagg$IndustryOnly)){
+ 
+      extraIndex <- which(rownames(disaggTable) %in% disagg$IndustryOnly) # As it is an industry only, there should be no rows (commodities) with this code in the Use table
+      disaggTable <- disaggTable[-(extraIndex),]
+    
+  }else if(!is.null(disagg$CommodityOnly)){
+
+      extraIndex <- which(colnames(disaggTable) %in% disagg$CommodityOnly)
+      disaggTable <- disaggTable[,-(extraIndex)]
+
+  }
+  
+  ##END NEW CODE
+  
+  
   return(disaggTable)
   
 }
@@ -757,7 +796,7 @@ specifiedMakeDisagg <- function (model, disagg){
   #Assigning allocations for disaggregated rows
   disaggregatedRows  <- applyAllocation(disagg,rowsPercentages,"MakeRow", model$MakeTransactions)
 
-  DisaggMake <- assembleTable(model$MakeTransactions, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection)
+  DisaggMake <- assembleTable(model$MakeTransactions, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection, "Make")
   
   return(DisaggMake)
   
@@ -811,7 +850,7 @@ specifiedUseDisagg <- function (model, disagg, domestic = FALSE){
   #Assigning allocations for disaggregated rows
   disaggregatedRows  <- applyAllocation(disagg,rowsPercentages,"UseRow", originalUse)
 
-  DisaggUse <- assembleTable(originalUse, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection)
+  DisaggUse <- assembleTable(originalUse, disagg, disaggregatedColumns, disaggregatedRows, disaggregatedIntersection, "Use")
 
   return(DisaggUse)
   
@@ -824,8 +863,9 @@ specifiedUseDisagg <- function (model, disagg, domestic = FALSE){
 #' @param disaggCols Dataframe. Previously disaggregated columns of the table.
 #' @param disaggRows Dataframe. Previously disaggregated rows of the table.
 #' @param disaggIntersection Dataframe. Previously disaggregated intersection of the table.
+#' @param Table String. Denotes either Make or Use table. 
 #' @return The Disaggregated table as a dataframe with the disaggregated rows, columns, and intersection included
-assembleTable <- function (originalTable, disagg, disaggCols, disaggRows, disaggIntersection){
+assembleTable <- function (originalTable, disagg, disaggCols, disaggRows, disaggIntersection, Table = NULL){
 
   #Determine number of new sectors
   numNewSectors <- length(disagg$DisaggregatedSectorCodes) 
@@ -858,6 +898,29 @@ assembleTable <- function (originalTable, disagg, disaggCols, disaggRows, disagg
   
   #Appending bottom part of the table to top part of the table
   disaggTable <- rbind(disaggTable, disaggTableBottom)
+  
+  
+  #NEW CODE
+  # If we are dealing with a non-symmetrical disaggregation, remove extra index from tables
+  if(!is.null(disagg$IndustryOnly)){
+    if(Table == "Use"){
+      extraIndex <- which(rownames(disaggTable) %in% disagg$IndustryOnly) # As it is an industry only, there should be no rows (commodities) with this code in the Use table
+      disaggTable <- disaggTable[-(extraIndex),]
+    }else{ # Assume Make if not specified
+      extraIndex <- which(colnames(disaggTable) %in% disagg$IndustryOnly)
+      disaggTable <- disaggTable[,-(extraIndex)]
+    }
+  }else if(!is.null(disagg$CommodityOnly)){
+    if(Table == "Use"){
+      extraIndex <- which(colnames(disaggTable) %in% disagg$IndustryOnly)
+      disaggTable <- disaggTable[,-(extraIndex)]
+    }else{ # Assume Make if not specified
+      extraIndex <- which(rownames(disaggTable) %in% disagg$IndustryOnly) # As it is an industry only, there should be no rows (commodities) with this code in the Use table
+      disaggTable <- disaggTable[-(extraIndex),]
+    }
+  }
+  
+  ##END NEW CODE
   
   return(disaggTable)
   
@@ -1020,16 +1083,43 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
     intersection <- originalTable[which(rownames(originalTable)==disagg$OriginalSectorCode),
                                   which(colnames(originalTable)==disagg$OriginalSectorCode), drop=FALSE]
     
+    
     defaultPercentages <- getDefaultAllocationPercentages(disagg$UseFileDF, disagg,
                                                           numNewSectors, output='Industry')
     
     defaultAllocVector <- calculateDefaultIntersection(intersection, defaultPercentages, newSectorCodes)
-
+    
     manualAllocVector <- createBlankIntersection(newSectorCodes)
     
     #Assign lookup index for allocPercentages vector #TODO: Need to check these values, might be backwards
     allocPercentagesRowIndex <- 1
     allocPercentagesColIndex <- 2
+    
+    
+    # Code for dealing with non-symmetric disaggregations (e.g., a code represents an industry but not a commodity)
+    
+    # if(!is.null(disagg$IndustryOnly)){
+    #   temp <- 1
+    #  
+    #   
+    #   
+    #    # Remove industry code from newSectorCodes
+    #   comIndexToRemove <- which(disagg$DisaggregatedSectorCodes %in% disagg$IndustryOnly)
+    #   modSectorCodes <- disagg$DisaggregatedSectorCodes[-(which(disagg$DisaggregatedSectorCodes %in% disagg$IndustryOnly))]
+    #   numModSectors <- length(modSectorCodes)
+    #   defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors)) # Assume uniform distribution
+    #   defaultAllocVector <- calculateDefaultIntersection(intersection, defaultPercentages, newSectorCodes)
+    #   manualAllocVector <- createBlankIntersection(newSectorCodes)
+    #   #Assign lookup index for allocPercentages vector #TODO: Need to check these values, might be backwards
+    #   allocPercentagesRowIndex <- 1
+    #   allocPercentagesColIndex <- 2
+    #   
+    # }else if(!is.null(disagg$CommodityOnly)){
+    #   temp <- 1
+    # }
+    
+    # End code for non-symetric disaggregations
+
     
   } else {
     #todo error handling
