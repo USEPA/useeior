@@ -1,0 +1,11 @@
+Disaggregation:
+  GFE/US:
+    OriginalSectorCode: "GFE/US"
+    OriginalSectorName: "Federal government enterprises"
+    DisaggregationType: "Userdefined"
+    IndustryOnly: "S00101/US"
+    SectorFile: SGFEToS00101Disagg_Sectors.csv 
+    MakeFile: SGFEToS00101Disagg_Make.csv
+    UseFile: SGFEToS00101Disagg_Use.csv
+    EnvFile: SGFEToS00101Disagg_Env.csv #Update of GHGs from NGIAM for waste sectors
+

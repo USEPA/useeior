@@ -1,0 +1,6 @@
+"NAICS_2012_Code","USEEIO_Code","USEEIO_Name","Category","Subcategory","Description"
+"491110","GFEX/US","GFE/US without S00101/US","GFEX/US","GFEX/US","GFE/US after separating S00101/US"
+"922120","GFEX/US","GFE/US without S00101/US","GFEX/US","GFEX/US","GFE/US after separating S00101/US"
+"922140","GFEX/US","GFE/US without S00101/US","GFEX/US","GFEX/US","GFE/US after separating S00101/US"
+"927110","GFEX/US","GFE/US without S00101/US","GFEX/US","GFEX/US","GFE/US after separating S00101/US"
+"S00101","S00101/US","Unspecified name for code S00101/US","GFE","unspecified subcategory for code S00101/US","Unspecified description for code S00101/US"

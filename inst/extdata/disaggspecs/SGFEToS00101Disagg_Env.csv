@@ -1,0 +1,322 @@
+"Flowable","Context","FlowUUID","Sector","FlowRatio"
+"1,3-Butadiene","emission/air","","GFEX",1
+"2-Methylnaphthalene","emission/air","","GFEX",1
+"3-Methylcholanthrene","emission/air","","GFEX",1
+"7,12-Dimethylbenz[a]anthracene","emission/air","","GFEX",1
+"Acenaphthene","emission/air","","GFEX",1
+"Acenaphthylene","emission/air","","GFEX",1
+"Acetaldehyde","emission/air","","GFEX",1
+"Acrolein","emission/air","","GFEX",1
+"Acrylonitrile","emission/air","","GFEX",1
+"Ammonia","emission/air","","GFEX",1
+"Anthracene","emission/air","","GFEX",1
+"Arsenic","emission/air","","GFEX",1
+"Benz[a]anthracene","emission/air","","GFEX",1
+"Benzene","emission/air","","GFEX",1
+"Benzo(b)fluoranthene","emission/air","","GFEX",1
+"Benzo[a]pyrene","emission/air","","GFEX",1
+"Benzo[ghi]perylene","emission/air","","GFEX",1
+"Benzo[k]fluoranthene","emission/air","","GFEX",1
+"Beryllium","emission/air","","GFEX",1
+"Cadmium","emission/air","","GFEX",1
+"Carbon monoxide","emission/air","","GFEX",1
+"Chromium(III)","emission/air","","GFEX",1
+"Chromium(VI)","emission/air","","GFEX",1
+"Chrysene","emission/air","","GFEX",1
+"Cobalt","emission/air","","GFEX",1
+"Dibenz[a,h]anthracene","emission/air","","GFEX",1
+"Dibutyl phthalate","emission/air","","GFEX",1
+"Diethylene glycol monobutyl ether","emission/air","","GFEX",1
+"Diethylene glycol monoethyl ether","emission/air","","GFEX",1
+"Diethylene glycol monomethyl ether","emission/air","","GFEX",1
+"Ethylbenzene","emission/air","","GFEX",1
+"Ethylene glycol","emission/air","","GFEX",1
+"Fluoranthene","emission/air","","GFEX",1
+"Fluorene","emission/air","","GFEX",1
+"Formaldehyde","emission/air","","GFEX",1
+"Glycol ethers","emission/air","","GFEX",1
+"Hexamethylene-1,6-diisocyanate","emission/air","","GFEX",1
+"Hexane","emission/air","","GFEX",1
+"Indeno[1,2,3-cd]pyrene","emission/air","","GFEX",1
+"Lead","emission/air","","GFEX",1
+"Manganese","emission/air","","GFEX",1
+"Mercury","emission/air","","GFEX",1
+"Methanol","emission/air","","GFEX",1
+"Methyl isobutyl ketone","emission/air","","GFEX",1
+"Naphthalene","emission/air","","GFEX",1
+"Nickel","emission/air","","GFEX",1
+"Nitrogen dioxide","emission/air","","GFEX",1
+"PAH/POM, unspecified","emission/air","","GFEX",1
+"Particulate matter, = 2.5µm","emission/air","","GFEX",1
+"Particulate matter, > 2.5µm and = 10µm","emission/air","","GFEX",1
+"Phenanthrene","emission/air","","GFEX",1
+"Pyrene","emission/air","","GFEX",1
+"Selenium","emission/air","","GFEX",1
+"Sulfur dioxide","emission/air","","GFEX",1
+"Toluene","emission/air","","GFEX",1
+"Volatile organic compounds","emission/air","","GFEX",1
+"Xylene","emission/air","","GFEX",1
+"1,1-Dichloroethane","emission/air","","GFEX",1
+"1,1-Dichloroethylene","emission/air","","GFEX",1
+"1,1,1-Trichloroethane","emission/air","","GFEX",1
+"1,1,2-Trichloroethane","emission/air","","GFEX",1
+"1,1,2,2-Tetrachloroethane","emission/air","","GFEX",1
+"1,2-Dichloroethane","emission/air","","GFEX",1
+"1,2-Dichloropropane","emission/air","","GFEX",1
+"1,2,4-Trichlorobenzene","emission/air","","GFEX",1
+"1,3-Dichloropropene","emission/air","","GFEX",1
+"2-Chloroacetophenone","emission/air","","GFEX",1
+"2,2,4-Trimethylpentane","emission/air","","GFEX",1
+"2,4-Dinitrophenol","emission/air","","GFEX",1
+"2,4-Dinitrotoluene","emission/air","","GFEX",1
+"Acetonitrile","emission/air","","GFEX",1
+"Acetophenone","emission/air","","GFEX",1
+"Antimony","emission/air","","GFEX",1
+"Asbestos","emission/air","","GFEX",1
+"Benzo[e]pyrene","emission/air","","GFEX",1
+"Benzyl chloride","emission/air","","GFEX",1
+"Biphenyl","emission/air","","GFEX",1
+"Carbon disulfide","emission/air","","GFEX",1
+"Carbon tetrachloride","emission/air","","GFEX",1
+"Catechol","emission/air","","GFEX",1
+"Chlorine","emission/air","","GFEX",1
+"Chlorobenzene","emission/air","","GFEX",1
+"Chloroethane","emission/air","","GFEX",1
+"Chloroform","emission/air","","GFEX",1
+"Chloromethane","emission/air","","GFEX",1
+"Chromic(VI) acid","emission/air","","GFEX",1
+"Chromium","emission/air","","GFEX",1
+"Copper","emission/air","","GFEX",1
+"Cumene","emission/air","","GFEX",1
+"Cyanide","emission/air","","GFEX",1
+"Di(2-ethylhexyl) phthalate","emission/air","","GFEX",1
+"Dimethyl sulfate","emission/air","","GFEX",1
+"Ethylene dibromide","emission/air","","GFEX",1
+"Ethylene glycol monopropyl ether","emission/air","","GFEX",1
+"Ethylene oxide","emission/air","","GFEX",1
+"Hydrochloric acid","emission/air","","GFEX",1
+"Hydrofluoric acid","emission/air","","GFEX",1
+"Hydrogen cyanide","emission/air","","GFEX",1
+"Isophorone","emission/air","","GFEX",1
+"Lead compounds","emission/air","","GFEX",1
+"m-Xylene","emission/air","","GFEX",1
+"Methyl bromide","emission/air","","GFEX",1
+"Methyl hydrazine","emission/air","","GFEX",1
+"Methyl methacrylate","emission/air","","GFEX",1
+"Methyl tert-butyl ether","emission/air","","GFEX",1
+"Methylene chloride","emission/air","","GFEX",1
+"o-Xylene","emission/air","","GFEX",1
+"p-Dichlorobenzene","emission/air","","GFEX",1
+"p-Nitrophenol","emission/air","","GFEX",1
+"Pentachlorophenol","emission/air","","GFEX",1
+"Perylene","emission/air","","GFEX",1
+"Phenol","emission/air","","GFEX",1
+"Phosphorus","emission/air","","GFEX",1
+"Polycyclic aromatic hydrocarbons","emission/air","","GFEX",1
+"Propionaldehyde","emission/air","","GFEX",1
+"Propylene oxide","emission/air","","GFEX",1
+"Styrene","emission/air","","GFEX",1
+"Tetrachloroethylene","emission/air","","GFEX",1
+"Tribromomethane","emission/air","","GFEX",1
+"Trichloroethylene","emission/air","","GFEX",1
+"Triethylamine","emission/air","","GFEX",1
+"Vinyl acetate","emission/air","","GFEX",1
+"Vinyl chloride","emission/air","","GFEX",1
+"Lead","emission/ground","","GFEX",1
+"Lead compounds","emission/ground","","GFEX",1
+"Arsenic","emission/water","","GFEX",1
+"Biological Oxygen Demand","emission/water","","GFEX",1
+"Cadmium","emission/water","","GFEX",1
+"Chloride","emission/water","","GFEX",1
+"Chlorine","emission/water","","GFEX",1
+"Chlorodibromomethane","emission/water","","GFEX",1
+"Chromium","emission/water","","GFEX",1
+"Chromium(VI)","emission/water","","GFEX",1
+"Copper","emission/water","","GFEX",1
+"Cyanide","emission/water","","GFEX",1
+"Iron","emission/water","","GFEX",1
+"Lead","emission/water","","GFEX",1
+"Mercury","emission/water","","GFEX",1
+"Nickel","emission/water","","GFEX",1
+"Nitrogen","emission/water","","GFEX",1
+"Oxygen","emission/water","","GFEX",1
+"Phenols","emission/water","","GFEX",1
+"Phosphorus","emission/water","","GFEX",1
+"Selenium","emission/water","","GFEX",1
+"Silver","emission/water","","GFEX",1
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","","GFEX",1
+"Total suspended solids","emission/water","","GFEX",1
+"Zinc","emission/water","","GFEX",1
+"Hexafluoroethane","emission/air","","S00101",0
+"Hexafluoroethane","emission/air","","GFEX",0
+"Perfluoropropane","emission/air","","S00101",0
+"Perfluoropropane","emission/air","","GFEX",0
+"Perfluorocyclobutane","emission/air","","S00101",0
+"Perfluorocyclobutane","emission/air","","GFEX",0
+"Carbon tetrafluoride","emission/air","","S00101",0
+"Carbon tetrafluoride","emission/air","","GFEX",0
+"Methane","emission/air","","S00101",0.946233206741219
+"Methane","emission/air","","GFEX",0.0537667932587809
+"Carbon dioxide","emission/air","","S00101",0.920085062869859
+"Carbon dioxide","emission/air","","GFEX",0.0799149371301413
+"HFC-125","emission/air","","S00101",0
+"HFC-125","emission/air","","GFEX",0
+"HFC-134a","emission/air","","S00101",0
+"HFC-134a","emission/air","","GFEX",0
+"HFC-143a","emission/air","","S00101",0
+"HFC-143a","emission/air","","GFEX",0
+"HFC-23","emission/air","","S00101",0
+"HFC-23","emission/air","","GFEX",0
+"HFC-236fa","emission/air","","S00101",0
+"HFC-236fa","emission/air","","GFEX",0
+"HFC-32","emission/air","","S00101",0
+"HFC-32","emission/air","","GFEX",0
+"Nitrous oxide","emission/air","","S00101",0.998755486841465
+"Nitrous oxide","emission/air","","GFEX",0.00124451315853487
+"Nitrogen trifluoride","emission/air","","S00101",0
+"Nitrogen trifluoride","emission/air","","GFEX",0
+"Sulfur hexafluoride","emission/air","","S00101",0
+"Sulfur hexafluoride","emission/air","","GFEX",0
+"Land use","resource/ground/human-dominated/commercial","","GFEX",1
+"Aluminum Cans","Waste Flows/MSW","","GFEX",1
+"Ash","Waste Flows/MSW","","GFEX",1
+"Asphalt Pavement","Waste Flows/CDD","","GFEX",1
+"Asphalt Shingles","Waste Flows/CDD","","GFEX",1
+"Batteries","Waste Flows/MSW","","GFEX",1
+"Branches and Stumps","Waste Flows/MSW","","GFEX",1
+"Brown Glass Bottles and Containers","Waste Flows/MSW","","GFEX",1
+"Brown Goods","Waste Flows/MSW","","GFEX",1
+"Bulky Items","Waste Flows/MSW","","GFEX",1
+"Carpet","Waste Flows/MSW","","GFEX",1
+"Wood","Waste Flows/CDD","","GFEX",1
+"Clear Glass Bottles and Containers","Waste Flows/MSW","","GFEX",1
+"Computer-related Electronics","Waste Flows/MSW","","GFEX",1
+"Concrete","Waste Flows/CDD","","GFEX",1
+"Durable Plastic Items - Number 2 and 5 Bulky Rigids","Waste Flows/MSW","","GFEX",1
+"Durable Plastic Items - Other","Waste Flows/MSW","","GFEX",1
+"Film Products","Waste Flows/MSW","","GFEX",1
+"Flat Glass","Waste Flows/MSW","","GFEX",1
+"Food","Waste Flows/MSW","","GFEX",1
+"Green Glass Bottles and Containers","Waste Flows/MSW","","GFEX",1
+"Gypsum Drywall","Waste Flows/CDD","","GFEX",1
+"HDPE Plastic Containers","Waste Flows/MSW","","GFEX",1
+"Leaves and Grass","Waste Flows/MSW","","GFEX",1
+"Magazines and Catalogs","Waste Flows/MSW","","GFEX",1
+"Major Appliances","Waste Flows/MSW","","GFEX",1
+"Miscellaneous Plastic Containers","Waste Flows/MSW","","GFEX",1
+"Mixed Residue","Waste Flows/MSW","","GFEX",1
+"Newspaper","Waste Flows/MSW","","GFEX",1
+"Non-Bag Commercial and Industrial Packaging Film","Waste Flows/MSW","","GFEX",1
+"Other Ferrous","Waste Flows/MSW","","GFEX",1
+"Other Film - Other","Waste Flows/MSW","","GFEX",1
+"Other Glass Colored Bottles and Containers","Waste Flows/MSW","","GFEX",1
+"Other Miscellaneous Paper - Compostable","Waste Flows/MSW","","GFEX",1
+"Other Miscellaneous Paper - Other","Waste Flows/MSW","","GFEX",1
+"Other Non-Ferrous","Waste Flows/MSW","","GFEX",1
+"Other Office Paper","Waste Flows/MSW","","GFEX",1
+"Other Small Consumer Electronics","Waste Flows/MSW","","GFEX",1
+"Paper Bags","Waste Flows/MSW","","GFEX",1
+"PETE Plastic Containers","Waste Flows/MSW","","GFEX",1
+"Phone Books and Directories","Waste Flows/MSW","","GFEX",1
+"Plastic Grocery and Other Merchandise Bags","Waste Flows/MSW","","GFEX",1
+"Plastic Trash Bags","Waste Flows/MSW","","GFEX",1
+"Prunings and Trimmings","Waste Flows/MSW","","GFEX",1
+"Glass","Waste Flows/MSW","","GFEX",1
+"Remainder/Composite Household Hazardous","Waste Flows/MSW","","GFEX",1
+"Other","Waste Flows/CDD","","GFEX",1
+"Remainder/Composite Metal","Waste Flows/MSW","","GFEX",1
+"Organics","Waste Flows/MSW","","GFEX",1
+"Remainder/Composite Paper - Compostable","Waste Flows/MSW","","GFEX",1
+"Remainder/Composite Paper - Other","Waste Flows/MSW","","GFEX",1
+"Plastic","Waste Flows/MSW","","GFEX",1
+"Remainder/Composite Special Waste","Waste Flows/MSW","","GFEX",1
+"Fines","Waste Flows/MSW","","GFEX",1
+"Textiles","Waste Flows/MSW","","GFEX",1
+"Tin/Steel Cans","Waste Flows/MSW","","GFEX",1
+"Treated Medical Waste","Waste Flows/MSW","","GFEX",1
+"Cardboard","Waste Flows/MSW","","GFEX",1
+"Used Oil Filters","Waste Flows/MSW","","GFEX",1
+"Video Display Devices","Waste Flows/MSW","","GFEX",1
+"White Ledger Paper","Waste Flows/MSW","","GFEX",1
+"1,2-BENZENEDIOL, 4-[1-HYDROXY-2-(METHYLAMINO)ETHYL]-, (R)- (OR) EPINEPHRINE","Waste Flows/Hazardous Waste","","GFEX",1
+"1,3-BENZENEDIOL (OR) RESORCINOL","Waste Flows/Hazardous Waste","","GFEX",1
+"2-PROPANONE (I) (OR) ACETONE (I)","Waste Flows/Hazardous Waste","","GFEX",1
+"2-PROPENOIC ACID, 2-METHYL-, METHYL ESTER (I,T) (OR) METHYL METHACRYLATE (I,T)","Waste Flows/Hazardous Waste","","GFEX",1
+"ACIDIC AQUEOUS WST","Waste Flows/Hazardous Waste","","GFEX",1
+"AQUEOUS W/O CYANIDES","Waste Flows/Hazardous Waste","","GFEX",1
+"AQUEOUS/CYANIDES","Waste Flows/Hazardous Waste","","GFEX",1
+"ARSENIC","Waste Flows/Hazardous Waste","","GFEX",1
+"ARSENIC OXIDE AS2O3 (OR) ARSENIC TRIOXIDE","Waste Flows/Hazardous Waste","","GFEX",1
+"BARIUM","Waste Flows/Hazardous Waste","","GFEX",1
+"BENZENE","Waste Flows/Hazardous Waste","","GFEX",1
+"BENZENE, HEXAHYDRO- (I) (OR) CYCLOHEXANE (I)","Waste Flows/Hazardous Waste","","GFEX",1
+"CADMIUM","Waste Flows/Hazardous Waste","","GFEX",1
+"CARBONIC ACID, DITHALLIUM(1+) SALT (OR) THALLIUM(I) CARBONATE","Waste Flows/Hazardous Waste","","GFEX",1
+"CHLOROFORM (OR) METHANE, TRICHLORO-","Waste Flows/Hazardous Waste","","GFEX",1
+"CHROMIUM","Waste Flows/Hazardous Waste","","GFEX",1
+"COMPRESSED GAS","Waste Flows/Hazardous Waste","","GFEX",1
+"CONT. DEBRIS","Waste Flows/Hazardous Waste","","GFEX",1
+"CONTAMINATED SOIL","Waste Flows/Hazardous Waste","","GFEX",1
+"CORROSIVE WASTE","Waste Flows/Hazardous Waste","","GFEX",1
+"DICHLORODIFLUOROMETHANE (OR) METHANE, DICHLORODIFLUORO-","Waste Flows/Hazardous Waste","","GFEX",1
+"DILUTE AQUEOUS WST","Waste Flows/Hazardous Waste","","GFEX",1
+"DRIED PAINT","Waste Flows/Hazardous Waste","","GFEX",1
+"ELECTRICAL DEVICES","Waste Flows/Hazardous Waste","","GFEX",1
+"ETHENE, TETRACHLORO- (OR) TETRACHLOROETHYLENE","Waste Flows/Hazardous Waste","","GFEX",1
+"ETHENE, TRICHLORO- (OR) TRICHLOROETHYLENE","Waste Flows/Hazardous Waste","","GFEX",1
+"EXPLOSIVES, ETC.","Waste Flows/Hazardous Waste","","GFEX",1
+"FORMALDEHYDE","Waste Flows/Hazardous Waste","","GFEX",1
+"HYDRAZINE (R,T)","Waste Flows/Hazardous Waste","","GFEX",1
+"HYDRAZINE, METHYL- (OR) METHYL HYDRAZINE","Waste Flows/Hazardous Waste","","GFEX",1
+"HYDROFLUORIC ACID (C,T) (OR) HYDROGEN FLUORIDE (C,T)","Waste Flows/Hazardous Waste","","GFEX",1
+"IGNITABLE WASTE","Waste Flows/Hazardous Waste","","GFEX",1
+"LAB PACK","Waste Flows/Hazardous Waste","","GFEX",1
+"LAB PACKS/ACUTE","Waste Flows/Hazardous Waste","","GFEX",1
+"LAB PACKS/NO ACUTE","Waste Flows/Hazardous Waste","","GFEX",1
+"LEAD","Waste Flows/Hazardous Waste","","GFEX",1
+"MERCURY","Waste Flows/Hazardous Waste","","GFEX",1
+"METAL BEARING SLUDGE","Waste Flows/Hazardous Waste","","GFEX",1
+"METHANE, CHLORO- (I,T) (OR) METHYL CHLORIDE (I,T)","Waste Flows/Hazardous Waste","","GFEX",1
+"METHANE, DICHLORO- (OR) METHYLENE CHLORIDE","Waste Flows/Hazardous Waste","","GFEX",1
+"METHANOL (I) (OR) METHYL ALCOHOL (I)","Waste Flows/Hazardous Waste","","GFEX",1
+"NITROGEN DIOXIDE (OR) NITROGEN OXIDE NO2","Waste Flows/Hazardous Waste","","GFEX",1
+"NONHALOGEN. SOLVENT","Waste Flows/Hazardous Waste","","GFEX",1
+"OIL-WATER EMULSION","Waste Flows/Hazardous Waste","","GFEX",1
+"OTH INORGANIC LIQUID","Waste Flows/Hazardous Waste","","GFEX",1
+"OTH INORGANIC SLUDGE","Waste Flows/Hazardous Waste","","GFEX",1
+"OTH INORGANIC SOLIDS","Waste Flows/Hazardous Waste","","GFEX",1
+"OTH ORGANIC LIQUID","Waste Flows/Hazardous Waste","","GFEX",1
+"OTH ORGANIC SOLIDS","Waste Flows/Hazardous Waste","","GFEX",1
+"OTHER AQUEOUS WST","Waste Flows/Hazardous Waste","","GFEX",1
+"PAINT THINNER","Waste Flows/Hazardous Waste","","GFEX",1
+"PAINT, INK, ETC.","Waste Flows/Hazardous Waste","","GFEX",1
+"PHENOL","Waste Flows/Hazardous Waste","","GFEX",1
+"POTASSIUM CYANIDE (OR) POTASSIUM CYANIDE K(CN)","Waste Flows/Hazardous Waste","","GFEX",1
+"PYRIDINE","Waste Flows/Hazardous Waste","","GFEX",1
+"REACTIVE ORG. LIQUID","Waste Flows/Hazardous Waste","","GFEX",1
+"REACTIVE WASTE","Waste Flows/Hazardous Waste","","GFEX",1
+"SILVER","Waste Flows/Hazardous Waste","","GFEX",1
+"SODIUM CYANIDE (OR) SODIUM CYANIDE NA(CN)","Waste Flows/Hazardous Waste","","GFEX",1
+"SOLVENT MIXTURE","Waste Flows/Hazardous Waste","","GFEX",1
+"SPENT ACID","Waste Flows/Hazardous Waste","","GFEX",1
+"SPENT CYANIDE PLATING BATH SOLUTIONS FROM ELECTROPLATING OPERATIONS.","Waste Flows/Hazardous Waste","","GFEX",1
+"SPENT FILTERS","Waste Flows/Hazardous Waste","","GFEX",1
+"SULFURIC ACID, DITHALLIUM (1+) SALT (OR) THALLIUM(I) SULFATE","Waste Flows/Hazardous Waste","","GFEX",1
+"TETRACHLOROETHYLENE","Waste Flows/Hazardous Waste","","GFEX",1
+"THE FOLLOWING SPENT HALOGENATED SOLVENTS USED IN DEGREASING: TETRACHLOROETHYLENE, TRICHLORETHYLENE, METHYLENE CHLORIDE, 1,1,1-TRICHLOROETHANE, CARBON TETRACHLORIDE AND CHLORINATED FLUOROCARBONS; ALL SPENT SOLVENT MIXTURES/BLENDS USED IN DEGREASING CONTAIN","Waste Flows/Hazardous Waste","","GFEX",1
+"THE FOLLOWING SPENT HALOGENATED SOLVENTS: TETRACHLOROETHYLENE, METHYLENE CHLORIDE, TRICHLOROETHYLENE, 1,1,1-TRICHLOROETHANE, CHLOROBENZENE, 1,1,2-TRICHLORO-1,2,2-TRIFLUOROETHANE, ORTHO-DICHLOROBENZENE, TRICHLOROFLUOROMETHANE, AND 1,1,2, TRICHLOROETHANE; A","Waste Flows/Hazardous Waste","","GFEX",1
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: CRESOLS, CRESYLIC ACID, AND NITROBENZENE; AND THE STILL BOTTOMS FROM THE RECOVERY OF THESE SOLVENTS; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, A TOTAL OF TEN PERCENT OR MORE (BY VOLUME) OF ONE O","Waste Flows/Hazardous Waste","","GFEX",1
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: TOLUENE, METHYL ETHYL KETONE, CARBON DISULFIDE, ISOBUTANOL, PYRIDINE, BENZENE, 2-ETHOXYETHANOL, AND 2-NITROPROPANE; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, A TOTAL OF TEN PERCENT OR MORE (BY V","Waste Flows/Hazardous Waste","","GFEX",1
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: XYLENE, ACETONE, ETHYL ACETATE, ETHYL BENZENE, ETHYL ETHER, METHYL ISOBUTYL KETONE, N-BUTYL ALCOHOL, CYCLOHEXANONE, AND METHANOL; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, ONLY THE ABOVE SPENT N","Waste Flows/Hazardous Waste","","GFEX",1
+"TRICHLORETHYLENE","Waste Flows/Hazardous Waste","","GFEX",1
+"VANADIUM OXIDE V2O5 (OR) VANADIUM PENTOXIDE","Waste Flows/Hazardous Waste","","GFEX",1
+"WASTE OIL","Waste Flows/Hazardous Waste","","GFEX",1
+"WASTE PHARMACEUTICAL","Waste Flows/Hazardous Waste","","GFEX",1
+"WASTEWATER TREATMENT SLUDGES FROM ELECTROPLATING OPERATIONS, EXCEPT FROM THE FOLLOWING PROCESSES: (1) SULFURIC ACID ANODIZING OF ALUMINUM; (2) TIN PLATING ON CARBON STEEL; (3) ZINC PLATING (SEGREGATED BASIS) ON CARBON STEEL; (4) ALUMINUM OR ZINC-ALUMINUM ","Waste Flows/Hazardous Waste","","GFEX",1
+"Jobs","","","GFEX",1
+"Compensation of employees","","","S00101",0.0676672965168099
+"Compensation of employees","","","GFEX",0.93233270348319
+"Gross operating surplus","","","S00101",-2.49001331557923
+"Gross operating surplus","","","GFEX",3.49001331557923
+"Taxes on production and imports, less subsidies","","","S00101",0.0195160031225605
+"Taxes on production and imports, less subsidies","","","GFEX",0.980483996877439
