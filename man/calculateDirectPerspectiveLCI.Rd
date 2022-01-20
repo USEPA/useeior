@@ -4,15 +4,15 @@
 \alias{calculateDirectPerspectiveLCI}
 \title{Multiply the B matrix and the scaling vector c.}
 \usage{
-calculateDirectPerspectiveLCI(B, c)
+calculateDirectPerspectiveLCI(B, s)
 }
 \arguments{
 \item{B}{Marginal impact per unit of the environmental flows.}
 
-\item{c}{Scaling vector.}
+\item{s}{Scaling vector.}
 }
 \value{
-Transposed m_d with total impacts in form of sector x flows.
+A transposed matrix with total impacts in form of sector x flows.
 }
 \description{
 Multiply the B matrix and the scaling vector c.

@@ -9,7 +9,7 @@ collapseTBS(tbs, model)
 \arguments{
 \item{tbs}{totals by sector sourced from satellite table}
 
-\item{model}{A EEIO model with IOdata, and model specs}
+\item{model}{An EEIO model object with model specs and IO table loaded}
 }
 \value{
 aggregated totals by sector

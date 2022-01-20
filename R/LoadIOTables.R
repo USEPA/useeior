@@ -1,9 +1,11 @@
 # Functions for loading input-output tables
 
 #' Prepare economic components of an EEIO model.
-#' @param model A list of model specs
+#' @param model An EEIO model object with model specs loaded
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @return A list with EEIO model economic components.
-loadIOData <- function(model) {
+loadIOData <- function(model, configpaths = NULL) {
   # Declare model IO objects
   logging::loginfo("Initializing IO tables...")
   if (model$specs$IODataSource=="BEA") {
@@ -22,7 +24,7 @@ loadIOData <- function(model) {
   }
   
   # Check for aggregation
-  model <- getAggregationSpecs(model)
+  model <- getAggregationSpecs(model, configpaths)
   if(length(model$AggregationSpecs)!=0){
     
     #if(length(model$AggregationSpecs$AssociatedDisaggregation %in% model$DisaggregationSpecs)) != 0{
@@ -37,7 +39,7 @@ loadIOData <- function(model) {
   }
   
   # Check for disaggregation
-  model <- getDisaggregationSpecs(model)
+  model <- getDisaggregationSpecs(model, configpaths)
   if(length(model$DisaggregationSpecs)!=0){
     model <- disaggregateModel(model)
   }
@@ -77,6 +79,11 @@ loadNationalIOData <- function(model) {
   model$FinalDemandMeta$Code_Loc <- apply(cbind(model$FinalDemandMeta$Code, model$specs$ModelRegionAcronyms),
                                              1, FUN = joinStringswithSlashes)
   
+  # model$InternationalTradeAdjustmentMeta
+  model$InternationalTradeAdjustmentMeta <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import", ]
+  model$InternationalTradeAdjustmentMeta[, c("Code", "Code_Loc")] <- gsub("F050", "F051", model$InternationalTradeAdjustmentMeta[, c("Code", "Code_Loc")])
+  model$InternationalTradeAdjustmentMeta[, "Name"] <- "International Trad Adjustment"
+  
   # model$MarginSectors
   model$MarginSectors <- utils::stack(BEA[c("TransportationCodes", "WholesaleCodes", "RetailCodes")])
   model$MarginSectors[] <- lapply(model$MarginSectors, as.character)
@@ -97,6 +104,7 @@ loadNationalIOData <- function(model) {
   model$UseValueAdded <- BEA$UseValueAdded
   model$FinalDemand <- BEA$UseFinalDemand
   model$DomesticFinalDemand <- BEA$DomesticFinalDemand
+  model$InternationalTradeAdjustment <- BEA$InternationalTradeAdjustment
   ## Modify row and column names in the IO tables
   # Use model$Industries
   rownames(model$MakeTransactions) <- colnames(model$UseTransactions) <- colnames(model$DomesticUseTransactions) <-
@@ -123,13 +131,15 @@ loadNationalIOData <- function(model) {
   }
   model$MultiYearCommodityOutput[, as.character(model$specs$IOYear)] <- model$CommodityOutput
   
-  # Transform model FinalDemand and DomesticFinalDemand to by-industry form
+  # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
   if (model$specs$CommodityorIndustryType=="Industry") {
     # Keep the orignal FinalDemand (in by-commodity form)
     model$FinalDemandbyCommodity <- model$FinalDemand
     model$DomesticFinalDemandbyCommodity <- model$DomesticFinalDemand
-    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)#This output needs to be tested - producing strange results
-    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)#This output needs to be tested - producing strange results
+    model$InternationalTradeAdjustmentbyCommodity <- model$InternationalTradeAdjustment
+    model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)
+    model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)
+    model$InternationalTradeAdjustment <- unlist(transformFinalDemandwithMarketShares(model$InternationalTradeAdjustment, model))
   }
   
   # Add Margins table
@@ -157,8 +167,6 @@ loadBEAtables <- function(specs) {
   BEA$FinalDemandCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
                             BEA$ChangeInventoriesCodes, BEA$ExportCodes,
                             BEA$ImportCodes, BEA$GovernmentDemandCodes)
-#  BEA$TotalConsumptionCodes <- c(BEA$HouseholdDemandCodes, BEA$InvestmentDemandCodes,
-#                                 BEA$GovernmentDemandCodes)
   BEA$ScrapCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Scrap")
   BEA$TransportationCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Distribution")
   BEA$WholesaleCodes <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Wholesale")
@@ -180,6 +188,8 @@ loadBEAtables <- function(specs) {
   DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
   BEA$DomesticUseTransactions <- DomesticUse[, BEA$Industries]
   BEA$DomesticFinalDemand <- DomesticUse[, BEA$FinalDemandCodes]
+  # Generate Import Cost vector
+  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
   # Replace NA with 0 in IO tables
   if(specs$BaseIOSchema==2007){
     BEA$MakeTransactions[is.na(BEA$MakeTransactions)] <- 0
@@ -211,7 +221,7 @@ loadBEAMakeorUseTable <- function (iolevel, makeoruse, year, redef){
 }
 
 #' Calculate industry and commodity output vectors from model components.
-#' @param model An EEIO model with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @return An EEIO model with industry and commodity output added
 calculateIndustryCommodityOutput <- function(model) {
   model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)

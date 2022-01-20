@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 work
+inst/doc/**/*.html

@@ -1,0 +1,34 @@
+---
+output: html_document
+params:
+  modelname_pair:
+    value:
+      # - ["USEEIOv2.0-411", "USEEIOv2.0"]
+      - ["USEEIOv2.0-411", "USEEIOv2.0.1-411"]
+      - ["USEEIOv2.0.1-411", "USEEIOv2.1-422"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  results = "asis"
+)
+
+require(rmarkdown)
+require(knitr)
+require(devtools)
+```
+
+# Load the `useeior` package
+```{r loadpackage}
+devtools::load_all()
+```
+# Compare models
+```{r compare}
+for (modelname_pair in params$modelname_pair) {
+  rmarkdown::render("inst/doc/CompareModels.Rmd",
+                    output_file = paste0("Compare", modelname_pair[1], "&", modelname_pair[2], ".html"))
+}
+```

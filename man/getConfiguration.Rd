@@ -2,18 +2,21 @@
 % Please edit documentation in R/ConfigurationFunctions.R
 \name{getConfiguration}
 \alias{getConfiguration}
-\title{Gets a stored configuration file}
+\title{Gets a stored or user specified model or aggregation/disaggregation configuration file}
 \usage{
-getConfiguration(modelname, spectype)
+getConfiguration(configname, configtype, configpaths = NULL)
 }
 \arguments{
-\item{modelname, }{str, the name of the model}
+\item{configname}{str, name of the configuration file}
 
-\item{spectype, }{str, specification type, either "model",  "disagg", or "agg"}
+\item{configtype}{str, configuration type, can be "model", "disagg", or "agg"}
+
+\item{configpaths}{str vector, paths (including file name) of model configuration file
+and optional agg/disagg configuration file(s). If NULL, built-in config files are used.}
 }
 \value{
 A list of model specifications.
 }
 \description{
-Gets a stored configuration file
+Gets a stored or user specified model or aggregation/disaggregation configuration file
 }

@@ -1,5 +1,5 @@
 #' Load totals by sector/region and prepares them based on model specs.
-#' @param model A model list object with the specs object listed
+#' @param model A model list object with model specs and IO tables listed
 #' @return Lists of totals by sector by region and unique flows
 #' @format A list with lists of totals by sector
 #' \describe{
@@ -85,7 +85,7 @@ loadSatTables <- function(model) {
 }
 
 #' Loads data for all satellite tables as lists in model specs
-#' @param model A model object with IO data loaded
+#' @param model A model list object with model specs and IO tables listed
 #' @return A model object with Satellite tables added
 loadandbuildSatelliteTables <- function(model) {
   # Generate satellite tables
@@ -95,7 +95,7 @@ loadandbuildSatelliteTables <- function(model) {
 
 #'Reads a satellite table specification and generates a totals-by-sector table
 #'@param sat_spec, a standard specification for a single satellite table
-#'@param model A model object with IO and satellite data loaded
+#' @param model A model list object with model specs and IO tables listed
 #'@return a totals-by-sector dataframe
 generateTbSfromSatSpec <- function(sat_spec, model) {
   # Check if the satellite table uses a file from within useeior. If so, proceed.
@@ -104,7 +104,6 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
     totals_by_sector <- utils::read.table(system.file("extdata", sat_spec$StaticFile, package = "useeior"),
                                             sep = ",", header = TRUE, stringsAsFactors = FALSE,
                                             fileEncoding = 'UTF-8-BOM')
-
   } else if (!is.null(sat_spec$ScriptFunctionCall)) {
     func_to_eval <- sat_spec$ScriptFunctionCall
     totalsgenfunction <- as.name(func_to_eval)

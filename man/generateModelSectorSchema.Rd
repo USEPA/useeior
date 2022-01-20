@@ -7,10 +7,10 @@
 generateModelSectorSchema(model)
 }
 \arguments{
-\item{model, }{any model object}
+\item{model}{An EEIO model object with model specs loaded}
 }
 \value{
-char string
+A string of sector schema for a model
 }
 \description{
 Create sector schema for a model

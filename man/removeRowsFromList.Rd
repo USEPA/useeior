@@ -9,7 +9,7 @@ removeRowsFromList(sectorList, indecesToAggregate)
 \arguments{
 \item{sectorList}{Model object to be aggregated}
 
-\item{indencesToAggregate}{List of indeces of sectors to remove from list (i.e. aggregated sectors)}
+\item{indecesToAggregate}{List of indeces of sectors to remove from list (i.e. aggregated sectors)}
 }
 \value{
 An aggregated sectorList

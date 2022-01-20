@@ -18,7 +18,7 @@ applyRAS(m0, t_r, t_c, relative_diff, absolute_diff, max_itr)
 \item{absolute_diff}{A numeric value setting the mean absolute difference of the two numerical vectors.}
 
 \item{max_itr}{A numeric value setting the maximum number of iterations to try for convergence.
-Defualt: 1000000.}
+Default is 1,000,000.}
 }
 \value{
 A RAS balanced matrix.

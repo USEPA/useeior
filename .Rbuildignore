@@ -3,3 +3,6 @@
 ^data-raw$
 ^build-scripts$
 ^examples$
+^inst/doc$
+^inst/img$
+^\.github$

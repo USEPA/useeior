@@ -13,8 +13,7 @@ getImpactMethod <- function(ind_spec) {
     } else {
       indicators <- parameters$indicators
     }
-  }
-  else {
+  } else {
     indicators <- NULL
   }
   
@@ -25,8 +24,7 @@ getImpactMethod <- function(ind_spec) {
     } else {
       methods <- parameters$methods
     }
-  }
-  else {
+  } else {
     methods <- NULL
   }
   
@@ -38,10 +36,7 @@ getImpactMethod <- function(ind_spec) {
     lciafmt <- reticulate::import("lciafmt")
     imp_method <- lciafmt$get_mapped_method(method_id = parameters$method_id,
                                             indicators = indicators, methods = methods)
-  }
-  
-  else{
-    
+  } else {
     f <- loadDataCommonsfile(ind_spec$StaticFile)
     imp_method <- as.data.frame(arrow::read_parquet(f))
   }

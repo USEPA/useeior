@@ -30,7 +30,8 @@ getBEADetailMakeBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = DetailMake,
                  data_name = paste0("Detail_Make_", year, "_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Detail_Make_", year, "_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Detail_Make_", year, "_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -54,7 +55,8 @@ getBEADetailUsePROBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = DetailUse,
                  data_name = paste0("Detail_Use_", year, "_PRO_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Detail_Use_", year, "_PRO_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Detail_Use_", year, "_PRO_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -78,7 +80,8 @@ getBEADetailUsePURBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = DetailUse,
                  data_name = paste0("Detail_Use_", year, "_PUR_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Detail_Use_", year, "_PUR_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Detail_Use_", year, "_PUR_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -102,7 +105,8 @@ getBEADetailMakeAfterRedef2012Schema <- function (year) {
   writeDatatoRDA(data = DetailMake,
                  data_name = paste0("Detail_Make_", year, "_AfterRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Detail_Make_", year, "_AfterRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Detail_Make_", year, "_AfterRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -126,7 +130,8 @@ getBEADetailUsePROAfterRedef2012Schema <- function (year) {
   writeDatatoRDA(data = DetailUse,
                  data_name = paste0("Detail_Use_", year, "_PRO_AfterRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Detail_Use_", year, "_PRO_AfterRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Detail_Use_", year, "_PRO_AfterRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -150,7 +155,8 @@ getBEADetailUsePURAfterRedef2012Schema <- function (year) {
   writeDatatoRDA(data = DetailUse,
                  data_name = paste0("Detail_Use_", year, "_PUR_AfterRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Detail_Use_", year, "_PUR_AfterRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Detail_Use_", year, "_PUR_AfterRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -178,7 +184,8 @@ getBEASummaryMakeBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SummaryMake,
                  data_name = paste0("Summary_Make_", year, "_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Summary_Make_", year, "_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Summary_Make_", year, "_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -209,7 +216,8 @@ getBEASummaryUsePROBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SummaryUse,
                  data_name = paste0("Summary_Use_", year, "_PRO_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Summary_Use_", year, "_PRO_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Summary_Use_", year, "_PRO_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -240,7 +248,8 @@ getBEASummaryUsePURBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SummaryUse,
                  data_name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -268,7 +277,8 @@ getBEASummaryMakeAfterRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SummaryMake,
                  data_name = paste0("Summary_Make_", year, "_AfterRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Summary_Make_", year, "_AfterRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Summary_Make_", year, "_AfterRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -299,7 +309,8 @@ getBEASummaryUsePROAfterRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SummaryUse,
                  data_name = paste0("Summary_Use_", year, "_PRO_AfterRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Summary_Use_", year, "_PRO_AfterRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Summary_Use_", year, "_PRO_AfterRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -329,7 +340,8 @@ getBEASectorMakeBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SectorMake,
                  data_name = paste0("Sector_Make_", year, "_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Sector_Make_", year, "_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Sector_Make_", year, "_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -360,7 +372,8 @@ getBEASectorUsePROBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SectorUse,
                  data_name = paste0("Sector_Use_", year, "_PRO_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Sector_Use_", year, "_PRO_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Sector_Use_", year, "_PRO_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -391,7 +404,8 @@ getBEASectorUsePURBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SectorUse,
                  data_name = paste0("Sector_Use_", year, "_PUR_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Sector_Use_", year, "_PUR_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Sector_Use_", year, "_PUR_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -419,7 +433,8 @@ getBEASectorMakeAfterRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SectorMake,
                  data_name = paste0("Sector_Make_", year, "_AfterRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Sector_Make_", year, "_AfterRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Sector_Make_", year, "_AfterRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -449,7 +464,8 @@ getBEASectorUsePROAfterRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SectorUse,
                  data_name = paste0("Sector_Use_", year, "_PRO_AfterRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Sector_Use_", year, "_PRO_AfterRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Sector_Use_", year, "_PRO_AfterRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -479,7 +495,8 @@ getBEADetailImportBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = DetailImport,
                  data_name = paste0("Detail_Import_", year, "_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Detail_Import_", year, "_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Detail_Import_", year, "_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -507,7 +524,8 @@ getBEASummaryImportBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = SummaryImport,
                  data_name = paste0("Summary_Import_", year, "_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Summary_Import_", year, "_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Summary_Import_", year, "_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)
@@ -629,7 +647,9 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function () {
     # Write data to .rda
     writeDatatoRDA(data = ls[[data_name]], data_name = data_name)
     # Write metadata to JSON
-    writeMetadatatoJSON(name = data_name, year = year_range,
+    writeMetadatatoJSON(package = "useeior",
+                        name = data_name,
+                        year = year_range,
                         source = "US Bureau of Economic Analysis",
                         url = url)
   }
@@ -743,7 +763,9 @@ mapBEACPItoIOIndustry2012Schema <- function () {
     # Write data to .rda
     writeDatatoRDA(data = ls[[data_name]], data_name = data_name)
     # Write metadata to JSON
-    writeMetadatatoJSON(name = data_name, year = year_range,
+    writeMetadatatoJSON(package = "useeior",
+                        name = data_name,
+                        year = year_range,
                         source = "US Bureau of Economic Analysis",
                         url = url)
   }
@@ -819,7 +841,9 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function () {
     # Write data to .rda
     writeDatatoRDA(data = ls[[data_name]], data_name = data_name)
     # Write metadata to JSON
-    writeMetadatatoJSON(name = data_name, year = year_range,
+    writeMetadatatoJSON(package = "useeior",
+                        name = data_name,
+                        year = year_range,
                         source = "US Bureau of Economic Analysis",
                         url = url)
   }
@@ -933,7 +957,9 @@ getBEACodeName2012Schema <- function () {
     # Write data to .rda
     writeDatatoRDA(data = BEACodeNameList[[data_name]], data_name = data_name)
     # Write metadata to JSON
-    writeMetadatatoJSON(name = data_name, year = 2012,
+    writeMetadatatoJSON(package = "useeior",
+                        name = data_name,
+                        year = 2012,
                         source = "US Bureau of Economic Analysis",
                         url = url)
   }
@@ -962,7 +988,8 @@ getBEADetailMarginsBeforeRedef2012Schema <- function (year) {
   writeDatatoRDA(data = Margins,
                  data_name = paste0("Detail_Margins_", year, "_BeforeRedef"))
   # Write metadata to JSON
-  writeMetadatatoJSON(name = paste0("Detail_Margins_", year, "_BeforeRedef"),
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Detail_Margins_", year, "_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
                       url = url)

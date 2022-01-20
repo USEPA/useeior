@@ -1,5 +1,5 @@
 #' Disaggregate a model based on specified source file
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @return A disaggregated model.
 disaggregateModel <- function (model){
  
@@ -40,6 +40,7 @@ disaggregateModel <- function (model){
     
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
+    model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
 
   }
   
@@ -48,35 +49,44 @@ disaggregateModel <- function (model){
 }
 
 #' Obtain aggregation and disaggregation specs from input files
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
+#' If NULL, built-in config files are used.
 #' @return A model with the specified aggregation and disaggregation specs.
-getDisaggregationSpecs <- function (model){
+getDisaggregationSpecs <- function (model, configpaths = NULL){
 
   model$DisaggregationSpecs <- vector(mode='list')
   for (configFile in model$specs$DisaggregationSpecs){
     logging::loginfo(paste0("Loading disaggregation specification file for ", configFile, "..."))
-    config <- getConfiguration(configFile, "disagg")
+    config <- getConfiguration(configFile, "disagg", configpaths)
 
     if('Disaggregation' %in% names(config)){
       model$DisaggregationSpecs <- append(model$DisaggregationSpecs, config$Disaggregation)
     }
   }
   
-  model <- disaggregateSetup(model)
+  model <- disaggregateSetup(model, configpaths)
   
   return(model)
 }
 
 #' Setup the configuration specs based on the input files
-#' @param model Model file loaded with IO tables
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
+#' If NULL, built-in config files are used.
 #' @return A model object with the correct disaggregation specs.
-disaggregateSetup <- function (model){
+disaggregateSetup <- function (model, configpaths = NULL){
   
   counter = 1
   for (disagg in model$DisaggregationSpecs){  
-    disagg$NAICSSectorCW <- utils::read.csv(system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
-                                            header = TRUE, stringsAsFactors = FALSE, colClasses=c("NAICS_2012_Code"="character",
-                                                                                                  "USEEIO_Code"="character"))
+    filename <- ifelse(is.null(configpaths),
+                       system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
+                       file.path(dirname(configpaths)[1], disagg$SectorFile))
+    disagg$NAICSSectorCW <- utils::read.table(filename,
+                                              sep = ",", header = TRUE,
+                                              stringsAsFactors = FALSE,
+                                              check.names = FALSE)
+    
     newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code,
                                   "SectorName" = disagg$NAICSSectorCW$USEEIO_Name,
                                   "Category" = disagg$NAICSSectorCW$Category,
@@ -93,16 +103,39 @@ disaggregateSetup <- function (model){
     disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
     disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
     
+    # Load Make table disaggregation file
     if(!is.null(disagg$MakeFile)){
-      disagg$MakeFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
-                                           header = TRUE, stringsAsFactors = FALSE, colClasses=c("IndustryCode"="character",
-                                                                                                 "CommodityCode"="character"))}
+      filename <- ifelse(is.null(configpaths),
+                         system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
+                         file.path(dirname(configpaths)[1], disagg$MakeFile))
+      disagg$MakeFileDF <- utils::read.table(filename,
+                                             sep = ",", header = TRUE,
+                                             stringsAsFactors = FALSE,
+                                             check.names = FALSE)
+    }
+    
+    # Load Use table disaggregation file
     if(!is.null(disagg$UseFile)){
-      disagg$UseFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
-                                          header = TRUE, stringsAsFactors = FALSE)}      
+      filename <- ifelse(is.null(configpaths),
+                         system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
+                         file.path(dirname(configpaths)[1], disagg$UseFile))
+      disagg$UseFileDF <- utils::read.table(filename,
+                                            sep = ",", header = TRUE,
+                                            stringsAsFactors = FALSE,
+                                            check.names = FALSE)
+    }
+    
+    # Load Environment flows table
     if(!is.null(disagg$EnvFile)){
-      disagg$EnvFileDF <- utils::read.csv(system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
-                                          header = TRUE, stringsAsFactors = FALSE, colClasses=c("Sector"="character"))}
+      filename <- ifelse(is.null(configpaths),
+                         system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
+                         file.path(dirname(configpaths)[1], disagg$EnvFile))
+      disagg$EnvFileDF <- utils::read.table(filename,
+                                            sep = ",", header = TRUE,
+                                            stringsAsFactors = FALSE,
+                                            check.names = FALSE)
+    }
+    
     if("FlowRatio" %in% colnames(disagg$EnvFileDF)) {
       disagg$EnvAllocRatio <- TRUE
     } else {
@@ -117,6 +150,43 @@ disaggregateSetup <- function (model){
   return(model)
 }
 
+#' Disaggregate model$InternationalTradeAdjustments vector in the main model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' @param ratios Specific ratios to be used for the disaggregation of the InternationalTradeAdjusment object in place of using economic totals to derive the ratios.
+#' @return newInternationalTradeAdjustment A vector which contains the InternationalTradeAdjustment for the disaggregated sectors
+disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NULL){
+  
+  originalInternationalTradeAdjustment <- model$InternationalTradeAdjustment
+  originalNameList <- names(model$InternationalTradeAdjustment) # Get names from named vector
+  codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
+  originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
+  originalRow <- model$InternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
+  disaggInternationalTradeAdjustment <- rep(originalRow,length(disagg$DisaggregatedSectorCodes)) # Replicate the original a number of times equal to the number of disaggregate sectors
+ 
+  if(is.null(ratios)){# Use default ratios, i.e., commodity output ratios
+    disaggRatios <- unname(disaggregatedRatios(model, disagg, "Commodity"))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
+  }else{
+    #todo: need to discuss if other ratios are relevant/needed and where they would come from.
+    disaggRatios <- ratios
+  }
+  
+  disaggInternationalTradeAdjustment <- disaggInternationalTradeAdjustment * disaggRatios
+  
+  # Rename the rows of the vector
+  disaggRowNames <- unlist(disagg$DisaggregatedSectorCodes)
+  disaggRowNames <- sapply(strsplit(disaggRowNames, split = "/"), "[",1)
+  names(disaggInternationalTradeAdjustment) <- disaggRowNames
+  
+  # Combine elements in a new vector
+  part1 <- originalInternationalTradeAdjustment[1:(originalIndex-1)]
+  part3 <- originalInternationalTradeAdjustment[(originalIndex+1):length(originalInternationalTradeAdjustment)]
+  
+  newITA <- c(part1, disaggInternationalTradeAdjustment, part3)
+ 
+  return(newITA)
+
+}
 
 #' Disaggregate model$Margins dataframe in the main model object
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
@@ -403,8 +473,7 @@ disaggregateMakeTable <- function (model, disagg) {
   } else if(disaggType == "Userdefined") {
     disaggTable <- specifiedMakeDisagg(model, disagg)
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
   
   return(disaggTable)
@@ -431,8 +500,7 @@ disaggregateUseTable <- function (model, disagg, domestic = FALSE) {
   } else if(disaggType == "Userdefined") {
     disaggTable <- specifiedUseDisagg(model, disagg, domestic)
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
 
   return(disaggTable)
@@ -483,8 +551,7 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
                          originalFD[-(1:originalRowIndex),]) #include all rows except from 1st row to disaggregated row
 
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
 
   # If we are dealing with an asymetrical disaggregation
@@ -549,8 +616,7 @@ disaggregateVA <- function(model, disagg) {
     disaggTable <- cbind(tablePartOne, AllocVADF, tablePartTwo)
 
   } else {
-    logging::logwarn("Disaggregation not performed, type not defined")
-    break
+    stop("Disaggregation not performed, type not defined")
   }
 
   return(disaggTable)
@@ -1254,7 +1320,7 @@ createBlankIntersection <- function (newSectorCodes) {
 #' Creates a square dataframe matrix with values assigned based on default percentages
 #' @param originalIntersection int value of the original intersection to be disaggregated
 #' @param defaultPercentages vector of allocation percentages
-#' @param newSectorCode vector of named disaggregated sectors
+#' @param newSectorCodes vector of named disaggregated sectors
 #' @return square dataframe matrix with new sectors as row and column names with default values
 calculateDefaultIntersection <- function(originalIntersection, defaultPercentages, newSectorCodes) {
   numNewSectors <- length(newSectorCodes)

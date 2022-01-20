@@ -7,7 +7,7 @@
 loadandbuildSatelliteTables(model)
 }
 \arguments{
-\item{model}{A model object with IO data loaded}
+\item{model}{A model list object with model specs and IO tables listed}
 }
 \value{
 A model object with Satellite tables added

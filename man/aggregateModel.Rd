@@ -7,7 +7,7 @@
 aggregateModel(model)
 }
 \arguments{
-\item{model}{Model file loaded with IO tables}
+\item{model}{An EEIO model object with model specs and IO tables loaded}
 }
 \value{
 An aggregated model.

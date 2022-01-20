@@ -7,7 +7,7 @@
 calculateIndustryCommodityOutput(model)
 }
 \arguments{
-\item{model}{An EEIO model with IO tables}
+\item{model}{An EEIO model object with model specs and IO tables loaded}
 }
 \value{
 An EEIO model with industry and commodity output added

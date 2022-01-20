@@ -7,9 +7,9 @@
 checkIndicatorforFlows(factors, flows)
 }
 \arguments{
-\item{factors}{a df of indicator characterization factors}
+\item{factors}{A dataframe of indicator characterization factors}
 
-\item{flows}{a df of model$SatelliteTables$flows}
+\item{flows}{A dataframe of flows from model SatelliteTables}
 }
 \description{
 Checks an LCIA indicator to ensure that flows exist in the model for that indicator

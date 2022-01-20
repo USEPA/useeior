@@ -3,17 +3,21 @@
 \name{prepareProductionDemand}
 \alias{prepareProductionDemand}
 \title{Prepares a demand vector representing production
-Formula for production vector: y_p <- y_dc + y_e + y_d_delta}
+Formula for production vector: y_p <- y_c + y_e + y_m + y_delta
+where y_c = consumption, y_e = exports, y_m = imports, y_delta = change in inventories
+y_m values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)}
 \usage{
 prepareProductionDemand(model)
 }
 \arguments{
-\item{model, }{a model}
+\item{model}{An EEIO model object with model specs and IO tables loaded}
 }
 \value{
-a named vector with demand
+A named vector with demand
 }
 \description{
 Prepares a demand vector representing production
-Formula for production vector: y_p <- y_dc + y_e + y_d_delta
+Formula for production vector: y_p <- y_c + y_e + y_m + y_delta
+where y_c = consumption, y_e = exports, y_m = imports, y_delta = change in inventories
+y_m values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)
 }

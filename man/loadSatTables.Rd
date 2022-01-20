@@ -35,7 +35,7 @@ A list with lists of totals by sector
 loadSatTables(model)
 }
 \arguments{
-\item{model}{A model list object with the specs object listed}
+\item{model}{A model list object with model specs and IO tables listed}
 }
 \value{
 Lists of totals by sector by region and unique flows

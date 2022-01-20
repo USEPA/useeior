@@ -13,7 +13,7 @@ calculateFinalPerspectiveLCIA(N, y)
 \item{y, }{a model demand vector}
 }
 \value{
-Transposed u_d with total impacts in form of sector x impact categories.
+A transposed matrix with total impacts in form of sector x impact categories.
 }
 \description{
 The final perspective aligns impacts with sectors consumed by final users

@@ -7,7 +7,7 @@
 compareEandLCIResult(model, use_domestic = FALSE, tolerance = 0.05)
 }
 \arguments{
-\item{model, }{EEIOmodel object completely built}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
 \item{use_domestic, }{a logical value indicating whether to use domestic demand vector}
 

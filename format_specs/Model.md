@@ -4,20 +4,21 @@ A fully constructed USEEIO model is an R named list that contains the following 
  
 ## Notes 
  
- A _sector_ is either a commodity or industry, depending on the [model CommodityorIndustry Type](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecifications.md#model-specifications). The _sector_ will be synononmous for that same CommodityorIndustryType for all tables in a given model in which _sector_ is used. 
+ A _sector_ is either a commodity or industry, depending on the [model CommodityorIndustry Type](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecification.md#model-specifications). The _sector_ will be synononmous for that same CommodityorIndustryType for all tables in a given model in which _sector_ is used. 
 
-Unless another year is specifically called out, all economic values are given in US dollars (USD) in the value the [model IOyear](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecifications.md#model-specifications). 
+Unless another year is specifically called out, all economic values are given in US dollars (USD) in the value the [model IOyear](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecification.md#model-specifications). 
 
 ## Model
 Items are listed in the order in which they appear in a built Model object in R.
 
 | Item | Data Structure | Category | Description |
 | --- | --- | --------- | ------ |
-| specs | list | metadata | [Model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md) |
+| specs | list | metadata | [Model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md) |
 | crosswalk | data.frame | metadata | Sector [crosswalk](#crosswalk) |
 | Commodities | data.frame | metadata | Commodity metadata in [sector meta format](#sector-meta) |
 | Industries | data.frame | metadata | Industry metadata in [sector meta format](#sector-meta) |
 | FinalDemandMeta | data.frame | metadata | Final demand metadata in [sector meta with group format](#Sector-Meta-with-Group) |
+| InternationalTradeAdjustmentMeta | data.frame | metadata | Metadata for international trade adjusment in [sector meta with group format](#Sector-Meta-with-Group) |
 | MarginSectors | data.frame | metadata | Margin sector metadata in [sector meta format](#sector-meta) |
 | ValueAddedMeta | data.frame | metadata | Value added metadata in [sector meta format](#sector-meta) |
 | MultiYearIndustryOutput | data.frame | supporting data | Multi-year industry output in [sector-by-year format](#sector-by-year) |
@@ -25,6 +26,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | Margins | data.frame | supporting data | [The final consumer margins table](#margins) |
 | MultiYearIndustryCPI | data.frame | supporting data | Multi-year industry CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityCPI | data.frame |   supporting data | Multi-year commodity CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
+| AggregationSpecs | list | metadata | Specifications for one or more aggregations
 | DisaggregationSpecs | list | metadata | Specifications for one or more [disaggregation](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecification.md) |
 | SatelliteTables | list | component data | [Satellite tables](#satellitetables) |
 | Indicators | list | component data | [Indicators](#indicators) |
@@ -38,11 +40,12 @@ Items are listed in the order in which they appear in a built Model object in R.
 | U_d | matrix | component matrix | [The domestic Use matrix](#U) |
 | q | numeric vector | component matrix | [Total output by commodity](#output-vectors) |
 | x | numeric vector | component matrix | [Total output by industry](#output-vectors) |
+| mu | numeric vector | component matrix | [International trade adjustment by commodity](#international-trade-adjustment-vector) |
 | A | matrix | component matrix | [The direct requirements matrix](#A) |
 | A_d | matrix | component matrix | [The domestic direct requirements matrix](#A) |
 | L | matrix | component matrix | [The Leontief inverse matrix](#L) |
 | L_d | matrix | component matrix | [The domestic Leontief inverse matrix](#L) |
-| B | matrix | result matrix | [The direct emissions and resource use matrix](#B) |
+| B | matrix | component matrix | [The direct emissions and resource use matrix](#B) |
 | C | matrix | component matrix | [The characterization factor matrix](#C) |
 | D | matrix | result matrix | [The direct impact matrix](#D) |
 | M | matrix | result matrix | [The total emissions and resource use matrix](#M) |
@@ -64,10 +67,13 @@ Items are listed in the order in which they appear in a built Model object in R.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| NAICS | str | 6-digit [NAICS code](https://www.census.gov/naics/) |
+| NAICS | str | 2-6 digit [NAICS code](https://www.census.gov/naics/)<sup>2</sup> |
 | BEA_Sector | str | Code used at the BEA Sector level |
 | BEA_Summary | str | Code used at the BEA Summary level |
 | BEA_Detail | str | Code used at the BEA Detail level |
+| USEEIO | str | Codes used by the model |
+
+<sup>2</sup> 7-10 digit NAICS code exists for manufacturing and mining industries.
 
 ### Sector Meta
 
@@ -76,6 +82,14 @@ Items are listed in the order in which they appear in a built Model object in R.
 | Code | str | 6-digit code |
 | Name | str | Name of sector or component |
 | Code_Loc | str | Code joined with a location acronym by a forward slash (e.g. `1111A0/US`) |
+
+Commodity sector meta may also have the following fields:
+
+| Item | Type | Description |
+| --- | --- | --------- |
+| Category | str | A 2 digit NAICS code and name |
+| Subcategory | str | A 4 digit NAICS code and name |
+| Description | str | A description of the sector |
 
 ### Sector Meta with Group
 
@@ -127,14 +141,14 @@ Year | int | Year of data, e.g. `2010`
 MetaSources | str | The major data source(s) value is based on.
 
 #### flows
-The unique flows found across all satellite tables with fields sourced from the [Federal LCA Commons Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md)
+The unique flows found across all satellite tables with fields sourced from the [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) format of the Federal LCA Commons Elementary Flow List.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Flowable | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
-| Context | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
-| Unit | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
-| FlowUUID | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Flowable | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Context | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Unit | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| FlowUUID | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 
 ### Indicators
 The Indicators object contains meta and factors dataframes.
@@ -144,22 +158,22 @@ The Indicators object contains meta and factors dataframes.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Name | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
-| Code | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
-| Group | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
-| Unit | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
-| SimpleUnit | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
-| SimpleName | str | [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) |
+| Name | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| Code | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| Group | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| Unit | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| SimpleUnit | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| SimpleName | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
 
 #### factors
  A data table of the characterization factors for indicators included in the model
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Indicator | str | Matches the [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) of the indicator |
-| Flowable | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
-| Context | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
-| Unit | str | [Federal Elementary Flow List](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Indicator | str | Matches the [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) of the indicator |
+| Flowable | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Context | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
+| Unit | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 | Amount | numeric | Characterization factor linking one unit of the flow to the indicator |
 
 ## DemandVectors
@@ -167,19 +181,19 @@ The Indicators object contains meta and factors dataframes.
 The DemandVector object contains the demand vectors and a metadata table.
 
 #### vectors
- A data table of the demand vectors included in the model
+ A data table of the demand vectors included in the model. Each vector is in the format of a named vector with names assigned in [Code_Loc](#sector-meta) (e.g. `1111A0/US`) format.
  
 #### meta
  A table of metadata for the demand vectors included in the model.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Type | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
-| Year | int | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
-| System | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
-| Location | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
-| Name | str | [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#demand-vector-specifications) |
-| ID | str | Year_Location_Type_System |
+| Type | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| Year | int | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| System | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| Location | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| Name | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| ID | str | A unique ID for that demand vector|
 
 ### Model Component Matrices
 
@@ -189,7 +203,7 @@ When used in matrix indices, items below take the following format:
 | --- | --------- |
 | sector (commodity or industry) | [Code_Loc](#sector-meta) (e.g. `1111A0/US`) |
 | flow | [Flowable/Context/Unit](#satellite-tables) (e.g. `Carbon dioxide/emission/air/kg`) |
-| indicator | [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecifications.md#indicator-specifications) (e.g. `Greenhouse Gases`) |
+| indicator | [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) (e.g. `Greenhouse Gases`) |
 
 
 #### Output vectors
@@ -200,6 +214,13 @@ When used in matrix indices, items below take the following format:
 commodities +----q----+
 
 industries +----x----+
+```
+#### International Trade Adjustment vector
+
+`mu` is an international trade adjustment vector containing value of all transportation and insurance services to import and customs duties in model year US dollars.
+
+```
+commodities +----mu----+
 ```
 
 #### V
@@ -281,8 +302,8 @@ indicators |       |
            +-------+
 ```
 
-#### Rho
-`Rho` is a `sector x year` matrix and contains in each column `y` the price year ratios.
+#### Rho, 
+`Rho` is a `sector x year` matrix and contains in each column `y` the price year ratios. Rho ratios are in the form of model IO_year/year (where year is the column).
 
 ```
         years
@@ -294,7 +315,7 @@ flows |       |
 
 #### Phi
 
-`Phi` is also a `sector x year` matrix and contains in each column `y` producer-to-purchaser price ratios.
+`Phi` is also a `sector x year` matrix and contains in each column `y` producer-to-purchaser price ratios. Phi ratios are year-specific ratios in the form of value in producer price/value in purchaser price.
 
 ```
         years

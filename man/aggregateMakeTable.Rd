@@ -7,7 +7,7 @@
 aggregateMakeTable(model, aggregationSpecs)
 }
 \arguments{
-\item{model}{Model file loaded with IO tables}
+\item{model}{An EEIO model object with model specs and IO tables loaded.}
 
 \item{aggregationSpecs}{Specifications for aggregation}
 }
