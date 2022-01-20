@@ -1,9 +1,17 @@
 #' Hybridize the technology matrix based on specified source file
 #' @param model An EEIO model object with model specs, IO tables, and satellite tables loaded
+#' @param domestic A logical value indicating whether to hybridize domestic matrix.
 #' @return The A matrix for a hybridized model.
-hybridizeAMatrix <- function (model){
+hybridizeAMatrix <- function (model, domestic = FALSE){
   logging::loginfo("Hybridizing model for A matrix...")
-  return(model$A)
+  if(domestic){
+    A <- model$A_d
+  }
+  else {
+    A <- model$A
+  }
+  
+  return(A)
 }
 
 

@@ -70,6 +70,7 @@ constructEEIOMatrices <- function(model) {
   
   if(length(model$HybridizationSpecs)!=0){
     model$A <- hybridizeAMatrix(model)
+    model$A_d <- hybridizeAMatrix(model, domestic=TRUE)
   }
 
   # Calculate total requirements matrix as Leontief inverse (L) of A
