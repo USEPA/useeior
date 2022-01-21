@@ -183,6 +183,18 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
   part3 <- originalInternationalTradeAdjustment[(originalIndex+1):length(originalInternationalTradeAdjustment)]
   
   newITA <- c(part1, disaggInternationalTradeAdjustment, part3)
+  
+  # If we are dealing with a non-symmetrical disaggregation, remove extra index from tables
+  # This only applies for disagg$IndustyOnly as a commodityOnly sector would not be present in the InternationalTradeAdjustment Object
+  if(!is.null(disagg$IndustryOnly)){
+    
+    codeLength <- nchar(gsub("/.*", "", disagg$IndustryOnly)) # Calculate code length (needed for summary vs. detail level code lengths)
+    industryOnlyCode <- substr(disagg$IndustryOnly, 1, codeLength)
+    extraIndex <- which(names(newITA) == industryOnlyCode) # Get row index of the original aggregate sector in the object
+    newITA <- newITA[-(extraIndex)]
+
+  }
+
  
   return(newITA)
 
