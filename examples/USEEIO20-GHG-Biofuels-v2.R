@@ -81,34 +81,36 @@ xtable(LCIA_results_comparative_Formatted, type= "latex", align=c("l","r","r"))
 #### BROADER IMPACTS ####
 #Comparative table current and +NewTech
 
-
+conversionN<-1/10^6
+sigFig<-3
+monetaryUnits<-"Million USD"
 
 # Format numbers
-cur_totalPur_Petroleum<-format(result$TotalPurchases["324110/US",], digits=6, scientific=TRUE)
-cur_totComOut_Petroleum<- format(modelNewTech$BiofuelsData$OriginalBEA$Make["T007", "324110"], digits=6, scientific=TRUE)
-cur_totProd_Whole<-format(sum(modelNewTech$BiofuelsData$OriginalBEA$Make[,"T008"]), digits=6, scientific=TRUE)
+cur_totalPur_Petroleum<-format(result$TotalPurchases["324110/US",]*conversionN, digits=sigFig, scientific=TRUE)
+cur_totComOut_Petroleum<- format(modelNewTech$BiofuelsData$OriginalBEA$Make["T007", "324110"]*conversionN, digits=sigFig, scientific=TRUE)
+cur_totProd_Whole<-format(sum(modelNewTech$BiofuelsData$OriginalBEA$Make[,"T008"])*conversionN, digits=sigFig, scientific=TRUE)
 
 # Total production of economy
 #sum(modelNewTech$BiofuelsData$OriginalBEA$Make[,"T008"])
 # Total consumption of economy 
 #sum(modelNewTech$BiofuelsData$OriginalBEA$Make["T007",])
 
-cur_EnvImpacts<- format(colSums(result$LCIA_d), digits=6, scientific=TRUE)
+cur_EnvImpacts<- format(colSums(result$LCIA_d), digits=sigFig, scientific=TRUE)
 #----
-new_totalPur_Petroleum<- format(resultNewTech$TotalPurchases["324110/US",], digits=6, scientific=TRUE)
-new_totComOut_Petroleum<- format(modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110"], digits=6, scientific=TRUE)
-new_totalPur_Bio<-format(resultNewTech$TotalPurchases["324110B/US",], digits=6, scientific=TRUE)
-new_totComOut_Bio<- format(modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110B"], digits=6, scientific=TRUE)
-new_totProd_Whole<-format(sum(modelNewTech$BiofuelsData$NewBEA$Make[,"T008"]), digits=6, scientific=TRUE)
-new_EnvImpacts<- format(colSums(resultNewTech$LCIA_d), digits=6, scientific=TRUE)
+new_totalPur_Petroleum<- format(resultNewTech$TotalPurchases["324110/US",]*conversionN, digits=sigFig, scientific=TRUE)
+new_totComOut_Petroleum<- format(modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110"]*conversionN, digits=sigFig, scientific=TRUE)
+new_totalPur_Bio<-format(resultNewTech$TotalPurchases["324110B/US",]*conversionN, digits=sigFig, scientific=TRUE)
+new_totComOut_Bio<- format(modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110B"]*conversionN, digits=sigFig, scientific=TRUE)
+new_totProd_Whole<-format(sum(modelNewTech$BiofuelsData$NewBEA$Make[,"T008"])*conversionN, digits=sigFig, scientific=TRUE)
+new_EnvImpacts<- format(colSums(resultNewTech$LCIA_d), digits=sigFig, scientific=TRUE)
 
 #----
-diff_totalPur_Petroleum<- format(resultNewTech$TotalPurchases["324110/US",]-result$TotalPurchases["324110/US",], digits=6, scientific=TRUE)
-diff_totComOut_Petroleum<-format(modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110"]-modelNewTech$BiofuelsData$OriginalBEA$Make["T007", "324110"], digits=6, scientific=TRUE)
-diff_totalPur_Bio<-format(resultNewTech$TotalPurchases["324110B/US",], digits=6, scientific=TRUE)
-diff_totalComOut_Bio<-format(modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110B"], digits=6, scientific=TRUE)
-diff_totProd_Whole<-format(sum(modelNewTech$BiofuelsData$NewBEA$Make[,"T008"])-sum(modelNewTech$BiofuelsData$OriginalBEA$Make[,"T008"]), digits=6, scientific=TRUE)
-diff_EnvImpacts<- format(colSums(resultNewTech$LCIA_d)-colSums(result$LCIA_d), digits=6, scientific=TRUE)
+diff_totalPur_Petroleum<- format((resultNewTech$TotalPurchases["324110/US",]-result$TotalPurchases["324110/US",])*conversionN, digits=sigFig, scientific=TRUE)
+diff_totComOut_Petroleum<-format((modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110"]-modelNewTech$BiofuelsData$OriginalBEA$Make["T007", "324110"])*conversionN, digits=sigFig, scientific=TRUE)
+diff_totalPur_Bio<-format(resultNewTech$TotalPurchases["324110B/US",]*conversionN, digits=sigFig, scientific=TRUE)
+diff_totalComOut_Bio<-format(modelNewTech$BiofuelsData$NewBEA$Make["T007", "324110B"]*conversionN, digits=sigFig, scientific=TRUE)
+diff_totProd_Whole<-format((sum(modelNewTech$BiofuelsData$NewBEA$Make[,"T008"])-sum(modelNewTech$BiofuelsData$OriginalBEA$Make[,"T008"]))*conversionN, digits=sigFig, scientific=TRUE)
+diff_EnvImpacts<- format(colSums(resultNewTech$LCIA_d)-colSums(result$LCIA_d), digits=sigFig, scientific=TRUE)
 #----
 # Percentage change/ percentage of substitution
 percentual_change_totalPur_Petroleum<-((resultNewTech$TotalPurchases["324110/US",]-result$TotalPurchases["324110/US",])/result$TotalPurchases["324110/US",])*100
@@ -137,7 +139,7 @@ table_rowNames<- c("Economic", "Total Purchases- Petroleum Refineries", "Total c
 
 # Re-order indicators by alphabetic order
 indicators_info<-model$Indicators$meta[order(model$Indicators$meta$Name),]
-units_vector<-c("---", "USD", "USD", "USD","USD", "USD", "---", indicators_info$Unit)
+units_vector<-c("---", monetaryUnits, monetaryUnits, monetaryUnits,monetaryUnits, monetaryUnits, "---", indicators_info$Unit)
 
 
 current_vector<- c("---", cur_totalPur_Petroleum , cur_totComOut_Petroleum,"NA", "NA",cur_totProd_Whole,
@@ -169,17 +171,36 @@ xtable(table, type= "latex", align=c("l","c"),
 
 #Don't like how the format of the numbers are looking
 
+
+#To erase the impacts that are excluded
+rowsToLeave<-c("Eutrophication Potential", "Greenhouse Gases", "Acidification Potential", "Human Health - Respiratory Effects",
+               "Energy Use", "Nonrenewable Energy Use", "Renewable Energy Use", "Land use", "Jobs Supported")
+wrt_per_bio_EnvImpacts<-wrt_per_bio_EnvImpacts[rowsToLeave]
+format_change_EnvImpacts<- round(wrt_per_bio_EnvImpacts, digits = 3)
+
+
+impactNames<-names(wrt_per_bio_EnvImpacts)
+
 #Figure
 #Open png file
 png("per change impact per per substitution.png", width=892, height=611)
 #Create plot
 par(mar=c(3,20,3,2))
-figure<-barplot(wrt_per_bio_EnvImpacts, names.arg = colnames(resultNewTech$LCIA_d), main = "% change impact / % substitution", horiz = TRUE, las=1, xlim=c(-1,6.5),xaxp=c(-1,6.5,6))
+figure<-barplot(wrt_per_bio_EnvImpacts, names.arg = impactNames, main = "% change impact / % substitution", horiz = TRUE, las=1, xlim=c(-1,6.5),xaxp=c(-1,6.5,6))
 abline(v=0) #add vertical line in 0
-text(wrt_per_bio_EnvImpacts+0.25*sign(wrt_per_bio_EnvImpacts),figure, labels = format_change_EnvImpacts, cex=0.8) #Adding the values as labels for each bar
+text(wrt_per_bio_EnvImpacts+0.35*sign(wrt_per_bio_EnvImpacts),figure, labels = format_change_EnvImpacts, cex=0.8) #Adding the values as labels for each bar
 #Close file
 dev.off()
 
+
+#Graph for poster
+png("per change impact per per substitution_Poster.png", width=950, height=611)
+par(mar=c(3,30,3,2))
+figure<-barplot(wrt_per_bio_EnvImpacts, names.arg = colnames(resultNewTech$LCIA_d), main = "% change impact / % substitution", horiz = TRUE, las=1, xlim=c(-1,6.5),xaxp=c(-1,6.5,6),
+                cex.axis=2, cex.main=2, cex=2, col ="#1B70C0" )
+abline(v=0) #add vertical line in 0
+#text(wrt_per_bio_EnvImpacts+1*sign(wrt_per_bio_EnvImpacts),figure, labels = format_change_EnvImpacts, cex=2) #Adding the values as labels for each bar
+dev.off()
 #............................................................................................................................
 # Commodities associated GHG changes
 orig_GHG_existingCommodities<-result$LCIA_d[,"Greenhouse Gases"]
@@ -237,6 +258,22 @@ abline(v=0) #add vertical line in 0
 
 #Close file
 dev.off()
+
+#Same graph but with bigger letter for poster
+#Open png file
+decreasedSectorsNames<-decreasedSectors[222:227,"Name"]
+decreasedSectorsNames[5]<- "Gasoline,fuels,and by-products"
+
+png("Top6_up_down_poster.png", width=950, height=600)
+#Create plot
+par(mar=c(5,27,4,2))
+#Note I used \n in the title to divide in two lines
+barplot(c(increasedSectors[1:6,"Abs_difference"]/10^6,-decreasedSectors[222:227,"Difference"]/10^6), names.arg = c(increasedSectors[1:6,"Name"],decreasedSectorsNames), main = "Top 6 commodities with \n increased and decreased GHG", xlab="Change in emissions (Million kg of CO2e) ", horiz = TRUE, las=1, 
+        xlim=c(-15500,700), xaxp=c(-15300,700,10), cex.main=2, cex.names = 2, cex.axis = 2, cex.lab=2, col ="#1B70C0")
+abline(v=0) #add vertical line in 0
+
+#Close file
+dev.off()
 #-------------------------------------------------------------------------------------------------------------------------------
 
 #### BIO-PRODUCT IMPACTS ####
@@ -289,3 +326,58 @@ table2<-data.frame("Units"=indicators_info$Unit, "All technologies"=bio_EnvImpac
 xtable(table2, type="latex", align=c("l","c","r", "r", "r", "r"), 
        caption = paste("Biofuels impacts per GGE with ", modelNewTech$BiofuelsData$BiofuelsPercentage*100,"% of substitution"),label="Table:biofuels_results")  
 #Recall to add the \ before the % in overleaf
+
+#Here I eliminate from Table 2 the impacts that I want to exclude
+
+rowsToLeave<-c("Eutrophication Potential", "Greenhouse Gases", "Acidification Potential", "Human Health - Respiratory Effects",
+               "Energy Use", "Nonrenewable Energy Use", "Renewable Energy Use", "Land use", "Jobs Supported")
+table2<-table2[rowsToLeave,]
+xtable(table2, type="latex", align=c("l","c","r", "r", "r", "r"), 
+       caption = paste("Biofuels impacts per GGE with ", modelNewTech$BiofuelsData$BiofuelsPercentage*100,"% of substitution"),label="Table:biofuels_results")  
+
+#-------------------------------------------------------------------------------------------------------------------------------
+#Attempt to create pretty tables in R
+
+library(tidyverse)
+library(gt)
+library(webshot)
+
+tableTest<-table2
+tableTest<-cbind(rownames(tableTest),tableTest)
+colnames(tableTest)<-c("Impact", "Units", "All Technologies", "Gas \n Fermentation", "Guerbet \n Reaction", "Fischer \n Tropsch")
+
+
+objectTableTest<-tableTest %>% gt()%>%
+  tab_header(title = md("**Biofuels impacts per GGE with 3.69% of subtitution**")) %>%
+  cols_align(align="right", columns=c(3:6))%>%
+  cols_align(align="center", columns=2)%>%
+  tab_options(
+    #column_labels.font.size=24, #Change size of the column labels
+    container.width=px(1500), #922 pixeles, equivalent to apro 9.6 inches
+    table.width = px(1500),
+    column_labels.font.weight = "bold",
+    table.font.size = 36
+  )
+gtsave(objectTableTest,"Table2.png")
+
+#...........................................................................................................
+#Same for Table 1
+
+tableTest<-table
+tableTest<-cbind(rownames(tableTest),tableTest)
+colnames(tableTest)<-c("Economic Criterion \n (Million USD)", "Units", "Current", "With New technology", "Difference")
+tableTest<-tableTest[2:6,c(1,3:5)] #Leave only economic rows and erase units column
+
+
+objectTableTest<-tableTest %>% gt()%>%
+  tab_header(title = md("**Whole economy economic results with 3.68% of substitution**")) %>%
+  cols_align(align="right", columns=c(2:4))%>%
+  tab_options(
+    #column_labels.font.size=24, #Change size of the column labels
+    #container.width=px(1500), #922 pixeles, equivalent to apro 9.6 inches
+    #table.width = px(1500),
+    column_labels.font.weight = "bold",
+    table.font.size = 36
+  )
+gtsave(objectTableTest,"Table1.png")
+
