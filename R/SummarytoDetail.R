@@ -2,17 +2,8 @@
 #by "bringing the detail model to summary year" for the specified disagg sector.
 
 ## NEXT STEPS: 
-## 1 TEST THE DISAGGREGATION OF THE UTILITY LEVEL SECTOR, FOR ALL 3 DETAIL LEVEL SECTORS (I.E. TEST 1 IN MODEL BUILD MARKDOWN FILE), USING THE OUTPUT FROM ALL FUNCTIONS HERE
-##        --> DONE
-## 2 Write code to be able to disaggregate utility env file when going to 221100 and 22X sectors.
-##        --> DONE
-
-## 3 LEFT OF HERE --> TEST THE DISAGGREGATION OF THE UTILITY LEVEL SECTOR, FOR 221100 AND 22X (I.E. TEST 2 IN MODEL BUILD MARKDOWN FILE) USING THE OUTPUT FROM ALL FUNCTIONS HERE
-##        --> DONE for 221100 and 22X disagg; 
-##        --> LEFT OFF HERE: files printed for s00101 and GFEX disagg; need to test actual disaggregation of that sector
-
-
-## 4 AFTER THAT START WORKING/TESTING DISAGGREGATION OF THE GOVERNMENT ELECTRICITY SECTORS (MANY STEPS)
+## Test Disaggregation of summary level GSLE to detail industries S00202 and GSLEX (which contains detail industries S00201 and S00203), and 
+## to detail commodities GSLEX (which contains only detail commodity S00203)
 
 #' Disaggregate a specific sector in a summary level model to detail level
 #' @param modelname String indicating which model to generate. Must be a detail level model.
@@ -41,7 +32,8 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   # Read in a detail level model
   # todo: check if this line needs to  be replaced by a "load summary model from repo" line if this script is to be used outside the package, e.g. USEEIO teams. 
   detailModel <- buildModel(modelname)#build detail model
-  
+
+
   # Get the detail sector codes that correspond to the summary code to be disaggregated
   summaryCodeCw <- subset(detailModel$crosswalk, BEA_Summary %in% summaryCode)
   summaryCodeCw <- as.list(unique(summaryCodeCw$BEA_Detail))
@@ -103,7 +95,7 @@ nonIntersectionAllocation2 <- function (disaggParams, sector, outputDF, vectorTo
     
     if(vectorToDisagg == "Column"){
       #allocDF <- disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums)
-      allocDF <- data.frame(colSums(allocDF))
+      allocDF <- data.frame(colSums(allocDF)) #Error here
     }else if(vectorToDisagg == "Row"){
       #allocDF <- disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums)
       allocDF <- data.frame(rowSums(allocDF))
@@ -555,6 +547,8 @@ writeAllocationsToCSV <- function(outputDF, disaggParams){
   # todo: make this function more general, i.e., for writing files not related to utilities
   # Path pointing to write directory
   writePath <- "inst/extdata/disaggspecs/"
+  
+#  curPath <- getwd()
  
   # If we are creating csvs to disaggregate a specific detail level sector rather than all detail level sectors mapped to the summary level sector
   if(!is.null(disaggParams$specifiedDetailLevelSector)){
@@ -630,7 +624,7 @@ generateEnvironmentalAllocations <- function (disaggParams){
 #' Note that this function is desgined to work with model$V and model$U objects, rather the the intermediary model$MakeTransactions and UseTransactions objects.
 #' @param disaggParams List of disaggregation paramaters
 #' @param Table String that denotes which table the allocation values refer to. Can be either "Make" or "Use"
-#' @param vectorToDisagg String that denotes whether to disagg rows or columns. Only acceptable string values are "Row"m "Column", or "Intersection"
+#' @param vectorToDisagg String that denotes whether to disagg rows or columns. Only acceptable string values are "Row", "Column", or "Intersection"
 #' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
 generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
   
@@ -735,7 +729,15 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
       # Also this if statement is necessary prior to calculating allocDF below to check whether it is necessary to calculate allocation factors or if there are no values in the current vector.
       if(length(currentDetailIndeces) > 1){
         if(vectorToDisagg == "Column"){
-          summarySectorVectorSums <- colSums(currentDetailVector)
+          # numCols <- dim(t(currentDetailIndeces))
+          # numCols <- numCols[1] # Needed in some cases
+          # if(numCols == 1){
+          #   summarySectorVectorSums <- sum(currentDetailVector)
+          # }else{
+          #   summarySectorVectorSums <- colSums(currentDetailVector)
+          # }
+ ##         summarySectorVectorSums <- colSums(currentDetailVector)
+          summarySectorVectorSums <- sum(currentDetailVector) # This works for: GFE-> [S00101, GFEX] disaggregation; 22 -> [221100, 22X] disaggregation
         }else if(vectorToDisagg == "Row"){
           summarySectorVectorSums <- rowSums(currentDetailVector)
         }
@@ -757,6 +759,11 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
         
         # The allocation values of the intersection of the summary sector with itself are calculated differently from the allocation values of the rest of the column
         if(sector != disaggParams$summaryCode){
+          
+          #debugging code
+          if(Table == "Make" && vectorToDisagg == "Column"){
+            temp <-1
+          }
           
           ##NEXT STEP: Change reported outputDF based on type of disagg, whether 1) strict BEA schema or 2) summary-to-disagg sectors
           outputDF <- nonIntersectionAllocation2(disaggParams, sector, outputDF, vectorToDisagg)
