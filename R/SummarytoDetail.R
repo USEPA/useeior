@@ -4,6 +4,7 @@
 ## NEXT STEPS: 
 ## Test Disaggregation of summary level GSLE to detail industries S00202 and GSLEX (which contains detail industries S00201 and S00203), and 
 ## to detail commodities GSLEX (which contains only detail commodity S00203)
+## TODO: There is an error that needs to be fixed in lines: 99, 103, 744, 748, where the proposed change for GSLE results in incorrect disaggregation of GFE. Also, need to look into line 233, to see if that alone is backwards compatible with Tests 1,2, and 4. 
 
 #' Disaggregate a specific sector in a summary level model to detail level
 #' @param modelname String indicating which model to generate. Must be a detail level model.
@@ -94,11 +95,21 @@ nonIntersectionAllocation2 <- function (disaggParams, sector, outputDF, vectorTo
     allocDF <- disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums)
     
     if(vectorToDisagg == "Column"){
-      #allocDF <- disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums)
-      allocDF <- data.frame(colSums(allocDF)) #Error here
+      if(is.null(dim(allocDF))){
+        allocDF <- data.frame(sum(allocDF)) 
+      }else{
+        allocDF <- data.frame(colSums(allocDF)) 
+      }
+      
+##     allocDF <- data.frame(colSums(allocDF)) #Current code
     }else if(vectorToDisagg == "Row"){
-      #allocDF <- disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums)
-      allocDF <- data.frame(rowSums(allocDF))
+      if(is.null(dim(allocDF))){
+        allocDF <- data.frame(sum(allocDF)) 
+      }else{
+        allocDF <- data.frame(rowSums(allocDF)) 
+      }
+      
+##      allocDF <- data.frame(rowSums(allocDF)) #Current code
     }
     
   }else{
@@ -227,7 +238,9 @@ nonIntersectionAllocation2 <- function (disaggParams, sector, outputDF, vectorTo
 #' @return Allocation percentages for disaggregating the non-intersection portion of the summary level model into the detail level for the current vectorToDisagg.
 intersectionAllocation2 <- function (disaggParams, Table, outputDF, vectorToDisagg){
   
-  originalVector <- disaggParams$originalTable[disaggParams$detailRowIndeces, disaggParams$detailColIndeces]# Get detail intersection
+##  originalVector <- disaggParams$originalTable[disaggParams$detailRowIndeces, disaggParams$detailColIndeces]# Get detail intersection
+  originalVector <- disaggParams$originalTable[disaggParams$detailRowIndeces, disaggParams$detailColIndeces, drop = FALSE]# Get detail intersection ## TESTED FOR TEST MODELS 1, 2, 4; GETS TO STAY
+  
   originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
   allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
   
@@ -710,7 +723,11 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
   }else{
     # Calculate allocation percentages for each summary level commodity
     for (sector in summarySectorList){
-      # Get summary to detail mapping of the current sector (row) 
+      # FOr debugging
+      print(paste("Table:",Table,", Vector:", vectorToDisagg,", Sector:", sector))
+      # end code for debugging
+      
+       # Get summary to detail mapping of the current sector (row) 
       currentDetailSectors <- subset(disaggParams$detailModel$crosswalk, BEA_Summary %in% sector)
       currentDetailSectors <- as.list(unique(currentDetailSectors$BEA_Detail))
       
@@ -729,17 +746,22 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
       # Also this if statement is necessary prior to calculating allocDF below to check whether it is necessary to calculate allocation factors or if there are no values in the current vector.
       if(length(currentDetailIndeces) > 1){
         if(vectorToDisagg == "Column"){
-          # numCols <- dim(t(currentDetailIndeces))
-          # numCols <- numCols[1] # Needed in some cases
-          # if(numCols == 1){
-          #   summarySectorVectorSums <- sum(currentDetailVector)
-          # }else{
-          #   summarySectorVectorSums <- colSums(currentDetailVector)
-          # }
- ##         summarySectorVectorSums <- colSums(currentDetailVector)
-          summarySectorVectorSums <- sum(currentDetailVector) # This works for: GFE-> [S00101, GFEX] disaggregation; 22 -> [221100, 22X] disaggregation
+          if(length(detailDisaggIndeces) == 1){
+           summarySectorVectorSums <- sum(currentDetailVector)
+          }else{
+           summarySectorVectorSums <- colSums(currentDetailVector)
+          }
+
+##          summarySectorVectorSums <- colSums(currentDetailVector) #Currently working line
+
         }else if(vectorToDisagg == "Row"){
-          summarySectorVectorSums <- rowSums(currentDetailVector)
+          if(length(detailDisaggIndeces) == 1){
+            summarySectorVectorSums <- sum(currentDetailVector)
+          }else{
+            summarySectorVectorSums <- rowSums(currentDetailVector)
+          }
+##          summarySectorVectorSums <- rowSums(currentDetailVector) #Currently working line
+
         }
         
       }else{
@@ -760,12 +782,6 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
         # The allocation values of the intersection of the summary sector with itself are calculated differently from the allocation values of the rest of the column
         if(sector != disaggParams$summaryCode){
           
-          #debugging code
-          if(Table == "Make" && vectorToDisagg == "Column"){
-            temp <-1
-          }
-          
-          ##NEXT STEP: Change reported outputDF based on type of disagg, whether 1) strict BEA schema or 2) summary-to-disagg sectors
           outputDF <- nonIntersectionAllocation2(disaggParams, sector, outputDF, vectorToDisagg)
           #outputDF <- nonIntersectionAllocation(disaggParams, sector, outputDF, vectorToDisagg)
           
