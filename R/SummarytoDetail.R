@@ -2,9 +2,8 @@
 #by "bringing the detail model to summary year" for the specified disagg sector.
 
 ## NEXT STEPS: 
-## Test Disaggregation of summary level GSLE to detail industries S00202 and GSLEX (which contains detail industries S00201 and S00203), and 
-## to detail commodities GSLEX (which contains only detail commodity S00203)
-## TODO: There is an error that needs to be fixed in lines: 99, 103, 744, 748, where the proposed change for GSLE results in incorrect disaggregation of GFE. Also, need to look into line 233, to see if that alone is backwards compatible with Tests 1,2, and 4. 
+## Combined disaggrgeations of 22, GFE, and GSLE
+## Aggregate the disaggregated 221100, s00101, and s00202 sectors in an otherwise summary level model.
 
 #' Disaggregate a specific sector in a summary level model to detail level
 #' @param modelname String indicating which model to generate. Must be a detail level model.
@@ -101,15 +100,12 @@ nonIntersectionAllocation2 <- function (disaggParams, sector, outputDF, vectorTo
         allocDF <- data.frame(colSums(allocDF)) 
       }
       
-##     allocDF <- data.frame(colSums(allocDF)) #Current code
     }else if(vectorToDisagg == "Row"){
       if(is.null(dim(allocDF))){
         allocDF <- data.frame(sum(allocDF)) 
       }else{
         allocDF <- data.frame(rowSums(allocDF)) 
       }
-      
-##      allocDF <- data.frame(rowSums(allocDF)) #Current code
     }
     
   }else{
@@ -151,7 +147,6 @@ nonIntersectionAllocation2 <- function (disaggParams, sector, outputDF, vectorTo
       
     }else{ #If the specified sector exists as both a commodity and industry for this Table
       newAlloc <- data.frame(matrix(ncol = 1, nrow = 2))
-      #specifiedDetailIndex <- which(rownames(allocDF) == disaggParams$specifiedDetailLevelSector)
       newAlloc[1,1] <- allocDF[specifiedDetailIndex,1]
       newAlloc[2,1] <- colSums(allocDF) - allocDF[specifiedDetailIndex,1]
       
@@ -176,32 +171,7 @@ nonIntersectionAllocation2 <- function (disaggParams, sector, outputDF, vectorTo
       outputDF <- rbind(outputDF, currentDF)
       
     }
-    
 
-    
-    # colnames(newAlloc) <- disaggParams$allocName
-    # # Code for the new, "all other" sector is the same as the summary level sector, but with an "X" appended at the end of the summary code
-    # rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-    # 
-    # allocDF <- newAlloc
-    # #####new
-    # # detailCodeOutputIndex determines whether the summaryCode goes under the Industry or Commodity column in the output file. 
-    # if(disaggParams$detailCodeOutputIndex == 1){
-    #   industryDF <- data.frame(IndustryCode =I(rownames(newAlloc)))
-    #   commodityDF <- data.frame(CommodityCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(industryDF))))
-    #   noteDF <- data.frame(Note = I(rep("IndustryDisagg", nrow(industryDF))))
-    #   
-    # }else{
-    #   commodityDF <- data.frame(CommodityCode =I(rownames(newAlloc)))
-    #   industryDF <- data.frame(IndustryCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(commodityDF))))
-    #   noteDF <- data.frame(Note = I(rep("CommodityDisagg", nrow(commodityDF))))
-    # }
-    # currentDF <- cbind(industryDF, commodityDF, allocDF[1], noteDF)
-    # 
-    # outputDF <- rbind(outputDF, currentDF)
-    # 
-    #####new
-    
   }else{ # If a particular detail level is not specified, just carry on with current allocation factors and assign them to the correct places in the DFs
     colnames(allocDF)[1] <- disaggParams$allocName
     
@@ -238,8 +208,7 @@ nonIntersectionAllocation2 <- function (disaggParams, sector, outputDF, vectorTo
 #' @return Allocation percentages for disaggregating the non-intersection portion of the summary level model into the detail level for the current vectorToDisagg.
 intersectionAllocation2 <- function (disaggParams, Table, outputDF, vectorToDisagg){
   
-##  originalVector <- disaggParams$originalTable[disaggParams$detailRowIndeces, disaggParams$detailColIndeces]# Get detail intersection
-  originalVector <- disaggParams$originalTable[disaggParams$detailRowIndeces, disaggParams$detailColIndeces, drop = FALSE]# Get detail intersection ## TESTED FOR TEST MODELS 1, 2, 4; GETS TO STAY
+  originalVector <- disaggParams$originalTable[disaggParams$detailRowIndeces, disaggParams$detailColIndeces, drop = FALSE]# Get detail intersection
   
   originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
   allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
@@ -247,31 +216,20 @@ intersectionAllocation2 <- function (disaggParams, Table, outputDF, vectorToDisa
   # Create new DF to house modified allocation values.
   # The allocations are split between the specified detail sectors and a new sector containing
   # all other sectors part of the summary level sector except for the specified detail sector
-  ##newAlloc <- data.frame(matrix(ncol = 2, nrow = 2))
   specifiedDetailRowIndex <- which(rownames(allocationVector) == disaggParams$specifiedDetailLevelSector)
   specifiedDetailColIndex <- which(colnames(allocationVector) == disaggParams$specifiedDetailLevelSector)
   
   
   if(!(is.null(disaggParams$specifiedDetailLevelSector))){# If a particular detail level sector is specified, re-calculate the allocation factors for other sectors
     
-    ############new code
-    
+
     if(length(specifiedDetailColIndex)==0 && length(specifiedDetailRowIndex)==0){
       # Should never happen
       stop("No sector selected for calculating the allocation of its intersection")
     }
     
     if(length(specifiedDetailColIndex) ==  0){ # If specified column index does not exist for this Table/Vector combination (e.g., industry doesn't exist for Use table)
-      # newAlloc <-data.frame(matrix(ncol =1, nrow =2)) # Create DF for new intersection
-      # # Assign proper allocations to the proper sections of the intersection
-      # newAlloc[1,1] <- sum(allocationVector[specifiedDetailRowIndex,])
-      # newAlloc[2,1] <- sum(allocationVector[-(specifiedDetailRowIndex),])
-      # 
-      # # Rename rows and columns appropriately
-      # colnames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-      # rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-      # allocationVector <- newAlloc
-      
+
       newAlloc <- data.frame(matrix(ncol =1, nrow = 1)) # Create DF for new intersection; as it is missing one index, then we only need to allocate to the other
       # Assign proper allocation to intersection
       newAlloc [1,1] <- sum(allocationVector[-(specifiedDetailRowIndex),]) # Should add up to 1
@@ -282,16 +240,7 @@ intersectionAllocation2 <- function (disaggParams, Table, outputDF, vectorToDisa
       temp <-1
       
     }else if(length(specifiedDetailRowIndex) == 0){ # If specified row index does not exist for this Table/Vector combination (e.g., commodity doesn't exist for Use table)
-      # newAlloc <-data.frame(matrix(ncol =2, nrow =1)) # Create DF for new intersection
-      # # Assign proper allocations to the proper sections of the intersection
-      # newAlloc[1,1] <- sum(allocationVector[,specifiedDetailColIndex])
-      # newAlloc[1,2] <- sum(allocationVector[,-(specifiedDetailColIndex)])
-      # 
-      # # Rename rows and columns appropriately
-      # colnames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-      # rownames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-      # allocationVector <- newAlloc
-      
+
       newAlloc <- data.frame(matrix(ncol =1, nrow = 1)) # Create DF for new intersection; as it is missing one index, then we only need to allocate to the other
       # Assign proper allocation to intersection
       newAlloc[1,1] <- sum(allocationVector[,-(specifiedDetailColIndex)]) # Should add up to 1
@@ -302,7 +251,7 @@ intersectionAllocation2 <- function (disaggParams, Table, outputDF, vectorToDisa
       
       temp <-1
       
-    }else{ # IF both are speciied (as should be the case most of time)
+    }else{ # If both are speciied (as should be the case most of time)
       
       # Create new DF to house modified allocation values.
       # The allocations are split between the specified detail sectors and a new sector containing
@@ -332,41 +281,7 @@ intersectionAllocation2 <- function (disaggParams, Table, outputDF, vectorToDisa
       allocationVector <- newAlloc
     }
     
-    
-    
-    
-    
-    ###########end new Code
-    # Create new DF to house modified allocation values.
-    # The allocations are split between the specified detail sectors and a new sector containing
-    # all other sectors part of the summary level sector except for the specified detail sector
-##    newAlloc <- data.frame(matrix(ncol = 2, nrow = 2))
-##    specifiedDetailRowIndex <- which(rownames(allocationVector) == disaggParams$specifiedDetailLevelSector)
-##    specifiedDetailColIndex <- which(colnames(allocationVector) == disaggParams$specifiedDetailLevelSector)
-    
-    # # Need to add values in the originalVector that correspond various parts of the intersection:
-    # # Assigning of intersection of specifiedDetailLevelSector with itself
-    # newAlloc[1,1] <- allocationVector[specifiedDetailRowIndex,specifiedDetailColIndex]
-    # 
-    # 
-    # # Addition of all rows (except specifiedDetailRowIndex) under  (bottom left section of newAlloc)
-    # summaryRowAndDetailColValue <- colSums(data.frame(allocationVector[-(specifiedDetailRowIndex),specifiedDetailColIndex]))
-    # newAlloc[2,1] <- summaryRowAndDetailColValue
-    # 
-    # # Addition of all columns (except specifiedDetailColIndex) along  (top right section of newAlloc)
-    # summaryColAndDetailRowValue <- colSums(data.frame(allocationVector[specifiedDetailRowIndex, -(specifiedDetailColIndex)]))
-    # newAlloc[1,2] <- summaryColAndDetailRowValue
-    # 
-    # # Addition of all columns and rows excluding specifiedDetailColIndex and specifiedDetailRowIndex (bottom right section of newAlloc)
-    # summaryRowAndSummaryColValue <- sum(sum((data.frame(allocationVector[-(specifiedDetailRowIndex), -(specifiedDetailColIndex)]))))
-    # newAlloc[2,2] <- summaryRowAndSummaryColValue
-    # 
-    # colnames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-    # rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-    # 
-    # allocationVector <- newAlloc
-    # 
-  }
+  } # End of if(!is.null) statement
   
   if(Table == "Use"){
     # Transpose vector to get allocations in correct order when reshaping
@@ -630,9 +545,6 @@ generateEnvironmentalAllocations <- function (disaggParams){
 }
 
 
-
-
-
 #' Generate the economic allocation percentages required to disaggregate the columns of the make and use tables. 
 #' Note that this function is desgined to work with model$V and model$U objects, rather the the intermediary model$MakeTransactions and UseTransactions objects.
 #' @param disaggParams List of disaggregation paramaters
@@ -723,11 +635,8 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
   }else{
     # Calculate allocation percentages for each summary level commodity
     for (sector in summarySectorList){
-      # FOr debugging
-      print(paste("Table:",Table,", Vector:", vectorToDisagg,", Sector:", sector))
-      # end code for debugging
-      
-       # Get summary to detail mapping of the current sector (row) 
+
+      # Get summary to detail mapping of the current sector (row) 
       currentDetailSectors <- subset(disaggParams$detailModel$crosswalk, BEA_Summary %in% sector)
       currentDetailSectors <- as.list(unique(currentDetailSectors$BEA_Detail))
       
@@ -742,7 +651,7 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
         currentDetailVector <- originalTable[detailDisaggIndeces, currentDetailIndeces]
       }
       
-      # Find vector sums. If statement necessary to avoid error in case currentDetailIndeces is of length 1, i.e., summary to detail level mapping is 1:1
+      # Find vector sums. If statements necessary to avoid error in case currentDetailIndeces (i.e., summary to detail level mapping is 1:1) or detailDisaggIndeces are of is of length 1 (i.e., disaggregating a summary level sector into different numbers of commodities and industries at the detail level)
       # Also this if statement is necessary prior to calculating allocDF below to check whether it is necessary to calculate allocation factors or if there are no values in the current vector.
       if(length(currentDetailIndeces) > 1){
         if(vectorToDisagg == "Column"){
@@ -752,16 +661,12 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
            summarySectorVectorSums <- colSums(currentDetailVector)
           }
 
-##          summarySectorVectorSums <- colSums(currentDetailVector) #Currently working line
-
         }else if(vectorToDisagg == "Row"){
           if(length(detailDisaggIndeces) == 1){
             summarySectorVectorSums <- sum(currentDetailVector)
           }else{
             summarySectorVectorSums <- rowSums(currentDetailVector)
           }
-##          summarySectorVectorSums <- rowSums(currentDetailVector) #Currently working line
-
         }
         
       }else{
@@ -783,8 +688,7 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
         if(sector != disaggParams$summaryCode){
           
           outputDF <- nonIntersectionAllocation2(disaggParams, sector, outputDF, vectorToDisagg)
-          #outputDF <- nonIntersectionAllocation(disaggParams, sector, outputDF, vectorToDisagg)
-          
+
         }
         
       }
@@ -807,138 +711,3 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
   return(outputDF)
   
 }
-
-#' 
-#' #' Generate the allocation percentages for intersection portions of the Use and Make tables
-#' #' @param disaggParams List of disaggregation paramaters
-#' #' @param Table String that denotes which table the allocation values refer to. Can be either "Make" or "Use"
-#' #' @param vectorToDisagg String indicating whether a "Column" or "Row" is being disaggregated. These are the only two permitted values for this paramter.
-#' #' @param specifiedDetailLevelSector String that denotes which table the allocation values refer to. Can be either "Make" or "Use"
-#' #' @return Allocation percentages for disaggregating the non-intersection portion of the summary level model into the detail level for the current vectorToDisagg.
-#' intersectionAllocation <- function (disaggParams, Table, outputDF, vectorToDisagg){
-#'   
-#'   originalVector <- disaggParams$originalTable[disaggParams$detailRowIndeces, disaggParams$detailColIndeces]# Get detail intersection
-#'   originalVectorSum <- sum(sum(originalVector))# Get sum of detail intersection
-#'   allocationVector <- originalVector/originalVectorSum # Divide each element in intersection by intersection sum to get allocation value
-#'   
-#'   if(!(is.null(disaggParams$specifiedDetailLevelSector))){# If a particular detail level sector is specified, re-calculate the allocation factors for other sectors
-#'     
-#'     # Create new DF to house modified allocation values.
-#'     # The allocations are split between the specified detail sectors and a new sector containing
-#'     # all other sectors part of the summary level sector except for the specified detail sector
-#'     newAlloc <- data.frame(matrix(ncol = 2, nrow = 2))
-#'     specifiedDetailRowIndex <- which(rownames(allocationVector) == disaggParams$specifiedDetailLevelSector)
-#'     specifiedDetailColIndex <- which(colnames(allocationVector) == disaggParams$specifiedDetailLevelSector)
-#'     
-#'     # Need to add values in the originalVector that correspond various parts of the intersection:
-#'     # Assigning of intersection of specifiedDetailLevelSector with itself
-#'     newAlloc[1,1] <- allocationVector[specifiedDetailRowIndex,specifiedDetailColIndex]
-#'     
-#'     
-#'     # Addition of all rows (except specifiedDetailRowIndex) under  (bottom left section of newAlloc)
-#'     summaryRowAndDetailColValue <- colSums(data.frame(allocationVector[-(specifiedDetailRowIndex),specifiedDetailColIndex]))
-#'     newAlloc[2,1] <- summaryRowAndDetailColValue
-#'     
-#'     # Addition of all columns (except specifiedDetailColIndex) along  (top right section of newAlloc)
-#'     summaryColAndDetailRowValue <- colSums(data.frame(allocationVector[specifiedDetailRowIndex, -(specifiedDetailColIndex)]))
-#'     newAlloc[1,2] <- summaryColAndDetailRowValue
-#'     
-#'     # Addition of all columns and rows excluding specifiedDetailColIndex and specifiedDetailRowIndex (bottom right section of newAlloc)
-#'     summaryRowAndSummaryColValue <- sum(sum((data.frame(allocationVector[-(specifiedDetailRowIndex), -(specifiedDetailColIndex)]))))
-#'     newAlloc[2,2] <- summaryRowAndSummaryColValue
-#'     
-#'     colnames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-#'     rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-#'     
-#'     allocationVector <- newAlloc
-#'     
-#'   }
-#'   
-#'   if(Table == "Use"){
-#'     # Transpose vector to get allocations in correct order when reshaping
-#'     allocationVector <- t(allocationVector)
-#'     allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
-#'     # Need to change order of columns after reshaping to ensure Industry is in column 1.
-#'     allocDF <- allocDF[,c(2,1,3)]
-#'   }else{
-#'     allocDF <- reshape2::melt(allocationVector, id.vars=1)# Reshape from wide to long DF format
-#'   }
-#'   
-#'   colnames(allocDF) <- c("IndustryCode", "CommodityCode", disaggParams$allocName)# Rename DF columns
-#'   noteDF <-  data.frame(Note = I(rep("IntersectionDisagg", nrow(allocDF))))# Add a note for output DF to indicate intersectiond disaggregation
-#'   outputDF <- cbind(allocDF, noteDF)
-#'   
-#'   return(outputDF)
-#'   
-#' }
-#' 
-#' #' Generate the allocation percentages for non-intersection portions of the Use and Make tables
-#' #' @param disaggParams List of disaggregation paramaters
-#' #' @param sector String, name of sector being disaggregated
-#' #' @param outputDF Dataframe containing the allocation factors for the current sector
-#' #' @param vectorToDisagg String indicating whether a "Column" or "Row" is being disaggregated. These are the only two permitted values for this paramter.
-#' #' @return Allocation percentages for disaggregating the non-intersection portion of the summary level model into the detail level for the current vectorToDisagg.
-#' nonIntersectionAllocation <- function (disaggParams, sector, outputDF, vectorToDisagg){
-#'   # Build current section of outputDF with current industry/commodity allocations
-#'   
-#'   # If there are more than 1 detail sectors to the summary sector, need to change dataframe from wide to long format.
-#'   if(length(disaggParams$currentDetailIndeces) > 1){
-#'     allocDF <- disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums)
-#'     
-#'     if(vectorToDisagg == "Column"){
-#'       #allocDF <- disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums)
-#'       allocDF <- data.frame(colSums(allocDF))
-#'     }else if(vectorToDisagg == "Row"){
-#'       #allocDF <- disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums)
-#'       allocDF <- data.frame(rowSums(allocDF))
-#'     }
-#'     
-#'   }else{
-#'     allocDF <- data.frame(Percent = disaggParams$currentDetailVector/sum(disaggParams$summarySectorVectorSums))
-#'   }
-#'   
-#'   # Determine whether we want to create allocation values for all detail level sectors or just one
-#'   
-#'   if(!(is.null(disaggParams$specifiedDetailLevelSector))){# If a particular detail level sector is specified, re-calculate the allocation factors for other sectors
-#'     
-#'     # Create new DF to house modified allocation values.
-#'     # The allocations are split between the specified detail sectors and a new sector containing
-#'     # all other sectors part of the summary level sector except for the specified detail sector
-#'     newAlloc <- data.frame(matrix(ncol = 1, nrow = 2))
-#'     specifiedDetailIndex <- which(rownames(allocDF) == disaggParams$specifiedDetailLevelSector)
-#'     newAlloc[1,1] <- allocDF[specifiedDetailIndex,1]
-#'     newAlloc[2,1] <- colSums(allocDF) - allocDF[specifiedDetailIndex,1]
-#'     
-#'     colnames(newAlloc) <- c("PercentUse")
-#'     # Code for the new, "all other" sector is the same as the summary level sector, but with an "X" appended at the end of the summary code
-#'     rownames(newAlloc) <- c(disaggParams$specifiedDetailLevelSector, paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
-#'     
-#'     allocDF <- newAlloc
-#'     
-#'   }else{
-#'     colnames(allocDF)[1] <- disaggParams$allocName
-#'   }
-#'   
-#'   colnames(allocDF)[1] <- disaggParams$allocName
-#'   
-#'   # detailCodeOutputIndex determines whether the summaryCode goes under the Industry or Commodity column in the output file. 
-#'   if(disaggParams$detailCodeOutputIndex == 1){
-#'     industryDF <- data.frame(IndustryCode =I(paste(disaggParams$summaryCodeCw, disaggParams$summaryLoc_Code, sep = "/")))
-#'     commodityDF <- data.frame(CommodityCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(industryDF))))
-#'     noteDF <- data.frame(Note = I(rep("IndustryDisagg", nrow(industryDF))))
-#'     
-#'   }else{
-#'     commodityDF <- data.frame(CommodityCode =I(paste(disaggParams$summaryCodeCw, disaggParams$summaryLoc_Code, sep="/")))
-#'     industryDF <- data.frame(IndustryCode = I(rep(paste(sector, disaggParams$summaryLoc_Code, sep = "/"), nrow(commodityDF))))
-#'     noteDF <- data.frame(Note = I(rep("CommodityDisagg", nrow(commodityDF))))
-#'   }
-#'   
-#'   currentDF <- cbind(industryDF, commodityDF, allocDF[1], noteDF)
-#'   
-#'   outputDF <- rbind(outputDF, currentDF)
-#'   
-#'   temp <-1
-#'   
-#'   return(outputDF)
-#'   
-#' }
