@@ -2,9 +2,9 @@
 #by "bringing the detail model to summary year" for the specified disagg sector.
 
 ## NEXT STEPS: 
-## Fix allocation mistakes specific to GFE to S00101 (negative numbers in Env file) 
-## Combined disaggrgeations of 22, GFE, and GSLE
+## Combined disaggregations of 22, GFE, and GSLE.
 ## Aggregate the disaggregated 221100, s00101, and s00202 sectors in an otherwise summary level model.
+## Include disaggregated 221100 sectors in the combined disaggregation of 22, GFE, and GSLE.
 
 #' Disaggregate a specific sector in a summary level model to detail level
 #' @param modelname String indicating which model to generate. Must be a detail level model.
@@ -59,9 +59,7 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   makeIntersection <-  generateEconomicAllocations(disaggParams, "Make", "Intersection")
   
   # Get environmental allocations
-  envAllocationsDF <- generateEnvironmentalAllocations2(disaggParams)
-  
-  #testAllocations <- generateEnvironmentalAllocations(disaggParams)
+  envAllocationsDF <- generateEnvironmentalAllocations(disaggParams)
 
   # Create output DFs
   useAllocationsDF <- rbind(fullUseIntersection, fullUseTableColAlloc, fullUseTableRowAlloc)
@@ -313,7 +311,7 @@ intersectionAllocation <- function (disaggParams, Table, outputDF, vectorToDisag
 #' @param summaryCode String containing summary level code to be disaggregated
 #' @param summaryCodeCw List of detail sectors that map to the summary level sector to be disaggregated
 #' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
-generateEnvironmentalAllocations2 <- function (disaggParams){
+generateEnvironmentalAllocations <- function (disaggParams){
   
   temp <-1
   # Initialize dataframe that contains allocation values
@@ -502,49 +500,6 @@ writeAllocationsToCSV <- function(outputDF, disaggParams){
   write.csv(outputDF$sectorsDF, sectorsFileName, row.names = FALSE)
   
 }
-
-#' #' Generate the environmental allocation percentages required to disaggregate environmental to detail level. 
-#' #' @param detailModel Model file loaded with IO tables
-#' #' @param summaryCode String containing summary level code to be disaggregated
-#' #' @param summaryCodeCw List of detail sectors that map to the summary level sector to be disaggregated
-#' #' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
-#' generateEnvironmentalAllocations <- function (disaggParams){
-#'   
-#'   temp <-1
-#'   # Initialize dataframe that contains allocation values
-#'   outputDF <- data.frame(Flowable = character(), Context = character(), FlowUUID = character(), Sector = character(), FlowAmount = double())
-#'   
-#'   TbSRowIndeces <- which(disaggParams$detailModel$TbS$Sector %in% disaggParams$summaryCodeCw) # Row indeces that contain one of detail sector codes in the Sector field.
-#'   TbSColIndeces <- c(1,2,3,5,7) # Column indeces that correspond to the Flowable, Context,	FlowUUID,	Sector, and	FlowAmount columns, needed to create the Env disagg file.
-#' 
-#'   TbSFlows <- disaggParams$detailModel$TbS[TbSRowIndeces, TbSColIndeces] # Subset of TbS with only the rows for the relevant detail sectors.
-#'   uniqueFlows <- unique(TbSFlows[,c('Flowable','Context')]) # Subset of unique flow/context combinations for the relevant detail sectors, needed to be able to sum the correct flows.
-#'   
-#'   for(curFlow in 1:nrow(uniqueFlows)){
-#'     flow <- uniqueFlows[curFlow, ]
-#'     # Get indeces that match flowable, context, and releavant detail sectors in TbS dataframe
-#'     currentTbsIndeces <- which(disaggParams$detailModel$TbS$Flowable %in% flow$Flowable & 
-#'                                  disaggParams$detailModel$TbS$Context %in% flow$Context & 
-#'                                  disaggParams$detailModel$TbS$Sector %in% disaggParams$summaryCodeCw)
-#'     
-#'     # Get current subset from TbS dataframe
-#'     currentTbSFlows <- disaggParams$detailModel$TbS[currentTbsIndeces, TbSColIndeces]
-#'     # Calculate amount ratios for current subset
-#'     currentRatios <- currentTbSFlows$FlowAmount/sum(currentTbSFlows$FlowAmount)
-#'     # Replace amounts with ratios in current subset
-#'     currentTbSFlows$FlowAmount <- currentRatios
-#'     # Bind current subset to output DF
-#'     outputDF <- rbind(outputDF, currentTbSFlows)
-#'     
-#'   }
-#'   
-#'   names(outputDF)[names(outputDF) == 'FlowAmount'] <- 'FlowRatio'
-#'   
-#'   temp <-1
-#'   return(outputDF)
-#'   
-#' }
-
 
 #' Generate the economic allocation percentages required to disaggregate the columns of the make and use tables. 
 #' Note that this function is desgined to work with model$V and model$U objects, rather the the intermediary model$MakeTransactions and UseTransactions objects.
