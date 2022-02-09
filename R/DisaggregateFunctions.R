@@ -156,12 +156,15 @@ disaggregateSetup <- function (model, configpaths = NULL){
 #' @param ratios Specific ratios to be used for the disaggregation of the InternationalTradeAdjusment object in place of using economic totals to derive the ratios.
 #' @return newInternationalTradeAdjustment A vector which contains the InternationalTradeAdjustment for the disaggregated sectors
 disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NULL){
-  
-  originalInternationalTradeAdjustment <- model$InternationalTradeAdjustment
-  originalNameList <- names(model$InternationalTradeAdjustment) # Get names from named vector
+  if (model$specs$CommodityorIndustryType=="Commodity") {
+    originalInternationalTradeAdjustment <- model$InternationalTradeAdjustment
+  } else {
+    originalInternationalTradeAdjustment <- model$InternationalTradeAdjustmentbyCommodity
+  }
+  originalNameList <- names(originalInternationalTradeAdjustment) # Get names from named vector
   codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
   originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
-  originalRow <- model$InternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
+  originalRow <- originalInternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
   disaggInternationalTradeAdjustment <- rep(originalRow,length(disagg$DisaggregatedSectorCodes)) # Replicate the original a number of times equal to the number of disaggregate sectors
  
   if(is.null(ratios)){# Use default ratios, i.e., commodity output ratios
@@ -491,9 +494,17 @@ disaggregateUseTable <- function (model, disagg, domestic = FALSE) {
 disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
 
   if(domestic) {
-    originalFD <-model$DomesticFinalDemand
+    if (model$specs$CommodityorIndustryType=="Commodity") {
+      originalFD <-model$DomesticFinalDemand
+    } else {
+      originalFD <- model$DomesticFinalDemandbyCommodity
+    }
   } else {
-    originalFD <-model$FinalDemand
+    if (model$specs$CommodityorIndustryType=="Industry") {
+      originalFD <-model$FinalDemand
+    } else {
+      originalFD <- model$FinalDemandbyCommodity
+    }
   }
   #specify type of disaggregation
   disaggType = disagg$DisaggregationType
