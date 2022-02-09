@@ -500,7 +500,7 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
       originalFD <- model$DomesticFinalDemandbyCommodity
     }
   } else {
-    if (model$specs$CommodityorIndustryType=="Industry") {
+    if (model$specs$CommodityorIndustryType=="Commodity") {
       originalFD <-model$FinalDemand
     } else {
       originalFD <- model$FinalDemandbyCommodity
