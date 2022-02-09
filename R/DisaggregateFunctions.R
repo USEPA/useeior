@@ -19,6 +19,12 @@ disaggregateModel <- function (model){
     model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
     model$DomesticUseTransactions <- disaggregateUseTable(model, disagg, domestic = TRUE)
     
+    if(model$specs$CommodityorIndustryType=="Industry") {
+      model$FinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+      model$DomesticFinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+      
+    }
+    
     #Balancing model
     if(disagg$DisaggregationType == "Userdefined"){
       model <- balanceDisagg(model, disagg)
