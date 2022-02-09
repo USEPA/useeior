@@ -72,12 +72,33 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   outputDF$makeAllocationsDF <- makeAllocationsDF
   outputDF$envAllocationsDF <- envAllocationsDF
   outputDF$sectorsDF <- sectorsDF
+  outputDF$originalSector <- sectorToDisaggregate # Needed for the case where we want to combine multiple allocations later.
   
   #Write DFs to correct folder
   writeAllocationsToCSV(outputDF, disaggParams)
   return(outputDF)#temporary return statement
   
 }
+
+
+
+#' Combine allocation factors of several Summary-to-Detail disaggregations to produce allocation factors will disaggregate several sectors in only one function call to disaggregateModel()
+#' @param listOfAllocations List that contains various, separate lists of disaggregation percentages for Summary-to-Detail level disaggregations. 
+#' @return Allocation percentages for disaggregating multiple Summary sectors into Detail level sectors simultaneously. 
+combineAllocationPercentages <- function(listOfAllocations){
+  temp <- 1
+  
+  for(disaggPercentages in listOfAllocations){
+    temp <- 2
+     
+  }
+  
+  
+  temp <- 3
+  return(listOfAllocations)
+  
+}
+
 
 #' Generate the allocation percentages for non-intersection portions of the Use and Make tables
 #' @param disaggParams List of disaggregation paramaters
@@ -191,10 +212,6 @@ nonIntersectionAllocation <- function (disaggParams, sector, outputDF, vectorToD
     outputDF <- rbind(outputDF, currentDF)
   }
   
-
-  
-  temp <-1
-  
   return(outputDF)
   
 }
@@ -236,7 +253,6 @@ intersectionAllocation <- function (disaggParams, Table, outputDF, vectorToDisag
       colnames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
       rownames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
       allocationVector <- newAlloc
-      temp <-1
       
     }else if(length(specifiedDetailRowIndex) == 0){ # If specified row index does not exist for this Table/Vector combination (e.g., commodity doesn't exist for Use table)
 
@@ -247,8 +263,6 @@ intersectionAllocation <- function (disaggParams, Table, outputDF, vectorToDisag
       colnames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
       rownames(newAlloc) <- c(paste(paste(disaggParams$summaryCode,"X", sep=""), disaggParams$summaryLoc_Code, sep = "/"))
       allocationVector <- newAlloc
-      
-      temp <-1
       
     }else{ # If both are speciied (as should be the case most of time)
       
@@ -313,7 +327,6 @@ intersectionAllocation <- function (disaggParams, Table, outputDF, vectorToDisag
 #' @return Allocation percentages for disagggregating the summary level model into the detail level model for the specified sector using the disaggregation fuctions.
 generateEnvironmentalAllocations <- function (disaggParams){
   
-  temp <-1
   # Initialize dataframe that contains allocation values
   outputDF <- data.frame(Flowable = character(), Context = character(), FlowUUID = character(), Sector = character(), FlowAmount = double())
   
@@ -356,7 +369,6 @@ generateEnvironmentalAllocations <- function (disaggParams){
       }
       
 
-      ####LEFT OF HERE
     } else{ # If we are disaggregating all detail level sectors mapped to this summary sector
       # Calculate amount ratios for current subset
       currentRatios <- currentTbSFlows$FlowAmount/sum(currentTbSFlows$FlowAmount)
@@ -372,7 +384,6 @@ generateEnvironmentalAllocations <- function (disaggParams){
   outputDF$FlowAmount[is.na(outputDF$FlowAmount)] <- 0 # Remove all NAs, product of division by 0 in some flows.  
   names(outputDF)[names(outputDF) == 'FlowAmount'] <- 'FlowRatio'
   
-  temp <-1
   return(outputDF)
   
 }
@@ -384,8 +395,7 @@ generateEnvironmentalAllocations <- function (disaggParams){
 createSectorsCSV <- function (disaggParams){
  
   # TODO: Check to see if the sectorsCSV file is already present
-  temp <- 1
-  
+
   # Add values in the NAICS columns for the sectors without NAICS marked in disaggParams
   
   noNAICSIndeces <- which(disaggParams$detailModel$crosswalk$BEA_Detail %in% disaggParams$sectorsWithoutNAICS)
@@ -446,10 +456,6 @@ createSectorsCSV <- function (disaggParams){
         
       }
       
-      # else do following
-      ##Code if error
-      
-      temp <- 2
     }# end of for dfRow loop
     
     colnames(descriptionsDF) <- colnames(disaggParams$detailModel$Commodities[commodityIndex, 2:5])
@@ -458,7 +464,6 @@ createSectorsCSV <- function (disaggParams){
     outputDF <- cbind(outputDF, descriptionsDF)
 
 
-  temp <- 1
   return(outputDF)
   
   
@@ -471,7 +476,6 @@ createSectorsCSV <- function (disaggParams){
 #' @description Write allocation dataframes to csv files at the specified directory
 writeAllocationsToCSV <- function(outputDF, disaggParams){
   
-  # todo: make this function more general, i.e., for writing files not related to utilities
   # Path pointing to write directory
   writePath <- "inst/extdata/disaggspecs/"
   
@@ -540,7 +544,7 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
       detailDisaggIndeces <- which(originalRowCodes$Code %in% disaggParams$summaryCodeCw)
       detailOutputNames <- originalRowCodes$Code_Loc[detailDisaggIndeces]
     }else{
-      #for Use intersection
+      # For Use intersection
       detailRowIndeces <- which(originalRowCodes$Code %in% disaggParams$summaryCodeCw)
       detailColIndeces <- which(originalColCodes$Code %in% disaggParams$summaryCodeCw)
       detailOutputNames <- disaggParams$summaryCodeCw
@@ -569,7 +573,7 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
       detailDisaggIndeces <- which(originalRowCodes$Code %in% disaggParams$summaryCodeCw)
       detailOutputNames <- originalRowCodes$Code_Loc[detailDisaggIndeces]
     }else{
-      #for Make intersection
+      # For Make intersection
       detailRowIndeces <- which(originalRowCodes$Code %in% disaggParams$summaryCodeCw)
       detailColIndeces <- which(originalColCodes$Code %in% disaggParams$summaryCodeCw)
       detailOutputNames <- disaggParams$summaryCodeCw
@@ -578,16 +582,14 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
   }
   
   if(vectorToDisagg == "Intersection"){
-    # Disaggregate Intersection
+    # Generate allocation percentates for the intersection disaggregation
     disaggParams$originalTable <- originalTable
     disaggParams$detailRowIndeces <- detailRowIndeces
     disaggParams$detailColIndeces <- detailColIndeces
     disaggParams$allocName <- allocName
     
     outputDF <- intersectionAllocation(disaggParams, Table, outputDF, vectorToDisagg)
-   #outputDF <- intersectionAllocation(disaggParams, Table, outputDF, vectorToDisagg)
-    temp<-1
-    
+
   }else{
     # Calculate allocation percentages for each summary level commodity
     for (sector in summarySectorList){
