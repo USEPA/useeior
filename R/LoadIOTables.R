@@ -213,8 +213,7 @@ loadTwoRegionStateIOtables <- function(specs) {
 loadCommodityandIndustryOutput <- function(model) {
   if (model$specs$IODataSource=="BEA") {
     # Calculate industry and commodity output
-    model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$ValueAdded)
-    model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
+    model <- calculateIndustryCommodityOutput(model)
     # Load multi-year industry output
     model$MultiYearIndustryOutput <- loadNationalGrossOutputTable(model$specs)[model$Industries$Code, ]
     rownames(model$MultiYearIndustryOutput) <- model$Industries$Code_Loc
@@ -248,5 +247,14 @@ loadCommodityandIndustryOutput <- function(model) {
                                                                     FUN = stateior::getTwoRegionCommodityOutput,
                                                                     state = state, iolevel = iolevel)
   }
+  return(model)
+}
+
+#' Calculate industry and commodity output vectors from model components.
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return An EEIO model with industry and commodity output added
+calculateIndustryCommodityOutput <- function(model) {
+  model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+  model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
   return(model)
 }
