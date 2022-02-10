@@ -20,7 +20,7 @@ disaggregateModel <- function (model){
     if(model$specs$CommodityorIndustryType=="Commodity") {
       model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
       model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
-    } eles {
+    } else {
       model$FinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
       model$DomesticFinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
     }
