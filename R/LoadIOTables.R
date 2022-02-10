@@ -70,6 +70,7 @@ loadIOData <- function(model) {
 #' @return A list with USEEIO model economic components' metadata.
 loadIOmeta <- function(model) {
   io_codes <- loadIOcodes(model$specs)
+  model_base_elements <- names(model)
   model$Commodities <- merge(as.data.frame(io_codes$Commodities, stringsAsFactors = FALSE),
                              utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv",
                                                            package = "useeior"),
@@ -86,13 +87,14 @@ loadIOmeta <- function(model) {
                                                          "ExportCodes", "ImportCodes",
                                                          "GovernmentDemandCodes")]),
                                  by = 1, sort = FALSE)
+  model$InternationalTradeAdjustmentMeta <- utils::stack(io_codes["InternationalTradeAdjustmentCodes"])
   model$MarginSectors <- utils::stack(io_codes[c("TransportationCodes",
                                                  "WholesaleCodes", "RetailCodes")])
   model$ValueAddedMeta <- get(paste(model$specs$BaseIOLevel, "ValueAddedCodeName",
                                     model$specs$BaseIOSchema, sep = "_"))
+  model_meta <- names(model)[!names(model) %in% model_base_elements]
   # Format model IO meta and add Code_Loc column
-  for (meta in c("Commodities", "Industries", "FinalDemandMeta",
-                 "MarginSectors", "ValueAddedMeta")) {
+  for (meta in model_meta) {
     # Change column names
     colnames(model[[meta]]) <- c("Code", "Name", "Group")[1:ncol(model[[meta]])]
     # Create a code_loc table
@@ -135,6 +137,7 @@ loadIOcodes <- function(specs) {
                                                         "GovernmentDemand"),
                                                       "Codes")],
                                       use.names = FALSE)
+  io_codes$InternationalTradeAdjustmentCodes <- gsub("F050", "F051", io_codes$ImportCodes)
   return(io_codes)
 }
 
