@@ -1,8 +1,8 @@
 Package: useeior
 Type: Package
 Title: USEEIO R modeling software
-Version: 1.0.0
-Date: 2021-12-29
+Version: 1.0.1
+Date: 2022-1-13
 Authors@R: c(
   person("Mo","Li", email="mo.li@gdit.com", role="aut"),
   person("Wesley","Ingwersen", email="ingwersen.wesley@epa.gov", role= c("aut", "cre")),
