@@ -14,15 +14,15 @@ disaggregateModel <- function (model){
     #Disaggregating main model components
     model$UseTransactions <- disaggregateUseTable(model, disagg)
     model$MakeTransactions <- disaggregateMakeTable(model, disagg)
-    model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
     model$UseValueAdded <- disaggregateVA(model, disagg)
-    model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
     model$DomesticUseTransactions <- disaggregateUseTable(model, disagg, domestic = TRUE)
     
-    if(model$specs$CommodityorIndustryType=="Industry") {
+    if(model$specs$CommodityorIndustryType=="Commodity") {
+      model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+      model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+    } eles {
       model$FinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
       model$DomesticFinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
-      
     }
     
     #Balancing model
@@ -47,7 +47,14 @@ disaggregateModel <- function (model){
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
     model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
-
+    
+    # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
+    if (model$specs$CommodityorIndustryType=="Industry") {
+      # Keep the orignal FinalDemand (in by-commodity form)
+      model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemandbyCommodity, model)
+      model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemandbyCommodity, model)
+      model$InternationalTradeAdjustment <- unlist(transformFinalDemandwithMarketShares(model$InternationalTradeAdjustmentbyCommodity, model))
+    }
   }
   
   return(model)
