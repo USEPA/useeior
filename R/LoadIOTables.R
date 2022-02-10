@@ -6,32 +6,19 @@
 loadIOData <- function(model) {
   # Load model IO meta
   model <- loadIOmeta(model)
-
-  # Load IO tables
+  # Define IO table names
   io_table_names <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                      "FinalDemand", "DomesticFinalDemand", "ValueAdded")
+                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
+                      "InternationalTradeAdjustment")
+  # Load IO data
   if (model$specs$IODataSource=="BEA") {
     io_codes <- loadIOcodes(model$specs)
-    model[io_table_names] <- loadBEAtables(model$specs, io_codes)[io_table_names]
+    model[io_table_names] <- loadNationalIOData(model, io_codes)[io_table_names]
   } else if (model$specs$IODataSource=="stateior") {
     io_tables <- loadTwoRegionStateIOtables(model$specs)
     model[io_table_names] <- io_tables[io_table_names]
     model$Demand <- io_tables$Demand
   }
-  # Assign row and column names in Code_Loc format to all IO tables
-  # Use model$Industries
-  rownames(model$MakeTransactions) <- colnames(model$UseTransactions) <-
-    colnames(model$DomesticUseTransactions) <- colnames(model$ValueAdded) <-
-    model$Industries$Code_Loc
-  # Use model$Commodities
-  colnames(model$MakeTransactions) <- rownames(model$UseTransactions) <-
-    rownames(model$DomesticUseTransactions) <- rownames(model$FinalDemand) <-
-    rownames(model$DomesticFinalDemand) <- model$Commodities$Code_Loc
-  # Use model$FinalDemandMeta
-  colnames(model$FinalDemand) <- colnames(model$DomesticFinalDemand) <-
-    model$FinalDemandMeta$Code_Loc
-  # Use model$ValueAddedMeta
-  rownames(model$ValueAdded) <- model$ValueAddedMeta$Code_Loc
   
   # Add Industry and Commodity Output
   model <- loadCommodityandIndustryOutput(model)
@@ -141,6 +128,30 @@ loadIOcodes <- function(specs) {
   return(io_codes)
 }
 
+#' Prepare economic components of an EEIO form USEEIO model.
+#' @param model A model object with model specs loaded.
+#' @param io_codes A list of BEA IO codes.
+#' @return A list with USEEIO model economic components.
+loadNationalIOData <- function(model, io_codes) {
+  # Load BEA IO and gross output tables
+  BEA <- loadBEAtables(model$specs, io_codes)
+  # Modify row and column names to Code_Loc format in all IO tables
+  # Use model$Industries
+  rownames(BEA$MakeTransactions) <- colnames(BEA$UseTransactions) <-
+    colnames(BEA$DomesticUseTransactions) <- colnames(BEA$UseValueAdded) <-
+    model$Industries$Code_Loc
+  # Use model$Commodities
+  colnames(BEA$MakeTransactions) <- rownames(BEA$UseTransactions) <-
+    rownames(BEA$DomesticUseTransactions) <- rownames(BEA$FinalDemand) <-
+    rownames(BEA$DomesticFinalDemand) <- model$Commodities$Code_Loc
+  # Use model$FinalDemandMeta
+  colnames(BEA$FinalDemand) <- colnames(BEA$DomesticFinalDemand) <-
+    model$FinalDemandMeta$Code_Loc
+  # Use model$ValueAddedMeta
+  rownames(BEA$UseValueAdded) <- model$ValueAddedMeta$Code_Loc
+  return(BEA)
+}
+
 #' Load BEA IO tables in a list based on model config and io_codes.
 #' @param specs Model specifications.
 #' @param io_codes A list of BEA IO codes.
@@ -157,7 +168,7 @@ loadBEAtables <- function(specs, io_codes) {
   BEA$MakeIndustryOutput <- as.data.frame(rowSums(BEA$MakeTransactions))
   BEA$UseTransactions <- BEA$Use[io_codes$Commodities, io_codes$Industries] * 1E6
   BEA$FinalDemand <- BEA$Use[io_codes$Commodities, io_codes$FinalDemandCodes] * 1E6
-  BEA$ValueAdded <- BEA$Use[io_codes$ValueAddedCodes, io_codes$Industries] * 1E6
+  BEA$UseValueAdded <- BEA$Use[io_codes$ValueAddedCodes, io_codes$Industries] * 1E6
   BEA$UseCommodityOutput <- as.data.frame(rowSums(cbind(BEA$UseTransactions, BEA$FinalDemand)))
   # Generate domestic Use transaction and final demand
   DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$FinalDemand), specs)
@@ -169,7 +180,6 @@ loadBEAtables <- function(specs, io_codes) {
     BEA$UseTransactions[is.na(BEA$UseTransactions)] <- 0
     BEA$FinalDemand[is.na(BEA$FinalDemand)] <- 0
   }
-  
   return(BEA)
 }
 
@@ -193,7 +203,7 @@ loadTwoRegionStateIOtables <- function(specs) {
   StateIO$DomesticUseTransactions <- stateior::getTwoRegionDomesticUseTransactions(state, year, iolevel)
   StateIO$FinalDemand <- stateior::getTwoRegionFinalDemand(state, year, iolevel)
   StateIO$DomesticFinalDemand <- stateior::getTwoRegionDomesticFinalDemand(state, year, iolevel)
-  StateIO$ValueAdded <- stateior::getTwoRegionValueAdded(state, year, iolevel)
+  StateIO$UseValueAdded <- stateior::getTwoRegionValueAdded(state, year, iolevel)
   return(StateIO)
 }
 
