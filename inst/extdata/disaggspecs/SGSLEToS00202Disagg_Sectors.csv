@@ -1,0 +1,6 @@
+"NAICS_2012_Code","USEEIO_Code","USEEIO_Name","Category","Subcategory","Description"
+"922120","GSLEX/US","GSLE/US without S00202/US","GSLEX/US","GSLEX/US","GSLE/US after separating S00202/US"
+"922140","GSLEX/US","GSLE/US without S00202/US","GSLEX/US","GSLEX/US","GSLE/US after separating S00202/US"
+"922160","GSLEX/US","GSLE/US without S00202/US","GSLEX/US","GSLEX/US","GSLE/US after separating S00202/US"
+"S00201","GSLEX/US","GSLE/US without S00202/US","GSLEX/US","GSLEX/US","GSLE/US after separating S00202/US"
+"S00202","S00202/US","Unspecified name for code S00202/US","GSLE","unspecified subcategory for code S00202/US","Unspecified description for code S00202/US"

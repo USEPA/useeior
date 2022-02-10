@@ -1,0 +1,212 @@
+"Flowable","Context","FlowUUID","Sector","FlowRatio"
+"1,1-Dichloroethane","emission/air","","GSLEX",1
+"1,1-Dichloroethylene","emission/air","","GSLEX",1
+"1,1,1-Trichloroethane","emission/air","","GSLEX",1
+"1,1,2-Trichloroethane","emission/air","","GSLEX",1
+"1,1,2,2-Tetrachloroethane","emission/air","","GSLEX",1
+"1,2-Dichloroethane","emission/air","","GSLEX",1
+"1,2-Dichloropropane","emission/air","","GSLEX",1
+"1,3-Butadiene","emission/air","","GSLEX",1
+"1,3-Dichloropropene","emission/air","","GSLEX",1
+"2-Chloroacetophenone","emission/air","","GSLEX",1
+"2-Methylnaphthalene","emission/air","","GSLEX",1
+"2,2,4-Trimethylpentane","emission/air","","GSLEX",1
+"2,4-Dinitrophenol","emission/air","","GSLEX",1
+"2,4-Dinitrotoluene","emission/air","","GSLEX",1
+"3-Methylcholanthrene","emission/air","","GSLEX",1
+"7,12-Dimethylbenz[a]anthracene","emission/air","","GSLEX",1
+"Acenaphthene","emission/air","","GSLEX",1
+"Acenaphthylene","emission/air","","GSLEX",1
+"Acetaldehyde","emission/air","","GSLEX",1
+"Acetophenone","emission/air","","GSLEX",1
+"Acrolein","emission/air","","GSLEX",1
+"Acrylonitrile","emission/air","","GSLEX",1
+"Ammonia","emission/air","","GSLEX",1
+"Anthracene","emission/air","","GSLEX",1
+"Antimony","emission/air","","GSLEX",1
+"Arsenic","emission/air","","GSLEX",1
+"Asbestos","emission/air","","GSLEX",1
+"Benz[a]anthracene","emission/air","","GSLEX",1
+"Benzene","emission/air","","GSLEX",1
+"Benzo(b)fluoranthene","emission/air","","GSLEX",1
+"Benzo[a]pyrene","emission/air","","GSLEX",1
+"Benzo[e]pyrene","emission/air","","GSLEX",1
+"Benzo[ghi]perylene","emission/air","","GSLEX",1
+"Benzo[k]fluoranthene","emission/air","","GSLEX",1
+"Benzyl chloride","emission/air","","GSLEX",1
+"Beryllium","emission/air","","GSLEX",1
+"Biphenyl","emission/air","","GSLEX",1
+"Cadmium","emission/air","","GSLEX",1
+"Carbon disulfide","emission/air","","GSLEX",1
+"Carbon monoxide","emission/air","","GSLEX",1
+"Carbon tetrachloride","emission/air","","GSLEX",1
+"Chlorobenzene","emission/air","","GSLEX",1
+"Chloroethane","emission/air","","GSLEX",1
+"Chloroform","emission/air","","GSLEX",1
+"Chloromethane","emission/air","","GSLEX",1
+"Chromic(VI) acid","emission/air","","GSLEX",1
+"Chromium(III)","emission/air","","GSLEX",1
+"Chromium(VI)","emission/air","","GSLEX",1
+"Chrysene","emission/air","","GSLEX",1
+"Cobalt","emission/air","","GSLEX",1
+"Cumene","emission/air","","GSLEX",1
+"Cyanide","emission/air","","GSLEX",1
+"Di(2-ethylhexyl) phthalate","emission/air","","GSLEX",1
+"Dibenz[a,h]anthracene","emission/air","","GSLEX",1
+"Diethylene glycol monoethyl ether","emission/air","","GSLEX",1
+"Dimethyl sulfate","emission/air","","GSLEX",1
+"Ethylbenzene","emission/air","","GSLEX",1
+"Ethylene dibromide","emission/air","","GSLEX",1
+"Ethylene glycol","emission/air","","GSLEX",1
+"Ethylene glycol monopropyl ether","emission/air","","GSLEX",1
+"Fluoranthene","emission/air","","GSLEX",1
+"Fluorene","emission/air","","GSLEX",1
+"Formaldehyde","emission/air","","GSLEX",1
+"Glycol ethers","emission/air","","GSLEX",1
+"Hexane","emission/air","","GSLEX",1
+"Hydrochloric acid","emission/air","","GSLEX",1
+"Hydrofluoric acid","emission/air","","GSLEX",1
+"Indeno[1,2,3-cd]pyrene","emission/air","","GSLEX",1
+"Isophorone","emission/air","","GSLEX",1
+"Lead","emission/air","","GSLEX",1
+"Lead compounds","emission/air","","GSLEX",1
+"m-Xylene","emission/air","","GSLEX",1
+"Manganese","emission/air","","GSLEX",1
+"Mercury","emission/air","","GSLEX",1
+"Methanol","emission/air","","GSLEX",1
+"Methyl bromide","emission/air","","GSLEX",1
+"Methyl hydrazine","emission/air","","GSLEX",1
+"Methyl isobutyl ketone","emission/air","","GSLEX",1
+"Methyl methacrylate","emission/air","","GSLEX",1
+"Methyl tert-butyl ether","emission/air","","GSLEX",1
+"Methylene chloride","emission/air","","GSLEX",1
+"Naphthalene","emission/air","","GSLEX",1
+"Nickel","emission/air","","GSLEX",1
+"Nitrogen dioxide","emission/air","","GSLEX",1
+"o-Xylene","emission/air","","GSLEX",1
+"p-Nitrophenol","emission/air","","GSLEX",1
+"PAH/POM, unspecified","emission/air","","GSLEX",1
+"Particulate matter, = 2.5µm","emission/air","","GSLEX",1
+"Particulate matter, > 2.5µm and = 10µm","emission/air","","GSLEX",1
+"Pentachlorophenol","emission/air","","GSLEX",1
+"Perylene","emission/air","","GSLEX",1
+"Phenanthrene","emission/air","","GSLEX",1
+"Phenol","emission/air","","GSLEX",1
+"Phosphorus","emission/air","","GSLEX",1
+"Polycyclic aromatic hydrocarbons","emission/air","","GSLEX",1
+"Propionaldehyde","emission/air","","GSLEX",1
+"Propylene oxide","emission/air","","GSLEX",1
+"Pyrene","emission/air","","GSLEX",1
+"Selenium","emission/air","","GSLEX",1
+"Styrene","emission/air","","GSLEX",1
+"Sulfur dioxide","emission/air","","GSLEX",1
+"Tetrachloroethylene","emission/air","","GSLEX",1
+"Toluene","emission/air","","GSLEX",1
+"Tribromomethane","emission/air","","GSLEX",1
+"Trichloroethylene","emission/air","","GSLEX",1
+"Triethylamine","emission/air","","GSLEX",1
+"Vinyl acetate","emission/air","","GSLEX",1
+"Vinyl chloride","emission/air","","GSLEX",1
+"Volatile organic compounds","emission/air","","GSLEX",1
+"Xylene","emission/air","","GSLEX",1
+"Lead","emission/ground","","GSLEX",1
+"Lead compounds","emission/ground","","GSLEX",1
+"Arsenic","emission/water","","GSLEX",1
+"Biological Oxygen Demand","emission/water","","GSLEX",1
+"Cadmium","emission/water","","GSLEX",1
+"Chloride","emission/water","","GSLEX",1
+"Chlorine","emission/water","","GSLEX",1
+"Chlorodibromomethane","emission/water","","GSLEX",1
+"Chromium","emission/water","","GSLEX",1
+"Chromium(VI)","emission/water","","GSLEX",1
+"Copper","emission/water","","GSLEX",1
+"Cyanide","emission/water","","GSLEX",1
+"Iron","emission/water","","GSLEX",1
+"Lead","emission/water","","GSLEX",1
+"Mercury","emission/water","","GSLEX",1
+"Nickel","emission/water","","GSLEX",1
+"Nitrogen","emission/water","","GSLEX",1
+"Oxygen","emission/water","","GSLEX",1
+"Phenols","emission/water","","GSLEX",1
+"Phosphorus","emission/water","","GSLEX",1
+"Selenium","emission/water","","GSLEX",1
+"Silver","emission/water","","GSLEX",1
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","","GSLEX",1
+"Total suspended solids","emission/water","","GSLEX",1
+"Zinc","emission/water","","GSLEX",1
+"Hexafluoroethane","emission/air","","S00202",0
+"Hexafluoroethane","emission/air","","GSLEX",0
+"Perfluoropropane","emission/air","","S00202",0
+"Perfluoropropane","emission/air","","GSLEX",0
+"Perfluorocyclobutane","emission/air","","S00202",0
+"Perfluorocyclobutane","emission/air","","GSLEX",0
+"Carbon tetrafluoride","emission/air","","S00202",0
+"Carbon tetrafluoride","emission/air","","GSLEX",0
+"Methane","emission/air","","S00202",1
+"Methane","emission/air","","GSLEX",0
+"Carbon dioxide","emission/air","","S00202",0.823404249061837
+"Carbon dioxide","emission/air","","GSLEX",0.176595750938163
+"HFC-125","emission/air","","S00202",0
+"HFC-125","emission/air","","GSLEX",1
+"HFC-134a","emission/air","","S00202",0
+"HFC-134a","emission/air","","GSLEX",1
+"HFC-143a","emission/air","","S00202",0
+"HFC-143a","emission/air","","GSLEX",1
+"HFC-23","emission/air","","S00202",0
+"HFC-23","emission/air","","GSLEX",0
+"HFC-236fa","emission/air","","S00202",0
+"HFC-236fa","emission/air","","GSLEX",1
+"HFC-32","emission/air","","S00202",0
+"HFC-32","emission/air","","GSLEX",1
+"Nitrous oxide","emission/air","","S00202",1
+"Nitrous oxide","emission/air","","GSLEX",0
+"Nitrogen trifluoride","emission/air","","S00202",0
+"Nitrogen trifluoride","emission/air","","GSLEX",0
+"Sulfur hexafluoride","emission/air","","S00202",0
+"Sulfur hexafluoride","emission/air","","GSLEX",0
+"Land use","resource/ground/human-dominated/commercial/rural","","GSLEX",1
+"Land use","resource/ground/human-dominated/urban","","GSLEX",1
+"Land use","resource/ground/human-dominated/commercial","","GSLEX",1
+"Biomass","resource/biotic","","GSLEX",0
+"Energy, hydro","resource/water","","GSLEX",0
+"Energy, solar","resource/air","","GSLEX",1
+"Energy, wind","resource/air","","GSLEX",0
+"2-PROPENOIC ACID, 2-METHYL-, METHYL ESTER (I,T) (OR) METHYL METHACRYLATE (I,T)","Waste Flows/Hazardous Waste","","GSLEX",1
+"AQUEOUS W/O CYANIDES","Waste Flows/Hazardous Waste","","GSLEX",1
+"ARSENIC","Waste Flows/Hazardous Waste","","GSLEX",1
+"ARSENIC OXIDE AS2O3 (OR) ARSENIC TRIOXIDE","Waste Flows/Hazardous Waste","","GSLEX",1
+"BARIUM","Waste Flows/Hazardous Waste","","GSLEX",1
+"CADMIUM","Waste Flows/Hazardous Waste","","GSLEX",1
+"CARBONIC ACID, DITHALLIUM(1+) SALT (OR) THALLIUM(I) CARBONATE","Waste Flows/Hazardous Waste","","GSLEX",1
+"CHROMIUM","Waste Flows/Hazardous Waste","","GSLEX",1
+"CONT. DEBRIS","Waste Flows/Hazardous Waste","","GSLEX",1
+"CORROSIVE WASTE","Waste Flows/Hazardous Waste","","GSLEX",1
+"ELECTRICAL DEVICES","Waste Flows/Hazardous Waste","","GSLEX",1
+"FORMALDEHYDE","Waste Flows/Hazardous Waste","","GSLEX",1
+"HYDRAZINE (R,T)","Waste Flows/Hazardous Waste","","GSLEX",1
+"IGNITABLE WASTE","Waste Flows/Hazardous Waste","","GSLEX",1
+"LAB PACKS/NO ACUTE","Waste Flows/Hazardous Waste","","GSLEX",1
+"LEAD","Waste Flows/Hazardous Waste","","GSLEX",1
+"MERCURY","Waste Flows/Hazardous Waste","","GSLEX",1
+"METHANOL (I) (OR) METHYL ALCOHOL (I)","Waste Flows/Hazardous Waste","","GSLEX",1
+"NONHALOGEN. SOLVENT","Waste Flows/Hazardous Waste","","GSLEX",1
+"OIL-WATER EMULSION","Waste Flows/Hazardous Waste","","GSLEX",1
+"PAINT THINNER","Waste Flows/Hazardous Waste","","GSLEX",1
+"PAINT, INK, ETC.","Waste Flows/Hazardous Waste","","GSLEX",1
+"PHENOL","Waste Flows/Hazardous Waste","","GSLEX",1
+"REACTIVE WASTE","Waste Flows/Hazardous Waste","","GSLEX",1
+"SILVER","Waste Flows/Hazardous Waste","","GSLEX",1
+"SOLVENT MIXTURE","Waste Flows/Hazardous Waste","","GSLEX",1
+"SULFURIC ACID, DITHALLIUM (1+) SALT (OR) THALLIUM(I) SULFATE","Waste Flows/Hazardous Waste","","GSLEX",1
+"TETRACHLOROETHYLENE","Waste Flows/Hazardous Waste","","GSLEX",1
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: CRESOLS, CRESYLIC ACID, AND NITROBENZENE; AND THE STILL BOTTOMS FROM THE RECOVERY OF THESE SOLVENTS; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, A TOTAL OF TEN PERCENT OR MORE (BY VOLUME) OF ONE O","Waste Flows/Hazardous Waste","","GSLEX",1
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: XYLENE, ACETONE, ETHYL ACETATE, ETHYL BENZENE, ETHYL ETHER, METHYL ISOBUTYL KETONE, N-BUTYL ALCOHOL, CYCLOHEXANONE, AND METHANOL; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, ONLY THE ABOVE SPENT N","Waste Flows/Hazardous Waste","","GSLEX",1
+"VANADIUM OXIDE V2O5 (OR) VANADIUM PENTOXIDE","Waste Flows/Hazardous Waste","","GSLEX",1
+"WASTE PHARMACEUTICAL","Waste Flows/Hazardous Waste","","GSLEX",1
+"Jobs","","","GSLEX",1
+"Compensation of employees","","","S00202",0.133197124314402
+"Compensation of employees","","","GSLEX",0.866802875685598
+"Gross operating surplus","","","S00202",0.329202269910639
+"Gross operating surplus","","","GSLEX",0.670797730089361
+"Taxes on production and imports, less subsidies","","","S00202",0
+"Taxes on production and imports, less subsidies","","","GSLEX",1

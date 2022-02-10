@@ -1,0 +1,11 @@
+Disaggregation:
+  GSLE/US:
+    OriginalSectorCode: "GSLE/US"
+    OriginalSectorName: "State and local government enterprises"
+    DisaggregationType: "Userdefined"
+    IndustryOnly: ["S00201/US","S00202/US"]
+    SectorFile: SGSLEToS00202Disagg_Sectors.csv 
+    MakeFile: SGSLEToS00202Disagg_Make.csv
+    UseFile: SGSLEToS00202Disagg_Use.csv
+    EnvFile: SGSLEToS00202Disagg_Env.csv #Update of GHGs from NGIAM for waste sectors
+
