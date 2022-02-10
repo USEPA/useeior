@@ -8,11 +8,11 @@ loadIOData <- function(model) {
   model <- loadIOmeta(model)
   # Define IO table names
   io_table_names <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
-                      "InternationalTradeAdjustment")
+                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand")
   # Load IO data
   if (model$specs$IODataSource=="BEA") {
     io_codes <- loadIOcodes(model$specs)
+    io_table_names <- c(io_table_names, "InternationalTradeAdjustment")
     model[io_table_names] <- loadNationalIOData(model, io_codes)[io_table_names]
   } else if (model$specs$IODataSource=="stateior") {
     io_tables <- loadTwoRegionStateIOtables(model$specs)
@@ -74,7 +74,9 @@ loadIOmeta <- function(model) {
                                                          "ExportCodes", "ImportCodes",
                                                          "GovernmentDemandCodes")]),
                                  by = 1, sort = FALSE)
-  model$InternationalTradeAdjustmentMeta <- utils::stack(io_codes["InternationalTradeAdjustmentCodes"])
+  if (model$specs$IODataSource=="BEA") {
+    model$InternationalTradeAdjustmentMeta <- utils::stack(io_codes["InternationalTradeAdjustmentCodes"])
+  }
   model$MarginSectors <- utils::stack(io_codes[c("TransportationCodes",
                                                  "WholesaleCodes", "RetailCodes")])
   model$ValueAddedMeta <- get(paste(model$specs$BaseIOLevel, "ValueAddedCodeName",
