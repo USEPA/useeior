@@ -4,6 +4,8 @@
 #' @param model A model object with model specs loaded.
 #' @return A list with USEEIO model economic components.
 loadIOData <- function(model) {
+  # Declare model IO objects
+  logging::loginfo("Initializing IO tables...")
   # Load model IO meta
   model <- loadIOmeta(model)
   # Define IO table names
@@ -190,7 +192,6 @@ loadBEAtables <- function(specs, io_codes) {
 #' @return A list with state IO tables.
 loadTwoRegionStateIOtables <- function(specs) {
   StateIO <- list()
-  logging::loginfo("Initializing two-region state IO tables...")
   # Define state, year and iolevel
   if (!"US-DC"%in%specs$ModelRegionAcronyms) {
     state <- state.name[state.abb==gsub(".*-", "", specs$ModelRegionAcronyms[1])]
