@@ -31,8 +31,16 @@ disaggregateModel <- function (model){
       model <- balanceDisagg(model, disagg)
     }
 
-    #Recalculate model$CommodityOutput and model$IndustryOutput objects 
-    model <- calculateIndustryCommodityOutput(model)
+    #Recalculate model$CommodityOutput and model$IndustryOutput objects. This if else has to be separate from the one above because 
+    #the calculateIndustryCommodityOutput function is used prior to the creation of model$FinalDemandbyCommodity object, 
+    #and we can't recalculate the commodity and industry totals before balancing. 
+    if(model$specs$CommodityorIndustryType=="Commodity") {
+      model <- calculateIndustryCommodityOutput(model)
+      
+    } else{
+      model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+      model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemandbyCommodity)
+    }
     
     #Disaggregating MultiyearIndustryOutput and MultiYearCommodityOutput 
     model$MultiYearCommodityOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
@@ -177,8 +185,10 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
     originalInternationalTradeAdjustment <- model$InternationalTradeAdjustmentbyCommodity
   }
   originalNameList <- names(originalInternationalTradeAdjustment) # Get names from named vector
-  codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
-  originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
+#  codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
+#  originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
+  originalIndex <- which(originalNameList == disagg$OriginalSectorCode) # Get row index of the original aggregate sector in the object
+  
   originalRow <- originalInternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
   disaggInternationalTradeAdjustment <- rep(originalRow,length(disagg$DisaggregatedSectorCodes)) # Replicate the original a number of times equal to the number of disaggregate sectors
  
