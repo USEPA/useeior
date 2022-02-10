@@ -130,7 +130,7 @@ loadNationalIOData <- function(model) {
     model$InternationalTradeAdjustmentbyCommodity <- model$InternationalTradeAdjustment
     model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)
     model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)
-    model$InternationalTradeAdjustment <- unlist(transformFinalDemandwithMarketShares(model$InternationalTradeAdjustment, model))
+    model$InternationalTradeAdjustment <- transformFinalDemandwithMarketShares(model$InternationalTradeAdjustment, model)
   }
   
   # Add Margins table
