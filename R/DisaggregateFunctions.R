@@ -219,7 +219,6 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
 
   }
 
- 
   return(newITA)
 
 }
@@ -230,7 +229,6 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
 #' @return newMargins A dataframe which contain the margins for the disaggregated sectors
 disaggregateMargins <- function(model, disagg) {
   originalMargins <- model$Margins
-#  originalIndex <-  grep(disagg$OriginalSectorCode, model$Margins$Code_Loc)#get row index of the original aggregate sector in the model$Margins object
   originalIndex <- grep(paste0("^",disagg$OriginalSectorCode,"$"), model$Margins$Code_Loc) # The ^ and $ characters are needed so that grep returns the EXACT match for disagg$OriginalSectorCode. Otherwise multiple indeces can be returned for summary level models.
   originalRow <- model$Margins[originalIndex,]#copy row containing the Margins information for the original aggregate sector
   disaggMargins <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]#replicate the original a number of times equal to the number of disaggregate sectors
@@ -334,7 +332,6 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
 
   if(list_type == "Commodity") {
     originalList <- model$Commodities
-#    originalIndex <- grep(disagg$OriginalSectorCode, model$Commodities$Code_Loc)
     originalIndex <- grep(paste0("^",disagg$OriginalSectorCode,"$"), model$Commodities$Code_Loc) # The ^ and $ characters are needed so that grep returns the EXACT match for disagg$OriginalSectorCode. Otherwise multiple indeces can be returned for summary level models.
     newSectors <- data.frame(matrix(ncol = ncol(model$Commodities), nrow = length(disagg$DisaggregatedSectorCodes)))
     names(newSectors) <- names(model$Commodities) #rename columns for the df
@@ -344,7 +341,6 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
   } else {
     #assume industry if not specified
     originalList <- model$Industries
-#    originalIndex <- grep(disagg$OriginalSectorCode, model$Industries$Code_Loc)
     originalIndex <- grep(paste0("^",disagg$OriginalSectorCode,"$"), model$Industries$Code_Loc)
     newSectors <- data.frame(matrix(ncol = ncol(model$Industries), nrow = length(disagg$DisaggregatedSectorCodes)))
     names(newSectors) <- names(model$Industries) #rename columns for the df
@@ -360,8 +356,6 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
   rownames(newSectors) <- 1:nrow(newSectors)
   
   
-  # If we are dealing with an asymetrical disaggregation
-  #NEW CODE
   # If we are dealing with a non-symmetrical disaggregation, remove extra index from tables
   if(!is.null(disagg$IndustryOnly)){
     if(list_type == "Commodity"){
@@ -374,10 +368,6 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
       newSectors <- newSectors[-(extraIndex),]
     }
   }
-  
-  ##END NEW CODE
-  
-  
   
   return(newSectors)
 }
@@ -590,8 +580,6 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
     stop("Disaggregation not performed, type not defined")
   }
 
-  # If we are dealing with an asymetrical disaggregation
-  #NEW CODE
   # If we are dealing with a non-symmetrical disaggregation, remove extra index from tables
   if(!is.null(disagg$IndustryOnly)){
  
@@ -604,10 +592,7 @@ disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
       disaggTable <- disaggTable[,-(extraIndex)]
 
   }
-  
-  ##END NEW CODE
-  
-  
+
   return(disaggTable)
   
 }
@@ -1004,8 +989,6 @@ assembleTable <- function (originalTable, disagg, disaggCols, disaggRows, disagg
   #Appending bottom part of the table to top part of the table
   disaggTable <- rbind(disaggTable, disaggTableBottom)
   
-  
-  #NEW CODE
   # If we are dealing with a non-symmetrical disaggregation, remove extra index from tables
   if(!is.null(disagg$IndustryOnly)){
     if(Table == "Use"){
@@ -1020,13 +1003,11 @@ assembleTable <- function (originalTable, disagg, disaggCols, disaggRows, disagg
       extraIndex <- which(colnames(disaggTable) %in% disagg$IndustryOnly)
       disaggTable <- disaggTable[,-(extraIndex)]
     }else{ # Assume Make if not specified
-      extraIndex <- which(rownames(disaggTable) %in% disagg$IndustryOnly) # As it is an industry only, there should be no rows (commodities) with this code in the Use table
+      extraIndex <- which(rownames(disaggTable) %in% disagg$IndustryOnly) # As it is an commodity only, there should be no rows (industries) with this code in the Make table
       disaggTable <- disaggTable[-(extraIndex),]
     }
   }
-  
-  ##END NEW CODE
-  
+
   return(disaggTable)
   
 }
