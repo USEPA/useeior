@@ -78,8 +78,9 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
 disaggregateSetup <- function (model, configpaths = NULL){
   
   counter = 1
+  detailModel <- NULL
   for (disagg in model$DisaggregationSpecs){  
-    if(!is.null(disagg$SummarytoDetail) & disagg$SummarytoDetail){
+    if(!is.null(disagg$SummarytoDetail)){
       # Summary level disaggregation
       if(!is.null(disagg$TargetSector)){
         specifiedDetailLevelSector <- disagg$TargetSector
@@ -87,7 +88,13 @@ disaggregateSetup <- function (model, configpaths = NULL){
       else {
         specifiedDetailLevelSector <- NULL
       }
-      disagg <- disaggregateSummaryModel("USEEIOv2.0", sectorToDisaggregate = disagg$OriginalSectorCode,
+      
+      # build the detailed model, but only once
+      if(is.null(detailModel)){
+      detailModel <- buildModel("USEEIOv2.0")
+      }
+      disagg <- disaggregateSummaryModel("USEEIOv2.0", detailModel = detailModel,
+                                         sectorToDisaggregate = disagg$OriginalSectorCode,
                                          specifiedDetailLevelSector = specifiedDetailLevelSector, disagg)
     }
     
@@ -117,7 +124,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
     disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
     
     # Load Make table disaggregation file
-    if(!is.null(disagg$MakeFile)){
+    if(!is.null(disagg[["MakeFile"]])){
       filename <- ifelse(is.null(configpaths),
                          system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
                          file.path(dirname(configpaths)[1], disagg$MakeFile))
@@ -128,7 +135,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
     }
     
     # Load Use table disaggregation file
-    if(!is.null(disagg$UseFile)){
+    if(!is.null(disagg[["UseFile"]])){
       filename <- ifelse(is.null(configpaths),
                          system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
                          file.path(dirname(configpaths)[1], disagg$UseFile))
@@ -139,7 +146,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
     }
     
     # Load Environment flows table
-    if(!is.null(disagg$EnvFile)){
+    if(!is.null(disagg[["EnvFile"]])){
       filename <- ifelse(is.null(configpaths),
                          system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
                          file.path(dirname(configpaths)[1], disagg$EnvFile))

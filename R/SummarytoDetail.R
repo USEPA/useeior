@@ -8,11 +8,13 @@
 
 #' Disaggregate a specific sector in a summary level model to detail level
 #' @param modelname String indicating which model to generate. Must be a detail level model.
+#' @param detailModel Completed build of detail model. If NULL, must pass modelname.
 #' @param sectorToDisaggregate String with the summary level code of the sector to be disaggregated from Summary to Detail Level
 #' @param specificiedDetailLevelSector String to denote whether to disaggregate only the specified summary level sector to all related detail level sectors, or only one related detail level sector (if value is TRUE)
 #' @param disagg Specifications for disaggregating the current Table. Pass to append outputs to the disagg object.
 #' @return A list object containing dataframes with the economic allocations for the Use and Make tables; environmental allocations for the TbS object; and the Sector CSV file output required for disaggregation.  
-disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorToDisaggregate = NULL, specifiedDetailLevelSector = NULL,
+disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", detailModel = NULL,
+                                      sectorToDisaggregate = NULL, specifiedDetailLevelSector = NULL,
                                       disagg = NULL){
   # Check for appropriate input in sectorToDisaggregate and make sure format matches BEA_Summary column in model$crosswalk.
   if(is.null(sectorToDisaggregate)){
@@ -32,10 +34,11 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
     }
   }
  
-  # Read in a detail level model
-  # todo: check if this line needs to  be replaced by a "load summary model from repo" line if this script is to be used outside the package, e.g. USEEIO teams. 
-  detailModel <- buildModel(modelname)#build detail model
-
+  if(is.null(detailModel)){
+    # Read in a detail level model
+    # todo: check if this line needs to  be replaced by a "load summary model from repo" line if this script is to be used outside the package, e.g. USEEIO teams. 
+    detailModel <- buildModel(modelname)
+  }
 
   # Get the detail sector codes that correspond to the summary code to be disaggregated
   summaryCodeCw <- subset(detailModel$crosswalk, BEA_Summary %in% summaryCode)
