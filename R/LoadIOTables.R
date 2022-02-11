@@ -188,7 +188,7 @@ loadBEAtables <- function(specs, io_codes) {
   BEA$DomesticUseTransactions <- DomesticUse[, io_codes$Industries]
   BEA$DomesticFinalDemand <- DomesticUse[, io_codes$FinalDemandCodes]
   # Generate Import Cost vector
-  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
+  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$FinalDemand), specs)
   # Replace NA with 0 in IO tables
   if(specs$BaseIOSchema==2007) {
     BEA$MakeTransactions[is.na(BEA$MakeTransactions)] <- 0
