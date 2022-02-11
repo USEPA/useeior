@@ -19,10 +19,6 @@ buildModel <- function(modelname, configpaths = NULL) {
 #' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
 #' @return A list with EEIO matrices.
 constructEEIOMatrices <- function(model) {
-  if(model$specs$ModelRegionAcronyms!="US"){
-    stop("This function needs to be revised before it is suitable for multi-regional models")
-  }
-  
   # Combine data into a single totals by sector df
   model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
   # Set common year for flow when more than one year exists
@@ -43,7 +39,7 @@ constructEEIOMatrices <- function(model) {
   }
   model$U <- as.matrix(dplyr::bind_rows(cbind(model$UseTransactions,
                                               FinalDemand_df),
-                                        model$UseValueAdded)) # Use
+                                        model$ValueAdded)) # Use
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
                                                 DomesticFinalDemand_df),
                                           model$UseValueAdded)) # DomesticUse

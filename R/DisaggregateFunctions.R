@@ -263,7 +263,7 @@ disaggregatedRatios <- function(model, disagg, output_type = "Commodity") {
     disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
     
     #calculate industry ratios after disaggregation from Use table
-    disaggRatios <- colSums(model$UseTransactions[,disaggUseStartIndex:disaggUseEndIndex]) + colSums(model$UseValueAdded[,disaggUseStartIndex:disaggUseEndIndex])
+    disaggRatios <- colSums(model$UseTransactions[,disaggUseStartIndex:disaggUseEndIndex]) + colSums(model$ValueAdded[,disaggUseStartIndex:disaggUseEndIndex])
     disaggRatios <- disaggRatios / sum(disaggRatios)
 
   } else { 
@@ -601,13 +601,11 @@ disaggregateVA <- function(model, disagg) {
     AllocVADF <- applyAllocation(disagg, VAPercentages, "ValueAdded", model$UseValueAdded)#need to edit applyAllocation to handle value added.
 
     ####assembling disaggregated VA
-
     #Determine number of commodities and industries in DisaggSpecs
     numNewSectors <- length(disagg$DisaggregatedSectorCodes)
 
     #Determine commodity and industry indeces corresponding to the original sector code
     originalColIndex <- which(colnames(model$UseValueAdded)==disagg$OriginalSectorCode)
-
     #Determine end index of disaggregated sectors
     endColIndex <- originalColIndex + numNewSectors
 
@@ -615,7 +613,6 @@ disaggregateVA <- function(model, disagg) {
     tablePartTwo <- model$UseValueAdded[,-(1:originalColIndex)]#all rows, all columns except cols to left of disagg col
     
     disaggTable <- cbind(tablePartOne, AllocVADF, tablePartTwo)
-
   } else {
     stop("Disaggregation not performed, type not defined")
   }
@@ -1092,7 +1089,6 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
     rownames(defaultAllocVector) <- newSectorCodes
     
   } else if (vectorToDisagg == "UseCol" || vectorToDisagg == "ValueAdded") {
-
     #Get commodity and/or industry indeces corresponding to the original sector code
     originalVectorIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
@@ -1347,7 +1343,7 @@ balanceDisagg <- function(model, disagg){
   tolerance <- ones*0.05#set all elements to 0.05 (ie 5% for all sectors)
   
   if(any(abs(useIndAllocPercentages - makeIndAllocPercentages) > tolerance) || any(abs(useComAllocPercentages - makeComAllocPercentages > tolerance))){
-    
+
     #Balance. Create FullUse from UseTransanctions, UseValueAdded, and Final Demand, then call ApplyRAS
     
     if(model$specs$CommodityorIndustryType == "Industry"){
@@ -1362,7 +1358,7 @@ balanceDisagg <- function(model, disagg){
     targetIndTotals <- rbind(targetIndTotals, FDIndTotals)
     
     targetComTotals <- data.frame(colSums(model$MakeTransactions))
-    VAComTotals <- data.frame(rowSums(model$UseValueAdded))
+    VAComTotals <- data.frame(rowSums(model$ValueAdded))
     colnames(VAComTotals) <- colnames(targetComTotals) #needed for rbind step
     targetComTotals <- rbind(targetComTotals, VAComTotals)
     
@@ -1403,7 +1399,7 @@ balanceDisagg <- function(model, disagg){
 #' @return dataframe representing a use table that includes the Use transactions, Use value added, and final demand sectors 
 buildDisaggFullUse <- function(model, disagg) {
   
-  disaggFullUse <- rbind(model$UseTransactions, model$UseValueAdded)
+  disaggFullUse <- rbind(model$UseTransactions, model$ValueAdded)
   
   if(model$specs$CommodityorIndustryType == "Industry"){
     originalFD <- model$FinalDemandbyCommodity
@@ -1429,7 +1425,7 @@ buildDisaggFullUse <- function(model, disagg) {
 #' Calculate the domestic use transactions and final demand tables after RAS balancing
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
-#' @param balancedFullUse A fullUse table (including UseTransactions, UseValueAdded, and FinalDemand), created to determine whether RAS balancing is needed
+#' @param balancedFullUse A fullUse table (including UseTransactions, ValueAdded, and FinalDemand), created to determine whether RAS balancing is needed
 #' @return list containing balanced domesticFinalDemand and domesticUseTransactions dataframes. 
 calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse) {
   #Calculate domestic use transactions and domestic final demand based on balancedfullUse

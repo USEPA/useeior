@@ -10,12 +10,9 @@
 #' @return A dataframe contains adjusted Industry output with row names being BEA sector code.
 adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRoUS, model, output_type) {
   # Load Industry Gross Output
-  if (model$specs$ModelRegionAcronyms == "US") {
-    Output <- cbind.data.frame(rownames(model$MultiYearIndustryOutput),
-                               model$MultiYearIndustryOutput[, as.character(outputyear)])
-  } else if (model$specs$ModelRegionAcronyms == c(location_acronym, "RoUS")) {
-    # Fork for state model here
-  }
+  selected_rows <- grepl(location_acronym, rownames(model$MultiYearIndustryOutput))
+  Output <- cbind.data.frame(rownames(model$MultiYearIndustryOutput[selected_rows, ]),
+                             model$MultiYearIndustryOutput[selected_rows, as.character(outputyear)])
   colnames(Output) <- c("SectorCode", "Output")
   # Adjust output based on CPI
   AdjustedOutput <- merge(Output, model[[paste0("MultiYear", output_type, "CPI")]][, as.character(c(referenceyear, outputyear))],
