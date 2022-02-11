@@ -39,7 +39,7 @@ constructEEIOMatrices <- function(model) {
   }
   model$U <- as.matrix(dplyr::bind_rows(cbind(model$UseTransactions,
                                               FinalDemand_df),
-                                        model$ValueAdded)) # Use
+                                        model$UseValueAdded)) # Use
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
                                                 DomesticFinalDemand_df),
                                           model$UseValueAdded)) # DomesticUse

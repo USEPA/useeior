@@ -70,7 +70,7 @@ loadIOmeta <- function(model) {
   io_codes <- loadIOcodes(model$specs)
   model_base_elements <- names(model)
   model$Commodities <- merge(as.data.frame(io_codes$Commodities, stringsAsFactors = FALSE),
-                             utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv",
+                             utils::read.table(system.file("extdata", "USEEIO_Commodity_Meta.csv",
                                                            package = "useeior"),
                                                sep = ",", header = TRUE, stringsAsFactors = FALSE),
                              by.x = "io_codes$Commodities", by.y = "Code",

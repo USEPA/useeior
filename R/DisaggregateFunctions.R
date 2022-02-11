@@ -263,7 +263,7 @@ disaggregatedRatios <- function(model, disagg, output_type = "Commodity") {
     disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
     
     #calculate industry ratios after disaggregation from Use table
-    disaggRatios <- colSums(model$UseTransactions[,disaggUseStartIndex:disaggUseEndIndex]) + colSums(model$ValueAdded[,disaggUseStartIndex:disaggUseEndIndex])
+    disaggRatios <- colSums(model$UseTransactions[,disaggUseStartIndex:disaggUseEndIndex]) + colSums(model$UseValueAdded[,disaggUseStartIndex:disaggUseEndIndex])
     disaggRatios <- disaggRatios / sum(disaggRatios)
 
   } else { 
@@ -1358,7 +1358,7 @@ balanceDisagg <- function(model, disagg){
     targetIndTotals <- rbind(targetIndTotals, FDIndTotals)
     
     targetComTotals <- data.frame(colSums(model$MakeTransactions))
-    VAComTotals <- data.frame(rowSums(model$ValueAdded))
+    VAComTotals <- data.frame(rowSums(model$UseValueAdded))
     colnames(VAComTotals) <- colnames(targetComTotals) #needed for rbind step
     targetComTotals <- rbind(targetComTotals, VAComTotals)
     
@@ -1399,7 +1399,7 @@ balanceDisagg <- function(model, disagg){
 #' @return dataframe representing a use table that includes the Use transactions, Use value added, and final demand sectors 
 buildDisaggFullUse <- function(model, disagg) {
   
-  disaggFullUse <- rbind(model$UseTransactions, model$ValueAdded)
+  disaggFullUse <- rbind(model$UseTransactions, model$UseValueAdded)
   
   if(model$specs$CommodityorIndustryType == "Industry"){
     originalFD <- model$FinalDemandbyCommodity
@@ -1425,7 +1425,7 @@ buildDisaggFullUse <- function(model, disagg) {
 #' Calculate the domestic use transactions and final demand tables after RAS balancing
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
-#' @param balancedFullUse A fullUse table (including UseTransactions, ValueAdded, and FinalDemand), created to determine whether RAS balancing is needed
+#' @param balancedFullUse A fullUse table (including UseTransactions, UseValueAdded, and FinalDemand), created to determine whether RAS balancing is needed
 #' @return list containing balanced domesticFinalDemand and domesticUseTransactions dataframes. 
 calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse) {
   #Calculate domestic use transactions and domestic final demand based on balancedfullUse
