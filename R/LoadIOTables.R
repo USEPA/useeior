@@ -69,12 +69,13 @@ loadIOData <- function(model, configpaths = NULL) {
 loadIOmeta <- function(model) {
   io_codes <- loadIOcodes(model$specs)
   model_base_elements <- names(model)
-  model$Commodities <- merge(as.data.frame(io_codes$Commodities, stringsAsFactors = FALSE),
-                             utils::read.table(system.file("extdata", "USEEIO_Commodity_Meta.csv",
+  model$Commodities <- merge(utils::read.table(system.file("extdata", "USEEIO_Commodity_Meta.csv",
                                                            package = "useeior"),
                                                sep = ",", header = TRUE, stringsAsFactors = FALSE),
-                             by.x = "io_codes$Commodities", by.y = "Code",
-                             all.x = TRUE, sort = FALSE)
+                             as.data.frame(io_codes$Commodities, stringsAsFactors = FALSE,
+                                           responseName = "Code"),
+                             by.x = "Code", by.y = "io_codes$Commodities",
+                             all.y = TRUE, sort = FALSE)
   model$Industries <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName",
                                 model$specs$BaseIOSchema, sep = "_"))
   model$FinalDemandMeta <- merge(get(paste(model$specs$BaseIOLevel, "FinalDemandCodeName",
@@ -96,7 +97,9 @@ loadIOmeta <- function(model) {
   # Format model IO meta and add Code_Loc column
   for (meta in model_meta) {
     # Change column names
-    colnames(model[[meta]]) <- c("Code", "Name", "Group")[1:ncol(model[[meta]])]
+    if (meta != "Commodities") {
+      colnames(model[[meta]]) <- c("Code", "Name", "Group")[1:ncol(model[[meta]])]
+    }
     # Create a code_loc table
     code_loc <- cbind(model[[meta]][["Code"]], rep(model$specs$ModelRegionAcronyms,
                                                    each = length(model[[meta]][["Code"]])))
