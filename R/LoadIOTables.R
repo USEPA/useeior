@@ -32,8 +32,11 @@ loadIOData <- function(model, configpaths = NULL) {
     # Keep the orignal FinalDemand (in by-commodity form)
     model$FinalDemandbyCommodity <- model$FinalDemand
     model$DomesticFinalDemandbyCommodity <- model$DomesticFinalDemand
+    model$InternationalTradeAdjustmentbyCommodity <- model$InternationalTradeAdjustment
     model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)
     model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)
+    model$InternationalTradeAdjustment <- unlist(transformFinalDemandwithMarketShares(model$InternationalTradeAdjustment, model))
+    names(model$InternationalTradeAdjustment) <- model$Industries$Code_Loc
   }
   
   # Add Margins table
@@ -96,7 +99,11 @@ loadIOmeta <- function(model) {
   # Format model IO meta and add Code_Loc column
   for (meta in model_meta) {
     # Change column names
-    colnames(model[[meta]]) <- c("Code", "Name", "Group")[1:ncol(model[[meta]])]
+    if (meta=="Commodities") {
+      colnames(model[[meta]])[1] <- "Code"
+    } else {
+      colnames(model[[meta]]) <- c("Code", "Name", "Group")[1:ncol(model[[meta]])]
+    }
     # Create a code_loc table
     code_loc <- cbind(model[[meta]][["Code"]], rep(model$specs$ModelRegionAcronyms,
                                                    each = length(model[[meta]][["Code"]])))
@@ -156,7 +163,8 @@ loadNationalIOData <- function(model, io_codes) {
   # Use model$Commodities
   colnames(BEA$MakeTransactions) <- rownames(BEA$UseTransactions) <-
     rownames(BEA$DomesticUseTransactions) <- rownames(BEA$FinalDemand) <-
-    rownames(BEA$DomesticFinalDemand) <- model$Commodities$Code_Loc
+    rownames(BEA$DomesticFinalDemand) <- names(BEA$InternationalTradeAdjustment) <-
+    model$Commodities$Code_Loc
   # Use model$FinalDemandMeta
   colnames(BEA$FinalDemand) <- colnames(BEA$DomesticFinalDemand) <-
     model$FinalDemandMeta$Code_Loc
@@ -188,7 +196,7 @@ loadBEAtables <- function(specs, io_codes) {
   BEA$DomesticUseTransactions <- DomesticUse[, io_codes$Industries]
   BEA$DomesticFinalDemand <- DomesticUse[, io_codes$FinalDemandCodes]
   # Generate Import Cost vector
-  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
+  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$FinalDemand), specs)
   # Replace NA with 0 in IO tables
   if(specs$BaseIOSchema==2007) {
     BEA$MakeTransactions[is.na(BEA$MakeTransactions)] <- 0
