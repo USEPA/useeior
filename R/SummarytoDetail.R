@@ -10,8 +10,10 @@
 #' @param modelname String indicating which model to generate. Must be a detail level model.
 #' @param sectorToDisaggregate String with the summary level code of the sector to be disaggregated from Summary to Detail Level
 #' @param specificiedDetailLevelSector String to denote whether to disaggregate only the specified summary level sector to all related detail level sectors, or only one related detail level sector (if value is TRUE)
+#' @param disagg Specifications for disaggregating the current Table. Pass to append outputs to the disagg object.
 #' @return A list object containing dataframes with the economic allocations for the Use and Make tables; environmental allocations for the TbS object; and the Sector CSV file output required for disaggregation.  
-disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorToDisaggregate = NULL, specifiedDetailLevelSector = NULL){
+disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorToDisaggregate = NULL, specifiedDetailLevelSector = NULL,
+                                      disagg = NULL){
   # Check for appropriate input in sectorToDisaggregate and make sure format matches BEA_Summary column in model$crosswalk.
   if(is.null(sectorToDisaggregate)){
     stop("No summary level sector specified for disaggregation to detail level")
@@ -67,16 +69,25 @@ disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", sectorTo
   #sectorsDF <- createSectorsCSV(detailModel, summaryCode, summaryCodeCw)
   sectorsDF <- createSectorsCSV(disaggParams)
   
+  if(!is.null(disagg)){
+    disagg$UseFileDF <- useAllocationsDF
+    disagg$MakeFileDF <- makeAllocationsDF
+    disagg$EnvFileDF <- envAllocationsDF
+    disagg$NAICSSectorCW <- sectorsDF
+    return(disagg)
+  }
+  else {
   outputDF <- list()
-  outputDF$useAllocationsDF <- useAllocationsDF
-  outputDF$makeAllocationsDF <- makeAllocationsDF
-  outputDF$envAllocationsDF <- envAllocationsDF
-  outputDF$sectorsDF <- sectorsDF
+  outputDF$UseFileDF <- useAllocationsDF
+  outputDF$MakeFileDF <- makeAllocationsDF
+  outputDF$EnvFileDF <- envAllocationsDF
+  outputDF$NAICSSectorCW <- sectorsDF
   outputDF$originalSector <- sectorToDisaggregate # Needed for the case where we want to combine multiple allocations later.
   
   #Write DFs to correct folder
   writeAllocationsToCSV(outputDF, disaggParams)
-  return(outputDF)#temporary return statement
+  return(outputDF)
+  }
   
 }
 

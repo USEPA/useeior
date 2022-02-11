@@ -79,14 +79,27 @@ disaggregateSetup <- function (model, configpaths = NULL){
   
   counter = 1
   for (disagg in model$DisaggregationSpecs){  
-    filename <- ifelse(is.null(configpaths),
-                       system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
-                       file.path(dirname(configpaths)[1], disagg$SectorFile))
-    disagg$NAICSSectorCW <- utils::read.table(filename,
-                                              sep = ",", header = TRUE,
-                                              stringsAsFactors = FALSE,
-                                              check.names = FALSE)
+    if(!is.null(disagg$SummarytoDetail) & disagg$SummarytoDetail){
+      # Summary level disaggregation
+      if(!is.null(disagg$TargetSector)){
+        specifiedDetailLevelSector <- disagg$TargetSector
+      }
+      else {
+        specifiedDetailLevelSector <- NULL
+      }
+      disagg <- disaggregateSummaryModel("USEEIOv2.0", sectorToDisaggregate = disagg$OriginalSectorCode,
+                                         specifiedDetailLevelSector = specifiedDetailLevelSector, disagg)
+    }
     
+    else {
+      filename <- ifelse(is.null(configpaths),
+                         system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
+                         file.path(dirname(configpaths)[1], disagg$SectorFile))
+      disagg$NAICSSectorCW <- utils::read.table(filename,
+                                                sep = ",", header = TRUE,
+                                                stringsAsFactors = FALSE,
+                                                check.names = FALSE)
+    }
     newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code,
                                   "SectorName" = disagg$NAICSSectorCW$USEEIO_Name,
                                   "Category" = disagg$NAICSSectorCW$Category,
