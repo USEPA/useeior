@@ -7,7 +7,7 @@
 compareIndustryOutputinMakeandUse(model)
 }
 \arguments{
-\item{model, }{a built model object}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 }
 \description{
 Gets industry output from model Use and Make and checks if they are the same

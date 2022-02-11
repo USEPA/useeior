@@ -1,0 +1,1402 @@
+"Flowable","Context","FlowUUID","Sector","FlowRatio"
+"1-Butanol","emission/air","4d774f37-eb69-3045-80c4-6b3f57c6fddd","22111B",1
+"1-Butanol","emission/ground","518c3bcc-ac29-3302-9159-20a1350e0c86","22111B",1
+"1-Methylnaphthalene","emission/air","194ca21a-3be0-3c2b-b788-e5e24cfc988d","221115",0.000115278548857363
+"1-Methylnaphthalene","emission/air","194ca21a-3be0-3c2b-b788-e5e24cfc988d","22111B",0.992821198743229
+"1-Methylnaphthalene","emission/air","194ca21a-3be0-3c2b-b788-e5e24cfc988d","221113",0.00075637935187089
+"1-Methylnaphthalene","emission/air","194ca21a-3be0-3c2b-b788-e5e24cfc988d","221111",0.0061861738147165
+"1-Methylnaphthalene","emission/air","194ca21a-3be0-3c2b-b788-e5e24cfc988d","22111A",0.000120969541326469
+"1,1-Dichloroethane","emission/air","ad60660d-a560-3357-b658-773a915bfb92","221117",0.935467467146318
+"1,1-Dichloroethane","emission/air","ad60660d-a560-3357-b658-773a915bfb92","22111A",0.0645325328536824
+"1,1-Dichloroethylene","emission/air","af1f4d83-5b7d-3b3f-b9a9-a95e80daf466","221117",0.558701620645749
+"1,1-Dichloroethylene","emission/air","af1f4d83-5b7d-3b3f-b9a9-a95e80daf466","22111A",0.441298379354251
+"1,1-Dichloroethylene","emission/water","7a2c7e46-dbf6-34ff-8b7d-a434506535b2","22111B",0.371619032090075
+"1,1-Dichloroethylene","emission/water","7a2c7e46-dbf6-34ff-8b7d-a434506535b2","22111A",0.628380967909925
+"1,1-Dimethylhydrazine","emission/air","d5124a15-fd4d-3dfa-a02c-a9a32d8c336c","22111B",1
+"1,1,1-Trichloroethane","emission/air","0c56aee4-7e22-3e85-8e83-34829f3e8304","22111C",0.000150454408717952
+"1,1,1-Trichloroethane","emission/air","0c56aee4-7e22-3e85-8e83-34829f3e8304","221117",0.592532197443817
+"1,1,1-Trichloroethane","emission/air","0c56aee4-7e22-3e85-8e83-34829f3e8304","22111B",0.0721847814174067
+"1,1,1-Trichloroethane","emission/air","0c56aee4-7e22-3e85-8e83-34829f3e8304","22111A",0.335132566730059
+"1,1,1-Trichloroethane","emission/water","23bc29c9-5fa5-3269-b560-1d4b7a20842d","22111B",1
+"1,1,2-Trichloroethane","emission/air","2e6af10c-ada7-3e44-9243-3fc7dd9f580d","221117",0.538361256533088
+"1,1,2-Trichloroethane","emission/air","2e6af10c-ada7-3e44-9243-3fc7dd9f580d","22111B",0.00659528307174184
+"1,1,2-Trichloroethane","emission/air","2e6af10c-ada7-3e44-9243-3fc7dd9f580d","22111A",0.45504346039517
+"1,1,2,2-Tetrachloroethane","emission/air","93c46787-fe26-3ebd-84b1-25ae486ef58d","221117",0.923923533077993
+"1,1,2,2-Tetrachloroethane","emission/air","93c46787-fe26-3ebd-84b1-25ae486ef58d","22111B",0.000920307876834599
+"1,1,2,2-Tetrachloroethane","emission/air","93c46787-fe26-3ebd-84b1-25ae486ef58d","221114",0.00172318003829087
+"1,1,2,2-Tetrachloroethane","emission/air","93c46787-fe26-3ebd-84b1-25ae486ef58d","22111A",0.073432979006882
+"1,2-Dibromo-3-chloropropane","emission/air","707d6cd3-d2d2-383e-9852-bf063efcd75c","22111A",1
+"1,2-Dichloroethane","emission/air","c2d517e6-4c5d-3002-8a0d-54434c5a3bae","22111C",0.000870636018896458
+"1,2-Dichloroethane","emission/air","c2d517e6-4c5d-3002-8a0d-54434c5a3bae","22111A",0.919106959453886
+"1,2-Dichloroethane","emission/air","c2d517e6-4c5d-3002-8a0d-54434c5a3bae","22111B",0.0120634109738734
+"1,2-Dichloroethane","emission/air","c2d517e6-4c5d-3002-8a0d-54434c5a3bae","221117",0.0679589935533443
+"1,2-Dichloroethane","emission/water","b7503034-5946-3ef9-8fa9-ec016ce41da9","22111A",0.836035483298359
+"1,2-Dichloroethane","emission/water","b7503034-5946-3ef9-8fa9-ec016ce41da9","22111B",0.163964516701641
+"1,2-Dichloropropane","emission/air","3e75730b-5d6d-3dc1-8911-c7fdfe0e5190","221117",0.508421732494574
+"1,2-Dichloropropane","emission/air","3e75730b-5d6d-3dc1-8911-c7fdfe0e5190","22111A",0.0149779172839489
+"1,2-Dichloropropane","emission/air","3e75730b-5d6d-3dc1-8911-c7fdfe0e5190","22111B",0.476600350221477
+"1,2-Dichloropropane","emission/water","a26535d8-fd0d-3629-99de-7864c5dc78d0","22111B",1
+"1,2,3-Trichloropropane","emission/air","27280e4a-ec1a-339d-990e-bb5a8a225663","22111B",1
+"1,2,4-Trichlorobenzene","emission/air","2b548673-879c-3885-afe9-2439ce6a47f1","22111B",0.149233646611557
+"1,2,4-Trichlorobenzene","emission/air","2b548673-879c-3885-afe9-2439ce6a47f1","22111A",0.850766353388443
+"1,2,4-Trimethylbenzene","emission/air","37ea99ef-1be1-38e3-b5f4-8bbe233b6843","22111C",0.0081070044249219
+"1,2,4-Trimethylbenzene","emission/air","37ea99ef-1be1-38e3-b5f4-8bbe233b6843","22111B",0.950479619757141
+"1,2,4-Trimethylbenzene","emission/air","37ea99ef-1be1-38e3-b5f4-8bbe233b6843","22111A",0.0414133758179374
+"1,2,4-Trimethylbenzene","emission/ground","c128dfdb-e9be-3ea3-b64e-a27ba8d81d23","22111C",1
+"1,2,4-Trimethylbenzene","emission/water","a451a5f6-30e6-37d5-ac4b-ab75b81e79e3","22111C",1
+"1,3-Butadiene","emission/air","457411b2-4dac-3eb2-965d-97b60660afa2","221117",0.00175113347673302
+"1,3-Butadiene","emission/air","457411b2-4dac-3eb2-965d-97b60660afa2","22111C",0.0261298053200315
+"1,3-Butadiene","emission/air","457411b2-4dac-3eb2-965d-97b60660afa2","221113",0.000172448862485466
+"1,3-Butadiene","emission/air","457411b2-4dac-3eb2-965d-97b60660afa2","22111A",0.000633254372669175
+"1,3-Butadiene","emission/air","457411b2-4dac-3eb2-965d-97b60660afa2","221111",0.0024878226721986
+"1,3-Butadiene","emission/air","457411b2-4dac-3eb2-965d-97b60660afa2","221115",2.26477887131931e-05
+"1,3-Butadiene","emission/air","457411b2-4dac-3eb2-965d-97b60660afa2","221114",0.000109459105598797
+"1,3-Butadiene","emission/air","457411b2-4dac-3eb2-965d-97b60660afa2","22111B",0.96869342840157
+"1,3-Dichloropropene","emission/air","1cb3814f-067b-3f04-af78-4f6ad4c132b7","22111A",0.987309891137247
+"1,3-Dichloropropene","emission/air","1cb3814f-067b-3f04-af78-4f6ad4c132b7","22111B",2.27708814818935e-05
+"1,3-Dichloropropene","emission/air","1cb3814f-067b-3f04-af78-4f6ad4c132b7","221117",0.0126673379812714
+"1,4-Dioxane","emission/air","f5fa456c-34ed-39a3-868a-377e30ed76c6","22111B",1
+"1,4-Dioxane","emission/water","b51f43e4-5a5f-3eb7-921f-6d3746d33fb6","22111B",1
+"2-Chloroacetophenone","emission/air","0bf913b1-486a-3ce1-991b-d1e8687b67e0","221117",0.000518004597287465
+"2-Chloroacetophenone","emission/air","0bf913b1-486a-3ce1-991b-d1e8687b67e0","22111C",0.000908534233930755
+"2-Chloroacetophenone","emission/air","0bf913b1-486a-3ce1-991b-d1e8687b67e0","22111A",0.987973812516503
+"2-Chloroacetophenone","emission/air","0bf913b1-486a-3ce1-991b-d1e8687b67e0","22111B",0.0105996486522791
+"2-Chloronaphthalene","emission/air","3471d156-1b5e-34c1-b47f-73403c7eeda9","221117",1
+"2-Methylnaphthalene","emission/air","5f3bb2ec-d153-3cb5-9bc1-3eef8f44bf67","22111A",0.000247998231520614
+"2-Methylnaphthalene","emission/air","5f3bb2ec-d153-3cb5-9bc1-3eef8f44bf67","221111",0.00169975231221045
+"2-Methylnaphthalene","emission/air","5f3bb2ec-d153-3cb5-9bc1-3eef8f44bf67","221117",0.00047886245568645
+"2-Methylnaphthalene","emission/air","5f3bb2ec-d153-3cb5-9bc1-3eef8f44bf67","221118",7.93072895616319e-07
+"2-Methylnaphthalene","emission/air","5f3bb2ec-d153-3cb5-9bc1-3eef8f44bf67","22111B",0.997272213638939
+"2-Methylnaphthalene","emission/air","5f3bb2ec-d153-3cb5-9bc1-3eef8f44bf67","221115",3.16745091711959e-05
+"2-Methylnaphthalene","emission/air","5f3bb2ec-d153-3cb5-9bc1-3eef8f44bf67","221113",0.000209615497683787
+"2-Methylnaphthalene","emission/air","5f3bb2ec-d153-3cb5-9bc1-3eef8f44bf67","22111C",5.90902818928872e-05
+"2-Propen-1-ol","emission/air","cf98105a-0886-3a36-a4c4-3a951da54e52","22111B",1
+"2,2,4-Trimethylpentane","emission/air","3b981d82-2f3d-3ac0-89b5-5e38b91ef0f3","221111",0.000147044407999974
+"2,2,4-Trimethylpentane","emission/air","3b981d82-2f3d-3ac0-89b5-5e38b91ef0f3","221117",0.00925369010103868
+"2,2,4-Trimethylpentane","emission/air","3b981d82-2f3d-3ac0-89b5-5e38b91ef0f3","221115",2.79888126729985e-06
+"2,2,4-Trimethylpentane","emission/air","3b981d82-2f3d-3ac0-89b5-5e38b91ef0f3","22111B",0.987215753452018
+"2,2,4-Trimethylpentane","emission/air","3b981d82-2f3d-3ac0-89b5-5e38b91ef0f3","221113",1.25664648768852e-05
+"2,2,4-Trimethylpentane","emission/air","3b981d82-2f3d-3ac0-89b5-5e38b91ef0f3","22111C",3.7992360640999e-06
+"2,2,4-Trimethylpentane","emission/air","3b981d82-2f3d-3ac0-89b5-5e38b91ef0f3","22111A",0.00336434745673499
+"2,3,7,8-Tetrachlorodibenzo-p-dioxin","emission/water","c7e05642-0ebb-3835-8654-21192725df17","22111B",1
+"2,4-Dimethylphenol","emission/water","c979ddf8-5576-36eb-bc76-040e01f99cc6","22111C",1
+"2,4-Dinitrophenol","emission/air","aa1aac60-dfbe-32b9-9203-81a6c58a340b","22111B",0.000228425499217095
+"2,4-Dinitrophenol","emission/air","aa1aac60-dfbe-32b9-9203-81a6c58a340b","22111A",0.990449945512575
+"2,4-Dinitrophenol","emission/air","aa1aac60-dfbe-32b9-9203-81a6c58a340b","221117",0.00932162898820832
+"2,4-Dinitrotoluene","emission/air","7fdbc046-29ad-3377-a9c1-a45031e0cd53","22111B",0.00083448448601287
+"2,4-Dinitrotoluene","emission/air","7fdbc046-29ad-3377-a9c1-a45031e0cd53","22111C",7.14221956201063e-05
+"2,4-Dinitrotoluene","emission/air","7fdbc046-29ad-3377-a9c1-a45031e0cd53","22111A",0.999053371668019
+"2,4-Dinitrotoluene","emission/air","7fdbc046-29ad-3377-a9c1-a45031e0cd53","221117",4.07216503482822e-05
+"2,4-Toluenediamine","emission/air","e6301ab3-57fe-3b52-b315-9870d45055ab","22111A",1
+"2,4,5-Trichlorophenol","emission/air","dfe2fcba-feff-3e93-be27-4f46cca1e887","22111A",1
+"2,4,6-Trichlorophenol","emission/air","b6e5d387-9d6a-304d-9438-db81eb4da4f3","22111A",0.999353298995389
+"2,4,6-Trichlorophenol","emission/air","b6e5d387-9d6a-304d-9438-db81eb4da4f3","221117",0.000646701004610851
+"3-Methylcholanthrene","emission/air","9a75a979-3c99-3b02-9944-baa838fe12ac","22111B",0.949369316085375
+"3-Methylcholanthrene","emission/air","9a75a979-3c99-3b02-9944-baa838fe12ac","22111C",0.0110204691386622
+"3-Methylcholanthrene","emission/air","9a75a979-3c99-3b02-9944-baa838fe12ac","221117",0.00743571459955626
+"3-Methylcholanthrene","emission/air","9a75a979-3c99-3b02-9944-baa838fe12ac","22111A",0.0321745001764061
+"3,3'-Dichlorobenzidine","emission/air","62f3e781-d884-3080-9344-dded2766ff3b","22111A",1
+"5-Methylchrysene","emission/air","647cac25-44c0-35e5-88c8-8935f2660071","22111C",0.00514804577373705
+"5-Methylchrysene","emission/air","647cac25-44c0-35e5-88c8-8935f2660071","22111B",0.0567463622774219
+"5-Methylchrysene","emission/air","647cac25-44c0-35e5-88c8-8935f2660071","221117",0.00293411122882763
+"5-Methylchrysene","emission/air","647cac25-44c0-35e5-88c8-8935f2660071","22111A",0.935171480720014
+"7,12-Dimethylbenz[a]anthracene","emission/air","675d27f1-91b6-3a26-b747-2d8f5fdfa02f","221117",0.007592105285651
+"7,12-Dimethylbenz[a]anthracene","emission/air","675d27f1-91b6-3a26-b747-2d8f5fdfa02f","22111C",0.0112360084903415
+"7,12-Dimethylbenz[a]anthracene","emission/air","675d27f1-91b6-3a26-b747-2d8f5fdfa02f","22111B",0.950062654380403
+"7,12-Dimethylbenz[a]anthracene","emission/air","675d27f1-91b6-3a26-b747-2d8f5fdfa02f","22111A",0.0311092318436045
+"Acenaphthene","emission/air","43aed9d7-5a9b-3f3e-8d51-cc8bebd9a9a1","221111",0.00103210278034278
+"Acenaphthene","emission/air","43aed9d7-5a9b-3f3e-8d51-cc8bebd9a9a1","22111A",0.931975690787486
+"Acenaphthene","emission/air","43aed9d7-5a9b-3f3e-8d51-cc8bebd9a9a1","22111B",0.0603709912955792
+"Acenaphthene","emission/air","43aed9d7-5a9b-3f3e-8d51-cc8bebd9a9a1","221113",0.000443132295417993
+"Acenaphthene","emission/air","43aed9d7-5a9b-3f3e-8d51-cc8bebd9a9a1","221117",0.00522973958839827
+"Acenaphthene","emission/air","43aed9d7-5a9b-3f3e-8d51-cc8bebd9a9a1","221115",2.00754081987387e-05
+"Acenaphthene","emission/air","43aed9d7-5a9b-3f3e-8d51-cc8bebd9a9a1","22111C",0.000928267844577072
+"Acenaphthylene","emission/air","34b07e52-3833-3665-aeec-01aed3f78362","221115",0.00010586095629879
+"Acenaphthylene","emission/air","34b07e52-3833-3665-aeec-01aed3f78362","22111A",0.0353854633689959
+"Acenaphthylene","emission/air","34b07e52-3833-3665-aeec-01aed3f78362","22111C",0.00320201024976265
+"Acenaphthylene","emission/air","34b07e52-3833-3665-aeec-01aed3f78362","221113",0.000914187602100847
+"Acenaphthylene","emission/air","34b07e52-3833-3665-aeec-01aed3f78362","221111",0.00540387781910776
+"Acenaphthylene","emission/air","34b07e52-3833-3665-aeec-01aed3f78362","22111B",0.928966099417335
+"Acenaphthylene","emission/air","34b07e52-3833-3665-aeec-01aed3f78362","221117",0.0260225005863992
+"Acetaldehyde","emission/air","09dc3fe9-7e57-321f-9e04-34375bf2a0b7","22111A",0.456974193631936
+"Acetaldehyde","emission/air","09dc3fe9-7e57-321f-9e04-34375bf2a0b7","22111B",0.51196762647943
+"Acetaldehyde","emission/air","09dc3fe9-7e57-321f-9e04-34375bf2a0b7","221115",2.01440922502255e-06
+"Acetaldehyde","emission/air","09dc3fe9-7e57-321f-9e04-34375bf2a0b7","22111C",0.000814431663923094
+"Acetaldehyde","emission/air","09dc3fe9-7e57-321f-9e04-34375bf2a0b7","221111",0.00603881486640621
+"Acetaldehyde","emission/air","09dc3fe9-7e57-321f-9e04-34375bf2a0b7","221113",0.000109924868691153
+"Acetaldehyde","emission/air","09dc3fe9-7e57-321f-9e04-34375bf2a0b7","221114",1.61812022539558e-06
+"Acetaldehyde","emission/air","09dc3fe9-7e57-321f-9e04-34375bf2a0b7","221117",0.0240913759601631
+"Acetaldehyde","emission/water","3f8a34ba-763d-3596-84fc-736361389987","22111B",1
+"Acetonitrile","emission/air","c8105d36-b64a-3b20-92bb-0208703c96a4","22111B",0.731975544983626
+"Acetonitrile","emission/air","c8105d36-b64a-3b20-92bb-0208703c96a4","22111A",0.268024455016374
+"Acetophenone","emission/air","8384736f-93e4-3edc-af93-47bdc7ef9fc7","22111C",0.000819686386452492
+"Acetophenone","emission/air","8384736f-93e4-3edc-af93-47bdc7ef9fc7","221117",0.000237260864558527
+"Acetophenone","emission/air","8384736f-93e4-3edc-af93-47bdc7ef9fc7","22111A",0.989391094787821
+"Acetophenone","emission/air","8384736f-93e4-3edc-af93-47bdc7ef9fc7","22111B",0.00955195796116829
+"Acrolein","emission/air","ba9cee15-a144-3c38-9a3b-36931d4e64e9","221114",0.000225955799179046
+"Acrolein","emission/air","ba9cee15-a144-3c38-9a3b-36931d4e64e9","221113",5.77881584917171e-05
+"Acrolein","emission/air","ba9cee15-a144-3c38-9a3b-36931d4e64e9","221115",2.7993383717905e-06
+"Acrolein","emission/air","ba9cee15-a144-3c38-9a3b-36931d4e64e9","22111A",0.622525459743515
+"Acrolein","emission/air","ba9cee15-a144-3c38-9a3b-36931d4e64e9","22111C",0.000726472444034936
+"Acrolein","emission/air","ba9cee15-a144-3c38-9a3b-36931d4e64e9","221117",0.173740017638277
+"Acrolein","emission/air","ba9cee15-a144-3c38-9a3b-36931d4e64e9","22111B",0.200079132672023
+"Acrolein","emission/air","ba9cee15-a144-3c38-9a3b-36931d4e64e9","221111",0.00264237420610812
+"Acrylonitrile","emission/air","f5bb2d1e-1a7a-3587-8922-d711ec7e6ea4","221117",0.562981639080389
+"Acrylonitrile","emission/air","f5bb2d1e-1a7a-3587-8922-d711ec7e6ea4","22111A",0.412910618848305
+"Acrylonitrile","emission/air","f5bb2d1e-1a7a-3587-8922-d711ec7e6ea4","221114",0.000845910013269314
+"Acrylonitrile","emission/air","f5bb2d1e-1a7a-3587-8922-d711ec7e6ea4","22111B",0.0232618320580375
+"Adsorbable organic halides","emission/water","22db4f89-a507-39e6-9ef5-8e2e673bdcf9","22111B",1
+"Allyl chloride","emission/air","932a90ce-237d-3fcf-a438-713df66eee60","22111A",1
+"Aluminum","emission/air","314e4cef-5385-3262-bdb6-a756c7817579","221118",1
+"Aluminum","emission/water","2b8613fe-c7db-355d-9754-baebbc92512f","221113",0.00192278589951786
+"Aluminum","emission/water","2b8613fe-c7db-355d-9754-baebbc92512f","22111B",0.321536301368837
+"Aluminum","emission/water","2b8613fe-c7db-355d-9754-baebbc92512f","221117",8.00254972067848e-05
+"Aluminum","emission/water","2b8613fe-c7db-355d-9754-baebbc92512f","22111A",0.676368600757434
+"Aluminum","emission/water","2b8613fe-c7db-355d-9754-baebbc92512f","221114",9.22864770047949e-05
+"Ammonia","emission/air","65b5d5dd-95b5-36b2-8cb0-7c5501ff1e32","221117",0.0216450080586036
+"Ammonia","emission/air","65b5d5dd-95b5-36b2-8cb0-7c5501ff1e32","221111",0.00218916802970491
+"Ammonia","emission/air","65b5d5dd-95b5-36b2-8cb0-7c5501ff1e32","221114",6.92998090110315e-05
+"Ammonia","emission/air","65b5d5dd-95b5-36b2-8cb0-7c5501ff1e32","221118",0.00432602675194767
+"Ammonia","emission/air","65b5d5dd-95b5-36b2-8cb0-7c5501ff1e32","221116",0.000626930269165883
+"Ammonia","emission/air","65b5d5dd-95b5-36b2-8cb0-7c5501ff1e32","221113",4.85993493918965e-05
+"Ammonia","emission/air","65b5d5dd-95b5-36b2-8cb0-7c5501ff1e32","22111B",0.639901504353218
+"Ammonia","emission/air","65b5d5dd-95b5-36b2-8cb0-7c5501ff1e32","22111C",0.00874653620993577
+"Ammonia","emission/air","65b5d5dd-95b5-36b2-8cb0-7c5501ff1e32","22111A",0.322446927169021
+"Ammonia","emission/ground","1633cea3-311a-3667-a428-419522a8065d","22111A",1
+"Ammonia","emission/water","2d117fdd-370d-331c-b07c-b0172c4a10ef","22111B",0.378808666734971
+"Ammonia","emission/water","2d117fdd-370d-331c-b07c-b0172c4a10ef","22111A",0.621191333265029
+"Aniline","emission/air","8cd61983-018e-388a-88f1-dd026900572a","22111A",1
+"Anthracene","emission/air","5aaca76f-ed8b-3dc6-9cb3-597421c567ac","221115",0.000179796201941902
+"Anthracene","emission/air","5aaca76f-ed8b-3dc6-9cb3-597421c567ac","221111",0.00917440756116525
+"Anthracene","emission/air","5aaca76f-ed8b-3dc6-9cb3-597421c567ac","221117",0.128689095766606
+"Anthracene","emission/air","5aaca76f-ed8b-3dc6-9cb3-597421c567ac","22111B",0.583441711507085
+"Anthracene","emission/air","5aaca76f-ed8b-3dc6-9cb3-597421c567ac","22111C",0.00472149526114054
+"Anthracene","emission/air","5aaca76f-ed8b-3dc6-9cb3-597421c567ac","22111A",0.272455506344934
+"Anthracene","emission/air","5aaca76f-ed8b-3dc6-9cb3-597421c567ac","221113",0.00133798735712737
+"Anthracene","emission/ground","a6317c2a-8158-37db-bb2c-5ae4b1219d44","22111B",0.218758261496915
+"Anthracene","emission/ground","a6317c2a-8158-37db-bb2c-5ae4b1219d44","22111A",0.781241738503085
+"Anthracene","emission/water","627ef3a5-9a70-3fb9-8bb7-2792eddec502","22111C",1
+"Antimony","emission/air","9de688f4-2302-3557-b50c-0f1d304977f4","22111B",0.112364098916093
+"Antimony","emission/air","9de688f4-2302-3557-b50c-0f1d304977f4","22111A",0.855584722263303
+"Antimony","emission/air","9de688f4-2302-3557-b50c-0f1d304977f4","221118",0.000788995687482714
+"Antimony","emission/air","9de688f4-2302-3557-b50c-0f1d304977f4","221117",0.00646559029791879
+"Antimony","emission/air","9de688f4-2302-3557-b50c-0f1d304977f4","22111C",0.024796592835202
+"Antimony","emission/water","dde20124-511b-3e0d-8834-5ddd88e15cba","22111A",0.654863161143728
+"Antimony","emission/water","dde20124-511b-3e0d-8834-5ddd88e15cba","221117",2.78220610360529e-06
+"Antimony","emission/water","dde20124-511b-3e0d-8834-5ddd88e15cba","22111B",0.345134056650169
+"Arsenic","emission/air","2b16d0b5-4713-3bb8-be5b-905382f0e8a8","22111A",0.954090519128314
+"Arsenic","emission/air","2b16d0b5-4713-3bb8-be5b-905382f0e8a8","22111C",0.0015984269044183
+"Arsenic","emission/air","2b16d0b5-4713-3bb8-be5b-905382f0e8a8","221113",5.47170310488225e-05
+"Arsenic","emission/air","2b16d0b5-4713-3bb8-be5b-905382f0e8a8","221117",0.00603485088442668
+"Arsenic","emission/air","2b16d0b5-4713-3bb8-be5b-905382f0e8a8","22111B",0.0381579590020763
+"Arsenic","emission/air","2b16d0b5-4713-3bb8-be5b-905382f0e8a8","221114",2.25676293242321e-07
+"Arsenic","emission/air","2b16d0b5-4713-3bb8-be5b-905382f0e8a8","221111",4.05022910941964e-06
+"Arsenic","emission/air","2b16d0b5-4713-3bb8-be5b-905382f0e8a8","221116",2.83169449465316e-05
+"Arsenic","emission/air","2b16d0b5-4713-3bb8-be5b-905382f0e8a8","221118",3.09341993662479e-05
+"Arsenic","emission/water","e3955c32-e6a0-3b4b-baad-5055042a8dbb","22111B",0.0831674336493258
+"Arsenic","emission/water","e3955c32-e6a0-3b4b-baad-5055042a8dbb","22111A",0.866741824289946
+"Arsenic","emission/water","e3955c32-e6a0-3b4b-baad-5055042a8dbb","221114",3.73091880271416e-05
+"Arsenic","emission/water","e3955c32-e6a0-3b4b-baad-5055042a8dbb","221113",0.0499466149481554
+"Arsenic","emission/water","e3955c32-e6a0-3b4b-baad-5055042a8dbb","221117",9.85094245064488e-05
+"Arsenic","emission/water","e3955c32-e6a0-3b4b-baad-5055042a8dbb","22111C",8.30850003943382e-06
+"Asbestos","emission/air","5c8e293a-4009-30d8-a003-43add9e779f7","22111B",1
+"Atrazine","emission/water","fb555654-c1ae-3a4c-be73-4e52bd420d80","22111A",1
+"Barium","emission/air","2c5aef1c-7cf7-30ee-8a87-ba4682327767","22111A",1
+"Barium","emission/water","a1e9b66c-ac46-35e8-bba3-318f6556a90f","22111A",0.999864097561703
+"Barium","emission/water","a1e9b66c-ac46-35e8-bba3-318f6556a90f","221111",1.51258991277922e-06
+"Barium","emission/water","a1e9b66c-ac46-35e8-bba3-318f6556a90f","22111B",9.32186231017471e-05
+"Barium","emission/water","a1e9b66c-ac46-35e8-bba3-318f6556a90f","221117",4.11712252825909e-05
+"Benz[a]anthracene","emission/air","248c35a7-7964-3f7b-aff8-9f29e983835e","221117",0.000257796028750304
+"Benz[a]anthracene","emission/air","248c35a7-7964-3f7b-aff8-9f29e983835e","221115",1.67668842040255e-06
+"Benz[a]anthracene","emission/air","248c35a7-7964-3f7b-aff8-9f29e983835e","221113",6.79642704282971e-05
+"Benz[a]anthracene","emission/air","248c35a7-7964-3f7b-aff8-9f29e983835e","22111B",0.730722088674422
+"Benz[a]anthracene","emission/air","248c35a7-7964-3f7b-aff8-9f29e983835e","22111A",0.237339502999872
+"Benz[a]anthracene","emission/air","248c35a7-7964-3f7b-aff8-9f29e983835e","221111",0.000161319927865615
+"Benz[a]anthracene","emission/air","248c35a7-7964-3f7b-aff8-9f29e983835e","221114",3.84078891624747e-09
+"Benz[a]anthracene","emission/air","248c35a7-7964-3f7b-aff8-9f29e983835e","22111C",0.0314496475694529
+"Benzene","emission/air","565c5d1a-1e0e-35f3-82a0-4845c43d3dcf","221113",0.000549911165433393
+"Benzene","emission/air","565c5d1a-1e0e-35f3-82a0-4845c43d3dcf","22111C",0.00458978907698605
+"Benzene","emission/air","565c5d1a-1e0e-35f3-82a0-4845c43d3dcf","221117",0.0744026968735642
+"Benzene","emission/air","565c5d1a-1e0e-35f3-82a0-4845c43d3dcf","221118",1.96542221530834e-05
+"Benzene","emission/air","565c5d1a-1e0e-35f3-82a0-4845c43d3dcf","221115",1.65782828897483e-06
+"Benzene","emission/air","565c5d1a-1e0e-35f3-82a0-4845c43d3dcf","221114",0.000440339828844925
+"Benzene","emission/air","565c5d1a-1e0e-35f3-82a0-4845c43d3dcf","221116",0.014927069588608
+"Benzene","emission/air","565c5d1a-1e0e-35f3-82a0-4845c43d3dcf","22111A",0.707795430221008
+"Benzene","emission/air","565c5d1a-1e0e-35f3-82a0-4845c43d3dcf","221111",0.00161093806735724
+"Benzene","emission/air","565c5d1a-1e0e-35f3-82a0-4845c43d3dcf","22111B",0.195662513127757
+"Benzene","emission/ground","2d8e739c-9364-34bd-871d-3fcbd081a024","22111B",1
+"Benzene","emission/water","67999cea-e58a-3044-95a9-4b45269260fd","22111C",0.0271022701531338
+"Benzene","emission/water","67999cea-e58a-3044-95a9-4b45269260fd","22111B",0.972897729846866
+"Benzidine","emission/air","dba08d49-f7e0-3dc0-b270-769f70847da3","22111A",1
+"Benzo(b)fluoranthene","emission/air","920c61f8-5c4a-3900-b070-9a437d2738b8","22111C",0.156921361147628
+"Benzo(b)fluoranthene","emission/air","920c61f8-5c4a-3900-b070-9a437d2738b8","221117",0.03820722635512
+"Benzo(b)fluoranthene","emission/air","920c61f8-5c4a-3900-b070-9a437d2738b8","221111",0.0108846026213918
+"Benzo(b)fluoranthene","emission/air","920c61f8-5c4a-3900-b070-9a437d2738b8","221113",0.00651637188267684
+"Benzo(b)fluoranthene","emission/air","920c61f8-5c4a-3900-b070-9a437d2738b8","22111A",0.164616924871632
+"Benzo(b)fluoranthene","emission/air","920c61f8-5c4a-3900-b070-9a437d2738b8","221115",0.000210699994967687
+"Benzo(b)fluoranthene","emission/air","920c61f8-5c4a-3900-b070-9a437d2738b8","22111B",0.622642813126583
+"Benzo[a]pyrene","emission/air","76bd7eb9-a592-319f-9234-9a469de5bd59","22111C",0.00766975480573833
+"Benzo[a]pyrene","emission/air","76bd7eb9-a592-319f-9234-9a469de5bd59","22111A",0.29518775064546
+"Benzo[a]pyrene","emission/air","76bd7eb9-a592-319f-9234-9a469de5bd59","22111B",0.689981922199125
+"Benzo[a]pyrene","emission/air","76bd7eb9-a592-319f-9234-9a469de5bd59","221117",0.00709015194988278
+"Benzo[a]pyrene","emission/air","76bd7eb9-a592-319f-9234-9a469de5bd59","221113",5.35096949329375e-06
+"Benzo[a]pyrene","emission/air","76bd7eb9-a592-319f-9234-9a469de5bd59","221115",1.24951076480782e-06
+"Benzo[a]pyrene","emission/air","76bd7eb9-a592-319f-9234-9a469de5bd59","221111",6.38199195355772e-05
+"Benzo[e]pyrene","emission/air","70fedc48-3895-3b66-9a00-e2e5958d51b8","22111B",0.998080908089709
+"Benzo[e]pyrene","emission/air","70fedc48-3895-3b66-9a00-e2e5958d51b8","22111A",0.00125619978314346
+"Benzo[e]pyrene","emission/air","70fedc48-3895-3b66-9a00-e2e5958d51b8","221117",0.000662892127147625
+"Benzo[ghi]perylene","emission/air","c19f72d2-41a0-3218-ba4f-61fa392accd6","221111",0.00105942489370194
+"Benzo[ghi]perylene","emission/air","c19f72d2-41a0-3218-ba4f-61fa392accd6","22111B",0.061541860138511
+"Benzo[ghi]perylene","emission/air","c19f72d2-41a0-3218-ba4f-61fa392accd6","221113",7.59893490529925e-05
+"Benzo[ghi]perylene","emission/air","c19f72d2-41a0-3218-ba4f-61fa392accd6","221117",0.00149840453425929
+"Benzo[ghi]perylene","emission/air","c19f72d2-41a0-3218-ba4f-61fa392accd6","22111A",0.922480799481639
+"Benzo[ghi]perylene","emission/air","c19f72d2-41a0-3218-ba4f-61fa392accd6","221115",2.0757690173528e-05
+"Benzo[ghi]perylene","emission/air","c19f72d2-41a0-3218-ba4f-61fa392accd6","221118",0.0128897457013233
+"Benzo[ghi]perylene","emission/air","c19f72d2-41a0-3218-ba4f-61fa392accd6","22111C",0.00043301821133941
+"Benzo[ghi]perylene","emission/ground","b0e46dc9-3a43-3b7a-a6df-d62308d7275e","22111A",0.0214239852613682
+"Benzo[ghi]perylene","emission/ground","b0e46dc9-3a43-3b7a-a6df-d62308d7275e","22111B",0.978576014738632
+"Benzo[ghi]perylene","emission/water","5f75a7a8-003b-30a7-8f41-f83791efd349","22111A",0.0872697152159601
+"Benzo[ghi]perylene","emission/water","5f75a7a8-003b-30a7-8f41-f83791efd349","22111B",0.014879490389386
+"Benzo[ghi]perylene","emission/water","5f75a7a8-003b-30a7-8f41-f83791efd349","22111C",0.897850794394654
+"Benzo[j]fluoranthene","emission/air","2720872f-5354-349c-b2bb-3ef19cc88733","22111A",1
+"Benzo[k]fluoranthene","emission/air","fcf65d36-ae15-3066-80c2-b624e04c6380","221117",0.0773996175026467
+"Benzo[k]fluoranthene","emission/air","fcf65d36-ae15-3066-80c2-b624e04c6380","22111B",0.789394801323762
+"Benzo[k]fluoranthene","emission/air","fcf65d36-ae15-3066-80c2-b624e04c6380","221111",0.0585873177564335
+"Benzo[k]fluoranthene","emission/air","fcf65d36-ae15-3066-80c2-b624e04c6380","22111A",0.0484901871600179
+"Benzo[k]fluoranthene","emission/air","fcf65d36-ae15-3066-80c2-b624e04c6380","22111C",0.0212303198377698
+"Benzo[k]fluoranthene","emission/air","fcf65d36-ae15-3066-80c2-b624e04c6380","221113",0.00374920566214293
+"Benzo[k]fluoranthene","emission/air","fcf65d36-ae15-3066-80c2-b624e04c6380","221115",0.00114855075722734
+"Benzofluoranthene","emission/air","24cfa2d1-ba72-371f-9d3f-cc121bc063f1","22111B",2.48679677248625e-05
+"Benzofluoranthene","emission/air","24cfa2d1-ba72-371f-9d3f-cc121bc063f1","22111A",0.99991701099747
+"Benzofluoranthene","emission/air","24cfa2d1-ba72-371f-9d3f-cc121bc063f1","221113",5.81210348050683e-05
+"Benzyl chloride","emission/air","f0616d3c-8ad2-364a-aaae-42f0651f32e8","221117",0.000567401533061549
+"Benzyl chloride","emission/air","f0616d3c-8ad2-364a-aaae-42f0651f32e8","22111B",0.0116104315033315
+"Benzyl chloride","emission/air","f0616d3c-8ad2-364a-aaae-42f0651f32e8","22111C",0.000995172088955677
+"Benzyl chloride","emission/air","f0616d3c-8ad2-364a-aaae-42f0651f32e8","22111A",0.986826994874651
+"Beryllium","emission/air","0346d063-4db1-3f52-a695-892c4c98d443","22111B",0.0203854821072846
+"Beryllium","emission/air","0346d063-4db1-3f52-a695-892c4c98d443","221116",1.46284363085408e-06
+"Beryllium","emission/air","0346d063-4db1-3f52-a695-892c4c98d443","221113",0.000169729260581293
+"Beryllium","emission/air","0346d063-4db1-3f52-a695-892c4c98d443","22111C",0.00077335299921898
+"Beryllium","emission/air","0346d063-4db1-3f52-a695-892c4c98d443","22111A",0.975689283502921
+"Beryllium","emission/air","0346d063-4db1-3f52-a695-892c4c98d443","221117",0.00298068928636361
+"Beryllium","emission/water","c00fa432-1dcc-3bf3-870f-4043c05cc887","22111B",0.039501555416329
+"Beryllium","emission/water","c00fa432-1dcc-3bf3-870f-4043c05cc887","22111A",0.883395178070336
+"Beryllium","emission/water","c00fa432-1dcc-3bf3-870f-4043c05cc887","221113",0.0771032665133349
+"Bicarbonate","emission/water","14019299-4013-3351-af2d-287fee154b97","22111A",1
+"Biological Oxygen Demand","emission/water","27b840cc-1f41-3943-8ea8-6d68b44b7f81","22111A",0.0470352400431094
+"Biological Oxygen Demand","emission/water","27b840cc-1f41-3943-8ea8-6d68b44b7f81","22111C",0.0183064474747984
+"Biological Oxygen Demand","emission/water","27b840cc-1f41-3943-8ea8-6d68b44b7f81","221117",0.839740240837242
+"Biological Oxygen Demand","emission/water","27b840cc-1f41-3943-8ea8-6d68b44b7f81","221111",0.00039659412669632
+"Biological Oxygen Demand","emission/water","27b840cc-1f41-3943-8ea8-6d68b44b7f81","221113",0.0070165140154428
+"Biological Oxygen Demand","emission/water","27b840cc-1f41-3943-8ea8-6d68b44b7f81","22111B",0.0875049635027113
+"Biphenyl","emission/air","52e6476c-bc9d-3aa2-bfb8-6597393b87d1","221114",0.0775388963002916
+"Biphenyl","emission/air","52e6476c-bc9d-3aa2-bfb8-6597393b87d1","221117",0.0166454239541353
+"Biphenyl","emission/air","52e6476c-bc9d-3aa2-bfb8-6597393b87d1","22111C",0.000310552369461253
+"Biphenyl","emission/air","52e6476c-bc9d-3aa2-bfb8-6597393b87d1","22111A",0.709827211723536
+"Biphenyl","emission/air","52e6476c-bc9d-3aa2-bfb8-6597393b87d1","22111B",0.195677915652576
+"Bis(2-chloro-1-methylethyl) ether","emission/air","45bc39bd-b2b3-313a-a0b2-1374b42fdd76","22111B",1
+"Boron","emission/water","57152560-592a-383f-89b1-a77d7d432ad8","22111B",3.12099187607027e-06
+"Boron","emission/water","57152560-592a-383f-89b1-a77d7d432ad8","221117",7.24531926434708e-06
+"Boron","emission/water","57152560-592a-383f-89b1-a77d7d432ad8","22111A",0.986861425426182
+"Boron","emission/water","57152560-592a-383f-89b1-a77d7d432ad8","221113",0.0131282082626771
+"Bromide","emission/water","7d2d94b8-a7a3-3670-b74d-1fc75b7ed55e","22111C",0.605992972479531
+"Bromide","emission/water","7d2d94b8-a7a3-3670-b74d-1fc75b7ed55e","221113",0.0186066593215744
+"Bromide","emission/water","7d2d94b8-a7a3-3670-b74d-1fc75b7ed55e","22111A",0.205161169110198
+"Bromide","emission/water","7d2d94b8-a7a3-3670-b74d-1fc75b7ed55e","22111B",0.170239199088696
+"Bromine chloride","emission/water","22f3666b-f55a-32d8-931f-efab6ec3cf6b","22111B",1
+"Bromine","emission/air","b3c70893-3c45-341e-903a-3dd226382175","22111A",1
+"Butyraldehyde","emission/air","8478ff8e-de38-3935-9d16-d1bad2ae179c","22111B",1
+"Butyraldehyde","emission/ground","57a7f9c6-ddd5-309f-a649-76b6ee2ee698","22111B",1
+"Cadmium","emission/air","d5a296be-7219-3921-a430-cff172ac7911","221118",0.00701286390369014
+"Cadmium","emission/air","d5a296be-7219-3921-a430-cff172ac7911","221113",0.000251612683382345
+"Cadmium","emission/air","d5a296be-7219-3921-a430-cff172ac7911","221116",7.43305217431783e-07
+"Cadmium","emission/air","d5a296be-7219-3921-a430-cff172ac7911","22111B",0.38267617099431
+"Cadmium","emission/air","d5a296be-7219-3921-a430-cff172ac7911","22111C",0.0181500088774075
+"Cadmium","emission/air","d5a296be-7219-3921-a430-cff172ac7911","221114",2.12503226310407e-07
+"Cadmium","emission/air","d5a296be-7219-3921-a430-cff172ac7911","221111",2.64843843593305e-05
+"Cadmium","emission/air","d5a296be-7219-3921-a430-cff172ac7911","221117",0.00801912460633148
+"Cadmium","emission/air","d5a296be-7219-3921-a430-cff172ac7911","22111A",0.583862778742075
+"Cadmium","emission/water","b7ae3e81-d9ce-345f-bd73-d91acbddcd5f","22111B",0.131876887563999
+"Cadmium","emission/water","b7ae3e81-d9ce-345f-bd73-d91acbddcd5f","22111C",3.09398220718894e-05
+"Cadmium","emission/water","b7ae3e81-d9ce-345f-bd73-d91acbddcd5f","221113",0.164363356262277
+"Cadmium","emission/water","b7ae3e81-d9ce-345f-bd73-d91acbddcd5f","221117",0.00053570857642673
+"Cadmium","emission/water","b7ae3e81-d9ce-345f-bd73-d91acbddcd5f","22111A",0.703193107775225
+"Calcium cyanamide","emission/air","f560910e-8f3f-3684-b860-f9b9d880962d","22111A",1
+"Carbon dioxide","emission/air","b6f010fb-a764-3063-af2d-bcb8309a97b7","221116",0.000585757236615529
+"Carbon dioxide","emission/air","b6f010fb-a764-3063-af2d-bcb8309a97b7","22111C",0.00160268920272435
+"Carbon dioxide","emission/air","b6f010fb-a764-3063-af2d-bcb8309a97b7","221117",0.0123121803625173
+"Carbon dioxide","emission/air","b6f010fb-a764-3063-af2d-bcb8309a97b7","221118",0.000226850709554299
+"Carbon dioxide","emission/air","b6f010fb-a764-3063-af2d-bcb8309a97b7","221113",4.54640646978301e-06
+"Carbon dioxide","emission/air","b6f010fb-a764-3063-af2d-bcb8309a97b7","221111",1.00235146692144e-05
+"Carbon dioxide","emission/air","b6f010fb-a764-3063-af2d-bcb8309a97b7","221114",5.7366752732943e-06
+"Carbon dioxide","emission/air","b6f010fb-a764-3063-af2d-bcb8309a97b7","22111A",0.714542659520437
+"Carbon dioxide","emission/air","b6f010fb-a764-3063-af2d-bcb8309a97b7","221115",1.67722182064303e-07
+"Carbon dioxide","emission/air","b6f010fb-a764-3063-af2d-bcb8309a97b7","22111B",0.270709388649557
+"Carbon disulfide","emission/air","5fe16b97-3332-38eb-8030-b62db19473eb","22111C",0.0177716253171273
+"Carbon disulfide","emission/air","5fe16b97-3332-38eb-8030-b62db19473eb","22111A",0.955583683104858
+"Carbon disulfide","emission/air","5fe16b97-3332-38eb-8030-b62db19473eb","221117",0.0155651683092741
+"Carbon disulfide","emission/air","5fe16b97-3332-38eb-8030-b62db19473eb","22111B",0.0110795232687402
+"Carbon disulfide","emission/water","ea1403e6-a4ce-3fe0-9d94-7df7ae84136e","221111",1
+"Carbon monoxide","emission/air","187c525c-3715-388c-b303-a0671524a615","221114",6.95925094049529e-06
+"Carbon monoxide","emission/air","187c525c-3715-388c-b303-a0671524a615","221118",0.08087480674658
+"Carbon monoxide","emission/air","187c525c-3715-388c-b303-a0671524a615","221111",0.00074725129996186
+"Carbon monoxide","emission/air","187c525c-3715-388c-b303-a0671524a615","22111C",0.0032615511160013
+"Carbon monoxide","emission/air","187c525c-3715-388c-b303-a0671524a615","22111B",0.168621681259013
+"Carbon monoxide","emission/air","187c525c-3715-388c-b303-a0671524a615","221117",0.0300977120102241
+"Carbon monoxide","emission/air","187c525c-3715-388c-b303-a0671524a615","22111A",0.716042061597689
+"Carbon monoxide","emission/air","187c525c-3715-388c-b303-a0671524a615","221115",1.31284011880262e-05
+"Carbon monoxide","emission/air","187c525c-3715-388c-b303-a0671524a615","221113",0.000334848318402466
+"Carbon tetrachloride","emission/air","f7467352-e7d9-3924-b763-f26bb26ce4cc","22111A",0.00889402383467205
+"Carbon tetrachloride","emission/air","f7467352-e7d9-3924-b763-f26bb26ce4cc","22111B",0.852467909796506
+"Carbon tetrachloride","emission/air","f7467352-e7d9-3924-b763-f26bb26ce4cc","221117",0.138638066368821
+"Carbon tetrachloride","emission/water","134672e2-bb82-3ecb-8cd8-e8adcc51c1fa","22111A",0.308167723825966
+"Carbon tetrachloride","emission/water","134672e2-bb82-3ecb-8cd8-e8adcc51c1fa","221111",0.691832276174034
+"Carbonyl sulfide","emission/air","217a8343-2afd-3588-a873-cd15e89d07a1","22111A",0.082129471511168
+"Carbonyl sulfide","emission/air","217a8343-2afd-3588-a873-cd15e89d07a1","221117",0.499627437447369
+"Carbonyl sulfide","emission/air","217a8343-2afd-3588-a873-cd15e89d07a1","22111C",0.418243091041463
+"Catechol","emission/air","c4ca45c2-8a21-3a9e-b43f-913c1fe716f4","22111A",1
+"Catechol","emission/water","3d945f59-07c2-3209-9421-0ed57a7e33a1","22111B",1
+"CFC-113","emission/air","73a8e096-9a30-38da-9f1a-e47d7cd86630","22111B",1
+"CFC-12","emission/water","5c12bffd-a02e-30b3-baf7-7d3d9e2dfa3b","221113",1
+"Chemical Oxygen Demand","emission/water","924cc8cf-ddf6-3b1a-9fbe-489c095c1f01","22111B",0.657240213318752
+"Chemical Oxygen Demand","emission/water","924cc8cf-ddf6-3b1a-9fbe-489c095c1f01","221117",0.00568172862935609
+"Chemical Oxygen Demand","emission/water","924cc8cf-ddf6-3b1a-9fbe-489c095c1f01","22111A",0.337078058051892
+"Chloride","emission/water","b415204e-1506-3fc6-8e4b-97f8e64403b8","22111A",0.589276784051659
+"Chloride","emission/water","b415204e-1506-3fc6-8e4b-97f8e64403b8","221113",0.00316929061062196
+"Chloride","emission/water","b415204e-1506-3fc6-8e4b-97f8e64403b8","22111B",0.407529222947091
+"Chloride","emission/water","b415204e-1506-3fc6-8e4b-97f8e64403b8","221117",2.4702390627879e-05
+"Chlorides and sulfates, total","emission/water","1fd6ca1f-26bf-3d26-8170-55746d2e2522","221117",1
+"Chlorinated phenols","emission/water","1c90831d-9f61-3b97-8ac9-79ef57fb40ee","22111B",1
+"Chlorine dioxide","emission/air","ffbf17ac-259f-3767-a03f-e0545b860282","22111B",1
+"Chlorine","emission/air","c4da1480-4f19-3d01-8f04-8432c38991b1","221117",0.0710246014527805
+"Chlorine","emission/air","c4da1480-4f19-3d01-8f04-8432c38991b1","22111A",0.869569039933809
+"Chlorine","emission/air","c4da1480-4f19-3d01-8f04-8432c38991b1","221118",1.56118716273359e-05
+"Chlorine","emission/air","c4da1480-4f19-3d01-8f04-8432c38991b1","22111B",0.0593907467417837
+"Chlorine","emission/water","d94f94d7-2d65-3f80-8254-1c8129263b01","22111B",0.10546798829377
+"Chlorine","emission/water","d94f94d7-2d65-3f80-8254-1c8129263b01","221111",0.000251435355660048
+"Chlorine","emission/water","d94f94d7-2d65-3f80-8254-1c8129263b01","221117",6.43526534384906e-06
+"Chlorine","emission/water","d94f94d7-2d65-3f80-8254-1c8129263b01","22111C",0.168183109950487
+"Chlorine","emission/water","d94f94d7-2d65-3f80-8254-1c8129263b01","22111A",0.452546766581767
+"Chlorine","emission/water","d94f94d7-2d65-3f80-8254-1c8129263b01","221113",0.273488929896225
+"Chlorine","emission/water","d94f94d7-2d65-3f80-8254-1c8129263b01","221118",5.5334656747448e-05
+"Chlorobenzene","emission/air","0fe64d97-61d5-3366-9778-8c39d00edd73","22111A",0.88804917624343
+"Chlorobenzene","emission/air","0fe64d97-61d5-3366-9778-8c39d00edd73","22111B",0.0102048989204642
+"Chlorobenzene","emission/air","0fe64d97-61d5-3366-9778-8c39d00edd73","22111C",0.00079648573394413
+"Chlorobenzene","emission/air","0fe64d97-61d5-3366-9778-8c39d00edd73","221117",0.100949439102161
+"Chlorobenzene","emission/water","eec36aa7-2df6-36c3-9a07-500c4bbf62a9","221113",1
+"Chlorodibromomethane","emission/water","5b1ea5c2-bc10-35bc-a7ab-5d9b51796ddf","22111B",1
+"Chloroethane","emission/air","a48770cd-a7a2-3e86-9e1b-083d68ba4351","22111B",0.495264995203818
+"Chloroethane","emission/air","a48770cd-a7a2-3e86-9e1b-083d68ba4351","221117",0.107893437671788
+"Chloroethane","emission/air","a48770cd-a7a2-3e86-9e1b-083d68ba4351","22111C",0.00037733156436424
+"Chloroethane","emission/air","a48770cd-a7a2-3e86-9e1b-083d68ba4351","22111A",0.39646423556003
+"Chloroform","emission/air","9fc17701-9417-3281-b9a3-d7ab3ecc1c57","22111A",0.595265093491017
+"Chloroform","emission/air","9fc17701-9417-3281-b9a3-d7ab3ecc1c57","22111B",0.400700887849588
+"Chloroform","emission/air","9fc17701-9417-3281-b9a3-d7ab3ecc1c57","22111C",0.000222330188293661
+"Chloroform","emission/air","9fc17701-9417-3281-b9a3-d7ab3ecc1c57","221117",0.00381168847110079
+"Chloroform","emission/ground","3cfa00b4-c6b8-39c3-b00f-f61dca013704","22111B",1
+"Chloroform","emission/water","f54d9588-ffe1-3ebb-922d-d7ec19c625a9","221111",0.0153528500845295
+"Chloroform","emission/water","f54d9588-ffe1-3ebb-922d-d7ec19c625a9","22111B",0.803448398830314
+"Chloroform","emission/water","f54d9588-ffe1-3ebb-922d-d7ec19c625a9","22111A",0.181198751085157
+"Chloromethane","emission/air","3e771661-38c3-332b-b4cb-8e2421b045ce","22111B",0.41789657833676
+"Chloromethane","emission/air","3e771661-38c3-332b-b4cb-8e2421b045ce","221117",0.00341891614626377
+"Chloromethane","emission/air","3e771661-38c3-332b-b4cb-8e2421b045ce","22111A",0.578132946458888
+"Chloromethane","emission/air","3e771661-38c3-332b-b4cb-8e2421b045ce","22111C",0.000551559058088291
+"Chloromethane","emission/ground","0d9af69a-fe2a-30a4-bc1e-eba7dd002449","22111B",1
+"Chloromethane","emission/water","57facb29-666b-34eb-96a3-670f6d995798","22111B",1
+"Chromic(VI) acid","emission/air","4717a8b5-2466-3dd1-b856-f639e8442e75","22111B",0.348137670439135
+"Chromic(VI) acid","emission/air","4717a8b5-2466-3dd1-b856-f639e8442e75","22111A",0.651862329560865
+"Chromium","emission/air","98bd36e1-fbe4-32ee-ba78-3b6726917c9b","221111",0.0131991200160424
+"Chromium","emission/air","98bd36e1-fbe4-32ee-ba78-3b6726917c9b","22111A",0.986800879983958
+"Chromium","emission/ground","979f30f5-f17e-3091-907f-af1921e7e637","221111",1
+"Chromium","emission/water","8a7ef355-2f16-3368-afc8-cf40ed441619","221117",1.7501670603839e-05
+"Chromium","emission/water","8a7ef355-2f16-3368-afc8-cf40ed441619","221113",0.0107980055624528
+"Chromium","emission/water","8a7ef355-2f16-3368-afc8-cf40ed441619","22111B",0.00430464308056584
+"Chromium","emission/water","8a7ef355-2f16-3368-afc8-cf40ed441619","22111A",0.984343551354024
+"Chromium","emission/water","8a7ef355-2f16-3368-afc8-cf40ed441619","22111C",0.000536298332353145
+"Chromium(III)","emission/air","d9ed8839-5d20-3904-af9c-5807284712e0","221118",0.0022380801239371
+"Chromium(III)","emission/air","d9ed8839-5d20-3904-af9c-5807284712e0","221113",2.96071710542389e-05
+"Chromium(III)","emission/air","d9ed8839-5d20-3904-af9c-5807284712e0","221116",5.55275023185078e-07
+"Chromium(III)","emission/air","d9ed8839-5d20-3904-af9c-5807284712e0","22111B",0.0936778372773647
+"Chromium(III)","emission/air","d9ed8839-5d20-3904-af9c-5807284712e0","22111C",0.00261557325449701
+"Chromium(III)","emission/air","d9ed8839-5d20-3904-af9c-5807284712e0","221117",0.00102170323695538
+"Chromium(III)","emission/air","d9ed8839-5d20-3904-af9c-5807284712e0","22111A",0.90037444552639
+"Chromium(III)","emission/air","d9ed8839-5d20-3904-af9c-5807284712e0","221111",4.219813477796e-05
+"Chromium(III)","emission/water","5905f568-b472-3e56-9f96-d41c33f34ef7","22111A",0.00211274642361481
+"Chromium(III)","emission/water","5905f568-b472-3e56-9f96-d41c33f34ef7","22111C",0.000298120040757524
+"Chromium(III)","emission/water","5905f568-b472-3e56-9f96-d41c33f34ef7","221117",0.00770962286817987
+"Chromium(III)","emission/water","5905f568-b472-3e56-9f96-d41c33f34ef7","22111B",0.989879510667448
+"Chromium(VI)","emission/air","ac249128-5489-3eb8-bfb8-61c0b93d2e07","221114",1.25463062550789e-08
+"Chromium(VI)","emission/air","ac249128-5489-3eb8-bfb8-61c0b93d2e07","221118",0.00272789249319188
+"Chromium(VI)","emission/air","ac249128-5489-3eb8-bfb8-61c0b93d2e07","22111B",0.0442610089683231
+"Chromium(VI)","emission/air","ac249128-5489-3eb8-bfb8-61c0b93d2e07","22111C",0.00112907945408864
+"Chromium(VI)","emission/air","ac249128-5489-3eb8-bfb8-61c0b93d2e07","221116",6.60154119656443e-07
+"Chromium(VI)","emission/air","ac249128-5489-3eb8-bfb8-61c0b93d2e07","221111",0.000105378567124661
+"Chromium(VI)","emission/air","ac249128-5489-3eb8-bfb8-61c0b93d2e07","221113",3.36698784808321e-05
+"Chromium(VI)","emission/air","ac249128-5489-3eb8-bfb8-61c0b93d2e07","221117",0.00434153534561459
+"Chromium(VI)","emission/air","ac249128-5489-3eb8-bfb8-61c0b93d2e07","22111A",0.94740076259275
+"Chromium(VI)","emission/water","53ebe715-1465-358f-9e31-ae55956903d1","221117",0.000297044226247923
+"Chromium(VI)","emission/water","53ebe715-1465-358f-9e31-ae55956903d1","22111A",0.98070262058569
+"Chromium(VI)","emission/water","53ebe715-1465-358f-9e31-ae55956903d1","22111B",0.0185290755801501
+"Chromium(VI)","emission/water","53ebe715-1465-358f-9e31-ae55956903d1","22111C",0.000471259607911434
+"Chrysene","emission/air","993fb955-f686-37f7-96e1-22b8c2a35ced","221117",0.000171675062439823
+"Chrysene","emission/air","993fb955-f686-37f7-96e1-22b8c2a35ced","221114",3.59828221297209e-08
+"Chrysene","emission/air","993fb955-f686-37f7-96e1-22b8c2a35ced","22111A",0.465863618977532
+"Chrysene","emission/air","993fb955-f686-37f7-96e1-22b8c2a35ced","221113",9.71643819111511e-05
+"Chrysene","emission/air","993fb955-f686-37f7-96e1-22b8c2a35ced","22111C",0.00678892132730862
+"Chrysene","emission/air","993fb955-f686-37f7-96e1-22b8c2a35ced","22111B",0.526985545675599
+"Chrysene","emission/air","993fb955-f686-37f7-96e1-22b8c2a35ced","221115",1.7453291320843e-06
+"Chrysene","emission/air","993fb955-f686-37f7-96e1-22b8c2a35ced","221111",9.12932632551962e-05
+"Chrysene","emission/water","18b5a96b-f01a-3b11-8077-16777ce57763","22111B",1
+"Cobalt","emission/air","e0d81f05-0407-3fc9-9f11-e2d22a6edebd","221118",3.31960219214767e-05
+"Cobalt","emission/air","e0d81f05-0407-3fc9-9f11-e2d22a6edebd","221117",0.00364641179401608
+"Cobalt","emission/air","e0d81f05-0407-3fc9-9f11-e2d22a6edebd","22111B",0.0310365880501849
+"Cobalt","emission/air","e0d81f05-0407-3fc9-9f11-e2d22a6edebd","221113",6.33934977454657e-07
+"Cobalt","emission/air","e0d81f05-0407-3fc9-9f11-e2d22a6edebd","22111A",0.962367496166205
+"Cobalt","emission/air","e0d81f05-0407-3fc9-9f11-e2d22a6edebd","22111C",0.00291567403269524
+"Cobalt","emission/ground","cb8f8925-a811-38ff-b19f-85377dc28de0","22111A",1
+"Cobalt","emission/water","7cbf7556-2b17-3cc2-97cf-5c9e24e50d65","221117",0.000368809361966244
+"Cobalt","emission/water","7cbf7556-2b17-3cc2-97cf-5c9e24e50d65","22111C",0.836198830530801
+"Cobalt","emission/water","7cbf7556-2b17-3cc2-97cf-5c9e24e50d65","22111A",0.163432360107233
+"Copper","emission/air","b15117ec-3b8e-35de-bef2-00aec1b9636e","22111A",0.990771649760784
+"Copper","emission/air","b15117ec-3b8e-35de-bef2-00aec1b9636e","221111",0.00922835023921618
+"Copper","emission/ground","ec1ff388-9bbb-367f-828c-f7b4f7ceaa47","221111",1
+"Copper","emission/water","965958b3-8368-3395-a55d-f6f819e40587","221113",0.0922883175139131
+"Copper","emission/water","965958b3-8368-3395-a55d-f6f819e40587","22111C",0.0775343174858668
+"Copper","emission/water","965958b3-8368-3395-a55d-f6f819e40587","221111",4.21416468198918e-06
+"Copper","emission/water","965958b3-8368-3395-a55d-f6f819e40587","22111A",0.482037233458615
+"Copper","emission/water","965958b3-8368-3395-a55d-f6f819e40587","22111B",0.347909706722208
+"Copper","emission/water","965958b3-8368-3395-a55d-f6f819e40587","221117",0.00012520486037038
+"Copper","emission/water","965958b3-8368-3395-a55d-f6f819e40587","221114",0.000101005794345054
+"Creosote","emission/air","c8ac25be-c7a1-3b64-9de6-d81049847f6e","22111C",1
+"Creosote","emission/ground","8cc76385-07e7-340f-b8c8-fd56ae0193a2","22111C",1
+"Cresol","emission/air","8ec7f708-9411-37a7-80df-4096d397c513","22111A",0.00451663048540724
+"Cresol","emission/air","8ec7f708-9411-37a7-80df-4096d397c513","22111B",0.995483369514593
+"Cresol","emission/water","dce9617d-7a15-32be-adcb-f01854016ebc","22111C",1
+"Crotonaldehyde","emission/air","77f7f5d5-a234-3f37-aec1-9b63847ef396","22111B",1
+"Cumene","emission/air","8f6e0975-9a80-3709-8ee7-1e4c0a9c9e1c","221113",7.73734914568659e-07
+"Cumene","emission/air","8f6e0975-9a80-3709-8ee7-1e4c0a9c9e1c","22111A",0.428428885043014
+"Cumene","emission/air","8f6e0975-9a80-3709-8ee7-1e4c0a9c9e1c","221115",1.18014840464674e-07
+"Cumene","emission/air","8f6e0975-9a80-3709-8ee7-1e4c0a9c9e1c","22111B",0.0384949069665385
+"Cumene","emission/air","8f6e0975-9a80-3709-8ee7-1e4c0a9c9e1c","221111",6.33303424926469e-06
+"Cumene","emission/air","8f6e0975-9a80-3709-8ee7-1e4c0a9c9e1c","221117",0.000232761240831305
+"Cumene","emission/air","8f6e0975-9a80-3709-8ee7-1e4c0a9c9e1c","22111C",0.532836221965612
+"Cumene","emission/water","ebc24f2b-e653-3fc7-be59-82175940b17b","22111C",1
+"Cyanide","emission/air","37037bee-9867-3769-999c-c4d891b9975b","221117",0.000527966135531142
+"Cyanide","emission/air","37037bee-9867-3769-999c-c4d891b9975b","22111C",0.000926154103701205
+"Cyanide","emission/air","37037bee-9867-3769-999c-c4d891b9975b","22111A",0.98659040920371
+"Cyanide","emission/air","37037bee-9867-3769-999c-c4d891b9975b","22111B",0.011955470557058
+"Cyanide","emission/water","3b66fd84-6bf2-3a57-bd4c-f779d71fee69","221113",7.51077000751235e-07
+"Cyanide","emission/water","3b66fd84-6bf2-3a57-bd4c-f779d71fee69","22111A",0.987857965545883
+"Cyanide","emission/water","3b66fd84-6bf2-3a57-bd4c-f779d71fee69","221118",0.0117623579035744
+"Cyanide","emission/water","3b66fd84-6bf2-3a57-bd4c-f779d71fee69","22111B",0.000378925473541643
+"Cyclohexane","emission/air","12b39b80-c5cb-3410-9968-c6e41304f7d0","22111C",0.495605168314162
+"Cyclohexane","emission/air","12b39b80-c5cb-3410-9968-c6e41304f7d0","22111B",0.504394831685838
+"Cyclohexane","emission/water","76b9697a-54d4-3747-acb5-7618be47ca19","22111C",1
+"Di(2-ethylhexyl) phthalate","emission/air","3600a034-449c-3066-9960-6a13903c310d","22111A",0.988056437291388
+"Di(2-ethylhexyl) phthalate","emission/air","3600a034-449c-3066-9960-6a13903c310d","22111B",0.0107434264825719
+"Di(2-ethylhexyl) phthalate","emission/air","3600a034-449c-3066-9960-6a13903c310d","221117",0.00027732503531562
+"Di(2-ethylhexyl) phthalate","emission/air","3600a034-449c-3066-9960-6a13903c310d","22111C",0.000922811190724119
+"Di(2-ethylhexyl) phthalate","emission/water","08ae3c52-dabf-369c-aeb4-d5359def8f25","22111B",0.997145187745636
+"Di(2-ethylhexyl) phthalate","emission/water","08ae3c52-dabf-369c-aeb4-d5359def8f25","22111C",3.8349723872757e-05
+"Di(2-ethylhexyl) phthalate","emission/water","08ae3c52-dabf-369c-aeb4-d5359def8f25","221113",0.00281646253049087
+"Dibenz[a,h]anthracene","emission/air","e51f946b-179b-3580-9ba3-37299516be47","22111B",0.855639269217454
+"Dibenz[a,h]anthracene","emission/air","e51f946b-179b-3580-9ba3-37299516be47","221111",0.00034200573135513
+"Dibenz[a,h]anthracene","emission/air","e51f946b-179b-3580-9ba3-37299516be47","221117",0.0206606726404651
+"Dibenz[a,h]anthracene","emission/air","e51f946b-179b-3580-9ba3-37299516be47","221113",0.00445156953322173
+"Dibenz[a,h]anthracene","emission/air","e51f946b-179b-3580-9ba3-37299516be47","22111C",0.0276950263560935
+"Dibenz[a,h]anthracene","emission/air","e51f946b-179b-3580-9ba3-37299516be47","22111A",0.0912114565214104
+"Dibenzo[a,h]pyrene","emission/air","0f6267c8-58a9-31ca-8e2f-be97e07d7eaf","22111B",1
+"Dibenzofuran","emission/air","f995b27d-3062-3c33-9170-d4e0a396375d","22111A",0.964914738046808
+"Dibenzofuran","emission/air","f995b27d-3062-3c33-9170-d4e0a396375d","22111B",0.0350852619531915
+"Dibutyl phthalate","emission/air","35b3842d-4a7b-305b-afe8-b908715b39d6","22111B",0.127202001685418
+"Dibutyl phthalate","emission/air","35b3842d-4a7b-305b-afe8-b908715b39d6","221117",6.78693446234534e-08
+"Dibutyl phthalate","emission/air","35b3842d-4a7b-305b-afe8-b908715b39d6","22111A",0.872797930445238
+"Dibutyl phthalate","emission/water","34d6173b-16bf-35f7-a4c5-96ed874cb618","22111B",1
+"Dichlorobenzene","emission/water","83b8990a-c69c-3123-9668-ad74f2533b7f","22111B",1
+"Dichlorobromomethane","emission/water","f4d33a6b-347e-3057-89b1-a7b8ecf1030e","22111A",0.193437512542638
+"Dichlorobromomethane","emission/water","f4d33a6b-347e-3057-89b1-a7b8ecf1030e","22111B",0.806562487457362
+"Dicyclopentadiene","emission/air","60971e7f-03ce-37c1-b95b-b51f4d2a49e1","22111B",1
+"Dicyclopentadiene","emission/ground","39bce74f-bbd2-33d5-92a3-cd73554c481b","22111B",1
+"Dicyclopentadiene","emission/water","62ad4abc-7465-3350-9177-ea28dc083149","22111B",1
+"Diethanolamine","emission/air","f8188722-8d99-32de-97c3-dee774c3a503","22111B",1
+"Diethanolamine","emission/water","e200edf4-9f8c-32d1-857b-83015bf29b09","221118",1
+"Dimethyl phthalate","emission/air","4784dde7-fce7-3d68-9667-820dc31df78e","22111A",0.958565571433622
+"Dimethyl phthalate","emission/air","4784dde7-fce7-3d68-9667-820dc31df78e","22111B",0.0414344285663782
+"Dimethyl sulfate","emission/air","a8bac6c7-4db5-34b1-8069-f47644edba5f","22111B",0.0105702428753326
+"Dimethyl sulfate","emission/air","a8bac6c7-4db5-34b1-8069-f47644edba5f","221117",0.000517041329573755
+"Dimethyl sulfate","emission/air","a8bac6c7-4db5-34b1-8069-f47644edba5f","22111C",0.000904577671962394
+"Dimethyl sulfate","emission/air","a8bac6c7-4db5-34b1-8069-f47644edba5f","22111A",0.988008138123131
+"Dipotassium endothall","emission/water","6a051858-29f7-32c8-a472-03c419775a2b","221111",1
+"Endosulfan","emission/water","c5687d4c-d0e3-3e3c-b9e4-662e2f852e9b","22111B",1
+"Epichlorohydrin","emission/air","9c75fe3f-354c-33b4-b5d4-b88198daa2d1","22111B",1
+"Epichlorohydrin","emission/water","6b9f80f5-e697-3f89-8914-e6fe87a6169c","22111B",1
+"Ethanolamine","emission/water","d9e1be63-768f-3baf-8187-311121fd13ed","221113",1
+"Ethylbenzene","emission/air","7b2a26ef-86ec-39e1-82e6-016b31800e2b","22111C",0.000749916672753093
+"Ethylbenzene","emission/air","7b2a26ef-86ec-39e1-82e6-016b31800e2b","221116",0.000109259933861251
+"Ethylbenzene","emission/air","7b2a26ef-86ec-39e1-82e6-016b31800e2b","22111A",0.190487193072065
+"Ethylbenzene","emission/air","7b2a26ef-86ec-39e1-82e6-016b31800e2b","221113",0.000167355161980654
+"Ethylbenzene","emission/air","7b2a26ef-86ec-39e1-82e6-016b31800e2b","221117",0.0840381718102116
+"Ethylbenzene","emission/air","7b2a26ef-86ec-39e1-82e6-016b31800e2b","221111",0.0116456979935172
+"Ethylbenzene","emission/air","7b2a26ef-86ec-39e1-82e6-016b31800e2b","22111B",0.71280114283099
+"Ethylbenzene","emission/air","7b2a26ef-86ec-39e1-82e6-016b31800e2b","221115",1.26252462153645e-06
+"Ethylbenzene","emission/ground","2355ef0f-9d76-3aff-95c1-96c81478f8b9","22111B",1
+"Ethylbenzene","emission/water","6c82f4d1-4fa8-3b7e-816d-c4153c0eba6d","22111B",0.666209708329207
+"Ethylbenzene","emission/water","6c82f4d1-4fa8-3b7e-816d-c4153c0eba6d","22111C",0.333790291670793
+"Ethylene dibromide","emission/air","a8ead97e-1f5f-3c0c-aa72-c7b25050864e","22111A",0.960456002349997
+"Ethylene dibromide","emission/air","a8ead97e-1f5f-3c0c-aa72-c7b25050864e","22111B",0.00347754349112505
+"Ethylene dibromide","emission/air","a8ead97e-1f5f-3c0c-aa72-c7b25050864e","221117",0.0357684129203981
+"Ethylene dibromide","emission/air","a8ead97e-1f5f-3c0c-aa72-c7b25050864e","22111C",0.000298041238480316
+"Ethylene dibromide","emission/water","941c13f5-f858-3032-a780-cb76cbdf0f54","22111A",1
+"Ethylene glycol","emission/air","f6696716-3d44-38fe-8ef2-8f4284367cd1","22111B",0.965574230909242
+"Ethylene glycol","emission/air","f6696716-3d44-38fe-8ef2-8f4284367cd1","22111A",0.0331201556473135
+"Ethylene glycol","emission/air","f6696716-3d44-38fe-8ef2-8f4284367cd1","22111C",0.00130561344344479
+"Ethylene glycol","emission/ground","9c91d89c-c446-3a94-b208-12c8adc10f6f","22111B",1
+"Ethylene glycol","emission/water","41520962-0f73-3a5a-a396-c1c2d52bb55f","22111B",1
+"Ethylene oxide","emission/air","d5670f7b-8a81-3d00-92b1-8c9e12e0ef69","22111B",1
+"Ethylene oxide","emission/ground","1cd6cefc-6be4-3c59-82ca-feb83a4e0747","22111B",1
+"Ethylene oxide","emission/water","1a2c0ee2-520a-3971-a68e-81982d8236fc","22111B",1
+"Ethylene","emission/air","3378c02d-6828-36dc-a9fe-9948b59a8bd6","22111B",0.975018691031649
+"Ethylene","emission/air","3378c02d-6828-36dc-a9fe-9948b59a8bd6","22111C",0.00547089489074612
+"Ethylene","emission/air","3378c02d-6828-36dc-a9fe-9948b59a8bd6","22111A",0.0195104140776049
+"Fluoranthene","emission/air","c89c263a-b0b7-34c9-a27c-d9ebf851c3cc","22111B",0.873864157320718
+"Fluoranthene","emission/air","c89c263a-b0b7-34c9-a27c-d9ebf851c3cc","22111A",0.115736847078175
+"Fluoranthene","emission/air","c89c263a-b0b7-34c9-a27c-d9ebf851c3cc","221115",4.62629019726876e-06
+"Fluoranthene","emission/air","c89c263a-b0b7-34c9-a27c-d9ebf851c3cc","22111C",0.00980118947530252
+"Fluoranthene","emission/air","c89c263a-b0b7-34c9-a27c-d9ebf851c3cc","221113",0.000125429896040401
+"Fluoranthene","emission/air","c89c263a-b0b7-34c9-a27c-d9ebf851c3cc","221118",3.78442217665904e-08
+"Fluoranthene","emission/air","c89c263a-b0b7-34c9-a27c-d9ebf851c3cc","221114",1.09453895749501e-07
+"Fluoranthene","emission/air","c89c263a-b0b7-34c9-a27c-d9ebf851c3cc","221111",0.000247157302088327
+"Fluoranthene","emission/air","c89c263a-b0b7-34c9-a27c-d9ebf851c3cc","221117",0.000220445339360213
+"Fluorene","emission/air","c5697dcb-8fd3-3046-b499-f34e33495b61","22111B",0.554148144827185
+"Fluorene","emission/air","c5697dcb-8fd3-3046-b499-f34e33495b61","22111C",0.00707662159220899
+"Fluorene","emission/air","c5697dcb-8fd3-3046-b499-f34e33495b61","221117",0.0411574013307993
+"Fluorene","emission/air","c5697dcb-8fd3-3046-b499-f34e33495b61","221115",8.87059483592914e-05
+"Fluorene","emission/air","c5697dcb-8fd3-3046-b499-f34e33495b61","22111A",0.389273963887261
+"Fluorene","emission/air","c5697dcb-8fd3-3046-b499-f34e33495b61","221113",0.0036402191093228
+"Fluorene","emission/air","c5697dcb-8fd3-3046-b499-f34e33495b61","221118",4.10133427579412e-07
+"Fluorene","emission/air","c5697dcb-8fd3-3046-b499-f34e33495b61","221111",0.00461453317143575
+"Fluorene","emission/water","d83e2d8e-93e4-37c2-be41-b7b7d9f93a11","22111B",1
+"Fluoride","emission/water","e8a4d121-c284-3073-ba8f-37f9253ff20a","221117",4.19354454644878e-05
+"Fluoride","emission/water","e8a4d121-c284-3073-ba8f-37f9253ff20a","22111B",0.00199930288056987
+"Fluoride","emission/water","e8a4d121-c284-3073-ba8f-37f9253ff20a","22111A",0.997958761673966
+"Fluorine","emission/air","2e40d2b0-30ad-3c0c-ba94-5172209277b9","22111A",1
+"Formaldehyde","emission/air","a257b8d3-62dd-37ad-b429-73d96c97165c","22111B",0.804822427254881
+"Formaldehyde","emission/air","a257b8d3-62dd-37ad-b429-73d96c97165c","221118",0.000133468347371886
+"Formaldehyde","emission/air","a257b8d3-62dd-37ad-b429-73d96c97165c","221114",0.000144123464062527
+"Formaldehyde","emission/air","a257b8d3-62dd-37ad-b429-73d96c97165c","22111A",0.0304670199975247
+"Formaldehyde","emission/air","a257b8d3-62dd-37ad-b429-73d96c97165c","22111C",0.00992962104399412
+"Formaldehyde","emission/air","a257b8d3-62dd-37ad-b429-73d96c97165c","221113",0.000639377908008678
+"Formaldehyde","emission/air","a257b8d3-62dd-37ad-b429-73d96c97165c","221111",0.0171653266250013
+"Formaldehyde","emission/air","a257b8d3-62dd-37ad-b429-73d96c97165c","221115",1.96761778360295e-05
+"Formaldehyde","emission/air","a257b8d3-62dd-37ad-b429-73d96c97165c","221117",0.136678959181319
+"Formaldehyde","emission/water","c4629bd9-6185-3901-816a-96cee29a19c9","22111B",1
+"Formic acid","emission/air","9f9ccf8f-0135-34ae-8c01-4e41813a9311","22111A",0.527417816348427
+"Formic acid","emission/air","9f9ccf8f-0135-34ae-8c01-4e41813a9311","22111B",0.472582183651573
+"Formic acid","emission/water","8b67e596-b3af-30d7-84d5-c710373ed376","22111A",1
+"Glycidol","emission/air","7da836fc-1250-3c81-8061-4ae278a39c3b","22111B",1
+"Glycol ethers","emission/air","ea0a3ada-c97c-3f2a-a88a-6553b146c818","22111B",1
+"HCFC-22","emission/air","76cf7898-8461-3265-a3a4-14dd2682779e","22111B",1
+"HCFC-22","emission/water","da5e6f64-ea17-3366-a340-c5ed2147713c","221113",1
+"Hexachlorobenzene","emission/air","28c8bbdf-1a2b-3c96-baf8-d965df47c0c6","22111B",6.24633835028794e-05
+"Hexachlorobenzene","emission/air","28c8bbdf-1a2b-3c96-baf8-d965df47c0c6","22111A",0.999937536616497
+"Hexachlorobenzene","emission/water","949be795-cf00-3338-acea-9a0f0a3f087a","22111B",1
+"Hexachlorobutadiene","emission/air","4a90ef9a-bcb0-3e9d-80da-1a48dfd8ae6f","22111A",0.994552692900033
+"Hexachlorobutadiene","emission/air","4a90ef9a-bcb0-3e9d-80da-1a48dfd8ae6f","221117",0.0054473070999674
+"Hexachlorocyclohexane","emission/water","509cda9a-927f-38d9-b3cb-5bbb5fb2d063","22111B",1
+"Hexachlorocyclopentadiene","emission/air","37749376-d759-3afe-b5eb-ccc6b8ec1868","22111A",1
+"Hexachloroethane","emission/air","f8348707-b585-36c3-bce1-dd8d43710a95","22111A",1
+"Hexane","emission/air","7955b6e2-3ae6-315c-94f1-028d7faada34","221113",0.000108281873110941
+"Hexane","emission/air","7955b6e2-3ae6-315c-94f1-028d7faada34","221117",0.0165110536257265
+"Hexane","emission/air","7955b6e2-3ae6-315c-94f1-028d7faada34","221115",9.14186404248406e-08
+"Hexane","emission/air","7955b6e2-3ae6-315c-94f1-028d7faada34","22111A",0.0680611861410935
+"Hexane","emission/air","7955b6e2-3ae6-315c-94f1-028d7faada34","221118",0.0200797910697585
+"Hexane","emission/air","7955b6e2-3ae6-315c-94f1-028d7faada34","22111C",0.00672379008564061
+"Hexane","emission/air","7955b6e2-3ae6-315c-94f1-028d7faada34","221111",4.64873633627153e-06
+"Hexane","emission/air","7955b6e2-3ae6-315c-94f1-028d7faada34","22111B",0.888511157049693
+"Hexane","emission/water","14622b86-6d9a-3b6c-bc4b-84251899a991","22111C",1
+"Hydrazine","emission/air","44e7dac5-7299-3a7a-9480-4152ba299a12","22111A",1
+"Hydrazine","emission/water","f5faeb2b-d0e0-346b-8b49-fb45c4e35bfb","221113",0.99248679207168
+"Hydrazine","emission/water","f5faeb2b-d0e0-346b-8b49-fb45c4e35bfb","22111B",0.000878853411162894
+"Hydrazine","emission/water","f5faeb2b-d0e0-346b-8b49-fb45c4e35bfb","22111A",0.00663435451715725
+"Hydrocarbons","emission/water","42983b7d-3999-3fa9-b172-a0fc678236fe","22111B",0.970026098397365
+"Hydrocarbons","emission/water","42983b7d-3999-3fa9-b172-a0fc678236fe","22111A",0.0299739016026348
+"Hydrocarbons, halogenated","emission/water","4203cce1-1793-33d9-8de1-046aae0a373e","22111A",0.999640763509764
+"Hydrocarbons, halogenated","emission/water","4203cce1-1793-33d9-8de1-046aae0a373e","22111B",0.000359236490235675
+"Hydrocarbons, petroleum","emission/water","4141409a-7f36-324a-a7f8-b5f2d3cef6fc","221113",0.0728956819720174
+"Hydrocarbons, petroleum","emission/water","4141409a-7f36-324a-a7f8-b5f2d3cef6fc","22111B",0.466657153993156
+"Hydrocarbons, petroleum","emission/water","4141409a-7f36-324a-a7f8-b5f2d3cef6fc","221117",0.460447164034827
+"Hydrochloric acid","emission/air","e2230ed6-8d5e-3315-8bc9-ce337d1283ce","221117",0.0277191305249951
+"Hydrochloric acid","emission/air","e2230ed6-8d5e-3315-8bc9-ce337d1283ce","22111C",0.0059480580507192
+"Hydrochloric acid","emission/air","e2230ed6-8d5e-3315-8bc9-ce337d1283ce","22111A",0.842526056503174
+"Hydrochloric acid","emission/air","e2230ed6-8d5e-3315-8bc9-ce337d1283ce","22111B",0.120331114385933
+"Hydrochloric acid","emission/air","e2230ed6-8d5e-3315-8bc9-ce337d1283ce","221118",0.00347564053517841
+"Hydrofluoric acid","emission/air","1c288388-0f32-30f1-8267-19b8d72c80df","22111A",0.962032345268739
+"Hydrofluoric acid","emission/air","1c288388-0f32-30f1-8267-19b8d72c80df","221117",0.00091816472705457
+"Hydrofluoric acid","emission/air","1c288388-0f32-30f1-8267-19b8d72c80df","22111C",0.000224214071591514
+"Hydrofluoric acid","emission/air","1c288388-0f32-30f1-8267-19b8d72c80df","22111B",0.036825275932615
+"Hydrogen cyanide","emission/air","aa7539ee-9aeb-3cb5-9d64-2a0bd94ebb0f","22111C",0.20074414186664
+"Hydrogen cyanide","emission/air","aa7539ee-9aeb-3cb5-9d64-2a0bd94ebb0f","22111A",0.797691657699768
+"Hydrogen cyanide","emission/air","aa7539ee-9aeb-3cb5-9d64-2a0bd94ebb0f","22111B",0.00156420043359217
+"Hydrogen cyanide","emission/water","db989bb6-a79a-35b1-aee9-2db77f60875a","22111C",1
+"Hydrogen sulfide","emission/air","f8cbcd43-8201-3b05-b19a-82d305414af4","221117",0.129298360332383
+"Hydrogen sulfide","emission/air","f8cbcd43-8201-3b05-b19a-82d305414af4","22111A",0.104788660739734
+"Hydrogen sulfide","emission/air","f8cbcd43-8201-3b05-b19a-82d305414af4","221118",0.193053104054719
+"Hydrogen sulfide","emission/air","f8cbcd43-8201-3b05-b19a-82d305414af4","221116",0.388527648643897
+"Hydrogen sulfide","emission/air","f8cbcd43-8201-3b05-b19a-82d305414af4","22111C",0.0767679590176725
+"Hydrogen sulfide","emission/air","f8cbcd43-8201-3b05-b19a-82d305414af4","22111B",0.107564267211595
+"Hydrogen sulfide","emission/water","448fcd9d-49f8-3144-bb84-df0fd1f8ab08","22111C",0.0143795498198163
+"Hydrogen sulfide","emission/water","448fcd9d-49f8-3144-bb84-df0fd1f8ab08","22111B",0.985620450180184
+"Indeno[1,2,3-cd]pyrene","emission/air","e962ef47-cedd-36b6-b962-abacbab62a02","22111B",0.16614768972311
+"Indeno[1,2,3-cd]pyrene","emission/air","e962ef47-cedd-36b6-b962-abacbab62a02","22111A",0.760194830310537
+"Indeno[1,2,3-cd]pyrene","emission/air","e962ef47-cedd-36b6-b962-abacbab62a02","221117",0.0497635364822383
+"Indeno[1,2,3-cd]pyrene","emission/air","e962ef47-cedd-36b6-b962-abacbab62a02","221111",0.0101557581341147
+"Indeno[1,2,3-cd]pyrene","emission/air","e962ef47-cedd-36b6-b962-abacbab62a02","22111C",0.0121719369491754
+"Indeno[1,2,3-cd]pyrene","emission/air","e962ef47-cedd-36b6-b962-abacbab62a02","221113",0.00136829267549221
+"Indeno[1,2,3-cd]pyrene","emission/air","e962ef47-cedd-36b6-b962-abacbab62a02","221115",0.000197955725332406
+"Iron","emission/water","2b61d376-c8c2-31ae-9c19-9b8b958c74dd","221111",7.43534618010932e-05
+"Iron","emission/water","2b61d376-c8c2-31ae-9c19-9b8b958c74dd","22111B",0.0616446033891819
+"Iron","emission/water","2b61d376-c8c2-31ae-9c19-9b8b958c74dd","22111A",0.822867112382469
+"Iron","emission/water","2b61d376-c8c2-31ae-9c19-9b8b958c74dd","221113",0.11457067683748
+"Iron","emission/water","2b61d376-c8c2-31ae-9c19-9b8b958c74dd","221114",7.33488953148757e-05
+"Iron","emission/water","2b61d376-c8c2-31ae-9c19-9b8b958c74dd","221117",0.000765569366678249
+"Iron","emission/water","2b61d376-c8c2-31ae-9c19-9b8b958c74dd","22111C",4.33566707561182e-06
+"Isobutyraldehyde","emission/air","1ed39c7d-b21c-3a99-9059-6a8d14a73489","22111B",1
+"Isobutyraldehyde","emission/ground","a5009aff-1086-3c29-9b67-380ce207558e","22111B",1
+"Isophorone","emission/air","9aa7fac7-87ac-35ac-9cfb-639180846bee","22111C",0.00095575021389684
+"Isophorone","emission/air","9aa7fac7-87ac-35ac-9cfb-639180846bee","221117",0.000545301068576209
+"Isophorone","emission/air","9aa7fac7-87ac-35ac-9cfb-639180846bee","22111A",0.987348658536522
+"Isophorone","emission/air","9aa7fac7-87ac-35ac-9cfb-639180846bee","22111B",0.0111502901810049
+"Isoprene","emission/air","df9ed90d-0e23-3c52-85f7-a4f333b5dea3","22111B",1
+"Lead","emission/air","fe829136-3042-36e6-b4cb-7ff591e8db98","22111B",0.0380728889177055
+"Lead","emission/air","fe829136-3042-36e6-b4cb-7ff591e8db98","221111",0.00195566769257252
+"Lead","emission/air","fe829136-3042-36e6-b4cb-7ff591e8db98","22111A",0.903222228703701
+"Lead","emission/air","fe829136-3042-36e6-b4cb-7ff591e8db98","221115",2.5915067183873e-05
+"Lead","emission/air","fe829136-3042-36e6-b4cb-7ff591e8db98","221116",1.14938951346656e-07
+"Lead","emission/air","fe829136-3042-36e6-b4cb-7ff591e8db98","221113",0.000232695633392459
+"Lead","emission/air","fe829136-3042-36e6-b4cb-7ff591e8db98","221118",0.038978560672308
+"Lead","emission/air","fe829136-3042-36e6-b4cb-7ff591e8db98","221117",0.0144408312173911
+"Lead","emission/air","fe829136-3042-36e6-b4cb-7ff591e8db98","22111C",0.00307109715679474
+"Lead","emission/ground","a58c8e84-1ff1-3a64-bf26-567e9bdeb994","221113",0.756786625945548
+"Lead","emission/ground","a58c8e84-1ff1-3a64-bf26-567e9bdeb994","221111",0.243213374054452
+"Lead","emission/water","f8204689-71e9-3275-85f4-66c4112e5511","221113",0.00438047245407329
+"Lead","emission/water","f8204689-71e9-3275-85f4-66c4112e5511","221111",6.21978248311719e-05
+"Lead","emission/water","f8204689-71e9-3275-85f4-66c4112e5511","22111B",0.0221158048887469
+"Lead","emission/water","f8204689-71e9-3275-85f4-66c4112e5511","22111C",2.60310300923175e-07
+"Lead","emission/water","f8204689-71e9-3275-85f4-66c4112e5511","221117",8.13134719499772e-05
+"Lead","emission/water","f8204689-71e9-3275-85f4-66c4112e5511","221118",0.000635241128870072
+"Lead","emission/water","f8204689-71e9-3275-85f4-66c4112e5511","22111A",0.972724709921228
+"Lithium","emission/water","224e47eb-4483-3a1c-b0ec-83d8a39d6041","22111A",0.902667939531574
+"Lithium","emission/water","224e47eb-4483-3a1c-b0ec-83d8a39d6041","221113",0.0973320604684262
+"m-Cresol","emission/air","2e1b0e71-eec1-3f93-bbd9-80a2f20615cf","22111A",1
+"m-Xylene","emission/air","a20f692f-5cab-3036-b3aa-821fb758a39c","22111A",0.187886358963816
+"m-Xylene","emission/air","a20f692f-5cab-3036-b3aa-821fb758a39c","221117",7.87369909560859e-05
+"m-Xylene","emission/air","a20f692f-5cab-3036-b3aa-821fb758a39c","221113",0.000533478570520407
+"m-Xylene","emission/air","a20f692f-5cab-3036-b3aa-821fb758a39c","221111",0.00498591459387386
+"m-Xylene","emission/air","a20f692f-5cab-3036-b3aa-821fb758a39c","221115",9.29117633537022e-05
+"m-Xylene","emission/air","a20f692f-5cab-3036-b3aa-821fb758a39c","22111B",0.80642259911748
+"m-Xylene","emission/water","a975efda-5fb3-38a9-8d3f-212606aa853f","22111B",0.99585812789037
+"m-Xylene","emission/water","a975efda-5fb3-38a9-8d3f-212606aa853f","22111C",0.00414187210963053
+"Magnesium","emission/water","1345e5a3-e4c5-3cc1-b896-988ae1796d8e","22111A",0.995015019380957
+"Magnesium","emission/water","1345e5a3-e4c5-3cc1-b896-988ae1796d8e","221117",0.0049849806190427
+"Manganese","emission/air","9a474c27-63f9-3d0d-a74c-465fd97400e7","221113",0.0011270819452072
+"Manganese","emission/air","9a474c27-63f9-3d0d-a74c-465fd97400e7","221111",7.63830057092172e-05
+"Manganese","emission/air","9a474c27-63f9-3d0d-a74c-465fd97400e7","22111A",0.691676652266692
+"Manganese","emission/air","9a474c27-63f9-3d0d-a74c-465fd97400e7","221118",0.0158329107444802
+"Manganese","emission/air","9a474c27-63f9-3d0d-a74c-465fd97400e7","221117",0.0916389091839857
+"Manganese","emission/air","9a474c27-63f9-3d0d-a74c-465fd97400e7","22111C",0.0111185480341676
+"Manganese","emission/air","9a474c27-63f9-3d0d-a74c-465fd97400e7","22111B",0.188529514819758
+"Manganese","emission/water","8f023abc-b8fc-3ef7-9571-f4cf6c2b6820","22111C",7.28372158383226e-08
+"Manganese","emission/water","8f023abc-b8fc-3ef7-9571-f4cf6c2b6820","221117",1.0630508448667e-05
+"Manganese","emission/water","8f023abc-b8fc-3ef7-9571-f4cf6c2b6820","22111B",3.66316318200171e-05
+"Manganese","emission/water","8f023abc-b8fc-3ef7-9571-f4cf6c2b6820","22111A",0.999952665022515
+"Mercury","emission/air","e2c65e04-f613-33db-9a6e-4cb4577b0005","22111B",0.101586996860822
+"Mercury","emission/air","e2c65e04-f613-33db-9a6e-4cb4577b0005","22111A",0.877220640814406
+"Mercury","emission/air","e2c65e04-f613-33db-9a6e-4cb4577b0005","221118",0.00568286811299422
+"Mercury","emission/air","e2c65e04-f613-33db-9a6e-4cb4577b0005","221111",2.01781901489927e-05
+"Mercury","emission/air","e2c65e04-f613-33db-9a6e-4cb4577b0005","221117",0.00355592711811871
+"Mercury","emission/air","e2c65e04-f613-33db-9a6e-4cb4577b0005","221116",0.00278260837140427
+"Mercury","emission/air","e2c65e04-f613-33db-9a6e-4cb4577b0005","22111C",0.00906193557330049
+"Mercury","emission/air","e2c65e04-f613-33db-9a6e-4cb4577b0005","221114",2.13908595186091e-07
+"Mercury","emission/air","e2c65e04-f613-33db-9a6e-4cb4577b0005","221113",8.86310502107129e-05
+"Mercury","emission/ground","2ae8f50e-97b7-33b5-b936-e1d199425695","22111A",1
+"Mercury","emission/water","687b7004-d26d-3dfc-b8f2-81e092bc4bca","221113",0.00158168303186637
+"Mercury","emission/water","687b7004-d26d-3dfc-b8f2-81e092bc4bca","22111A",0.504876150085784
+"Mercury","emission/water","687b7004-d26d-3dfc-b8f2-81e092bc4bca","22111B",0.493478180405339
+"Mercury","emission/water","687b7004-d26d-3dfc-b8f2-81e092bc4bca","221117",1.64314785619462e-06
+"Mercury","emission/water","687b7004-d26d-3dfc-b8f2-81e092bc4bca","22111C",2.80279374110905e-05
+"Mercury","emission/water","687b7004-d26d-3dfc-b8f2-81e092bc4bca","221118",2.95384469169473e-05
+"Mercury","emission/water","687b7004-d26d-3dfc-b8f2-81e092bc4bca","221114",4.77694482615535e-06
+"Methane","emission/air","aab83476-ec6c-3742-af85-15d320b7ce80","221116",4.15717697074495e-22
+"Methane","emission/air","aab83476-ec6c-3742-af85-15d320b7ce80","221118",5.64170736780797e-05
+"Methane","emission/air","aab83476-ec6c-3742-af85-15d320b7ce80","22111C",0.000674615298521184
+"Methane","emission/air","aab83476-ec6c-3742-af85-15d320b7ce80","221111",2.78647609846071e-06
+"Methane","emission/air","aab83476-ec6c-3742-af85-15d320b7ce80","221114",1.42694522781502e-06
+"Methane","emission/air","aab83476-ec6c-3742-af85-15d320b7ce80","22111B",0.0674990622937155
+"Methane","emission/air","aab83476-ec6c-3742-af85-15d320b7ce80","221115",6.12590898140009e-08
+"Methane","emission/air","aab83476-ec6c-3742-af85-15d320b7ce80","221117",0.0374503180968616
+"Methane","emission/air","aab83476-ec6c-3742-af85-15d320b7ce80","221113",2.43118655415168e-06
+"Methane","emission/air","aab83476-ec6c-3742-af85-15d320b7ce80","22111A",0.894312881370253
+"Methanol","emission/air","ad362da4-86b8-3519-b904-d7f3be4328fe","221115",7.52438771327545e-07
+"Methanol","emission/air","ad362da4-86b8-3519-b904-d7f3be4328fe","22111C",0.00982983143018911
+"Methanol","emission/air","ad362da4-86b8-3519-b904-d7f3be4328fe","22111B",0.526469587543577
+"Methanol","emission/air","ad362da4-86b8-3519-b904-d7f3be4328fe","221111",4.03782386853355e-05
+"Methanol","emission/air","ad362da4-86b8-3519-b904-d7f3be4328fe","221117",0.000878659292804331
+"Methanol","emission/air","ad362da4-86b8-3519-b904-d7f3be4328fe","221113",4.93763177622438e-06
+"Methanol","emission/air","ad362da4-86b8-3519-b904-d7f3be4328fe","22111A",0.462775853424197
+"Methanol","emission/ground","a788bade-3e5a-31d7-82d6-10d0b4d359ae","22111B",1
+"Methanol","emission/water","7306a222-cbbc-391d-bbc8-346904e41235","22111C",6.4876614380624e-05
+"Methanol","emission/water","7306a222-cbbc-391d-bbc8-346904e41235","22111B",0.999935123385619
+"Methyl acrylate","emission/air","b95121cf-ac27-306d-88e4-94a160ab28c9","22111B",1
+"Methyl bromide","emission/air","18281313-4dde-31e9-a1ac-c210254d7130","22111A",0.985442741909895
+"Methyl bromide","emission/air","18281313-4dde-31e9-a1ac-c210254d7130","221117",0.00264381072943108
+"Methyl bromide","emission/air","18281313-4dde-31e9-a1ac-c210254d7130","22111B",0.0109778346808921
+"Methyl bromide","emission/air","18281313-4dde-31e9-a1ac-c210254d7130","22111C",0.00093561267978166
+"Methyl hydrazine","emission/air","f0267c81-ff66-36f6-ba35-11b522316310","221117",0.000515408291998106
+"Methyl hydrazine","emission/air","f0267c81-ff66-36f6-ba35-11b522316310","22111B",0.0105423743227111
+"Methyl hydrazine","emission/air","f0267c81-ff66-36f6-ba35-11b522316310","22111C",0.000903767887302508
+"Methyl hydrazine","emission/air","f0267c81-ff66-36f6-ba35-11b522316310","22111A",0.988038449497988
+"Methyl iodide","emission/air","eb7eba2b-7b6f-37a2-8aa1-ae0ec89db7ca","22111B",0.0131430715516455
+"Methyl iodide","emission/air","eb7eba2b-7b6f-37a2-8aa1-ae0ec89db7ca","22111A",0.986856928448354
+"Methyl isobutyl ketone","emission/air","16e9aaa4-b307-3860-a1af-e82f5a1dbd64","22111A",0.407894616761427
+"Methyl isobutyl ketone","emission/air","16e9aaa4-b307-3860-a1af-e82f5a1dbd64","22111B",0.291998758393595
+"Methyl isobutyl ketone","emission/air","16e9aaa4-b307-3860-a1af-e82f5a1dbd64","221117",0.289562756708227
+"Methyl isobutyl ketone","emission/air","16e9aaa4-b307-3860-a1af-e82f5a1dbd64","22111C",0.0105438681367501
+"Methyl methacrylate","emission/air","02f393d6-bc1c-370e-9144-a022ddca1d0a","221117",0.000515660489480459
+"Methyl methacrylate","emission/air","02f393d6-bc1c-370e-9144-a022ddca1d0a","22111A",0.988011053121533
+"Methyl methacrylate","emission/air","02f393d6-bc1c-370e-9144-a022ddca1d0a","22111C",0.000904061106693543
+"Methyl methacrylate","emission/air","02f393d6-bc1c-370e-9144-a022ddca1d0a","22111B",0.0105692252822932
+"Methyl tert-butyl ether","emission/air","806ce2b4-1a8c-3844-8372-dd0fa3797c21","22111B",0.0105742694351833
+"Methyl tert-butyl ether","emission/air","806ce2b4-1a8c-3844-8372-dd0fa3797c21","22111C",0.00090270869848951
+"Methyl tert-butyl ether","emission/air","806ce2b4-1a8c-3844-8372-dd0fa3797c21","22111A",0.987890250495232
+"Methyl tert-butyl ether","emission/air","806ce2b4-1a8c-3844-8372-dd0fa3797c21","221117",0.000632771371095023
+"Methylchrysene","emission/air","93484dfb-d8ea-3c44-a9d6-b05a5216a6a9","22111A",1
+"Methylene chloride","emission/air","f9fd0074-f765-3f38-a150-2ca0a82c37be","22111B",0.0425117035189708
+"Methylene chloride","emission/air","f9fd0074-f765-3f38-a150-2ca0a82c37be","22111C",0.000384288238446477
+"Methylene chloride","emission/air","f9fd0074-f765-3f38-a150-2ca0a82c37be","22111A",0.845019576875929
+"Methylene chloride","emission/air","f9fd0074-f765-3f38-a150-2ca0a82c37be","221117",0.112084431366653
+"Methylene chloride","emission/water","af9a1ea0-92aa-3f85-8563-5c21c65b1252","221111",0.342963608294276
+"Methylene chloride","emission/water","af9a1ea0-92aa-3f85-8563-5c21c65b1252","221117",0.110411023962353
+"Methylene chloride","emission/water","af9a1ea0-92aa-3f85-8563-5c21c65b1252","22111B",0.546625367743371
+"Methylmercury(I)","emission/water","a70d9916-0381-3a01-ab8e-4332ed191d64","22111B",1
+"Molybdenum trioxide","emission/air","30be6ad3-0af0-32bd-a83d-b040d9790aa7","22111A",0.969557753339966
+"Molybdenum trioxide","emission/air","30be6ad3-0af0-32bd-a83d-b040d9790aa7","22111C",0.0304422466600342
+"Molybdenum","emission/water","f95a65ae-f63c-39be-a86a-cb9b547b781b","22111A",0.0690302861254358
+"Molybdenum","emission/water","f95a65ae-f63c-39be-a86a-cb9b547b781b","221113",0.930969713874564
+"N-Methyl-2-pyrrolidone","emission/air","97579b43-89d0-3857-9911-d6dd6d28b024","22111B",1
+"N-Nitrosodimethylamine","emission/air","3a17ea66-85b2-3d3b-a1fb-5d58f274890c","22111B",0.000482873083485288
+"N-Nitrosodimethylamine","emission/air","3a17ea66-85b2-3d3b-a1fb-5d58f274890c","22111A",0.999517126916515
+"N-Nitrosodimethylamine","emission/water","ddb2a184-058b-3306-b9ea-7881c8e8c894","22111B",1
+"N-Nitrosomorpholine","emission/air","a3aa8c30-da3c-3c8d-8693-6fdeb1860fff","22111B",1
+"Naphthalene","emission/air","ebf3aeb4-7a46-3029-a8f8-83d68f4d4ce5","221117",0.0168764700652105
+"Naphthalene","emission/air","ebf3aeb4-7a46-3029-a8f8-83d68f4d4ce5","22111A",0.0707469402452033
+"Naphthalene","emission/air","ebf3aeb4-7a46-3029-a8f8-83d68f4d4ce5","221113",0.000941430221785521
+"Naphthalene","emission/air","ebf3aeb4-7a46-3029-a8f8-83d68f4d4ce5","221115",1.65362877034748e-05
+"Naphthalene","emission/air","ebf3aeb4-7a46-3029-a8f8-83d68f4d4ce5","22111B",0.901818438756621
+"Naphthalene","emission/air","ebf3aeb4-7a46-3029-a8f8-83d68f4d4ce5","221118",2.91972080469056e-05
+"Naphthalene","emission/air","ebf3aeb4-7a46-3029-a8f8-83d68f4d4ce5","22111C",0.00787986856227278
+"Naphthalene","emission/air","ebf3aeb4-7a46-3029-a8f8-83d68f4d4ce5","221111",0.00169111865315612
+"Naphthalene","emission/ground","b6604aac-5823-3882-be88-720da587ffb7","22111B",0.80620910308782
+"Naphthalene","emission/ground","b6604aac-5823-3882-be88-720da587ffb7","22111A",0.19379089691218
+"Naphthalene","emission/water","6db1dc8d-facf-347f-9885-53936a44286b","22111B",0.863577711434341
+"Naphthalene","emission/water","6db1dc8d-facf-347f-9885-53936a44286b","22111C",0.136422288565659
+"Nickel","emission/air","50f56ea3-e292-3c09-89d2-74466af5f11e","221113",1.09819316619614e-05
+"Nickel","emission/air","50f56ea3-e292-3c09-89d2-74466af5f11e","221117",0.00218035481222923
+"Nickel","emission/air","50f56ea3-e292-3c09-89d2-74466af5f11e","22111A",0.580345359978958
+"Nickel","emission/air","50f56ea3-e292-3c09-89d2-74466af5f11e","221111",7.6053662756597e-05
+"Nickel","emission/air","50f56ea3-e292-3c09-89d2-74466af5f11e","22111C",0.0239521332055541
+"Nickel","emission/air","50f56ea3-e292-3c09-89d2-74466af5f11e","221116",5.03830158927204e-08
+"Nickel","emission/air","50f56ea3-e292-3c09-89d2-74466af5f11e","221118",0.00132965703596578
+"Nickel","emission/air","50f56ea3-e292-3c09-89d2-74466af5f11e","221114",3.74505794821263e-08
+"Nickel","emission/air","50f56ea3-e292-3c09-89d2-74466af5f11e","22111B",0.392105371539279
+"Nickel","emission/ground","ade872db-a289-3467-bca5-112f4b96e874","221111",1
+"Nickel","emission/water","5a0f4337-3cdb-3484-84b4-67f1f5d0c113","221111",1.32637050445753e-05
+"Nickel","emission/water","5a0f4337-3cdb-3484-84b4-67f1f5d0c113","221117",0.000353590389435949
+"Nickel","emission/water","5a0f4337-3cdb-3484-84b4-67f1f5d0c113","221113",2.7937240720369e-06
+"Nickel","emission/water","5a0f4337-3cdb-3484-84b4-67f1f5d0c113","22111A",0.887851369905213
+"Nickel","emission/water","5a0f4337-3cdb-3484-84b4-67f1f5d0c113","22111B",0.111768009661178
+"Nickel","emission/water","5a0f4337-3cdb-3484-84b4-67f1f5d0c113","22111C",1.09726150564799e-05
+"Nitric acid","emission/air","53ba40b0-e966-32ba-9a31-d50049e5f77a","22111B",1
+"Nitrobenzene","emission/air","30a189e8-c3c0-3560-9e7c-4fd3c1b98d34","22111A",1
+"Nitrogen oxides","emission/air","4382ba18-dd21-3837-80b2-94283ef5490e","221118",0.00210980255474651
+"Nitrogen oxides","emission/air","4382ba18-dd21-3837-80b2-94283ef5490e","221114",8.05442233040117e-06
+"Nitrogen oxides","emission/air","4382ba18-dd21-3837-80b2-94283ef5490e","22111B",0.211284288976342
+"Nitrogen oxides","emission/air","4382ba18-dd21-3837-80b2-94283ef5490e","221116",4.03378980580842e-23
+"Nitrogen oxides","emission/air","4382ba18-dd21-3837-80b2-94283ef5490e","221115",4.46243910065843e-06
+"Nitrogen oxides","emission/air","4382ba18-dd21-3837-80b2-94283ef5490e","221111",3.17323160991262e-05
+"Nitrogen oxides","emission/air","4382ba18-dd21-3837-80b2-94283ef5490e","221113",3.16826728605171e-05
+"Nitrogen oxides","emission/air","4382ba18-dd21-3837-80b2-94283ef5490e","22111C",0.00607672061216998
+"Nitrogen oxides","emission/air","4382ba18-dd21-3837-80b2-94283ef5490e","22111A",0.705069230490915
+"Nitrogen oxides","emission/air","4382ba18-dd21-3837-80b2-94283ef5490e","221117",0.0753840255154357
+"Nitrogen","emission/water","d4625608-6ef8-3ce6-bfa4-0f96f3535e23","22111B",0.104683314630863
+"Nitrogen","emission/water","d4625608-6ef8-3ce6-bfa4-0f96f3535e23","22111C",0.00149588416551709
+"Nitrogen","emission/water","d4625608-6ef8-3ce6-bfa4-0f96f3535e23","221117",0.17855463831455
+"Nitrogen","emission/water","d4625608-6ef8-3ce6-bfa4-0f96f3535e23","221113",0.553274700813606
+"Nitrogen","emission/water","d4625608-6ef8-3ce6-bfa4-0f96f3535e23","221114",0.00354103043617887
+"Nitrogen","emission/water","d4625608-6ef8-3ce6-bfa4-0f96f3535e23","221118",0.00105499915956002
+"Nitrogen","emission/water","d4625608-6ef8-3ce6-bfa4-0f96f3535e23","221111",0.0121744690120442
+"Nitrogen","emission/water","d4625608-6ef8-3ce6-bfa4-0f96f3535e23","22111A",0.145220963467681
+"Nitrous oxide","emission/air","cfee0524-7ad6-300b-b050-6249135a2492","221115",5.81502339657204e-08
+"Nitrous oxide","emission/air","cfee0524-7ad6-300b-b050-6249135a2492","221113",2.88995918007242e-06
+"Nitrous oxide","emission/air","cfee0524-7ad6-300b-b050-6249135a2492","22111A",0.929248868845048
+"Nitrous oxide","emission/air","cfee0524-7ad6-300b-b050-6249135a2492","221114",8.49671447369925e-07
+"Nitrous oxide","emission/air","cfee0524-7ad6-300b-b050-6249135a2492","221116",2.47456840945785e-21
+"Nitrous oxide","emission/air","cfee0524-7ad6-300b-b050-6249135a2492","221117",0.0294596721423396
+"Nitrous oxide","emission/air","cfee0524-7ad6-300b-b050-6249135a2492","221111",1.98327910311708e-06
+"Nitrous oxide","emission/air","cfee0524-7ad6-300b-b050-6249135a2492","221118",3.35823827708771e-05
+"Nitrous oxide","emission/air","cfee0524-7ad6-300b-b050-6249135a2492","22111B",0.0404537130619551
+"Nitrous oxide","emission/air","cfee0524-7ad6-300b-b050-6249135a2492","22111C",0.000798382507922247
+"o-Cresol","emission/air","0b9668f1-074d-326e-889c-8e803fc651bd","22111A",1
+"o-Xylene","emission/air","e99ddeb5-25be-3571-9b7a-2668d9531e8a","22111B",0.952128653408388
+"o-Xylene","emission/air","e99ddeb5-25be-3571-9b7a-2668d9531e8a","221113",3.75079229602978e-05
+"o-Xylene","emission/air","e99ddeb5-25be-3571-9b7a-2668d9531e8a","221115",6.53397176130696e-06
+"o-Xylene","emission/air","e99ddeb5-25be-3571-9b7a-2668d9531e8a","22111C",0.000180725047115156
+"o-Xylene","emission/air","e99ddeb5-25be-3571-9b7a-2668d9531e8a","221117",0.0353642320924108
+"o-Xylene","emission/air","e99ddeb5-25be-3571-9b7a-2668d9531e8a","221111",0.000350630970075173
+"o-Xylene","emission/air","e99ddeb5-25be-3571-9b7a-2668d9531e8a","22111A",0.011931716587289
+"o-Xylene","emission/water","371dd7d6-178e-37c8-a648-b69256b742e8","22111C",0.00517152815066935
+"o-Xylene","emission/water","371dd7d6-178e-37c8-a648-b69256b742e8","22111B",0.994828471849331
+"Organics, purgeables","emission/water","03b4c1b2-3cb4-36f3-9269-5fb1b9d3e5a7","221111",1
+"Oxygen","emission/water","2c6400e9-7d62-3168-959b-4628a3e14756","22111B",1
+"p-Cresol","emission/air","7ca58e58-ada7-36c9-bdc6-1eea26d32abb","22111A",1
+"p-Dichlorobenzene","emission/air","981f397a-bee2-3519-b316-02a7756bf22a","22111B",0.499635251032947
+"p-Dichlorobenzene","emission/air","981f397a-bee2-3519-b316-02a7756bf22a","221117",0.204467764979424
+"p-Dichlorobenzene","emission/air","981f397a-bee2-3519-b316-02a7756bf22a","22111A",0.295896983987628
+"p-Dichlorobenzene","emission/water","d7992b6b-6bb4-3abc-bf17-f5a66aefd8a2","221117",1
+"p-Nitrophenol","emission/air","8f9d27d7-e27c-3baa-a1e5-4ad61a38d900","22111B",0.000139467435550999
+"p-Nitrophenol","emission/air","8f9d27d7-e27c-3baa-a1e5-4ad61a38d900","221117",0.00772708713792966
+"p-Nitrophenol","emission/air","8f9d27d7-e27c-3baa-a1e5-4ad61a38d900","22111A",0.992133445426519
+"p-Xylene","emission/air","3a41e87c-065d-3ab8-bc14-73ff717163c6","22111A",1
+"PAH/POM, unspecified","emission/air","02493f33-ffee-3fb6-8508-42de1592015e","22111A",0.203504150601634
+"PAH/POM, unspecified","emission/air","02493f33-ffee-3fb6-8508-42de1592015e","221113",2.64234435848315e-05
+"PAH/POM, unspecified","emission/air","02493f33-ffee-3fb6-8508-42de1592015e","221117",0.761197895248628
+"PAH/POM, unspecified","emission/air","02493f33-ffee-3fb6-8508-42de1592015e","22111B",0.035271530706153
+"Paraldehyde","emission/air","2001d79b-2107-37cb-a6f5-98b04254fc5c","22111B",1
+"Particulate matter, = 2.5µm","emission/air","49a9c581-7c83-36b0-b1bd-455ea4c665a6","221113",0.00183509558710443
+"Particulate matter, = 2.5µm","emission/air","49a9c581-7c83-36b0-b1bd-455ea4c665a6","22111C",0.00622516001253476
+"Particulate matter, = 2.5µm","emission/air","49a9c581-7c83-36b0-b1bd-455ea4c665a6","221114",1.45687094719219e-06
+"Particulate matter, = 2.5µm","emission/air","49a9c581-7c83-36b0-b1bd-455ea4c665a6","22111A",0.78992037364858
+"Particulate matter, = 2.5µm","emission/air","49a9c581-7c83-36b0-b1bd-455ea4c665a6","221116",4.02301439004859e-05
+"Particulate matter, = 2.5µm","emission/air","49a9c581-7c83-36b0-b1bd-455ea4c665a6","22111B",0.177789141087145
+"Particulate matter, = 2.5µm","emission/air","49a9c581-7c83-36b0-b1bd-455ea4c665a6","221115",1.81350434466738e-05
+"Particulate matter, = 2.5µm","emission/air","49a9c581-7c83-36b0-b1bd-455ea4c665a6","221117",0.0111838046711839
+"Particulate matter, = 2.5µm","emission/air","49a9c581-7c83-36b0-b1bd-455ea4c665a6","221118",0.0117561586324359
+"Particulate matter, = 2.5µm","emission/air","49a9c581-7c83-36b0-b1bd-455ea4c665a6","221111",0.00123044430272108
+"Particulate matter, > 2.5µm and = 10µm","emission/air","a320e284-d276-3167-89b3-19d790081c08","22111B",0.0423550118741849
+"Particulate matter, > 2.5µm and = 10µm","emission/air","a320e284-d276-3167-89b3-19d790081c08","221117",0.0309379746391718
+"Particulate matter, > 2.5µm and = 10µm","emission/air","a320e284-d276-3167-89b3-19d790081c08","221111",0.00106690866025675
+"Particulate matter, > 2.5µm and = 10µm","emission/air","a320e284-d276-3167-89b3-19d790081c08","22111A",0.897456884711144
+"Particulate matter, > 2.5µm and = 10µm","emission/air","a320e284-d276-3167-89b3-19d790081c08","221115",1.09799443780374e-07
+"Particulate matter, > 2.5µm and = 10µm","emission/air","a320e284-d276-3167-89b3-19d790081c08","221118",0.0210679485414624
+"Particulate matter, > 2.5µm and = 10µm","emission/air","a320e284-d276-3167-89b3-19d790081c08","22111C",0.00481820522729214
+"Particulate matter, > 2.5µm and = 10µm","emission/air","a320e284-d276-3167-89b3-19d790081c08","221116",1.70657510907682e-05
+"Particulate matter, > 2.5µm and = 10µm","emission/air","a320e284-d276-3167-89b3-19d790081c08","221113",0.00225625619577665
+"Particulate matter, > 2.5µm and = 10µm","emission/air","a320e284-d276-3167-89b3-19d790081c08","221114",2.36346001770467e-05
+"Pentachlorobenzene","emission/air","74ec13f4-2492-3099-949c-26ec4e15f0e1","22111B",1
+"Pentachlorobenzene","emission/water","80d946f2-befc-3447-809d-a483a6e35d37","22111B",1
+"Pentachlorophenol","emission/air","1b92a28f-209f-3380-b8fe-1354a50fa03d","221117",0.0029748265577861
+"Pentachlorophenol","emission/air","1b92a28f-209f-3380-b8fe-1354a50fa03d","22111B",7.31331691731896e-05
+"Pentachlorophenol","emission/air","1b92a28f-209f-3380-b8fe-1354a50fa03d","22111A",0.996952040273041
+"Pentachlorophenol","emission/water","31d47305-ae02-3929-8998-463bf1803af6","22111A",0.995960190185279
+"Pentachlorophenol","emission/water","31d47305-ae02-3929-8998-463bf1803af6","22111B",0.00403980981472114
+"Perylene","emission/air","0a0026f6-bebf-332e-8dd3-616a6d4e9e1b","221117",1
+"Phenanthrene","emission/air","12ae4a71-1402-36e9-ada8-fe6cb98c56ee","22111C",0.00563677192408805
+"Phenanthrene","emission/air","12ae4a71-1402-36e9-ada8-fe6cb98c56ee","221113",0.00312082038671691
+"Phenanthrene","emission/air","12ae4a71-1402-36e9-ada8-fe6cb98c56ee","221117",0.0299125371993854
+"Phenanthrene","emission/air","12ae4a71-1402-36e9-ada8-fe6cb98c56ee","22111A",0.516667437231013
+"Phenanthrene","emission/air","12ae4a71-1402-36e9-ada8-fe6cb98c56ee","221111",0.00272722891091553
+"Phenanthrene","emission/air","12ae4a71-1402-36e9-ada8-fe6cb98c56ee","22111B",0.441882422259291
+"Phenanthrene","emission/air","12ae4a71-1402-36e9-ada8-fe6cb98c56ee","221118",8.46461667898955e-07
+"Phenanthrene","emission/air","12ae4a71-1402-36e9-ada8-fe6cb98c56ee","221115",5.19356269223891e-05
+"Phenanthrene","emission/ground","c9949a1d-90fd-3ffc-84dc-13cb5185f0d1","22111A",0.809814916447659
+"Phenanthrene","emission/ground","c9949a1d-90fd-3ffc-84dc-13cb5185f0d1","22111B",0.190185083552341
+"Phenanthrene","emission/water","f4d494d1-6e82-3f63-a2d5-610f40dc08b4","22111C",1
+"Phenol","emission/air","45880be9-788f-387b-8b1b-c38615cc48e2","221111",0.000200988801378031
+"Phenol","emission/air","45880be9-788f-387b-8b1b-c38615cc48e2","221113",2.35624894208647e-05
+"Phenol","emission/air","45880be9-788f-387b-8b1b-c38615cc48e2","221115",3.5927636973577e-06
+"Phenol","emission/air","45880be9-788f-387b-8b1b-c38615cc48e2","22111A",0.512731800851943
+"Phenol","emission/air","45880be9-788f-387b-8b1b-c38615cc48e2","221117",0.0148386705203577
+"Phenol","emission/air","45880be9-788f-387b-8b1b-c38615cc48e2","22111B",0.468315926032997
+"Phenol","emission/air","45880be9-788f-387b-8b1b-c38615cc48e2","22111C",0.00142079181361758
+"Phenol","emission/air","45880be9-788f-387b-8b1b-c38615cc48e2","221114",0.00246466672658868
+"Phenol","emission/water","82fcc18d-8502-385b-8749-17b8f19fd177","22111B",0.0267800648080459
+"Phenol","emission/water","82fcc18d-8502-385b-8749-17b8f19fd177","221118",0.384214295835851
+"Phenol","emission/water","82fcc18d-8502-385b-8749-17b8f19fd177","22111C",0.405215256450535
+"Phenol","emission/water","82fcc18d-8502-385b-8749-17b8f19fd177","22111A",0.183790382905567
+"Phenols","emission/water","12812f0a-dd3e-3a55-b1fc-9fc7d5ea994f","22111A",0.980383688841027
+"Phenols","emission/water","12812f0a-dd3e-3a55-b1fc-9fc7d5ea994f","221118",0.0168750863394662
+"Phenols","emission/water","12812f0a-dd3e-3a55-b1fc-9fc7d5ea994f","22111B",4.96890481331223e-05
+"Phenols","emission/water","12812f0a-dd3e-3a55-b1fc-9fc7d5ea994f","22111C",0.00201547862087045
+"Phenols","emission/water","12812f0a-dd3e-3a55-b1fc-9fc7d5ea994f","221117",0.000676057150503621
+"Phosphorus","emission/air","95df3205-7c00-3edd-af6e-92ff90f42999","221117",0.00613857010898026
+"Phosphorus","emission/air","95df3205-7c00-3edd-af6e-92ff90f42999","22111C",0.0206403115774587
+"Phosphorus","emission/air","95df3205-7c00-3edd-af6e-92ff90f42999","22111B",0.0307545141155585
+"Phosphorus","emission/air","95df3205-7c00-3edd-af6e-92ff90f42999","22111A",0.942466604198002
+"Phosphorus","emission/water","1733622b-b54a-3202-8e58-4670a96ef6b3","22111C",0.000176802810078285
+"Phosphorus","emission/water","1733622b-b54a-3202-8e58-4670a96ef6b3","221113",0.318325035635886
+"Phosphorus","emission/water","1733622b-b54a-3202-8e58-4670a96ef6b3","22111A",0.148915118587318
+"Phosphorus","emission/water","1733622b-b54a-3202-8e58-4670a96ef6b3","22111B",0.514432847481519
+"Phosphorus","emission/water","1733622b-b54a-3202-8e58-4670a96ef6b3","221111",0.000267673575407234
+"Phosphorus","emission/water","1733622b-b54a-3202-8e58-4670a96ef6b3","221114",0.0170955856308287
+"Phosphorus","emission/water","1733622b-b54a-3202-8e58-4670a96ef6b3","221117",0.000786936278961692
+"Phthalic anhydride","emission/air","0a4b7ff7-c3d9-37c0-8f0d-4459730d70ae","22111A",1
+"Polychlorinated biphenyls","emission/air","18819e98-6dd1-3a8f-a27a-67ca826f3381","22111B",0.625184452659205
+"Polychlorinated biphenyls","emission/air","18819e98-6dd1-3a8f-a27a-67ca826f3381","221117",0.0561234387324724
+"Polychlorinated biphenyls","emission/air","18819e98-6dd1-3a8f-a27a-67ca826f3381","22111A",0.318692108608323
+"Polychlorinated biphenyls","emission/water","4e6eb42f-d04e-3e26-b651-e86a17605220","22111A",5.11834500817431e-06
+"Polychlorinated biphenyls","emission/water","4e6eb42f-d04e-3e26-b651-e86a17605220","22111C",3.33365866469536e-06
+"Polychlorinated biphenyls","emission/water","4e6eb42f-d04e-3e26-b651-e86a17605220","221113",0.999987739711587
+"Polychlorinated biphenyls","emission/water","4e6eb42f-d04e-3e26-b651-e86a17605220","221117",3.73031282213824e-06
+"Polychlorinated biphenyls","emission/water","4e6eb42f-d04e-3e26-b651-e86a17605220","22111B",7.79719177963593e-08
+"Polycyclic aromatic hydrocarbons","emission/air","3bf6bb55-a2d2-36a1-988c-3caf0d73baf9","221117",0.0168325343354661
+"Polycyclic aromatic hydrocarbons","emission/air","3bf6bb55-a2d2-36a1-988c-3caf0d73baf9","221113",0.000894376774446909
+"Polycyclic aromatic hydrocarbons","emission/air","3bf6bb55-a2d2-36a1-988c-3caf0d73baf9","22111B",0.745951732920804
+"Polycyclic aromatic hydrocarbons","emission/air","3bf6bb55-a2d2-36a1-988c-3caf0d73baf9","22111C",0.00824171307103646
+"Polycyclic aromatic hydrocarbons","emission/air","3bf6bb55-a2d2-36a1-988c-3caf0d73baf9","22111A",0.228079642898247
+"Polycyclic aromatic hydrocarbons","emission/water","3675e6f7-8453-3486-a889-a30ff2ef9bcd","22111B",1
+"Potassium","emission/water","48c481d2-a5da-3974-9695-ab588b961a2c","221117",0.992455090491035
+"Potassium","emission/water","48c481d2-a5da-3974-9695-ab588b961a2c","22111A",0.00754490950896538
+"Propionaldehyde","emission/air","592fa548-20aa-36e9-b703-68be0ff6f30a","221111",4.95523860314604e-05
+"Propionaldehyde","emission/air","592fa548-20aa-36e9-b703-68be0ff6f30a","22111A",0.878443718722531
+"Propionaldehyde","emission/air","592fa548-20aa-36e9-b703-68be0ff6f30a","22111C",0.000897639842132223
+"Propionaldehyde","emission/air","592fa548-20aa-36e9-b703-68be0ff6f30a","221113",5.81453323851655e-06
+"Propionaldehyde","emission/air","592fa548-20aa-36e9-b703-68be0ff6f30a","221117",0.00433354355064555
+"Propionaldehyde","emission/air","592fa548-20aa-36e9-b703-68be0ff6f30a","221115",9.26065345229626e-07
+"Propionaldehyde","emission/air","592fa548-20aa-36e9-b703-68be0ff6f30a","22111B",0.116268804900076
+"Propylene oxide","emission/air","4925db0d-7f56-3efa-ada9-eb799c3edd5b","221117",6.45680166093215e-06
+"Propylene oxide","emission/air","4925db0d-7f56-3efa-ada9-eb799c3edd5b","221111",0.0188624071981352
+"Propylene oxide","emission/air","4925db0d-7f56-3efa-ada9-eb799c3edd5b","22111C",0.000614605521961065
+"Propylene oxide","emission/air","4925db0d-7f56-3efa-ada9-eb799c3edd5b","22111A",0.00742227938693949
+"Propylene oxide","emission/air","4925db0d-7f56-3efa-ada9-eb799c3edd5b","22111B",0.973094251091303
+"Propylene","emission/air","2014edbf-fd15-3674-8927-701264cb597f","22111C",0.0140190635504107
+"Propylene","emission/air","2014edbf-fd15-3674-8927-701264cb597f","22111A",0.0685356973476658
+"Propylene","emission/air","2014edbf-fd15-3674-8927-701264cb597f","22111B",0.917445239101923
+"Pyrene","emission/air","b51b5cbd-b0cb-3104-b03b-4fbc12829a9e","22111A",0.342858039835726
+"Pyrene","emission/air","b51b5cbd-b0cb-3104-b03b-4fbc12829a9e","221111",0.0125307821713929
+"Pyrene","emission/air","b51b5cbd-b0cb-3104-b03b-4fbc12829a9e","221117",0.148467606643662
+"Pyrene","emission/air","b51b5cbd-b0cb-3104-b03b-4fbc12829a9e","22111B",0.479128096220015
+"Pyrene","emission/air","b51b5cbd-b0cb-3104-b03b-4fbc12829a9e","221118",2.38767448477272e-06
+"Pyrene","emission/air","b51b5cbd-b0cb-3104-b03b-4fbc12829a9e","221113",0.00329495720588335
+"Pyrene","emission/air","b51b5cbd-b0cb-3104-b03b-4fbc12829a9e","22111C",0.0134733820721763
+"Pyrene","emission/air","b51b5cbd-b0cb-3104-b03b-4fbc12829a9e","221115",0.000244748176659069
+"Pyrene","emission/water","97b592e9-1214-3b29-80e9-904c963da937","22111B",1
+"Pyridine","emission/air","67b9cc0b-261c-3b14-ae73-b88855d26a0f","22111A",1
+"Quinoline","emission/air","e0d00d88-a941-35d2-89e8-6fa28198f906","22111A",1
+"Selenium","emission/air","b6db14bd-73e9-3f02-852a-e8b5e60bbc61","22111C",0.000113900871933446
+"Selenium","emission/air","b6db14bd-73e9-3f02-852a-e8b5e60bbc61","22111A",0.988369829343337
+"Selenium","emission/air","b6db14bd-73e9-3f02-852a-e8b5e60bbc61","221113",2.282573995101e-05
+"Selenium","emission/air","b6db14bd-73e9-3f02-852a-e8b5e60bbc61","221117",0.000154070942191765
+"Selenium","emission/air","b6db14bd-73e9-3f02-852a-e8b5e60bbc61","221116",2.64158818896874e-08
+"Selenium","emission/air","b6db14bd-73e9-3f02-852a-e8b5e60bbc61","22111B",0.0113393466867049
+"Selenium","emission/water","215fdef5-4bee-3402-b597-d0ae5c449b3b","221115",9.58617084505382e-05
+"Selenium","emission/water","215fdef5-4bee-3402-b597-d0ae5c449b3b","22111A",0.983420451806725
+"Selenium","emission/water","215fdef5-4bee-3402-b597-d0ae5c449b3b","221114",9.68083026734496e-05
+"Selenium","emission/water","215fdef5-4bee-3402-b597-d0ae5c449b3b","22111B",0.0163804424941798
+"Selenium","emission/water","215fdef5-4bee-3402-b597-d0ae5c449b3b","221117",3.84805106294215e-06
+"Selenium","emission/water","215fdef5-4bee-3402-b597-d0ae5c449b3b","221113",8.8366001296698e-08
+"Selenium","emission/water","215fdef5-4bee-3402-b597-d0ae5c449b3b","22111C",2.49927090734907e-06
+"Silver","emission/water","f3c908b3-a355-388d-aa06-adbfb8ce12dc","22111C",1.33479055373692e-05
+"Silver","emission/water","f3c908b3-a355-388d-aa06-adbfb8ce12dc","22111A",0.981487310967147
+"Silver","emission/water","f3c908b3-a355-388d-aa06-adbfb8ce12dc","22111B",0.0184928492061489
+"Silver","emission/water","f3c908b3-a355-388d-aa06-adbfb8ce12dc","221117",6.49192116657615e-06
+"Sodium","emission/water","ba614600-af03-39a6-a0f5-897debdf159c","22111B",6.38732631855107e-05
+"Sodium","emission/water","ba614600-af03-39a6-a0f5-897debdf159c","22111A",0.999907217887969
+"Sodium","emission/water","ba614600-af03-39a6-a0f5-897debdf159c","221117",2.89088488458119e-05
+"Strontium","emission/water","42904b8f-ac78-3e54-8774-2d117b505a09","22111A",1
+"Styrene","emission/air","69bc8b47-09b5-3a09-b7f4-3e4d2925ce5a","22111A",0.281625418244764
+"Styrene","emission/air","69bc8b47-09b5-3a09-b7f4-3e4d2925ce5a","22111B",0.256270721051919
+"Styrene","emission/air","69bc8b47-09b5-3a09-b7f4-3e4d2925ce5a","22111C",0.000491343709427085
+"Styrene","emission/air","69bc8b47-09b5-3a09-b7f4-3e4d2925ce5a","221111",0.000160589625394772
+"Styrene","emission/air","69bc8b47-09b5-3a09-b7f4-3e4d2925ce5a","221113",1.3175271713535e-05
+"Styrene","emission/air","69bc8b47-09b5-3a09-b7f4-3e4d2925ce5a","221115",3.062620738506e-06
+"Styrene","emission/air","69bc8b47-09b5-3a09-b7f4-3e4d2925ce5a","221117",0.461435689476043
+"Styrene","emission/ground","0f727b42-dc04-3f8b-aeb5-751c21ab7818","22111B",1
+"Styrene","emission/water","ae949cd2-45b1-39fb-9c52-943019cdba9b","22111B",0.13478344705758
+"Styrene","emission/water","ae949cd2-45b1-39fb-9c52-943019cdba9b","22111C",0.865216552942421
+"Sulfate","emission/water","0c241f3e-aa86-3804-8bd8-6082e2ad201f","221113",0.029844449874288
+"Sulfate","emission/water","0c241f3e-aa86-3804-8bd8-6082e2ad201f","22111B",0.0136849464077745
+"Sulfate","emission/water","0c241f3e-aa86-3804-8bd8-6082e2ad201f","221117",0.000151049352696013
+"Sulfate","emission/water","0c241f3e-aa86-3804-8bd8-6082e2ad201f","22111A",0.956319554365242
+"Sulfide","emission/water","caa29242-717c-37bd-b57b-de22a122d579","22111C",1
+"Sulfur dioxide","emission/air","f4973035-59f5-3bdc-b257-b274dcc04e0f","221114",3.94038466774968e-08
+"Sulfur dioxide","emission/air","f4973035-59f5-3bdc-b257-b274dcc04e0f","221115",1.60434523684708e-07
+"Sulfur dioxide","emission/air","f4973035-59f5-3bdc-b257-b274dcc04e0f","22111B",0.00455523946452487
+"Sulfur dioxide","emission/air","f4973035-59f5-3bdc-b257-b274dcc04e0f","22111A",0.983080576519874
+"Sulfur dioxide","emission/air","f4973035-59f5-3bdc-b257-b274dcc04e0f","221118",4.05670411304073e-06
+"Sulfur dioxide","emission/air","f4973035-59f5-3bdc-b257-b274dcc04e0f","221113",1.85166959175397e-05
+"Sulfur dioxide","emission/air","f4973035-59f5-3bdc-b257-b274dcc04e0f","221117",0.00359941884926539
+"Sulfur dioxide","emission/air","f4973035-59f5-3bdc-b257-b274dcc04e0f","22111C",0.00873922383189947
+"Sulfur dioxide","emission/air","f4973035-59f5-3bdc-b257-b274dcc04e0f","221111",2.76809603546457e-06
+"Sulfur dioxide","emission/air","f4973035-59f5-3bdc-b257-b274dcc04e0f","221116",4.14432498021082e-23
+"Sulfuric acid","emission/air","0838fbf7-0add-3353-ba9a-b187edeb85d6","22111A",0.9943714821922
+"Sulfuric acid","emission/air","0838fbf7-0add-3353-ba9a-b187edeb85d6","22111B",0.00155584725611011
+"Sulfuric acid","emission/air","0838fbf7-0add-3353-ba9a-b187edeb85d6","22111C",0.00407267055168962
+"Surfactants","emission/water","ed34465d-dcb1-3926-a995-ee361882cb1e","221113",1
+"Tetrachloroethylene","emission/air","984f3962-1a35-3813-bbf1-e3887be06b6f","22111A",0.327878500292816
+"Tetrachloroethylene","emission/air","984f3962-1a35-3813-bbf1-e3887be06b6f","22111B",0.367582986467293
+"Tetrachloroethylene","emission/air","984f3962-1a35-3813-bbf1-e3887be06b6f","22111C",0.000395820555199209
+"Tetrachloroethylene","emission/air","984f3962-1a35-3813-bbf1-e3887be06b6f","221117",0.304142692684691
+"Tetrachloroethylene","emission/water","5bd7af62-1b05-3694-a723-336cb58e345f","22111B",0.541061496966929
+"Tetrachloroethylene","emission/water","5bd7af62-1b05-3694-a723-336cb58e345f","22111A",0.458938503033071
+"Thallium","emission/air","9afdd2c1-9b05-3de5-a6ba-eb95948a71fa","22111B",1
+"Thallium","emission/water","6051a1f6-90e3-3231-b4e6-fdd69c961129","221117",1.51475878121291e-05
+"Thallium","emission/water","6051a1f6-90e3-3231-b4e6-fdd69c961129","22111B",0.344089194164299
+"Thallium","emission/water","6051a1f6-90e3-3231-b4e6-fdd69c961129","22111C",7.33247171946776e-05
+"Thallium","emission/water","6051a1f6-90e3-3231-b4e6-fdd69c961129","22111A",0.655822333530694
+"Titanium","emission/water","0f2dc726-d62a-3a67-bf97-af90ef81af0a","22111A",1
+"Toluene","emission/air","3f72fe9c-b003-38ee-b8d2-13a84f60506c","22111B",0.697312431789921
+"Toluene","emission/air","3f72fe9c-b003-38ee-b8d2-13a84f60506c","22111A",0.133089241280657
+"Toluene","emission/air","3f72fe9c-b003-38ee-b8d2-13a84f60506c","221115",1.98483962680611e-06
+"Toluene","emission/air","3f72fe9c-b003-38ee-b8d2-13a84f60506c","221118",2.16832647872185e-05
+"Toluene","emission/air","3f72fe9c-b003-38ee-b8d2-13a84f60506c","221114",2.65977401187167e-05
+"Toluene","emission/air","3f72fe9c-b003-38ee-b8d2-13a84f60506c","22111C",0.000772942269251731
+"Toluene","emission/air","3f72fe9c-b003-38ee-b8d2-13a84f60506c","221116",0.000120282766610721
+"Toluene","emission/air","3f72fe9c-b003-38ee-b8d2-13a84f60506c","221111",0.0113328254107587
+"Toluene","emission/air","3f72fe9c-b003-38ee-b8d2-13a84f60506c","221117",0.157136825546649
+"Toluene","emission/air","3f72fe9c-b003-38ee-b8d2-13a84f60506c","221113",0.000185185091618858
+"Toluene","emission/ground","123df42b-1658-3f80-ad31-fffbb8559d43","22111B",1
+"Toluene","emission/water","f7ebc6df-b3ee-30de-b6e8-c70e155854b3","22111B",0.790877343045049
+"Toluene","emission/water","f7ebc6df-b3ee-30de-b6e8-c70e155854b3","221111",0.0791262419788178
+"Toluene","emission/water","f7ebc6df-b3ee-30de-b6e8-c70e155854b3","22111C",0.129996414976133
+"Total dissolved solids","emission/water","61a45604-2ff4-384b-8d90-bae7206c2540","221111",1.65178788185827e-07
+"Total dissolved solids","emission/water","61a45604-2ff4-384b-8d90-bae7206c2540","221113",0.0116243609435036
+"Total dissolved solids","emission/water","61a45604-2ff4-384b-8d90-bae7206c2540","22111B",0.380788811036016
+"Total dissolved solids","emission/water","61a45604-2ff4-384b-8d90-bae7206c2540","22111A",0.607428630884726
+"Total dissolved solids","emission/water","61a45604-2ff4-384b-8d90-bae7206c2540","221117",0.000158031956966135
+"Total metals","emission/water","1a257bae-badb-3b35-8482-59970c05b432","22111A",0.998637114649013
+"Total metals","emission/water","1a257bae-badb-3b35-8482-59970c05b432","22111B",0.00136288535098735
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","3349b083-3e67-3533-8b77-ffb62f9f22d4","221111",0.51820798183372
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","3349b083-3e67-3533-8b77-ffb62f9f22d4","221114",0.00140764461567765
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","3349b083-3e67-3533-8b77-ffb62f9f22d4","221113",0.044087318479663
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","3349b083-3e67-3533-8b77-ffb62f9f22d4","22111C",0.00479584450568801
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","3349b083-3e67-3533-8b77-ffb62f9f22d4","22111B",0.00227099761299921
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","3349b083-3e67-3533-8b77-ffb62f9f22d4","221118",0.000477865884143738
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","3349b083-3e67-3533-8b77-ffb62f9f22d4","221117",7.91921256387251e-06
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","3349b083-3e67-3533-8b77-ffb62f9f22d4","22111A",0.428744427855544
+"Total Organic Carbon","emission/water","cbf6df8e-c4a2-3920-a97a-2238ccb7bc6c","22111B",0.333162920093545
+"Total Organic Carbon","emission/water","cbf6df8e-c4a2-3920-a97a-2238ccb7bc6c","22111C",0.429029240529065
+"Total Organic Carbon","emission/water","cbf6df8e-c4a2-3920-a97a-2238ccb7bc6c","221113",0.230594902562047
+"Total Organic Carbon","emission/water","cbf6df8e-c4a2-3920-a97a-2238ccb7bc6c","221117",0.00374804959320822
+"Total Organic Carbon","emission/water","cbf6df8e-c4a2-3920-a97a-2238ccb7bc6c","22111A",0.00346488722213486
+"Total suspended solids","emission/water","786e8081-5f2e-3bab-9585-d0dba98ec7c3","221114",0.000754463919944219
+"Total suspended solids","emission/water","786e8081-5f2e-3bab-9585-d0dba98ec7c3","221111",0.0020552819804343
+"Total suspended solids","emission/water","786e8081-5f2e-3bab-9585-d0dba98ec7c3","22111B",0.767727644908475
+"Total suspended solids","emission/water","786e8081-5f2e-3bab-9585-d0dba98ec7c3","221118",0.000416571443757509
+"Total suspended solids","emission/water","786e8081-5f2e-3bab-9585-d0dba98ec7c3","221113",0.00606315415572197
+"Total suspended solids","emission/water","786e8081-5f2e-3bab-9585-d0dba98ec7c3","22111C",0.0115873446939411
+"Total suspended solids","emission/water","786e8081-5f2e-3bab-9585-d0dba98ec7c3","221117",0.0046596147718849
+"Total suspended solids","emission/water","786e8081-5f2e-3bab-9585-d0dba98ec7c3","22111A",0.206735924125841
+"Tribromomethane","emission/air","53effec4-058b-3ab7-b7d5-005d39dd0eb9","22111B",0.0106183706908554
+"Tribromomethane","emission/air","53effec4-058b-3ab7-b7d5-005d39dd0eb9","22111C",0.000909445983837076
+"Tribromomethane","emission/air","53effec4-058b-3ab7-b7d5-005d39dd0eb9","22111A",0.987952593024106
+"Tribromomethane","emission/air","53effec4-058b-3ab7-b7d5-005d39dd0eb9","221117",0.00051959030120189
+"Tribromomethane","emission/water","bf5315db-0443-3c49-b072-c37824b4808d","22111A",0.0699621595047558
+"Tribromomethane","emission/water","bf5315db-0443-3c49-b072-c37824b4808d","22111B",0.930037840495244
+"Tributlytin","emission/water","b93a1e2f-23b5-34ac-8b22-9ad0fd9f4dd9","22111B",1
+"Trichloroethane","emission/water","c6238bd5-a51a-3d3d-a5d3-c616b46f60da","22111A",1
+"Trichloroethylene","emission/air","2a38b77f-5e72-3a0e-b331-7ce360ac47a1","22111A",0.00321497125157987
+"Trichloroethylene","emission/air","2a38b77f-5e72-3a0e-b331-7ce360ac47a1","22111B",0.00186498257139656
+"Trichloroethylene","emission/air","2a38b77f-5e72-3a0e-b331-7ce360ac47a1","221117",0.994920046177023
+"Trichloroethylene","emission/water","8d6b93c6-3692-33f8-8747-3ae783d298f3","22111A",0.839575303397299
+"Trichloroethylene","emission/water","8d6b93c6-3692-33f8-8747-3ae783d298f3","22111B",0.160424696602701
+"Triethylene glycol monomethyl ether","emission/air","82338eb0-39be-318d-8af3-d555ec1aaacc","22111B",1
+"Uranium","emission/water","a63a9c73-2fe4-3679-93c2-28b6f7fb8915","221115",1
+"Vanadium","emission/air","7e3145d3-a1a3-36d0-ae11-d380127cde8b","22111A",1
+"Vanadium","emission/ground","58a54834-bb23-31a6-9919-7baf655fe7d9","22111A",1
+"Vanadium","emission/water","f5d6980f-0bab-38e7-a203-95da64eb6091","22111B",0.662684795748872
+"Vanadium","emission/water","f5d6980f-0bab-38e7-a203-95da64eb6091","221117",0.00564135192660126
+"Vanadium","emission/water","f5d6980f-0bab-38e7-a203-95da64eb6091","22111A",0.331673852324527
+"Vinyl acetate","emission/air","ca50de59-971c-3414-8f6b-3a1b0062aba8","22111B",0.010323767539369
+"Vinyl acetate","emission/air","ca50de59-971c-3414-8f6b-3a1b0062aba8","221117",0.000504796053323111
+"Vinyl acetate","emission/air","ca50de59-971c-3414-8f6b-3a1b0062aba8","22111A",0.98828746657658
+"Vinyl acetate","emission/air","ca50de59-971c-3414-8f6b-3a1b0062aba8","22111C",0.00088396983072813
+"Vinyl chloride","emission/air","b5c72fb3-6445-33b7-aec4-ba41e30b8d14","22111B",0.00279916032749731
+"Vinyl chloride","emission/air","b5c72fb3-6445-33b7-aec4-ba41e30b8d14","22111A",0.0418044466421156
+"Vinyl chloride","emission/air","b5c72fb3-6445-33b7-aec4-ba41e30b8d14","221114",0.00130120058869746
+"Vinyl chloride","emission/air","b5c72fb3-6445-33b7-aec4-ba41e30b8d14","221117",0.95409519244169
+"Volatile organic compounds","emission/air","6f861846-1c4c-3fc9-a198-56b2d9abd83b","22111B",0.299911415275794
+"Volatile organic compounds","emission/air","6f861846-1c4c-3fc9-a198-56b2d9abd83b","22111A",0.582265496422453
+"Volatile organic compounds","emission/air","6f861846-1c4c-3fc9-a198-56b2d9abd83b","221113",0.0011600440131326
+"Volatile organic compounds","emission/air","6f861846-1c4c-3fc9-a198-56b2d9abd83b","221111",0.00204001052084247
+"Volatile organic compounds","emission/air","6f861846-1c4c-3fc9-a198-56b2d9abd83b","221115",2.38289996501828e-05
+"Volatile organic compounds","emission/air","6f861846-1c4c-3fc9-a198-56b2d9abd83b","22111C",0.0191943286004435
+"Volatile organic compounds","emission/air","6f861846-1c4c-3fc9-a198-56b2d9abd83b","221117",0.057246787745493
+"Volatile organic compounds","emission/air","6f861846-1c4c-3fc9-a198-56b2d9abd83b","221114",2.00871718231931e-05
+"Volatile organic compounds","emission/air","6f861846-1c4c-3fc9-a198-56b2d9abd83b","221118",0.0357342902701832
+"Volatile organic compounds","emission/air","6f861846-1c4c-3fc9-a198-56b2d9abd83b","221116",0.0024037109801852
+"Volatile organic compounds","emission/water","e6cafce7-a60f-316b-b264-3127bdc946d0","221117",1
+"Water","emission/water","96054103-8509-3049-a638-c4d13cc707cc","22111A",0.000329014102163832
+"Water","emission/water","96054103-8509-3049-a638-c4d13cc707cc","22111B",0.999670985897836
+"Water","resource/water","e2eb491c-78ff-3123-9e42-494c7d199b44","22111A",0.00371896916245627
+"Water","resource/water","e2eb491c-78ff-3123-9e42-494c7d199b44","22111B",0.996281030837544
+"Water, brackish","emission/water","f96e52c2-2c7e-35c0-8c7d-91877eb37725","22111A",0.0763431816975988
+"Water, brackish","emission/water","f96e52c2-2c7e-35c0-8c7d-91877eb37725","22111C",9.73743796638342e-29
+"Water, brackish","emission/water","f96e52c2-2c7e-35c0-8c7d-91877eb37725","22111B",0.920849202650954
+"Water, brackish","emission/water","f96e52c2-2c7e-35c0-8c7d-91877eb37725","221113",0.00280761565144675
+"Water, brackish","resource/water","a95bae36-325b-3da7-8a47-00ba98b61cfe","22111A",0.0778516786410396
+"Water, brackish","resource/water","a95bae36-325b-3da7-8a47-00ba98b61cfe","221113",0.0037222630037054
+"Water, brackish","resource/water","a95bae36-325b-3da7-8a47-00ba98b61cfe","22111B",0.918426047032348
+"Water, brackish","resource/water","a95bae36-325b-3da7-8a47-00ba98b61cfe","22111C",1.13229067363025e-08
+"Water, fresh","emission/water","a1c1753e-5b37-3aa2-a929-552eb0d6d351","221117",2.96596683883272e-07
+"Water, fresh","emission/water","a1c1753e-5b37-3aa2-a929-552eb0d6d351","22111A",0.518625228840108
+"Water, fresh","emission/water","a1c1753e-5b37-3aa2-a929-552eb0d6d351","221113",0.209293481769679
+"Water, fresh","emission/water","a1c1753e-5b37-3aa2-a929-552eb0d6d351","22111B",0.272080992793529
+"Water, fresh","emission/water","a1c1753e-5b37-3aa2-a929-552eb0d6d351","221114",1.33853556530192e-30
+"Water, fresh","resource/water","8ba7dd57-b502-397b-944a-f63c6615f754","221113",0.208812573187327
+"Water, fresh","resource/water","8ba7dd57-b502-397b-944a-f63c6615f754","221114",1.30563391110269e-30
+"Water, fresh","resource/water","8ba7dd57-b502-397b-944a-f63c6615f754","22111B",0.271024931323571
+"Water, fresh","resource/water","8ba7dd57-b502-397b-944a-f63c6615f754","22111A",0.52015954880779
+"Water, fresh","resource/water","8ba7dd57-b502-397b-944a-f63c6615f754","221117",2.94668131130827e-06
+"Water, reclaimed","",NA,"221113",0.0811150738697274
+"Water, reclaimed","",NA,"22111A",0.802115499707036
+"Water, reclaimed","",NA,"22111B",0.116769426423237
+"Water, saline","emission/water","55222571-f94b-36fd-b74a-4e32219dfe2f","22111C",0.0071448860197357
+"Water, saline","emission/water","55222571-f94b-36fd-b74a-4e32219dfe2f","221113",0.395156633780185
+"Water, saline","emission/water","55222571-f94b-36fd-b74a-4e32219dfe2f","22111A",0.0185298258854937
+"Water, saline","emission/water","55222571-f94b-36fd-b74a-4e32219dfe2f","22111B",0.579168654314586
+"Water, saline","resource/water","67297f72-511b-3e86-b7e4-676437a75dbf","22111B",0.577784347956361
+"Water, saline","resource/water","67297f72-511b-3e86-b7e4-676437a75dbf","22111C",0.00711617318501902
+"Water, saline","resource/water","67297f72-511b-3e86-b7e4-676437a75dbf","22111A",0.0214339303530843
+"Water, saline","resource/water","67297f72-511b-3e86-b7e4-676437a75dbf","221113",0.393665548505536
+"Xylene","emission/air","aef9d0ff-6482-3b1d-a53e-4d738bdcd9b1","22111B",0.74251040211265
+"Xylene","emission/air","aef9d0ff-6482-3b1d-a53e-4d738bdcd9b1","221113",0.000211943281910642
+"Xylene","emission/air","aef9d0ff-6482-3b1d-a53e-4d738bdcd9b1","22111C",0.00153117978844044
+"Xylene","emission/air","aef9d0ff-6482-3b1d-a53e-4d738bdcd9b1","22111A",0.124182066633312
+"Xylene","emission/air","aef9d0ff-6482-3b1d-a53e-4d738bdcd9b1","221111",0.0126108983568749
+"Xylene","emission/air","aef9d0ff-6482-3b1d-a53e-4d738bdcd9b1","221116",0.000292770405487139
+"Xylene","emission/air","aef9d0ff-6482-3b1d-a53e-4d738bdcd9b1","221117",0.118658416078898
+"Xylene","emission/air","aef9d0ff-6482-3b1d-a53e-4d738bdcd9b1","221115",2.32334242676636e-06
+"Xylene","emission/ground","c05b7f1c-b8b3-35a6-990b-d71f591b7511","22111B",0.629639294176568
+"Xylene","emission/ground","c05b7f1c-b8b3-35a6-990b-d71f591b7511","22111A",0.36623637011673
+"Xylene","emission/ground","c05b7f1c-b8b3-35a6-990b-d71f591b7511","22111C",0.00412433570670226
+"Xylene","emission/water","11b4481a-d297-349a-89fc-102009c1410c","22111C",0.201584817925745
+"Xylene","emission/water","11b4481a-d297-349a-89fc-102009c1410c","22111B",0.675860315222873
+"Xylene","emission/water","11b4481a-d297-349a-89fc-102009c1410c","221111",0.122554866851382
+"Zinc","emission/air","435bfa52-d2d3-3760-abf4-27de892972ac","22111A",1
+"Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","221118",0.00250189660442748
+"Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","221113",0.0738289511158173
+"Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","221111",0.00892976581851225
+"Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","22111A",0.848298951720929
+"Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","221114",6.67249790141838e-05
+"Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","221117",8.95311717071106e-05
+"Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","22111C",1.01394616787114e-05
+"Zinc","emission/water","41f104ab-8f49-3924-9b57-98ed81cd54a0","22111B",0.0662740391279142
+"Antimony compounds","emission/air","30aff867-8f13-32d1-88d6-4edc0ba5752a","22111B",0.112364098916093
+"Antimony compounds","emission/air","30aff867-8f13-32d1-88d6-4edc0ba5752a","22111A",0.855584722263303
+"Antimony compounds","emission/air","30aff867-8f13-32d1-88d6-4edc0ba5752a","221118",0.000788995687482714
+"Antimony compounds","emission/air","30aff867-8f13-32d1-88d6-4edc0ba5752a","221117",0.00646559029791879
+"Antimony compounds","emission/air","30aff867-8f13-32d1-88d6-4edc0ba5752a","22111C",0.024796592835202
+"Antimony compounds","emission/water","a0eb7d41-1d2e-37b2-9969-1758504bd806","22111A",0.654863161143728
+"Antimony compounds","emission/water","a0eb7d41-1d2e-37b2-9969-1758504bd806","221117",2.78220610360529e-06
+"Antimony compounds","emission/water","a0eb7d41-1d2e-37b2-9969-1758504bd806","22111B",0.345134056650169
+"Arsenic compounds","emission/air","65d56a65-e766-3e57-8da8-f2accb61e9fc","22111A",0.954090519128314
+"Arsenic compounds","emission/air","65d56a65-e766-3e57-8da8-f2accb61e9fc","22111C",0.0015984269044183
+"Arsenic compounds","emission/air","65d56a65-e766-3e57-8da8-f2accb61e9fc","221113",5.47170310488225e-05
+"Arsenic compounds","emission/air","65d56a65-e766-3e57-8da8-f2accb61e9fc","221117",0.00603485088442668
+"Arsenic compounds","emission/air","65d56a65-e766-3e57-8da8-f2accb61e9fc","22111B",0.0381579590020763
+"Arsenic compounds","emission/air","65d56a65-e766-3e57-8da8-f2accb61e9fc","221114",2.25676293242321e-07
+"Arsenic compounds","emission/air","65d56a65-e766-3e57-8da8-f2accb61e9fc","221111",4.05022910941964e-06
+"Arsenic compounds","emission/air","65d56a65-e766-3e57-8da8-f2accb61e9fc","221116",2.83169449465316e-05
+"Arsenic compounds","emission/air","65d56a65-e766-3e57-8da8-f2accb61e9fc","221118",3.09341993662479e-05
+"Arsenic compounds","emission/water","50d1ebdd-a4f0-3dc4-99a9-db27d31d4802","22111B",0.0831674336493258
+"Arsenic compounds","emission/water","50d1ebdd-a4f0-3dc4-99a9-db27d31d4802","22111A",0.866741824289946
+"Arsenic compounds","emission/water","50d1ebdd-a4f0-3dc4-99a9-db27d31d4802","221114",3.73091880271416e-05
+"Arsenic compounds","emission/water","50d1ebdd-a4f0-3dc4-99a9-db27d31d4802","221113",0.0499466149481554
+"Arsenic compounds","emission/water","50d1ebdd-a4f0-3dc4-99a9-db27d31d4802","221117",9.85094245064488e-05
+"Arsenic compounds","emission/water","50d1ebdd-a4f0-3dc4-99a9-db27d31d4802","22111C",8.30850003943382e-06
+"Barium compounds","emission/air","ac1eb121-e94a-3198-a613-528dbb56c2d2","22111A",1
+"Barium compounds","emission/water","d97a56c9-1cfd-3886-aa9f-e8f4960dff04","22111A",0.999864097561703
+"Barium compounds","emission/water","d97a56c9-1cfd-3886-aa9f-e8f4960dff04","221111",1.51258991277922e-06
+"Barium compounds","emission/water","d97a56c9-1cfd-3886-aa9f-e8f4960dff04","22111B",9.32186231017471e-05
+"Barium compounds","emission/water","d97a56c9-1cfd-3886-aa9f-e8f4960dff04","221117",4.11712252825909e-05
+"Beryllium compounds","emission/air","ff2db099-eda7-3d5c-904f-397643bb2fc9","22111B",0.0203854821072846
+"Beryllium compounds","emission/air","ff2db099-eda7-3d5c-904f-397643bb2fc9","221116",1.46284363085408e-06
+"Beryllium compounds","emission/air","ff2db099-eda7-3d5c-904f-397643bb2fc9","221113",0.000169729260581293
+"Beryllium compounds","emission/air","ff2db099-eda7-3d5c-904f-397643bb2fc9","22111C",0.00077335299921898
+"Beryllium compounds","emission/air","ff2db099-eda7-3d5c-904f-397643bb2fc9","22111A",0.975689283502921
+"Beryllium compounds","emission/air","ff2db099-eda7-3d5c-904f-397643bb2fc9","221117",0.00298068928636361
+"Beryllium compounds","emission/water","b9b2f179-18a6-36d1-8155-e3f43b903829","22111B",0.039501555416329
+"Beryllium compounds","emission/water","b9b2f179-18a6-36d1-8155-e3f43b903829","22111A",0.883395178070336
+"Beryllium compounds","emission/water","b9b2f179-18a6-36d1-8155-e3f43b903829","221113",0.0771032665133349
+"Biomass","resource/biotic","7feeb363-fbeb-37ad-937f-080834b9dc35","221117",1
+"Cadmium compounds","emission/air","8f9a0368-97e3-37f6-902d-325916697da4","221118",0.00701286390369014
+"Cadmium compounds","emission/air","8f9a0368-97e3-37f6-902d-325916697da4","221113",0.000251612683382345
+"Cadmium compounds","emission/air","8f9a0368-97e3-37f6-902d-325916697da4","221116",7.43305217431783e-07
+"Cadmium compounds","emission/air","8f9a0368-97e3-37f6-902d-325916697da4","22111B",0.38267617099431
+"Cadmium compounds","emission/air","8f9a0368-97e3-37f6-902d-325916697da4","22111C",0.0181500088774075
+"Cadmium compounds","emission/air","8f9a0368-97e3-37f6-902d-325916697da4","221114",2.12503226310407e-07
+"Cadmium compounds","emission/air","8f9a0368-97e3-37f6-902d-325916697da4","221111",2.64843843593305e-05
+"Cadmium compounds","emission/air","8f9a0368-97e3-37f6-902d-325916697da4","221117",0.00801912460633148
+"Cadmium compounds","emission/air","8f9a0368-97e3-37f6-902d-325916697da4","22111A",0.583862778742075
+"Cadmium compounds","emission/water","d6499c68-fb53-3ad8-ba19-1e40834b4fc7","22111B",0.131876887563999
+"Cadmium compounds","emission/water","d6499c68-fb53-3ad8-ba19-1e40834b4fc7","22111C",3.09398220718894e-05
+"Cadmium compounds","emission/water","d6499c68-fb53-3ad8-ba19-1e40834b4fc7","221113",0.164363356262277
+"Cadmium compounds","emission/water","d6499c68-fb53-3ad8-ba19-1e40834b4fc7","221117",0.00053570857642673
+"Cadmium compounds","emission/water","d6499c68-fb53-3ad8-ba19-1e40834b4fc7","22111A",0.703193107775225
+"Chromium compounds","emission/air","04d6d3dd-ddba-389c-83f6-e5f4a8638828","221111",0.0131991200160424
+"Chromium compounds","emission/air","04d6d3dd-ddba-389c-83f6-e5f4a8638828","22111A",0.986800879983958
+"Chromium compounds","emission/ground","3e9e5cb3-0f07-3618-ac5c-5d89626970b1","221111",1
+"Chromium compounds","emission/water","1f2d2829-029a-3a77-824c-e43f2f386f41","221117",1.7501670603839e-05
+"Chromium compounds","emission/water","1f2d2829-029a-3a77-824c-e43f2f386f41","221113",0.0107980055624528
+"Chromium compounds","emission/water","1f2d2829-029a-3a77-824c-e43f2f386f41","22111B",0.00430464308056584
+"Chromium compounds","emission/water","1f2d2829-029a-3a77-824c-e43f2f386f41","22111A",0.984343551354024
+"Chromium compounds","emission/water","1f2d2829-029a-3a77-824c-e43f2f386f41","22111C",0.000536298332353145
+"Cobalt compounds","emission/air","5ba5aa71-2d33-3b9c-9bd4-37c19b1b4506","221118",3.31960219214767e-05
+"Cobalt compounds","emission/air","5ba5aa71-2d33-3b9c-9bd4-37c19b1b4506","221117",0.00364641179401608
+"Cobalt compounds","emission/air","5ba5aa71-2d33-3b9c-9bd4-37c19b1b4506","22111B",0.0310365880501849
+"Cobalt compounds","emission/air","5ba5aa71-2d33-3b9c-9bd4-37c19b1b4506","221113",6.33934977454657e-07
+"Cobalt compounds","emission/air","5ba5aa71-2d33-3b9c-9bd4-37c19b1b4506","22111A",0.962367496166205
+"Cobalt compounds","emission/air","5ba5aa71-2d33-3b9c-9bd4-37c19b1b4506","22111C",0.00291567403269524
+"Cobalt compounds","emission/ground","98b4a1e7-bda4-31ef-a1ae-45edc475eb5a","22111A",1
+"Cobalt compounds","emission/water","71a07160-4ecc-3056-8e1a-2598a62db1a5","221117",0.000368809361966244
+"Cobalt compounds","emission/water","71a07160-4ecc-3056-8e1a-2598a62db1a5","22111C",0.836198830530801
+"Cobalt compounds","emission/water","71a07160-4ecc-3056-8e1a-2598a62db1a5","22111A",0.163432360107233
+"Copper compounds","emission/air","233fa408-5db8-3c9a-aa2f-60dcb6d587e6","22111A",0.990771649760784
+"Copper compounds","emission/air","233fa408-5db8-3c9a-aa2f-60dcb6d587e6","221111",0.00922835023921618
+"Copper compounds","emission/ground","eda80ec2-392d-31ab-8116-70aad9d8d157","221111",1
+"Copper compounds","emission/water","4177b053-26a1-36e1-baa8-43af1249eb56","221113",0.0922883175139131
+"Copper compounds","emission/water","4177b053-26a1-36e1-baa8-43af1249eb56","22111C",0.0775343174858668
+"Copper compounds","emission/water","4177b053-26a1-36e1-baa8-43af1249eb56","221111",4.21416468198918e-06
+"Copper compounds","emission/water","4177b053-26a1-36e1-baa8-43af1249eb56","22111A",0.482037233458615
+"Copper compounds","emission/water","4177b053-26a1-36e1-baa8-43af1249eb56","22111B",0.347909706722208
+"Copper compounds","emission/water","4177b053-26a1-36e1-baa8-43af1249eb56","221117",0.00012520486037038
+"Copper compounds","emission/water","4177b053-26a1-36e1-baa8-43af1249eb56","221114",0.000101005794345054
+"Cyanide compounds","emission/air","87345046-bc9a-3701-b002-69fa7045c16d","221117",0.000527966135531142
+"Cyanide compounds","emission/air","87345046-bc9a-3701-b002-69fa7045c16d","22111C",0.000926154103701205
+"Cyanide compounds","emission/air","87345046-bc9a-3701-b002-69fa7045c16d","22111A",0.98659040920371
+"Cyanide compounds","emission/air","87345046-bc9a-3701-b002-69fa7045c16d","22111B",0.011955470557058
+"Cyanide compounds","emission/water","1df3147c-9485-3401-b2b5-b403b8f2d52f","221113",7.51077000751235e-07
+"Cyanide compounds","emission/water","1df3147c-9485-3401-b2b5-b403b8f2d52f","22111A",0.987857965545883
+"Cyanide compounds","emission/water","1df3147c-9485-3401-b2b5-b403b8f2d52f","221118",0.0117623579035744
+"Cyanide compounds","emission/water","1df3147c-9485-3401-b2b5-b403b8f2d52f","22111B",0.000378925473541643
+"Energy, geothermal","resource/ground","d2792697-9e22-3380-974f-54b92a3549a9","221116",1
+"Energy, hydro","resource/water","5af7a834-bf92-32eb-a0b2-2f2dcdc9f3d9","221111",1
+"Energy, solar","resource/air","4d1571a6-ffff-3a36-82df-224ed975a094","221114",1
+"Energy, wind","resource/air","35962866-662b-3817-a2a7-39375c7e6a3c","221115",1
+"Lead compounds","emission/air","e7e53ff6-c201-3e33-a8c0-00c7ea0ced99","22111B",0.0380728889177055
+"Lead compounds","emission/air","e7e53ff6-c201-3e33-a8c0-00c7ea0ced99","221111",0.00195566769257252
+"Lead compounds","emission/air","e7e53ff6-c201-3e33-a8c0-00c7ea0ced99","22111A",0.903222228703701
+"Lead compounds","emission/air","e7e53ff6-c201-3e33-a8c0-00c7ea0ced99","221115",2.5915067183873e-05
+"Lead compounds","emission/air","e7e53ff6-c201-3e33-a8c0-00c7ea0ced99","221116",1.14938951346656e-07
+"Lead compounds","emission/air","e7e53ff6-c201-3e33-a8c0-00c7ea0ced99","221113",0.000232695633392459
+"Lead compounds","emission/air","e7e53ff6-c201-3e33-a8c0-00c7ea0ced99","221118",0.038978560672308
+"Lead compounds","emission/air","e7e53ff6-c201-3e33-a8c0-00c7ea0ced99","221117",0.0144408312173911
+"Lead compounds","emission/air","e7e53ff6-c201-3e33-a8c0-00c7ea0ced99","22111C",0.00307109715679474
+"Lead compounds","emission/ground","b6686ba5-0857-310b-a88c-04516ee2dc16","221113",0.756786625945548
+"Lead compounds","emission/ground","b6686ba5-0857-310b-a88c-04516ee2dc16","221111",0.243213374054452
+"Lead compounds","emission/water","587e4238-31d8-3674-94e9-d20186f55839","221113",0.00438047245407329
+"Lead compounds","emission/water","587e4238-31d8-3674-94e9-d20186f55839","221111",6.21978248311719e-05
+"Lead compounds","emission/water","587e4238-31d8-3674-94e9-d20186f55839","22111B",0.0221158048887469
+"Lead compounds","emission/water","587e4238-31d8-3674-94e9-d20186f55839","22111C",2.60310300923175e-07
+"Lead compounds","emission/water","587e4238-31d8-3674-94e9-d20186f55839","221117",8.13134719499772e-05
+"Lead compounds","emission/water","587e4238-31d8-3674-94e9-d20186f55839","221118",0.000635241128870072
+"Lead compounds","emission/water","587e4238-31d8-3674-94e9-d20186f55839","22111A",0.972724709921228
+"Manganese compounds","emission/air","c33548d3-5ccc-39da-b434-3c558a178cfd","221113",0.0011270819452072
+"Manganese compounds","emission/air","c33548d3-5ccc-39da-b434-3c558a178cfd","221111",7.63830057092172e-05
+"Manganese compounds","emission/air","c33548d3-5ccc-39da-b434-3c558a178cfd","22111A",0.691676652266692
+"Manganese compounds","emission/air","c33548d3-5ccc-39da-b434-3c558a178cfd","221118",0.0158329107444802
+"Manganese compounds","emission/air","c33548d3-5ccc-39da-b434-3c558a178cfd","221117",0.0916389091839857
+"Manganese compounds","emission/air","c33548d3-5ccc-39da-b434-3c558a178cfd","22111C",0.0111185480341676
+"Manganese compounds","emission/air","c33548d3-5ccc-39da-b434-3c558a178cfd","22111B",0.188529514819758
+"Manganese compounds","emission/water","a59ee0ff-0f7a-3f04-95d6-9f0620010da0","22111C",7.28372158383226e-08
+"Manganese compounds","emission/water","a59ee0ff-0f7a-3f04-95d6-9f0620010da0","221117",1.0630508448667e-05
+"Manganese compounds","emission/water","a59ee0ff-0f7a-3f04-95d6-9f0620010da0","22111B",3.66316318200171e-05
+"Manganese compounds","emission/water","a59ee0ff-0f7a-3f04-95d6-9f0620010da0","22111A",0.999952665022515
+"Mercury compounds","emission/air","b13d5170-0f62-30e2-9c10-ddde89b2d2b1","22111B",0.101586996860822
+"Mercury compounds","emission/air","b13d5170-0f62-30e2-9c10-ddde89b2d2b1","22111A",0.877220640814406
+"Mercury compounds","emission/air","b13d5170-0f62-30e2-9c10-ddde89b2d2b1","221118",0.00568286811299422
+"Mercury compounds","emission/air","b13d5170-0f62-30e2-9c10-ddde89b2d2b1","221111",2.01781901489927e-05
+"Mercury compounds","emission/air","b13d5170-0f62-30e2-9c10-ddde89b2d2b1","221117",0.00355592711811871
+"Mercury compounds","emission/air","b13d5170-0f62-30e2-9c10-ddde89b2d2b1","221116",0.00278260837140427
+"Mercury compounds","emission/air","b13d5170-0f62-30e2-9c10-ddde89b2d2b1","22111C",0.00906193557330049
+"Mercury compounds","emission/air","b13d5170-0f62-30e2-9c10-ddde89b2d2b1","221114",2.13908595186091e-07
+"Mercury compounds","emission/air","b13d5170-0f62-30e2-9c10-ddde89b2d2b1","221113",8.86310502107129e-05
+"Mercury compounds","emission/ground","88e61068-63be-3194-a36f-24f4e632fc66","22111A",1
+"Mercury compounds","emission/water","71f2d986-ed4b-3342-8ca7-15dd2dc30239","221113",0.00158168303186637
+"Mercury compounds","emission/water","71f2d986-ed4b-3342-8ca7-15dd2dc30239","22111A",0.504876150085784
+"Mercury compounds","emission/water","71f2d986-ed4b-3342-8ca7-15dd2dc30239","22111B",0.493478180405339
+"Mercury compounds","emission/water","71f2d986-ed4b-3342-8ca7-15dd2dc30239","221117",1.64314785619462e-06
+"Mercury compounds","emission/water","71f2d986-ed4b-3342-8ca7-15dd2dc30239","22111C",2.80279374110905e-05
+"Mercury compounds","emission/water","71f2d986-ed4b-3342-8ca7-15dd2dc30239","221118",2.95384469169473e-05
+"Mercury compounds","emission/water","71f2d986-ed4b-3342-8ca7-15dd2dc30239","221114",4.77694482615535e-06
+"Nickel compounds","emission/air","d9d3dec9-f636-377d-a044-6b21d995c978","221113",1.09819316619614e-05
+"Nickel compounds","emission/air","d9d3dec9-f636-377d-a044-6b21d995c978","221117",0.00218035481222923
+"Nickel compounds","emission/air","d9d3dec9-f636-377d-a044-6b21d995c978","22111A",0.580345359978958
+"Nickel compounds","emission/air","d9d3dec9-f636-377d-a044-6b21d995c978","221111",7.6053662756597e-05
+"Nickel compounds","emission/air","d9d3dec9-f636-377d-a044-6b21d995c978","22111C",0.0239521332055541
+"Nickel compounds","emission/air","d9d3dec9-f636-377d-a044-6b21d995c978","221116",5.03830158927204e-08
+"Nickel compounds","emission/air","d9d3dec9-f636-377d-a044-6b21d995c978","221118",0.00132965703596578
+"Nickel compounds","emission/air","d9d3dec9-f636-377d-a044-6b21d995c978","221114",3.74505794821263e-08
+"Nickel compounds","emission/air","d9d3dec9-f636-377d-a044-6b21d995c978","22111B",0.392105371539279
+"Nickel compounds","emission/ground","80e4b266-b196-35a4-aa89-7f45a3ad5472","221111",1
+"Nickel compounds","emission/water","862e1bfb-5191-34ef-97ba-42b5b56aabd3","221111",1.32637050445753e-05
+"Nickel compounds","emission/water","862e1bfb-5191-34ef-97ba-42b5b56aabd3","221117",0.000353590389435949
+"Nickel compounds","emission/water","862e1bfb-5191-34ef-97ba-42b5b56aabd3","221113",2.7937240720369e-06
+"Nickel compounds","emission/water","862e1bfb-5191-34ef-97ba-42b5b56aabd3","22111A",0.887851369905213
+"Nickel compounds","emission/water","862e1bfb-5191-34ef-97ba-42b5b56aabd3","22111B",0.111768009661178
+"Nickel compounds","emission/water","862e1bfb-5191-34ef-97ba-42b5b56aabd3","22111C",1.09726150564799e-05
+"Nitrogen dioxide","emission/air","a742c00e-7148-3f99-9ecc-16bb46bd2f4f","221118",0.00210980255474651
+"Nitrogen dioxide","emission/air","a742c00e-7148-3f99-9ecc-16bb46bd2f4f","221114",8.05442233040117e-06
+"Nitrogen dioxide","emission/air","a742c00e-7148-3f99-9ecc-16bb46bd2f4f","22111B",0.211284288976342
+"Nitrogen dioxide","emission/air","a742c00e-7148-3f99-9ecc-16bb46bd2f4f","221116",4.03378980580842e-23
+"Nitrogen dioxide","emission/air","a742c00e-7148-3f99-9ecc-16bb46bd2f4f","221115",4.46243910065843e-06
+"Nitrogen dioxide","emission/air","a742c00e-7148-3f99-9ecc-16bb46bd2f4f","221111",3.17323160991262e-05
+"Nitrogen dioxide","emission/air","a742c00e-7148-3f99-9ecc-16bb46bd2f4f","221113",3.16826728605171e-05
+"Nitrogen dioxide","emission/air","a742c00e-7148-3f99-9ecc-16bb46bd2f4f","22111C",0.00607672061216998
+"Nitrogen dioxide","emission/air","a742c00e-7148-3f99-9ecc-16bb46bd2f4f","22111A",0.705069230490915
+"Nitrogen dioxide","emission/air","a742c00e-7148-3f99-9ecc-16bb46bd2f4f","221117",0.0753840255154357
+"Selenium compounds","emission/air","d240a362-1f01-3b10-a506-6f544c61df57","22111C",0.000113900871933446
+"Selenium compounds","emission/air","d240a362-1f01-3b10-a506-6f544c61df57","22111A",0.988369829343337
+"Selenium compounds","emission/air","d240a362-1f01-3b10-a506-6f544c61df57","221113",2.282573995101e-05
+"Selenium compounds","emission/air","d240a362-1f01-3b10-a506-6f544c61df57","221117",0.000154070942191765
+"Selenium compounds","emission/air","d240a362-1f01-3b10-a506-6f544c61df57","221116",2.64158818896874e-08
+"Selenium compounds","emission/air","d240a362-1f01-3b10-a506-6f544c61df57","22111B",0.0113393466867049
+"Selenium compounds","emission/water","a2eb3172-ce81-3a6b-9cb0-f93bfbb8f3d3","221115",9.58617084505382e-05
+"Selenium compounds","emission/water","a2eb3172-ce81-3a6b-9cb0-f93bfbb8f3d3","22111A",0.983420451806725
+"Selenium compounds","emission/water","a2eb3172-ce81-3a6b-9cb0-f93bfbb8f3d3","221114",9.68083026734496e-05
+"Selenium compounds","emission/water","a2eb3172-ce81-3a6b-9cb0-f93bfbb8f3d3","22111B",0.0163804424941798
+"Selenium compounds","emission/water","a2eb3172-ce81-3a6b-9cb0-f93bfbb8f3d3","221117",3.84805106294215e-06
+"Selenium compounds","emission/water","a2eb3172-ce81-3a6b-9cb0-f93bfbb8f3d3","221113",8.8366001296698e-08
+"Selenium compounds","emission/water","a2eb3172-ce81-3a6b-9cb0-f93bfbb8f3d3","22111C",2.49927090734907e-06
+"Silver compounds","emission/water","ef4acec0-54d2-30f5-9a5f-a3ed67ac49c0","22111C",1.33479055373692e-05
+"Silver compounds","emission/water","ef4acec0-54d2-30f5-9a5f-a3ed67ac49c0","22111A",0.981487310967147
+"Silver compounds","emission/water","ef4acec0-54d2-30f5-9a5f-a3ed67ac49c0","22111B",0.0184928492061489
+"Silver compounds","emission/water","ef4acec0-54d2-30f5-9a5f-a3ed67ac49c0","221117",6.49192116657615e-06
+"Sulfur hexafluoride","emission/air","8334c424-1603-3274-bec1-15a7bd5c8e86","221121",1
+"Thallium compounds","emission/air","fadad103-b2f4-3cfd-944d-d36126854972","22111B",1
+"Thallium compounds","emission/water","9daa2e85-d57f-39ad-afbd-93645948a896","221117",1.51475878121291e-05
+"Thallium compounds","emission/water","9daa2e85-d57f-39ad-afbd-93645948a896","22111B",0.344089194164299
+"Thallium compounds","emission/water","9daa2e85-d57f-39ad-afbd-93645948a896","22111C",7.33247171946776e-05
+"Thallium compounds","emission/water","9daa2e85-d57f-39ad-afbd-93645948a896","22111A",0.655822333530694
+"Uranium","resource/ground","af4664da-60f0-31e5-83ba-0d2518959c5b","221113",1
+"Vanadium compounds","emission/air","769dbca1-f841-3aea-a60d-bbefd9bf412e","22111A",1
+"Vanadium compounds","emission/ground","cd004848-4775-3235-aa5b-07c8116958e4","22111A",1
+"Vanadium compounds","emission/water","52284d66-6c39-3e5c-a406-bcd75379fc85","22111B",0.662684795748872
+"Vanadium compounds","emission/water","52284d66-6c39-3e5c-a406-bcd75379fc85","221117",0.00564135192660126
+"Vanadium compounds","emission/water","52284d66-6c39-3e5c-a406-bcd75379fc85","22111A",0.331673852324527
+"Water, fresh","resource/water/fresh water body","3a10ad4e-2c19-3be8-b199-249d7020bba1","221113",0.208812573187327
+"Water, fresh","resource/water/fresh water body","3a10ad4e-2c19-3be8-b199-249d7020bba1","221114",1.30563391110269e-30
+"Water, fresh","resource/water/fresh water body","3a10ad4e-2c19-3be8-b199-249d7020bba1","22111B",0.271024931323571
+"Water, fresh","resource/water/fresh water body","3a10ad4e-2c19-3be8-b199-249d7020bba1","22111A",0.52015954880779
+"Water, fresh","resource/water/fresh water body","3a10ad4e-2c19-3be8-b199-249d7020bba1","221117",2.94668131130827e-06
+"Water, fresh","resource/water/subterranean/fresh water body","5d717594-2c5c-394c-8eaf-9e9d2fd553fd","221113",0.208812573187327
+"Water, fresh","resource/water/subterranean/fresh water body","5d717594-2c5c-394c-8eaf-9e9d2fd553fd","221114",1.30563391110269e-30
+"Water, fresh","resource/water/subterranean/fresh water body","5d717594-2c5c-394c-8eaf-9e9d2fd553fd","22111B",0.271024931323571
+"Water, fresh","resource/water/subterranean/fresh water body","5d717594-2c5c-394c-8eaf-9e9d2fd553fd","22111A",0.52015954880779
+"Water, fresh","resource/water/subterranean/fresh water body","5d717594-2c5c-394c-8eaf-9e9d2fd553fd","221117",2.94668131130827e-06
+"Water, saline","resource/water/saline water body","272e60cf-1e1f-3997-a93d-17f7698571e6","22111B",0.577784347956361
+"Water, saline","resource/water/saline water body","272e60cf-1e1f-3997-a93d-17f7698571e6","22111C",0.00711617318501902
+"Water, saline","resource/water/saline water body","272e60cf-1e1f-3997-a93d-17f7698571e6","22111A",0.0214339303530843
+"Water, saline","resource/water/saline water body","272e60cf-1e1f-3997-a93d-17f7698571e6","221113",0.393665548505536
+"Water, saline","resource/water/subterranean/saline water body","dcffa66d-c69a-3b45-956c-915dcfe19995","22111B",0.577784347956361
+"Water, saline","resource/water/subterranean/saline water body","dcffa66d-c69a-3b45-956c-915dcfe19995","22111C",0.00711617318501902
+"Water, saline","resource/water/subterranean/saline water body","dcffa66d-c69a-3b45-956c-915dcfe19995","22111A",0.0214339303530843
+"Water, saline","resource/water/subterranean/saline water body","dcffa66d-c69a-3b45-956c-915dcfe19995","221113",0.393665548505536
+"Zinc compounds","emission/air","f654e940-5737-3bc7-9492-f163c47bfbd5","22111A",1
+"Zinc compounds","emission/water","6e8f5792-945d-35a1-a558-663397d47b5b","221118",0.00250189660442748
+"Zinc compounds","emission/water","6e8f5792-945d-35a1-a558-663397d47b5b","221113",0.0738289511158173
+"Zinc compounds","emission/water","6e8f5792-945d-35a1-a558-663397d47b5b","221111",0.00892976581851225
+"Zinc compounds","emission/water","6e8f5792-945d-35a1-a558-663397d47b5b","22111A",0.848298951720929
+"Zinc compounds","emission/water","6e8f5792-945d-35a1-a558-663397d47b5b","221114",6.67249790141838e-05
+"Zinc compounds","emission/water","6e8f5792-945d-35a1-a558-663397d47b5b","221117",8.95311717071106e-05
+"Zinc compounds","emission/water","6e8f5792-945d-35a1-a558-663397d47b5b","22111C",1.01394616787114e-05
+"Zinc compounds","emission/water","6e8f5792-945d-35a1-a558-663397d47b5b","22111B",0.0662740391279142

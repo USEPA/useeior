@@ -10,7 +10,7 @@ writeModelMetadata(model, dirs)
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{dirs}{A named list of directories}
+\item{dirs}{A named list of directories with model and data directory paths}
 }
 \description{
 Writes model metadata, including indicators and demands.

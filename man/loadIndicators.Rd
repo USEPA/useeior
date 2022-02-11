@@ -7,10 +7,10 @@
 loadIndicators(model)
 }
 \arguments{
-\item{model}{A model object with IO tables and satellite tables loaded.}
+\item{model}{A model object with model specs, IO tables, and satellite tables loaded.}
 }
 \value{
-A list with data.frame for indicators and data.frame for factors.
+A list with a dataframe for indicator meta and a dataframe for indicator factors.
 }
 \description{
 Load indicators and associated factors in a list based on model config.

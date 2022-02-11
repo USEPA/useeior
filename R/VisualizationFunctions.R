@@ -70,12 +70,14 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     label_colors <- rev(unique(df[, c("Sector", "color")])[, "color"])
     df$x <- df$Sector
   }
-  
+  df <- df[complete.cases(df), ]
   # plot
   p <- ggplot(df, aes(x = factor(x, levels = rev(unique(x))),
-                      y = Value, shape = as.character(modelname))) +
-    geom_line(aes(group = x)) +
-    geom_point(aes(color = GroupName), size = 3) +
+                      y = Value, shape = as.character(modelname)))
+  if (length(model_list)>1) {
+    p <- p + geom_line(aes(group = x), color='red')
+  }
+  p <- p + geom_point(aes(color = GroupName), size = 3) +
     scale_shape_manual(values = c(0:(length(unique(df$modelname))-1))) +
     scale_color_manual(values = unique(df$color)) +
     labs(x = "", y = Y_title) +
@@ -164,7 +166,7 @@ barplotIndicatorScoresbySector <- function(model_list, totals_by_sector_name, in
 }
 
 #' Heatmap showing coverage of satellite tables
-#' @param model A complete EEIO model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param form Form of sectors in satellite table, can be"Commodity" and "Industry".
 #' @export
 heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
@@ -216,14 +218,14 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
 }
 
 #' SMM tool like heatmap showing ranking of sectors
-#' @param model A complete EEIO model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param matrix A matrix from model result
 #' @param indicators A vector of indicators to plot
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
-#' @param y_title The title of y axis, excluding unit.
 #' @param N_sector A numeric value indicating number of sectors to show in the ranking
+#' @param x_title A string specifying desired title on the x-axis, default is NULL, the title will be "modelname indicators"
 #' @export
-heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_title, N_sector) {
+heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_sector, x_title = NULL) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
   mapping$GroupName <- mapping$SectorName
@@ -259,16 +261,17 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
   
   # Prepare axis label color
   label_colors <- rev(unique(df[, c("SectorName", "color")])[, "color"])
+  x_title <- ifelse(is.null(x_title), paste(model$specs$Model, "Indicators"), x_title)
   
   # plot
   p <- ggplot(df, aes(x = factor(Indicator, levels = c("Score", indicators)),
                       y = factor(SectorName, levels = rev(unique(SectorName))),
                       fill = Value)) +
-    geom_tile(color = "white", size = 0.2) +
+    geom_tile(color = "black", size = 0.2) +
     scale_fill_gradient(low = "white", high = "black") +
     scale_x_discrete(expand = c(0, 0), position = "top") +
     scale_y_discrete(expand = c(0, 0), labels = function(x) stringr::str_wrap(x, 30)) +
-    labs(x = model$specs$Model, y = "", fill = y_title) + theme_bw() +
+    labs(x = x_title, y = "") + theme_bw() +
     theme(axis.text = element_text(color = "black", size = 15),
           axis.title.x = element_text(size = 20),
           axis.text.x = element_text(angle = 45, hjust = 0, vjust = 1),
@@ -278,26 +281,26 @@ heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, y_
   return(p)
 }
 
-#' Proportional bar chart splitting out flows or impacts by a region and the Rest of the regions
+#' Proportional bar chart splitting out flows or impacts by a region and the Rest of the region
 #' @param R1_calc_result A matrix from model result.
 #' @param Total_calc_result A matrix from model result.
-#' @param y_title The title of y axis, excluding unit.
+#' @param x_title The title of x axis, excluding unit.
 #' @return a ggplot bar chart with horizontal orientation
 #' @export
-barplotFloworImpactFractionbyRegion <- function(R1_calc_result, Total_calc_result, y_title) {
+barplotFloworImpactFractionbyRegion <- function(R1_calc_result, Total_calc_result, x_title) {
   rel_diff <- as.data.frame(colSums(R1_calc_result)/colSums(Total_calc_result))
-  colnames(rel_diff) <- y_title
+  colnames(rel_diff) <- "Fraction"
   rel_diff[["Indicator"]] <- rownames(rel_diff)
   mapping <- getIndicatorColorMapping()
   rel_diff <- merge(rel_diff, mapping, by.x = 0, by.y = "Indicator")
   rel_diff <- rel_diff[rev(match(mapping$Indicator, rel_diff$Indicator)), ]
   p <- ggplot(rel_diff, aes(y = factor(Indicator, levels = Indicator),
-                            x = !!as.name(y_title), fill = Indicator)) +
+                            x = Fraction, fill = Indicator)) +
     scale_fill_manual(limits = rel_diff$Indicator, values = rel_diff$color) +
     scale_x_continuous(expand = expansion(mult = c(0, 0.1)),
                        breaks = scales::pretty_breaks(),
                        labels = scales::label_percent(accuracy = 1)) +
-    geom_col() + theme_bw() +
+    geom_col() + labs(x = x_title, y = "") + theme_bw() +
     theme(axis.text = element_text(color = "black", size = 15),
           axis.title.x = element_text(size = 15),
           axis.title.y = element_blank(),
@@ -308,7 +311,7 @@ barplotFloworImpactFractionbyRegion <- function(R1_calc_result, Total_calc_resul
 ## Helper functions for plotting
 
 #' Uses VizualizationEssentials.yml to get a mapping of the to the BEA Sector Color scheme
-#' @param model A complete EEIO model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @return df with mapping with model BaseIOLevel codes to BEA Sector Codes, Names, and colors
 getBEASectorColorMapping <- function(model) {
   # Load VisualizationEssentials.yml and convert it to a data frame ColorLabelMapping
@@ -323,7 +326,7 @@ getBEASectorColorMapping <- function(model) {
   # ColorLabelMapping["#42D4F4", ] <- c("Used", "Used", "#42D4F4") # cyan (bright blue)
   # ColorLabelMapping["#469990", ] <- c("Other", "Other", "#469990") # teal
   # Prepare BEA Sector-modelIOLevel mapping
-  mapping <- unique(model$crosswalk[, c("BEA_Sector", paste0("BEA_", model$specs$BaseIOLevel))])
+  mapping <- unique(model$crosswalk[, c("BEA_Sector", "USEEIO")])
   colnames(mapping) <- c("Sector", paste0(model$specs$BaseIOLevel, "Code"))
   # Merge BEA mapping with ColorLabelMapping
   mapping <- merge(mapping, ColorLabelMapping)

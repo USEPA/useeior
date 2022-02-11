@@ -1,24 +1,13 @@
 # Validation functions
 
-#'Compares the total flows against the model flow totals result calculation with the total demand
-#'@param model, EEIOmodel object completely built
-#'@param use_domestic, a logical value indicating whether to use domestic demand vector
-#'@param tolerance, a numeric value, tolerance level of the comparison
-#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#'@export
+#' Compares the total flows against the model flow totals result calculation with the total demand
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param use_domestic, a logical value indicating whether to use domestic demand vector
+#' @param tolerance, a numeric value, tolerance level of the comparison
+#' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
+#' @export
 compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) {
-  #Use L and FinalDemand unless use_domestic, in which case use L_d and DomesticFinalDemand
-  #c = diag(L%*%y)
-  if (use_domestic) {
-    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-    y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
-    c <- getScalingVector(model$L_d, y)
-  } else {
-    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-    y <- as.matrix(formatDemandVector(rowSums(f), model$L))
-    c <- getScalingVector(model$L, y)
-  }
-  
+  # Prepare left side of the equation
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
   B <- as.matrix(CbS_cast)
   Chi <- generateChiMatrix(model, "Industry")
@@ -28,18 +17,22 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   }
   B_chi <- B*Chi
   
-  ##Prepare left side of the equation
+  # Generate E
   E <- prepareEfromtbs(model)
   E <- as.matrix(E[rownames(B), colnames(B)])
   
+  # Adjust E and B_chi if model is commodity-based
   if (model$specs$CommodityorIndustryType=="Commodity") {
     #transform E with commodity mix to put in commodity form
-    E <-  t(model$C_m %*% t(E)) 
+    E <- t(model$C_m %*% t(E)) 
     #Need to transform B_Chi to be in commodity form
     B_chi <- B_chi %*% model$V_n
   }
+
+  # Calculate scaling factor c=Ly
+  c <- calculateProductofLeontiefAndProductionDemand(model, use_domestic)
   
-  #LCI = B dot Chi %*% c   
+  #LCI = B dot Chi %*% c
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
   
   # Calculate relative differences
@@ -47,34 +40,46 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  # Add LCI and E to validation list
+  validation <- c(list("LCI" = LCI, "E" = E), validation)
   return(validation)
 }
 
-#'Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
-#'Uses the model$FinalDemand and model$L
-#'Works for the domestic model with the equivalent tables
-#'@param model, EEIOmodel object completely built
-#'@param use_domestic, a logical value indicating whether to use domestic demand vector
-#'@param tolerance, a numeric value, tolerance level of the comparison
-#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#'@export
-compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
+#' Calculate scaling vector with appropriate production demand vector
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param use_domestic, a logical value indicating whether to use domestic demand vector
+#' @return c, a numeric vector with total $ values for each sector in model
+calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) {
   if (use_domestic) {
-    f <- model$U_d[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-    y <- as.matrix(formatDemandVector(rowSums(f), model$L_d))
+    f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[1]]
+    y <- as.matrix(formatDemandVector(f, model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
-    f <- model$U[model$Commodities$Code_Loc, model$FinalDemandMeta$Code_Loc]
-    y <- as.matrix(formatDemandVector(rowSums(f), model$L))
+    f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[1]]
+    y <- as.matrix(formatDemandVector(f, model$L))
     c <- getScalingVector(model$L, y)
   }
-  
+  return(c)  
+}
+
+#' Compares the total sector output against the model result calculation with the demand vector. and direct perspective.
+#' Uses the model$FinalDemand and model$L
+#' Works for the domestic model with the equivalent tables
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param use_domestic, a logical value indicating whether to use domestic demand vector
+#' @param tolerance, a numeric value, tolerance level of the comparison
+#' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
+#' @export
+compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
+  # Generate output and scaling vector
   if(model$specs$CommodityorIndustryType == "Commodity") {
-    #determine if output to compare is commodity or industry
     x <- model$q
   } else {
     x <- model$x
   }
+  # Calculate scaling factor c=Ly
+  c <- calculateProductofLeontiefAndProductionDemand(model, use_domestic)
+  
   # Row names should be identical
   if (!identical(rownames(c), names(x))) {
     stop("Sectors not aligned in model ouput variable and calculation result")
@@ -84,36 +89,41 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  # Add c and x to validation list
+  validation <- c(list("c" = c, "x" = x), validation)
   return(validation)
 }
 
-#'Compares the total commodity output against the summation of model domestic Use and production demand
-#'@param model, EEIOmodel object completely built
-#'@param tolerance, a numeric value, tolerance level of the comparison
-#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#'@export 
+#' Compares the total commodity output against the summation of model domestic Use and production demand
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param tolerance, a numeric value, tolerance level of the comparison
+#' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
+#' @export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   q <- model$q
   x <- rowSums(model$U_d[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
-    model$DemandVectors$vectors[["2012_US_Production_Complete"]]
-  
-  #Row names should be identical
-  identical(names(q), names(x))
+    model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[1]]
+  # Row names should be identical
+  if (!identical(names(q), names(x))) {
+    stop("Sectors not aligned in model ouput variable and calculation result")
+  }
   
   # Calculate relative differences
   rel_diff <- (q - x)/q
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  # Add q and x to validation list
+  validation <- c(list("q" = q, "x" = x), validation)
   return(validation)
 }
 
-#'Compares the total commodity output multiplied by Market Share matrix and transformed by commodity CPI
-#'against the total industry output transformed by industry CPI
-#'@param model, EEIOmodel object completely built
-#'@param tolerance, a numeric value, tolerance level of the comparison
-#'@return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#'@export 
+#' Compares the total commodity output multiplied by Market Share matrix and transformed by commodity CPI
+#' against the total industry output transformed by industry CPI
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param tolerance, a numeric value, tolerance level of the comparison
+#' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
+#' @export 
 compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- function(model, tolerance=0.05) {
   commodityCPI_ratio <- model$MultiYearCommodityCPI[, "2017"]/model$MultiYearCommodityCPI[, "2012"]
   commodityCPI_ratio[is.na(commodityCPI_ratio)] <- 1
@@ -129,18 +139,20 @@ compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- func
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  # Add q and x to validation list
+  validation <- c(list("q" = q, "x" = x), validation)
   return(validation)
 }
 
-#'Concatenate all satellite flows in model
-#'@param model, EEIOmodel object completely built
+#' Concatenate all satellite flows in model
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 prepareEfromtbs <- function(model) {
   E <- standardizeandcastSatelliteTable(model$TbS,model)
   return(E)
 }
 
 #' Generate Chi matrix, i.e. ratios of model IO year commodity output over the output of the flow year in model IO year dollar.
-#' @param model A completely built EEIOmodel object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param output_type Either Commodity or Industry, default is Commodity
 #' @return Chi matrix contains ratios of model IO year commodity output over the output of the flow year in model IO year dollar.
 generateChiMatrix <- function(model, output_type = "Commodity") {
@@ -175,7 +187,7 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
 }
 
 #' Gets industry output from model Use and Make and checks if they are the same
-#' @param model, a built model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
 compareIndustryOutputinMakeandUse <- function(model) {
   # Calculate Industry Output (x) from Make and Use tables
   x_make <-rowSums(model$V)
@@ -193,6 +205,8 @@ compareIndustryOutputinMakeandUse <- function(model) {
   
   # Generate Pass/Fail comparison results
   validation <- formatValidationResult(rel_diff, abs_diff = TRUE, tolerance)
+  # Add x_use and x_make to validation list
+  validation <- c(list("x_use" = x_use, "x_make" = x_make), validation)
   return(validation)
 }
 
@@ -254,4 +268,45 @@ checkNamesandOrdering <- function(n1, n2, note) {
   if (!identical(n1, n2)) {
     stop(paste(note, "not the same or not in the same order."))
   }
+}
+
+#' Run validation checks and print to console
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+printValidationResults <- function(model) {
+  print("Validate that commodity output can be recalculated (within 1%) with the model total requirements matrix (L) and demand vector (y) for US production")
+  econval <- compareOutputandLeontiefXDemand(model, tolerance = 0.01)
+  print(paste("Number of sectors passing:",econval$N_Pass))
+  print(paste("Number of sectors failing:",econval$N_Fail))
+  print(paste("Sectors failing:", paste(unique(econval$Failure$rownames), collapse = ", ")))
+  
+  print("Validate that commodity output can be recalculated (within 1%) with model total domestic requirements matrix (L_d) and model demand (y) for US production")
+  econval <- compareOutputandLeontiefXDemand(model, use_domestic=TRUE, tolerance = 0.01)
+  print(paste("Number of sectors passing:",econval$N_Pass))
+  print(paste("Number of sectors failing:",econval$N_Fail))
+  print(paste("Sectors failing:", paste(unique(econval$Failure$rownames), collapse = ", ")))
+  
+  print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total requirements matrix (L), and demand vector (y) for US production")
+  modelval <- compareEandLCIResult(model, tolerance = 0.01)
+  print(paste("Number of flow totals by commodity passing:",modelval$N_Pass))
+  print(paste("Number of flow totals by commodity failing:",modelval$N_Fail))
+  
+  print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total domestic requirements matrix (L_d), and demand vector (y) for US production")
+  dom_val <- compareEandLCIResult(model, use_domestic=TRUE, tolerance = 0.01)
+  print(paste("Number of flow totals by commodity passing:",dom_val$N_Pass))
+  print(paste("Number of flow totals by commodity failing:",dom_val$N_Fail))
+  print(paste("Sectors with flow totals failing:", paste(unique(dom_val$Failure$variable), collapse = ", ")))  
+  
+  print("Validate that commodity output are properly transformed to industry output via MarketShare")
+  q_x_val <- compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation(model, tolerance = 0.01)
+  print(paste("Number of flow totals by commodity passing:",q_x_val$N_Pass))
+  print(paste("Number of flow totals by commodity failing:",q_x_val$N_Fail))
+  print(paste("Sectors with flow totals failing:", paste(unique(q_x_val$Failure$rownames), collapse = ", ")))
+  
+if (model$specs$CommodityorIndustryType=="Commodity") {
+  print("Validate that commodity output equals to domestic use plus production demand")
+  q_val <- compareCommodityOutputandDomesticUseplusProductionDemand(model, tolerance = 0.01)
+  print(paste("Number of flow totals by commodity passing:",q_val$N_Pass))
+  print(paste("Number of flow totals by commodity failing:",q_val$N_Fail))
+  print(paste("Sectors with flow totals failing:", paste(unique(q_val$Failure$rownames), collapse = ", ")))
+}
 }

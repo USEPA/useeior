@@ -1,0 +1,13 @@
+{
+  "tool": ["useeior"],
+  "name_data": ["Detail_Margins_2012_BeforeRedef"],
+  "tool_version": ["0.4"],
+  "ext": ["json"],
+  "date_created": ["2021-07-30 12:52:57"],
+  "tool_meta": {
+    "data_year": [2012],
+    "author": ["US Bureau of Economic Analysis"],
+    "source_url": ["https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2007_2012_DET.xlsx"],
+    "bib_id": [""]
+  }
+}

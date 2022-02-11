@@ -1,0 +1,146 @@
+---
+title: "useeior Example"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE,
+                      message = FALSE,
+                      fig.width = 14,
+                      fig.height = 7,
+                      fig.path = "../img/",
+                      optipng = "-o1 -quiet",
+                      fig.process = function(x) {
+                        x2 = sub('-\\d+([.][a-z]+)$', '\\1', x)
+                        if (file.rename(x, x2)) x2 else x
+                      })
+library(useeior)
+```
+
+# Build Model
+
+```{r include=FALSE}
+model <- buildModel("USEEIOv2.0.1-411")
+```
+
+# Validation
+
+Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total requirements matrix (L), and demand vector (y) for US production 
+```{r}
+modelval <- compareEandLCIResult(model, tolerance = 0.01)
+print(paste("Number of flow totals by commodity passing:", modelval$N_Pass))
+print(paste("Number of flow totals by commodity failing:", modelval$N_Fail))
+```
+
+Validate that commodity output can be recalculated (within 1%) with the model total requirements matrix (L) and demand vector (y) for US production
+```{r}
+econval <- compareOutputandLeontiefXDemand(model, tolerance = 0.01)
+print(paste("Number of sectors passing:",econval$N_Pass))
+print(paste("Number of sectors failing:",econval$N_Fail))
+print(paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", ")))
+```
+
+# Visualization
+```{r include=FALSE}
+result <- c(useeior::calculateEEIOModel(model, perspective = 'DIRECT', demand = "Production"),
+            useeior::calculateEEIOModel(model, perspective = 'FINAL', demand = "Consumption"))
+colnames(result$LCIA_d) <- model$Indicators$meta[match(colnames(result$LCIA_d), model$Indicators$meta$Name), "Code"]
+colnames(result$LCIA_f) <- colnames(result$LCIA_d)
+indicators <- c("ACID", "CCDD", "CMSW", "CRHW", "ENRG", "ETOX", "EUTR", "GHG",
+                "HRSP", "HTOX", "LAND", "MNRL", "OZON", "SMOG", "WATR")
+model_list <- list("USEEIOv2.0.1-411" = model)
+```
+
+```{r "ranking_direct_prod_final_cons_v2.0.1", fig.width = 20, fig.height = 12}
+p1 <- heatmapSectorRanking(model, matrix = result$LCIA_d, indicators,
+                           sector_to_remove = "", N_sector = 20, x_title = "LCIA_d (DIRECT perspective) & US production demand")
+p2 <- heatmapSectorRanking(model, matrix = result$LCIA_f, indicators,
+                           sector_to_remove = "", N_sector = 20, x_title = "LCIA_f (FINAL perspective) & US consumption demand")
+gridExtra::grid.arrange(p1, p2, nrow = 1)
+```
+
+```{r "N_v2.0.1", echo=FALSE, fig.width = 35, fig.height = 50}
+coeffs <- c("Acidification Potential", "Greenhouse Gases", "Freshwater withdrawals")
+plotMatrixCoefficient(model_list, matrix_name = "N", coefficient_name = coeffs, sector_to_remove = "", y_title = coeffs, y_label = "Name")
+```
+
+```{r "domestic_proportion_impact_USconsumption_v2.0.1", include=FALSE, fig.height = 12, fig.width = 12}
+fullcons <- calculateEEIOModel(model, perspective = "DIRECT", demand = "Consumption",  use_domestic_requirements = FALSE)
+domcons <- calculateEEIOModel(model, perspective = "DIRECT", demand = "Consumption", use_domestic_requirements = TRUE)
+barplotFloworImpactFractionbyRegion(R1_calc_result = domcons$LCIA_d, Total_calc_result = fullcons$LCIA_d, x_title = "")
+```
+
+```{r "indicator_score_v2.0.1", fig.height = 12, fig.width = 12}
+barplotIndicatorScoresbySector(model_list, totals_by_sector_name = "GHG", indicator_name = "Greenhouse Gases", sector = FALSE, y_title = "Greenhouse Gases")
+```
+
+# Contribution Analysis
+
+Flow contribution to Acidification Potential in Electricity (221100)
+```{r echo=FALSE, warning=FALSE}
+ACID_elec <- calculateFlowContributiontoImpact(model, "221100/US", "Acidification Potential")
+ACID_elec$contribution <- scales::percent(ACID_elec$contribution, accuracy = 0.1)
+head(subset(ACID_elec, TRUE, select = "contribution"))
+```
+
+Flow contribution to Smog Formation Potential in Electricity (221100)
+```{r echo=FALSE, warning=FALSE}
+SMOG_elec <- calculateFlowContributiontoImpact(model, "221100/US", "Smog Formation Potential")
+SMOG_elec$contribution <- scales::percent(SMOG_elec$contribution, accuracy = 0.1)
+head(subset(SMOG_elec, TRUE, select = "contribution"))
+```
+
+Flow contribution to Smog Formation Potential in Wheat, corn, rice, and other grains (1111B0)
+```{r echo=FALSE, warning=FALSE}
+SMOG_wheat <- calculateFlowContributiontoImpact(model, "1111B0/US", "Smog Formation Potential")
+SMOG_wheat$contribution <- scales::percent(SMOG_wheat$contribution, accuracy = 0.1)
+head(subset(SMOG_wheat, TRUE, select = "contribution"))
+```
+
+Flow contribution to Human Health - Respiratory Effects in Fresh wheat, corn, rice, and other grains (1111B0)
+```{r echo=FALSE, warning=FALSE}
+HHRP_wheat <- calculateFlowContributiontoImpact(model, "1111B0/US", "Human Health - Respiratory Effects")
+HHRP_wheat$contribution <- scales::percent(HHRP_wheat$contribution, accuracy = 0.1)
+head(subset(HHRP_wheat, TRUE, select = "contribution"))
+```
+
+Flow contribution to Human Health Toxicity in Cement (327310)
+```{r echo=FALSE, warning=FALSE}
+HTOX_cement <- calculateFlowContributiontoImpact(model, "327310/US", "Human Health Toxicity")
+HTOX_cement$contribution <- scales::percent(HTOX_cement$contribution, accuracy = 0.1)
+head(subset(HTOX_cement, TRUE, select = "contribution"))
+```
+
+Flow contribution to Freshwater Ecotoxicity Potential in Fresh vegetables, melons, and potatoes (111200)
+```{r echo=FALSE, warning=FALSE}
+ETOX_fruits_veggie <-calculateFlowContributiontoImpact(model, "111200/US", "Freshwater Ecotoxicity Potential")
+ETOX_fruits_veggie$contribution <- scales::percent(ETOX_fruits_veggie$contribution, accuracy = 0.1)
+head(subset(ETOX_fruits_veggie, TRUE, select = "contribution"))
+```
+
+Sector contribution to Human Health - Respiratory Effects in Flours and malts (311210)
+```{r echo=FALSE, warning=FALSE}
+HHRP_flour <- calculateSectorContributiontoImpact(model, "311210/US", "Human Health - Respiratory Effects")
+HHRP_flour$contribution <- scales::percent(HHRP_flour$contribution, accuracy = 0.1)
+head(subset(HHRP_flour, TRUE, select = "contribution"))
+```
+
+Sector contribution to Land use in Timber and raw forest products (113000)
+```{r echo=FALSE, warning=FALSE}
+LAND_for <- calculateSectorContributiontoImpact(model, "113000/US", "Land use")
+LAND_for$contribution <- scales::percent(LAND_for$contribution, accuracy = 0.1)
+head(subset(LAND_for, TRUE, select = "contribution"))
+```
+
+# Sector-by-Sector Impacts
+
+Total Greenhouse Gases impacts induced by a sector (row) purchasing from another (column) for total consumption.
+```{r echo=FALSE, warning=FALSE}
+sector2sector_impact <- calculateSectorPurchasedbySectorSourcedImpact(y = model$DemandVectors$vectors$`2012_US_Consumption_Complete`,
+                                                                      model,
+                                                                      indicator = "Greenhouse Gases")
+```

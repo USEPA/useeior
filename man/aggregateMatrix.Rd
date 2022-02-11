@@ -15,6 +15,9 @@ aggregateMatrix(matrix, from_level, to_level, specs)
 
 \item{specs}{Model specifications}
 }
+\value{
+An aggregated matrix
+}
 \description{
 Aggregate matrix by rows then by columns
 }

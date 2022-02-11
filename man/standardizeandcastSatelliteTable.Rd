@@ -9,10 +9,10 @@ standardizeandcastSatelliteTable(df, model)
 \arguments{
 \item{df}{a dataframe of flowables, contexts, units, sectors and locations}
 
-\item{model}{an EEIO model with IO tables loaded}
+\item{model}{An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded}
 }
 \value{
-a flows x sector matrix-like dataframe
+A matrix-like dataframe of flows x sector
 }
 \description{
 Converts flows table into flows x sector matrix-like format

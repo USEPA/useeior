@@ -14,7 +14,7 @@ getStandardSatelliteTableFormat <- function () {
 #' @return A satellite table aggregated by the USEEIO model sector codes.
 mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year, model) {
   # Consolidate master crosswalk on model level and rename
-  NAICStoBEA <- unique(model$crosswalk[, c("NAICS",paste("BEA", model$specs$BaseIOLevel, sep = "_"))])
+  NAICStoBEA <- unique(model$crosswalk[, c("NAICS","USEEIO")])
   colnames(NAICStoBEA) <- c("NAICS","BEA")
   # Modify TechnologicalCorrelation score based on the the correspondence between NAICS and BEA code
   # If there is allocation (1 NAICS to 2 or more BEA), add one to score = 2
@@ -27,6 +27,12 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   colnames(totals_by_sector)[colnames(totals_by_sector)=="Sector"] <- "NAICS"
   # Merge totals_by_sector table with NAICStoBEA mapping
   totals_by_sector_BEA <- merge(totals_by_sector, NAICStoBEA, by = "NAICS", all.x = TRUE)
+  
+  # Because this occurs after disaggregation, some sectors may not map, update those sectors
+  disaggNAICS <- unique(totals_by_sector_BEA[is.na(totals_by_sector_BEA$BEA),"NAICS"])
+  totals_by_sector_BEA$BEA <- ifelse(totals_by_sector_BEA$NAICS %in% disaggNAICS, totals_by_sector_BEA$NAICS, totals_by_sector_BEA$BEA)
+  totals_by_sector_BEA$TechnologicalCorrelationAdjustment[is.na(totals_by_sector_BEA$TechnologicalCorrelationAdjustment)] <- 0
+  
   
   # Generate allocation_factor data frame containing allocation factors between NAICS and BEA sectors
   allocation_factor <- getNAICStoBEAAllocation(totals_by_sector_year, model)
@@ -45,36 +51,8 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   # Rename BEA to Sector
   colnames(totals_by_sector_BEA)[colnames(totals_by_sector_BEA)=="BEA"] <- "Sector"
   
-  # Add in BEA industry names
-  sectornames <- model$Industries[, c("Code", "Name")]
-  colnames(sectornames) <- c("Sector", "SectorName")
-  # Add F01000 or F010 to sectornames
-  if (model$specs$BaseIOLevel=="Detail") {
-    sectornames <- rbind.data.frame(sectornames, c("F01000", "Household"))
-  } else {
-    sectornames <- rbind.data.frame(sectornames, c("F010", "Household"))
-  }
-  # Assign sector names to totals_by_sector_BEA
-  totals_by_sector_BEA <- merge(totals_by_sector_BEA, sectornames, by = "Sector", all.x = TRUE)
-  
-  # Aggregate to BEA sectors using unique aggregation functions depending on the quantatitive variable
-  totals_by_sector_BEA_agg <- dplyr::group_by(totals_by_sector_BEA,
-                                              Flowable, Context, Sector, SectorName,
-                                              Location, Unit, Year, DistributionType) 
-  totals_by_sector_BEA_agg <- dplyr::summarize(
-    totals_by_sector_BEA_agg,
-    FlowAmountAgg = sum(FlowAmount),
-    Min = min(Min),
-    Max = max(Max),
-    DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
-    TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
-    GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
-    TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
-    DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
-    MetaSources = dplyr::nth(MetaSources, which.max(nchar(MetaSources))),
-    .groups = 'drop'
-  )
-  colnames(totals_by_sector_BEA_agg)[colnames(totals_by_sector_BEA_agg)=="FlowAmountAgg"] <- "FlowAmount"
+  totals_by_sector_BEA_agg <- collapseTBS(totals_by_sector_BEA, model)
+
   return(totals_by_sector_BEA_agg)
 }
 
@@ -126,34 +104,70 @@ stackSatelliteTables <- function (sattable1, sattable2) {
   return(rbind(sattable1, sattable2))
 }
 
-#' Aggreagte (FlowAmount in) satellite tables from one BEA level to another
+#' Aggregate (FlowAmount in) satellite tables from BEA level to model configuration
 #' @param sattable A satellite table to be aggregated based on the level (Detail, Summary, or Sector) of BEA code.
 #' @param from_level The level of BEA code in the satellite table.
-#' @param to_level The level of BEA code this satellite table will be aggregated to.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A more aggregated satellite table.
-aggregateSatelliteTable <- function(sattable, from_level, to_level, model) {
+aggregateSatelliteTable <- function(sattable, from_level, model) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste0("BEA_", from_level)
-  to_code <- paste0("BEA_", to_level)
   # Merge the satellite table with model$crosswalk
-  sattable <- merge(sattable, unique(model$crosswalk[, c(from_code, to_code)]), by.x = "Sector", by.y = from_code)
-  # Replace NA in DQ cols with 5
-  dq_fields <- getDQfields(sattable)
-  for (f in dq_fields) {
-    sattable[is.na(sattable[, f]), f] <- 5
-  }
-  # Aggregate FlowAmount by specified columns
-  aggbycolumns <- c(to_code, "Flowable", "Context", "Unit", dq_fields,
-                    "Year", "MetaSources", "Location")
-  # Need particular aggregation functions, e.g. sum, weighted avg on ReliabilityScore
-  sattable_agg <- stats::aggregate(sattable$FlowAmount, by = sattable[, aggbycolumns], sum)
-  colnames(sattable_agg)[c(1, ncol(sattable_agg))] <- c("Sector", "FlowAmount")
+  sattable <- merge(sattable, unique(model$crosswalk[, c(from_code, "USEEIO")]), by.x = "Sector", by.y = from_code)
+  # Update Sector field
+  sattable$Sector <- sattable$USEEIO
+  sattable_agg <- collapseTBS(sattable, model)
   return(sattable_agg)
 }
 
+#' Collapse a totals by sector table so that each flow sector combination exists only once
+#' @param tbs totals by sector sourced from satellite table
+#' @param model An EEIO model object with model specs and IO table loaded
+#' @return aggregated totals by sector
+collapseTBS <- function(tbs, model) {
+  # Add in BEA industry names
+  sectornames <- model$Industries[, c("Code", "Name")]
+  colnames(sectornames) <- c("Sector", "SectorName")
+  # Add F01000 or F010 to sectornames
+  if (model$specs$BaseIOLevel=="Detail") {
+    sectornames <- rbind.data.frame(sectornames, c("F01000", "Household"))
+  } else {
+    sectornames <- rbind.data.frame(sectornames, c("F010", "Household"))
+  }
+  # Assign sector names to TBS
+  if("SectorName" %in% colnames(tbs)){
+    tbs$SectorName <- NULL
+  }
+  tbs <- merge(tbs, sectornames, by = "Sector", all.x = TRUE)
+  
+  # Replace NA in DQ cols with 5
+  dq_fields <- getDQfields(tbs)
+  for (f in dq_fields) {
+    tbs[is.na(tbs[, f]), f] <- 5
+  }
+  # Aggregate to BEA sectors using unique aggregation functions depending on the quantitative variable
+  tbs_agg <- dplyr::group_by(tbs, Flowable, Context, FlowUUID, Sector, SectorName,
+                             Location, Unit, Year, DistributionType) 
+  tbs_agg <- dplyr::summarize(
+    tbs_agg,
+    FlowAmountAgg = sum(FlowAmount),
+    Min = min(Min),
+    Max = max(Max),
+    DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
+    TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
+    GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
+    TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
+    DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
+    MetaSources = dplyr::nth(MetaSources, which.max(nchar(MetaSources))),
+    .groups = 'drop'
+  )
+  colnames(tbs_agg)[colnames(tbs_agg)=="FlowAmountAgg"] <- "FlowAmount"
+  return(tbs_agg)
+    
+}
+
 #' Adds an indicator score to a totals by sector table. A short cut alternative to getting totals before model result
-#' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
+#' @param model A EEIO model with model specs, IO tables, satellite tables, and indicators loaded
 #' @param totals_by_sector_name The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector
 #' @param indicator_name The name of the indicator of interest from the model$Indicators$factors
 #' @return a totals_by_sector table with fields from the Indicator table "Code" and "Amount", and calculated "IndicatorScore" added
@@ -166,15 +180,16 @@ calculateIndicatorScoresforTotalsBySector <- function(model, totals_by_sector_na
   # Mergeflows_in_indicator and totals_by_sector and calculate IndicatorScore
   df <- merge(totals_by_sector, flows_in_indicator, by = c("Flowable", "Context", "Unit")) 
   df$IndicatorScore <- df$FlowAmount*df$Amount
+  df$Unit <- model$Indicators$meta[model$Indicators$meta$Name==indicator_name, 'Unit']
   return(df)
 }
 
 #' Get value added from BEA input-output use table, convert to standard totals_by_sector format.
-#' @param model A EEIO model with IOdata, satellite tables, and indicators loaded
+#' @param model A EEIO model with model specs and IO tables loaded
 #' @return A value-added totals_by_sector table with fields of standard totals_by_sector
 getValueAddedTotalsbySector <- function(model) {
   # Extract ValueAdded from Use table, add names
-  df <- merge(model$ValueAdded, model$ValueAddedMeta[, c("Code_Loc", "Name")],
+  df <- merge(model$UseValueAdded, model$ValueAddedMeta[, c("Code_Loc", "Name")],
               by.x = 0, by.y = "Code_Loc")
   df[, c("Row.names", "Code_Loc")] <- NULL
   # Convert to standard totals_by_sector format
@@ -215,7 +230,7 @@ checkDuplicateFlowsBySector <- function(sattable_ls) {
   rownames(duplicates) <- NULL
   
   if (nrow(duplicates) > 0){
-    logging::logwarn("Duplicate flows exist across satellite tables.")
+    logging::logdebug("Duplicate flows exist across satellite tables and should be reviewed.")
     logging::logdebug(duplicates)
   } else {
     logging::loginfo("No duplicate flows exist across satellite tables.")
@@ -245,12 +260,12 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
       weight <- useeior::Detail_GrossOutput_IO[industries, as.character(year)]
       mapping_year[mapping_year$BEA_2007_Code==industry, "Ratio"] <- weight/sum(weight)
     }
-    mapping_year[is.na(mapping_year$Ratio), "Ratio"] <- 1
     # Map totals_by_sector from BEA 2007 schema to 2012 schema
     totals_by_sector_year <- merge(totals_by_sector_year, mapping_year,
                                    by.x = "Sector", by.y = "BEA_2007_Code", all.x = TRUE)
+    totals_by_sector_year[is.na(totals_by_sector_year$Ratio), "Ratio"] <- 1
     totals_by_sector_year$FlowAmount <- totals_by_sector_year$FlowAmount*totals_by_sector_year$Ratio
-    totals_by_sector_year$Sector <- totals_by_sector_year$BEA_2012_Code
+    totals_by_sector_year$Sector <- ifelse(is.na(totals_by_sector_year$BEA_2012_Code), totals_by_sector_year$Sector, totals_by_sector_year$BEA_2012_Code)
     totals_by_sector_year[, c("BEA_2012_Code", "Ratio")] <- NULL
     totals_by_sector_new <- rbind(totals_by_sector_new, totals_by_sector_year)
   }
@@ -280,7 +295,8 @@ checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.005) {
   lost_flows <- setdiff(tbs0_agg$Flow, tbs_agg$Flow)
 
   if(length(lost_flows) > 0){
-    tbs_agg[, lost_flows] <- 0
+    df <- data.frame(Flow = lost_flows, FlowAmount = 0)
+    tbs_agg <- rbind(tbs_agg, df)
     logging::logdebug("Flows lost upon conforming to model schema  :")
     logging::logdebug(lost_flows)
   }

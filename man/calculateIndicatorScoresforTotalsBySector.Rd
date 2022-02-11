@@ -11,7 +11,7 @@ calculateIndicatorScoresforTotalsBySector(
 )
 }
 \arguments{
-\item{model}{A EEIO model with IOdata, satellite tables, and indicators loaded}
+\item{model}{A EEIO model with model specs, IO tables, satellite tables, and indicators loaded}
 
 \item{totals_by_sector_name}{The name of one of the totals by sector tables available in model$SatelliteTables$totals_by_sector}
 

@@ -1,0 +1,28 @@
+IndustryCode,CommodityCode,PercentMake,Note
+221100/US,221111/US,3.85304E-02,Default allocation 
+221100/US,22111A/US,2.17043E-01,Default allocation
+221100/US,22111B/US,1.73208E-01,Default allocation
+221100/US,22111C/US,2.97408E-03,Default allocation
+221100/US,221113/US,1.10531E-01,Default allocation
+221100/US,221114/US,6.14173E-04,Default allocation
+221100/US,221115/US,1.98486E-02,Default allocation
+221100/US,221116/US,2.21230E-03,Default allocation
+221100/US,221117/US,1.01050E-02,Default allocation
+221100/US,221118/US,6.90318E-04,Default allocation
+221100/US,221121/US,1.11111E-01,Default allocation
+221100/US,221122/US,3.13131E-01,Default allocation
+221100/US,221111/US,3.85304E-02,Make table intersection
+221100/US,22111A/US,2.17043E-01,Make table intersection
+221100/US,22111B/US,1.73208E-01,Make table intersection
+221100/US,22111C/US,2.97408E-03,Make table intersection
+221100/US,221113/US,1.10531E-01,Make table intersection
+221100/US,221114/US,6.14173E-04,Make table intersection
+221100/US,221115/US,1.98486E-02,Make table intersection
+221100/US,221116/US,2.21230E-03,Make table intersection
+221100/US,221117/US,1.01050E-02,Make table intersection
+221100/US,221118/US,6.90318E-04,Make table intersection
+221100/US,221121/US,1.11111E-01,Make table intersection
+221100/US,221122/US,3.13131E-01,Make table intersection
+221200/US,22111B/US,1.00000E+00,Commodity disaggregation
+22111B/US,221200/US,1.00000E+00,Industry disaggregation
+22111B/US,486000/US,1.00000E+00,Industry disaggregation

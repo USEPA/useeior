@@ -1,9 +1,11 @@
 # Functions for loading input-output tables
 
-#' Prepare economic components of an EEIO form USEEIO model.
-#' @param model A model object with model specs loaded.
-#' @return A list with USEEIO model economic components.
-loadIOData <- function(model) {
+#' Prepare economic components of an EEIO model.
+#' @param model An EEIO model object with model specs loaded
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @return A list with EEIO model economic components.
+loadIOData <- function(model, configpaths = NULL) {
   # Declare model IO objects
   logging::loginfo("Initializing IO tables...")
   # Load model IO meta
@@ -46,8 +48,15 @@ loadIOData <- function(model) {
     model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
   }
   
+  # Check for aggregation
+  model <- getAggregationSpecs(model, configpaths)
+  if(length(model$AggregationSpecs)!=0){
+    model <- aggregateModel(model)
+  }
+  
   # Check for disaggregation
-  if(!is.null(model$specs$DisaggregationSpecs)){
+  model <- getDisaggregationSpecs(model, configpaths)
+  if(length(model$DisaggregationSpecs)!=0){
     model <- disaggregateModel(model)
   }
   
@@ -61,7 +70,7 @@ loadIOmeta <- function(model) {
   io_codes <- loadIOcodes(model$specs)
   model_base_elements <- names(model)
   model$Commodities <- merge(as.data.frame(io_codes$Commodities, stringsAsFactors = FALSE),
-                             utils::read.table(system.file("extdata", "USEEIO_Commodity_Code_Name.csv",
+                             utils::read.table(system.file("extdata", "USEEIO_Commodity_Meta.csv",
                                                            package = "useeior"),
                                                sep = ",", header = TRUE, stringsAsFactors = FALSE),
                              by.x = "io_codes$Commodities", by.y = "Code",
@@ -178,6 +187,8 @@ loadBEAtables <- function(specs, io_codes) {
   DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$FinalDemand), specs)
   BEA$DomesticUseTransactions <- DomesticUse[, io_codes$Industries]
   BEA$DomesticFinalDemand <- DomesticUse[, io_codes$FinalDemandCodes]
+  # Generate Import Cost vector
+  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$UseFinalDemand), specs)
   # Replace NA with 0 in IO tables
   if(specs$BaseIOSchema==2007) {
     BEA$MakeTransactions[is.na(BEA$MakeTransactions)] <- 0

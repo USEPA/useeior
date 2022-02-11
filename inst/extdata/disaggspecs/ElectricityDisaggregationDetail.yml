@@ -1,0 +1,9 @@
+Disaggregation:
+  221100/US:
+    OriginalSectorCode: "221100/US"
+    OrignalSectorName: "Electric power generation, transmission, and distribution"
+    DisaggregationType: "Userdefined"
+    SectorFile: ElectricityDisaggregation_Sectors.csv
+    MakeFile: ElectricityDisaggregationDetail_Make.csv
+    UseFile: ElectricityDisaggregationDetail_Use.csv
+    EnvFile: ElectricityDisaggregation_Env.csv 

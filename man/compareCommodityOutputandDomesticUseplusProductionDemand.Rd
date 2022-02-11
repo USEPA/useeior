@@ -10,7 +10,7 @@ compareCommodityOutputandDomesticUseplusProductionDemand(
 )
 }
 \arguments{
-\item{model, }{EEIOmodel object completely built}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
 \item{tolerance, }{a numeric value, tolerance level of the comparison}
 }

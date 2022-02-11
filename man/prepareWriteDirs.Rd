@@ -4,13 +4,14 @@
 \alias{prepareWriteDirs}
 \title{Sets directories to write model output data to}
 \usage{
-prepareWriteDirs(dirs, model)
+prepareWriteDirs(model, dirs)
 }
 \arguments{
-\item{dirs}{A named list of directories}
-
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{dirs}{A named list of directories}
 }
 \description{
-Sets directories to write model output data to. If model is not passed, just uses data directory
+Sets directories to write model output data to.
+If model is not passed, just uses data directory.
 }

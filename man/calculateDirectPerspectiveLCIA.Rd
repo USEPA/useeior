@@ -4,17 +4,15 @@
 \alias{calculateDirectPerspectiveLCIA}
 \title{Multiply the C matrix and the product of B matrix and scaling vector c.}
 \usage{
-calculateDirectPerspectiveLCIA(B, C, c)
+calculateDirectPerspectiveLCIA(D, s)
 }
 \arguments{
-\item{B}{Marginal impact per unit of the environmental flows.}
+\item{D}{Direct impact per unit of the environmental flows.}
 
-\item{C}{LCIA indicators.}
-
-\item{c}{Scaling vector.}
+\item{s}{Scaling vector.}
 }
 \value{
-Transposed u_d with total impacts in form of sector x impact categories.
+A transposed matrix with total impacts in form of sector x impact categories.
 }
 \description{
 Multiply the C matrix and the product of B matrix and scaling vector c.

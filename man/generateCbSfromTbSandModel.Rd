@@ -7,10 +7,10 @@
 generateCbSfromTbSandModel(model)
 }
 \arguments{
-\item{model, }{a model with econ and flow data loaded}
+\item{model}{An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded}
 }
 \value{
-df, a Coefficients-by-sector table
+A dataframe of Coefficients-by-Sector (CbS) table
 }
 \description{
 Prepare coefficients (x unit/$) from the totals by flow and sector (x unit)

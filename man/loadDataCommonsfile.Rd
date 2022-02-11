@@ -2,7 +2,8 @@
 % Please edit documentation in R/UtilityFunctions.R
 \name{loadDataCommonsfile}
 \alias{loadDataCommonsfile}
-\title{Load the static file originating from Data Commons either by loading from local directory or downloading from Data Commons and 
+\title{Load the static file originating from Data Commons either by loading from local directory
+or downloading from Data Commons and 
 saving to local directory}
 \usage{
 loadDataCommonsfile(static_file)
@@ -14,6 +15,7 @@ loadDataCommonsfile(static_file)
 The static file originating from Data Commons
 }
 \description{
-Load the static file originating from Data Commons either by loading from local directory or downloading from Data Commons and 
+Load the static file originating from Data Commons either by loading from local directory
+or downloading from Data Commons and 
 saving to local directory
 }

@@ -7,7 +7,7 @@
 getValueAddedTotalsbySector(model)
 }
 \arguments{
-\item{model}{A EEIO model with IOdata, satellite tables, and indicators loaded}
+\item{model}{A EEIO model with model specs and IO tables loaded}
 }
 \value{
 A value-added totals_by_sector table with fields of standard totals_by_sector

@@ -9,12 +9,12 @@ heatmapSectorRanking(
   matrix,
   indicators,
   sector_to_remove,
-  y_title,
-  N_sector
+  N_sector,
+  x_title = NULL
 )
 }
 \arguments{
-\item{model}{A complete EEIO model}
+\item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
 \item{matrix}{A matrix from model result}
 
@@ -22,9 +22,9 @@ heatmapSectorRanking(
 
 \item{sector_to_remove}{Code of one or more BEA sectors that will be removed from the plot. Can be "".}
 
-\item{y_title}{The title of y axis, excluding unit.}
-
 \item{N_sector}{A numeric value indicating number of sectors to show in the ranking}
+
+\item{x_title}{A string specifying desired title on the x-axis, default is NULL, the title will be "modelname indicators"}
 }
 \description{
 SMM tool like heatmap showing ranking of sectors
