@@ -10,6 +10,15 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
   else {
     A <- model$A
   }
+
+  A_proc <- reshape2::acast(model$HybridizationSpecs$TechFileDF,
+                            FlowID ~ ProcessID, fun.aggregate = sum, value.var = "Amount")
+  A_2 <- merge(A_proc, A, by="row.names", all=TRUE)
+  A_2[is.na(A_2)] <- 0
+  
+  A_3 <- as.matrix(A_2[-1])
+  rownames(A_3) <- A_2[,1]
+  # A <- A_3
   
   return(A)
 }
@@ -20,6 +29,17 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
 #' @return The B matrix for a hybridized model.
 hybridizeBMatrix <- function (model){
   logging::loginfo("Hybridizing model for B matrix...")
+  
+  df <- model$HybridizationSpecs$EnvFileDF
+  df <- within(df, Flow <- paste(Flowable, Context, Unit, sep='/'))
+  B_proc <- reshape2::acast(df, Flow ~ ProcessID, fun.aggregate = sum, value.var = "Amount")
+  B_2 <- merge(B_proc, model$B, by="row.names", all=TRUE)
+  B_2[is.na(B_2)] <- 0
+  
+  B_3 <- as.matrix(B_2[-1])
+  rownames(B_3) <- B_2[,1]
+  model$B <- B_3    
+
   return(model$B)
 }
 
@@ -63,7 +83,7 @@ getHybridizationFiles <- function (model, configpaths = NULL){
 
     # Load Env file
     filename <- ifelse(is.null(configpaths),
-                       system.file("extdata/disaggspecs", spec$EnvFile, package = "useeior"),
+                       system.file("extdata/hybridizationspecs", spec$EnvFile, package = "useeior"),
                        file.path(dirname(configpaths)[1], spec$EnvFile))
     model$HybridizationSpecs$EnvFileDF <- utils::read.table(filename,
                                                             sep = ",", header = TRUE,
