@@ -4,7 +4,12 @@
 \alias{disaggregateInternationalTradeAdjustment}
 \title{Disaggregate model$InternationalTradeAdjustments vector in the main model object}
 \usage{
-disaggregateInternationalTradeAdjustment(model, disagg, ratios = NULL)
+disaggregateInternationalTradeAdjustment(
+  model,
+  disagg,
+  ratios = NULL,
+  adjustmentByCommodity = FALSE
+)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
@@ -12,6 +17,8 @@ disaggregateInternationalTradeAdjustment(model, disagg, ratios = NULL)
 \item{disagg}{Specifications for disaggregating the current Table}
 
 \item{ratios}{Specific ratios to be used for the disaggregation of the InternationalTradeAdjusment object in place of using economic totals to derive the ratios.}
+
+\item{adjustmentByCommodity}{Flag to denote whether to disaggregate the InternationalTradeAdjustmentbyCommodity object which is only present in industry models}
 }
 \value{
 newInternationalTradeAdjustment A vector which contains the InternationalTradeAdjustment for the disaggregated sectors

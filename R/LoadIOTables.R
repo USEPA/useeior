@@ -102,7 +102,8 @@ loadNationalIOData <- function(model) {
     colnames(model$UseValueAdded) <- model$Industries$Code_Loc
   # Use model$Commodities
   colnames(model$MakeTransactions) <- rownames(model$UseTransactions) <- rownames(model$DomesticUseTransactions) <- 
-    rownames(model$FinalDemand) <- rownames(model$DomesticFinalDemand) <- model$Commodities$Code_Loc
+    rownames(model$FinalDemand) <- rownames(model$DomesticFinalDemand) <- 
+    names(model$InternationalTradeAdjustment) <- model$Commodities$Code_Loc
   # Apply joinStringswithSlashes based on original row/column names
   rownames(model$UseValueAdded) <- apply(cbind(rownames(model$UseValueAdded), model$specs$ModelRegionAcronyms),
                                          1, FUN = joinStringswithSlashes)
@@ -131,6 +132,7 @@ loadNationalIOData <- function(model) {
     model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)
     model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)
     model$InternationalTradeAdjustment <- unlist(transformFinalDemandwithMarketShares(model$InternationalTradeAdjustment, model))
+    names(model$InternationalTradeAdjustment) <- model$Industries$Code_Loc
   }
   
   # Add Margins table
