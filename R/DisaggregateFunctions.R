@@ -14,18 +14,33 @@ disaggregateModel <- function (model){
     #Disaggregating main model components
     model$UseTransactions <- disaggregateUseTable(model, disagg)
     model$MakeTransactions <- disaggregateMakeTable(model, disagg)
-    model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
     model$UseValueAdded <- disaggregateVA(model, disagg)
-    model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
     model$DomesticUseTransactions <- disaggregateUseTable(model, disagg, domestic = TRUE)
+    
+    if(model$specs$CommodityorIndustryType=="Commodity") {
+      model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+      model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+    } else {
+      model$FinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+      model$DomesticFinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+      model$InternationalTradeAdjustmentbyCommodity <- disaggregateInternationalTradeAdjustment(model, disagg, NULL, adjustmentByCommodity = TRUE)
+    }
     
     #Balancing model
     if(disagg$DisaggregationType == "Userdefined"){
       model <- balanceDisagg(model, disagg)
     }
 
-    #Recalculate model$CommodityOutput and model$IndustryOutput objects 
-    model <- calculateIndustryCommodityOutput(model)
+    #Recalculate model$CommodityOutput and model$IndustryOutput objects. This if else has to be separate from the one above because 
+    #the calculateIndustryCommodityOutput function is used prior to the creation of model$FinalDemandbyCommodity object, 
+    #and we can't recalculate the commodity and industry totals before balancing. 
+    if(model$specs$CommodityorIndustryType=="Commodity") {
+      model <- calculateIndustryCommodityOutput(model)
+      
+    } else{
+      model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+      model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemandbyCommodity)
+    }
     
     #Disaggregating MultiyearIndustryOutput and MultiYearCommodityOutput 
     model$MultiYearCommodityOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
@@ -41,7 +56,14 @@ disaggregateModel <- function (model){
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
     model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
-
+    
+    # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
+    if (model$specs$CommodityorIndustryType=="Industry") {
+      # Keep the orignal FinalDemand (in by-commodity form)
+      model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemandbyCommodity, model)
+      model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemandbyCommodity, model)
+      model$InternationalTradeAdjustment <- unlist(transformFinalDemandwithMarketShares(model$InternationalTradeAdjustmentbyCommodity, model))
+    }
   }
   
   return(model)
@@ -179,14 +201,20 @@ disaggregateSetup <- function (model, configpaths = NULL){
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
 #' @param ratios Specific ratios to be used for the disaggregation of the InternationalTradeAdjusment object in place of using economic totals to derive the ratios.
+#' @param adjustmentByCommodity Flag to denote whether to disaggregate the InternationalTradeAdjustmentbyCommodity object which is only present in industry models
 #' @return newInternationalTradeAdjustment A vector which contains the InternationalTradeAdjustment for the disaggregated sectors
-disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NULL){
+disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NULL, adjustmentByCommodity = FALSE){
+  if (adjustmentByCommodity == FALSE) {
+    originalInternationalTradeAdjustment <- model$InternationalTradeAdjustment
+  } else {
+    originalInternationalTradeAdjustment <- model$InternationalTradeAdjustmentbyCommodity
+  }
+  originalNameList <- names(originalInternationalTradeAdjustment) # Get names from named vector
+#  codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
+#  originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
+  originalIndex <- which(originalNameList == disagg$OriginalSectorCode) # Get row index of the original aggregate sector in the object
   
-  originalInternationalTradeAdjustment <- model$InternationalTradeAdjustment
-  originalNameList <- names(model$InternationalTradeAdjustment) # Get names from named vector
-  codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
-  originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
-  originalRow <- model$InternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
+  originalRow <- originalInternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
   disaggInternationalTradeAdjustment <- rep(originalRow,length(disagg$DisaggregatedSectorCodes)) # Replicate the original a number of times equal to the number of disaggregate sectors
  
   if(is.null(ratios)){# Use default ratios, i.e., commodity output ratios
@@ -281,7 +309,14 @@ disaggregatedRatios <- function(model, disagg, output_type = "Commodity") {
     disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
     
     #calculate industry ratios after disaggregation from Use table
-    disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemand[disaggUseStartIndex:disaggUseEndIndex,])
+#    disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemand[disaggUseStartIndex:disaggUseEndIndex,])
+    if(model$specs$CommodityorIndustryType == "Industry"){
+      disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemandbyCommodity[disaggUseStartIndex:disaggUseEndIndex,])
+      
+    }else{
+      disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemand[disaggUseStartIndex:disaggUseEndIndex,])
+      
+    }
     disaggRatios <- disaggRatios / sum(disaggRatios) 
     
   }
@@ -542,9 +577,17 @@ disaggregateUseTable <- function (model, disagg, domestic = FALSE) {
 disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
 
   if(domestic) {
-    originalFD <-model$DomesticFinalDemand
+    if (model$specs$CommodityorIndustryType=="Commodity") {
+      originalFD <-model$DomesticFinalDemand
+    } else {
+      originalFD <- model$DomesticFinalDemandbyCommodity
+    }
   } else {
-    originalFD <-model$FinalDemand
+    if (model$specs$CommodityorIndustryType=="Commodity") {
+      originalFD <-model$FinalDemand
+    } else {
+      originalFD <- model$FinalDemandbyCommodity
+    }
   }
   #specify type of disaggregation
   disaggType = disagg$DisaggregationType
@@ -1421,8 +1464,15 @@ balanceDisagg <- function(model, disagg){
   if(any(abs(useIndAllocPercentages - makeIndAllocPercentages) > tolerance) || any(abs(useComAllocPercentages - makeComAllocPercentages > tolerance))){
     
     #Balance. Create FullUse from UseTransanctions, UseValueAdded, and Final Demand, then call ApplyRAS
+    
+    if(model$specs$CommodityorIndustryType == "Industry"){
+      FDIndTotals <- data.frame(colSums(model$FinalDemandbyCommodity))
+    } else{
+      FDIndTotals <- data.frame(colSums(model$FinalDemand))
+
+    }
+    
     targetIndTotals <- data.frame(rowSums(model$MakeTransactions))
-    FDIndTotals <- data.frame(colSums(model$FinalDemand))
     colnames(FDIndTotals) <- colnames(targetIndTotals) #needed for rbind step
     targetIndTotals <- rbind(targetIndTotals, FDIndTotals)
     
@@ -1442,11 +1492,20 @@ balanceDisagg <- function(model, disagg){
   #break balancedDisaggFullUse back into model components
   domesticTables <- calculateBalancedDomesticTables(model, disagg, balancedDisaggFullUse)
   
+  if(model$specs$CommodityorIndustryType == "Industry"){
+    model$DomesticFinalDemandbyCommodity <- domesticTables$DomesticFinalDemand
+    model$FinalDemandbyCommodity <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
+    
+  } else{
+    model$DomesticFinalDemand <- domesticTables$DomesticFinalDemand
+    model$FinalDemand <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
+  }
+
+#  model$FinalDemand <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]  
+#  model$DomesticFinalDemand <- domesticTables$DomesticFinalDemand  
+
   model$DomesticUseTransactions <- domesticTables$DomesticUseTransactions
-  model$DomesticFinalDemand <- domesticTables$DomesticFinalDemand
-  
   model$UseTransactions <- balancedDisaggFullUse[1:nrow(model$UseTransactions), 1:ncol(model$UseTransactions)]
-  model$FinalDemand <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
   model$UseValueAdded <- balancedDisaggFullUse[-(1:nrow(model$UseTransactions)),1:ncol(model$UseTransactions)]
 
   return(model)
@@ -1461,11 +1520,20 @@ buildDisaggFullUse <- function(model, disagg) {
   
   disaggFullUse <- rbind(model$UseTransactions, model$UseValueAdded)
   
-  tempVA <- matrix(0, nrow(model$UseValueAdded), ncol(model$FinalDemand))
-  colnames(tempVA) <- colnames(model$FinalDemand)
-  rownames(tempVA) <- rownames(model$UseValueAdded)
-  fullFD <- rbind(model$FinalDemand, tempVA)
+  if(model$specs$CommodityorIndustryType == "Industry"){
+    originalFD <- model$FinalDemandbyCommodity
+  } else{
+    originalFD <- model$FinalDemand
+  }
   
+#  tempVA <- matrix(0, nrow(model$UseValueAdded), ncol(model$FinalDemand))
+  tempVA <- matrix(0, nrow(model$UseValueAdded), ncol(originalFD))
+#  colnames(tempVA) <- colnames(model$FinalDemand)
+  colnames(tempVA) <- colnames(originalFD)
+  rownames(tempVA) <- rownames(model$UseValueAdded)
+#  fullFD <- rbind(model$FinalDemand, tempVA)
+  fullFD <- rbind(originalFD, tempVA)
+    
   disaggFullUse <- cbind(disaggFullUse, fullFD)
   
   return(disaggFullUse)
@@ -1486,7 +1554,14 @@ calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse) {
   domesticUseRatios[is.na(domesticUseRatios)] <- 0# means numerator, denominator, or both are 0
   domesticUseRatios[domesticUseRatios == Inf] <-0 #inf means denominator is 0
   
-  domesticFDRatios <- model$DomesticFinalDemand / model$FinalDemand
+  if(model$specs$CommodityorIndustryType == "Industry"){
+    domesticFDRatios <- model$DomesticFinalDemandbyCommodity / model$FinalDemandbyCommodity
+  } else {
+    domesticFDRatios <- model$DomesticFinalDemand / model$FinalDemand
+  }
+  
+  
+#  domesticFDRatios <- model$DomesticFinalDemand / model$FinalDemand
   domesticFDRatios[is.na(domesticFDRatios)] <-0
   domesticFDRatios[domesticFDRatios == Inf] <- 0
 
