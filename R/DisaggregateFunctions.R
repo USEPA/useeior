@@ -96,6 +96,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
       disagg <- disaggregateSummaryModel("USEEIOv2.0", detailModel = detailModel,
                                          sectorToDisaggregate = disagg$OriginalSectorCode,
                                          specifiedDetailLevelSector = specifiedDetailLevelSector, disagg)
+      disagg$DisaggregationType <- "Userdefined"
     }
     
     else {
