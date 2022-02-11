@@ -56,23 +56,5 @@ Indicators:
         Primary: TRUE
 
 DemandVectors:
-    Consumption:
-      Type: "Consumption"
-      Year: 2012
-      System: "Complete"
-      Location: "US-GA"
-    Production:
-      Type: "Production"
-      Year: 2012
-      System: "Complete"
-      Location: "US-GA"
-    HouseholdConsumption:
-      Type: "Consumption"
-      Year: 2012
-      System: "Household"
-      Location: "US-GA"
-    DomesticConsumption:
-      Type: "Consumption"
-      Year: 2012
-      System: "Domestic"
-      Location: "US-GA"    
+    DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
+# Additional demand vectors beyond useeior defaults
