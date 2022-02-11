@@ -683,3 +683,30 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
   return(outputDF)
   
 }
+
+#' For target disaggregation sectors, check if they are IndustryOnly or CommodityOnly by comparing to detailModel
+#' @param disagg 
+#' @param detailModel
+#' @return disagg with IndustryOnly or CommodityOnly lists added if necessary
+checkAsymmetricalDisaggregation <- function(disagg, detailModel){
+  disagg$IndustryOnly <- list()
+  disagg$CommodityOnly <- list()
+  for (sector in disagg$DisaggregatedSectorCodes){
+    if((sector %in% detailModel$Commodities$Code_Loc) &
+       (!sector %in% detailModel$Industries$Code_Loc)){
+      disagg$CommodityOnly <- append(disagg$CommodityOnly, sector)
+    }
+    else if((sector %in% detailModel$Industries$Code_Loc) &
+         (!sector %in% detailModel$Commodities$Code_Loc)){
+      disagg$IndustryOnly <- append(disagg$IndustryOnly, sector)
+    }
+  }
+  
+  if(length(disagg$IndustryOnly) == 0) {
+    disagg$IndustryOnly <- NULL
+  }
+  if(length(disagg$CommodityOnly) == 0) {
+    disagg$CommodityOnly <- NULL
+  }
+  return(disagg)
+}

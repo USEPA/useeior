@@ -123,6 +123,10 @@ disaggregateSetup <- function (model, configpaths = NULL){
     disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
     disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
     
+    if(!is.null(disagg$SummarytoDetail)){
+      disagg <- checkAsymmetricalDisaggregation(disagg, detailModel)
+    }
+    
     # Load Make table disaggregation file
     if(!is.null(disagg[["MakeFile"]])){
       filename <- ifelse(is.null(configpaths),
