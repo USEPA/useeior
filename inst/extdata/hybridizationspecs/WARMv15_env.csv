@@ -1,0 +1,35 @@
+ProcessID,ProcessName,Location,Amount,Flowable,Context,Unit,FlowUUID
+WARM01,MSW recycling of PET,US,1.514054543,Compensation of employees,,USD,
+WARM01,MSW recycling of PET,US,0.258041403,"Taxes on production and imports, less subsidies",,USD,
+WARM01,MSW recycling of PET,US,3.24E-05,Jobs,,p,
+WARM02,MSW landfilling of PET,,0.050871933,Compensation of employees,,USD,
+WARM02,MSW landfilling of PET,,0.018871668,"Taxes on production and imports, less subsidies",,USD,
+WARM02,MSW landfilling of PET,,7.28E-07,Jobs,,p,
+WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",,0.02741474,Methane,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80
+WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",,0.095742391,Carbon dioxide,resource/air,kg,58b5cd90-8ba4-32ea-b4aa-3a3438ba8419
+WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",,0.050871933,Compensation of employees,,USD,
+WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",,0.018871668,"Taxes on production and imports, less subsidies",,USD,
+WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",,7.28E-07,Jobs,,p,
+WARM04,MSW combustion of Bread,,0.000135632,Nitrous oxide,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492
+WARM04,MSW combustion of Bread,,0.050871933,Compensation of employees,,USD,
+WARM04,MSW combustion of Bread,,0.018871668,"Taxes on production and imports, less subsidies",,USD,
+WARM04,MSW combustion of Bread,,7.28E-07,Jobs,,p,
+WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",US,-0.013191298,Carbon dioxide,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7
+WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",US,0.000312812,Nitrous oxide,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492
+WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",US,0.001612392,Methane,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80
+WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",US,0.036209823,Carbon dioxide,resource/air,kg,58b5cd90-8ba4-32ea-b4aa-3a3438ba8419
+WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",US,0.042196697,Compensation of employees,,USD,
+WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",US,0.008708305,"Taxes on production and imports, less subsidies",,USD,
+WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",US,1.16E-06,Jobs,,p,
+WARM06,MSW composting of Bread,,0.000697578,Carbon dioxide,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7
+WARM06,MSW composting of Bread,,5.83E-05,Nitrous oxide,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492
+WARM06,MSW composting of Bread,,0.004646529,Methane,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80
+WARM06,MSW composting of Bread,,0.265292262,Carbon dioxide,resource/air,kg,58b5cd90-8ba4-32ea-b4aa-3a3438ba8419
+WARM06,MSW composting of Bread,,-0.805721862,"Energy, heat",resource/air,MJ,8c959db8-d359-36e3-8517-588e1c21df4a
+WARM06,MSW composting of Bread,,0.028483873,Compensation of employees,,USD,
+WARM06,MSW composting of Bread,,0.005676933,"Taxes on production and imports, less subsidies",,USD,
+WARM06,MSW composting of Bread,,7.05E-07,Jobs,,p,
+WARM07,MSW combustion of PET,,2.245845068,Carbon dioxide,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7
+WARM07,MSW combustion of PET,,0.050871933,Compensation of employees,,USD,
+WARM07,MSW combustion of PET,,0.018871668,"Taxes on production and imports, less subsidies",,USD,
+WARM07,MSW combustion of PET,,7.28E-07,Jobs,,p,
