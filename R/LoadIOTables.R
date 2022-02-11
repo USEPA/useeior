@@ -32,8 +32,11 @@ loadIOData <- function(model, configpaths = NULL) {
     # Keep the orignal FinalDemand (in by-commodity form)
     model$FinalDemandbyCommodity <- model$FinalDemand
     model$DomesticFinalDemandbyCommodity <- model$DomesticFinalDemand
+    model$InternationalTradeAdjustmentbyCommodity <- model$InternationalTradeAdjustment
     model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemand, model)
     model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemand, model)
+    model$InternationalTradeAdjustment <- unlist(transformFinalDemandwithMarketShares(model$InternationalTradeAdjustment, model))
+    names(model$InternationalTradeAdjustment) <- model$Industries$Code_Loc
   }
   
   # Add Margins table
@@ -159,7 +162,8 @@ loadNationalIOData <- function(model, io_codes) {
   # Use model$Commodities
   colnames(BEA$MakeTransactions) <- rownames(BEA$UseTransactions) <-
     rownames(BEA$DomesticUseTransactions) <- rownames(BEA$FinalDemand) <-
-    rownames(BEA$DomesticFinalDemand) <- model$Commodities$Code_Loc
+    rownames(BEA$DomesticFinalDemand) <- names(BEA$InternationalTradeAdjustment) <-
+    model$Commodities$Code_Loc
   # Use model$FinalDemandMeta
   colnames(BEA$FinalDemand) <- colnames(BEA$DomesticFinalDemand) <-
     model$FinalDemandMeta$Code_Loc
