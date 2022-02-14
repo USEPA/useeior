@@ -18,8 +18,10 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
   
   A_3 <- as.matrix(A_2[-1])
   rownames(A_3) <- A_2[,1]
-  # A <- A_3
-  
+  A <- A_3
+
+  #TODO: adjust index so that sectors are in the correct order
+    
   return(A)
 }
 
@@ -38,7 +40,9 @@ hybridizeBMatrix <- function (model){
   
   B_3 <- as.matrix(B_2[-1])
   rownames(B_3) <- B_2[,1]
-  # model$B <- B_3    
+  model$B <- B_3
+  
+  #TODO: adjust index so that sectors are in the correct order
 
   return(model$B)
 }

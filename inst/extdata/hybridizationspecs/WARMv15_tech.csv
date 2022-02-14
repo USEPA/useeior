@@ -1,23 +1,23 @@
 ProcessID,ProcessName,Location,ProcessUnit,Amount,FlowID,Flow,FlowUnit
-WARM01,MSW recycling of PET,kg,US,1,WARM01,MSW recycling of PET,kg
+WARM01,MSW recycling of PET,kg,US,0,WARM01,MSW recycling of PET,kg
 WARM01,MSW recycling of PET,kg,US,3.858620157,325211/US,Plastics,USD
 WARM01,MSW recycling of PET,kg,US,-3.086896126,325211/US,Plastics,USD
-WARM02,MSW landfilling of PET,kg,,1,WARM02,MSW landfilling of PET,kg
+WARM02,MSW landfilling of PET,kg,,0,WARM02,MSW landfilling of PET,kg
 WARM02,MSW landfilling of PET,kg,,-0.107871867,324110/US,"Gasoline, fuels, and by-products of petroleum refining",USD
 WARM02,MSW landfilling of PET,kg,,-0.035405568,484000/US,Truck transport,USD
 WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",kg,,-0.107871867,324110/US,"Gasoline, fuels, and by-products of petroleum refining",USD
 WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",kg,,-0.035405568,484000/US,Truck transport,USD
 WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",kg,,0.006299226,221100/US,Electricity,USD
-WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",kg,,1,WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",kg
+WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",kg,,0,WARM03,"MSW landfilling of Bread; National average LFG recovery, typical collection, National average conditions",kg
 WARM04,MSW combustion of Bread,kg,,0.019656386,221100/US,Electricity,USD
-WARM04,MSW combustion of Bread,kg,,1,WARM04,MSW combustion of Bread,kg
+WARM04,MSW combustion of Bread,kg,,0,WARM04,MSW combustion of Bread,kg
 WARM04,MSW combustion of Bread,kg,,-0.2,484000/US,Truck transport,USD
 WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",kg,US,-0.035405568,484000/US,Truck transport,USD
 WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",kg,US,0.015351326,221100/US,Electricity,USD
-WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",kg,US,1,WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",kg
+WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",kg,US,0,WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",kg
 WARM05,"Anaerobic digestion of Bread; Dry digestion, Cured",kg,US,-0.000341307,324110/US,"Gasoline, fuels, and by-products of petroleum refining",USD
 WARM06,MSW composting of Bread,kg,,-0.035405568,484000/US,Truck transport,USD
-WARM06,MSW composting of Bread,kg,,1,WARM06,MSW composting of Bread,kg
+WARM06,MSW composting of Bread,kg,,0,WARM06,MSW composting of Bread,kg
 WARM07,MSW combustion of PET,kg,,0.087914637,221100/US,Electricity,USD
 WARM07,MSW combustion of PET,kg,,-0.2,484000/US,Truck transport,USD
-WARM07,MSW combustion of PET,kg,,1,WARM07,MSW combustion of PET,kg
+WARM07,MSW combustion of PET,kg,,0,WARM07,MSW combustion of PET,kg
