@@ -23,7 +23,7 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
   indexOrder <- match(colnames(A_3), rownames(A_3))
   A_4 <- A_3[indexOrder, ]
   
-  # A <- A_4
+   A <- A_4
   
 
   return(A)
@@ -47,7 +47,7 @@ hybridizeBMatrix <- function (model){
 
   
   
-  # model$B <- B_3    
+   model$B <- B_3    
 
 
   return(model$B)
