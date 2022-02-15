@@ -40,7 +40,7 @@ Imports:
 Depends:
   R (>= 3.6)
 Remotes:
-  github::USEPA/stateior@master
+  USEPA/stateior
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
