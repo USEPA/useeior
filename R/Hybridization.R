@@ -25,6 +25,7 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
   
   # A <- A_4
   
+
   return(A)
 }
 
@@ -43,9 +44,11 @@ hybridizeBMatrix <- function (model){
   
   B_3 <- as.matrix(B_2[-1])
   rownames(B_3) <- B_2[,1]
+
   
   
   # model$B <- B_3    
+
 
   return(model$B)
 }
