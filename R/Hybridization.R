@@ -18,7 +18,12 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
   
   A_3 <- as.matrix(A_2[-1])
   rownames(A_3) <- A_2[,1]
-  # A <- A_3
+  
+  # Reorder A such that process matrix (Ap) is in the upper left corner
+  indexOrder <- match(colnames(A_3), rownames(A_3))
+  A_4 <- A_3[indexOrder, ]
+  
+  # A <- A_4
   
   return(A)
 }
@@ -38,6 +43,8 @@ hybridizeBMatrix <- function (model){
   
   B_3 <- as.matrix(B_2[-1])
   rownames(B_3) <- B_2[,1]
+  
+  
   # model$B <- B_3    
 
   return(model$B)
