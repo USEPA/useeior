@@ -843,7 +843,7 @@ disaggregateMasterCrosswalk <- function (model, disagg){
   #Update remaining rows where the original sector is present in cwColIndex but there is no exact match in the NAICS column for the disaggregated sector codes (e.g. 2-5 level NAICS codes)
   remainingDisaggNAICSIndex <- which(new_cw$USEEIO == substr(disagg$OriginalSectorCode,1,secLength))
   
-  for (i in 1:length(remainingDisaggNAICSIndex)){
+  for (i in seq_along(remainingDisaggNAICSIndex)){
     disaggNAICSIndex <- which(new_cw$USEEIO == substr(disagg$OriginalSectorCode,1,secLength))
     crosswalkRow <- new_cw[disaggNAICSIndex[1],] #extract current row where code in last column needs to be updated
     
