@@ -12,16 +12,14 @@ loadIOData <- function(model, configpaths = NULL) {
   model <- loadIOmeta(model)
   # Define IO table names
   io_table_names <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand")
+                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
+                      "InternationalTradeAdjustment")
   # Load IO data
   if (model$specs$IODataSource=="BEA") {
     io_codes <- loadIOcodes(model$specs)
-    io_table_names <- c(io_table_names, "InternationalTradeAdjustment")
     model[io_table_names] <- loadNationalIOData(model, io_codes)[io_table_names]
   } else if (model$specs$IODataSource=="stateior") {
-    io_tables <- loadTwoRegionStateIOtables(model$specs)
-    model[io_table_names] <- io_tables[io_table_names]
-    model$Demand <- io_tables$Demand
+    model[io_table_names] <- loadTwoRegionStateIOtables(model$specs)[io_table_names]
   }
   
   # Add Industry and Commodity Output
@@ -222,10 +220,11 @@ loadTwoRegionStateIOtables <- function(specs) {
   # Load IO tables from stateior
   StateIO$MakeTransactions <- stateior::getTwoRegionMakeTransactions(state, year, iolevel)
   StateIO$UseTransactions <- stateior::getTwoRegionUseTransactions(state, year, iolevel)
-  StateIO$DomesticUseTransactions <- stateior::getTwoRegionDomesticUseTransactions(state, year, iolevel)
   StateIO$FinalDemand <- stateior::getTwoRegionFinalDemand(state, year, iolevel)
+  StateIO$DomesticUseTransactions <- stateior::getTwoRegionDomesticUseTransactions(state, year, iolevel)
   StateIO$DomesticFinalDemand <- stateior::getTwoRegionDomesticFinalDemand(state, year, iolevel)
   StateIO$UseValueAdded <- stateior::getTwoRegionValueAdded(state, year, iolevel)
+  StateIO$InternationalTradeAdjustment <- stateior::getTwoRegionInternationalTradeAdjustment(state, year, iolevel)
   return(StateIO)
 }
 
