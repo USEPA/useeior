@@ -167,7 +167,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
     }
     if (model$specs$IODataSource=="stateior" & stringr::str_sub(disagg$OriginalSectorCode, start=-3)=="/US") {
       for(region in model$specs$ModelRegionAcronyms){
-        d2 <- prepareTwoRegionDisaggregation(disagg, region)
+        d2 <- prepareTwoRegionDisaggregation(disagg, region, model$specs$ModelRegionAcronyms)
         model$DisaggregationSpecs[[d2$OriginalSectorCode]] <- d2
       }
       # Remove original disaggregation spec
@@ -184,30 +184,29 @@ disaggregateSetup <- function (model, configpaths = NULL){
 
 
 #' Generate two-region disaggregation specs from a national spec
-prepareTwoRegionDisaggregation <- function(disagg, region) {
+prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
 
   d2 <- disagg
-  NewSectorCode <- gsub("/US", paste0("/",region), disagg$OriginalSectorCode)
-  d2$OriginalSectorCode <- NewSectorCode
+  d2$OriginalSectorCode <- gsub("/US", paste0("/",region), disagg$OriginalSectorCode)
+  other_region <- regions[regions != region]
   
   # Update NAICSSectorCW
   d2$NAICSSectorCW$USEEIO_Code <- gsub("/US", paste0("/",region), d2$NAICSSectorCW$USEEIO_Code)
   d2$DisaggregatedSectorCodes <- lapply(d2$DisaggregatedSectorCodes, function(x) gsub("/US", paste0("/",region), x))
 
-  # Temporarily duplicate national allocations, still need to disaggregate SoI to RoUS
+  # Duplicate national allocations
   cols <- c("IndustryCode","CommodityCode")
-  for(i in 1:length(d2$DisaggregatedSectorCodes)){
-    d2$MakeFileDF[cols] <- lapply(d2$MakeFileDF[cols], function(x) gsub(disagg$DisaggregatedSectorCodes[[i]],
-                                                                        d2$DisaggregatedSectorCodes[[i]], x))
-    d2$UseFileDF[cols] <- lapply(d2$UseFileDF[cols], function(x) gsub(disagg$DisaggregatedSectorCodes[[i]],
-                                                                      d2$DisaggregatedSectorCodes[[i]], x))
-  }
-  d2$MakeFileDF[cols] <- lapply(d2$MakeFileDF[cols], function(x) gsub(disagg$OriginalSectorCode,
-                                                                      NewSectorCode, x))
-  d2$UseFileDF[cols] <- lapply(d2$UseFileDF[cols], function(x) gsub(disagg$OriginalSectorCode,
-                                                                    NewSectorCode, x))
-    
-  
+  d2$MakeFileDF[cols] <- lapply(d2$MakeFileDF[cols], function(x) gsub("/US", paste0("/",region), x))
+  d2$UseFileDF[cols] <- lapply(d2$UseFileDF[cols], function(x) gsub("/US", paste0("/",region), x))  
+
+  # For Use table, where disaggregated commodity appears as CommodityCode, duplicate it and replace with other region
+  rep <- subset(d2$UseFileDF, CommodityCode %in% d2$DisaggregatedSectorCodes &
+                              IndustryCode != d2$OriginalSectorCode)
+  rep["CommodityCode"] <- lapply(rep["CommodityCode"], function(x) gsub(paste0("/",region), 
+                                                                        paste0("/",other_region), x))
+  d2$UseFileDF <- rbind(d2$UseFileDF, rep)
+  rownames(d2$UseFileDF) <- NULL
+
   ## Disaggregate Satellite Table
   ## TODO
 
