@@ -55,7 +55,10 @@ disaggregateModel <- function (model){
     
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
+    # Temporary skip this step
+    if(model$specs$IODataSource!="stateior"){
     model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
+    }
     
     # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
     if (model$specs$CommodityorIndustryType=="Industry") {
@@ -99,7 +102,6 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
 #' @return A model object with the correct disaggregation specs.
 disaggregateSetup <- function (model, configpaths = NULL){
   
-  counter = 1
   for (disagg in model$DisaggregationSpecs){  
     filename <- ifelse(is.null(configpaths),
                        system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
@@ -163,14 +165,56 @@ disaggregateSetup <- function (model, configpaths = NULL){
     } else {
       disagg$EnvAllocRatio <- FALSE
     }
-    #Need to assign these DFs back to the modelspecs
-    model$DisaggregationSpecs[[counter]] <- disagg
-    
-    counter <- counter + 1
+    if (model$specs$IODataSource=="stateior" & stringr::str_sub(disagg$OriginalSectorCode, start=-3)=="/US") {
+      for(region in model$specs$ModelRegionAcronyms){
+        d2 <- prepareTwoRegionDisaggregation(disagg, region)
+        model$DisaggregationSpecs[[d2$OriginalSectorCode]] <- d2
+      }
+      # Remove original disaggregation spec
+      model$DisaggregationSpecs[disagg$OriginalSectorCode] <- NULL
+
+    } else {
+      #Need to assign these DFs back to the modelspecs
+      model$DisaggregationSpecs[[disagg$OriginalSectorCode]] <- disagg
+    }
   }
   
   return(model)
 }
+
+
+#' Generate two-region disaggregation specs from a national spec
+prepareTwoRegionDisaggregation <- function(disagg, region) {
+
+  d2 <- disagg
+  NewSectorCode <- gsub("/US", paste0("/",region), disagg$OriginalSectorCode)
+  d2$OriginalSectorCode <- NewSectorCode
+  
+  # Update NAICSSectorCW
+  d2$NAICSSectorCW$USEEIO_Code <- gsub("/US", paste0("/",region), d2$NAICSSectorCW$USEEIO_Code)
+  d2$DisaggregatedSectorCodes <- lapply(d2$DisaggregatedSectorCodes, function(x) gsub("/US", paste0("/",region), x))
+
+  # Temporarily duplicate national allocations, still need to disaggregate SoI to RoUS
+  cols <- c("IndustryCode","CommodityCode")
+  for(i in 1:length(d2$DisaggregatedSectorCodes)){
+    d2$MakeFileDF[cols] <- lapply(d2$MakeFileDF[cols], function(x) gsub(disagg$DisaggregatedSectorCodes[[i]],
+                                                                        d2$DisaggregatedSectorCodes[[i]], x))
+    d2$UseFileDF[cols] <- lapply(d2$UseFileDF[cols], function(x) gsub(disagg$DisaggregatedSectorCodes[[i]],
+                                                                      d2$DisaggregatedSectorCodes[[i]], x))
+  }
+  d2$MakeFileDF[cols] <- lapply(d2$MakeFileDF[cols], function(x) gsub(disagg$OriginalSectorCode,
+                                                                      NewSectorCode, x))
+  d2$UseFileDF[cols] <- lapply(d2$UseFileDF[cols], function(x) gsub(disagg$OriginalSectorCode,
+                                                                    NewSectorCode, x))
+    
+  
+  ## Disaggregate Satellite Table
+  ## TODO
+
+  
+  return(d2)
+}
+
 
 #' Disaggregate model$InternationalTradeAdjustments vector in the main model object
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
