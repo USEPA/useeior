@@ -187,7 +187,8 @@ disaggregateSetup <- function (model, configpaths = NULL){
 prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
 
   d2 <- disagg
-  d2$OriginalSectorCode <- gsub("/US", paste0("/",region), disagg$OriginalSectorCode)
+  OriginalSector <- gsub("/US", "", disagg$OriginalSectorCode)
+  d2$OriginalSectorCode <- paste0(OriginalSector, "/", region)
   other_region <- regions[regions != region]
   
   # Update NAICSSectorCW
@@ -202,8 +203,32 @@ prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
   # For Use table, where disaggregated commodity appears as CommodityCode, duplicate it and replace with other region
   rep <- subset(d2$UseFileDF, CommodityCode %in% d2$DisaggregatedSectorCodes &
                               IndustryCode != d2$OriginalSectorCode)
-  rep["CommodityCode"] <- lapply(rep["CommodityCode"], function(x) gsub(paste0("/",region), 
-                                                                        paste0("/",other_region), x))
+  
+  # For the first pass (region 1), consolidate on the original sector code (not yet disaggregated)
+  if(region == regions[1]){
+    rep <- subset(rep, IndustryCode %in% d2$DisaggregatedSectorCodes)
+    rep1 <- rep
+    rep2 <- rep
+    rep1["CommodityCode"] <- paste0(OriginalSector, "/", other_region)
+    rep1 <- aggregate(PercentUsed ~ IndustryCode + CommodityCode, rep1, sum)
+
+    rep2["IndustryCode"] <- paste0(OriginalSector, "/", other_region)
+    rep2 <- aggregate(PercentUsed ~ IndustryCode + CommodityCode, rep2, sum)
+    
+    # Invert columns for sequential disaggregation
+    rep1[cols] <- rep1[rev(cols)]
+    rep2[cols] <- rep2[rev(cols)]
+    
+    # Add back blank 'Note' column
+    rep <- rbind(rep1, rep2)
+    rep['Note'] <- NA
+
+  } else {
+  # On the second pass (region 2), apply to disaggregated sectors
+  
+    rep["CommodityCode"] <- lapply(rep["CommodityCode"], function(x) gsub(paste0("/", region), 
+                                                                        paste0("/", other_region), x))
+  }
   d2$UseFileDF <- rbind(d2$UseFileDF, rep)
   rownames(d2$UseFileDF) <- NULL
 
