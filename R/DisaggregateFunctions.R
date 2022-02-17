@@ -55,10 +55,7 @@ disaggregateModel <- function (model){
     
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
-    # Temporary skip this step
-    if(model$specs$IODataSource!="stateior"){
     model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
-    }
     
     # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
     if (model$specs$CommodityorIndustryType=="Industry") {
