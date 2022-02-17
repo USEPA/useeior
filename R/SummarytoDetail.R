@@ -505,17 +505,17 @@ writeAllocationsToCSV <- function(outputDF, disaggParams){
     filePrefix <- paste0("S",disaggParams$summaryCode,"ToBEADetDisagg")# S for summary
     
   }
-  
+ 
   #filePrepend <- "UtilityDisaggregationSummary"
   useAllocFileName <- paste0(writePath, filePrefix, "_Use.csv")
   makeAllocFileName <- paste0(writePath, filePrefix, "_Make.csv")
   envAllocFileName <- paste0(writePath, filePrefix, "_Env.csv")
   sectorsFileName <- paste0(writePath, filePrefix,"_Sectors.csv")
   
-  write.csv(outputDF$useAllocationsDF, useAllocFileName, row.names = FALSE)
-  write.csv(outputDF$makeAllocationsDF, makeAllocFileName, row.names = FALSE)
-  write.csv(outputDF$envAllocationsDF, envAllocFileName, row.names = FALSE)
-  write.csv(outputDF$sectorsDF, sectorsFileName, row.names = FALSE)
+  write.csv(outputDF$UseFileDF, useAllocFileName, row.names = FALSE)
+  write.csv(outputDF$MakeFileDF, makeAllocFileName, row.names = FALSE)
+  write.csv(outputDF$EnvFileDF, envAllocFileName, row.names = FALSE)
+  write.csv(outputDF$NAICSSectorCW, sectorsFileName, row.names = FALSE)
   
 }
 
