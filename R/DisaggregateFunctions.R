@@ -225,9 +225,32 @@ prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
 
   } else {
   # On the second pass (region 2), apply to disaggregated sectors
-  
-    rep["CommodityCode"] <- lapply(rep["CommodityCode"], function(x) gsub(paste0("/", region), 
-                                                                        paste0("/", other_region), x))
+
+    rep1 <- subset(rep, IndustryCode %in% d2$DisaggregatedSectorCodes)
+    # Renormalize intersection columns
+    total <- list()
+    total[c("CommodityCode", "Total")] <- aggregate(PercentUsed ~ CommodityCode,
+                                                    rep1, sum)
+    rep1 <- merge(rep1, total)
+    rep1["PercentUsed"] = rep1["PercentUsed"]/rep1["Total"]
+    rep1["Total"] <- NULL
+    rep1[cols] <- rep1[rev(cols)]
+    rep1["IndustryCode"] <- lapply(rep1["IndustryCode"], function(x) gsub(paste0("/", region), 
+                                                                          paste0("/", other_region), x))
+
+    rep2 <- subset(rep, IndustryCode %in% d2$DisaggregatedSectorCodes)
+    # Renormalize intersection columns
+    total <- list()
+    total[c("IndustryCode", "Total")] <- aggregate(PercentUsed ~ IndustryCode,
+                                                    rep2, sum)
+    rep2 <- merge(rep2, total)
+    rep2["PercentUsed"] = rep2["PercentUsed"]/rep2["Total"]
+    rep2["Total"] <- NULL
+    rep2[cols] <- rep2[rev(cols)]
+
+    rep2["CommodityCode"] <- lapply(rep2["CommodityCode"], function(x) gsub(paste0("/", region), 
+                                                                            paste0("/", other_region), x))
+    rep <- rbind(rep1, rep2)    
   }
   d2$UseFileDF <- rbind(d2$UseFileDF, rep)
   rownames(d2$UseFileDF) <- NULL
