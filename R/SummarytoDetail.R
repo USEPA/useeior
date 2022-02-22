@@ -13,7 +13,7 @@
 #' @param specificiedDetailLevelSector String to denote whether to disaggregate only the specified summary level sector to all related detail level sectors, or only one related detail level sector (if value is TRUE)
 #' @param disagg Specifications for disaggregating the current Table. Pass to append outputs to the disagg object.
 #' @return A list object containing dataframes with the economic allocations for the Use and Make tables; environmental allocations for the TbS object; and the Sector CSV file output required for disaggregation.  
-disaggregateSummaryModel <- function (modelname = "USEEIO2.0_nodisagg", detailModel = NULL,
+disaggregateSummaryModel <- function (modelname = "USEEIOv2.0", detailModel = NULL,
                                       sectorToDisaggregate = NULL, specifiedDetailLevelSector = NULL,
                                       disagg = NULL){
   # Check for appropriate input in sectorToDisaggregate and make sure format matches BEA_Summary column in model$crosswalk.
