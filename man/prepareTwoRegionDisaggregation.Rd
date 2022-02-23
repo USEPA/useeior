@@ -6,6 +6,16 @@
 \usage{
 prepareTwoRegionDisaggregation(disagg, region, regions)
 }
+\arguments{
+\item{disagg}{Specifications for disaggregating the current Table}
+
+\item{region}{Str, Location code for target disaggregation specs}
+
+\item{regions}{list of location codes from ModelRegionAcronyms}
+}
+\value{
+modified disagg specs for target region
+}
 \description{
 Generate two-region disaggregation specs from a national spec
 }

@@ -162,6 +162,8 @@ disaggregateSetup <- function (model, configpaths = NULL){
     } else {
       disagg$EnvAllocRatio <- FALSE
     }
+
+    # For Two-region model, develop two-region specs from national disaggregation files
     if (model$specs$IODataSource=="stateior" & stringr::str_sub(disagg$OriginalSectorCode, start=-3)=="/US") {
       for(region in model$specs$ModelRegionAcronyms){
         d2 <- prepareTwoRegionDisaggregation(disagg, region, model$specs$ModelRegionAcronyms)
@@ -181,6 +183,10 @@ disaggregateSetup <- function (model, configpaths = NULL){
 
 
 #' Generate two-region disaggregation specs from a national spec
+#' @param disagg Specifications for disaggregating the current Table
+#' @param region Str, Location code for target disaggregation specs
+#' @param regions list of location codes from ModelRegionAcronyms
+#' @return modified disagg specs for target region
 prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
 
   d2 <- disagg
@@ -197,15 +203,15 @@ prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
   d2$MakeFileDF[cols] <- lapply(d2$MakeFileDF[cols], function(x) gsub("/US", paste0("/",region), x))
   d2$UseFileDF[cols] <- lapply(d2$UseFileDF[cols], function(x) gsub("/US", paste0("/",region), x))  
 
-  # For Use table, where disaggregated commodity appears as CommodityCode, duplicate it and replace with other region
+  # For Use table, adjust use table intersections for sequential disaggregation
   rep <- subset(d2$UseFileDF, CommodityCode %in% d2$DisaggregatedSectorCodes &
-                              IndustryCode != d2$OriginalSectorCode)
+                              IndustryCode %in% d2$DisaggregatedSectorCodes)
+  
+  rep1 <- rep
+  rep2 <- rep
   
   # For the first pass (region 1), consolidate on the original sector code (not yet disaggregated)
-  if(region == regions[1]){
-    rep <- subset(rep, IndustryCode %in% d2$DisaggregatedSectorCodes)
-    rep1 <- rep
-    rep2 <- rep
+  if(region == regions[1]) {
     rep1["CommodityCode"] <- paste0(OriginalSector, "/", other_region)
     rep1 <- aggregate(PercentUsed ~ IndustryCode + CommodityCode, rep1, sum)
 
@@ -223,7 +229,6 @@ prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
   } else {
   # On the second pass (region 2), apply to disaggregated sectors
 
-    rep1 <- subset(rep, IndustryCode %in% d2$DisaggregatedSectorCodes)
     # Renormalize intersection columns
     total <- list()
     total[c("CommodityCode", "Total")] <- aggregate(PercentUsed ~ CommodityCode,
@@ -235,7 +240,6 @@ prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
     rep1["IndustryCode"] <- lapply(rep1["IndustryCode"], function(x) gsub(paste0("/", region), 
                                                                           paste0("/", other_region), x))
 
-    rep2 <- subset(rep, IndustryCode %in% d2$DisaggregatedSectorCodes)
     # Renormalize intersection columns
     total <- list()
     total[c("IndustryCode", "Total")] <- aggregate(PercentUsed ~ IndustryCode,
