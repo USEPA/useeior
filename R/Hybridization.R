@@ -19,11 +19,11 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
   A_3 <- as.matrix(A_2[-1])
   rownames(A_3) <- A_2[,1]
   
-  # Reorder A such that process matrix (Ap) is in the upper left corner
-  indexOrder <- match(colnames(A_3), rownames(A_3))
-  A_4 <- A_3[indexOrder, ]
+  # Reorder A such that process matrix (Ap) is in the upper left corner,
+  # This will drop unmapped processes
+  A_4 <- A_3[match(colnames(A_3), rownames(A_3)), ]
   
-   A <- A_4
+  A <- A_4
   
 
   return(A)
@@ -45,9 +45,12 @@ hybridizeBMatrix <- function (model){
   B_3 <- as.matrix(B_2[-1])
   rownames(B_3) <- B_2[,1]
 
+  # Some processes may not exist in B matrix file, make sure they are added as 0 columns
+  B_4 <- B_3[,match(colnames(model$A), colnames(B_3))]
+  colnames(B_4) <- colnames(model$A)
+  B_4[is.na(B_4)] <- 0
   
-  
-   model$B <- B_3    
+  model$B <- B_4   
 
 
   return(model$B)
