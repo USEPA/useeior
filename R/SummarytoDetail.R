@@ -97,14 +97,64 @@ disaggregateSummaryModel <- function (modelname = "USEEIOv2.0", detailModel = NU
 
 
 #' Combine allocation factors of several Summary-to-Detail disaggregations to produce allocation factors will disaggregate several sectors in only one function call to disaggregateModel()
+#' @param modelname String indicating which model to generate. Must be a detail level model.
+#' @param detailModel Completed build of detail model. If NULL, must pass modelname.
 #' @param listOfAllocations List that contains various, separate lists of disaggregation percentages for Summary-to-Detail level disaggregations. 
 #' @return Allocation percentages for disaggregating multiple Summary sectors into Detail level sectors simultaneously. 
-combineAllocationPercentages <- function(listOfAllocations){
+combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel = NULL, summaryModel, listOfAllocations){
   temp <- 1
   
-  for(disaggPercentages in listOfAllocations){
+  if(is.null(detailModel)){
+    # Read in a detail level model
+    # todo: check if this line needs to  be replaced by a "load summary model from repo" line if this script is to be used outside the package, e.g. USEEIO teams. 
+    detailModel <- buildModel(modelname)
+  }
+  
+
+  
+  
+  for(listNumber in 1:length(listOfAllocations)){
     temp <- 2
-     
+    
+    currentList <- listOfAllocations[[listNumber]]
+    otherListsOriginalSectors <- sapply(listOfAllocations[-(listNumber)], function(i)i[["originalSector"]])
+
+    
+### Review if this section is needed
+    # 
+    # # Get index of '/' within the string if it exists to indicate where location code begins
+    # locIndex <- grep('/', strsplit(currentList$originalSector, '')[[1]])
+    # # Check for location code
+    # summaryCode <- substr(currentList$originalSector, 1, locIndex-1)
+    # summaryLoc_Code <- substr(currentList$originalSector, locIndex + 1, nchar(currentList$originalSector))
+    # 
+    # # Get the detail sector codes that correspond to the summary code to be disaggregated
+    # summaryCodeCw <- subset(detailModel$crosswalk, BEA_Summary %in% summaryCode)
+    # summaryCodeCw <- as.list(unique(summaryCodeCw$BEA_Detail))
+    # 
+    # 
+    # # Find commodity and industry indeces for current list's original sector and for the other detail sectors that were aggregated 
+    # currentListOriginalComIndex <- which(currentList$originalSector %in% detailModel$Commodities$Code)
+    # currentListOriginalIndIndex <- which(currentList$originalSector %in% detailModel$Industries$Code)
+    # 
+###
+    # Create a crosswalk that contains detail and summary BEA as well as the modified crosswalk of the allocated list.
+    cw <- currentList$NAICSSectorCW[,1:2]
+    cw <- cbind(cw, cw[,2])
+    cw[,3] <- gsub("/[A-z]*",'',cw[,3]) # Create a copy the USEEIO codes but with locations removed (i.e., gsub removes everything after '/')
+    cwColnames <- names(cw)
+    cwColnames[2:3] <- c("USEEIO_Code_Loc", "USEEIO_Code")
+    colnames(cw) <- cwColnames
+    naicsIndeces <- which(detailModel$crosswalk$NAICS %in% cw$NAICS_2012_Code)
+    allocToDetCW <- cbind(cw, "BEA_Detail" = detailModel$crosswalk$BEA_Detail[naicsIndeces])
+
+    # Modifying the allocation percentages for: 
+    
+    # CurrentList, Use table columns. I.e., currentList$originalSector is in the IndustryCode column of currentList$UseFileDF, 
+    # while originalSectors of other lists (i.e. not currentList) are in the commodityCode column
+    
+    
+    temp <- 2
   }
   
   
