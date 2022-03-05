@@ -133,6 +133,10 @@ constructEEIOMatrices <- function(model) {
   }
   model <- within(model, rm(list = mat_to_remove))
   
+  if(length(model$HybridizationSpecs)!=0){
+    model <- hybridizeModelObjects(model)
+  }  
+  
   logging::loginfo("Model build complete.")
   return(model)
 }

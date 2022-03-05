@@ -57,6 +57,44 @@ hybridizeBMatrix <- function (model){
 }
 
 
+#' Update remaining model objects following hybridization of matrices for consistency
+#' @param model A completed EEIO model object
+#' @return model with remaining objects expanded to include hybrid process data
+hybridizeModelObjects <- function (model) {
+
+  # Update flows table
+  new_flows <- setdiff(model$HybridizationSpecs$EnvFileDF[colnames(model$SatelliteTables$flows)], model$SatelliteTables$flows)
+  model$SatelliteTables$flows <- unique(rbind(model$SatelliteTables$flows, new_flows))
+  row.names(model$SatelliteTables$flows) <- NULL
+  
+  process_cols <- c("ProcessID", "ProcessName", "ProcessUnit", "Location")
+  new_processes <- unique(model$HybridizationSpecs$TechFileDF[process_cols])
+  colnames(new_processes) <- c("Code", "Name", "Unit", "Location")
+  new_processes["Code_Loc"] <- paste(new_processes$Code, new_processes$Location, sep="/")
+
+  # Update Industry and Commodity tables
+  new_processes[setdiff(names(model$Commodities), names(new_processes))] <- ""
+  new_processes[setdiff(names(model$Industries), names(new_processes))] <- ""
+  model$Commodities <- rbind(model$Commodities, new_processes[colnames(model$Commodities)])
+  model$Industries <- rbind(model$Industries, new_processes[colnames(model$Industries)])
+
+  # Set Margins to 0
+  new_processes["SectorCode"] <- new_processes$Code
+  new_processes[setdiff(names(model$Margins), names(new_processes))] <- 0
+  model$Margins <- rbind(model$Margins, new_processes[colnames(model$Margins)])
+  
+  # Update matrices
+  for (table in c('Rho', 'Phi')){
+    names <- setdiff(row.names(model$A), row.names(model[[table]]))
+    process_matrix <-  matrix(data = 1, nrow = length(names), ncol = ncol(model[[table]]))
+    rownames(process_matrix) <- names
+    model[[table]] <- rbind(model[[table]], process_matrix)
+  }
+  
+  return(model)
+}
+
+
 #' Obtain hybridization specs from input files
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of configuration file(s).
