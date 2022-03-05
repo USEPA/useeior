@@ -91,6 +91,13 @@ hybridizeModelObjects <- function (model) {
     model[[table]] <- rbind(model[[table]], process_matrix)
   }
   
+  # Expand demand vectors with values of 0
+  process_demand <- vector(mode='numeric', length = nrow(new_processes))
+  names(process_demand) <- new_processes$Code
+  for (vector in names(model$DemandVectors$vectors)){
+    model$DemandVectors$vectors[[vector]] <- c(model$DemandVectors$vectors[[vector]], process_demand)
+  }
+  
   return(model)
 }
 
