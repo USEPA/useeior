@@ -98,29 +98,45 @@ disaggregateSummaryModel <- function (modelname = "USEEIOv2.0", detailModel = NU
 #' @param detailModel Completed build of detail model. If NULL, must pass modelname.
 #' @param currentList List that contains the disaggregation percentages for Summary-to-Detail level disaggregation of a specific summary sector
 #' @return A dataframe with mappings of summary, detail, and allocation specific sectors as defined by the currentList input 
-combineAllocAndDetailMappings <- function(detailModel = NULL, currentList){
+combineAllocAndDetailCW <- function(detailModel = NULL, listOfAllocations){
   
-  locIndex <- grep('/', strsplit(currentList$originalSector, '')[[1]])
-  # Separate sector and location code
-  summaryCode <- substr(currentList$originalSector, 1, locIndex-1)
-  summaryLoc_Code <- substr(currentList$originalSector, locIndex + 1, nchar(currentList$originalSector))
   
-  # Create a crosswalk that contains detail and summary BEA as well as the modified crosswalk of the allocated list.
-  cw <- currentList$NAICSSectorCW[,1:2]
-  cw <- cbind(cw, cw[,2])
-  cw[,3] <- gsub("/[A-z]*",'',cw[,3]) # Create a copy the USEEIO codes but with locations removed (i.e., gsub removes everything after '/')
-  cwColnames <- names(cw)
-  cwColnames[2:3] <- c("USEEIO_Code_Loc", "USEEIO_Code")
-  colnames(cw) <- cwColnames
-  naicsIndeces <- which(detailModel$crosswalk$NAICS %in% cw$NAICS_2012_Code)    
+  listOfCrosswalks <- vector("list", length(listOfAllocations))
+  # For each list, get crosswalks of original summary sectors to disaggregated summary sectors and detail sectors 
+  for(listNumber in 1:length(listOfAllocations)){
+    temp <- 2
+    
+    currentList <- listOfAllocations[[listNumber]]
+#    otherListsOriginalSectors <- sapply(listOfAllocations[-(listNumber)], function(i)i[["originalSector"]])
+    
+    locIndex <- grep('/', strsplit(currentList$originalSector, '')[[1]])
+    # Separate sector and location code
+    summaryCode <- substr(currentList$originalSector, 1, locIndex-1)
+    summaryLoc_Code <- substr(currentList$originalSector, locIndex + 1, nchar(currentList$originalSector))
+    
+    # Create a crosswalk that contains detail and summary BEA as well as the modified crosswalk of the allocated list.
+    cw <- currentList$NAICSSectorCW[,1:2]
+    cw <- cbind(cw, cw[,2])
+    cw[,3] <- gsub("/[A-z]*",'',cw[,3]) # Create a copy the USEEIO codes but with locations removed (i.e., gsub removes everything after '/')
+    cwColnames <- names(cw)
+    cwColnames[2:3] <- c("USEEIO_Code_Loc", "USEEIO_Code")
+    colnames(cw) <- cwColnames
+    naicsIndeces <- which(detailModel$crosswalk$NAICS %in% cw$NAICS_2012_Code)    
+    
+    cwNaicsInMainCW <- detailModel$crosswalk[naicsIndeces,]
+    sharedNaics <- which(cwNaicsInMainCW$BEA_Summary %in% summaryCode)
+    allocToDetCW <- cbind(cw, cwNaicsInMainCW[sharedNaics,3:4])
+    
+    allocToDetCWUnique <- allocToDetCW[!duplicated(allocToDetCW[,c("BEA_Detail")]),] # Get unique mappings of modified summary model codes to BEA detail 
+    
+    listOfCrosswalks[[listNumber]] <- allocToDetCWUnique 
+    
+    temp <- 2
+  }
   
-  cwNaicsInMainCW <- detailModel$crosswalk[naicsIndeces,]
-  sharedNaics <- which(cwNaicsInMainCW$BEA_Summary %in% summaryCode)
-  allocToDetCW <- cbind(cw, cwNaicsInMainCW[sharedNaics,3:4])
+
   
-  allocToDetCWUnique <- allocToDetCW[!duplicated(allocToDetCW[,c("BEA_Detail")]),] # Get unique mappings of modified summary model codes to BEA detail 
-  
-  return(allocToDetCWUnique)
+  return(listOfCrosswalks)
 }
 
 #' Combine allocation factors of several Summary-to-Detail disaggregations to produce allocation factors will disaggregate several sectors in only one function call to disaggregateModel()
@@ -137,17 +153,42 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
     detailModel <- buildModel(modelname)
   }
   
-
-  listOfMappings <- vector("list", length(listOfAllocations))
   # For each list, get crosswalks of original summary sectors to disaggregated summary sectors and detail sectors 
+  listOfCrosswalks <- combineAllocAndDetailCW(detailModel, listOfAllocations)
+  
   for(listNumber in 1:length(listOfAllocations)){
     temp <- 2
     
-    currentList <- listOfAllocations[[listNumber]]
+    ### Test Code
+    
     otherListsOriginalSectors <- sapply(listOfAllocations[-(listNumber)], function(i)i[["originalSector"]])
-
-    # Get summary to detail to allocated sectors mapping
-    listOfMappings[[listNumber]] <- combineAllocAndDetailMappings(detailModel, currentList)
+    # Get indeces for original detail sectors of currentList
+    currentComDetailIndeces <- which(detailModel$Commodities$Code %in% listOfCrosswalks[[listNumber]]$BEA_Detail)
+    currentIndDetailIndeces <- which(detailModel$Industries$Code %in% listOfCrosswalks[[listNumber]]$BEA_Detail)
+    
+    # Get indeces for the original detail sectors
+    detailSectorsList <- sapply(listOfCrosswalks, function(i)i[["BEA_Detail"]])
+    colnames(detailSectorsList) <- sapply(listOfAllocations, function(i)i[["originalSector"]])
+    
+    for(counter in 1:length(listOfAllocations)){
+      if(counter == listNumber){
+        next # Skip intersection of current number with itself as that the allocations for that are already well defined
+      }
+      
+      otherListComDetailIndeces <- which(detailModel$Commodities$Code %in% detailSectorsList[,counter])
+      otherListIndDetailIndeces <- which(detailModel$Industries$Code %in% detailSectorsList[,counter])
+      
+      # Get Use table intersection of currentIndeces and otherList indeces
+      currentU <- detailModel$U[currentComDetailIndeces,otherListIndDetailIndeces]
+      
+      
+      temp <- 2
+    }
+    
+    ### End Test Code
+    
+    
+    
     temp <- 2
   }
   
