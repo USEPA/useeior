@@ -128,6 +128,8 @@ combineAllocAndDetailCW <- function(detailModel = NULL, listOfAllocations){
     allocToDetCW <- cbind(cw, cwNaicsInMainCW[sharedNaics,3:4])
     
     allocToDetCWUnique <- allocToDetCW[!duplicated(allocToDetCW[,c("BEA_Detail")]),] # Get unique mappings of modified summary model codes to BEA detail 
+    allocToDetCWUnique <- cbind(allocToDetCWUnique, paste0(allocToDetCWUnique[,5],"/",summaryLoc_Code)) # Adding a version of the detail code with location for use later when modifying the allocation percentages
+    names(allocToDetCWUnique)[6] <- "BEA_Detail_Loc"
     
     listOfCrosswalks[[listNumber]] <- allocToDetCWUnique 
     
@@ -167,7 +169,14 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
     currentIndDetailIndeces <- which(detailModel$Industries$Code %in% listOfCrosswalks[[listNumber]]$BEA_Detail)
     
     # Get indeces for the original detail sectors
-    detailSectorsList <- sapply(listOfCrosswalks, function(i)i[["BEA_Detail"]])
+    detailSectorsList <- sapply(listOfCrosswalks, function(i)i[["BEA_Detail"]], simplify = FALSE) # Don't want to simplify in case we get lists of different lengths
+    
+    #Transform lists into a matrix for easier handling
+    
+    n_obs <- sapply(detailSectorsList, length) # Get number of detail sectors for each summary sector
+    seq_max <- seq_len(max(n_obs)) # Get max number of detail sectors included in the lists
+    detailSectorsList <- sapply(detailSectorsList, "[", i = seq_max) # Convert to matrix
+    
     colnames(detailSectorsList) <- sapply(listOfAllocations, function(i)i[["originalSector"]])
     
     for(counter in 1:length(listOfAllocations)){
@@ -180,8 +189,23 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       
       # Get Use table intersection of currentIndeces and otherList indeces
       currentU <- detailModel$U[currentComDetailIndeces,otherListIndDetailIndeces]
+   
+      # Need to find the rows and columns in currentU that match the X sectors (i.e. allocated sectors) in crosswalks
+      # Row X sectors are referenced by listNumber; column X sectors referenced by counter
+      URowsDetailMatches <- rownames(currentU)[which(rownames(currentU) %in% listOfCrosswalks[[listNumber]]$BEA_Detail_Loc)] # Sector codes of currentU rows which match the BEA detail of the crosswalk
       
+      if(length(URowsDetailMatches) == 0)
+      {
+        stop("Error in combining allocation percentages: mismatch in detail to allocated sectors mapping")
+      }
       
+      XSectorsInURows <- which(!(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc))
+      
+      XSectorsCombinedRow <- t(colSums(currentU[XSectorsInURows,]))
+      #TODO: REname row to e.g. 22X, then create combined columns, then find percentages, then allocate accordingly.
+      
+
+       ####LEFT OF HERE: NEED TO GET THE INTERSECTION OF (E.G.) 221100, 22X AND S00101, GFEX WITH THE PROPER ALLOCATION FACTORS
       temp <- 2
     }
     
