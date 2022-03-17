@@ -1,0 +1,1577 @@
+"Flowable","Context","FlowUUID","Sector","FlowRatio"
+"Water, fresh","emission/air/troposphere/ground-level","","1111A0",0.0219029948106453
+"Water, fresh","emission/air/troposphere/ground-level","","111CAX",0.978097005189355
+"Water, fresh","resource/water/fresh water body","","1111A0",0.00755191306004287
+"Water, fresh","resource/water/fresh water body","","111CAX",0.992448086939957
+"Water, fresh","resource/water/subterranean/fresh water body","","1111A0",0.0273483669951088
+"Water, fresh","resource/water/subterranean/fresh water body","","111CAX",0.972651633004891
+"Water, saline","resource/water/saline water body","","111CAX",1
+"1,3-Butadiene","emission/air","","1111A0",0.061913294820553
+"1,3-Butadiene","emission/air","","111CAX",0.938086705179447
+"2-Methylnaphthalene","emission/air","","1111A0",3.78781702143307e-07
+"2-Methylnaphthalene","emission/air","","111CAX",0.999999621218298
+"2,2,4-Trimethylpentane","emission/air","","1111A0",0.0970204297942906
+"2,2,4-Trimethylpentane","emission/air","","111CAX",0.902979570205709
+"Acenaphthene","emission/air","","1111A0",0.106903099077627
+"Acenaphthene","emission/air","","111CAX",0.893096900922373
+"Acenaphthylene","emission/air","","1111A0",0.10688767341322
+"Acenaphthylene","emission/air","","111CAX",0.89311232658678
+"Acetaldehyde","emission/air","","1111A0",0.0593008568134273
+"Acetaldehyde","emission/air","","111CAX",0.940699143186573
+"Acrolein","emission/air","","1111A0",0.10622314005663
+"Acrolein","emission/air","","111CAX",0.89377685994337
+"Ammonia","emission/air","","1111A0",0.0302099375808932
+"Ammonia","emission/air","","111CAX",0.969790062419107
+"Anthracene","emission/air","","1111A0",0.106839775002827
+"Anthracene","emission/air","","111CAX",0.893160224997173
+"Arsenic","emission/air","","1111A0",0.0877309297205775
+"Arsenic","emission/air","","111CAX",0.912269070279423
+"Benz[a]anthracene","emission/air","","1111A0",0.105165834948333
+"Benz[a]anthracene","emission/air","","111CAX",0.894834165051667
+"Benzene","emission/air","","1111A0",0.0671951182809647
+"Benzene","emission/air","","111CAX",0.932804881719035
+"Benzo(b)fluoranthene","emission/air","","1111A0",0.106935879307347
+"Benzo(b)fluoranthene","emission/air","","111CAX",0.893064120692653
+"Benzo[a]pyrene","emission/air","","1111A0",0.10505192407713
+"Benzo[a]pyrene","emission/air","","111CAX",0.89494807592287
+"Benzo[e]pyrene","emission/air","","1111A0",0.0537654451721582
+"Benzo[e]pyrene","emission/air","","111CAX",0.946234554827842
+"Benzo[ghi]perylene","emission/air","","1111A0",0.106930111021903
+"Benzo[ghi]perylene","emission/air","","111CAX",0.893069888978097
+"Benzo[k]fluoranthene","emission/air","","1111A0",0.106979027193437
+"Benzo[k]fluoranthene","emission/air","","111CAX",0.893020972806563
+"Cadmium","emission/air","","1111A0",0.000193137638531087
+"Cadmium","emission/air","","111CAX",0.999806862361469
+"Carbon monoxide","emission/air","","1111A0",0.0788607374540951
+"Carbon monoxide","emission/air","","111CAX",0.921139262545905
+"Chloroform","emission/air","","1111A0",0.000710461390241163
+"Chloroform","emission/air","","111CAX",0.999289538609759
+"Chromium(VI)","emission/air","","1111A0",0.00307992637830776
+"Chromium(VI)","emission/air","","111CAX",0.996920073621692
+"Chrysene","emission/air","","1111A0",0.10508547945061
+"Chrysene","emission/air","","111CAX",0.89491452054939
+"Cobalt","emission/air","","1111A0",2.27653131800007e-05
+"Cobalt","emission/air","","111CAX",0.99997723468682
+"Cumene","emission/air","","1111A0",0.0527761250508855
+"Cumene","emission/air","","111CAX",0.947223874949114
+"Dibenz[a,h]anthracene","emission/air","","1111A0",0.107891226455772
+"Dibenz[a,h]anthracene","emission/air","","111CAX",0.892108773544227
+"Ethylbenzene","emission/air","","1111A0",0.0505462937409651
+"Ethylbenzene","emission/air","","111CAX",0.949453706259035
+"Fluoranthene","emission/air","","1111A0",0.106060533816537
+"Fluoranthene","emission/air","","111CAX",0.893939466183463
+"Fluorene","emission/air","","1111A0",0.10689679684194
+"Fluorene","emission/air","","111CAX",0.89310320315806
+"Formaldehyde","emission/air","","1111A0",0.0902070021573734
+"Formaldehyde","emission/air","","111CAX",0.909792997842627
+"Hexane","emission/air","","1111A0",0.0280983692788099
+"Hexane","emission/air","","111CAX",0.97190163072119
+"Indeno[1,2,3-cd]pyrene","emission/air","","1111A0",0.107064916616285
+"Indeno[1,2,3-cd]pyrene","emission/air","","111CAX",0.892935083383715
+"Lead","emission/air","","1111A0",9.74279831086817e-06
+"Lead","emission/air","","111CAX",0.999990257201689
+"m-Xylene","emission/air","","1111A0",0.000552628972292178
+"m-Xylene","emission/air","","111CAX",0.999447371027708
+"Manganese","emission/air","","1111A0",0.0114662001501697
+"Manganese","emission/air","","111CAX",0.98853379984983
+"Mercury","emission/air","","1111A0",0.0317924574889067
+"Mercury","emission/air","","111CAX",0.968207542511093
+"Methylene chloride","emission/air","","1111A0",0.0294939777731687
+"Methylene chloride","emission/air","","111CAX",0.970506022226831
+"Naphthalene","emission/air","","1111A0",0.106758163789606
+"Naphthalene","emission/air","","111CAX",0.893241836210394
+"Nickel","emission/air","","1111A0",0.0878274098080247
+"Nickel","emission/air","","111CAX",0.912172590191975
+"Nitrogen dioxide","emission/air","","1111A0",0.104316951172412
+"Nitrogen dioxide","emission/air","","111CAX",0.895683048827588
+"o-Xylene","emission/air","","1111A0",0.0184673926832854
+"o-Xylene","emission/air","","111CAX",0.981532607316715
+"p-Xylene","emission/air","","1111A0",0.000552838070263096
+"p-Xylene","emission/air","","111CAX",0.999447161929737
+"Particulate matter, = 2.5µm","emission/air","","1111A0",0.190500146355704
+"Particulate matter, = 2.5µm","emission/air","","111CAX",0.809499853644296
+"Particulate matter, > 2.5µm and = 10µm","emission/air","","1111A0",0.19357434663993
+"Particulate matter, > 2.5µm and = 10µm","emission/air","","111CAX",0.80642565336007
+"Perylene","emission/air","","1111A0",0.724101602185622
+"Perylene","emission/air","","111CAX",0.275898397814378
+"Phenanthrene","emission/air","","1111A0",0.106887082562043
+"Phenanthrene","emission/air","","111CAX",0.893112917437957
+"Propionaldehyde","emission/air","","1111A0",0.0861040156491575
+"Propionaldehyde","emission/air","","111CAX",0.913895984350842
+"Propylene oxide","emission/air","","1111A0",1
+"Pyrene","emission/air","","1111A0",0.106840894673151
+"Pyrene","emission/air","","111CAX",0.893159105326849
+"Styrene","emission/air","","1111A0",0.0704763719456247
+"Styrene","emission/air","","111CAX",0.929523628054375
+"Sulfur dioxide","emission/air","","1111A0",0.0243971754130999
+"Sulfur dioxide","emission/air","","111CAX",0.9756028245869
+"Toluene","emission/air","","1111A0",0.05157923546181
+"Toluene","emission/air","","111CAX",0.94842076453819
+"Volatile organic compounds","emission/air","","1111A0",0.08225345201638
+"Volatile organic compounds","emission/air","","111CAX",0.91774654798362
+"Xylene","emission/air","","1111A0",0.0857431274863847
+"Xylene","emission/air","","111CAX",0.914256872513615
+"Beryllium","emission/air","","111CAX",1
+"Chromium(III)","emission/air","","111CAX",1
+"Ethylene glycol","emission/air","","111CAX",1
+"Phosphine","emission/air","","111CAX",1
+"Selenium","emission/air","","111CAX",1
+"1,1-Dichloroethane","emission/air","","111CAX",1
+"1,1,2-Trichloroethane","emission/air","","111CAX",1
+"1,1,2,2-Tetrachloroethane","emission/air","","111CAX",1
+"1,2-Dichloroethane","emission/air","","111CAX",1
+"1,2-Dichloropropane","emission/air","","111CAX",1
+"1,3-Dichloropropene","emission/air","","111CAX",1
+"Biphenyl","emission/air","","111CAX",1
+"Carbon tetrachloride","emission/air","","111CAX",1
+"Chlorobenzene","emission/air","","111CAX",1
+"Chloroethane","emission/air","","111CAX",1
+"Ethylene dibromide","emission/air","","111CAX",1
+"Methanol","emission/air","","111CAX",1
+"Phenol","emission/air","","111CAX",1
+"Tetrachloroethylene","emission/air","","111CAX",1
+"Vinyl chloride","emission/air","","111CAX",1
+"Antimony","emission/air","","111CAX",1
+"Chlorine","emission/air","","111CAX",1
+"PAH/POM, unspecified","emission/air","","111CAX",1
+"Phosphorus","emission/air","","111CAX",1
+"Polycyclic aromatic hydrocarbons","emission/air","","111CAX",1
+"1,1,1-Trichloroethane","emission/air","","111CAX",1
+"2-Chlorobiphenyl","emission/air","","111CAX",1
+"2-Chloronaphthalene","emission/air","","111CAX",1
+"2,4-Dinitrophenol","emission/air","","111CAX",1
+"2,4,6-Trichlorophenol","emission/air","","111CAX",1
+"3-Methylcholanthrene","emission/air","","111CAX",1
+"7,12-Dimethylbenz[a]anthracene","emission/air","","111CAX",1
+"Acetophenone","emission/air","","111CAX",1
+"Chloromethane","emission/air","","111CAX",1
+"Chromic(VI) acid","emission/air","","111CAX",1
+"Decachlorobiphenyl","emission/air","","111CAX",1
+"Di(2-ethylhexyl) phthalate","emission/air","","111CAX",1
+"Heptachlorobiphenyl","emission/air","","111CAX",1
+"Hexachlorobiphenyl","emission/air","","111CAX",1
+"Hydrochloric acid","emission/air","","111CAX",1
+"Hydrofluoric acid","emission/air","","111CAX",1
+"Methyl bromide","emission/air","","111CAX",1
+"p-Dichlorobenzene","emission/air","","111CAX",1
+"p-Nitrophenol","emission/air","","111CAX",1
+"Pentachlorobiphenyl","emission/air","","111CAX",1
+"Pentachlorophenol","emission/air","","111CAX",1
+"Tetrachlorobiphenyl","emission/air","","111CAX",1
+"Trichloroethylene","emission/air","","111CAX",1
+"Cresol","emission/air","","111CAX",1
+"Methyl isobutyl ketone","emission/air","","111CAX",1
+"Acetamide","emission/air","","111CAX",1
+"Acetonitrile","emission/air","","111CAX",1
+"Carbon disulfide","emission/air","","111CAX",1
+"1,1-Dichloroethylene","emission/air","","111CAX",1
+"Hydrogen sulfide","emission/air","","111CAX",1
+"Tribromomethane","emission/air","","111CAX",1
+"Atrazine","emission/ground","","111CAX",1
+"Biological Oxygen Demand","emission/water","","111CAX",1
+"Copper","emission/water","","111CAX",1
+"Nitrogen","emission/water","","1111A0",0.0100383700708769
+"Nitrogen","emission/water","","111CAX",0.989961629929123
+"Oxygen","emission/water","","111CAX",1
+"Phosphorus","emission/water","","1111A0",0.292543156164991
+"Phosphorus","emission/water","","111CAX",0.707456843835008
+"Total suspended solids","emission/water","","111CAX",1
+"1,1-Dichloroethane","emission/water","","111CAX",1
+"1,2-Dichloroethane","emission/water","","111CAX",1
+"2,3,7,8-Tetrachlorodibenzo-p-dioxin","emission/water","","111CAX",1
+"Aluminum","emission/water","","111CAX",1
+"Antimony","emission/water","","111CAX",1
+"Arsenic","emission/water","","111CAX",1
+"Benzene","emission/water","","111CAX",1
+"Chlorine","emission/water","","111CAX",1
+"Ethylbenzene","emission/water","","111CAX",1
+"Hydrocarbons, petroleum","emission/water","","111CAX",1
+"Iron","emission/water","","111CAX",1
+"Isopropyl ether","emission/water","","111CAX",1
+"Lead","emission/water","","111CAX",1
+"Manganese","emission/water","","111CAX",1
+"Mercury","emission/water","","111CAX",1
+"Methyl ethyl ketone","emission/water","","111CAX",1
+"Methyl tert-butyl ether","emission/water","","111CAX",1
+"Phenol","emission/water","","111CAX",1
+"Selenium","emission/water","","111CAX",1
+"tert-Butanol","emission/water","","111CAX",1
+"Thallium","emission/water","","111CAX",1
+"Toluene","emission/water","","111CAX",1
+"Total oil and grease, less total petroleum hydrocarbons (TPH)","emission/water","","111CAX",1
+"Xylene","emission/water","","111CAX",1
+"Zinc","emission/water","","111CAX",1
+"Formaldehyde","emission/water","","111CAX",1
+"Nitrate compounds","emission/water","","111CAX",1
+"Total dissolved solids","emission/water","","111CAX",1
+"Hexafluoroethane","emission/air","","1111A0",0
+"Hexafluoroethane","emission/air","","111CAX",0
+"Perfluoropropane","emission/air","","1111A0",0
+"Perfluoropropane","emission/air","","111CAX",0
+"Perfluorocyclobutane","emission/air","","1111A0",0
+"Perfluorocyclobutane","emission/air","","111CAX",0
+"Carbon tetrafluoride","emission/air","","1111A0",0
+"Carbon tetrafluoride","emission/air","","111CAX",0
+"Methane","emission/air","","1111A0",0.000164212440356083
+"Methane","emission/air","","111CAX",0.999835787559644
+"Carbon dioxide","emission/air","","1111A0",0.0868395141380753
+"Carbon dioxide","emission/air","","111CAX",0.913160485861925
+"HFC-125","emission/air","","1111A0",0
+"HFC-125","emission/air","","111CAX",0
+"HFC-134a","emission/air","","1111A0",0
+"HFC-134a","emission/air","","111CAX",0
+"HFC-143a","emission/air","","1111A0",0
+"HFC-143a","emission/air","","111CAX",0
+"HFC-23","emission/air","","1111A0",0
+"HFC-23","emission/air","","111CAX",0
+"HFC-236fa","emission/air","","1111A0",0
+"HFC-236fa","emission/air","","111CAX",0
+"HFC-32","emission/air","","1111A0",0
+"HFC-32","emission/air","","111CAX",0
+"Nitrous oxide","emission/air","","1111A0",0.107672294819396
+"Nitrous oxide","emission/air","","111CAX",0.892327705180603
+"Nitrogen trifluoride","emission/air","","1111A0",0
+"Nitrogen trifluoride","emission/air","","111CAX",0
+"Sulfur hexafluoride","emission/air","","1111A0",0
+"Sulfur hexafluoride","emission/air","","111CAX",0
+"Land use","resource/ground/human-dominated/agricultural","","1111A0",0.232378804307361
+"Land use","resource/ground/human-dominated/agricultural","","111CAX",0.767621195692639
+"Land use","resource/ground/terrestrial/forest","","111CAX",1
+"Land use","resource/ground/terrestrial/grassland","","111CAX",1
+"Biomass","resource/biotic","","111CAX",0
+"Energy, hydro","resource/water","","111CAX",1
+"Energy, solar","resource/air","","111CAX",1
+"Energy, wind","resource/air","","111CAX",0
+"Potassium N-(phosphonomethyl)glycine","emission/water/fresh water body","","1111A0",0.664437887850212
+"Potassium N-(phosphonomethyl)glycine","emission/water/fresh water body","","111CAX",0.335562112149788
+"Glyphosate isopropylamine salt","emission/water/fresh water body","","1111A0",0.381533899974339
+"Glyphosate isopropylamine salt","emission/water/fresh water body","","111CAX",0.618466100025661
+"Glyphosate","emission/water/fresh water body","","1111A0",0.367915879112953
+"Glyphosate","emission/water/fresh water body","","111CAX",0.632084120887047
+"S-Metolachlor","emission/water/fresh water body","","1111A0",0.129438432560697
+"S-Metolachlor","emission/water/fresh water body","","111CAX",0.870561567439303
+"2,4-D 2-ethylhexyl ester","emission/water/fresh water body","","1111A0",0.412135238984988
+"2,4-D 2-ethylhexyl ester","emission/water/fresh water body","","111CAX",0.587864761015012
+"Glyphosate dimethylamine salt","emission/water/fresh water body","","1111A0",0.327590317295129
+"Glyphosate dimethylamine salt","emission/water/fresh water body","","111CAX",0.672409682704871
+"Chlorpyrifos","emission/water/fresh water body","","1111A0",0.643271321453641
+"Chlorpyrifos","emission/water/fresh water body","","111CAX",0.356728678546359
+"2,4-D dimethylamine salt","emission/water/fresh water body","","1111A0",0.307873671865681
+"2,4-D dimethylamine salt","emission/water/fresh water body","","111CAX",0.692126328134319
+"Pendimethalin","emission/water/fresh water body","","1111A0",0.35764774233331
+"Pendimethalin","emission/water/fresh water body","","111CAX",0.64235225766669
+"Fomesafen-sodium","emission/water/fresh water body","","1111A0",0.872771087586076
+"Fomesafen-sodium","emission/water/fresh water body","","111CAX",0.127228912413924
+"Trifluralin","emission/water/fresh water body","","1111A0",0.454608491380175
+"Trifluralin","emission/water/fresh water body","","111CAX",0.545391508619825
+"Glufosinate-ammonium","emission/water/fresh water body","","1111A0",0.725177495412297
+"Glufosinate-ammonium","emission/water/fresh water body","","111CAX",0.274822504587703
+"Sulfentrazone","emission/water/fresh water body","","1111A0",0.954096224796933
+"Sulfentrazone","emission/water/fresh water body","","111CAX",0.0459037752030669
+"Acephate","emission/water/fresh water body","","1111A0",0.549078991630658
+"Acephate","emission/water/fresh water body","","111CAX",0.450921008369342
+"Paraquat","emission/water/fresh water body","","1111A0",0.463987454530498
+"Paraquat","emission/water/fresh water body","","111CAX",0.536012545469502
+"Metribuzin","emission/water/fresh water body","","1111A0",0.820049826082309
+"Metribuzin","emission/water/fresh water body","","111CAX",0.179950173917691
+"Acetochlor","emission/water/fresh water body","","1111A0",0.0154661478014925
+"Acetochlor","emission/water/fresh water body","","111CAX",0.984533852198507
+"Flumioxazin","emission/water/fresh water body","","1111A0",0.789888254580685
+"Flumioxazin","emission/water/fresh water body","","111CAX",0.210111745419315
+"Clethodim","emission/water/fresh water body","","1111A0",0.887682426248512
+"Clethodim","emission/water/fresh water body","","111CAX",0.112317573751488
+"Pyraclostrobin","emission/water/fresh water body","","1111A0",0.311490300747056
+"Pyraclostrobin","emission/water/fresh water body","","111CAX",0.688509699252944
+"Azoxystrobin","emission/water/fresh water body","","1111A0",0.464842231772848
+"Azoxystrobin","emission/water/fresh water body","","111CAX",0.535157768227152
+"Metolachlor","emission/water/fresh water body","","1111A0",0.164298219065621
+"Metolachlor","emission/water/fresh water body","","111CAX",0.835701780934379
+"Dimethoate","emission/water/fresh water body","","1111A0",0.474783705863853
+"Dimethoate","emission/water/fresh water body","","111CAX",0.525216294136147
+"Dimethenamid-P","emission/water/fresh water body","","1111A0",0.0615863119718596
+"Dimethenamid-P","emission/water/fresh water body","","111CAX",0.93841368802814
+"Acifluorfen, sodium salt","emission/water/fresh water body","","1111A0",0.846542258600414
+"Acifluorfen, sodium salt","emission/water/fresh water body","","111CAX",0.153457741399586
+"Imazethapyr","emission/water/fresh water body","","1111A0",0.874958422759963
+"Imazethapyr","emission/water/fresh water body","","111CAX",0.125041577240037
+"Fluazifop-P-butyl","emission/water/fresh water body","","1111A0",0.940158136856334
+"Fluazifop-P-butyl","emission/water/fresh water body","","111CAX",0.0598418631436661
+"Lactofen","emission/water/fresh water body","","1111A0",0.989366600290794
+"Lactofen","emission/water/fresh water body","","111CAX",0.0106333997092061
+"Chlorimuron-ethyl","emission/water/fresh water body","","1111A0",1
+"Bifenthrin","emission/water/fresh water body","","1111A0",0.311086124746815
+"Bifenthrin","emission/water/fresh water body","","111CAX",0.688913875253185
+".lambda.-Cyhalothrin","emission/water/fresh water body","","1111A0",0.480044980257181
+".lambda.-Cyhalothrin","emission/water/fresh water body","","111CAX",0.519955019742819
+"Methoxyfenozide","emission/water/fresh water body","","1111A0",0.635529836077094
+"Methoxyfenozide","emission/water/fresh water body","","111CAX",0.364470163922906
+"Propiconazole","emission/water/fresh water body","","1111A0",0.133590256756067
+"Propiconazole","emission/water/fresh water body","","111CAX",0.866409743243933
+"Quizalofop-P-ethyl","emission/water/fresh water body","","1111A0",1
+"Cloransulam-methyl","emission/water/fresh water body","","1111A0",1
+"Saflufenacil","emission/water/fresh water body","","1111A0",0.292325079984058
+"Saflufenacil","emission/water/fresh water body","","111CAX",0.707674920015942
+"Trifloxystrobin","emission/water/fresh water body","","1111A0",0.258173610918186
+"Trifloxystrobin","emission/water/fresh water body","","111CAX",0.741826389081814
+"Dimethylamine dicamba","emission/water/fresh water body","","1111A0",0.0329576407345787
+"Dimethylamine dicamba","emission/water/fresh water body","","111CAX",0.967042359265421
+"2,4-D 2-butoxyethyl ester","emission/water/fresh water body","","1111A0",1
+"Sethoxydim","emission/water/fresh water body","","1111A0",0.551178943096023
+"Sethoxydim","emission/water/fresh water body","","111CAX",0.448821056903977
+"Cyfluthrin","emission/water/fresh water body","","1111A0",0.59099855002095
+"Cyfluthrin","emission/water/fresh water body","","111CAX",0.40900144997905
+"Flumiclorac-pentyl","emission/water/fresh water body","","1111A0",0.977742282022212
+"Flumiclorac-pentyl","emission/water/fresh water body","","111CAX",0.0222577179777881
+"Thifensulfuron","emission/water/fresh water body","","1111A0",0.238756889407712
+"Thifensulfuron","emission/water/fresh water body","","111CAX",0.761243110592288
+"2,4-D","emission/water/fresh water body","","1111A0",0.785077713176064
+"2,4-D","emission/water/fresh water body","","111CAX",0.214922286823936
+"Imazaquin","emission/water/fresh water body","","1111A0",1
+"Flubendiamide","emission/water/fresh water body","","1111A0",0.36939812277172
+"Flubendiamide","emission/water/fresh water body","","111CAX",0.63060187722828
+"Thiamethoxam","emission/water/fresh water body","","1111A0",0.156293568623518
+"Thiamethoxam","emission/water/fresh water body","","111CAX",0.843706431376482
+"Dicamba diglycolamine salt","emission/water/fresh water body","","1111A0",0.0630296536871723
+"Dicamba diglycolamine salt","emission/water/fresh water body","","111CAX",0.936970346312828
+"Tetraconazole","emission/water/fresh water body","","1111A0",0.867307449078717
+"Tetraconazole","emission/water/fresh water body","","111CAX",0.132692550921283
+"Imazethapyr, ammonium salt","emission/water/fresh water body","","1111A0",0.121533904718175
+"Imazethapyr, ammonium salt","emission/water/fresh water body","","111CAX",0.878466095281825
+"Flumetsulam","emission/water/fresh water body","","1111A0",0.04422346791835
+"Flumetsulam","emission/water/fresh water body","","111CAX",0.95577653208165
+"Imidacloprid","emission/water/fresh water body","","1111A0",0.0291732744194318
+"Imidacloprid","emission/water/fresh water body","","111CAX",0.970826725580568
+"Imazaquin, monoammonium salt","emission/water/fresh water body","","1111A0",1
+"Beta Cypermethrin","emission/water/fresh water body","","1111A0",0.325567406110311
+"Beta Cypermethrin","emission/water/fresh water body","","111CAX",0.674432593889689
+"Esfenvalerate","emission/water/fresh water body","","1111A0",0.182894643110726
+"Esfenvalerate","emission/water/fresh water body","","111CAX",0.817105356889274
+"Fluthiacet-methyl","emission/water/fresh water body","","1111A0",0.838848430190619
+"Fluthiacet-methyl","emission/water/fresh water body","","111CAX",0.161151569809381
+"Tribenuron-methyl","emission/water/fresh water body","","1111A0",0.179166162856854
+"Tribenuron-methyl","emission/water/fresh water body","","111CAX",0.820833837143146
+"Fenoxaprop-P-ethyl","emission/water/fresh water body","","1111A0",0.0512522546487369
+"Fenoxaprop-P-ethyl","emission/water/fresh water body","","111CAX",0.948747745351263
+"Diflubenzuron","emission/water/fresh water body","","1111A0",0.0308214842435459
+"Diflubenzuron","emission/water/fresh water body","","111CAX",0.969178515756454
+"Gamma-cyhalothrin","emission/water/fresh water body","","1111A0",0.675549609924499
+"Gamma-cyhalothrin","emission/water/fresh water body","","111CAX",0.324450390075501
+"Imazamox","emission/water/fresh water body","","1111A0",0.121127683088775
+"Imazamox","emission/water/fresh water body","","111CAX",0.878872316911225
+"beta-cyfluthrin","emission/water/fresh water body","","1111A0",0.214970674485388
+"beta-cyfluthrin","emission/water/fresh water body","","111CAX",0.785029325514612
+"Rimsulfuron","emission/water/fresh water body","","1111A0",0.055657410581313
+"Rimsulfuron","emission/water/fresh water body","","111CAX",0.944342589418687
+"Zeta-Cypermethrin","emission/water/fresh water body","","1111A0",0.0534027482563062
+"Zeta-Cypermethrin","emission/water/fresh water body","","111CAX",0.946597251743694
+"Carfentrazone-ethyl","emission/water/fresh water body","","1111A0",0.0317732743889642
+"Carfentrazone-ethyl","emission/water/fresh water body","","111CAX",0.968226725611036
+"Potassium N-(phosphonomethyl)glycine","emission/air/troposphere/rural/ground-level","","1111A0",0.651821031421481
+"Potassium N-(phosphonomethyl)glycine","emission/air/troposphere/rural/ground-level","","111CAX",0.348178968578519
+"Glyphosate isopropylamine salt","emission/air/troposphere/rural/ground-level","","1111A0",0.356467457876831
+"Glyphosate isopropylamine salt","emission/air/troposphere/rural/ground-level","","111CAX",0.643532542123168
+"Glyphosate","emission/air/troposphere/rural/ground-level","","1111A0",0.409430311120187
+"Glyphosate","emission/air/troposphere/rural/ground-level","","111CAX",0.590569688879813
+"S-Metolachlor","emission/air/troposphere/rural/ground-level","","1111A0",0.145839252629186
+"S-Metolachlor","emission/air/troposphere/rural/ground-level","","111CAX",0.854160747370813
+"2,4-D 2-ethylhexyl ester","emission/air/troposphere/rural/ground-level","","1111A0",0.322330185969213
+"2,4-D 2-ethylhexyl ester","emission/air/troposphere/rural/ground-level","","111CAX",0.677669814030787
+"Glyphosate dimethylamine salt","emission/air/troposphere/rural/ground-level","","1111A0",0.376502940676915
+"Glyphosate dimethylamine salt","emission/air/troposphere/rural/ground-level","","111CAX",0.623497059323085
+"Chlorpyrifos","emission/air/troposphere/rural/ground-level","","1111A0",0.603185388749462
+"Chlorpyrifos","emission/air/troposphere/rural/ground-level","","111CAX",0.396814611250538
+"2,4-D dimethylamine salt","emission/air/troposphere/rural/ground-level","","1111A0",0.245871548780002
+"2,4-D dimethylamine salt","emission/air/troposphere/rural/ground-level","","111CAX",0.754128451219998
+"Pendimethalin","emission/air/troposphere/rural/ground-level","","1111A0",0.32254451087031
+"Pendimethalin","emission/air/troposphere/rural/ground-level","","111CAX",0.67745548912969
+"Fomesafen-sodium","emission/air/troposphere/rural/ground-level","","1111A0",0.809003707910348
+"Fomesafen-sodium","emission/air/troposphere/rural/ground-level","","111CAX",0.190996292089652
+"Trifluralin","emission/air/troposphere/rural/ground-level","","1111A0",0.297983833839408
+"Trifluralin","emission/air/troposphere/rural/ground-level","","111CAX",0.702016166160592
+"Glufosinate-ammonium","emission/air/troposphere/rural/ground-level","","1111A0",0.614060477791811
+"Glufosinate-ammonium","emission/air/troposphere/rural/ground-level","","111CAX",0.385939522208189
+"Sulfentrazone","emission/air/troposphere/rural/ground-level","","1111A0",0.959890681471998
+"Sulfentrazone","emission/air/troposphere/rural/ground-level","","111CAX",0.0401093185280022
+"Acephate","emission/air/troposphere/rural/ground-level","","1111A0",0.389759626228993
+"Acephate","emission/air/troposphere/rural/ground-level","","111CAX",0.610240373771007
+"Paraquat","emission/air/troposphere/rural/ground-level","","1111A0",0.336022662419385
+"Paraquat","emission/air/troposphere/rural/ground-level","","111CAX",0.663977337580615
+"Metribuzin","emission/air/troposphere/rural/ground-level","","1111A0",0.695549810340107
+"Metribuzin","emission/air/troposphere/rural/ground-level","","111CAX",0.304450189659893
+"Acetochlor","emission/air/troposphere/rural/ground-level","","1111A0",0.0210160721879555
+"Acetochlor","emission/air/troposphere/rural/ground-level","","111CAX",0.978983927812045
+"Flumioxazin","emission/air/troposphere/rural/ground-level","","1111A0",0.78988825462629
+"Flumioxazin","emission/air/troposphere/rural/ground-level","","111CAX",0.21011174537371
+"Clethodim","emission/air/troposphere/rural/ground-level","","1111A0",0.887682426231444
+"Clethodim","emission/air/troposphere/rural/ground-level","","111CAX",0.112317573768556
+"Pyraclostrobin","emission/air/troposphere/rural/ground-level","","1111A0",0.270594113316639
+"Pyraclostrobin","emission/air/troposphere/rural/ground-level","","111CAX",0.72940588668336
+"Azoxystrobin","emission/air/troposphere/rural/ground-level","","1111A0",0.359604117250039
+"Azoxystrobin","emission/air/troposphere/rural/ground-level","","111CAX",0.640395882749961
+"Metolachlor","emission/air/troposphere/rural/ground-level","","1111A0",0.158517677239697
+"Metolachlor","emission/air/troposphere/rural/ground-level","","111CAX",0.841482322760303
+"Dimethoate","emission/air/troposphere/rural/ground-level","","1111A0",0.474783705852369
+"Dimethoate","emission/air/troposphere/rural/ground-level","","111CAX",0.525216294147631
+"Dimethenamid-P","emission/air/troposphere/rural/ground-level","","1111A0",0.0642100377176757
+"Dimethenamid-P","emission/air/troposphere/rural/ground-level","","111CAX",0.935789962282324
+"Acifluorfen, sodium salt","emission/air/troposphere/rural/ground-level","","1111A0",0.846542258619202
+"Acifluorfen, sodium salt","emission/air/troposphere/rural/ground-level","","111CAX",0.153457741380798
+"Imazethapyr","emission/air/troposphere/rural/ground-level","","1111A0",0.874958422738221
+"Imazethapyr","emission/air/troposphere/rural/ground-level","","111CAX",0.125041577261779
+"Fluazifop-P-butyl","emission/air/troposphere/rural/ground-level","","1111A0",0.940158136858324
+"Fluazifop-P-butyl","emission/air/troposphere/rural/ground-level","","111CAX",0.0598418631416761
+"Lactofen","emission/air/troposphere/rural/ground-level","","1111A0",0.989366600292829
+"Lactofen","emission/air/troposphere/rural/ground-level","","111CAX",0.010633399707171
+"Chlorimuron-ethyl","emission/air/troposphere/rural/ground-level","","1111A0",1
+"Bifenthrin","emission/air/troposphere/rural/ground-level","","1111A0",0.311086124770199
+"Bifenthrin","emission/air/troposphere/rural/ground-level","","111CAX",0.688913875229801
+".lambda.-Cyhalothrin","emission/air/troposphere/rural/ground-level","","1111A0",0.480044980279684
+".lambda.-Cyhalothrin","emission/air/troposphere/rural/ground-level","","111CAX",0.519955019720316
+"Methoxyfenozide","emission/air/troposphere/rural/ground-level","","1111A0",0.635529836014681
+"Methoxyfenozide","emission/air/troposphere/rural/ground-level","","111CAX",0.364470163985319
+"Propiconazole","emission/air/troposphere/rural/ground-level","","1111A0",0.0843789757608798
+"Propiconazole","emission/air/troposphere/rural/ground-level","","111CAX",0.91562102423912
+"Quizalofop-P-ethyl","emission/air/troposphere/rural/ground-level","","1111A0",1
+"Cloransulam-methyl","emission/air/troposphere/rural/ground-level","","1111A0",1
+"Saflufenacil","emission/air/troposphere/rural/ground-level","","1111A0",0.292325080059083
+"Saflufenacil","emission/air/troposphere/rural/ground-level","","111CAX",0.707674919940917
+"Trifloxystrobin","emission/air/troposphere/rural/ground-level","","1111A0",0.258173610957729
+"Trifloxystrobin","emission/air/troposphere/rural/ground-level","","111CAX",0.741826389042271
+"Dimethylamine dicamba","emission/air/troposphere/rural/ground-level","","1111A0",0.0329576407506369
+"Dimethylamine dicamba","emission/air/troposphere/rural/ground-level","","111CAX",0.967042359249363
+"2,4-D 2-butoxyethyl ester","emission/air/troposphere/rural/ground-level","","1111A0",1
+"Sethoxydim","emission/air/troposphere/rural/ground-level","","1111A0",0.551178943194087
+"Sethoxydim","emission/air/troposphere/rural/ground-level","","111CAX",0.448821056805913
+"Cyfluthrin","emission/air/troposphere/rural/ground-level","","1111A0",0.59099854999533
+"Cyfluthrin","emission/air/troposphere/rural/ground-level","","111CAX",0.40900145000467
+"Flumiclorac-pentyl","emission/air/troposphere/rural/ground-level","","1111A0",0.977742282008075
+"Flumiclorac-pentyl","emission/air/troposphere/rural/ground-level","","111CAX",0.0222577179919254
+"Thifensulfuron","emission/air/troposphere/rural/ground-level","","1111A0",0.238756889389254
+"Thifensulfuron","emission/air/troposphere/rural/ground-level","","111CAX",0.761243110610746
+"2,4-D","emission/air/troposphere/rural/ground-level","","1111A0",0.785077713138175
+"2,4-D","emission/air/troposphere/rural/ground-level","","111CAX",0.214922286861825
+"Imazaquin","emission/air/troposphere/rural/ground-level","","1111A0",1
+"Flubendiamide","emission/air/troposphere/rural/ground-level","","1111A0",0.369398122818436
+"Flubendiamide","emission/air/troposphere/rural/ground-level","","111CAX",0.630601877181564
+"Thiamethoxam","emission/air/troposphere/rural/ground-level","","1111A0",0.15629356863743
+"Thiamethoxam","emission/air/troposphere/rural/ground-level","","111CAX",0.84370643136257
+"Dicamba diglycolamine salt","emission/air/troposphere/rural/ground-level","","1111A0",0.0630296536789689
+"Dicamba diglycolamine salt","emission/air/troposphere/rural/ground-level","","111CAX",0.936970346321031
+"Tetraconazole","emission/air/troposphere/rural/ground-level","","1111A0",0.867307449087728
+"Tetraconazole","emission/air/troposphere/rural/ground-level","","111CAX",0.132692550912273
+"Imazethapyr, ammonium salt","emission/air/troposphere/rural/ground-level","","1111A0",0.121533904719575
+"Imazethapyr, ammonium salt","emission/air/troposphere/rural/ground-level","","111CAX",0.878466095280425
+"Flumetsulam","emission/air/troposphere/rural/ground-level","","1111A0",0.0442234679124711
+"Flumetsulam","emission/air/troposphere/rural/ground-level","","111CAX",0.955776532087529
+"Imidacloprid","emission/air/troposphere/rural/ground-level","","1111A0",0.029173274415785
+"Imidacloprid","emission/air/troposphere/rural/ground-level","","111CAX",0.970826725584215
+"Imazaquin, monoammonium salt","emission/air/troposphere/rural/ground-level","","1111A0",1
+"Beta Cypermethrin","emission/air/troposphere/rural/ground-level","","1111A0",0.325567406135718
+"Beta Cypermethrin","emission/air/troposphere/rural/ground-level","","111CAX",0.674432593864282
+"Esfenvalerate","emission/air/troposphere/rural/ground-level","","1111A0",0.182894643103357
+"Esfenvalerate","emission/air/troposphere/rural/ground-level","","111CAX",0.817105356896643
+"Fluthiacet-methyl","emission/air/troposphere/rural/ground-level","","1111A0",0.838848430196087
+"Fluthiacet-methyl","emission/air/troposphere/rural/ground-level","","111CAX",0.161151569803913
+"Tribenuron-methyl","emission/air/troposphere/rural/ground-level","","1111A0",0.179166162869067
+"Tribenuron-methyl","emission/air/troposphere/rural/ground-level","","111CAX",0.820833837130933
+"Fenoxaprop-P-ethyl","emission/air/troposphere/rural/ground-level","","1111A0",0.0512522546321858
+"Fenoxaprop-P-ethyl","emission/air/troposphere/rural/ground-level","","111CAX",0.948747745367814
+"Diflubenzuron","emission/air/troposphere/rural/ground-level","","1111A0",0.0308214842495467
+"Diflubenzuron","emission/air/troposphere/rural/ground-level","","111CAX",0.969178515750453
+"Gamma-cyhalothrin","emission/air/troposphere/rural/ground-level","","1111A0",0.675549609999471
+"Gamma-cyhalothrin","emission/air/troposphere/rural/ground-level","","111CAX",0.324450390000528
+"Imazamox","emission/air/troposphere/rural/ground-level","","1111A0",0.121127683090808
+"Imazamox","emission/air/troposphere/rural/ground-level","","111CAX",0.878872316909192
+"beta-cyfluthrin","emission/air/troposphere/rural/ground-level","","1111A0",0.214970674565264
+"beta-cyfluthrin","emission/air/troposphere/rural/ground-level","","111CAX",0.785029325434736
+"Rimsulfuron","emission/air/troposphere/rural/ground-level","","1111A0",0.0556574106114906
+"Rimsulfuron","emission/air/troposphere/rural/ground-level","","111CAX",0.944342589388509
+"Zeta-Cypermethrin","emission/air/troposphere/rural/ground-level","","1111A0",0.0534027482744397
+"Zeta-Cypermethrin","emission/air/troposphere/rural/ground-level","","111CAX",0.94659725172556
+"Carfentrazone-ethyl","emission/air/troposphere/rural/ground-level","","1111A0",0.0317732743913982
+"Carfentrazone-ethyl","emission/air/troposphere/rural/ground-level","","111CAX",0.968226725608602
+"Potassium N-(phosphonomethyl)glycine","emission/ground/human-dominated/agricultural/rural","","1111A0",0.00511174114686496
+"Potassium N-(phosphonomethyl)glycine","emission/ground/human-dominated/agricultural/rural","","111CAX",0.994888258853135
+"Glyphosate isopropylamine salt","emission/ground/human-dominated/agricultural/rural","","1111A0",0
+"Glyphosate isopropylamine salt","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Glyphosate","emission/ground/human-dominated/agricultural/rural","","1111A0",0
+"Glyphosate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"S-Metolachlor","emission/ground/human-dominated/agricultural/rural","","1111A0",0.127659063741956
+"S-Metolachlor","emission/ground/human-dominated/agricultural/rural","","111CAX",0.872340936258044
+"2,4-D 2-ethylhexyl ester","emission/ground/human-dominated/agricultural/rural","","1111A0",0.166162159212721
+"2,4-D 2-ethylhexyl ester","emission/ground/human-dominated/agricultural/rural","","111CAX",0.833837840787279
+"Glyphosate dimethylamine salt","emission/ground/human-dominated/agricultural/rural","","1111A0",0
+"Glyphosate dimethylamine salt","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Chlorpyrifos","emission/ground/human-dominated/agricultural/rural","","1111A0",0.281429007940123
+"Chlorpyrifos","emission/ground/human-dominated/agricultural/rural","","111CAX",0.718570992059877
+"2,4-D dimethylamine salt","emission/ground/human-dominated/agricultural/rural","","1111A0",0.000663922140424383
+"2,4-D dimethylamine salt","emission/ground/human-dominated/agricultural/rural","","111CAX",0.999336077859576
+"Pendimethalin","emission/ground/human-dominated/agricultural/rural","","1111A0",6.77423465963803e-05
+"Pendimethalin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.999932257653404
+"Fomesafen-sodium","emission/ground/human-dominated/agricultural/rural","","1111A0",0.713634562182041
+"Fomesafen-sodium","emission/ground/human-dominated/agricultural/rural","","111CAX",0.286365437817959
+"Trifluralin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.144832112086065
+"Trifluralin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.855167887913934
+"Glufosinate-ammonium","emission/ground/human-dominated/agricultural/rural","","1111A0",0.451600821105177
+"Glufosinate-ammonium","emission/ground/human-dominated/agricultural/rural","","111CAX",0.548399178894823
+"Sulfentrazone","emission/ground/human-dominated/agricultural/rural","","1111A0",0.00117681229765072
+"Sulfentrazone","emission/ground/human-dominated/agricultural/rural","","111CAX",0.998823187702349
+"Acephate","emission/ground/human-dominated/agricultural/rural","","1111A0",0
+"Acephate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Paraquat","emission/ground/human-dominated/agricultural/rural","","1111A0",0.16913847816669
+"Paraquat","emission/ground/human-dominated/agricultural/rural","","111CAX",0.83086152183331
+"Metribuzin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.339643151178558
+"Metribuzin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.660356848821442
+"Acetochlor","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0100010768505908
+"Acetochlor","emission/ground/human-dominated/agricultural/rural","","111CAX",0.989998923149409
+"Flumioxazin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.789888254637531
+"Flumioxazin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.210111745362469
+"Clethodim","emission/ground/human-dominated/agricultural/rural","","1111A0",0.887682426216336
+"Clethodim","emission/ground/human-dominated/agricultural/rural","","111CAX",0.112317573783663
+"Pyraclostrobin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0143821265315015
+"Pyraclostrobin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.985617873468498
+"Azoxystrobin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.155276587065053
+"Azoxystrobin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.844723412934947
+"Metolachlor","emission/ground/human-dominated/agricultural/rural","","1111A0",0.157475215972727
+"Metolachlor","emission/ground/human-dominated/agricultural/rural","","111CAX",0.842524784027273
+"Dimethoate","emission/ground/human-dominated/agricultural/rural","","1111A0",0.474783705844651
+"Dimethoate","emission/ground/human-dominated/agricultural/rural","","111CAX",0.525216294155349
+"Dimethenamid-P","emission/ground/human-dominated/agricultural/rural","","1111A0",0.041667024117882
+"Dimethenamid-P","emission/ground/human-dominated/agricultural/rural","","111CAX",0.958332975882118
+"Acifluorfen, sodium salt","emission/ground/human-dominated/agricultural/rural","","1111A0",0.846542258671593
+"Acifluorfen, sodium salt","emission/ground/human-dominated/agricultural/rural","","111CAX",0.153457741328407
+"Imazethapyr","emission/ground/human-dominated/agricultural/rural","","1111A0",0.874958422762395
+"Imazethapyr","emission/ground/human-dominated/agricultural/rural","","111CAX",0.125041577237605
+"Fluazifop-P-butyl","emission/ground/human-dominated/agricultural/rural","","1111A0",0.940158136843159
+"Fluazifop-P-butyl","emission/ground/human-dominated/agricultural/rural","","111CAX",0.0598418631568411
+"Lactofen","emission/ground/human-dominated/agricultural/rural","","1111A0",0.989366600297101
+"Lactofen","emission/ground/human-dominated/agricultural/rural","","111CAX",0.0106333997028985
+"Chlorimuron-ethyl","emission/ground/human-dominated/agricultural/rural","","1111A0",1
+"Bifenthrin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.311086124777165
+"Bifenthrin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.688913875222835
+".lambda.-Cyhalothrin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.48004498028535
+".lambda.-Cyhalothrin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.51995501971465
+"Methoxyfenozide","emission/ground/human-dominated/agricultural/rural","","1111A0",0.635529836054458
+"Methoxyfenozide","emission/ground/human-dominated/agricultural/rural","","111CAX",0.364470163945542
+"Propiconazole","emission/ground/human-dominated/agricultural/rural","","1111A0",9.95074173618467e-05
+"Propiconazole","emission/ground/human-dominated/agricultural/rural","","111CAX",0.999900492582638
+"Quizalofop-P-ethyl","emission/ground/human-dominated/agricultural/rural","","1111A0",1
+"Cloransulam-methyl","emission/ground/human-dominated/agricultural/rural","","1111A0",1
+"Saflufenacil","emission/ground/human-dominated/agricultural/rural","","1111A0",0.292325080002717
+"Saflufenacil","emission/ground/human-dominated/agricultural/rural","","111CAX",0.707674919997283
+"Trifloxystrobin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.25817361094365
+"Trifloxystrobin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.74182638905635
+"Dimethylamine dicamba","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0329576407342584
+"Dimethylamine dicamba","emission/ground/human-dominated/agricultural/rural","","111CAX",0.967042359265741
+"2,4-D 2-butoxyethyl ester","emission/ground/human-dominated/agricultural/rural","","1111A0",1
+"Sethoxydim","emission/ground/human-dominated/agricultural/rural","","1111A0",0.551178943178042
+"Sethoxydim","emission/ground/human-dominated/agricultural/rural","","111CAX",0.448821056821958
+"Cyfluthrin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.590998549937155
+"Cyfluthrin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.409001450062845
+"Flumiclorac-pentyl","emission/ground/human-dominated/agricultural/rural","","1111A0",0.977742282017396
+"Flumiclorac-pentyl","emission/ground/human-dominated/agricultural/rural","","111CAX",0.0222577179826044
+"Thifensulfuron","emission/ground/human-dominated/agricultural/rural","","1111A0",0.23875688941578
+"Thifensulfuron","emission/ground/human-dominated/agricultural/rural","","111CAX",0.76124311058422
+"2,4-D","emission/ground/human-dominated/agricultural/rural","","1111A0",0.785077713186233
+"2,4-D","emission/ground/human-dominated/agricultural/rural","","111CAX",0.214922286813767
+"Imazaquin","emission/ground/human-dominated/agricultural/rural","","1111A0",1
+"Flubendiamide","emission/ground/human-dominated/agricultural/rural","","1111A0",0.369398122869237
+"Flubendiamide","emission/ground/human-dominated/agricultural/rural","","111CAX",0.630601877130763
+"Thiamethoxam","emission/ground/human-dominated/agricultural/rural","","1111A0",0.156293568600401
+"Thiamethoxam","emission/ground/human-dominated/agricultural/rural","","111CAX",0.843706431399599
+"Dicamba diglycolamine salt","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0630296537136284
+"Dicamba diglycolamine salt","emission/ground/human-dominated/agricultural/rural","","111CAX",0.936970346286371
+"Tetraconazole","emission/ground/human-dominated/agricultural/rural","","1111A0",0.86730744906869
+"Tetraconazole","emission/ground/human-dominated/agricultural/rural","","111CAX",0.13269255093131
+"Imazethapyr, ammonium salt","emission/ground/human-dominated/agricultural/rural","","1111A0",0.12153390470901
+"Imazethapyr, ammonium salt","emission/ground/human-dominated/agricultural/rural","","111CAX",0.87846609529099
+"Flumetsulam","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0442234679193611
+"Flumetsulam","emission/ground/human-dominated/agricultural/rural","","111CAX",0.955776532080639
+"Imidacloprid","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0291732744200951
+"Imidacloprid","emission/ground/human-dominated/agricultural/rural","","111CAX",0.970826725579905
+"Imazaquin, monoammonium salt","emission/ground/human-dominated/agricultural/rural","","1111A0",1
+"Beta Cypermethrin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.32556740611681
+"Beta Cypermethrin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.67443259388319
+"Esfenvalerate","emission/ground/human-dominated/agricultural/rural","","1111A0",0.182894643141305
+"Esfenvalerate","emission/ground/human-dominated/agricultural/rural","","111CAX",0.817105356858695
+"Fluthiacet-methyl","emission/ground/human-dominated/agricultural/rural","","1111A0",0.83884843021335
+"Fluthiacet-methyl","emission/ground/human-dominated/agricultural/rural","","111CAX",0.16115156978665
+"Tribenuron-methyl","emission/ground/human-dominated/agricultural/rural","","1111A0",0.179166162905087
+"Tribenuron-methyl","emission/ground/human-dominated/agricultural/rural","","111CAX",0.820833837094913
+"Fenoxaprop-P-ethyl","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0512522546278018
+"Fenoxaprop-P-ethyl","emission/ground/human-dominated/agricultural/rural","","111CAX",0.948747745372198
+"Diflubenzuron","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0308214842457852
+"Diflubenzuron","emission/ground/human-dominated/agricultural/rural","","111CAX",0.969178515754215
+"Gamma-cyhalothrin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.675549609913738
+"Gamma-cyhalothrin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.324450390086262
+"Imazamox","emission/ground/human-dominated/agricultural/rural","","1111A0",0.121127683082963
+"Imazamox","emission/ground/human-dominated/agricultural/rural","","111CAX",0.878872316917037
+"beta-cyfluthrin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.214970674494942
+"beta-cyfluthrin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.785029325505058
+"Rimsulfuron","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0556574105908971
+"Rimsulfuron","emission/ground/human-dominated/agricultural/rural","","111CAX",0.944342589409103
+"Zeta-Cypermethrin","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0534027482558799
+"Zeta-Cypermethrin","emission/ground/human-dominated/agricultural/rural","","111CAX",0.94659725174412
+"Carfentrazone-ethyl","emission/ground/human-dominated/agricultural/rural","","1111A0",0.0317732744042492
+"Carfentrazone-ethyl","emission/ground/human-dominated/agricultural/rural","","111CAX",0.968226725595751
+"MCPA-2-ethylhexyl","emission/water/fresh water body","","111CAX",1
+"Bromoxynil octanoate","emission/water/fresh water body","","111CAX",1
+"Fluroxypyr-meptyl","emission/water/fresh water body","","111CAX",1
+"Bromoxynil heptanoate","emission/water/fresh water body","","111CAX",1
+"Clopyralid-olamine","emission/water/fresh water body","","111CAX",1
+"Tebuconazole","emission/water/fresh water body","","111CAX",1
+"MCPA-dimethylammonium","emission/water/fresh water body","","111CAX",1
+"Sodium dicamba","emission/water/fresh water body","","111CAX",1
+"Atrazine","emission/water/fresh water body","","111CAX",1
+"Pinoxaden","emission/water/fresh water body","","111CAX",1
+"Prothioconazole","emission/water/fresh water body","","111CAX",1
+"MCPA-isooctyl","emission/water/fresh water body","","111CAX",1
+"Pyrasulfotole","emission/water/fresh water body","","111CAX",1
+"Flucarbazon-sodium","emission/water/fresh water body","","111CAX",1
+"Flufenacet","emission/water/fresh water body","","111CAX",1
+"Propoxycarbazone-sodium","emission/water/fresh water body","","111CAX",1
+"Chlorsulfuron","emission/water/fresh water body","","111CAX",1
+"Triasulfuron","emission/water/fresh water body","","111CAX",1
+"Pyroxsulam","emission/water/fresh water body","","111CAX",1
+"Methyl parathion","emission/water/fresh water body","","111CAX",1
+"Metconazole","emission/water/fresh water body","","111CAX",1
+"Metsulfuron-methyl","emission/water/fresh water body","","111CAX",1
+"Z-Ethyl-O,N,N-azoxyethane","emission/water/fresh water body","","111CAX",1
+"Sulfosulfuron","emission/water/fresh water body","","111CAX",1
+"Clopyralid","emission/water/fresh water body","","111CAX",1
+"Fluoxastrobin","emission/water/fresh water body","","111CAX",1
+"Mesosulfuron-methyl","emission/water/fresh water body","","111CAX",1
+"Dicamba","emission/water/fresh water body","","111CAX",1
+"Florasulam","emission/water/fresh water body","","111CAX",1
+"MCPA-2-ethylhexyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Bromoxynil octanoate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fluroxypyr-meptyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Bromoxynil heptanoate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Clopyralid-olamine","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Tebuconazole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"MCPA-dimethylammonium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Sodium dicamba","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Atrazine","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pinoxaden","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Prothioconazole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"MCPA-isooctyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pyrasulfotole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Flucarbazon-sodium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Flufenacet","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Propoxycarbazone-sodium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Chlorsulfuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Triasulfuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pyroxsulam","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Methyl parathion","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Metconazole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Metsulfuron-methyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Z-Ethyl-O,N,N-azoxyethane","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Sulfosulfuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Clopyralid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fluoxastrobin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Mesosulfuron-methyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Dicamba","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Florasulam","emission/air/troposphere/rural/ground-level","","111CAX",1
+"MCPA-2-ethylhexyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Bromoxynil octanoate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fluroxypyr-meptyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Bromoxynil heptanoate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Clopyralid-olamine","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Tebuconazole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"MCPA-dimethylammonium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Sodium dicamba","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Atrazine","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pinoxaden","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Prothioconazole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"MCPA-isooctyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pyrasulfotole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Flucarbazon-sodium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Flufenacet","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Propoxycarbazone-sodium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Chlorsulfuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Triasulfuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pyroxsulam","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Methyl parathion","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Metconazole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Metsulfuron-methyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Z-Ethyl-O,N,N-azoxyethane","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Sulfosulfuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Clopyralid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fluoxastrobin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Mesosulfuron-methyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Dicamba","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Florasulam","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Mesotrione","emission/water/fresh water body","","111CAX",1
+"Simazine","emission/water/fresh water body","","111CAX",1
+"Propargite","emission/water/fresh water body","","111CAX",1
+"Isoxaflutole","emission/water/fresh water body","","111CAX",1
+"Alachlor","emission/water/fresh water body","","111CAX",1
+"Tembotrione","emission/water/fresh water body","","111CAX",1
+"Dicamba-potassium","emission/water/fresh water body","","111CAX",1
+"Diflufenzopyr-sodium","emission/water/fresh water body","","111CAX",1
+"Tefluthrin","emission/water/fresh water body","","111CAX",1
+"Thiencarbazone-methyl","emission/water/fresh water body","","111CAX",1
+"S-Ethyl dipropylthiocarbamate","emission/water/fresh water body","","111CAX",1
+"Thiophanate-methyl","emission/water/fresh water body","","111CAX",1
+"Permethrin","emission/water/fresh water body","","111CAX",1
+"Pyroxasulfone","emission/water/fresh water body","","111CAX",1
+"Picoxystrobin","emission/water/fresh water body","","111CAX",1
+"Topramezone","emission/water/fresh water body","","111CAX",1
+"Bentazon","emission/water/fresh water body","","111CAX",1
+"Cupric hydroxide","emission/water/fresh water body","","111CAX",1
+"Clopyralid-potassium","emission/water/fresh water body","","111CAX",1
+"Fluxapyroxad","emission/water/fresh water body","","111CAX",1
+"Cupric chloride dihydrate","emission/water/fresh water body","","111CAX",1
+"Nicosulfuron","emission/water/fresh water body","","111CAX",1
+"Flutriafol","emission/water/fresh water body","","111CAX",1
+"Phostebupirim","emission/water/fresh water body","","111CAX",1
+"Spiromesifen","emission/water/fresh water body","","111CAX",1
+"Chlorothalonil","emission/water/fresh water body","","111CAX",1
+"Ethoprop","emission/water/fresh water body","","111CAX",1
+"Iprodione","emission/water/fresh water body","","111CAX",1
+"2-[4,6-Bis(difluoromethoxy)pyrimidin-2-ylcarbamoylsulfamoyl]benzoic acid","emission/water/fresh water body","","111CAX",1
+"Boscalid","emission/water/fresh water body","","111CAX",1
+"Prosulfuron","emission/water/fresh water body","","111CAX",1
+"Halosulfuron","emission/water/fresh water body","","111CAX",1
+"Mesotrione","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Simazine","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Propargite","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Isoxaflutole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Alachlor","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Tembotrione","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Dicamba-potassium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Diflufenzopyr-sodium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Tefluthrin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Thiencarbazone-methyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"S-Ethyl dipropylthiocarbamate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Thiophanate-methyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Permethrin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pyroxasulfone","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Picoxystrobin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Topramezone","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Bentazon","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cupric hydroxide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Clopyralid-potassium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fluxapyroxad","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cupric chloride dihydrate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Nicosulfuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Flutriafol","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Phostebupirim","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Spiromesifen","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Chlorothalonil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Ethoprop","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Iprodione","emission/air/troposphere/rural/ground-level","","111CAX",1
+"2-[4,6-Bis(difluoromethoxy)pyrimidin-2-ylcarbamoylsulfamoyl]benzoic acid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Boscalid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Prosulfuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Halosulfuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Mesotrione","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Simazine","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Propargite","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Isoxaflutole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Alachlor","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Tembotrione","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Dicamba-potassium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Diflufenzopyr-sodium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Tefluthrin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Thiencarbazone-methyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"S-Ethyl dipropylthiocarbamate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Thiophanate-methyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Permethrin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pyroxasulfone","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Picoxystrobin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Topramezone","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Bentazon","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cupric hydroxide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Clopyralid-potassium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fluxapyroxad","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cupric chloride dihydrate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Nicosulfuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Flutriafol","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Phostebupirim","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Spiromesifen","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Chlorothalonil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Ethoprop","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Iprodione","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"2-[4,6-Bis(difluoromethoxy)pyrimidin-2-ylcarbamoylsulfamoyl]benzoic acid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Boscalid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Prosulfuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Halosulfuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Dimethenamid","emission/water/fresh water body","","111CAX",1
+"Triallate","emission/water/fresh water body","","111CAX",1
+"Ethephon","emission/water/fresh water body","","111CAX",1
+"2,4-D isopropylamine salt","emission/water/fresh water body","","111CAX",1
+"Fluroxypyr","emission/water/fresh water body","","111CAX",1
+"Quinclorac","emission/water/fresh water body","","111CAX",1
+"Tralkoxydim","emission/water/fresh water body","","111CAX",1
+"Dimethenamid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Triallate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Ethephon","emission/air/troposphere/rural/ground-level","","111CAX",1
+"2,4-D isopropylamine salt","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fluroxypyr","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Quinclorac","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Tralkoxydim","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Dimethenamid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Triallate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Ethephon","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"2,4-D isopropylamine salt","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fluroxypyr","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Quinclorac","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Tralkoxydim","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Propanil","emission/water/fresh water body","","111CAX",1
+"Thiobencarb","emission/water/fresh water body","","111CAX",1
+"Clomazone","emission/water/fresh water body","","111CAX",1
+"Cupric sulfate","emission/water/fresh water body","","111CAX",1
+"Sodium chlorate","emission/water/fresh water body","","111CAX",1
+"Triclopyr-triethylammonium","emission/water/fresh water body","","111CAX",1
+"Cyhalofop-butyl","emission/water/fresh water body","","111CAX",1
+"Bensulfuron-methyl","emission/water/fresh water body","","111CAX",1
+"8-Quinolinecarboxylic acid, 3,7-dichloro-, compd. with N-methylmethanamine (1:1)","emission/water/fresh water body","","111CAX",1
+"Bispyribac-sodium","emission/water/fresh water body","","111CAX",1
+"Penoxsulam","emission/water/fresh water body","","111CAX",1
+"Imazosulfuron","emission/water/fresh water body","","111CAX",1
+"Dinotefuran","emission/water/fresh water body","","111CAX",1
+"Orthosulfamuron","emission/water/fresh water body","","111CAX",1
+"Propanil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Thiobencarb","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Clomazone","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cupric sulfate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Sodium chlorate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Triclopyr-triethylammonium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cyhalofop-butyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Bensulfuron-methyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"8-Quinolinecarboxylic acid, 3,7-dichloro-, compd. with N-methylmethanamine (1:1)","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Bispyribac-sodium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Penoxsulam","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Imazosulfuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Dinotefuran","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Orthosulfamuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Propanil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Thiobencarb","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Clomazone","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cupric sulfate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Sodium chlorate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Triclopyr-triethylammonium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cyhalofop-butyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Bensulfuron-methyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"8-Quinolinecarboxylic acid, 3,7-dichloro-, compd. with N-methylmethanamine (1:1)","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Bispyribac-sodium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Penoxsulam","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Imazosulfuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Dinotefuran","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Orthosulfamuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Sulfur","emission/water/fresh water body","","111CAX",1
+"Metalaxyl-M","emission/water/fresh water body","","111CAX",1
+"Carbaryl","emission/water/fresh water body","","111CAX",1
+"Methomyl","emission/water/fresh water body","","111CAX",1
+"Endosulfan","emission/water/fresh water body","","111CAX",1
+"Sulfur","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Metalaxyl-M","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Carbaryl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Methomyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Endosulfan","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Sulfur","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Metalaxyl-M","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Carbaryl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Methomyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Endosulfan","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"2,4,5-Tribromoimidazole","emission/water/fresh water body","","111CAX",1
+"Sulfuric acid","emission/water/fresh water body","","111CAX",1
+"Dichloropropene","emission/water/fresh water body","","111CAX",1
+"Potassium N-methyldithiocarbamate","emission/water/fresh water body","","111CAX",1
+"Mancozeb","emission/water/fresh water body","","111CAX",1
+"Phosphorous acid","emission/water/fresh water body","","111CAX",1
+"Oxamyl","emission/water/fresh water body","","111CAX",1
+"Bensulide","emission/water/fresh water body","","111CAX",1
+"Fosetyl-Al","emission/water/fresh water body","","111CAX",1
+"Chlorthal-dimethyl","emission/water/fresh water body","","111CAX",1
+"Diquat dibromide","emission/water/fresh water body","","111CAX",1
+"Maleic hydrazide","emission/water/fresh water body","","111CAX",1
+"Kaolin","emission/water/fresh water body","","111CAX",1
+"Pentachloronitrobenzene","emission/water/fresh water body","","111CAX",1
+"Pyrimethanil","emission/water/fresh water body","","111CAX",1
+"Propamocarb hydrochloride","emission/water/fresh water body","","111CAX",1
+"Fluazinam","emission/water/fresh water body","","111CAX",1
+"Metiram","emission/water/fresh water body","","111CAX",1
+"Linuron","emission/water/fresh water body","","111CAX",1
+"Monopotassium phosphate","emission/water/fresh water body","","111CAX",1
+"Thiodicarb","emission/water/fresh water body","","111CAX",1
+"Malathion","emission/water/fresh water body","","111CAX",1
+"Pronamide","emission/water/fresh water body","","111CAX",1
+"Zoxamide","emission/water/fresh water body","","111CAX",1
+"Triphenyltin hydroxide","emission/water/fresh water body","","111CAX",1
+"Difenoconazole","emission/water/fresh water body","","111CAX",1
+"Mandipropamid","emission/water/fresh water body","","111CAX",1
+"Dichloran","emission/water/fresh water body","","111CAX",1
+"Benfluralin","emission/water/fresh water body","","111CAX",1
+"Diuron","emission/water/fresh water body","","111CAX",1
+"Cymoxanil","emission/water/fresh water body","","111CAX",1
+"Fluopyram","emission/water/fresh water body","","111CAX",1
+"Prometryn","emission/water/fresh water body","","111CAX",1
+"Oxyfluorfen","emission/water/fresh water body","","111CAX",1
+"Flutolanil","emission/water/fresh water body","","111CAX",1
+"Fenamidone","emission/water/fresh water body","","111CAX",1
+"Dimethomorph","emission/water/fresh water body","","111CAX",1
+"Famoxadone","emission/water/fresh water body","","111CAX",1
+"Basic copper sulfate","emission/water/fresh water body","","111CAX",1
+"Cyazofamid","emission/water/fresh water body","","111CAX",1
+"Diazinon","emission/water/fresh water body","","111CAX",1
+"Naled","emission/water/fresh water body","","111CAX",1
+"Cycloate","emission/water/fresh water body","","111CAX",1
+"Ethofumesate","emission/water/fresh water body","","111CAX",1
+"Spinosad","emission/water/fresh water body","","111CAX",1
+"Fipronil","emission/water/fresh water body","","111CAX",1
+"Spirotetramat","emission/water/fresh water body","","111CAX",1
+"Cyprodinil","emission/water/fresh water body","","111CAX",1
+"Flonicamid","emission/water/fresh water body","","111CAX",1
+"Pymetrozine","emission/water/fresh water body","","111CAX",1
+"Penthiopyrad","emission/water/fresh water body","","111CAX",1
+"Chlorantraniliprole","emission/water/fresh water body","","111CAX",1
+"Ethalfluralin","emission/water/fresh water body","","111CAX",1
+"Spinetoram J","emission/water/fresh water body","","111CAX",1
+"Spinetoram L","emission/water/fresh water body","","111CAX",1
+"Fludioxonil","emission/water/fresh water body","","111CAX",1
+"Novaluron","emission/water/fresh water body","","111CAX",1
+"Cyromazine","emission/water/fresh water body","","111CAX",1
+"Napropamide","emission/water/fresh water body","","111CAX",1
+"Ametoctradin","emission/water/fresh water body","","111CAX",1
+"Abamectin","emission/water/fresh water body","","111CAX",1
+"Myclobutanil","emission/water/fresh water body","","111CAX",1
+"Terbufos","emission/water/fresh water body","","111CAX",1
+"Clothianidin","emission/water/fresh water body","","111CAX",1
+"Metalaxyl","emission/water/fresh water body","","111CAX",1
+"Quinoline","emission/water/fresh water body","","111CAX",1
+"Fenpropathrin","emission/water/fresh water body","","111CAX",1
+"Buprofezin","emission/water/fresh water body","","111CAX",1
+"MCPB","emission/water/fresh water body","","111CAX",1
+"Acetamiprid","emission/water/fresh water body","","111CAX",1
+"Fluopicolide","emission/water/fresh water body","","111CAX",1
+"2,4-D triisopropanolamine salt","emission/water/fresh water body","","111CAX",1
+"Indoxacarb","emission/water/fresh water body","","111CAX",1
+"Tolfenpyrad","emission/water/fresh water body","","111CAX",1
+"Triflumizole","emission/water/fresh water body","","111CAX",1
+"Emamectin benzoate","emission/water/fresh water body","","111CAX",1
+"Cupric oxide","emission/water/fresh water body","","111CAX",1
+"Xylene","emission/water/fresh water body","","111CAX",1
+"Phosmet","emission/water/fresh water body","","111CAX",1
+"Pyrethrins","emission/water/fresh water body","","111CAX",1
+"Methyl anthranilate","emission/water/fresh water body","","111CAX",1
+"Hydrogen peroxide","emission/water/fresh water body","","111CAX",1
+"Reynoutria sachalinensis extract","emission/water/fresh water body","","111CAX",1
+"Terbacil","emission/water/fresh water body","","111CAX",1
+"Azadirachtin A","emission/water/fresh water body","","111CAX",1
+"Copper octanoate","emission/water/fresh water body","","111CAX",1
+"Cyflufenamid","emission/water/fresh water body","","111CAX",1
+"Methyl[1-(2-trifluoromethylpyridin-5-yl)ethyl]-N-cyanosulfoximine","emission/water/fresh water body","","111CAX",1
+"2,4,5-Tribromoimidazole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Sulfuric acid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Dichloropropene","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Potassium N-methyldithiocarbamate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Mancozeb","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Phosphorous acid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Oxamyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Bensulide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fosetyl-Al","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Chlorthal-dimethyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Diquat dibromide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Maleic hydrazide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Kaolin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pentachloronitrobenzene","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pyrimethanil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Propamocarb hydrochloride","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fluazinam","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Metiram","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Linuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Monopotassium phosphate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Thiodicarb","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Malathion","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pronamide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Zoxamide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Triphenyltin hydroxide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Difenoconazole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Mandipropamid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Dichloran","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Benfluralin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Diuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cymoxanil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fluopyram","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Prometryn","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Oxyfluorfen","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Flutolanil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fenamidone","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Dimethomorph","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Famoxadone","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Basic copper sulfate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cyazofamid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Diazinon","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Naled","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cycloate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Ethofumesate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Spinosad","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fipronil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Spirotetramat","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cyprodinil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Flonicamid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pymetrozine","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Penthiopyrad","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Chlorantraniliprole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Ethalfluralin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Spinetoram J","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Spinetoram L","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fludioxonil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Novaluron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cyromazine","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Napropamide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Ametoctradin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Abamectin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Myclobutanil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Terbufos","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Clothianidin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Metalaxyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Quinoline","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fenpropathrin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Buprofezin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"MCPB","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Acetamiprid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fluopicolide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"2,4-D triisopropanolamine salt","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Indoxacarb","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Tolfenpyrad","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Triflumizole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Emamectin benzoate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cupric oxide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Xylene","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Phosmet","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pyrethrins","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Methyl anthranilate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Hydrogen peroxide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Reynoutria sachalinensis extract","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Terbacil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Azadirachtin A","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Copper octanoate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cyflufenamid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Methyl[1-(2-trifluoromethylpyridin-5-yl)ethyl]-N-cyanosulfoximine","emission/air/troposphere/rural/ground-level","","111CAX",1
+"2,4,5-Tribromoimidazole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Sulfuric acid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Dichloropropene","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Potassium N-methyldithiocarbamate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Mancozeb","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Phosphorous acid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Oxamyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Bensulide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fosetyl-Al","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Chlorthal-dimethyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Diquat dibromide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Maleic hydrazide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Kaolin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pentachloronitrobenzene","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pyrimethanil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Propamocarb hydrochloride","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fluazinam","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Metiram","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Linuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Monopotassium phosphate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Thiodicarb","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Malathion","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pronamide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Zoxamide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Triphenyltin hydroxide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Difenoconazole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Mandipropamid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Dichloran","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Benfluralin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Diuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cymoxanil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fluopyram","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Prometryn","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Oxyfluorfen","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Flutolanil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fenamidone","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Dimethomorph","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Famoxadone","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Basic copper sulfate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cyazofamid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Diazinon","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Naled","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cycloate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Ethofumesate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Spinosad","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fipronil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Spirotetramat","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cyprodinil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Flonicamid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pymetrozine","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Penthiopyrad","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Chlorantraniliprole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Ethalfluralin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Spinetoram J","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Spinetoram L","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fludioxonil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Novaluron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cyromazine","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Napropamide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Ametoctradin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Abamectin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Myclobutanil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Terbufos","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Clothianidin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Metalaxyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Quinoline","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fenpropathrin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Buprofezin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"MCPB","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Acetamiprid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fluopicolide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"2,4-D triisopropanolamine salt","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Indoxacarb","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Tolfenpyrad","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Triflumizole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Emamectin benzoate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cupric oxide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Xylene","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Phosmet","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pyrethrins","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Methyl anthranilate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Hydrogen peroxide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Reynoutria sachalinensis extract","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Terbacil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Azadirachtin A","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Copper octanoate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cyflufenamid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Methyl[1-(2-trifluoromethylpyridin-5-yl)ethyl]-N-cyanosulfoximine","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Chloropicrin","emission/water/fresh water body","","111CAX",1
+"Methyl bromide","emission/water/fresh water body","","111CAX",1
+"Maneb","emission/water/fresh water body","","111CAX",1
+"Copper oxychloride","emission/water/fresh water body","","111CAX",1
+"Methamidophos","emission/water/fresh water body","","111CAX",1
+"Bifenazate","emission/water/fresh water body","","111CAX",1
+"Acibenzolar-S-methyl","emission/water/fresh water body","","111CAX",1
+"Fenpyroximate","emission/water/fresh water body","","111CAX",1
+"Copper resinate","emission/water/fresh water body","","111CAX",1
+"Chloropicrin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Methyl bromide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Maneb","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Copper oxychloride","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Methamidophos","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Bifenazate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Acibenzolar-S-methyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fenpyroximate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Copper resinate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Chloropicrin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Methyl bromide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Maneb","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Copper oxychloride","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Methamidophos","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Bifenazate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Acibenzolar-S-methyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fenpyroximate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Copper resinate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Captan","emission/water/fresh water body","","111CAX",1
+"Luteoskyrin","emission/water/fresh water body","","111CAX",1
+"Thiram","emission/water/fresh water body","","111CAX",1
+"Fenhexamid","emission/water/fresh water body","","111CAX",1
+"Polyoxorim-zinc","emission/water/fresh water body","","111CAX",1
+"Piperonyl butoxide","emission/water/fresh water body","","111CAX",1
+"Etoxazole","emission/water/fresh water body","","111CAX",1
+"Captan","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Luteoskyrin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Thiram","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fenhexamid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Polyoxorim-zinc","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Piperonyl butoxide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Etoxazole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Captan","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Luteoskyrin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Thiram","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fenhexamid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Polyoxorim-zinc","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Piperonyl butoxide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Etoxazole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Hydrocarbons, petroleum","emission/water/fresh water body","","111CAX",1
+"Calcium polysulfide","emission/water/fresh water body","","111CAX",1
+"Potassium bicarbonate","emission/water/fresh water body","","111CAX",1
+"Ziram","emission/water/fresh water body","","111CAX",1
+"Norflurazon","emission/water/fresh water body","","111CAX",1
+"Bromacil","emission/water/fresh water body","","111CAX",1
+"Oryzalin","emission/water/fresh water body","","111CAX",1
+"Cyanamide","emission/water/fresh water body","","111CAX",1
+"Aldicarb","emission/water/fresh water body","","111CAX",1
+"Azinphos-methyl","emission/water/fresh water body","","111CAX",1
+"Spirodiclofen","emission/water/fresh water body","","111CAX",1
+"Streptomycin sulfate","emission/water/fresh water body","","111CAX",1
+"Cryolite","emission/water/fresh water body","","111CAX",1
+"Prohexadione calcium","emission/water/fresh water body","","111CAX",1
+"Formetanate hydrochloride","emission/water/fresh water body","","111CAX",1
+"Oxytetracycline calcium","emission/water/fresh water body","","111CAX",1
+"Metaldehyde","emission/water/fresh water body","","111CAX",1
+"Kresoxim-methyl","emission/water/fresh water body","","111CAX",1
+"Dodine","emission/water/fresh water body","","111CAX",1
+"Thiacloprid","emission/water/fresh water body","","111CAX",1
+"Fenbutatin oxide","emission/water/fresh water body","","111CAX",1
+"Metrafenone","emission/water/fresh water body","","111CAX",1
+"Copper, bis(acetato-.kappa.O)diammine-","emission/water/fresh water body","","111CAX",1
+"Fenbuconazole","emission/water/fresh water body","","111CAX",1
+"Methidathion","emission/water/fresh water body","","111CAX",1
+"Spinetoram","emission/water/fresh water body","","111CAX",1
+"2,4-D isopropyl ester","emission/water/fresh water body","","111CAX",1
+"Potassium carbonate","emission/water/fresh water body","","111CAX",1
+"Pyridaben","emission/water/fresh water body","","111CAX",1
+"Hexazinone","emission/water/fresh water body","","111CAX",1
+"Gibberellin A4 mixture with Gibberellin A7","emission/water/fresh water body","","111CAX",1
+"Codlelure","emission/water/fresh water body","","111CAX",1
+"Crotonic acid","emission/water/fresh water body","","111CAX",1
+"N-Benzyladenine","emission/water/fresh water body","","111CAX",1
+"Fenarimol","emission/water/fresh water body","","111CAX",1
+"Forchlorfenuron","emission/water/fresh water body","","111CAX",1
+"Oxytetracycline hydrochloride","emission/water/fresh water body","","111CAX",1
+"Dichlobenil","emission/water/fresh water body","","111CAX",1
+"Gibberellic acid","emission/water/fresh water body","","111CAX",1
+"Glycine, N-(phosphonomethyl)-, ammonium salt (1:1)","emission/water/fresh water body","","111CAX",1
+"2-Nonynoic acid","emission/water/fresh water body","","111CAX",1
+"Zinc phosphide","emission/water/fresh water body","","111CAX",1
+"(Z)-8-Dodecen-1-ol","emission/water/fresh water body","","111CAX",1
+"Pyriproxyfen","emission/water/fresh water body","","111CAX",1
+"Potassium 1-naphthaleneacetate","emission/water/fresh water body","","111CAX",1
+"Hexythiazox","emission/water/fresh water body","","111CAX",1
+"Aluminum phosphide","emission/water/fresh water body","","111CAX",1
+"Clofentezine","emission/water/fresh water body","","111CAX",1
+"2,4-D diethanolamine salt","emission/water/fresh water body","","111CAX",1
+"1-Naphthaleneacetic acid sodium salt","emission/water/fresh water body","","111CAX",1
+"(1S)-Abscisic acid","emission/water/fresh water body","","111CAX",1
+"Ammonium 1-naphthaleneacetate","emission/water/fresh water body","","111CAX",1
+"Indaziflam","emission/water/fresh water body","","111CAX",1
+"1-Naphthaleneacetamide","emission/water/fresh water body","","111CAX",1
+"1-Tetradecanol","emission/water/fresh water body","","111CAX",1
+"(E)-8-Dodecen-1-yl acetate","emission/water/fresh water body","","111CAX",1
+"Hydrocarbons, petroleum","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Calcium polysulfide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Potassium bicarbonate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Ziram","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Norflurazon","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Bromacil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Oryzalin","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cyanamide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Aldicarb","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Azinphos-methyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Spirodiclofen","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Streptomycin sulfate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cryolite","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Prohexadione calcium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Formetanate hydrochloride","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Oxytetracycline calcium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Metaldehyde","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Kresoxim-methyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Dodine","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Thiacloprid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fenbutatin oxide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Metrafenone","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Copper, bis(acetato-.kappa.O)diammine-","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fenbuconazole","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Methidathion","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Spinetoram","emission/air/troposphere/rural/ground-level","","111CAX",1
+"2,4-D isopropyl ester","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Potassium carbonate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pyridaben","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Hexazinone","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Gibberellin A4 mixture with Gibberellin A7","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Codlelure","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Crotonic acid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"N-Benzyladenine","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fenarimol","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Forchlorfenuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Oxytetracycline hydrochloride","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Dichlobenil","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Gibberellic acid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Glycine, N-(phosphonomethyl)-, ammonium salt (1:1)","emission/air/troposphere/rural/ground-level","","111CAX",1
+"2-Nonynoic acid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Zinc phosphide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"(Z)-8-Dodecen-1-ol","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pyriproxyfen","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Potassium 1-naphthaleneacetate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Hexythiazox","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Aluminum phosphide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Clofentezine","emission/air/troposphere/rural/ground-level","","111CAX",1
+"2,4-D diethanolamine salt","emission/air/troposphere/rural/ground-level","","111CAX",1
+"1-Naphthaleneacetic acid sodium salt","emission/air/troposphere/rural/ground-level","","111CAX",1
+"(1S)-Abscisic acid","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Ammonium 1-naphthaleneacetate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Indaziflam","emission/air/troposphere/rural/ground-level","","111CAX",1
+"1-Naphthaleneacetamide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"1-Tetradecanol","emission/air/troposphere/rural/ground-level","","111CAX",1
+"(E)-8-Dodecen-1-yl acetate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Hydrocarbons, petroleum","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Calcium polysulfide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Potassium bicarbonate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Ziram","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Norflurazon","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Bromacil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Oryzalin","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cyanamide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Aldicarb","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Azinphos-methyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Spirodiclofen","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Streptomycin sulfate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cryolite","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Prohexadione calcium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Formetanate hydrochloride","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Oxytetracycline calcium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Metaldehyde","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Kresoxim-methyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Dodine","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Thiacloprid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fenbutatin oxide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Metrafenone","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Copper, bis(acetato-.kappa.O)diammine-","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fenbuconazole","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Methidathion","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Spinetoram","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"2,4-D isopropyl ester","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Potassium carbonate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pyridaben","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Hexazinone","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Gibberellin A4 mixture with Gibberellin A7","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Codlelure","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Crotonic acid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"N-Benzyladenine","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fenarimol","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Forchlorfenuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Oxytetracycline hydrochloride","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Dichlobenil","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Gibberellic acid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Glycine, N-(phosphonomethyl)-, ammonium salt (1:1)","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"2-Nonynoic acid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Zinc phosphide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"(Z)-8-Dodecen-1-ol","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pyriproxyfen","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Potassium 1-naphthaleneacetate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Hexythiazox","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Aluminum phosphide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Clofentezine","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"2,4-D diethanolamine salt","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"1-Naphthaleneacetic acid sodium salt","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"(1S)-Abscisic acid","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Ammonium 1-naphthaleneacetate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Indaziflam","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"1-Naphthaleneacetamide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"1-Tetradecanol","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"(E)-8-Dodecen-1-yl acetate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Phorate","emission/water/fresh water body","","111CAX",1
+"2,4-DB dimethylamine salt","emission/water/fresh water body","","111CAX",1
+"7-Dodecen-1-ol,(7Z)-","emission/water/fresh water body","","111CAX",1
+"Imazapic","emission/water/fresh water body","","111CAX",1
+"Diclosulam","emission/water/fresh water body","","111CAX",1
+"Phorate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"2,4-DB dimethylamine salt","emission/air/troposphere/rural/ground-level","","111CAX",1
+"7-Dodecen-1-ol,(7Z)-","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Imazapic","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Diclosulam","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Phorate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"2,4-DB dimethylamine salt","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"7-Dodecen-1-ol,(7Z)-","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Imazapic","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Diclosulam","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Tribufos","emission/water/fresh water body","","111CAX",1
+"Dicrotophos","emission/water/fresh water body","","111CAX",1
+"Urea sulfate","emission/water/fresh water body","","111CAX",1
+"Fluometuron","emission/water/fresh water body","","111CAX",1
+"Monosodium methanearsonate","emission/water/fresh water body","","111CAX",1
+"Thidiazuron","emission/water/fresh water body","","111CAX",1
+"Mepiquat chloride","emission/water/fresh water body","","111CAX",1
+"Cyclanilide","emission/water/fresh water body","","111CAX",1
+"Glyphosate-trimesium","emission/water/fresh water body","","111CAX",1
+"Pyrithiobac-sodium","emission/water/fresh water body","","111CAX",1
+"N,N-Dimethylpiperidinium pentaborate","emission/water/fresh water body","","111CAX",1
+"N-[[(4,6-Dimethoxy-2-pyrimidinyl)amino]carbonyl]-(2,2,2-trifluoroethoxy)-2-pyridinesulfonamide sodium salt (1:1)","emission/water/fresh water body","","111CAX",1
+"Pyraflufen-ethyl","emission/water/fresh water body","","111CAX",1
+"Tribufos","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Dicrotophos","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Urea sulfate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Fluometuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Monosodium methanearsonate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Thidiazuron","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Mepiquat chloride","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Cyclanilide","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Glyphosate-trimesium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pyrithiobac-sodium","emission/air/troposphere/rural/ground-level","","111CAX",1
+"N,N-Dimethylpiperidinium pentaborate","emission/air/troposphere/rural/ground-level","","111CAX",1
+"N-[[(4,6-Dimethoxy-2-pyrimidinyl)amino]carbonyl]-(2,2,2-trifluoroethoxy)-2-pyridinesulfonamide sodium salt (1:1)","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Pyraflufen-ethyl","emission/air/troposphere/rural/ground-level","","111CAX",1
+"Tribufos","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Dicrotophos","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Urea sulfate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Fluometuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Monosodium methanearsonate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Thidiazuron","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Mepiquat chloride","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Cyclanilide","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Glyphosate-trimesium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pyrithiobac-sodium","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"N,N-Dimethylpiperidinium pentaborate","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"N-[[(4,6-Dimethoxy-2-pyrimidinyl)amino]carbonyl]-(2,2,2-trifluoroethoxy)-2-pyridinesulfonamide sodium salt (1:1)","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Pyraflufen-ethyl","emission/ground/human-dominated/agricultural/rural","","111CAX",1
+"Aluminum Cans","Waste Flows/MSW","","1111A0",0.126076274415425
+"Aluminum Cans","Waste Flows/MSW","","111CAX",0.873923725584575
+"Ash","Waste Flows/MSW","","1111A0",0.12607627440306
+"Ash","Waste Flows/MSW","","111CAX",0.87392372559694
+"Asphalt Shingles","Waste Flows/CDD","","1111A0",0.126076274372329
+"Asphalt Shingles","Waste Flows/CDD","","111CAX",0.873923725627671
+"Batteries","Waste Flows/MSW","","1111A0",0.126076274386453
+"Batteries","Waste Flows/MSW","","111CAX",0.873923725613547
+"Brown Glass Bottles and Containers","Waste Flows/MSW","","1111A0",0.126076274388153
+"Brown Glass Bottles and Containers","Waste Flows/MSW","","111CAX",0.873923725611847
+"Brown Goods","Waste Flows/MSW","","1111A0",0.126076274395479
+"Brown Goods","Waste Flows/MSW","","111CAX",0.873923725604521
+"Bulky Items","Waste Flows/MSW","","1111A0",0.126076274412496
+"Bulky Items","Waste Flows/MSW","","111CAX",0.873923725587504
+"Carpet","Waste Flows/MSW","","1111A0",0.126076274448193
+"Carpet","Waste Flows/MSW","","111CAX",0.873923725551807
+"Wood","Waste Flows/CDD","","1111A0",0.0060489900567842
+"Wood","Waste Flows/CDD","","1111A0",0.0593153558547933
+"Wood","Waste Flows/CDD","","1111A0",0.0472614423460713
+"Wood","Waste Flows/CDD","","1111A0",0.0134504861563342
+"Wood","Waste Flows/CDD","","111CAX",0.873923725586017
+"Clear Glass Bottles and Containers","Waste Flows/MSW","","1111A0",0.126076274401362
+"Clear Glass Bottles and Containers","Waste Flows/MSW","","111CAX",0.873923725598638
+"Computer-related Electronics","Waste Flows/MSW","","1111A0",0.126076274431305
+"Computer-related Electronics","Waste Flows/MSW","","111CAX",0.873923725568695
+"Concrete","Waste Flows/CDD","","1111A0",0.126076274399743
+"Concrete","Waste Flows/CDD","","111CAX",0.873923725600257
+"Durable Plastic Items - Number 2 and 5 Bulky Rigids","Waste Flows/MSW","","1111A0",0.126076274408116
+"Durable Plastic Items - Number 2 and 5 Bulky Rigids","Waste Flows/MSW","","111CAX",0.873923725591884
+"Durable Plastic Items - Other","Waste Flows/MSW","","1111A0",0.126076274399253
+"Durable Plastic Items - Other","Waste Flows/MSW","","111CAX",0.873923725600747
+"Film Products","Waste Flows/MSW","","1111A0",0.126076274398308
+"Film Products","Waste Flows/MSW","","111CAX",0.873923725601692
+"Flat Glass","Waste Flows/MSW","","1111A0",0.126076274398614
+"Flat Glass","Waste Flows/MSW","","111CAX",0.873923725601386
+"Food","Waste Flows/MSW","","1111A0",0.126076274389287
+"Food","Waste Flows/MSW","","111CAX",0.873923725610713
+"Green Glass Bottles and Containers","Waste Flows/MSW","","1111A0",0.126076274396357
+"Green Glass Bottles and Containers","Waste Flows/MSW","","111CAX",0.873923725603643
+"Gypsum Drywall","Waste Flows/CDD","","1111A0",0.126076274412264
+"Gypsum Drywall","Waste Flows/CDD","","111CAX",0.873923725587736
+"HDPE Plastic Containers","Waste Flows/MSW","","1111A0",0.126076274383633
+"HDPE Plastic Containers","Waste Flows/MSW","","111CAX",0.873923725616367
+"Leaves and Grass","Waste Flows/MSW","","1111A0",0.126076274369187
+"Leaves and Grass","Waste Flows/MSW","","111CAX",0.873923725630813
+"Magazines and Catalogs","Waste Flows/MSW","","1111A0",0.126076274408344
+"Magazines and Catalogs","Waste Flows/MSW","","111CAX",0.873923725591656
+"Manures","Waste Flows/MSW","","1111A0",0.126076274409728
+"Manures","Waste Flows/MSW","","111CAX",0.873923725590272
+"Miscellaneous Plastic Containers","Waste Flows/MSW","","1111A0",0.126076274448949
+"Miscellaneous Plastic Containers","Waste Flows/MSW","","111CAX",0.873923725551051
+"Mixed Residue","Waste Flows/MSW","","1111A0",0.126076274417711
+"Mixed Residue","Waste Flows/MSW","","111CAX",0.873923725582289
+"Newspaper","Waste Flows/MSW","","1111A0",0.126076274407837
+"Newspaper","Waste Flows/MSW","","111CAX",0.873923725592163
+"Non-Bag Commercial and Industrial Packaging Film","Waste Flows/MSW","","1111A0",0.126076274411009
+"Non-Bag Commercial and Industrial Packaging Film","Waste Flows/MSW","","111CAX",0.873923725588991
+"Other Ferrous","Waste Flows/MSW","","1111A0",0.126076274401172
+"Other Ferrous","Waste Flows/MSW","","111CAX",0.873923725598828
+"Other Film - Other","Waste Flows/MSW","","1111A0",0.126076274398442
+"Other Film - Other","Waste Flows/MSW","","111CAX",0.873923725601558
+"Other Miscellaneous Paper - Compostable","Waste Flows/MSW","","1111A0",0.126076274388598
+"Other Miscellaneous Paper - Compostable","Waste Flows/MSW","","111CAX",0.873923725611402
+"Other Miscellaneous Paper - Other","Waste Flows/MSW","","1111A0",0.126076274422556
+"Other Miscellaneous Paper - Other","Waste Flows/MSW","","111CAX",0.873923725577444
+"Other Non-Ferrous","Waste Flows/MSW","","1111A0",0.126076274424599
+"Other Non-Ferrous","Waste Flows/MSW","","111CAX",0.873923725575401
+"Other Office Paper","Waste Flows/MSW","","1111A0",0.126076274369785
+"Other Office Paper","Waste Flows/MSW","","111CAX",0.873923725630215
+"Other Small Consumer Electronics","Waste Flows/MSW","","1111A0",0.126076274410364
+"Other Small Consumer Electronics","Waste Flows/MSW","","111CAX",0.873923725589636
+"Paper Bags","Waste Flows/MSW","","1111A0",0.126076274380647
+"Paper Bags","Waste Flows/MSW","","111CAX",0.873923725619353
+"PETE Plastic Containers","Waste Flows/MSW","","1111A0",0.126076274407829
+"PETE Plastic Containers","Waste Flows/MSW","","111CAX",0.873923725592171
+"Phone Books and Directories","Waste Flows/MSW","","1111A0",0.126076274401671
+"Phone Books and Directories","Waste Flows/MSW","","111CAX",0.873923725598329
+"Plastic Grocery and Other Merchandise Bags","Waste Flows/MSW","","1111A0",0.126076274356517
+"Plastic Grocery and Other Merchandise Bags","Waste Flows/MSW","","111CAX",0.873923725643483
+"Plastic Trash Bags","Waste Flows/MSW","","1111A0",0.126076274400884
+"Plastic Trash Bags","Waste Flows/MSW","","111CAX",0.873923725599116
+"Prunings and Trimmings","Waste Flows/MSW","","1111A0",0.126076274423251
+"Prunings and Trimmings","Waste Flows/MSW","","111CAX",0.873923725576749
+"Glass","Waste Flows/MSW","","1111A0",0.12607627439401
+"Glass","Waste Flows/MSW","","111CAX",0.873923725605991
+"Remainder/Composite Household Hazardous","Waste Flows/MSW","","1111A0",0.126076274403147
+"Remainder/Composite Household Hazardous","Waste Flows/MSW","","111CAX",0.873923725596853
+"Other","Waste Flows/CDD","","1111A0",0.126076274418229
+"Other","Waste Flows/CDD","","111CAX",0.873923725581771
+"Remainder/Composite Metal","Waste Flows/MSW","","1111A0",0.12607627441608
+"Remainder/Composite Metal","Waste Flows/MSW","","111CAX",0.87392372558392
+"Organics","Waste Flows/MSW","","1111A0",0.126076274398921
+"Organics","Waste Flows/MSW","","111CAX",0.873923725601079
+"Remainder/Composite Paper - Compostable","Waste Flows/MSW","","1111A0",0.126076274418723
+"Remainder/Composite Paper - Compostable","Waste Flows/MSW","","111CAX",0.873923725581277
+"Remainder/Composite Paper - Other","Waste Flows/MSW","","1111A0",0.126076274438121
+"Remainder/Composite Paper - Other","Waste Flows/MSW","","111CAX",0.873923725561879
+"Plastic","Waste Flows/MSW","","1111A0",0.126076274397346
+"Plastic","Waste Flows/MSW","","111CAX",0.873923725602654
+"Fines","Waste Flows/MSW","","1111A0",0.126076274415484
+"Fines","Waste Flows/MSW","","111CAX",0.873923725584516
+"Textiles","Waste Flows/MSW","","1111A0",0.126076274403136
+"Textiles","Waste Flows/MSW","","111CAX",0.873923725596864
+"Tin/Steel Cans","Waste Flows/MSW","","1111A0",0.126076274402616
+"Tin/Steel Cans","Waste Flows/MSW","","111CAX",0.873923725597385
+"Tires","Waste Flows/MSW","","1111A0",0.126076274410966
+"Tires","Waste Flows/MSW","","111CAX",0.873923725589034
+"Cardboard","Waste Flows/MSW","","1111A0",0.126076274403863
+"Cardboard","Waste Flows/MSW","","111CAX",0.873923725596137
+"Used Oil","Waste Flows/MSW","","1111A0",0.126076274387943
+"Used Oil","Waste Flows/MSW","","111CAX",0.873923725612057
+"Used Oil Filters","Waste Flows/MSW","","1111A0",0.12607627439438
+"Used Oil Filters","Waste Flows/MSW","","111CAX",0.87392372560562
+"Video Display Devices","Waste Flows/MSW","","1111A0",0.126076274378159
+"Video Display Devices","Waste Flows/MSW","","111CAX",0.873923725621841
+"White Ledger Paper","Waste Flows/MSW","","1111A0",0.126076274408519
+"White Ledger Paper","Waste Flows/MSW","","111CAX",0.873923725591481
+"2-PROPENAL (OR) ACROLEIN","Waste Flows/Hazardous Waste","","111CAX",1
+"2,4-D, SALTS & ESTERS (OR) ACETIC ACID, (2,4-DICHLOROPHENOXY)-, SALTS & ESTERS (OR) DICHLOROPHENOXYACETIC ACID 2,4-D","Waste Flows/Hazardous Waste","","111CAX",1
+"2,4,5-TP SILVEX (2,4,5-TRICHLOROPHENOXYPROPIONIC ACID)","Waste Flows/Hazardous Waste","","111CAX",1
+"6,9-METHANO-2,4,3-BENZODIOXATHIEPIN,6,7,8,9,10,10-HEXACHLORO-1,5,5A,6,9,9A-HEXAHYDRO-,3-OXIDE (OR) ENDOSULFAN","Waste Flows/Hazardous Waste","","111CAX",1
+"ACETALDEHYDE (I) (OR) ETHANAL (I)","Waste Flows/Hazardous Waste","","111CAX",1
+"BENZENE","Waste Flows/Hazardous Waste","","111CAX",1
+"CARBAMIC ACID, [1,2-PHENYLENEBIS (IMINOCARBONOTHIOYL)]BIS-, DIMETHYL ESTER (OR) THIOPHANATE-METHYL","Waste Flows/Hazardous Waste","","111CAX",1
+"CHROMIUM","Waste Flows/Hazardous Waste","","111CAX",1
+"COMPRESSED GAS","Waste Flows/Hazardous Waste","","111CAX",1
+"CORROSIVE WASTE","Waste Flows/Hazardous Waste","","1111A0",0.502006314246635
+"CORROSIVE WASTE","Waste Flows/Hazardous Waste","","111CAX",0.497993685753365
+"CYANIDES (SOLUBLE CYANIDE SALTS), NOT OTHERWISE SPECIFIED","Waste Flows/Hazardous Waste","","111CAX",1
+"DRIED PAINT","Waste Flows/Hazardous Waste","","111CAX",1
+"ELECTRICAL DEVICES","Waste Flows/Hazardous Waste","","111CAX",1
+"ETHANAMINE, N,N-DIETHYL- (OR) TRIETHYLAMINE","Waste Flows/Hazardous Waste","","111CAX",1
+"FORMALDEHYDE","Waste Flows/Hazardous Waste","","111CAX",1
+"IGNITABLE WASTE","Waste Flows/Hazardous Waste","","1111A0",0.0306292927417858
+"IGNITABLE WASTE","Waste Flows/Hazardous Waste","","111CAX",0.969370707258214
+"LAB PACK","Waste Flows/Hazardous Waste","","111CAX",1
+"LAB PACKS/ACUTE","Waste Flows/Hazardous Waste","","111CAX",1
+"LAB PACKS/NO ACUTE","Waste Flows/Hazardous Waste","","111CAX",1
+"LEAD","Waste Flows/Hazardous Waste","","111CAX",1
+"LIQUID MERCURY","Waste Flows/Hazardous Waste","","111CAX",1
+"MERCURY","Waste Flows/Hazardous Waste","","111CAX",1
+"METHANE, DICHLORO- (OR) METHYLENE CHLORIDE","Waste Flows/Hazardous Waste","","111CAX",1
+"NICOTINE, & SALTS (OR) PYRIDINE, 3-(1-METHYL-2-PYRROLIDINYL)-,(S)-, & SALTS","Waste Flows/Hazardous Waste","","111CAX",1
+"NONHALOGEN. SOLVENT","Waste Flows/Hazardous Waste","","111CAX",1
+"OIL-WATER EMULSION","Waste Flows/Hazardous Waste","","111CAX",1
+"OSMIUM OXIDE OSO4, (T-4)- (OR) OSMIUM TETROXIDE","Waste Flows/Hazardous Waste","","111CAX",1
+"OTH INORGANIC LIQUID","Waste Flows/Hazardous Waste","","111CAX",1
+"OTH INORGANIC SOLIDS","Waste Flows/Hazardous Waste","","111CAX",1
+"OTH ORGANIC LIQUID","Waste Flows/Hazardous Waste","","111CAX",1
+"OTH ORGANIC SOLIDS","Waste Flows/Hazardous Waste","","111CAX",1
+"OTHER AQUEOUS WST","Waste Flows/Hazardous Waste","","111CAX",1
+"PAINT, INK, ETC.","Waste Flows/Hazardous Waste","","111CAX",1
+"PESTICIDE SOLIDS","Waste Flows/Hazardous Waste","","111CAX",1
+"SELENIUM","Waste Flows/Hazardous Waste","","111CAX",1
+"SODIUM AZIDE","Waste Flows/Hazardous Waste","","111CAX",1
+"SOLVENT MIXTURE","Waste Flows/Hazardous Waste","","111CAX",1
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: XYLENE, ACETONE, ETHYL ACETATE, ETHYL BENZENE, ETHYL ETHER, METHYL ISOBUTYL KETONE, N-BUTYL ALCOHOL, CYCLOHEXANONE, AND METHANOL; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, ONLY THE ABOVE SPENT N","Waste Flows/Hazardous Waste","","111CAX",1
+"THIOPEROXYDICARBONIC DIAMIDE [(H2N)C(S)]2S2, TETRAMETHYL- (OR) THIRAM","Waste Flows/Hazardous Waste","","111CAX",1
+"Jobs","","","1111A0",0.00613509673588909
+"Jobs","","","111CAX",0.993864903264111
+"Compensation of employees","","","1111A0",0.0025438999399357
+"Compensation of employees","","","111CAX",0.997456100060064
+"Gross operating surplus","","","1111A0",0.181212761392332
+"Gross operating surplus","","","111CAX",0.818787238607668
+"Taxes on production and imports, less subsidies","","","1111A0",-1.59300184162063
+"Taxes on production and imports, less subsidies","","","111CAX",2.59300184162063
