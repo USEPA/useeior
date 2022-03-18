@@ -191,6 +191,8 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       currentU <- detailModel$U[currentComDetailIndeces,otherListIndDetailIndeces]
    
       # Need to find the rows and columns in currentU that match the X sectors (i.e. allocated sectors) in crosswalks
+      
+      # Combine rows that match row X sector
       # Row X sectors are referenced by listNumber; column X sectors referenced by counter
       URowsDetailMatches <- rownames(currentU)[which(rownames(currentU) %in% listOfCrosswalks[[listNumber]]$BEA_Detail_Loc)] # Sector codes of currentU rows which match the BEA detail of the crosswalk
       
@@ -200,9 +202,22 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       }
       
       XSectorsInURows <- which(!(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc))
-      
       XSectorsCombinedRow <- t(colSums(currentU[XSectorsInURows,]))
-      #TODO: REname row to e.g. 22X, then create combined columns, then find percentages, then allocate accordingly.
+      rownames(XSectorsCombinedRow) <- listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc[XSectorsInURows[1]]
+      
+      #Combine Columns that match col X sector 
+      UColsDetailMatch <- colnames(currentU)[which(colnames(currentU) %in% listOfCrosswalks[[counter]]$BEA_Detail_Loc)]
+      
+      if(length(UColsDetailMatch) == 0)
+      {
+        stop("Error in combining allocation percentages: mismatch in detail to allocated sectors mapping")
+      }
+      
+      XSectorsInUCols <- which(!(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc))
+      XSectorsCombinedCol <- as.matrix(rowSums(currentU[,XSectorsInUCols])) # To match the format of XSectorsCombinedRow
+      colnames(XSectorsCombinedCol) <- listOfCrosswalks[[counter]]$USEEIO_Code_Loc[XSectorsInUCols[1]]
+      
+      #TODO: Then find percentages, then allocate accordingly.
       
 
        ####LEFT OF HERE: NEED TO GET THE INTERSECTION OF (E.G.) 221100, 22X AND S00101, GFEX WITH THE PROPER ALLOCATION FACTORS
