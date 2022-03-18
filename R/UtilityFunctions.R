@@ -28,9 +28,9 @@ joinStringswithSlashes <- function(...) {
 #' @param matrix      A matrix
 #' @param from_level  The level of BEA code this matrix starts at
 #' @param to_level    The level of BEA code this matrix will be aggregated to
-#' @param specs       Model specifications
+#' @param model       An EEIO model object with model specs and crosswalk table loaded
 #' @return An aggregated matrix
-aggregateMatrix <- function (matrix, from_level, to_level, specs) {
+aggregateMatrix <- function (matrix, from_level, to_level, model) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste0("BEA_", from_level)
   to_code <- paste0("BEA_", to_level)
