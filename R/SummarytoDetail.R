@@ -203,7 +203,8 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       
       XSectorsInURows <- which(!(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc))
       XSectorsCombinedRow <- t(colSums(currentU[XSectorsInURows,]))
-      rownames(XSectorsCombinedRow) <- listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc[XSectorsInURows[1]]
+      XSectorsCombinedRowName <- listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc[XSectorsInURows[1]]
+      rownames(XSectorsCombinedRow) <- XSectorsCombinedRowName
       
       #Combine Columns that match col X sector 
       UColsDetailMatch <- colnames(currentU)[which(colnames(currentU) %in% listOfCrosswalks[[counter]]$BEA_Detail_Loc)]
@@ -215,9 +216,19 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       
       XSectorsInUCols <- which(!(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc))
       XSectorsCombinedCol <- as.matrix(rowSums(currentU[,XSectorsInUCols])) # To match the format of XSectorsCombinedRow
-      colnames(XSectorsCombinedCol) <- listOfCrosswalks[[counter]]$USEEIO_Code_Loc[XSectorsInUCols[1]]
+      XSectorCombinedColName <- listOfCrosswalks[[counter]]$USEEIO_Code_Loc[XSectorsInUCols[1]]
+      colnames(XSectorsCombinedCol) <- XSectorCombinedColName
+ 
+      # Create temporary matrix to store the correct mix of aggregate and detail level values     
+      aggU <- matrix(0, nrow =2, ncol = 2) 
       
-      #TODO: Then find percentages, then allocate accordingly.
+      RowSectorsNotInXSectors <- which(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc) # Unaggregated row sector index
+      ColSectorsNotInXSectors <- which(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc) # Unaggregayed col sector index
+
+      aggU[1,1] <- currentU[RowSectorsNotInXSectors,ColSectorsNotInXSectors] # Store unaggregated row and aggregarted column value at 1,1
+      aggU[2,1] <- XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and unaggregated column value at 2,1
+      aggU[1,2] <- XSectorsCombinedCol[RowSectorsNotInXSectors] # Store aggregated col and unaggregated row at value 1,2
+      aggU[2,2] <- sum(XSectorsCombinedRow) - XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and aggregated col values at 2,2
       
 
        ####LEFT OF HERE: NEED TO GET THE INTERSECTION OF (E.G.) 221100, 22X AND S00101, GFEX WITH THE PROPER ALLOCATION FACTORS
