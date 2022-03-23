@@ -187,14 +187,16 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       otherListComDetailIndeces <- which(detailModel$Commodities$Code %in% detailSectorsList[,counter])
       otherListIndDetailIndeces <- which(detailModel$Industries$Code %in% detailSectorsList[,counter])
       
+      #For Use table
+      
       # Get Use table intersection of currentIndeces and otherList indeces
-      currentU <- detailModel$U[currentComDetailIndeces,otherListIndDetailIndeces]
+      currentTable <- detailModel$U[currentComDetailIndeces,otherListIndDetailIndeces]
    
-      # Need to find the rows and columns in currentU that match the X sectors (i.e. allocated sectors) in crosswalks
+      # Need to find the rows and columns in currentTable that match the X sectors (i.e. allocated sectors) in crosswalks
       
       # Combine rows that match row X sector
       # Row X sectors are referenced by listNumber; column X sectors referenced by counter
-      URowsDetailMatches <- rownames(currentU)[which(rownames(currentU) %in% listOfCrosswalks[[listNumber]]$BEA_Detail_Loc)] # Sector codes of currentU rows which match the BEA detail of the crosswalk
+      URowsDetailMatches <- rownames(currentTable)[which(rownames(currentTable) %in% listOfCrosswalks[[listNumber]]$BEA_Detail_Loc)] # Sector codes of currentTable rows which match the BEA detail of the crosswalk
       
       if(length(URowsDetailMatches) == 0)
       {
@@ -202,12 +204,12 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       }
       
       XSectorsInURows <- which(!(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc))
-      XSectorsCombinedRow <- t(colSums(currentU[XSectorsInURows,]))
+      XSectorsCombinedRow <- t(colSums(currentTable[XSectorsInURows,]))
       XSectorsCombinedRowName <- listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc[XSectorsInURows[1]]
       rownames(XSectorsCombinedRow) <- XSectorsCombinedRowName
       
       #Combine Columns that match col X sector 
-      UColsDetailMatch <- colnames(currentU)[which(colnames(currentU) %in% listOfCrosswalks[[counter]]$BEA_Detail_Loc)]
+      UColsDetailMatch <- colnames(currentTable)[which(colnames(currentTable) %in% listOfCrosswalks[[counter]]$BEA_Detail_Loc)]
       
       if(length(UColsDetailMatch) == 0)
       {
@@ -215,21 +217,26 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       }
       
       XSectorsInUCols <- which(!(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc))
-      XSectorsCombinedCol <- as.matrix(rowSums(currentU[,XSectorsInUCols])) # To match the format of XSectorsCombinedRow
-      XSectorCombinedColName <- listOfCrosswalks[[counter]]$USEEIO_Code_Loc[XSectorsInUCols[1]]
-      colnames(XSectorsCombinedCol) <- XSectorCombinedColName
+      XSectorsCombinedCol <- as.matrix(rowSums(currentTable[,XSectorsInUCols])) # To match the format of XSectorsCombinedRow
+      XSectorsCombinedColName <- listOfCrosswalks[[counter]]$USEEIO_Code_Loc[XSectorsInUCols[1]]
+      colnames(XSectorsCombinedCol) <- XSectorsCombinedColName
  
       # Create temporary matrix to store the correct mix of aggregate and detail level values     
-      aggU <- matrix(0, nrow =2, ncol = 2) 
+      aggTable <- matrix(0, nrow =2, ncol = 2) 
       
       RowSectorsNotInXSectors <- which(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc) # Unaggregated row sector index
       ColSectorsNotInXSectors <- which(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc) # Unaggregayed col sector index
 
-      aggU[1,1] <- currentU[RowSectorsNotInXSectors,ColSectorsNotInXSectors] # Store unaggregated row and aggregarted column value at 1,1
-      aggU[2,1] <- XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and unaggregated column value at 2,1
-      aggU[1,2] <- XSectorsCombinedCol[RowSectorsNotInXSectors] # Store aggregated col and unaggregated row at value 1,2
-      aggU[2,2] <- sum(XSectorsCombinedRow) - XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and aggregated col values at 2,2
+      aggTable[1,1] <- currentTable[RowSectorsNotInXSectors,ColSectorsNotInXSectors] # Store unaggregated row and aggregarted column value at 1,1
+      aggTable[2,1] <- XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and unaggregated column value at 2,1
+      aggTable[1,2] <- XSectorsCombinedCol[RowSectorsNotInXSectors] # Store aggregated col and unaggregated row at value 1,2
+      aggTable[2,2] <- sum(XSectorsCombinedRow) - XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and aggregated col values at 2,2
       
+      aggRowNames <- c(rownames(currentTable)[RowSectorsNotInXSectors],XSectorsCombinedRowName)
+      rownames(aggTable) <- aggRowNames
+      
+      aggColNames <- c(colnames(currentTable)[ColSectorsNotInXSectors],XSectorsCombinedColName)
+      colnames(aggTable) <- aggColNames
 
        ####LEFT OF HERE: NEED TO GET THE INTERSECTION OF (E.G.) 221100, 22X AND S00101, GFEX WITH THE PROPER ALLOCATION FACTORS
       temp <- 2
