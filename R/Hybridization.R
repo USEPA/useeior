@@ -95,7 +95,7 @@ hybridizeModelObjects <- function (model) {
   process_demand <- vector(mode='numeric', length = nrow(new_processes))
   names(process_demand) <- new_processes$Code
   for (vector in names(model$DemandVectors$vectors)){
-    model$DemandVectors$vectors[[vector]] <- c(model$DemandVectors$vectors[[vector]], process_demand)
+    model$DemandVectors$vectors[[vector]] <- c(process_demand, model$DemandVectors$vectors[[vector]])
   }
   
   return(model)
