@@ -15,7 +15,7 @@ on:
       - '.gitignore'
       - '.gitattributes'
   pull_request:
-    branches: [master, develop]
+    branches: [master] # develop
     paths-ignore:
       - '**.md'
       - '**.bib'
@@ -66,60 +66,60 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v1
 
-      # - name: Build and validate models - USEEIOv2.0 detail model with waste disaggregation
-      #   if: always()
-      #   run: |
-      #     require(devtools)
-      #     devtools::load_all()
-      #     m <- useeior::buildModel("USEEIOv2.0-411")
-      #     useeior::printValidationResults(m)
-      # 
-      #   shell: Rscript {0}
-      # 
-      # - name: Build and validate models - USEEIOv2.0-i-411 detail industry model with waste disaggregation
-      #   if: always()
-      #   run: |
-      #     require(devtools)
-      #     devtools::load_all()
-      #     m <- useeior::buildModel("USEEIOv2.0-i-411")
-      #     useeior::printValidationResults(m)
-      # 
-      #   shell: Rscript {0}
-      # 
-      # - name: Build and validate models - USEEIOv2.0 industry model
-      #   if: always()
-      #   run: |
-      #     require(devtools)
-      #     devtools::load_all()
-      #     m <- useeior::buildModel("USEEIOv2.0-i-GHG")
-      #     useeior::printValidationResults(m)
-      # 
-      #   shell: Rscript {0}
-      # 
-      # - name: Build and validate models - USEEIOv2.0 summary model
-      #   if: always()
-      #   run: |
-      #     require(devtools)
-      #     devtools::load_all()
-      #     m <- useeior::buildModel("USEEIOv2.0-s-GHG")
-      #     useeior::printValidationResults(m)
-      # 
-      #   shell: Rscript {0}
-      # 
-      # - name: Build and validate models - USEEIOv2.0.1 detail model with waste disaggregation
-      #   if: always()
-      #   run: |
-      #     require(devtools)
-      #     devtools::load_all()
-      #     m <- useeior::buildModel("USEEIOv2.0.1-411")
-      #     useeior::printValidationResults(m)
-      # 
-      #   shell: Rscript {0}
+       - name: Build and validate models - USEEIOv2.0 detail model with waste disaggregation
+         if: always()
+         run: |
+           require(devtools)
+           devtools::load_all()
+           m <- useeior::buildModel("USEEIOv2.0-411")
+           useeior::printValidationResults(m)
       
-      #- name: Show testthat output
-      #  if: always()  # step will run even if previous steps fail
-      #  run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
-      #  shell: bash
+         shell: Rscript {0}
+      
+       - name: Build and validate models - USEEIOv2.0-i-411 detail industry model with waste disaggregation
+         if: always()
+         run: |
+           require(devtools)
+           devtools::load_all()
+           m <- useeior::buildModel("USEEIOv2.0-i-411")
+           useeior::printValidationResults(m)
+      
+         shell: Rscript {0}
+      
+       - name: Build and validate models - USEEIOv2.0 industry model
+         if: always()
+         run: |
+           require(devtools)
+           devtools::load_all()
+           m <- useeior::buildModel("USEEIOv2.0-i-GHG")
+           useeior::printValidationResults(m)
+      
+         shell: Rscript {0}
+      
+       - name: Build and validate models - USEEIOv2.0 summary model
+         if: always()
+         run: |
+           require(devtools)
+           devtools::load_all()
+           m <- useeior::buildModel("USEEIOv2.0-s-GHG")
+           useeior::printValidationResults(m)
+      
+         shell: Rscript {0}
+      
+       - name: Build and validate models - USEEIOv2.0.1 detail model with waste disaggregation
+         if: always()
+         run: |
+           require(devtools)
+           devtools::load_all()
+           m <- useeior::buildModel("USEEIOv2.0.1-411")
+           useeior::printValidationResults(m)
+      
+         shell: Rscript {0}
+
+      - name: Show testthat output
+        if: always()  # step will run even if previous steps fail
+        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
 
       - name: Upload check results
         if: failure()  # if any of the previous steps fail, export a log
