@@ -384,21 +384,31 @@ generateModelSectorSchema <- function(model) {
 #' @param year A numeric value specifying data year.
 #' @param source A string specifying data source.
 #' @param url A string specifying data url.
+#' @param date_last_modified A string specifying when the original data was
+#' last modified by provider, e.g. BEA.
+#' @param date_accessed A string specifying when the original data was accessed
+#' by package.
 #' @description Write metadata of downloaded data to JSON.
-writeMetadatatoJSON <- function(package, name, year, source, url) {
-  metadata <- list("tool" = utils::packageDescription(package, fields = "Package"),
-                   #"category" = "",
+writeMetadatatoJSON <- function(package,
+                                name,
+                                year,
+                                source,
+                                url,
+                                date_last_modified,
+                                date_accessed) {
+  metadata <- list("tool" = utils::packageDescription(package,
+                                                      fields = "Package"),
                    "name_data" = name,
-                   "tool_version" = utils::packageDescription(package, fields = "Version"),
+                   "tool_version" = utils::packageDescription(package,
+                                                              fields = "Version"),
                    #"git_hash" = "",
                    "ext" = "json",
-                   "date_created" = Sys.time(),
-                   "tool_meta" = list(#"method_url" = "",
-                                      "data_year" = year,
+                   "date_created" = Sys.Date(),
+                   "data_meta" = list("data_year" = year,
                                       "author" = source,
-                                      #"source_name" = "",
                                       "source_url" = url,
-                                      "bib_id" = ""))
+                                      "date_last_modified" = date_last_modified,
+                                      "date_accessed" = date_accessed))
   metadata_dir <- "inst/extdata/metadata/"
   if (!dir.exists(metadata_dir)) {
     dir.create(metadata_dir, recursive = TRUE)
