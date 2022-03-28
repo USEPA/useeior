@@ -1,17 +1,28 @@
 # Download all IO tables from BEA iTable
-getBEAIOTables <- function () {
+getBEAIOTables <- function() {
   # Create the placeholder file
   AllTablesIO <- "inst/extdata/AllTablesIO.zip"
   # Download all BEA IO tables into the placeholder file
-  url <- "https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip"
-  if(!file.exists(AllTablesIO)) {
+  url <- "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesIO.zip"
+  if (!file.exists(AllTablesIO)) {
     utils::download.file(url, AllTablesIO, mode = "wb")
   }
   # Get the name of all files in the zip archive
-  fname <- unzip(AllTablesIO, list = TRUE)[unzip(AllTablesIO, list = TRUE)$Length > 0, ]$Name
+  files <- unzip(AllTablesIO, list = TRUE)
+  fname <- files[files$Length > 0, ]$Name
+  if (all(fname == basename(fname))) {
+    exdir <- "inst/extdata/AllTablesIO"
+  } else {
+    exdir <- "inst/extdata/"
+  }
   # Unzip the file to the designated directory
-  unzip(AllTablesIO, files = fname, exdir = "inst/extdata/AllTablesIO", overwrite = TRUE)
-  return(url)
+  unzip(AllTablesIO, files = fname, exdir = exdir,
+        overwrite = TRUE, setTimes = TRUE)
+  # Create output
+  ls <- list("url" = url,
+             "date_accessed" = as.character(as.Date(file.mtime(AllTablesIO))),
+             "files" = basename(fname))
+  return(ls)
 }
 
 # Get BEA Detail Make (Before Redef, 2012 schema) table from static Excel
