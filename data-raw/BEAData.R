@@ -243,84 +243,127 @@ getBEADetailUsePURAfterRedef2012Schema <- function(year) {
 getBEADetailUsePURAfterRedef2012Schema(2012)
 
 # Get BEA Summary Make (Before Redef, 2012 schema) table from static Excel
-getBEASummaryMakeBeforeRedef2012Schema <- function (year) {
+getBEASummaryMakeBeforeRedef2012Schema <- function() {
   # Download data
-  FileName <- "inst/extdata/AllTablesIO/IOMake_Before_Redefinitions_1997-2019_Summary.xlsx"
-  url <- getBEAIOTables()
+  url <- getBEAIOTables()[["url"]]
+  date_accessed <- getBEAIOTables()[["date_accessed"]]
+  files <- getBEAIOTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "IOMake_Before_Redefinitions") &
+                  endsWith(files, "Summary.xlsx")]
+  FileName <- file.path("inst/extdata/AllTablesIO", file)
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  # Find latest data year
+  file_split <- unlist(stringr::str_split(file, pattern = "_"))
+  year_range <- file_split[length(file_split) - 1]
+  end_year <- sub(".*-", "", year_range)
   # Load data
-  SummaryMake <- data.frame(readxl::read_excel(FileName, sheet = as.character(year),
-                                               skip = 5, n_max = 73),
-                           check.names = FALSE)
-  SummaryMake[is.na(SummaryMake[, 1]), 1] <- SummaryMake[is.na(SummaryMake[, 1]), 2]
-  rownames(SummaryMake) <- SummaryMake[, 1]
-  colnames(SummaryMake)[ncol(SummaryMake)] <- SummaryMake[1, ncol(SummaryMake)]
-  SummaryMake <- data.frame(lapply(SummaryMake[-1, -c(1:2)], as.numeric),
-                            check.names = FALSE,
-                            row.names = rownames(SummaryMake[-1, ]))
-  SummaryMake[is.na(SummaryMake)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = SummaryMake,
-                 data_name = paste0("Summary_Make_", year, "_BeforeRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Summary_Make_", year, "_BeforeRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url)
+  for (year in 2010:end_year) {
+    SummaryMake <- data.frame(readxl::read_excel(FileName,
+                                                 sheet = as.character(year)))
+    # Trim table, assign column names
+    SummaryMake <- SummaryMake[!is.na(SummaryMake[, 2]), ]
+    colnames(SummaryMake) <- SummaryMake[1, ]
+    colname_check <- is.na(colnames(SummaryMake))
+    colnames(SummaryMake)[colname_check] <- SummaryMake[2, colname_check]
+    # Fill NA in code column with corresponding name
+    SummaryMake[is.na(SummaryMake[, 1]), 1] <- SummaryMake[is.na(SummaryMake[, 1]), 2]
+    # Convert all values to numeric, assign row names
+    SummaryMake <- as.data.frame(lapply(SummaryMake[-c(1:2), -c(1:2)], as.numeric),
+                                 check.names = FALSE,
+                                 row.names = SummaryMake[-c(1:2), 1])
+    # Replace NA with zero
+    SummaryMake[is.na(SummaryMake)] <- 0
+    # Write data to .rda
+    writeDatatoRDA(data = SummaryMake,
+                   data_name = paste0("Summary_Make_", year, "_BeforeRedef"))
+    # Write metadata to JSON
+    writeMetadatatoJSON(package = "useeior",
+                        name = paste0("Summary_Make_", year, "_BeforeRedef"),
+                        year = year,
+                        source = "US Bureau of Economic Analysis",
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
+  }
 }
-# Download, save and document 2010-2018 BEA Summary Make (Before Redef, 2012 schema) table
-for (year in 2010:2018) {
-  getBEASummaryMakeBeforeRedef2012Schema(year)
-}
+# Download, save and document 2010-2020 BEA Summary Make (Before Redef, 2012 schema)
+getBEASummaryMakeBeforeRedef2012Schema()
 
 # Get BEA Summary Use (PRO, Before Redef, 2012 schema) table from static Excel
-getBEASummaryUsePROBeforeRedef2012Schema <- function (year) {
+getBEASummaryUsePROBeforeRedef2012Schema <- function() {
   # Download data
-  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_1997-2019_Summary.xlsx"
-  url <- getBEAIOTables()
+  url <- getBEAIOTables()[["url"]]
+  date_accessed <- getBEAIOTables()[["date_accessed"]]
+  files <- getBEAIOTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "IOUse_Before_Redefinitions_PRO") &
+                  endsWith(files, "Summary.xlsx")]
+  FileName <- file.path("inst/extdata/AllTablesIO", file)
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  # Find latest data year
+  file_split <- unlist(stringr::str_split(file, pattern = "_"))
+  year_range <- file_split[length(file_split) - 1]
+  end_year <- sub(".*-", "", year_range)
   # Load data
-  SummaryUse <- data.frame(readxl::read_excel(FileName, sheet = as.character(year),
-                                               skip = 5, n_max = 84),
-                            check.names = FALSE)
-  SummaryUse[is.na(SummaryUse[, 1]), 1] <- SummaryUse[is.na(SummaryUse[, 1]), 2]
-  rownames(SummaryUse) <- SummaryUse[, 1]
-  colname_check <- startsWith(colnames(SummaryUse), "...")
-  colnames(SummaryUse)[colname_check] <- SummaryUse[1, colname_check]
-  SummaryUse <- data.frame(lapply(SummaryUse[-1, -c(1:2)], as.numeric),
-                            check.names = FALSE,
-                            row.names = rownames(SummaryUse[-1, ]))
-  SummaryUse[is.na(SummaryUse)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = SummaryUse,
-                 data_name = paste0("Summary_Use_", year, "_PRO_BeforeRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Summary_Use_", year, "_PRO_BeforeRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url)
+  for (year in 2010:end_year) {
+    SummaryUse <- as.data.frame(readxl::read_excel(FileName,
+                                                   sheet = as.character(year)))
+    # Trim table, assign column names
+    SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
+    colnames(SummaryUse) <- SummaryUse[1, ]
+    colname_check <- is.na(colnames(SummaryUse))
+    colnames(SummaryUse)[colname_check] <- SummaryUse[2, colname_check]
+    # Fill NA in code column with corresponding name
+    SummaryUse[is.na(SummaryUse[, 1]), 1] <- SummaryUse[is.na(SummaryUse[, 1]), 2]
+    # Convert all values to numeric, assign row names
+    SummaryUse <- as.data.frame(lapply(SummaryUse[-c(1:2), -c(1:2)], as.numeric),
+                                check.names = FALSE,
+                                row.names = SummaryUse[-c(1:2), 1])
+    # Replace NA with zero
+    SummaryUse[is.na(SummaryUse)] <- 0
+    # Write data to .rda
+    writeDatatoRDA(data = SummaryUse,
+                   data_name = paste0("Summary_Use_", year, "_PRO_BeforeRedef"))
+    # Write metadata to JSON
+    writeMetadatatoJSON(package = "useeior",
+                        name = paste0("Summary_Use_", year, "_PRO_BeforeRedef"),
+                        year = year,
+                        source = "US Bureau of Economic Analysis",
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
+  }
 }
-# Download, save and document 2010-2018 BEA Summary Use (PRO, Before Redef, 2012 schema) table
-for (year in 2010:2018) {
-  getBEASummaryUsePROBeforeRedef2012Schema(year)
-}
+# Download, save and document 2010-2020 BEA Summary Use (PRO, Before Redef, 2012 schema)
+getBEASummaryUsePROBeforeRedef2012Schema()
 
 # Get BEA Summary Use (PUR, Before Redef, 2012 schema) table from static Excel
-getBEASummaryUsePURBeforeRedef2012Schema <- function (year) {
+getBEASummaryUsePURBeforeRedef2012Schema <- function(year) {
   # Download data
-  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PUR_2007_2012_Summary.xlsx"
-  url <- getBEAIOTables()
+  url <- getBEAIOTables()[["url"]]
+  date_accessed <- getBEAIOTables()[["date_accessed"]]
+  files <- getBEAIOTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "IOUse_Before_Redefinitions_PUR") &
+                  endsWith(files, "Summary.xlsx")]
+  FileName <- file.path("inst/extdata/AllTablesIO", file)
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
   # Load data
-  SummaryUse <- data.frame(readxl::read_excel(FileName, sheet = as.character(year),
-                                              skip = 5, n_max = 81),
-                           check.names = FALSE)
+  SummaryUse <- as.data.frame(readxl::read_excel(FileName,
+                                                 sheet = as.character(year)))
+  # Trim table, assign column names
+  SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
+  colnames(SummaryUse) <- SummaryUse[1, ]
+  colname_check <- is.na(colnames(SummaryUse))
+  colnames(SummaryUse)[colname_check] <- SummaryUse[2, colname_check]
+  # Fill NA in code column with corresponding name
   SummaryUse[is.na(SummaryUse[, 1]), 1] <- SummaryUse[is.na(SummaryUse[, 1]), 2]
-  rownames(SummaryUse) <- SummaryUse[, 1]
-  colname_check <- startsWith(colnames(SummaryUse), "...")
-  colnames(SummaryUse)[colname_check] <- SummaryUse[1, colname_check]
-  SummaryUse <- data.frame(lapply(SummaryUse[-1, -c(1:2)], as.numeric),
-                           check.names = FALSE,
-                           row.names = rownames(SummaryUse[-1, ]))
+  # Convert all values to numeric, assign row names
+  SummaryUse <- as.data.frame(lapply(SummaryUse[-c(1:2), -c(1:2)], as.numeric),
+                              check.names = FALSE,
+                              row.names = SummaryUse[-c(1:2), 1])
+  # Replace NA with zero
   SummaryUse[is.na(SummaryUse)] <- 0
   # Write data to .rda
   writeDatatoRDA(data = SummaryUse,
@@ -330,73 +373,108 @@ getBEASummaryUsePURBeforeRedef2012Schema <- function (year) {
                       name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
-                      url = url)
+                      url = url,
+                      date_last_modified = date_last_modified,
+                      date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Summary Use (PRO, Before Redef, 2012 schema) table
+# Download, save and document 2012 BEA Summary Use (PUR, Before Redef, 2012 schema)
 getBEASummaryUsePURBeforeRedef2012Schema(2012)
 
 # Get BEA Summary Make (After Redef, 2012 schema) table from static Excel
-getBEASummaryMakeAfterRedef2012Schema <- function (year) {
+getBEASummaryMakeAfterRedef2012Schema <- function() {
   # Download data
-  FileName <- "inst/extdata/AllTablesIO/IOMake_After_Redefinitions_1997-2019_Summary.xlsx"
-  url <- getBEAIOTables()
+  url <- getBEAIOTables()[["url"]]
+  date_accessed <- getBEAIOTables()[["date_accessed"]]
+  files <- getBEAIOTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "IOMake_After_Redefinitions") &
+                  endsWith(files, "Summary.xlsx")]
+  FileName <- file.path("inst/extdata/AllTablesIO", file)
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  # Find latest data year
+  file_split <- unlist(stringr::str_split(file, pattern = "_"))
+  year_range <- file_split[length(file_split) - 1]
+  end_year <- sub(".*-", "", year_range)
   # Load data
-  SummaryMake <- data.frame(readxl::read_excel(FileName, sheet = as.character(year),
-                                               skip = 5, n_max = 73),
-                            check.names = FALSE)
-  SummaryMake[is.na(SummaryMake[, 1]), 1] <- SummaryMake[is.na(SummaryMake[, 1]), 2]
-  rownames(SummaryMake) <- SummaryMake[, 1]
-  colnames(SummaryMake)[ncol(SummaryMake)] <- SummaryMake[1, ncol(SummaryMake)]
-  SummaryMake <- data.frame(lapply(SummaryMake[-1, -c(1:2)], as.numeric),
-                            check.names = FALSE,
-                            row.names = rownames(SummaryMake[-1, ]))
-  SummaryMake[is.na(SummaryMake)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = SummaryMake,
-                 data_name = paste0("Summary_Make_", year, "_AfterRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Summary_Make_", year, "_AfterRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url)
+  for (year in 2010:end_year) {
+    SummaryMake <- data.frame(readxl::read_excel(FileName,
+                                                 sheet = as.character(year)))
+    # Trim table, assign column names
+    SummaryMake <- SummaryMake[!is.na(SummaryMake[, 2]), ]
+    colnames(SummaryMake) <- SummaryMake[1, ]
+    colname_check <- is.na(colnames(SummaryMake))
+    colnames(SummaryMake)[colname_check] <- SummaryMake[2, colname_check]
+    # Fill NA in code column with corresponding name
+    SummaryMake[is.na(SummaryMake[, 1]), 1] <- SummaryMake[is.na(SummaryMake[, 1]), 2]
+    # Convert all values to numeric, assign row names
+    SummaryMake <- as.data.frame(lapply(SummaryMake[-c(1:2), -c(1:2)], as.numeric),
+                                 check.names = FALSE,
+                                 row.names = SummaryMake[-c(1:2), 1])
+    # Replace NA with zero
+    SummaryMake[is.na(SummaryMake)] <- 0
+    # Write data to .rda
+    writeDatatoRDA(data = SummaryMake,
+                   data_name = paste0("Summary_Make_", year, "_AfterRedef"))
+    # Write metadata to JSON
+    writeMetadatatoJSON(package = "useeior",
+                        name = paste0("Summary_Make_", year, "_AfterRedef"),
+                        year = year,
+                        source = "US Bureau of Economic Analysis",
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
+  }
 }
-# Download, save and document 2010-2018 BEA Summary Make (Before Redef, 2012 schema) table
-for (year in 2010:2018) {
-  getBEASummaryMakeAfterRedef2012Schema(year)
-}
+# Download, save and document 2010-2020 BEA Summary Make (After Redef, 2012 schema)
+getBEASummaryMakeAfterRedef2012Schema()
 
 # Get BEA Summary Use (PRO, After Redef, 2012 schema) table from static Excel
-getBEASummaryUsePROAfterRedef2012Schema <- function (year) {
+getBEASummaryUsePROAfterRedef2012Schema <- function () {
   # Download data
-  FileName <- "inst/extdata/AllTablesIO/IOUse_After_Redefinitions_PRO_1997-2019_Summary.xlsx"
-  url <- getBEAIOTables()
+  url <- getBEAIOTables()[["url"]]
+  date_accessed <- getBEAIOTables()[["date_accessed"]]
+  files <- getBEAIOTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "IOUse_After_Redefinitions_PRO") &
+                  endsWith(files, "Summary.xlsx")]
+  FileName <- file.path("inst/extdata/AllTablesIO", file)
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  # Find latest data year
+  file_split <- unlist(stringr::str_split(file, pattern = "_"))
+  year_range <- file_split[length(file_split) - 1]
+  end_year <- sub(".*-", "", year_range)
   # Load data
-  SummaryUse <- data.frame(readxl::read_excel(FileName, sheet = as.character(year),
-                                              skip = 5, n_max = 84),
-                           check.names = FALSE)
-  SummaryUse[is.na(SummaryUse[, 1]), 1] <- SummaryUse[is.na(SummaryUse[, 1]), 2]
-  rownames(SummaryUse) <- SummaryUse[, 1]
-  colname_check <- startsWith(colnames(SummaryUse), "...")
-  colnames(SummaryUse)[colname_check] <- SummaryUse[1, colname_check]
-  SummaryUse <- data.frame(lapply(SummaryUse[-1, -c(1:2)], as.numeric),
-                           check.names = FALSE,
-                           row.names = rownames(SummaryUse[-1, ]))
-  SummaryUse[is.na(SummaryUse)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = SummaryUse,
-                 data_name = paste0("Summary_Use_", year, "_PRO_AfterRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Summary_Use_", year, "_PRO_AfterRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url)
+  for (year in 2010:end_year) {
+    SummaryUse <- as.data.frame(readxl::read_excel(FileName,
+                                                   sheet = as.character(year)))
+    # Trim table, assign column names
+    SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
+    colnames(SummaryUse) <- SummaryUse[1, ]
+    colname_check <- is.na(colnames(SummaryUse))
+    colnames(SummaryUse)[colname_check] <- SummaryUse[2, colname_check]
+    # Fill NA in code column with corresponding name
+    SummaryUse[is.na(SummaryUse[, 1]), 1] <- SummaryUse[is.na(SummaryUse[, 1]), 2]
+    # Convert all values to numeric, assign row names
+    SummaryUse <- as.data.frame(lapply(SummaryUse[-c(1:2), -c(1:2)], as.numeric),
+                                check.names = FALSE,
+                                row.names = SummaryUse[-c(1:2), 1])
+    # Replace NA with zero
+    SummaryUse[is.na(SummaryUse)] <- 0
+    # Write data to .rda
+    writeDatatoRDA(data = SummaryUse,
+                   data_name = paste0("Summary_Use_", year, "_PRO_AfterRedef"))
+    # Write metadata to JSON
+    writeMetadatatoJSON(package = "useeior",
+                        name = paste0("Summary_Use_", year, "_PRO_AfterRedef"),
+                        year = year,
+                        source = "US Bureau of Economic Analysis",
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
+  }
 }
-# Download, save and document 2010-2018 BEA Summary Use (PRO, Before Redef, 2012 schema) table
-for (year in 2010:2018) {
-  getBEASummaryUsePROAfterRedef2012Schema(year)
-}
+# Download, save and document 2010-2020 BEA Summary Use (PRO, After Redef, 2012 schema)
+getBEASummaryUsePROAfterRedef2012Schema()
 
 # Get BEA Sector Make (Before Redef, 2012 schema) table from static Excel
 getBEASectorMakeBeforeRedef2012Schema <- function (year) {
