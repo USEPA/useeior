@@ -1324,68 +1324,117 @@ cleanSectorNames <- function(df) {
 }
 
 # Get BEA (Detail/Summary/Sector) Code and Name under 2012 schema
-getBEACodeName2012Schema <- function () {
-  ### Download all IO tables from BEA iTable
-  url <- getBEAIOTables()
-  ### Load desired excel file
-  ## Detail
-  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_2007_2012_Detail.xlsx"
-  BEADetail <- data.frame(readxl::read_excel(FileName, sheet = "2012"))
-  # Industry
-  BEADetailIndustryCodeName <- data.frame(t(BEADetail[5:4, 3:407]), stringsAsFactors = FALSE)
-  colnames(BEADetailIndustryCodeName) <- c("BEA_2012_Detail_Industry_Code", "BEA_2012_Detail_Industry_Name")
-  rownames(BEADetailIndustryCodeName) <- NULL
+getBEACodeName2012Schema <- function() {
+  # Download data
+  url <- getBEAIOTables()[["url"]]
+  date_accessed <- getBEAIOTables()[["date_accessed"]]
+  files <- getBEAIOTables()[["files"]]
+  ### Detail ###
+  # Load data
+  FileName <- file.path("inst/extdata/AllTablesIO",
+                        files[startsWith(files, "IOUse_Before_Redefinitions_PRO") &
+                                endsWith(files, "Detail.xlsx")])
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  BEADetail <- as.data.frame(readxl::read_excel(FileName, sheet = "2012"))
+  ## Commodity & Value Added
+  DetailCommVA <- BEADetail[!is.na(BEADetail[, 2]), c(1:2)][-1, ]
+  commodity_range <- c(1:(which(DetailCommVA[, 1] == "T005") - 1))
+  va_range <- c((length(commodity_range) + 2):(which(DetailCommVA[, 1] == "T006") - 1))
   # Commodity
-  BEADetailCommodityCodeName <- BEADetail[6:410, 1:2]
-  colnames(BEADetailCommodityCodeName) <- c("BEA_2012_Detail_Commodity_Code", "BEA_2012_Detail_Commodity_Name")
+  BEADetailCommodityCodeName <- DetailCommVA[commodity_range, ]
+  colnames(BEADetailCommodityCodeName) <- c("BEA_2012_Detail_Commodity_Code",
+                                            "BEA_2012_Detail_Commodity_Name")
   rownames(BEADetailCommodityCodeName) <- NULL
   # Value Added
-  BEADetailValueAddedCodeName <- BEADetail[412:414, 1:2]
-  colnames(BEADetailValueAddedCodeName) <- c("BEA_2012_Detail_ValueAdded_Code", "BEA_2012_Detail_ValueAdded_Name")
+  BEADetailValueAddedCodeName <- DetailCommVA[va_range, ]
+  colnames(BEADetailValueAddedCodeName) <- c("BEA_2012_Detail_ValueAdded_Code",
+                                             "BEA_2012_Detail_ValueAdded_Name")
   rownames(BEADetailValueAddedCodeName) <- NULL
+  ## Industry & Final Demand
+  DetailIndFD <- as.data.frame(t(BEADetail[!is.na(BEADetail[, 3]), ][2:1, -c(1:2)]))
+  industry_range <- c(1:(which(DetailIndFD[, 1] == "T001") - 1))
+  fd_range <- c((length(industry_range) + 2):(which(DetailIndFD[, 1] == "T004") - 1))
+  # Industry
+  BEADetailIndustryCodeName <- DetailIndFD[industry_range, ]
+  colnames(BEADetailIndustryCodeName) <- c("BEA_2012_Detail_Industry_Code",
+                                           "BEA_2012_Detail_Industry_Name")
+  rownames(BEADetailIndustryCodeName) <- NULL
   # Final Demand
-  BEADetailFinalDemandCodeName <-  data.frame(t(BEADetail[5:4, 409:428]), stringsAsFactors = FALSE)
-  colnames(BEADetailFinalDemandCodeName) <- c("BEA_2012_Detail_FinalDemand_Code", "BEA_2012_Detail_FinalDemand_Name")
+  BEADetailFinalDemandCodeName <-  DetailIndFD[fd_range, ]
+  colnames(BEADetailFinalDemandCodeName) <- c("BEA_2012_Detail_FinalDemand_Code",
+                                              "BEA_2012_Detail_FinalDemand_Name")
   rownames(BEADetailFinalDemandCodeName) <- NULL
   
-  ## Summary
-  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_1997-2019_Summary.xlsx"
-  BEASummary <- data.frame(readxl::read_excel(FileName, sheet = "2012"))
-  # Industry
-  BEASummaryIndustryCodeName <- data.frame(t(BEASummary[5:6, 3:73]), stringsAsFactors = FALSE)
-  colnames(BEASummaryIndustryCodeName) <- c("BEA_2012_Summary_Industry_Code", "BEA_2012_Summary_Industry_Name")
-  rownames(BEASummaryIndustryCodeName) <- NULL
+  ### Summary ###
+  # Load data
+  FileName <- file.path("inst/extdata/AllTablesIO",
+                        files[startsWith(files, "IOUse_Before_Redefinitions_PRO") &
+                                endsWith(files, "Summary.xlsx")])
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  BEASummary <- as.data.frame(readxl::read_excel(FileName, sheet = "2012"))
+  ## Commodity & Value Added
+  SummaryCommVA <- BEASummary[!is.na(BEASummary[, 2]), c(1:2)][-c(1:2), ]
+  commodity_range <- c(1:(which(SummaryCommVA[, 2] == "Total Intermediate") - 1))
+  va_range <- c((length(commodity_range) + 2):(which(SummaryCommVA[, 2] == "Total Value Added") - 1))
   # Commodity
-  BEASummaryCommodityCodeName <- BEASummary[7:79, 1:2]
-  colnames(BEASummaryCommodityCodeName) <- c("BEA_2012_Summary_Commodity_Code", "BEA_2012_Summary_Commodity_Name")
+  BEASummaryCommodityCodeName <- SummaryCommVA[commodity_range, ]
+  colnames(BEASummaryCommodityCodeName) <- c("BEA_2012_Summary_Commodity_Code",
+                                            "BEA_2012_Summary_Commodity_Name")
   rownames(BEASummaryCommodityCodeName) <- NULL
   # Value Added
-  BEASummaryValueAddedCodeName <- BEASummary[83:85, 1:2]
-  colnames(BEASummaryValueAddedCodeName) <- c("BEA_2012_Summary_ValueAdded_Code", "BEA_2012_Summary_ValueAdded_Name")
+  BEASummaryValueAddedCodeName <- SummaryCommVA[va_range, ]
+  colnames(BEASummaryValueAddedCodeName) <- c("BEA_2012_Summary_ValueAdded_Code",
+                                             "BEA_2012_Summary_ValueAdded_Name")
   rownames(BEASummaryValueAddedCodeName) <- NULL
+  ## Industry & Final Demand
+  SummaryIndFD <- as.data.frame(t(BEASummary[!is.na(BEASummary[, 3]), ][1:2, -c(1:2)]))
+  industry_range <- c(1:(which(SummaryIndFD[, 2] == "Total Intermediate") - 1))
+  fd_range <- c((length(industry_range) + 2):(which(SummaryIndFD[, 2] == "Total Final Uses (GDP)") - 1))
+  # Industry
+  BEASummaryIndustryCodeName <- SummaryIndFD[industry_range, ]
+  colnames(BEASummaryIndustryCodeName) <- c("BEA_2012_Summary_Industry_Code",
+                                            "BEA_2012_Summary_Industry_Name")
+  rownames(BEASummaryIndustryCodeName) <- NULL
   # Final Demand
-  BEASummaryFinalDemandCodeName <-  data.frame(t(BEASummary[5:6, 77:96]), stringsAsFactors = FALSE)
-  colnames(BEASummaryFinalDemandCodeName) <- c("BEA_2012_Summary_FinalDemand_Code", "BEA_2012_Summary_FinalDemand_Name")
+  BEASummaryFinalDemandCodeName <-  SummaryIndFD[fd_range, ]
+  colnames(BEASummaryFinalDemandCodeName) <- c("BEA_2012_Summary_FinalDemand_Code",
+                                               "BEA_2012_Summary_FinalDemand_Name")
   rownames(BEASummaryFinalDemandCodeName) <- NULL
   
-  ## Sector
-  FileName <- "inst/extdata/AllTablesIO/IOUse_Before_Redefinitions_PRO_1997-2019_Sector.xlsx"
-  BEASector <- data.frame(readxl::read_excel(FileName, sheet = "2012"))
-  # Industry
-  BEASectorIndustryCodeName <- data.frame(t(BEASector[5:6, 3:17]), stringsAsFactors = FALSE)
-  colnames(BEASectorIndustryCodeName) <- c("BEA_2012_Sector_Industry_Code", "BEA_2012_Sector_Industry_Name")
-  rownames(BEASectorIndustryCodeName) <- NULL
+  ### Sector ###
+  # Load data
+  FileName <- file.path("inst/extdata/AllTablesIO",
+                        files[startsWith(files, "IOUse_Before_Redefinitions_PRO") &
+                                endsWith(files, "Sector.xlsx")])
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  BEASector <- as.data.frame(readxl::read_excel(FileName, sheet = "2012"))
+  ## Commodity & Value Added
+  SectorCommVA <- BEASector[!is.na(BEASector[, 2]), c(1:2)][-c(1:2), ]
+  commodity_range <- c(1:(which(SectorCommVA[, 2] == "Total Intermediate") - 1))
+  va_range <- c((length(commodity_range) + 2):(which(SectorCommVA[, 2] == "Total Value Added") - 1))
   # Commodity
-  BEASectorCommodityCodeName <- BEASector[7:23, 1:2]
-  colnames(BEASectorCommodityCodeName) <- c("BEA_2012_Sector_Commodity_Code", "BEA_2012_Sector_Commodity_Name")
+  BEASectorCommodityCodeName <- SectorCommVA[commodity_range, ]
+  colnames(BEASectorCommodityCodeName) <- c("BEA_2012_Sector_Commodity_Code",
+                                            "BEA_2012_Sector_Commodity_Name")
   rownames(BEASectorCommodityCodeName) <- NULL
   # Value Added
-  BEASectorValueAddedCodeName <- BEASector[27:29, 1:2]
-  colnames(BEASectorValueAddedCodeName) <- c("BEA_2012_Sector_ValueAdded_Code", "BEA_2012_Sector_ValueAdded_Name")
+  BEASectorValueAddedCodeName <- SectorCommVA[va_range, ]
+  colnames(BEASectorValueAddedCodeName) <- c("BEA_2012_Sector_ValueAdded_Code",
+                                             "BEA_2012_Sector_ValueAdded_Name")
   rownames(BEASectorValueAddedCodeName) <- NULL
+  ## Industry & Final Demand
+  SectorIndFD <- as.data.frame(t(BEASector[!is.na(BEASector[, 3]), ][1:2, -c(1:2)]))
+  industry_range <- c(1:(which(SectorIndFD[, 2] == "Total Intermediate") - 1))
+  fd_range <- c((length(industry_range) + 2):(which(SectorIndFD[, 2] == "Total Final Uses (GDP)") - 1))
+  # Industry
+  BEASectorIndustryCodeName <- SectorIndFD[industry_range, ]
+  colnames(BEASectorIndustryCodeName) <- c("BEA_2012_Sector_Industry_Code",
+                                           "BEA_2012_Sector_Industry_Name")
+  rownames(BEASectorIndustryCodeName) <- NULL
   # Final Demand
-  BEASectorFinalDemandCodeName <-  data.frame(t(BEASector[5:6, 21:26]), stringsAsFactors = FALSE)
-  colnames(BEASectorFinalDemandCodeName) <- c("BEA_2012_Sector_FinalDemand_Code", "BEA_2012_Sector_FinalDemand_Name")
+  BEASectorFinalDemandCodeName <-  SectorIndFD[fd_range, ]
+  colnames(BEASectorFinalDemandCodeName) <- c("BEA_2012_Sector_FinalDemand_Code",
+                                              "BEA_2012_Sector_FinalDemand_Name")
   rownames(BEASectorFinalDemandCodeName) <- NULL
   
   ### Put the data.frames in a list
@@ -1412,10 +1461,12 @@ getBEACodeName2012Schema <- function () {
                         name = data_name,
                         year = 2012,
                         source = "US Bureau of Economic Analysis",
-                        url = url)
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Detail, Summary, and Sector Code and Name under 2012 schema
+# Download, save and document BEA Detail, Summary, and Sector Code and Name (2012 schema)
 getBEACodeName2012Schema()
 
 # Get Detail Margins (Before Redef, 2012 schema) table from BEA static URL
