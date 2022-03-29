@@ -13,18 +13,15 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
 
   A_proc <- reshape2::acast(model$HybridizationSpecs$TechFileDF,
                             FlowID ~ ProcessID, fun.aggregate = sum, value.var = "Amount")
-  A_2 <- merge(A_proc, A, by="row.names", all=TRUE)
-  A_2[is.na(A_2)] <- 0
+  A_merged <- merge(A_proc, A, by="row.names", all=TRUE)
+  A_merged[is.na(A_merged)] <- 0
   
-  A_3 <- as.matrix(A_2[-1])
-  rownames(A_3) <- A_2[,1]
+  A <- as.matrix(A_merged[-1])
+  rownames(A) <- A_merged[,1]
   
   # Reorder A such that process matrix (Ap) is in the upper left corner,
   # This will drop unmapped processes
-  A_4 <- A_3[match(colnames(A_3), rownames(A_3)), ]
-  
-  A <- A_4
-  
+  A <- A[match(colnames(A), rownames(A)), ]
 
   return(A)
 }
@@ -35,25 +32,23 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
 #' @return The B matrix for a hybridized model.
 hybridizeBMatrix <- function (model){
   logging::loginfo("Hybridizing model for B matrix...")
+  B <- model$B
   
   df <- model$HybridizationSpecs$EnvFileDF
   df <- within(df, Flow <- paste(Flowable, Context, Unit, sep='/'))
   B_proc <- reshape2::acast(df, Flow ~ ProcessID, fun.aggregate = sum, value.var = "Amount")
-  B_2 <- merge(B_proc, model$B, by="row.names", all=TRUE)
-  B_2[is.na(B_2)] <- 0
+  B_merged <- merge(B_proc, model$B, by="row.names", all=TRUE)
+  B_merged[is.na(B_merged)] <- 0
   
-  B_3 <- as.matrix(B_2[-1])
-  rownames(B_3) <- B_2[,1]
+  B <- as.matrix(B_merged[-1])
+  rownames(B) <- B_merged[,1]
 
   # Some processes may not exist in B matrix file, make sure they are added as 0 columns
-  B_4 <- B_3[,match(colnames(model$A), colnames(B_3))]
-  colnames(B_4) <- colnames(model$A)
-  B_4[is.na(B_4)] <- 0
+  B <- B[,match(colnames(model$A), colnames(B))]
+  colnames(B) <- colnames(model$A)
+  B[is.na(B)] <- 0
   
-  model$B <- B_4   
-
-
-  return(model$B)
+  return(B)
 }
 
 
