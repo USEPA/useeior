@@ -36,7 +36,7 @@ loadIOData <- function(model, configpaths = NULL) {
   }
 
   model <- getHybridizationSpecs(model, configpaths)
-  if(length(model$HybridizationSpecs)!=0){
+  if(model$specs$ModelType == "EEIO-IH"){
     model <- getHybridizationFiles(model, configpaths)
   }
     

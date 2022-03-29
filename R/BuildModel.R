@@ -68,7 +68,7 @@ constructEEIOMatrices <- function(model) {
     model$A_d <- model$V_n %*% model$U_d_n
   }
   
-  if(length(model$HybridizationSpecs)!=0){
+  if(model$specs$ModelType == "EEIO-IH"){
     model$A <- hybridizeAMatrix(model)
     model$A_d <- hybridizeAMatrix(model, domestic=TRUE)
   }
@@ -85,7 +85,7 @@ constructEEIOMatrices <- function(model) {
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
   model$B <- createBfromFlowDataandOutput(model)
 
-  if(length(model$HybridizationSpecs)!=0){
+  if(model$specs$ModelType == "EEIO-IH"){
     model$B <- hybridizeBMatrix(model)
   }
     
@@ -133,7 +133,7 @@ constructEEIOMatrices <- function(model) {
   }
   model <- within(model, rm(list = mat_to_remove))
   
-  if(length(model$HybridizationSpecs)!=0){
+  if(model$specs$ModelType == "EEIO-IH"){
     model <- hybridizeModelObjects(model)
   }  
   
