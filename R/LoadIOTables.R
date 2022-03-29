@@ -57,12 +57,14 @@ loadNationalIOData <- function(model) {
   colnames(model$Commodities) <- c("Code", "Name", "Category", "Subcategory", "Description")
   model$Commodities <- model$Commodities[order(match(BEA$Commodities, model$Commodities$Code)), ]
   model$Commodities$Code_Loc <- apply(cbind(model$Commodities$Code, model$specs$ModelRegionAcronyms), 1, FUN = joinStringswithSlashes)
+  model$Commodities$Unit <- "USD"
   
   # model$Industries
   model$Industries <- get(paste(model$specs$BaseIOLevel, "IndustryCodeName", model$specs$BaseIOSchema, sep = "_"))
   colnames(model$Industries) <- c("Code", "Name")
   model$Industries <- model$Industries[order(match(BEA$Industries, model$Industries$Code)), ]
   model$Industries$Code_Loc <- apply(cbind(model$Industries$Code, model$specs$ModelRegionAcronyms), 1, FUN = joinStringswithSlashes)
+  model$Industries$Unit <- "USD"
   
   # model$FinalDemandMeta
   model$FinalDemandMeta <- merge(get(paste(model$specs$BaseIOLevel, "FinalDemandCodeName", model$specs$BaseIOSchema, sep = "_")),
