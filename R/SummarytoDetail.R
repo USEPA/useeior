@@ -161,9 +161,8 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
   for(listNumber in 1:length(listOfAllocations)){
     temp <- 2
     
-    ### Test Code
-    
     otherListsOriginalSectors <- sapply(listOfAllocations[-(listNumber)], function(i)i[["originalSector"]])
+   
     # Get indeces for original detail sectors of currentList
     currentComDetailIndeces <- which(detailModel$Commodities$Code %in% listOfCrosswalks[[listNumber]]$BEA_Detail)
     currentIndDetailIndeces <- which(detailModel$Industries$Code %in% listOfCrosswalks[[listNumber]]$BEA_Detail)
@@ -172,7 +171,6 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
     detailSectorsList <- sapply(listOfCrosswalks, function(i)i[["BEA_Detail"]], simplify = FALSE) # Don't want to simplify in case we get lists of different lengths
     
     #Transform lists into a matrix for easier handling
-    
     n_obs <- sapply(detailSectorsList, length) # Get number of detail sectors for each summary sector
     seq_max <- seq_len(max(n_obs)) # Get max number of detail sectors included in the lists
     detailSectorsList <- sapply(detailSectorsList, "[", i = seq_max) # Convert to matrix
@@ -204,9 +202,18 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       
       XSectorsInURows <- which(!(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc))
       
-      if(dim(currentTable)[1] == 1){
-        XSectorsCombinedRow <- currentTable # no need to sum along column dimension as there is only one row 
-      }else{
+      if(dim(currentTable)[1] == 1){ 
+        # For the case the are different number of commodities and industries, due to a sector being industry-only
+        # No need to sum along column dimension as there is only one row 
+        XSectorsCombinedRow <- currentTable 
+      }else if(dim(currentTable)[2] == 1){ 
+        # For the case the are different number of commodities and industries, due to a sector being commodity-only
+        # Not tested as no current summary level aggregation/disaggregation is done for sectors that are commodity-only
+        XSectorsCombinedRow <- as.matrix(sum(currentTable[XSectorsInURows]))
+        rownames(XSectorsCombinedRow) <- rownames(currentTable)
+      }
+      else{ 
+        # For the case where there are an equal number of commodities and industries
         XSectorsCombinedRow <- t(colSums(currentTable[XSectorsInURows,]))
       }
 
@@ -222,8 +229,23 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       }
       
       XSectorsInUCols <- which(!(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc))
-      #LEFT OF WITH IF STATEMENT HERE, SIMILAR TO line 207
-      XSectorsCombinedCol <- as.matrix(rowSums(currentTable[,XSectorsInUCols])) # To match the format of XSectorsCombinedRow
+      
+      if(dim(currentTable)[1] == 1){ 
+        # For the case the are different number of commodities and industries, due to a sector being industry-only
+        XSectorsCombinedCol <- as.matrix(sum(currentTable[XSectorsInUCols]))
+        rownames(XSectorsCombinedCol) <- rownames(currentTable)
+        
+      }else if(dim(currentTable)[2] == 1){
+        # For the case the are different number of commodities and industries, due to a sector being commodity-only
+        # Not tested as no current summary level aggregation/disaggregation is done for sectors that are commodity-only
+        # No need to sum along row dimension as there is only one column 
+        XSectorsCombinedCol <- currentTable 
+      }
+      else{ 
+        # For the case where there are an equal number of commodities and industries
+        XSectorsCombinedCol <- as.matrix(rowSums(currentTable[,XSectorsInUCols])) # To match the format of XSectorsCombinedRow
+        
+      }
       
       XSectorsCombinedColName <- listOfCrosswalks[[counter]]$USEEIO_Code_Loc[XSectorsInUCols[1]]
       colnames(XSectorsCombinedCol) <- XSectorsCombinedColName
@@ -246,7 +268,10 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
         
         aggColNames <- c(colnames(currentTable)[ColSectorsNotInXSectors],XSectorsCombinedColName)
         colnames(aggTable) <- aggColNames
-      }else if(length(RowSectorsNotInXSectors) == 0 && length(ColSectorsNotInXSectors) != 0){ # The case when, after aggregation, there is only one row left because the detail level sector did not exist as a commodity, only an industry
+        
+        #aggPercent <- aggTable/sum(sum(aggTable))
+      }else if(length(RowSectorsNotInXSectors) == 0 && length(ColSectorsNotInXSectors) != 0){ 
+        # The case when, after aggregation, there is only one row left because the detail level sector did not exist as a commodity, only an industry
         aggTable <- matrix(0, nrow = 1, ncol = 2)
         
         aggTable[1,1] <- XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and unaggregated column value at 1,1
@@ -256,24 +281,25 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
         aggColNames <- c(colnames(currentTable)[ColSectorsNotInXSectors],XSectorsCombinedColName)
         colnames(aggTable) <- aggColNames
         
+        #aggPercent <- aggTable/rowsum(aggTable)
       }
-      # aggTable <- matrix(0, nrow =2, ncol = 2) 
-      # 
-      # RowSectorsNotInXSectors <- which(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc) # Unaggregated row sector index
-      # ColSectorsNotInXSectors <- which(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc) # Unaggregayed col sector index
-      # 
-      # aggTable[1,1] <- currentTable[RowSectorsNotInXSectors,ColSectorsNotInXSectors] # Store unaggregated row and aggregarted column value at 1,1
-      # aggTable[2,1] <- XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and unaggregated column value at 2,1
-      # aggTable[1,2] <- XSectorsCombinedCol[RowSectorsNotInXSectors] # Store aggregated col and unaggregated row at value 1,2
-      # aggTable[2,2] <- sum(XSectorsCombinedRow) - XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and aggregated col values at 2,2
-      # 
-      # aggRowNames <- c(rownames(currentTable)[RowSectorsNotInXSectors],XSectorsCombinedRowName)
-      # rownames(aggTable) <- aggRowNames
-      # 
-      # aggColNames <- c(colnames(currentTable)[ColSectorsNotInXSectors],XSectorsCombinedColName)
-      # colnames(aggTable) <- aggColNames
+      # else if(length(RowSectorsNotInXSectors) != 0 && length(ColSectorsNotInXSectors) == 0){
+      #   #TODO NEED TO TEST THIS SECTION
+      #   # The case when, after aggregation, there is only one col left because the detail level sector did not exist as an industry, only a commodity
+      #   aggTable <- matrix(0, nrow = 2, ncol = 1)
+      #   
+      #   aggTable[1,1] <- XSectorsCombinedCol[RowSectorsNotInXSectors] # Store unaggregated row and aggregated column value at 1,1
+      #   aggTable[2,1] <- sum(XSectorsCombinedCol) - XSectorsCombinedCol[RowSectorsNotInXSectors] # Store aggregated row and aggregated col values at 2,2
+      #   
+      #   aggRowNames <- c(rownames(currentTable)[RowSectorsNotInXSectors], XSectorsCombinedRowName)
+      #   rownames(aggTable) <- aggRowNames
+      #   colnames(aggTable) <- XSectorsCombinedColName
+      # }
+      
+     
 
-       ####LEFT OF HERE: NEED TO GET THE INTERSECTION OF (E.G.) 221100, 22X AND S00101, GFEX WITH THE PROPER ALLOCATION FACTORS
+      ####LEFT OF ABOVE: NEED TO TEXT LAST ELSE IF, AND NEED TO TEST PERCENT CALCULATIONS FOR ALL SEGMENT IN THE IFELSEIF BLOCOK 
+      ####NEED TO GET THE INTERSECTION OF (E.G.) 221100, 22X AND S00101, GFEX WITH THE PROPER ALLOCATION FACTORS
       temp <- 2
     }
     
