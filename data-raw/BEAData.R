@@ -1469,23 +1469,28 @@ getBEACodeName2012Schema <- function() {
 # Download, save and document BEA Detail, Summary, and Sector Code and Name (2012 schema)
 getBEACodeName2012Schema()
 
-# Get Detail Margins (Before Redef, 2012 schema) table from BEA static URL
-getBEADetailMarginsBeforeRedef2012Schema <- function (year) {
+# Get Detail Margins (Before Redefinition, 2012 schema) table from BEA static URL
+getBEADetailMarginsBeforeRedef2012Schema <- function(year) {
   # Download data
-  FileName <- "inst/extdata/Margins_Before_Redefinitions_2007_2012_DET.xlsx"
-  url <- paste0("https://apps.bea.gov/industry/xls/underlying-estimates",
-                gsub("inst/extdata", "", FileName))
-  if(!file.exists(FileName)) {
-    utils::download.file(url, FileName, mode="wb")
+  file <- "Margins_Before_Redefinitions_2007_2012_DET.xlsx"
+  url <- file.path("https://apps.bea.gov/industry/xls/underlying-estimates", file)
+  FileName <- file.path("inst/extdata", file)
+  if (!file.exists(FileName)) {
+    utils::download.file(url, FileName, mode = "wb")
   }
   # Load data
-  Margins <- data.frame(readxl::read_excel(FileName, sheet = as.character(year),
-                                           skip = 4), check.names = FALSE)
+  Margins <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(year)))
+  # Trim table, assign column names
+  Margins <- Margins[!is.na(Margins[, 4]), ][-1, ]
   rownames(Margins) <- NULL
   colnames(Margins) <- c("NIPACode", "MarginsCategory",
                          "CommodityCode", "CommodityDescription",
                          "ProducersValue", "Transportation",
                          "Wholesale", "Retail", "PurchasersValue")
+  # Convert all values to numeric, assign row names
+  Margins[, 5:ncol(Margins)] <- as.data.frame(lapply(Margins[, 5:ncol(Margins)],
+                                                     as.numeric),
+                                              check.names = FALSE)
   # Write data to .rda
   writeDatatoRDA(data = Margins,
                  data_name = paste0("Detail_Margins_", year, "_BeforeRedef"))
@@ -1494,7 +1499,9 @@ getBEADetailMarginsBeforeRedef2012Schema <- function (year) {
                       name = paste0("Detail_Margins_", year, "_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
-                      url = url)
+                      url = url,
+                      date_last_modified = "2022-03-04", # page last modified
+                      date_accessed = as.character(as.Date(file.mtime(FileName))))
 }
 # Download, save and document 2012 BEA Detail Margins table
 getBEADetailMarginsBeforeRedef2012Schema(2012)
