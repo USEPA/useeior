@@ -190,7 +190,7 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       #For Use table
       
       # Get Use table intersection of currentIndeces and otherList indeces
-      currentTable <- detailModel$U[currentComDetailIndeces,otherListIndDetailIndeces]
+      currentTable <- detailModel$U[currentComDetailIndeces,otherListIndDetailIndeces, drop = FALSE]
    
       # Need to find the rows and columns in currentTable that match the X sectors (i.e. allocated sectors) in crosswalks
       
@@ -198,45 +198,80 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       # Row X sectors are referenced by listNumber; column X sectors referenced by counter
       URowsDetailMatches <- rownames(currentTable)[which(rownames(currentTable) %in% listOfCrosswalks[[listNumber]]$BEA_Detail_Loc)] # Sector codes of currentTable rows which match the BEA detail of the crosswalk
       
-      if(length(URowsDetailMatches) == 0)
-      {
+      if(length(URowsDetailMatches) == 0){
         stop("Error in combining allocation percentages: mismatch in detail to allocated sectors mapping")
       }
       
       XSectorsInURows <- which(!(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc))
-      XSectorsCombinedRow <- t(colSums(currentTable[XSectorsInURows,]))
+      
+      if(dim(currentTable)[1] == 1){
+        XSectorsCombinedRow <- currentTable # no need to sum along column dimension as there is only one row 
+      }else{
+        XSectorsCombinedRow <- t(colSums(currentTable[XSectorsInURows,]))
+      }
+
+      
       XSectorsCombinedRowName <- listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc[XSectorsInURows[1]]
       rownames(XSectorsCombinedRow) <- XSectorsCombinedRowName
       
       #Combine Columns that match col X sector 
       UColsDetailMatch <- colnames(currentTable)[which(colnames(currentTable) %in% listOfCrosswalks[[counter]]$BEA_Detail_Loc)]
       
-      if(length(UColsDetailMatch) == 0)
-      {
+      if(length(UColsDetailMatch) == 0){
         stop("Error in combining allocation percentages: mismatch in detail to allocated sectors mapping")
       }
       
       XSectorsInUCols <- which(!(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc))
+      #LEFT OF WITH IF STATEMENT HERE, SIMILAR TO line 207
       XSectorsCombinedCol <- as.matrix(rowSums(currentTable[,XSectorsInUCols])) # To match the format of XSectorsCombinedRow
+      
       XSectorsCombinedColName <- listOfCrosswalks[[counter]]$USEEIO_Code_Loc[XSectorsInUCols[1]]
       colnames(XSectorsCombinedCol) <- XSectorsCombinedColName
  
-      # Create temporary matrix to store the correct mix of aggregate and detail level values     
-      aggTable <- matrix(0, nrow =2, ncol = 2) 
-      
+      # Get sectors that are not aggregated to summary level (e.g. 221100 in 22X aggregation)
       RowSectorsNotInXSectors <- which(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc) # Unaggregated row sector index
-      ColSectorsNotInXSectors <- which(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc) # Unaggregayed col sector index
+      ColSectorsNotInXSectors <- which(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc) # Unaggregated col sector index
 
-      aggTable[1,1] <- currentTable[RowSectorsNotInXSectors,ColSectorsNotInXSectors] # Store unaggregated row and aggregarted column value at 1,1
-      aggTable[2,1] <- XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and unaggregated column value at 2,1
-      aggTable[1,2] <- XSectorsCombinedCol[RowSectorsNotInXSectors] # Store aggregated col and unaggregated row at value 1,2
-      aggTable[2,2] <- sum(XSectorsCombinedRow) - XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and aggregated col values at 2,2
-      
-      aggRowNames <- c(rownames(currentTable)[RowSectorsNotInXSectors],XSectorsCombinedRowName)
-      rownames(aggTable) <- aggRowNames
-      
-      aggColNames <- c(colnames(currentTable)[ColSectorsNotInXSectors],XSectorsCombinedColName)
-      colnames(aggTable) <- aggColNames
+      # Create temporary matrix to store the correct mix of aggregate and detail level values  
+      if(length(RowSectorsNotInXSectors) != 0 && length(ColSectorsNotInXSectors) != 0){ # The case when, after aggregation, there are still 2 rows and columns left
+        aggTable <- matrix(0, nrow =2, ncol = 2) 
+
+        aggTable[1,1] <- currentTable[RowSectorsNotInXSectors,ColSectorsNotInXSectors] # Store unaggregated row and aggregarted column value at 1,1
+        aggTable[2,1] <- XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and unaggregated column value at 2,1
+        aggTable[1,2] <- XSectorsCombinedCol[RowSectorsNotInXSectors] # Store aggregated col and unaggregated row at value 1,2
+        aggTable[2,2] <- sum(XSectorsCombinedRow) - XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and aggregated col values at 2,2
+        
+        aggRowNames <- c(rownames(currentTable)[RowSectorsNotInXSectors],XSectorsCombinedRowName)
+        rownames(aggTable) <- aggRowNames
+        
+        aggColNames <- c(colnames(currentTable)[ColSectorsNotInXSectors],XSectorsCombinedColName)
+        colnames(aggTable) <- aggColNames
+      }else if(length(RowSectorsNotInXSectors) == 0 && length(ColSectorsNotInXSectors) != 0){ # The case when, after aggregation, there is only one row left because the detail level sector did not exist as a commodity, only an industry
+        aggTable <- matrix(0, nrow = 1, ncol = 2)
+        
+        aggTable[1,1] <- XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and unaggregated column value at 1,1
+        aggTable[1,2] <- sum(XSectorsCombinedRow) - XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and aggregated col values at 2,2
+        
+        rownames(aggTable) <- XSectorsCombinedRowName
+        aggColNames <- c(colnames(currentTable)[ColSectorsNotInXSectors],XSectorsCombinedColName)
+        colnames(aggTable) <- aggColNames
+        
+      }
+      # aggTable <- matrix(0, nrow =2, ncol = 2) 
+      # 
+      # RowSectorsNotInXSectors <- which(URowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc) # Unaggregated row sector index
+      # ColSectorsNotInXSectors <- which(UColsDetailMatch %in% listOfCrosswalks[[counter]]$USEEIO_Code_Loc) # Unaggregayed col sector index
+      # 
+      # aggTable[1,1] <- currentTable[RowSectorsNotInXSectors,ColSectorsNotInXSectors] # Store unaggregated row and aggregarted column value at 1,1
+      # aggTable[2,1] <- XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and unaggregated column value at 2,1
+      # aggTable[1,2] <- XSectorsCombinedCol[RowSectorsNotInXSectors] # Store aggregated col and unaggregated row at value 1,2
+      # aggTable[2,2] <- sum(XSectorsCombinedRow) - XSectorsCombinedRow[ColSectorsNotInXSectors] # Store aggregated row and aggregated col values at 2,2
+      # 
+      # aggRowNames <- c(rownames(currentTable)[RowSectorsNotInXSectors],XSectorsCombinedRowName)
+      # rownames(aggTable) <- aggRowNames
+      # 
+      # aggColNames <- c(colnames(currentTable)[ColSectorsNotInXSectors],XSectorsCombinedColName)
+      # colnames(aggTable) <- aggColNames
 
        ####LEFT OF HERE: NEED TO GET THE INTERSECTION OF (E.G.) 221100, 22X AND S00101, GFEX WITH THE PROPER ALLOCATION FACTORS
       temp <- 2
