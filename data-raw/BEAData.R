@@ -721,20 +721,29 @@ getBEASectorUsePROAfterRedef2012Schema <- function() {
 getBEASectorUsePROAfterRedef2012Schema()
 
 # Get BEA Detail Import (Before Redef, 2012 schema) from static Excel
-getBEADetailImportBeforeRedef2012Schema <- function (year) {
+getBEADetailImportBeforeRedef2012Schema <- function(year) {
   # Download data
-  FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx"
-  url <- paste0("https://apps.bea.gov/industry/xls/io-annual",
-                gsub("inst/extdata", "", FileName))
-  if(!file.exists(FileName)) {
+  file <- "ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx"
+  url <- file.path("https://apps.bea.gov/industry/xls/io-annual", file)
+  FileName <- file.path("inst/extdata/", file)
+  if (!file.exists(FileName)) {
     utils::download.file(url, FileName, mode = "wb")
   }
   # Load data
-  DetailImport <- data.frame(readxl::read_excel(FileName, sheet = as.character(year),
-                                                skip = 5),
-                             check.names = FALSE)
-  rownames(DetailImport) <- DetailImport$Code
-  DetailImport[, c("Code", "Commodity Description")] <- NULL
+  DetailImport <- as.data.frame(readxl::read_excel(FileName,
+                                                   sheet = as.character(year)))
+  # Trim table, assign column names
+  DetailImport <- DetailImport[!is.na(DetailImport[, 2]), ]
+  colnames(DetailImport) <- DetailImport[1, ]
+  colname_check <- is.na(colnames(DetailImport))
+  colnames(DetailImport)[colname_check] <- DetailImport[2, colname_check]
+  # Fill NA in code column with corresponding name
+  DetailImport[is.na(DetailImport[, 1]), 1] <- DetailImport[is.na(DetailImport[, 1]), 2]
+  # Convert all values to numeric, assign row names
+  DetailImport <- as.data.frame(lapply(DetailImport[-1, -c(1:2)], as.numeric),
+                                check.names = FALSE,
+                                row.names = DetailImport[-1, 1])
+  # Replace NA with zero
   DetailImport[is.na(DetailImport)] <- 0
   # Write data to .rda
   writeDatatoRDA(data = DetailImport,
@@ -744,41 +753,58 @@ getBEADetailImportBeforeRedef2012Schema <- function (year) {
                       name = paste0("Detail_Import_", year, "_BeforeRedef"),
                       year = year,
                       source = "US Bureau of Economic Analysis",
-                      url = url)
+                      url = url,
+                      date_last_modified = "unknown",
+                      date_accessed = as.character(as.Date(file.mtime(FileName))))
 }
 # Download, save and document 2012 BEA Detail Import matrix
 getBEADetailImportBeforeRedef2012Schema(2012)
 
 # Get BEA Summary Import (Before Redef, 2012 schema) from static Excel
-getBEASummaryImportBeforeRedef2012Schema <- function (year) {
+getBEASummaryImportBeforeRedef2012Schema <- function() {
   # Download data
-  FileName <- "inst/extdata/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx"
-  url <- paste0("https://apps.bea.gov/industry/xls/io-annual",
-                gsub("inst/extdata", "", FileName))
-  if(!file.exists(FileName)) {
-    utils::download.file(url, FileName, mode="wb")
+  file <- "ImportMatrices_Before_Redefinitions_SUM_1997-2020.xlsx"
+  url <- file.path("https://apps.bea.gov/industry/xls/io-annual", file)
+  FileName <- file.path("inst/extdata/", file)
+  if (!file.exists(FileName)) {
+    utils::download.file(url, FileName, mode = "wb")
   }
+  # Find latest data year
+  file_split <- unlist(stringr::str_split(file, pattern = "_"))
+  year_range <- sub(".xlsx", "", file_split[length(file_split)])
+  end_year <- sub(".*-", "", year_range)
   # Load data
-  SummaryImport <- data.frame(readxl::read_excel(FileName, sheet = as.character(year),
-                                                skip = 5),
-                             check.names = FALSE)
-  rownames(SummaryImport) <- SummaryImport$Code
-  SummaryImport[, c("Code", "Commodity Description")] <- NULL
-  SummaryImport[is.na(SummaryImport)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = SummaryImport,
-                 data_name = paste0("Summary_Import_", year, "_BeforeRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Summary_Import_", year, "_BeforeRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url)
+  for (year in 2010:end_year) {
+    SummaryImport <- data.frame(readxl::read_excel(FileName,
+                                                   sheet = as.character(year)))
+    # Trim table, assign column names
+    SummaryImport <- SummaryImport[!is.na(SummaryImport[, 2]), ]
+    colnames(SummaryImport) <- SummaryImport[1, ]
+    colname_check <- is.na(colnames(SummaryImport))
+    colnames(SummaryImport)[colname_check] <- SummaryImport[2, colname_check]
+    # Fill NA in code column with corresponding name
+    SummaryImport[is.na(SummaryImport[, 1]), 1] <- SummaryImport[is.na(SummaryImport[, 1]), 2]
+    # Convert all values to numeric, assign row names
+    SummaryImport <- as.data.frame(lapply(SummaryImport[-c(1:2), -c(1:2)], as.numeric),
+                                check.names = FALSE,
+                                row.names = SummaryImport[-c(1:2), 1])
+    # Replace NA with zero
+    SummaryImport[is.na(SummaryImport)] <- 0
+    # Write data to .rda
+    writeDatatoRDA(data = SummaryImport,
+                   data_name = paste0("Summary_Import_", year, "_BeforeRedef"))
+    # Write metadata to JSON
+    writeMetadatatoJSON(package = "useeior",
+                        name = paste0("Summary_Import_", year, "_BeforeRedef"),
+                        year = year,
+                        source = "US Bureau of Economic Analysis",
+                        url = url,
+                        date_last_modified = "unknown",
+                        date_accessed = as.character(as.Date(file.mtime(FileName))))
+  }
 }
-# Download, save and document 2010-2018 BEA Summary Import matrix
-for (year in 2010:2018) {
-  getBEASummaryImportBeforeRedef2012Schema(year)
-}
+# Download, save and document 2010-2020 BEA Summary Import matrix
+getBEASummaryImportBeforeRedef2012Schema()
 
 
 # Download all GDP tables from BEA iTable

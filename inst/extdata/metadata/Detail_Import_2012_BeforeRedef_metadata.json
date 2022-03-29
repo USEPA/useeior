@@ -1,13 +1,14 @@
 {
   "tool": ["useeior"],
   "name_data": ["Detail_Import_2012_BeforeRedef"],
-  "tool_version": ["0.4"],
+  "tool_version": ["1.0.1"],
   "ext": ["json"],
-  "date_created": ["2021-07-30 12:52:52"],
-  "tool_meta": {
+  "date_created": ["2022-03-28"],
+  "data_meta": {
     "data_year": [2012],
     "author": ["US Bureau of Economic Analysis"],
     "source_url": ["https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx"],
-    "bib_id": [""]
+    "date_last_modified": ["unknown"],
+    "date_accessed": ["2022-03-28"]
   }
 }
