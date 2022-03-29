@@ -807,7 +807,7 @@ getBEASummaryImportBeforeRedef2012Schema <- function() {
 getBEASummaryImportBeforeRedef2012Schema()
 
 
-# Download all GDP tables from BEA iTable
+# Download all GDP tables from BEA
 getBEAUnderlyingTables <- function() {
   # Create the placeholder file
   UnderlyingTables <- "inst/extdata/UGdpByInd.zip"
@@ -834,7 +834,7 @@ getBEAUnderlyingTables <- function() {
   return(ls)
 }
 
-# Get Detail BEA Gross Output (2012 schema) table from static Excel
+# Get Detail BEA Gross Output (2012 schema) since 2002
 getBEADetailGrossOutput2012Schema <- function() {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
@@ -864,7 +864,7 @@ getBEADetailGrossOutput2012Schema <- function() {
   return(DetailGrossOutput)
 }
 
-# Get Summary BEA Gross Output (2012 schema) table from static Excel
+# Get Summary BEA Gross Output (2012 schema) since 2002
 getBEASummaryGrossOutput2012Schema <- function() {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
@@ -893,7 +893,7 @@ getBEASummaryGrossOutput2012Schema <- function() {
   return(SummaryGrossOutput)
 }
 
-# Get Sector BEA Gross Output (2012 schema) table from static Excel
+# Get Sector BEA Gross Output (2012 schema) since 2002
 getBEASectorGrossOutput2012Schema <- function() {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
@@ -1004,53 +1004,115 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
 # Download, save and document BEA Detail, Summary, and Sector Gross Output tables
 mapBEAGrossOutputtoIOIndustry2012Schema()
 
-# Get Detail BEA Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
-getBEADetailCPI2012Schema <- function () {
-  FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual_Detail.xls"
-  DetailCPI <- data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes",
-                                             skip = 4),
-                          check.names = FALSE)
-  DetailCPI <- DetailCPI[, c(2, 8:ncol(DetailCPI))]
-  colnames(DetailCPI)[1] <- "Gross_Output_Detail_Industry"
+# Get Detail BEA Chain-Type Price Indexes (CPI) (2012 schema) since 2002
+getBEADetailCPI2012Schema <- function() {
+  # Download data
+  files <- getBEAUnderlyingTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "GrossOutput")]
+  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  # Load data
+  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
+                                                      sheet = "Contents",
+                                                      na = )))
+  dataname <- "U.Chain-Type Price Indexes for Gross Output by Industry"
+  sheet <- paste0(content[content$Title == paste(dataname, "- Detail Level"), "Code"],
+                  "-A")
+  DetailCPI <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
+  # Trim table, assign column names
+  DetailCPI <- DetailCPI[!is.na(DetailCPI[, 4]), ]
+  colnames(DetailCPI) <- DetailCPI[1, ]
+  Gross_Output_Detail_Industry <- DetailCPI[-1, 2]
+  # Convert all values to numeric, assign row names
+  DetailCPI <- cbind.data.frame(Gross_Output_Detail_Industry,
+                                lapply(DetailCPI[-1, -c(1:3)],
+                                       as.numeric))
+  # Keep columns since 2002
+  col_2002 <- which(colnames(DetailCPI) == "2002")
+  DetailCPI <- DetailCPI[, c(1, col_2002:ncol(DetailCPI))]
   return(DetailCPI)
 }
 
-# Get Summary BEA Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
-getBEASummaryCPI2012Schema <- function () {
-  FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
-  SummaryCPI <- data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes",
-                                              skip = 4, n_max = 192),
-                           check.names = FALSE)
-  SummaryCPI <- SummaryCPI[, c(2, 8:ncol(SummaryCPI))]
-  colnames(SummaryCPI)[1] <- "Gross_Output_Industry"
+# Get Summary BEA Chain-Type Price Indexes (CPI) (2012 schema) since 2002
+getBEASummaryCPI2012Schema <- function() {
+  # Download data
+  files <- getBEAUnderlyingTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "GrossOutput")]
+  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  # Load data
+  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
+                                                      sheet = "Contents",
+                                                      na = )))
+  dataname <- "U.Chain-Type Price Indexes for Gross Output by Industry"
+  sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
+  SummaryCPI <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
+  # Trim table, assign column names
+  SummaryCPI <- SummaryCPI[!is.na(SummaryCPI[, 4]), ]
+  colnames(SummaryCPI) <- SummaryCPI[1, ]
+  Gross_Output_Industry <- SummaryCPI[-1, 2]
+  # Convert all values to numeric, assign row names
+  SummaryCPI <- cbind.data.frame(Gross_Output_Industry,
+                                 lapply(SummaryCPI[-1, -c(1:3)],
+                                        as.numeric))
+  # Keep columns since 2002
+  col_2002 <- which(colnames(SummaryCPI) == "2002")
+  SummaryCPI <- SummaryCPI[, c(1, col_2002:ncol(SummaryCPI))]
   return(SummaryCPI)
 }
 
-# Get Sector BEA Chain-Type Price Indexes (CPI) (2012 schema) 2007-2017 tables from static Excel
-getBEASectorCPI2012Schema <- function () {
-  FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
-  SectorCPI <- data.frame(readxl::read_excel(FileName, sheet = "ChainPriceIndexes",
-                                             skip = 4, n_max = 192),
-                          check.names = FALSE)
-  SectorCPI <- SectorCPI[, c(2, 8:ncol(SectorCPI))]
-  colnames(SectorCPI)[1] <- "Gross_Output_Industry"
+# Get Sector BEA Chain-Type Price Indexes (CPI) (2012 schema) since 2002
+getBEASectorCPI2012Schema <- function() {
+  # Download data
+  files <- getBEAUnderlyingTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "GrossOutput")]
+  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  # Load data
+  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
+                                                      sheet = "Contents",
+                                                      na = )))
+  dataname <- "U.Chain-Type Price Indexes for Gross Output by Industry"
+  sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
+  SectorCPI <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
+  # Trim table, assign column names
+  SectorCPI <- SectorCPI[!is.na(SectorCPI[, 4]), ]
+  colnames(SectorCPI) <- SectorCPI[1, ]
+  Gross_Output_Industry <- SectorCPI[-1, 2]
+  # Convert all values to numeric, assign row names
+  SectorCPI <- cbind.data.frame(Gross_Output_Industry,
+                                 lapply(SectorCPI[-1, -c(1:3)],
+                                        as.numeric))
+  # Keep columns since 2002
+  col_2002 <- which(colnames(SectorCPI) == "2002")
+  SectorCPI <- SectorCPI[, c(1, col_2002:ncol(SectorCPI))]
   return(SectorCPI)
 }
 
 # Map CPI from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
-mapBEACPItoIOIndustry2012Schema <- function () {
-  ### Download all Underlying tables from BEA iTable
-  url <- getBEAUnderlyingTables()
+mapBEACPItoIOIndustry2012Schema <- function() {
+  # Download data
+  url <- getBEAUnderlyingTables()[["url"]]
+  date_accessed <- getBEAUnderlyingTables()[["date_accessed"]]
+  files <- getBEAUnderlyingTables()[["files"]]
+  FileName <- file.path("inst/extdata/UGdpByInd",
+                        files[startsWith(files, "GrossOutput")])
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
   
-  ### Detail
+  ### Detail ###
   DetailCPI <- getBEADetailCPI2012Schema()
+  DetailCPI$Gross_Output_Detail_Industry <- sub("’", "'",
+                                                DetailCPI$Gross_Output_Detail_Industry)
   # Determine year range
   year_range <- colnames(DetailCPI)[2:ncol(DetailCPI)]
   # Map BEA Detail industry code to IO code
   Detail_mapping <- utils::read.table(system.file("inst/extdata",
                                                   "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv",
                                                   package = "useeior"),
-                                      sep = ",", header = TRUE, stringsAsFactors = FALSE)
+                                      sep = ",", header = TRUE,
+                                      stringsAsFactors = FALSE)
+  Detail_mapping$Gross_Output_Detail_Industry <- sub("’", "'",
+                                                     Detail_mapping$Gross_Output_Detail_Industry)
   DetailCPIIO <- merge(Detail_mapping, DetailCPI,
                        by = "Gross_Output_Detail_Industry", all.y = TRUE)
   # Adjust (weighted average) CPI based on DetailGrossOutput
@@ -1072,7 +1134,7 @@ mapBEACPItoIOIndustry2012Schema <- function () {
   rownames(DetailCPIIO) <- DetailCPIIO[, 1]
   DetailCPIIO[, 1] <- NULL
   
-  ### Summary
+  ### Summary ###
   SummaryCPI <- getBEASummaryCPI2012Schema()
   # Map BEA Summary industry code to IO code
   Summary_mapping <- utils::read.table(system.file("inst/extdata",
@@ -1087,7 +1149,7 @@ mapBEACPItoIOIndustry2012Schema <- function () {
   rownames(SummaryCPIIO) <- SummaryCPIIO[, 1]
   SummaryCPIIO[, 1] <- NULL
   
-  ### Sector
+  ### Sector ###
   SectorCPI <- getBEASectorCPI2012Schema()
   # Map BEA Sector industry code to IO code
   Sector_mapping <- utils::read.table(system.file("inst/extdata",
@@ -1114,7 +1176,9 @@ mapBEACPItoIOIndustry2012Schema <- function () {
                         name = data_name,
                         year = year_range,
                         source = "US Bureau of Economic Analysis",
-                        url = url)
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
   }
 }
 # Download, save and document BEA Detail, Summary, and Sector CPI tables
