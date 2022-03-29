@@ -965,7 +965,7 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
   # Keep Summary rows
   SummaryGrossOutputIO <- SummaryGrossOutputIO[!SummaryGrossOutputIO$BEA_2012_Summary_Code == "",
                                                c("BEA_2012_Summary_Code", year_range)]
-  # Assign rownames as sector code
+  # Assign sector code to row names
   rownames(SummaryGrossOutputIO) <- SummaryGrossOutputIO[, 1]
   SummaryGrossOutputIO[, 1] <- NULL
   
@@ -980,7 +980,7 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
   # Keep Summary rows
   SectorGrossOutputIO <- SectorGrossOutputIO[!SectorGrossOutputIO$BEA_2012_Sector_Code == "",
                                              c("BEA_2012_Sector_Code", year_range)]
-  # Assign rownames as sector code
+  # Assign sector code to row names
   rownames(SectorGrossOutputIO) <- SectorGrossOutputIO[, 1]
   SectorGrossOutputIO[, 1] <- NULL
   
@@ -1130,7 +1130,7 @@ mapBEACPItoIOIndustry2012Schema <- function() {
   }
   # Aggregate CPI by BEA_2012_Detail_Code
   DetailCPIIO <- stats::aggregate(DetailCPIIO[, year_range], by = list(DetailCPIIO$BEA_2012_Detail_Code), mean)
-  # Assign rownames as sector code
+  # Assign sector code to row names
   rownames(DetailCPIIO) <- DetailCPIIO[, 1]
   DetailCPIIO[, 1] <- NULL
   
@@ -1145,7 +1145,7 @@ mapBEACPItoIOIndustry2012Schema <- function() {
   # Keep Summary rows
   SummaryCPIIO <- SummaryCPIIO[!SummaryCPIIO$BEA_2012_Summary_Code == "",
                                c("BEA_2012_Summary_Code", year_range)]
-  # Assign rownames as sector code
+  # Assign sector code to row names
   rownames(SummaryCPIIO) <- SummaryCPIIO[, 1]
   SummaryCPIIO[, 1] <- NULL
   
@@ -1160,7 +1160,7 @@ mapBEACPItoIOIndustry2012Schema <- function() {
   # Keep Sector rows
   SectorCPIIO <- SectorCPIIO[!SectorCPIIO$BEA_2012_Sector_Code == "",
                              c("BEA_2012_Sector_Code", year_range)]
-  # Assign rownames as sector code
+  # Assign sector code to row names
   rownames(SectorCPIIO) <- SectorCPIIO[, 1]
   SectorCPIIO[, 1] <- NULL
   
@@ -1181,39 +1181,77 @@ mapBEACPItoIOIndustry2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Detail, Summary, and Sector CPI tables
+# Download, save and document BEA Detail, Summary, and Sector CPI tables since 2002
 mapBEACPItoIOIndustry2012Schema()
 
-#' Get Summary BEA Value Added (2012 schema) 2007-2017 tables from static Excel
-getBEASummaryValueAdded2012Schema <- function () {
-  FileName <- "inst/extdata/AllTablesUnderlying/ValueAddedAnnual.xls"
-  SummaryValueAdded <- data.frame(readxl::read_excel(FileName, sheet = "VA",
-                                              skip = 4, n_max = 192),
-                           check.names = FALSE)
-  SummaryValueAdded <- SummaryValueAdded[, c(2, 13:ncol(SummaryValueAdded))]
-  colnames(SummaryValueAdded)[1] <- "Industry"
+#' Get Summary BEA Value Added (2012 schema) since 2007
+getBEASummaryValueAdded2012Schema <- function() {
+  # Download data
+  files <- getBEAUnderlyingTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "ValueAdded")]
+  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  # Load data
+  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
+                                                      sheet = "Contents",
+                                                      na = )))
+  dataname <- "U.Value Added by Industry"
+  sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
+  SummaryValueAdded <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
+  # Trim table, assign column names
+  SummaryValueAdded <- SummaryValueAdded[!is.na(SummaryValueAdded[, 4]), ]
+  colnames(SummaryValueAdded) <- SummaryValueAdded[1, ]
+  Industry <- SummaryValueAdded[-1, 2]
+  # Convert all values to numeric, assign row names
+  SummaryValueAdded <- cbind.data.frame(Industry,
+                                        lapply(SummaryValueAdded[-1, -c(1:3)],
+                                               as.numeric))
+  # Keep columns since 2007
+  col_2007 <- which(colnames(SummaryValueAdded) == "2007")
+  SummaryValueAdded <- SummaryValueAdded[, c(1, col_2007:ncol(SummaryValueAdded))]
   return(SummaryValueAdded)
 }
-#' Get Sector BEA Value Added (2012 schema) 2007-2017 tables from static Excel
-#' 
-#' @return Sector Value Added data from downloaded BEA excel file
-getBEASectorValueAdded2012Schema <- function () {
-  FileName <- "inst/extdata/AllTablesUnderlying/ValueAddedAnnual.xls"
-  SectorValueAdded <- data.frame(readxl::read_excel(FileName, sheet = "VA",
-                                                    skip = 4, n_max = 192),
-                                 check.names = FALSE)
-  SectorValueAdded <- SectorValueAdded[, c(2, 13:ncol(SectorValueAdded))]
-  colnames(SectorValueAdded)[1] <- "Industry"
+
+#' Get Sector BEA Value Added (2012 schema) since 2007
+getBEASectorValueAdded2012Schema <- function() {
+  # Download data
+  files <- getBEAUnderlyingTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "ValueAdded")]
+  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  # Load data
+  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
+                                                      sheet = "Contents",
+                                                      na = )))
+  dataname <- "U.Value Added by Industry"
+  sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
+  SectorValueAdded <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
+  # Trim table, assign column names
+  SectorValueAdded <- SectorValueAdded[!is.na(SectorValueAdded[, 4]), ]
+  colnames(SectorValueAdded) <- SectorValueAdded[1, ]
+  Industry <- SectorValueAdded[-1, 2]
+  # Convert all values to numeric, assign row names
+  SectorValueAdded <- cbind.data.frame(Industry,
+                                       lapply(SectorValueAdded[-1, -c(1:3)],
+                                              as.numeric))
+  # Keep columns since 2007
+  col_2007 <- which(colnames(SectorValueAdded) == "2007")
+  SectorValueAdded <- SectorValueAdded[, c(1, col_2007:ncol(SectorValueAdded))]
   return(SectorValueAdded)
 }
 
-#' Map Value Added ($) from GDP industries to IO industries (2012 schema) at Summary and Sector IO levels.
-#' @return A list contains IO-based Value Added at Summary and Sector IO levels.
-mapBEAValueAddedtoIOIndustry2012Schema <- function () {
-  # Download all Underlying tables from BEA iTable
-  url <- getBEAUnderlyingTables()
+#' Map Value Added ($) from GDP industries to IO industries (2012 schema)
+#' since 2007 at Summary and Sector IO levels
+mapBEAValueAddedtoIOIndustry2012Schema <- function() {
+  # Download data
+  url <- getBEAUnderlyingTables()[["url"]]
+  date_accessed <- getBEAUnderlyingTables()[["date_accessed"]]
+  files <- getBEAUnderlyingTables()[["files"]]
+  FileName <- file.path("inst/extdata/UGdpByInd",
+                        files[startsWith(files, "ValueAdded")])
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
   
-  ### Summary
+  ### Summary ###
   SummaryValueAdded <- getBEASummaryValueAdded2012Schema()
   # Determine year range
   year_range <- colnames(SummaryValueAdded)[2:ncol(SummaryValueAdded)]
@@ -1226,11 +1264,11 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function () {
   # Keep Summary rows
   SummaryValueAddedIO <- SummaryValueAddedIO[!SummaryValueAddedIO$BEA_2012_Summary_Code == "",
                                              c("BEA_2012_Summary_Code", year_range)]
-  # Assign rownames as sector code
+  # Assign sector code to row names
   rownames(SummaryValueAddedIO) <- SummaryValueAddedIO[, 1]
   SummaryValueAddedIO[, 1] <- NULL
   
-  # Sector
+  ### Sector ###
   SectorValueAdded <- getBEASectorValueAdded2012Schema()
   # Map BEA Sector industry code to IO code
   Sector_mapping <- utils::read.table(system.file("inst/extdata",
@@ -1241,7 +1279,7 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function () {
   # Keep Sector rows
   SectorValueAddedIO <- SectorValueAddedIO[!SectorValueAddedIO$BEA_2012_Sector_Code == "",
                                            c("BEA_2012_Sector_Code", year_range)]
-  # Assign rownames as sector code
+  # Assign sector code to row names
   rownames(SectorValueAddedIO) <- SectorValueAddedIO[, 1]
   SectorValueAddedIO[, 1] <- NULL
   
@@ -1256,10 +1294,12 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function () {
                         name = data_name,
                         year = year_range,
                         source = "US Bureau of Economic Analysis",
-                        url = url)
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Summary and Sector Value Added tables
+# Download, save and document BEA Summary and Sector Value Added tables since 2002
 mapBEAValueAddedtoIOIndustry2012Schema()
 
 #'Applies string functions to clean BEA codes in a df
