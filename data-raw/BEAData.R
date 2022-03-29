@@ -1129,7 +1129,9 @@ mapBEACPItoIOIndustry2012Schema <- function() {
     }
   }
   # Aggregate CPI by BEA_2012_Detail_Code
-  DetailCPIIO <- stats::aggregate(DetailCPIIO[, year_range], by = list(DetailCPIIO$BEA_2012_Detail_Code), mean)
+  DetailCPIIO <- stats::aggregate(DetailCPIIO[, year_range],
+                                  by = list(DetailCPIIO$BEA_2012_Detail_Code),
+                                  mean)
   # Assign sector code to row names
   rownames(DetailCPIIO) <- DetailCPIIO[, 1]
   DetailCPIIO[, 1] <- NULL
