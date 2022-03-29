@@ -835,44 +835,104 @@ getBEAUnderlyingTables <- function() {
 }
 
 # Get Detail BEA Gross Output (2012 schema) table from static Excel
-getBEADetailGrossOutput2012Schema <- function () {
-  FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual_Detail.xls"
-  DetailGrossOutput <- data.frame(readxl::read_excel(FileName, sheet = "GO",
-                                                     skip = 4),
-                                  check.names = FALSE)
-  DetailGrossOutput <- DetailGrossOutput[, c(2, 8:ncol(DetailGrossOutput))]
-  colnames(DetailGrossOutput)[1] <- "Gross_Output_Detail_Industry"
+getBEADetailGrossOutput2012Schema <- function() {
+  # Download data
+  files <- getBEAUnderlyingTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "GrossOutput")]
+  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  # Load data
+  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
+                                                      sheet = "Contents",
+                                                      na = )))
+  sheet <- paste0(content[content$Title ==
+                            "U.Gross Output by Industry - Detail Level", "Code"],
+                  "-A")
+  DetailGrossOutput <- as.data.frame(readxl::read_excel(FileName,
+                                                        sheet = sheet))
+  # Trim table, assign column names
+  DetailGrossOutput <- DetailGrossOutput[!is.na(DetailGrossOutput[, 4]), ]
+  colnames(DetailGrossOutput) <- DetailGrossOutput[1, ]
+  Gross_Output_Detail_Industry <- DetailGrossOutput[-1, 2]
+  # Convert all values to numeric, assign row names
+  DetailGrossOutput <- cbind.data.frame(Gross_Output_Detail_Industry,
+                             lapply(DetailGrossOutput[-1, -c(1:3)],
+                                                  as.numeric))
+  # Keep columns since 2002
+  col_2002 <- which(colnames(DetailGrossOutput) == "2002")
+  DetailGrossOutput <- DetailGrossOutput[, c(1, col_2002:ncol(DetailGrossOutput))]
   return(DetailGrossOutput)
 }
 
 # Get Summary BEA Gross Output (2012 schema) table from static Excel
-getBEASummaryGrossOutput2012Schema <- function () {
-  FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
-  SummaryGrossOutput <- data.frame(readxl::read_excel(FileName, sheet = "GO",
-                                                      skip = 4, n_max = 192),
-                                   check.names = FALSE)
-  SummaryGrossOutput <- SummaryGrossOutput[, c(2, 8:ncol(SummaryGrossOutput))]
-  colnames(SummaryGrossOutput)[1] <- "Gross_Output_Detail_Industry"
+getBEASummaryGrossOutput2012Schema <- function() {
+  # Download data
+  files <- getBEAUnderlyingTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "GrossOutput")]
+  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  # Load data
+  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
+                                                      sheet = "Contents",
+                                                      na = )))
+  sheet <- paste0(content[content$Title == "U.Gross Output by Industry", "Code"],
+                  "-A")
+  SummaryGrossOutput <- as.data.frame(readxl::read_excel(FileName,
+                                                         sheet = sheet))
+  # Trim table, assign column names
+  SummaryGrossOutput <- SummaryGrossOutput[!is.na(SummaryGrossOutput[, 4]), ]
+  colnames(SummaryGrossOutput) <- SummaryGrossOutput[1, ]
+  Gross_Output_Industry <- SummaryGrossOutput[-1, 2]
+  # Convert all values to numeric, assign row names
+  SummaryGrossOutput <- cbind.data.frame(Gross_Output_Industry,
+                                         lapply(SummaryGrossOutput[-1, -c(1:3)],
+                                                as.numeric))
+  # Keep columns since 2002
+  col_2002 <- which(colnames(SummaryGrossOutput) == "2002")
+  SummaryGrossOutput <- SummaryGrossOutput[, c(1, col_2002:ncol(SummaryGrossOutput))]
   return(SummaryGrossOutput)
 }
 
 # Get Sector BEA Gross Output (2012 schema) table from static Excel
-getBEASectorGrossOutput2012Schema <- function () {
-  FileName <- "inst/extdata/AllTablesUnderlying/GrossOutputAnnual.xls"
-  SectorGrossOutput <- data.frame(readxl::read_excel(FileName, sheet = "GO",
-                                                     skip = 4, n_max = 192),
-                                  check.names = FALSE)
-  SectorGrossOutput <- SectorGrossOutput[, c(2, 8:ncol(SectorGrossOutput))]
-  colnames(SectorGrossOutput)[1] <- "Gross_Output_Detail_Industry"
+getBEASectorGrossOutput2012Schema <- function() {
+  # Download data
+  files <- getBEAUnderlyingTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "GrossOutput")]
+  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  # Load data
+  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
+                                                      sheet = "Contents",
+                                                      na = )))
+  sheet <- paste0(content[content$Title == "U.Gross Output by Industry", "Code"],
+                  "-A")
+  SectorGrossOutput <- as.data.frame(readxl::read_excel(FileName,
+                                                        sheet = sheet))
+  # Trim table, assign column names
+  SectorGrossOutput <- SectorGrossOutput[!is.na(SectorGrossOutput[, 4]), ]
+  colnames(SectorGrossOutput) <- SectorGrossOutput[1, ]
+  Gross_Output_Industry <- SectorGrossOutput[-1, 2]
+  # Convert all values to numeric, assign row names
+  SectorGrossOutput <- cbind.data.frame(Gross_Output_Industry,
+                                        lapply(SectorGrossOutput[-1, -c(1:3)],
+                                               as.numeric))
+  # Keep columns since 2002
+  col_2002 <- which(colnames(SectorGrossOutput) == "2002")
+  SectorGrossOutput <- SectorGrossOutput[, c(1, col_2002:ncol(SectorGrossOutput))]
   return(SectorGrossOutput)
 }
 
 # Map gross output ($) from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
-mapBEAGrossOutputtoIOIndustry2012Schema <- function () {
-  ### Download all Underlying tables from BEA iTable
-  url <- getBEAUnderlyingTables()
+mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
+  # Download data
+  url <- getBEAUnderlyingTables()[["url"]]
+  date_accessed <- getBEAUnderlyingTables()[["date_accessed"]]
+  files <- getBEAUnderlyingTables()[["files"]]
+  FileName <- file.path("inst/extdata/UGdpByInd",
+                        files[startsWith(files, "GrossOutput")])
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
   
-  ### Detail
+  ### Detail ###
   DetailGrossOutput <- getBEADetailGrossOutput2012Schema()
   # Determine year range
   year_range <- colnames(DetailGrossOutput)[2:ncol(DetailGrossOutput)]
@@ -880,24 +940,27 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function () {
   Detail_mapping <- utils::read.table(system.file("inst/extdata",
                                                   "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv",
                                                   package = "useeior"),
-                                      sep = ",", header = TRUE, stringsAsFactors = FALSE)
+                                      sep = ",", header = TRUE,
+                                      stringsAsFactors = FALSE)
   DetailGrossOutputIO <- merge(Detail_mapping, DetailGrossOutput,
-                               by = "Gross_Output_Detail_Industry", all.y = TRUE)
+                               by = "Gross_Output_Detail_Industry",
+                               all.y = TRUE)
   # Aggregate by BEA Detail industry code
   DetailGrossOutputIO <- stats::aggregate(DetailGrossOutputIO[, year_range],
                                           by = list(DetailGrossOutputIO$BEA_2012_Detail_Code),
                                           sum)
-  # Assign rownames as sector code
+  # Assign sector code to row names
   rownames(DetailGrossOutputIO) <- DetailGrossOutputIO[, 1]
   DetailGrossOutputIO[, 1] <- NULL
   
-  ### Summary
+  ### Summary ###
   SummaryGrossOutput <- getBEASummaryGrossOutput2012Schema()
   # Map BEA Summary industry code to IO code
   Summary_mapping <- utils::read.table(system.file("inst/extdata",
                                                    "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv",
                                                    package = "useeior"),
-                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
+                                       sep = ",", header = TRUE,
+                                       stringsAsFactors = FALSE)
   SummaryGrossOutputIO <- cbind(Summary_mapping, SummaryGrossOutput)
   # Keep Summary rows
   SummaryGrossOutputIO <- SummaryGrossOutputIO[!SummaryGrossOutputIO$BEA_2012_Summary_Code == "",
@@ -906,7 +969,7 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function () {
   rownames(SummaryGrossOutputIO) <- SummaryGrossOutputIO[, 1]
   SummaryGrossOutputIO[, 1] <- NULL
   
-  ### Sector
+  ### Sector ###
   SectorGrossOutput <- getBEASectorGrossOutput2012Schema()
   # Map BEA Sector industry code to IO code
   Sector_mapping <- utils::read.table(system.file("inst/extdata",
@@ -933,7 +996,9 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function () {
                         name = data_name,
                         year = year_range,
                         source = "US Bureau of Economic Analysis",
-                        url = url)
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
   }
 }
 # Download, save and document BEA Detail, Summary, and Sector Gross Output tables
