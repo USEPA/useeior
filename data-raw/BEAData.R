@@ -799,7 +799,7 @@ getBEASummaryImportBeforeRedef2012Schema <- function() {
                         year = year,
                         source = "US Bureau of Economic Analysis",
                         url = url,
-                        date_last_modified = "unknown",
+                        date_last_modified = "2022-02-11", # obtained from notes on BEA webpage about "BEA's use tables were updated on Feb.11, 2022."
                         date_accessed = as.character(as.Date(file.mtime(FileName))))
   }
 }
