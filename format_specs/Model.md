@@ -82,6 +82,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | Code | str | 6-digit code |
 | Name | str | Name of sector or component |
 | Code_Loc | str | Code joined with a location acronym by a forward slash (e.g. `1111A0/US`) |
+| Unit | str | Typically `USD` for EEIO model types but can include physical units for hybrid models |
 
 Commodity sector meta may also have the following fields:
 
