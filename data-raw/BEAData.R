@@ -808,19 +808,30 @@ getBEASummaryImportBeforeRedef2012Schema()
 
 
 # Download all GDP tables from BEA iTable
-getBEAUnderlyingTables <- function () {
+getBEAUnderlyingTables <- function() {
   # Create the placeholder file
-  AllTablesUnderlying <- "inst/extdata/AllTablesUnderlying.zip"
+  UnderlyingTables <- "inst/extdata/UGdpByInd.zip"
   # Download all BEA IO tables into the placeholder file
-  url <- "https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesUnderlying.zip"
-  if(!file.exists(AllTablesUnderlying)) {
-    utils::download.file(url, AllTablesUnderlying, mode = "wb")
+  url <- "https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip"
+  if (!file.exists(UnderlyingTables)) {
+    utils::download.file(url, UnderlyingTables, mode = "wb")
   }
   # Get the name of all files in the zip archive
-  fname <- unzip(AllTablesUnderlying, list = TRUE)[unzip(AllTablesUnderlying, list = TRUE)$Length > 0, ]$Name
+  files <- unzip(UnderlyingTables, list = TRUE)
+  fname <- files[files$Length > 0, ]$Name
+  if (all(fname == basename(fname))) {
+    exdir <- "inst/extdata/UGdpByInd"
+  } else {
+    exdir <- "inst/extdata/"
+  }
   # Unzip the file to the designated directory
-  unzip(AllTablesUnderlying, files = fname, exdir = "inst/extdata/AllTablesUnderlying", overwrite = TRUE)
-  return(url)
+  unzip(UnderlyingTables, files = fname, exdir = exdir,
+        overwrite = TRUE, setTimes = TRUE)
+  # Create output
+  ls <- list("url" = url,
+             "date_accessed" = as.character(as.Date(file.mtime(UnderlyingTables))),
+             "files" = basename(fname))
+  return(ls)
 }
 
 # Get Detail BEA Gross Output (2012 schema) table from static Excel
