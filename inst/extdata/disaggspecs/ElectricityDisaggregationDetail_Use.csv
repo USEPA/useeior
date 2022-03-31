@@ -1,8 +1,8 @@
 IndustryCode,CommodityCode,PercentUsed,Note
 221111/US,221100/US,4.18E-02,"Use column sum, industry output"
-22111A/US,221100/US,1.91E-01,"Use column sum, industry output"
-22111B/US,221100/US,1.48E-01,"Use column sum, industry output"
-22111C/US,221100/US,3.22E-03,"Use column sum, industry output"
+221112A/US,221100/US,1.91E-01,"Use column sum, industry output"
+221112B/US,221100/US,1.48E-01,"Use column sum, industry output"
+221112C/US,221100/US,3.22E-03,"Use column sum, industry output"
 221113/US,221100/US,1.20E-01,"Use column sum, industry output"
 221114/US,221100/US,6.66E-04,"Use column sum, industry output"
 221115/US,221100/US,2.15E-02,"Use column sum, industry output"
@@ -12,9 +12,9 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221121/US,221100/US,1.20E-01,"Use column sum, industry output"
 221122/US,221100/US,3.39E-01,"Use column sum, industry output"
 221100/US,221111/US,3.85E-02,"Use row sum, commodity output"
-221100/US,22111A/US,2.17E-01,"Use row sum, commodity output"
-221100/US,22111B/US,1.74E-01,"Use row sum, commodity output"
-221100/US,22111C/US,2.97E-03,"Use row sum, commodity output"
+221100/US,221112A/US,2.17E-01,"Use row sum, commodity output"
+221100/US,221112B/US,1.74E-01,"Use row sum, commodity output"
+221100/US,221112C/US,2.97E-03,"Use row sum, commodity output"
 221100/US,221113/US,1.10E-01,"Use row sum, commodity output"
 221100/US,221114/US,6.14E-04,"Use row sum, commodity output"
 221100/US,221115/US,1.98E-02,"Use row sum, commodity output"
@@ -24,9 +24,9 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221100/US,221121/US,1.11E-01,"Use row sum, commodity output"
 221100/US,221122/US,3.13E-01,"Use row sum, commodity output"
 221111/US,221111/US,1.46E-03,Use table intersection
-221111/US,22111A/US,8.20E-03,Use table intersection
-221111/US,22111B/US,6.56E-03,Use table intersection
-221111/US,22111C/US,1.12E-04,Use table intersection
+221111/US,221112A/US,8.20E-03,Use table intersection
+221111/US,221112B/US,6.56E-03,Use table intersection
+221111/US,221112C/US,1.12E-04,Use table intersection
 221111/US,221113/US,4.18E-03,Use table intersection
 221111/US,221114/US,2.32E-05,Use table intersection
 221111/US,221115/US,7.50E-04,Use table intersection
@@ -35,46 +35,46 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221111/US,221118/US,2.61E-05,Use table intersection
 221111/US,221121/US,4.20E-03,Use table intersection
 221111/US,221122/US,1.18E-02,Use table intersection
-22111A/US,221111/US,8.20E-03,Use table intersection
-22111A/US,22111A/US,4.62E-02,Use table intersection
-22111A/US,22111B/US,3.70E-02,Use table intersection
-22111A/US,22111C/US,6.33E-04,Use table intersection
-22111A/US,221113/US,2.35E-02,Use table intersection
-22111A/US,221114/US,1.31E-04,Use table intersection
-22111A/US,221115/US,4.22E-03,Use table intersection
-22111A/US,221116/US,4.71E-04,Use table intersection
-22111A/US,221117/US,2.15E-03,Use table intersection
-22111A/US,221118/US,1.47E-04,Use table intersection
-22111A/US,221121/US,2.36E-02,Use table intersection
-22111A/US,221122/US,6.66E-02,Use table intersection
-22111B/US,221111/US,7.28E-03,Use table intersection
-22111B/US,22111A/US,4.10E-02,Use table intersection
-22111B/US,22111B/US,3.28E-02,Use table intersection
-22111B/US,22111C/US,5.62E-04,Use table intersection
-22111B/US,221113/US,2.09E-02,Use table intersection
-22111B/US,221114/US,1.16E-04,Use table intersection
-22111B/US,221115/US,3.75E-03,Use table intersection
-22111B/US,221116/US,4.18E-04,Use table intersection
-22111B/US,221117/US,1.91E-03,Use table intersection
-22111B/US,221118/US,1.30E-04,Use table intersection
-22111B/US,221121/US,2.10E-02,Use table intersection
-22111B/US,221122/US,5.92E-02,Use table intersection
-22111C/US,221111/US,1.12E-04,Use table intersection
-22111C/US,22111A/US,6.33E-04,Use table intersection
-22111C/US,22111B/US,5.06E-04,Use table intersection
-22111C/US,22111C/US,8.67E-06,Use table intersection
-22111C/US,221113/US,3.22E-04,Use table intersection
-22111C/US,221114/US,1.79E-06,Use table intersection
-22111C/US,221115/US,5.79E-05,Use table intersection
-22111C/US,221116/US,6.45E-06,Use table intersection
-22111C/US,221117/US,2.95E-05,Use table intersection
-22111C/US,221118/US,2.01E-06,Use table intersection
-22111C/US,221121/US,3.24E-04,Use table intersection
-22111C/US,221122/US,9.13E-04,Use table intersection
+221112A/US,221111/US,8.20E-03,Use table intersection
+221112A/US,221112A/US,4.62E-02,Use table intersection
+221112A/US,221112B/US,3.70E-02,Use table intersection
+221112A/US,221112C/US,6.33E-04,Use table intersection
+221112A/US,221113/US,2.35E-02,Use table intersection
+221112A/US,221114/US,1.31E-04,Use table intersection
+221112A/US,221115/US,4.22E-03,Use table intersection
+221112A/US,221116/US,4.71E-04,Use table intersection
+221112A/US,221117/US,2.15E-03,Use table intersection
+221112A/US,221118/US,1.47E-04,Use table intersection
+221112A/US,221121/US,2.36E-02,Use table intersection
+221112A/US,221122/US,6.66E-02,Use table intersection
+221112B/US,221111/US,7.28E-03,Use table intersection
+221112B/US,221112A/US,4.10E-02,Use table intersection
+221112B/US,221112B/US,3.28E-02,Use table intersection
+221112B/US,221112C/US,5.62E-04,Use table intersection
+221112B/US,221113/US,2.09E-02,Use table intersection
+221112B/US,221114/US,1.16E-04,Use table intersection
+221112B/US,221115/US,3.75E-03,Use table intersection
+221112B/US,221116/US,4.18E-04,Use table intersection
+221112B/US,221117/US,1.91E-03,Use table intersection
+221112B/US,221118/US,1.30E-04,Use table intersection
+221112B/US,221121/US,2.10E-02,Use table intersection
+221112B/US,221122/US,5.92E-02,Use table intersection
+221112C/US,221111/US,1.12E-04,Use table intersection
+221112C/US,221112A/US,6.33E-04,Use table intersection
+221112C/US,221112B/US,5.06E-04,Use table intersection
+221112C/US,221112C/US,8.67E-06,Use table intersection
+221112C/US,221113/US,3.22E-04,Use table intersection
+221112C/US,221114/US,1.79E-06,Use table intersection
+221112C/US,221115/US,5.79E-05,Use table intersection
+221112C/US,221116/US,6.45E-06,Use table intersection
+221112C/US,221117/US,2.95E-05,Use table intersection
+221112C/US,221118/US,2.01E-06,Use table intersection
+221112C/US,221121/US,3.24E-04,Use table intersection
+221112C/US,221122/US,9.13E-04,Use table intersection
 221113/US,221111/US,4.18E-03,Use table intersection
-221113/US,22111A/US,2.35E-02,Use table intersection
-221113/US,22111B/US,1.88E-02,Use table intersection
-221113/US,22111C/US,3.22E-04,Use table intersection
+221113/US,221112A/US,2.35E-02,Use table intersection
+221113/US,221112B/US,1.88E-02,Use table intersection
+221113/US,221112C/US,3.22E-04,Use table intersection
 221113/US,221113/US,1.20E-02,Use table intersection
 221113/US,221114/US,6.66E-05,Use table intersection
 221113/US,221115/US,2.15E-03,Use table intersection
@@ -84,9 +84,9 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221113/US,221121/US,1.20E-02,Use table intersection
 221113/US,221122/US,3.39E-02,Use table intersection
 221114/US,221111/US,2.32E-05,Use table intersection
-221114/US,22111A/US,1.31E-04,Use table intersection
-221114/US,22111B/US,1.05E-04,Use table intersection
-221114/US,22111C/US,1.79E-06,Use table intersection
+221114/US,221112A/US,1.31E-04,Use table intersection
+221114/US,221112B/US,1.05E-04,Use table intersection
+221114/US,221112C/US,1.79E-06,Use table intersection
 221114/US,221113/US,6.66E-05,Use table intersection
 221114/US,221114/US,3.70E-07,Use table intersection
 221114/US,221115/US,1.20E-05,Use table intersection
@@ -96,9 +96,9 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221114/US,221121/US,6.69E-05,Use table intersection
 221114/US,221122/US,1.89E-04,Use table intersection
 221115/US,221111/US,7.50E-04,Use table intersection
-221115/US,22111A/US,4.22E-03,Use table intersection
-221115/US,22111B/US,3.38E-03,Use table intersection
-221115/US,22111C/US,5.79E-05,Use table intersection
+221115/US,221112A/US,4.22E-03,Use table intersection
+221115/US,221112B/US,3.38E-03,Use table intersection
+221115/US,221112C/US,5.79E-05,Use table intersection
 221115/US,221113/US,2.15E-03,Use table intersection
 221115/US,221114/US,1.20E-05,Use table intersection
 221115/US,221115/US,3.86E-04,Use table intersection
@@ -108,9 +108,9 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221115/US,221121/US,2.16E-03,Use table intersection
 221115/US,221122/US,6.09E-03,Use table intersection
 221116/US,221111/US,8.36E-05,Use table intersection
-221116/US,22111A/US,4.71E-04,Use table intersection
-221116/US,22111B/US,3.77E-04,Use table intersection
-221116/US,22111C/US,6.45E-06,Use table intersection
+221116/US,221112A/US,4.71E-04,Use table intersection
+221116/US,221112B/US,3.77E-04,Use table intersection
+221116/US,221112C/US,6.45E-06,Use table intersection
 221116/US,221113/US,2.40E-04,Use table intersection
 221116/US,221114/US,1.33E-06,Use table intersection
 221116/US,221115/US,4.30E-05,Use table intersection
@@ -120,9 +120,9 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221116/US,221121/US,2.41E-04,Use table intersection
 221116/US,221122/US,6.79E-04,Use table intersection
 221117/US,221111/US,3.82E-04,Use table intersection
-221117/US,22111A/US,2.15E-03,Use table intersection
-221117/US,22111B/US,1.72E-03,Use table intersection
-221117/US,22111C/US,2.95E-05,Use table intersection
+221117/US,221112A/US,2.15E-03,Use table intersection
+221117/US,221112B/US,1.72E-03,Use table intersection
+221117/US,221112C/US,2.95E-05,Use table intersection
 221117/US,221113/US,1.09E-03,Use table intersection
 221117/US,221114/US,6.08E-06,Use table intersection
 221117/US,221115/US,1.97E-04,Use table intersection
@@ -132,9 +132,9 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221117/US,221121/US,1.10E-03,Use table intersection
 221117/US,221122/US,3.10E-03,Use table intersection
 221118/US,221111/US,2.61E-05,Use table intersection
-221118/US,22111A/US,1.47E-04,Use table intersection
-221118/US,22111B/US,1.18E-04,Use table intersection
-221118/US,22111C/US,2.01E-06,Use table intersection
+221118/US,221112A/US,1.47E-04,Use table intersection
+221118/US,221112B/US,1.18E-04,Use table intersection
+221118/US,221112C/US,2.01E-06,Use table intersection
 221118/US,221113/US,7.48E-05,Use table intersection
 221118/US,221114/US,4.16E-07,Use table intersection
 221118/US,221115/US,1.34E-05,Use table intersection
@@ -144,9 +144,9 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221118/US,221121/US,7.52E-05,Use table intersection
 221118/US,221122/US,2.12E-04,Use table intersection
 221121/US,221111/US,4.20E-03,Use table intersection
-221121/US,22111A/US,2.36E-02,Use table intersection
-221121/US,22111B/US,1.89E-02,Use table intersection
-221121/US,22111C/US,3.24E-04,Use table intersection
+221121/US,221112A/US,2.36E-02,Use table intersection
+221121/US,221112B/US,1.89E-02,Use table intersection
+221121/US,221112C/US,3.24E-04,Use table intersection
 221121/US,221113/US,1.20E-02,Use table intersection
 221121/US,221114/US,6.69E-05,Use table intersection
 221121/US,221115/US,2.16E-03,Use table intersection
@@ -156,9 +156,9 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221121/US,221121/US,1.21E-02,Use table intersection
 221121/US,221122/US,3.41E-02,Use table intersection
 221122/US,221111/US,1.18E-02,Use table intersection
-221122/US,22111A/US,6.66E-02,Use table intersection
-221122/US,22111B/US,5.33E-02,Use table intersection
-221122/US,22111C/US,9.13E-04,Use table intersection
+221122/US,221112A/US,6.66E-02,Use table intersection
+221122/US,221112B/US,5.33E-02,Use table intersection
+221122/US,221112C/US,9.13E-04,Use table intersection
 221122/US,221113/US,3.39E-02,Use table intersection
 221122/US,221114/US,1.89E-04,Use table intersection
 221122/US,221115/US,6.09E-03,Use table intersection
@@ -167,5 +167,5 @@ IndustryCode,CommodityCode,PercentUsed,Note
 221122/US,221118/US,2.12E-04,Use table intersection
 221122/US,221121/US,3.41E-02,Use table intersection
 221122/US,221122/US,9.61E-02,Use table intersection
-22111B/US,211000/US,1.00E+00,Industry disaggregation
-22111A/US,212100/US,1.00E+00,Industry disaggregation
+221112B/US,211000/US,1.00E+00,Industry disaggregation
+221112A/US,212100/US,1.00E+00,Industry disaggregation
