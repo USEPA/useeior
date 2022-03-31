@@ -347,7 +347,7 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
   }
 
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
-  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1]))
+  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes)) ## TODO: replace codeLength with this line, to ensure codes of variable lengths are properly maintained.
   newSectors$Code <- substr(disagg$DisaggregatedSectorCodes,1,codeLength)
   newSectors$Code_Loc <- sapply(disagg$DisaggregatedSectorCodes, paste0, collapse = "")#sapply needed to convert DisaggregatedSectorCodes from list to char vector
   newSectors$Name <- sapply(disagg$DisaggregatedSectorNames, paste0, collapse = "")
@@ -790,7 +790,7 @@ disaggregateMasterCrosswalk <- function (model, disagg){
 
   secLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
   cw <- disagg$NAICSSectorCW[, c('NAICS_2012_Code','USEEIO_Code')]
-  cw$USEEIO_Code <- sapply(cw$USEEIO_Code, function(x) {substr(x, 1, secLength)})
+  cw$USEEIO_Code <- sub("/.*","",cw$USEEIO_Code) # For all rows in the USEEIO_Code column, remove all characters after (and including) "/"
 
   #Update original sector codes with disaggregated sector codes in the relevant column (i.e. cwColIndex) where rows have an exact match for the disaggregated codes in the NAICS column
   new_cw <-merge(new_cw, cw, by.x=c("NAICS"), by.y=c("NAICS_2012_Code"), all=T)
@@ -813,7 +813,7 @@ disaggregateMasterCrosswalk <- function (model, disagg){
     }
     
     rowReplacements <- disagg$NAICSSectorCW$NAICS_2012_Code[rowComparisons] #Get the NAICS sector codes in the disagg crosswalk that are a match for the NAICS substring in the master crosswalk 
-    rowReplacements <- substr(disagg$NAICSSectorCW$USEEIO_Code[rowComparisons],1,secLength) #Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
+    rowReplacements <- sub("/.*","",disagg$NAICSSectorCW$USEEIO_Code[rowComparisons]) #Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
     rowReplacements <- unique(rowReplacements) #reduce the list to the unique number of disaggregated sectors that the row comparisons map to
     
     crosswalkRow <- crosswalkRow[rep(seq_len(nrow(crosswalkRow)), length(rowReplacements)),, drop=FALSE] #replicate the crosswalk row as many times as there were matches in the substring search
