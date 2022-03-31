@@ -11,7 +11,7 @@ calculateBalancedDomesticTables(model, disagg, balancedFullUse)
 
 \item{disagg}{Specifications for disaggregating the current Table}
 
-\item{balancedFullUse}{A fullUse table (including UseTransactions, ValueAdded, and FinalDemand), created to determine whether RAS balancing is needed}
+\item{balancedFullUse}{A fullUse table (including UseTransactions, UseValueAdded, and FinalDemand), created to determine whether RAS balancing is needed}
 }
 \value{
 list containing balanced domesticFinalDemand and domesticUseTransactions dataframes.
