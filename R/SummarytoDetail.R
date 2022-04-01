@@ -153,7 +153,6 @@ createCombinedPercentagesByTable <- function(detailModel, table, listOfCrosswalk
   # the sequence of operations in this function are carried out row wise for the Use allocations and columwise for the Make allocations
   
   # Unpack tableParams
-  # Include all relevant paramters in tableParams list
   currentComDetailIndeces <- tableParams$currentComDetailIndeces
   currentIndDetailIndeces <- tableParams$currentIndDetailIndeces
   listNumber <- tableParams$listNumer 
@@ -185,7 +184,6 @@ createCombinedPercentagesByTable <- function(detailModel, table, listOfCrosswalk
     XSectorsInCols <- which(!(ColsDetailMatches %in% listOfCrosswalks[[secondListNumber]]$USEEIO_Code_Loc))
     XSectorsCombinedColName <- listOfCrosswalks[[secondListNumber]]$USEEIO_Code_Loc[XSectorsInCols[1]]
     
-    
     # Get sectors that are not aggregated to summary level (e.g. 221100 in 22X aggregation)
     RowSectorsNotInXSectors <- which(RowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc) # Unaggregated row sector index
     ColSectorsNotInXSectors <- which(ColsDetailMatches %in% listOfCrosswalks[[secondListNumber]]$USEEIO_Code_Loc) # Unaggregated col sector index
@@ -208,39 +206,21 @@ createCombinedPercentagesByTable <- function(detailModel, table, listOfCrosswalk
     XSectorsInCols <- which(!(ColsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc))
     XSectorsCombinedColName <- listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc[XSectorsInCols[1]]
     
-    
     # Get sectors that are not aggregated to summary level (e.g. 221100 in 22X aggregation)
     RowSectorsNotInXSectors <- which(RowsDetailMatches %in% listOfCrosswalks[[secondListNumber]]$USEEIO_Code_Loc) # Unaggregated row sector index
     ColSectorsNotInXSectors <- which(ColsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc) # Unaggregated col sector index
-    #LEFT OF HERE: NEED TO INVERT USE OF LISTNUMBER AND SECOND LIST NUMBER AS IN THE PREVIOUS LINE FOR THIS FUNCTION TO WORK WITH MAKE TABLE.
   }
   
-
-  
-  # # Need to find the rows and columns in currentTable that match the X sectors (i.e. allocated sectors) in crosswalks
-  # 
-  # # Combine rows that match row X sector
-  # # Row X sectors are referenced by listNumber; column X sectors referenced by secondListNumber
-  # RowsDetailMatches <- rownames(currentTable)[which(rownames(currentTable) %in% listOfCrosswalks[[listNumber]]$BEA_Detail_Loc)] # Sector codes of currentTable rows which match the BEA detail of the crosswalk
-  # 
-  # if(length(RowsDetailMatches) == 0){
-  #   stop("Error in combining allocation percentages: mismatch in detail to allocated sectors mapping")
-  # }
-  # 
-##  XSectorsInRows <- which(!(RowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc))
-  
   if(dim(currentTable)[1] == 1){ 
-    # For the case the are different number of commodities and industries, due to a sector being industry-only
+    # For the case the are different number of commodities and industries, due to a sector being industry-only in Use or commodity only in Make
     # No need to sum along column dimension as there is only one row 
     XSectorsCombinedRow <- currentTable 
     
     XSectorsCombinedCol <- as.matrix(sum(currentTable[XSectorsInCols]))
     rownames(XSectorsCombinedCol) <- rownames(currentTable)
   }else if(dim(currentTable)[2] == 1){ 
-    # For the case the are different number of commodities and industries, due to a sector being commodity-only
-    # Not tested as no current summary level aggregation/disaggregation is done for sectors that are commodity-only
+    # For the case the are different number of commodities and industries, due to a sector being commodity-only in Use or industry only in Make
     XSectorsCombinedRow <- as.matrix(sum(currentTable[XSectorsInRows]))
-##    rownames(XSectorsCombinedRow) <- rownames(currentTable)
     colnames(XSectorsCombinedRow) <- colnames(currentTable)
     
     # No need to sum along row dimension as there is only one column 
@@ -252,43 +232,10 @@ createCombinedPercentagesByTable <- function(detailModel, table, listOfCrosswalk
     XSectorsCombinedCol <- as.matrix(rowSums(currentTable[,XSectorsInCols])) # To match the format of XSectorsCombinedRow
   }
   
-  
-##  XSectorsCombinedRowName <- listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc[XSectorsInRows[1]]
   rownames(XSectorsCombinedRow) <- XSectorsCombinedRowName
-  
-  #Combine Columns that match col X sector 
-##  ColsDetailMatches <- colnames(currentTable)[which(colnames(currentTable) %in% listOfCrosswalks[[secondListNumber]]$BEA_Detail_Loc)]
-  
-  # if(length(ColsDetailMatches) == 0){
-  #   stop("Error in combining allocation percentages: mismatch in detail to allocated sectors mapping")
-  # }
-  
-##  XSectorsInCols <- which(!(ColsDetailMatches %in% listOfCrosswalks[[secondListNumber]]$USEEIO_Code_Loc))
-  
-#   if(dim(currentTable)[1] == 1){ 
-#     # For the case the are different number of commodities and industries, due to a sector being industry-only
-# ##    XSectorsCombinedCol <- as.matrix(sum(currentTable[XSectorsInCols]))
-# ##    rownames(XSectorsCombinedCol) <- rownames(currentTable)
-#     
-#   }else if(dim(currentTable)[2] == 1){
-#     # For the case the are different number of commodities and industries, due to a sector being commodity-only
-#     # Not tested as no current summary level aggregation/disaggregation is done for sectors that are commodity-only
-#     # No need to sum along row dimension as there is only one column 
-# ##    XSectorsCombinedCol <- currentTable 
-#   }
-#   else{ 
-#     # For the case where there are an equal number of commodities and industries
-# ##    XSectorsCombinedCol <- as.matrix(rowSums(currentTable[,XSectorsInCols])) # To match the format of XSectorsCombinedRow
-#     
-#   }
-  
-##  XSectorsCombinedColName <- listOfCrosswalks[[secondListNumber]]$USEEIO_Code_Loc[XSectorsInCols[1]]
   colnames(XSectorsCombinedCol) <- XSectorsCombinedColName
   
-  # Get sectors that are not aggregated to summary level (e.g. 221100 in 22X aggregation)
-#  RowSectorsNotInXSectors <- which(RowsDetailMatches %in% listOfCrosswalks[[listNumber]]$USEEIO_Code_Loc) # Unaggregated row sector index
-#  ColSectorsNotInXSectors <- which(ColsDetailMatches %in% listOfCrosswalks[[secondListNumber]]$USEEIO_Code_Loc) # Unaggregated col sector index
-  
+
   # Create temporary matrix to store the correct mix of aggregate and detail level values  
   if(length(RowSectorsNotInXSectors) != 0 && length(ColSectorsNotInXSectors) != 0){ # The case when, after aggregation, there are still 2 rows and columns left
     aggTable <- data.frame(matrix(0, nrow =2, ncol = 2)) 
@@ -319,7 +266,7 @@ createCombinedPercentagesByTable <- function(detailModel, table, listOfCrosswalk
     aggPercent <- aggTable/sum(aggTable)
   }
   else if(length(RowSectorsNotInXSectors) != 0 && length(ColSectorsNotInXSectors) == 0){
-    #TODO NEED TO TEST THIS SECTION
+
     # The case when, after aggregation, there is only one col left because the detail level sector did not exist as an industry, only a commodity
     aggTable <- data.frame(matrix(0, nrow = 2, ncol = 1))
     
@@ -334,8 +281,6 @@ createCombinedPercentagesByTable <- function(detailModel, table, listOfCrosswalk
   }
   
   aggPercent[is.na(aggPercent)] <-0 # Replace all NAs with 0s
-  
-##  listOfTables[[length(listOfTables)+1]] <- aggPercent
   
   temp <- 2
   return(aggPercent) 
@@ -404,7 +349,8 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       tableParams$otherListComDetailIndeces <- otherListComDetailIndeces
       tableParams$otherListIndDetailIndeces <- otherListIndDetailIndeces
       
-      
+      ##### TODO: Place call to createCombinedPercentagesByTable function here for Use, Make
+      ##### Remove code below up to line 466 (i.e. end of agg Table creation if-else statements) and replace with above mentioned function call
       
       
       #For Use table
