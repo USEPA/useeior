@@ -292,6 +292,86 @@ createCombinedPercentagesByTable <- function(detailModel, table, listOfCrosswalk
 }
 
 
+#' Assign combined allocation percentages by Table based on a list of several allocations
+#' @param listOfAllocations A list of lists containing the disaggregation allocations for several summary to detail disaggregations 
+#' @param listOfCrosswalks A list containing dataframes with mappings of summary, detail, and allocation specific sectors
+#' @param tableParams List of paramater used to created the combined percentages from the specified table  
+#' @return Combined allocation percentages for the specified table
+assignCombinedPercentagesByTable <- function(listOfAllocations, listOfCrosswalks, tableParams){
+
+  # Unpack tableParams
+#  currentComDetailIndeces <- tableParams$currentComDetailIndeces
+#  currentIndDetailIndeces <- tableParams$currentIndDetailIndeces
+  commodityList <- tableParams$commodityList 
+  industryList <- tableParams$industryList 
+#  otherListComDetailIndeces <- tableParams$otherListComDetailIndeces 
+#  otherListIndDetailIndeces <- tableParams$otherListIndDetailIndeces 
+  listOfUseTables <- tableParams$listOfUseTables 
+  listOfMakeTables <- tableParams$listOfMakeTables 
+    
+  # For UseFileDF
+  # Finding useFileDF indeces that contain values to replace
+  useFileDFComAllocIndex <- which(listOfAllocations[[commodityList]]$UseFileDF$CommodityCode %in% unique(listOfCrosswalks[[commodityList]]$USEEIO_Code_Loc))
+  useFileDFIndAllocIndex <- which(listOfAllocations[[commodityList]]$UseFileDF$IndustryCode %in% listOfAllocations[[industryList]]$originalSector)
+  allocUseIndeces <- intersect(useFileDFComAllocIndex, useFileDFIndAllocIndex)
+  
+  # Formatting percentages to include in UseFileDF
+  allocDFUse <- reshape2::melt(t(t(listOfUseTables[[length(listOfUseTables)]])), id.vars=1) # Need double transpose to get the right melt shape and row ordering
+  allocDFUse <- allocDFUse[,c(2,1,3)] #reorder columns
+  
+  colnames(allocDFUse) <- c("IndustryCode", "CommodityCode", "PercentUse")
+  noteDF <-  data.frame(Note = I(rep("CommodityDisagg", nrow(allocDFUse))))
+  allocDFUse <- cbind(allocDFUse, noteDF)
+  
+  if(length(allocUseIndeces) != 0){ # error checking required in case allocUseIndeces does not have any values 
+    
+    listOfAllocations[[commodityList]]$UseFileDF <- rbind(listOfAllocations[[commodityList]]$UseFileDF[1:(allocUseIndeces[1]-1),],
+                                                          allocDFUse,
+                                                          listOfAllocations[[commodityList]]$UseFileDF[-(1:(allocUseIndeces[length(allocUseIndeces)])),]) 
+  }
+  
+
+  
+  # For MakeFileDF
+  # Finding useFileDF indeces that contain values to replace
+  makeFileDFComAllocIndex <- which(listOfAllocations[[commodityList]]$MakeFileDF$CommodityCode %in% unique(listOfCrosswalks[[commodityList]]$USEEIO_Code_Loc))
+  makeFileDFIndAllocIndex <- which(listOfAllocations[[commodityList]]$MakeFileDF$IndustryCode %in% listOfAllocations[[industryList]]$originalSector)
+  allocMakeIndeces <- intersect(makeFileDFComAllocIndex, makeFileDFIndAllocIndex )
+  
+  #TODO: Insert allocDF Use and Make in their repestive places, e.g., in allocUseIndeces' place in listOfAllocations[[commodityList]]$UseFileDF
+  allocDFMake <- reshape2::melt(t(t(listOfMakeTables[[length(listOfMakeTables)]])), id.vars=1)
+  colnames(allocDFMake) <- c("IndustryCode", "CommodityCode", "PercentMake")
+  noteDF <-  data.frame(Note = I(rep("IndustryDisagg", nrow(allocDFMake))))
+  allocDFMake <- cbind(allocDFMake, noteDF)
+  
+  if(length(allocMakeIndeces) != 0){
+    listOfAllocations[[commodityList]]$MakeFileDF <- rbind(listOfAllocations[[commodityList]]$MakeFileDF[1:(allocMakeIndeces[1]-1),],
+                                                           allocDFMake,
+                                                           listOfAllocations[[commodityList]]$MakeFileDF[-(1:(allocMakeIndeces[length(allocMakeIndeces)])),])
+  }
+   
+ 
+  
+#   # Finding locations of current industries to replace in the original list of allocations
+#   if(commodityList > industryList){
+#     # Use
+#     useFileDFIndAllocIndex <- which(listOfAllocations[[industryList]]$UseFileDF$IndustryCode %in% unique(listOfCrosswalks[[industryList]]$USEEIO_Code_Loc))
+#     useFileDFComAllocIndex <- which(listOfAllocations[[industryList]]$UseFileDF$CommodityCode %in% listOfAllocations[[commodityList]]$originalSector)
+#     allocUseIndeces <- intersect(useFileDFComAllocIndex, useFileDFIndAllocIndex)
+#     
+#     #Make
+#     makeFileDFIndAllocIndex <- which(listOfAllocations[[industryList]]$MakeFileDF$IndustryCode %in% unique(listOfCrosswalks[[industryList]]$USEEIO_Code_Loc))
+#     makeFileDFComAllocIndex <- which(listOfAllocations[[industryList]]$MakeFileDF$CommodityCode %in% listOfAllocations[[commodityList]]$originalSector)
+#     allocMakeIndeces <- intersect(makeFileDFComAllocIndex, makeFileDFIndAllocIndex )
+#     
+# #    replacementList <- industryList
+#     temp <- 1.5
+#   }
+  
+  temp <- 2
+  return(listOfAllocations)
+}
+
 #' Combine allocation factors of several Summary-to-Detail disaggregations to produce allocation factors will disaggregate several sectors in only one function call to disaggregateModel()
 #' @param modelname String indicating which model to generate. Must be a detail level model.
 #' @param detailModel Completed build of detail model. If NULL, must pass modelname.
@@ -308,12 +388,13 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
   
   # For each list, get crosswalks of original summary sectors to disaggregated summary sectors and detail sectors 
   listOfCrosswalks <- combineAllocAndDetailCW(detailModel, listOfAllocations)
-  listOfTables <- list()
+  # Get other list items that will be needed later in the function
+##  combinedLists <- do.call(Map, c(f = rbind, listOfAllocations))
+##  listOrder <- as.data.frame(combinedLists$originalSector)
   
-  ###TEMPORARY CODE FOR VALIDATION
+  # Lists used for storing disagg values used to replace non-disagg values in the input lists. 
   listOfUseTables <- list()
   listOfMakeTables <- list()
-  ###END TEMPORARY CODE
   
   for(commodityList in 1:length(listOfAllocations)){
     temp <- 2
@@ -357,31 +438,55 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
       listOfUseTables[[length(listOfUseTables)+1]] <- createCombinedPercentagesByTable(detailModel, "Use", listOfCrosswalks, tableParams)
       listOfMakeTables[[length(listOfMakeTables)+1]] <- createCombinedPercentagesByTable(detailModel, "Make", listOfCrosswalks, tableParams)
       
-      # Replacing values in the UseFileDF for the commodityList
-      firstListComAllocIndex <- which(listOfAllocations[[commodityList]]$UseFileDF$CommodityCode %in% unique(listOfCrosswalks[[commodityList]]$USEEIO_Code_Loc))
-      firstListIndAllocIndex <- which(listOfAllocations[[commodityList]]$UseFileDF$IndustryCode %in% listOfAllocations[[industryList]]$originalSector)
-      allocUseIndeces <- intersect(firstListComAllocIndex, firstListIndAllocIndex)
+      tableParams$listOfUseTables <- listOfUseTables
+      tableParams$listOfMakeTables <- listOfMakeTables
       
       
-      allocDFUse <- reshape2::melt(t(t(listOfUseTables[[1]])), id.vars=1) # Need double transpose to get the right melt shape and row ordering
-      allocDFUse <- allocDFUse[,c(2,1,3)] #reorder columns
+      listOfAllocations <- assignCombinedPercentagesByTable(listOfAllocations, listOfCrosswalks, tableParams)
+      #Finding locations of current commodities to replace in the original listOfallocations
       
-      colnames(allocDFUse) <- c("IndustryCode", "CommodityCode", "PercentUse")
-      noteDF <-  data.frame(Note = I(rep("CommodityDisagg", nrow(allocDFUse))))
-      allocDFUse <- cbind(allocDFUse, noteDF)
-      
-      #TODO: Insert allocDF Use in allocUseIndeces' place in listOfAllocations[[commodityList]]$UseFileDF
-      
-      # Replacing vlues in the MakeFileDF for the commodityList
-      
-      #TODO: Find allocMakeIndeces, analogous to allocUseIndeces
-      #TODO: Insert allocDF Use in allocUseIndeces' place in listOfAllocations[[commodityList]]$UseFileDF
-      allocDFMake <- reshape2::melt(t(t(listOfMakeTables[[1]])), id.vars=1)
-      colnames(allocDFMake) <- c("IndustryCode", "CommodityCode", "PercentMake")
-      noteDF <-  data.frame(Note = I(rep("IndustryDisagg", nrow(allocDFMake))))
-      allocDFMake <- cbind(allocDFMake, noteDF)
-
-     
+      # # For UseFileDF
+      # # Finding useFileDF indeces that contain values to replace
+      # useFileDFComAllocIndex <- which(listOfAllocations[[commodityList]]$UseFileDF$CommodityCode %in% unique(listOfCrosswalks[[commodityList]]$USEEIO_Code_Loc))
+      # useFileDFIndAllocIndex <- which(listOfAllocations[[commodityList]]$UseFileDF$IndustryCode %in% listOfAllocations[[industryList]]$originalSector)
+      # allocUseIndeces <- intersect(useFileDFComAllocIndex, useFileDFIndAllocIndex)
+      # 
+      # # Formatting percentages to include in UseFileDF
+      # allocDFUse <- reshape2::melt(t(t(listOfUseTables[[length(listOfUseTables)]])), id.vars=1) # Need double transpose to get the right melt shape and row ordering
+      # allocDFUse <- allocDFUse[,c(2,1,3)] #reorder columns
+      # 
+      # colnames(allocDFUse) <- c("IndustryCode", "CommodityCode", "PercentUse")
+      # noteDF <-  data.frame(Note = I(rep("CommodityDisagg", nrow(allocDFUse))))
+      # allocDFUse <- cbind(allocDFUse, noteDF)
+      # 
+      # # listOfAllocations[[commodityList]]$UseFileDF <- rbind(listOfAllocations[[commodityList]]$UseFileDF[1:(allocUseIndeces[1]-1),],
+      # #                                                 allocDFUse,
+      # #                                                 listOfAllocations[[commodityList]]$UseFileDF[-(1:(allocUseIndeces[length(allocUseIndeces)]+1)),]
+      # # ) # TODO: Need to make sure to add both commodity and industry disagg (as per note column) to the same list. 
+      # 
+      # # For MakeFileDF
+      # # Finding useFileDF indeces that contain values to replace
+      # makeFileDFComAllocIndex <- which(listOfAllocations[[commodityList]]$MakeFileDF$CommodityCode %in% unique(listOfCrosswalks[[commodityList]]$USEEIO_Code_Loc))
+      # makeFileDFIndAllocIndex <- which(listOfAllocations[[commodityList]]$MakeFileDF$IndustryCode %in% listOfAllocations[[industryList]]$originalSector)
+      # allocMakeIndeces <- intersect(makeFileDFComAllocIndex, makeFileDFIndAllocIndex )
+      # 
+      # #TODO: Insert allocDF Use and Make in their repestive places, e.g., in allocUseIndeces' place in listOfAllocations[[commodityList]]$UseFileDF
+      # allocDFMake <- reshape2::melt(t(t(listOfMakeTables[[length(listOfMakeTables)]])), id.vars=1)
+      # colnames(allocDFMake) <- c("IndustryCode", "CommodityCode", "PercentMake")
+      # noteDF <-  data.frame(Note = I(rep("IndustryDisagg", nrow(allocDFMake))))
+      # allocDFMake <- cbind(allocDFMake, noteDF)
+      # 
+      # # Finding locations of current industries to replace in the original list of allocations
+      # if(commodityList > industryList){
+      #   
+      #   useFileDFIndAllocIndex <- which(listOfAllocations[[industryList]]$UseFileDF$IndustryCode %in% unique(listOfCrosswalks[[industryList]]$USEEIO_Code_Loc))
+      #   useFileDFComAllocIndex <- which(listOfAllocations[[industryList]]$UseFileDF$CommodityCode %in% listOfAllocations[[commodityList]]$originalSector)
+      #   allocUseIndeces <- intersect(useFileDFComAllocIndex, useFileDFIndAllocIndex)
+      #   
+      #   
+      #   temp <- 1.5
+      # }
+      # 
 
       temp <- 2
     }# End of for industryList loop
@@ -393,9 +498,10 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
   
   # CurrentList, Use table columns. I.e., currentList$originalSector is in the IndustryCode column of currentList$UseFileDF, 
   # while originalSectors of other lists (i.e. not currentList) are in the commodityCode column
+  combinedLists <- do.call(Map, c(f = rbind, listOfAllocations))
   temp <- 3
  # return(listOfAllocations) #TODO: Replace this temporary return variable with actual return variable
-  return(listOfUseTables)
+  return(combinedLists)
   
 }
 
