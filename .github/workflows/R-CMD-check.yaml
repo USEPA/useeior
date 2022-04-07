@@ -46,7 +46,7 @@ jobs:
     env:
       #GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }} 
       R_KEEP_PKG_SOURCE: yes
-
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -66,45 +66,45 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v1
 
-       - name: Build and validate models - USEEIOv2.0 detail model with waste disaggregation
-         if: always()
-         run: |
-           require(devtools)
-           devtools::load_all()
-           m <- useeior::buildModel("USEEIOv2.0-411")
-           useeior::printValidationResults(m)
+      - name: Build and validate models - USEEIOv2.0 detail model with waste disaggregation
+        if: always()
+        run: |
+          require(devtools)
+          devtools::load_all()
+          m <- useeior::buildModel("USEEIOv2.0-411")
+          useeior::printValidationResults(m)
       
-         shell: Rscript {0}
+        shell: Rscript {0}
       
-       - name: Build and validate models - USEEIOv2.0-i-411 detail industry model with waste disaggregation
-         if: always()
-         run: |
-           require(devtools)
-           devtools::load_all()
-           m <- useeior::buildModel("USEEIOv2.0-i-411")
-           useeior::printValidationResults(m)
+      - name: Build and validate models - USEEIOv2.0-i-411 detail industry model with waste disaggregation
+        if: always()
+        run: |
+          require(devtools)
+          devtools::load_all()
+          m <- useeior::buildModel("USEEIOv2.0-i-411")
+          useeior::printValidationResults(m)
       
-         shell: Rscript {0}
+        shell: Rscript {0}
       
-       - name: Build and validate models - USEEIOv2.0 industry model
-         if: always()
-         run: |
-           require(devtools)
-           devtools::load_all()
-           m <- useeior::buildModel("USEEIOv2.0-i-GHG")
-           useeior::printValidationResults(m)
+      - name: Build and validate models - USEEIOv2.0 industry model
+        if: always()
+        run: |
+         require(devtools)
+         devtools::load_all()
+         m <- useeior::buildModel("USEEIOv2.0-i-GHG")
+         useeior::printValidationResults(m)
       
-         shell: Rscript {0}
+        shell: Rscript {0}
       
-       - name: Build and validate models - USEEIOv2.0 summary model
-         if: always()
-         run: |
-           require(devtools)
-           devtools::load_all()
-           m <- useeior::buildModel("USEEIOv2.0-s-GHG")
-           useeior::printValidationResults(m)
+      - name: Build and validate models - USEEIOv2.0 summary model
+        if: always()
+        run: |
+          require(devtools)
+          devtools::load_all()
+          m <- useeior::buildModel("USEEIOv2.0-s-GHG")
+          useeior::printValidationResults(m)
       
-         shell: Rscript {0}
+        shell: Rscript {0}
       
        - name: Build and validate models - USEEIOv2.0.1 detail model with waste disaggregation
          if: always()
