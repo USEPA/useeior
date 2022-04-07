@@ -116,10 +116,10 @@ jobs:
       
          shell: Rscript {0}
 
-      - name: Show testthat output
-        if: always()  # step will run even if previous steps fail
-        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
-        shell: bash
+      # - name: Show testthat output
+      #   if: always()  # step will run even if previous steps fail
+      #   run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+      #   shell: bash
 
       - name: Upload check results
         if: failure()  # if any of the previous steps fail, export a log
