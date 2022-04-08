@@ -238,11 +238,14 @@ disaggregateSetup <- function (model, configpaths = NULL){
     
     }    
     
-    temp <- 1 ##### LEFT OF HERE, NEED TO FIX model$DisaggregationSpecs list level (i.e. need to have model$DisaggregationSpecs$CombinedAllocations)
+    temp <- 1 
+    ##### LEFT OF HERE, NEED TO FIX Error in 1:originalIndex : argument of length 0 after code leaves this function.
+    ##### Also need to check combineAllocationPercentages function to remove instances of old sectors in the aggregated lists.
+    
     # Combine the different lists 
     combinedAllocations <- combineAllocationPercentages(modelname = "USEEIOv2.0", detailModel, listOfAllocations)
-    model$DisaggregationSpecs[1] <- disaggSetupFormatting(detailModel, combinedAllocations)
-    names(model$DisaggregationSpecs) <- "CombinedAllocation"
+    model$DisaggregationSpecs[[1]] <- disaggSetupFormatting(detailModel, combinedAllocations)
+#    names(model$DisaggregationSpecs) <- "CombinedAllocation"
     temp <- 2
   }else {
     counter = 1
