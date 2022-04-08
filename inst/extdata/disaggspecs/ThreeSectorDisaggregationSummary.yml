@@ -1,14 +1,15 @@
 Disaggregation:
-  22/US:
-    SummarytoDetail: TRUE
-    OriginalSectorCode: "22/US"
-    TargetSector: "221100/US"
-  GFE/US:
-    SummarytoDetail: TRUE
-    OriginalSectorCode: "GFE/US"
-    TargetSector: "S00101/US"  
-  GSLE/US:
-    SummarytoDetail: TRUE
-    OriginalSectorCode: "GSLE/US"
-    TargetSector: "S00202/US"
+  CombinedDisagg:
+    22/US:
+      SummarytoDetail: TRUE
+      OriginalSectorCode: "22/US"
+      TargetSector: "221100/US"
+    GFE/US:
+      SummarytoDetail: TRUE
+      OriginalSectorCode: "GFE/US"
+      TargetSector: "S00101/US"  
+    GSLE/US:
+      SummarytoDetail: TRUE
+      OriginalSectorCode: "GSLE/US"
+      TargetSector: "S00202/US"
 

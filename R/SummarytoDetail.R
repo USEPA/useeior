@@ -377,7 +377,7 @@ assignCombinedPercentagesByTable <- function(listOfAllocations, listOfCrosswalks
 #' @param detailModel Completed build of detail model. If NULL, must pass modelname.
 #' @param listOfAllocations List that contains various, separate lists of disaggregation percentages for Summary-to-Detail level disaggregations. 
 #' @return Allocation percentages for disaggregating multiple Summary sectors into Detail level sectors simultaneously. 
-combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel = NULL, summaryModel, listOfAllocations){
+combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel = NULL, listOfAllocations){
   temp <- 1
   
   if(is.null(detailModel)){
