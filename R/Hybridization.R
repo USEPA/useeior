@@ -106,13 +106,13 @@ hybridizeModelObjects <- function (model) {
     x[is.na(x)] <- 0
     x <- as.matrix(x[-1])
     x <- x[c(new_processes$Code_Loc, rownames(t)[!rownames(t) %in% new_processes$Code_Loc]),]
-    if (!identical(x[-1,-1], t)){
+    if (!identical(x[-(1:nrow(new_processes)),-(1:nrow(new_processes))], t)){
       stop("Error in forming hybrid tables")
     }
     model[[table]] <- x
   }
-  
-  
+
+
   # Expand demand vectors with values of 0
   process_demand <- vector(mode='numeric', length = nrow(new_processes))
   names(process_demand) <- new_processes$Code_Loc
