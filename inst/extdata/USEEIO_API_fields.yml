@@ -39,6 +39,7 @@ sectors:
   - Location
   - Category
   - Description
+  - Unit
 
 years:
   - Index
