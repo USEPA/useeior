@@ -58,12 +58,12 @@ Matches [totals-by-sector](https://github.com/USEPA/useeior/blob/master/format_s
 
 
 # Hybridization File Specification
-Model hybridization, e.g., with LCA data from unit processes is available via [Model Type: EEIO-IH](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#Model_Types).
+Model hybridization, e.g., with LCA data from unit processes is available via [Model Type: EEIO-IH](https://github.com/USEPA/useeior/blob/hybridization/format_specs/ModelSpecification.md#model-types).
 This hybrid model type requires as input data normalized environmental and technical (i.e., supply chain) data.
 
 | Item | Type | Required? | Description |
 | ---  | ---  | ---       | ---------   |
-| TechFile | str | N | Pointer to a file containing [technical inputs and outputs for hybrid sectors](#Hybridization-Technical-Table-Format) |
+| TechFile | str | N | Pointer to a file containing [technical inputs and outputs for hybrid sectors](#hybridization-technical-table-format) |
 | EnvFile | str | N | Pointer to a file containing normalized satellite table data for [hybrid sectors](#hybridization-environmental-table-format) |
 
 ## Hybridization Technical Table Format
