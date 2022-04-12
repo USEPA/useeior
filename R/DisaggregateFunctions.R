@@ -1378,7 +1378,7 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
     
     manualAllocVector <- createBlankIntersection(newSectorCodes)
     
-    #Assign lookup index for allocPercentages vector #TODO: Need to check these values, might be backwards
+    #Assign lookup index for allocPercentages vector 
     allocPercentagesRowIndex <- 1
     allocPercentagesColIndex <- 2
     
