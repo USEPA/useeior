@@ -106,6 +106,16 @@ jobs:
 
         shell: Rscript {0}
 
+      - name: Build and validate models - USEEIOv2 - integrated hybrid
+        if: always()
+        run: |
+          require(devtools)
+          devtools::load_all()
+          m <- useeior::buildModel("USEEIOv2.0-GHG-NGCombustion")
+          useeior::printValidationResults(m)
+
+        shell: Rscript {0}
+
       #- name: Show testthat output
       #  if: always()  # step will run even if previous steps fail
       #  run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
