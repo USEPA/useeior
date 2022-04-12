@@ -12,7 +12,7 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
   }
 
   A_proc <- reshape2::acast(model$HybridizationSpecs$TechFileDF,
-                            FlowID ~ ProcessID, fun.aggregate = sum, value.var = "Amount")
+                            FlowID ~ paste(ProcessID, Location, sep='/'), fun.aggregate = sum, value.var = "Amount")
   A_merged <- merge(A_proc, A, by="row.names", all=TRUE)
   A_merged[is.na(A_merged)] <- 0
   
@@ -70,28 +70,58 @@ hybridizeModelObjects <- function (model) {
   # Update Industry and Commodity tables
   new_processes[setdiff(names(model$Commodities), names(new_processes))] <- ""
   new_processes[setdiff(names(model$Industries), names(new_processes))] <- ""
-  model$Commodities <- rbind(model$Commodities, new_processes[colnames(model$Commodities)])
-  model$Industries <- rbind(model$Industries, new_processes[colnames(model$Industries)])
+  model$Commodities <- rbind(new_processes[colnames(model$Commodities)], model$Commodities)
+  model$Industries <- rbind(new_processes[colnames(model$Industries)], model$Industries)
 
   # Set Margins to 0
-  new_processes["SectorCode"] <- new_processes$Code
+  new_processes["SectorCode"] <- new_processes$Code_Loc
   new_processes[setdiff(names(model$Margins), names(new_processes))] <- 0
-  model$Margins <- rbind(model$Margins, new_processes[colnames(model$Margins)])
-  
+  model$Margins <- rbind(new_processes[colnames(model$Margins)], model$Margins)
+
+  # Update output dfs
+  for (df in c('MultiYearCommodityOutput', 'MultiYearIndustryOutput',
+               'MultiYearCommodityCPI', 'MultiYearIndustryCPI')){
+    new_processes[setdiff(names(model[[df]]), names(new_processes))] <- 0
+    rownames(new_processes) <- new_processes$Code_Loc
+    model[[df]] <- rbind(new_processes[colnames(model[[df]])], model[[df]])
+  }
+    
   # Update matrices
   for (table in c('Rho', 'Phi')){
-    names <- setdiff(row.names(model$A), row.names(model[[table]]))
-    process_matrix <-  matrix(data = 1, nrow = length(names), ncol = ncol(model[[table]]))
-    rownames(process_matrix) <- names
-    model[[table]] <- rbind(model[[table]], process_matrix)
+    process_matrix <-  matrix(data = 1, nrow = nrow(new_processes), ncol = ncol(model[[table]]))
+    rownames(process_matrix) <- new_processes$Code_Loc
+    model[[table]] <- rbind(process_matrix, model[[table]])
   }
+
+  # Expand matrices assigning 1 at intersection and zeros elsewhere
+  for (table in c('C_m', 'V_n', 'U_d')){
+    x <- diag(nrow=nrow(new_processes))
+    rownames(x) <- new_processes$Code_Loc
+    colnames(x) <- new_processes$Code_Loc
+    x <- merge(x, model[[table]], by="row.names", all=TRUE)
+    
+    # rename and reorder
+    rownames(x) <- x[,1]
+    x[is.na(x)] <- 0
+    x <- as.matrix(x[-1])
+    x <- x[c(new_processes$Code_Loc, rownames(x)[!rownames(x) %in% new_processes$Code_Loc]),]
+    model[[table]] <- x
+  }
+  
   
   # Expand demand vectors with values of 0
   process_demand <- vector(mode='numeric', length = nrow(new_processes))
-  names(process_demand) <- new_processes$Code
+  names(process_demand) <- new_processes$Code_Loc
   for (vector in names(model$DemandVectors$vectors)){
     model$DemandVectors$vectors[[vector]] <- c(process_demand, model$DemandVectors$vectors[[vector]])
   }
+
+  # Expand q and x, necessary for model validation
+  process_output <- vector(mode='numeric', length = nrow(new_processes))
+  names(process_output) <- new_processes$Code_Loc
+  model$q <- c(process_output, model$q)
+  model$x <- c(process_output, model$x)
+  
   
   return(model)
 }

@@ -183,6 +183,7 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
   Chi <- as.matrix(sweep(FlowYearOutput[rownames(model$B), ], 2, ModelYearOutput, "/"))
   # Replace 0 with 1
   Chi[Chi==0] <- 1
+  Chi[is.na(Chi)] <- 1
   return(Chi)
 }
 
