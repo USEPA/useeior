@@ -17,7 +17,7 @@ SatelliteTable:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "useeior/NGHGIAM_GHG_TotalsBySector.csv"
+    StaticFile: "useeior/NGHGIAM_GHG_TotalsBySector_wUUIDs.csv"
     FileLocation: "DataCommons"
     DataYears: [2016]
     Locations: ["US"]
