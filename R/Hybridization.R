@@ -95,16 +95,20 @@ hybridizeModelObjects <- function (model) {
 
   # Expand matrices assigning 1 at intersection and zeros elsewhere
   for (table in c('C_m', 'V_n', 'U_d')){
+    t <- model[[table]]
     x <- diag(nrow=nrow(new_processes))
     rownames(x) <- new_processes$Code_Loc
     colnames(x) <- new_processes$Code_Loc
-    x <- merge(x, model[[table]], by="row.names", all=TRUE)
+    x <- merge(x, t, by="row.names", all=TRUE)
     
     # rename and reorder
     rownames(x) <- x[,1]
     x[is.na(x)] <- 0
     x <- as.matrix(x[-1])
-    x <- x[c(new_processes$Code_Loc, rownames(x)[!rownames(x) %in% new_processes$Code_Loc]),]
+    x <- x[c(new_processes$Code_Loc, rownames(t)[!rownames(t) %in% new_processes$Code_Loc]),]
+    if (!identical(x[-1,-1], t)){
+      stop("Error in forming hybrid tables")
+    }
     model[[table]] <- x
   }
   
