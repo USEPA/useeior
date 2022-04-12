@@ -1,7 +1,9 @@
-# Disaggregation and Aggregation File Specifications
-This page describes the file formats needed to run the aggregation and disaggregation functions in USEEIOR. Aggregating a sector requires only one .yml input file, while disaggregation requires a .yml input file and several .csv files to specifiy the disaggregation parameters. 
+# Model Customization File Specifications
+This page describes the file formats needed to customize models in useeior, e.g., model aggregation and disaggregation. 
+
 
 # Disaggreation and Aggregation .yml File Specification
+Aggregating a sector requires only one .yml input file, while disaggregation requires a .yml input file and several .csv files to specifiy the disaggregation parameters. 
 The disaggregation and aggregation files are assigned in a yml file based on the parameters shown below. Each file is a list, named based on the [Code/location](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#sector-meta) of the sector to be disaggregated or aggregated to (e.g. `221100/US`)
 
 
@@ -53,3 +55,53 @@ Note | string | N |  This column contains short text strings describing the allo
 
 ## Disaggregated Satellite Table Format
 Matches [totals-by-sector](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#totals_by_sector) but includes an additional field `SatelliteTable` indicating the satellite table to which each record applies.
+
+
+# Hybridization File Specification
+Model hybridization, e.g., with LCA data from unit processes is available via [Model Type: EEIO-IH](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#Model_Types).
+This hybrid model type requires as input data normalized environmental and technical (i.e., supply chain) data.
+
+| Item | Type | Required? | Description |
+| ---  | ---  | ---       | ---------   |
+| TechFile | str | N | Pointer to a file containing [technical inputs and outputs for hybrid sectors](#Hybridization-Technical-Table-Format) |
+| EnvFile | str | N | Pointer to a file containing normalized satellite table data for [hybrid sectors](#hybridization-environmental-table-format) |
+
+## Hybridization Technical Table Format
+
+To match the style of the `A` matrix:
+
+Rows and columns are sectors in the format of `code_loc`
+
+To build the `A` matrix, the technological data frame requires the following fields:
+
+ Field | Type | Required |  Note |
+----------- |  ---- | ---------| -----  |
+ProcessID | str | Y | ProcessID of the consuming process
+ProcessName | str | Y |
+ProcessUnit | str | Y | Reference flow
+Location | str | Y | two-digit code, e.g., `US`
+Amount | float | Y | Normalized per unit of reference flow
+FlowID | str | Y | ProcessID of the flow being consumed, use [code_loc format](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#sector-meta)
+Flow | str | N | ProcessName of the flow being consumed
+FlowUnit | str | N | FEDEFL nomenclature
+
+
+## Hybridization Environmental Table Format
+
+To match the style of the `B` matrix:
+
+Rows are `flowable/context/unit` and columns are sector in the format of `code_loc`
+
+To build the `B` matrix, the environmental data frame requires the following fields:
+
+ Field | Type | Required |  Note |
+----------- |  ---- | ---------| -----  |
+ProcessID | str | Y | ProcessID of the source process
+ProcessName | str | Y |
+Location | str | Y | two-digit code, e.g., `US`
+Amount | float | Y | Per unit of reference flow
+Flowable | str | Y | FEDEFL nomenclature
+Context | str | Y | FEDEFL nomenclature
+Unit | str | Y | FEDEFL nomenclature
+FlowUUID | str| Y | FEDEFL nomenclature
+
