@@ -9,7 +9,6 @@ BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
 ScrapIncluded: FALSE
-DisaggregationSpecs: null
 HybridizationSpecs: "NGCombustion"
 
 SatelliteTable:
