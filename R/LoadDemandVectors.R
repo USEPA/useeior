@@ -30,7 +30,7 @@ loadDemandVectors <- function(model) {
       func_to_eval <- DemandVectorFunctionRegistry[[i$Type]][[i$System]]
       demandFunction <- as.name(func_to_eval)
       dv <- do.call(eval(demandFunction), list(model))
-      model$DemandVectors$vectors[[i$ID]] <- dv
+      model$DemandVectors$vectors[[i$ID]] <- dv[grepl(i$Location, names(dv))]
     } else {
       stop(paste(i$Type,i$System,"not found in registered demand vector functions. This vector must be registered or removed from the model spec."))
     }

@@ -4,10 +4,12 @@
 \alias{loadNationalIOData}
 \title{Prepare economic components of an EEIO form USEEIO model.}
 \usage{
-loadNationalIOData(model)
+loadNationalIOData(model, io_codes)
 }
 \arguments{
 \item{model}{A model object with model specs loaded.}
+
+\item{io_codes}{A list of BEA IO codes.}
 }
 \value{
 A list with USEEIO model economic components.

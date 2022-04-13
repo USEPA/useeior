@@ -66,7 +66,7 @@ Calculate model life cycle inventory (LCI) and life cycle impact assessment (LCI
 ```
 result <- useeior::calculateEEIOModel(model,
                                       perspective = "DIRECT",
-                                      demand = "CompleteProduction",
+                                      demand = "Production",
                                       use_domestic_requirements = FALSE)
 ```
 

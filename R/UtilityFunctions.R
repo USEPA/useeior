@@ -180,17 +180,39 @@ loadDataCommonsfile <- function(static_file) {
   return(f)
 }
 
-#' Maps a vector of FIPS codes to location codes
-#' ! Placeholder only works for '00000' now
+#' Maps a vector of 5-digit FIPS codes to location names
 #' @param fipscodes A vector of 5 digit FIPS codes
-#' @return A vector of location codes where matches are found
-mapFIPS5toLocationCodes <- function(fipscodes) {
-  mapping <- c('00000' = 'US')
-  
-  locations <- stringr::str_replace_all(string = fipscodes,pattern = mapping)
+#' @param fipssystem A text value specifying FIPS System, can be FIPS_2015
+#' @return A vector of location names where matches are found
+mapFIPS5toLocationNames <- function(fipscodes, fipssystem) {
+  mapping_file <- "Crosswalk_FIPS.csv"
+  mapping <- utils::read.table(system.file("extdata", mapping_file, package = "useeior"),
+                               sep = ",", header = TRUE, stringsAsFactors = FALSE, 
+                               check.names = FALSE, quote = "")
+  # Add leading zeros to FIPS codes if necessary
+  if (!fipssystem%in%colnames(mapping)) {
+    fipssystem <- max(which(startsWith(colnames(mapping), "FIPS")))
+  }
+  mapping[, fipssystem] <- formatC(mapping[, fipssystem], width = 5, format = "d", flag = "0")
+  mapping <- mapping[mapping[, fipssystem]%in%fipscodes, ]
+  # Get locations based on fipscodes
+  locations <- stringr::str_replace_all(string = fipscodes,
+                                        pattern = setNames(as.vector(mapping$State),
+                                                           mapping[, fipssystem]))
   return(locations)
-}  
-  
+}
+
+#' Maps location codes to names
+#' @param codes A vector of location codes
+#' @param codesystem A text value specifying code system, e.g. FIPS.
+#' @return A vector of location names where matches are found.
+mapLocationCodestoNames <- function(codes, codesystem) {
+  func_dict <- list("FIPS" = "mapFIPS5toLocationNames") # add more component for new location codes
+  func_to_eval <- func_dict[[codesystem]]
+  location_names <- do.call(eval(as.name(func_to_eval)), list(codes, codesystem))
+  return(location_names)
+}
+
 #' Replaces all `None` in a dataframe with the R NULL type NA
 #' @param df A data frame
 #' @return A data frame without `None`
@@ -383,4 +405,14 @@ writeMetadatatoJSON <- function(package, name, year, source, url) {
   }
   write(jsonlite::toJSON(metadata, pretty = TRUE),
         paste0(metadata_dir, paste0(name, "_metadata"), ".json"))
+}
+
+#' Format location in state models from formal state name to US-ST
+#' @param location A text value of input location name
+#' @return A text value of formatted location for state models
+formatLocationforStateModels <- function(location) {
+  loc <- stringr::str_replace_all(string = tolower(location),
+                                  pattern = setNames(paste("US", state.abb, sep = "-"),
+                                                     tolower(state.name)))
+  return(loc)
 }

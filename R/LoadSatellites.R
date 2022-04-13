@@ -102,13 +102,13 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
   # If not, use specified functions in model metadata to load data from dynamic source
   if(sat_spec$FileLocation == "useeior") {
     totals_by_sector <- utils::read.table(system.file("extdata", sat_spec$StaticFile, package = "useeior"),
-                                            sep = ",", header = TRUE, stringsAsFactors = FALSE,
-                                            fileEncoding = 'UTF-8-BOM')
+                                          sep = ",", header = TRUE, stringsAsFactors = FALSE,
+                                          fileEncoding = 'UTF-8-BOM')
   } else if (!is.null(sat_spec$ScriptFunctionCall)) {
     func_to_eval <- sat_spec$ScriptFunctionCall
     totalsgenfunction <- as.name(func_to_eval)
     params <- sat_spec
-    if (!is.null(sat_spec$ScriptFunctionParameters)){
+    if (!is.null(sat_spec$ScriptFunctionParameters)) {
       if (sat_spec$ScriptFunctionParameters == "model") {
         params <- model
       }
@@ -137,12 +137,20 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
       tbs <- disaggregateSatelliteTable(disagg, tbs, sat_spec)
     }
   }
+  # Change Location if model is a state model
+  if (all(model$specs$ModelRegionAcronyms!="US", model$specs$IODataSource=="stateior")) {
+    # Format location in tbs
+    tbs$Location <- formatLocationforStateModels(tbs$Location)
+  }
+  tbs$Location <- ifelse(tbs$Location%in%model$specs$ModelRegionAcronyms,
+                         tbs$Location,
+                         setdiff(model$specs$ModelRegionAcronyms, tbs$Location))
   
   # Check if the original data is BEA-based. If so, apply necessary allocation or aggregation.
   # If not, map data from original sector to BEA.
   if (sat_spec$SectorListSource == "BEA") {
     # If BEA years is not the same as model year, must perform allocation
-    if (sat_spec$SectorListLevel == "Detail" && sat_spec$SectorListYear == 2007 && model$specs$BaseIOSchema == 2012) {
+    if (all(sat_spec$SectorListLevel == "Detail", sat_spec$SectorListYear == 2007, model$specs$BaseIOSchema == 2012)) {
       tbs <- mapFlowTotalsbySectorfromBEASchema2007to2012(tbs)
     }
     # If the original data is at Detail level but model is not, apply aggregation
@@ -151,14 +159,6 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
     }
   } else if ("NAICS" %in% sat_spec$SectorListSource) {
     tbs <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(tbs, sat_spec$DataYears[1], model)
-  }
-  
-  for (r in model$specs$ModelRegionAcronyms) {
-    # Change Location if model is a state model
-    if (model$specs$ModelRegionAcronyms!="US") {
-      stop("Fix this function for state models before proceesing")
-      tbs[,"Location"] <- vapply(tbs[,"Location"],formatLocationforStateModels)
-    }
-  }
+  }  
   return(tbs)
 }

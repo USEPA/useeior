@@ -2,16 +2,18 @@
 % Please edit documentation in R/LoadIOTables.R
 \name{loadBEAtables}
 \alias{loadBEAtables}
-\title{Load BEA IO tables in a list based on model config.}
+\title{Load BEA IO tables in a list based on model config and io_codes.}
 \usage{
-loadBEAtables(specs)
+loadBEAtables(specs, io_codes)
 }
 \arguments{
 \item{specs}{Model specifications.}
+
+\item{io_codes}{A list of BEA IO codes.}
 }
 \value{
-A list with BEA IO tables.
+A list with BEA IO tables
 }
 \description{
-Load BEA IO tables in a list based on model config.
+Load BEA IO tables in a list based on model config and io_codes.
 }
