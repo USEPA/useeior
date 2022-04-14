@@ -35,8 +35,11 @@ hybridizeBMatrix <- function (model){
   B <- model$B
   
   df <- model$HybridizationSpecs$EnvFileDF
-  df <- within(df, Flow <- paste(Flowable, Context, Unit, sep='/'))
-  B_proc <- reshape2::acast(df, Flow ~ ProcessID, fun.aggregate = sum, value.var = "Amount")
+  df$Flow <- apply(df[, c("Flowable", "Context", "Unit")],
+                   1, FUN = joinStringswithSlashes)
+  df$Code_Loc <- apply(df[, c("ProcessID", "Location")],
+                       1, FUN = joinStringswithSlashes)
+  B_proc <- reshape2::acast(df, Flow ~ Code_Loc, fun.aggregate = sum, value.var = "Amount")
   B_merged <- merge(B_proc, model$B, by="row.names", all=TRUE)
   B_merged[is.na(B_merged)] <- 0
   
