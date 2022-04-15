@@ -15,6 +15,7 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   if (!identical(colnames(B), colnames(Chi))) {
     stop("columns in Chi and B do not match")
   }
+  Chi <- Chi[match(rownames(B), rownames(Chi)), ]
   B_chi <- B*Chi
   
   # Generate E
@@ -173,14 +174,14 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
     # Replace NA with 1 in DollarRatio
     DollarRatio[is.na(DollarRatio)] <- 1
     output <- output * DollarRatio
-    flows <- unique(c(TbS[TbS$Year==year, "Flow"], rownames(model$B)))
+    flows <- unique(TbS[TbS$Year==year, "Flow"])
     FlowYearOutput_y <- do.call(rbind, rep(output, times = length(flows)))
     rownames(FlowYearOutput_y) <- flows
     colnames(FlowYearOutput_y) <- rownames(output)
     FlowYearOutput <- rbind(FlowYearOutput, FlowYearOutput_y)
   }
   # Calculate Chi: divide FlowYearOutput by ModelYearOutput
-  Chi <- as.matrix(sweep(FlowYearOutput[rownames(model$B), ], 2, ModelYearOutput, "/"))
+  Chi <- as.matrix(sweep(FlowYearOutput[unique(TbS$Flow), ], 2, ModelYearOutput, "/"))
   # Replace 0 with 1
   Chi[Chi==0] <- 1
   Chi[is.na(Chi)] <- 1
