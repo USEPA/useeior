@@ -61,10 +61,16 @@ hybridizeBMatrix <- function (model){
 hybridizeModelObjects <- function (model) {
 
   # Update flows table
-  new_flows <- setdiff(model$HybridizationSpecs$EnvFileDF[colnames(model$SatelliteTables$flows)], model$SatelliteTables$flows)
-  model$SatelliteTables$flows <- unique(rbind(model$SatelliteTables$flows, new_flows))
+  new_flows <- unique(model$HybridizationSpecs$EnvFileDF[colnames(model$SatelliteTables$flows)])
+  new_flows$flow <- apply(new_flows[, c("Flowable", "Context", "Unit")], 
+                          1, FUN = joinStringswithSlashes)
+  model_flows <- apply(model$SatelliteTables$flows[, c("Flowable", "Context", "Unit")], 
+                       1, FUN = joinStringswithSlashes)
+  model$SatelliteTables$flows <- rbind(model$SatelliteTables$flows,
+                                       subset(new_flows[colnames(model$SatelliteTables$flows)],
+                                              !(new_flows$flow %in% model_flows)))
   row.names(model$SatelliteTables$flows) <- NULL
-  
+
   process_cols <- c("ProcessID", "ProcessName", "ProcessUnit", "Location")
   new_processes <- unique(model$HybridizationSpecs$TechFileDF[process_cols])
   colnames(new_processes) <- c("Code", "Name", "Unit", "Location")
