@@ -173,7 +173,7 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
     # Replace NA with 1 in DollarRatio
     DollarRatio[is.na(DollarRatio)] <- 1
     output <- output * DollarRatio
-    flows <- unique(TbS[TbS$Year==year, "Flow"])
+    flows <- unique(c(TbS[TbS$Year==year, "Flow"], rownames(model$B)))
     FlowYearOutput_y <- do.call(rbind, rep(output, times = length(flows)))
     rownames(FlowYearOutput_y) <- flows
     colnames(FlowYearOutput_y) <- rownames(output)
