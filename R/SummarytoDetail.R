@@ -292,6 +292,45 @@ createCombinedPercentagesByTable <- function(detailModel, table, listOfCrosswalk
 }
 
 
+#' Remove original sector summary codes (e.g., 22/US) from the listOfAllocations after including combined allocation percentages in this list.
+#' @param combinedLists A list containing the combined disaggregation allocations for several summary to detail disaggregations 
+#' @return Combined allocation percentages for the specified table without original summary sector codes
+removeOriginalCodesFromAllocTable <- function(combinedLists, listOfCrosswalks, tableParams){
+  
+  # For UseFileDF 
+  # Remove original sector codes from commodityCode column in combinedLists
+  useFileDFComAllocIndex <- which(combinedLists$UseFileDF$CommodityCode %in% combinedLists$originalSector)
+  if(length(useFileDFComAllocIndex) != 0){
+    combinedLists$UseFileDF <- combinedLists$UseFileDF[-(useFileDFComAllocIndex),]
+    
+  }
+  
+  # Remove original Sector codes for IndustryCode column in combinedLists
+  useFileDFIndAllocIndex <- which(combinedLists$UseFileDF$IndustryCode %in% combinedLists$originalSector)
+  if(length(useFileDFIndAllocIndex) != 0){
+    combinedLists$UseFileDF <- combinedLists$UseFileDF[-(useFileDFComAllocIndex),]
+    
+  }
+  
+  # For MakeFileDF
+  # Remove original sector codes from commodityCode column in combinedLists
+  makeFileDFComAllocIndex <- which(combinedLists$MakeFileDF$CommodityCode %in% combinedLists$originalSector)
+  if(length(makeFileDFComAllocIndex) != 0){
+    combinedLists$MakeFileDF <- combinedLists$MakeFileDF[-(makeFileDFComAllocIndex),]
+    
+  }
+  
+  # Remove original Sector codes for IndustryCode column in combinedLists
+  makeFileDFIndAllocIndex <- which(combinedLists$MakeFileDF$IndustryCode %in% combinedLists$originalSector)
+  if(length(makeFileDFIndAllocIndex) != 0){
+    combinedLists$MakeFileDF <- combinedLists$MakeFileDF[-(makeFileDFIndAllocIndex),]
+  }
+  
+  return(combinedLists)
+  
+}
+
+
 #' Assign combined allocation percentages by Table based on a list of several allocations
 #' @param listOfAllocations A list of lists containing the disaggregation allocations for several summary to detail disaggregations 
 #' @param listOfCrosswalks A list containing dataframes with mappings of summary, detail, and allocation specific sectors
@@ -330,6 +369,7 @@ assignCombinedPercentagesByTable <- function(listOfAllocations, listOfCrosswalks
                                                           listOfAllocations[[commodityList]]$UseFileDF[-(1:(allocUseIndeces[length(allocUseIndeces)])),]) 
   }
   
+  rownames(listOfAllocations[[commodityList]]$UseFileDF) <- 1:nrow(listOfAllocations[[commodityList]]$UseFileDF)
 
   
   # For MakeFileDF
@@ -350,7 +390,7 @@ assignCombinedPercentagesByTable <- function(listOfAllocations, listOfCrosswalks
                                                            listOfAllocations[[commodityList]]$MakeFileDF[-(1:(allocMakeIndeces[length(allocMakeIndeces)])),])
   }
    
- 
+  rownames(listOfAllocations[[commodityList]]$MakeFileDF) <- 1:nrow(listOfAllocations[[commodityList]]$MakeFileDF)
   
 #   # Finding locations of current industries to replace in the original list of allocations
 #   if(commodityList > industryList){
@@ -494,13 +534,12 @@ combineAllocationPercentages <- function(modelname = "USEEIOv2.0", detailModel =
     temp <- 2
   } # End of for commodityList loop
   
-  # Modifying the allocation percentages for: 
-  
-  # CurrentList, Use table columns. I.e., currentList$originalSector is in the IndustryCode column of currentList$UseFileDF, 
-  # while originalSectors of other lists (i.e. not currentList) are in the commodityCode column
+  # Combine all lists into one list
   combinedLists <- do.call(Map, c(f = rbind, listOfAllocations))
-  temp <- 3
- # return(listOfAllocations) #TODO: Replace this temporary return variable with actual return variable
+  # Remove unneeded rows in combinedLists that still contain original summary Sector codes. 
+  combinedLists <- removeOriginalCodesFromAllocTable(combinedLists)
+
+  temp <- 3 
   return(combinedLists)
   
 }
