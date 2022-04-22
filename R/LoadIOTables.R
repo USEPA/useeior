@@ -52,17 +52,23 @@ loadIOData <- function(model, configpaths = NULL) {
   }
   
   # Check for aggregation
-  model <- getAggregationSpecs(model, configpaths)
-  if(length(model$AggregationSpecs)!=0){
+  if(!is.null(model$specs$AggregationSpecs)){
+    model <- getAggregationSpecs(model, configpaths)
     model <- aggregateModel(model)
   }
   
   # Check for disaggregation
-  model <- getDisaggregationSpecs(model, configpaths)
-  if(length(model$DisaggregationSpecs)!=0){
+  if(!is.null(model$DisaggregationSpecs)){
+    model <- getDisaggregationSpecs(model, configpaths)
     model <- disaggregateModel(model)
   }
   
+  # Check for hybridization
+  if(model$specs$ModelType == "EEIO-IH"){
+    model <- getHybridizationSpecs(model, configpaths)
+    model <- getHybridizationFiles(model, configpaths)
+  }
+    
   return(model)
 }
 
@@ -113,7 +119,9 @@ loadIOmeta <- function(model) {
     model[[meta]][] <- lapply(model[[meta]], as.character)
     # Add Code_Loc column
     model[[meta]][["Code_Loc"]] <- apply(code_loc, 1, FUN = joinStringswithSlashes)
-  }
+  } 
+  model$Commodities$Unit <- "USD"
+  model$Industries$Unit <- "USD"
   # Apply final touches to FinalDemandMeta and MarginSectors
   model$FinalDemandMeta$Group <- gsub(c("Codes|DemandCodes"), "",
                                       model$FinalDemandMeta$Group)

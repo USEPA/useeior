@@ -1,0 +1,3 @@
+Hybridization: # Large gas boiler from AP-42
+  TechFile: NGCombustion_tech.csv
+  EnvFile: NGCombustion_env.csv 

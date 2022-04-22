@@ -64,6 +64,11 @@ constructEEIOMatrices <- function(model) {
     model$A_d <- model$V_n %*% model$U_d_n
   }
   
+  if(model$specs$ModelType == "EEIO-IH"){
+    model$A <- hybridizeAMatrix(model)
+    model$A_d <- hybridizeAMatrix(model, domestic=TRUE)
+  }
+
   # Calculate total requirements matrix as Leontief inverse (L) of A
   logging::loginfo("Calculating L matrix (total requirements)...")
   I <- diag(nrow(model$A))
@@ -75,7 +80,11 @@ constructEEIOMatrices <- function(model) {
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
   model$B <- createBfromFlowDataandOutput(model)
-  
+
+  if(model$specs$ModelType == "EEIO-IH"){
+    model$B <- hybridizeBMatrix(model)
+  }
+    
   # Generate C matrix
   logging::loginfo("Building C matrix (characterization factors for model indicators)...")
   model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
@@ -119,6 +128,10 @@ constructEEIOMatrices <- function(model) {
                          "InternationalTradeAdjustmentbyCommodity"))
   }
   model <- within(model, rm(list = mat_to_remove))
+  
+  if(model$specs$ModelType == "EEIO-IH"){
+    model <- hybridizeModelObjects(model)
+  }  
   
   logging::loginfo("Model build complete.")
   return(model)
