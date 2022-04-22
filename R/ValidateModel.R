@@ -22,6 +22,9 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
   E <- prepareEfromtbs(model)
   E <- as.matrix(E[rownames(B), colnames(B)])
   
+  B_chi <- removeHybridProcesses(model, B_chi)
+  E <- removeHybridProcesses(model, E)
+  
   # Adjust E and B_chi if model is commodity-based
   if (model$specs$CommodityorIndustryType=="Commodity") {
     #transform E with commodity mix to put in commodity form
@@ -32,6 +35,7 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 
   # Calculate scaling factor c=Ly
   c <- calculateProductofLeontiefAndProductionDemand(model, use_domestic)
+  c <- removeHybridProcesses(model, c)
   
   #LCI = B dot Chi %*% c
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
@@ -101,9 +105,11 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 #' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #' @export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
-  q <- model$q
-  x <- rowSums(model$U_d[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
-    model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[1]]
+  q <- removeHybridProcesses(model, model$q)
+  x <- rowSums(model$U_d[removeHybridProcesses(model, model$Commodities$Code_Loc),
+                         removeHybridProcesses(model, model$Industries$Code_Loc)]) +
+    removeHybridProcesses(model, model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors),
+                                                                      "Production_Domestic")][[1]])
   # Row names should be identical
   if (!identical(names(q), names(x))) {
     stop("Sectors not aligned in model ouput variable and calculation result")
@@ -132,8 +138,8 @@ compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- func
   industryCPI_ratio <- model$MultiYearIndustryCPI[, "2017"]/model$MultiYearIndustryCPI[, "2012"]
   industryCPI_ratio[is.na(industryCPI_ratio)] <- 1
   
-  q <- model$q * commodityCPI_ratio
-  x <- as.numeric(model$C_m %*% (model$x * industryCPI_ratio))
+  q <- removeHybridProcesses(model, model$q * commodityCPI_ratio)
+  x <- as.numeric(model$C_m %*% removeHybridProcesses(model, model$x * industryCPI_ratio))
   
   # Calculate relative differences
   rel_diff <- (q - x)/x
@@ -312,3 +318,26 @@ if (model$specs$CommodityorIndustryType=="Commodity") {
   print(paste("Sectors with flow totals failing:", paste(unique(q_val$Failure$rownames), collapse = ", ")))
 }
 }
+
+#' Removes hybrid processes form a model object for successful validation
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param object A model object in the form of a matrix or vector
+#' @return object with processes removed
+removeHybridProcesses <- function(model, object) {
+  if (model$specs$ModelType == "EEIO-IH") {
+    if(typeof(object) == 'character'){
+      object <- object[!object %in% model$HybridizationSpecs$Processes$Code_Loc]
+    }
+    else if(!is.null(colnames(object))) {
+      object <- object[, !colnames(object) %in% model$HybridizationSpecs$Processes$Code_Loc]
+    }
+    else if(!is.null(rownames(object))) {
+      object <- as.matrix(object[!rownames(object) %in% model$HybridizationSpecs$Processes$Code_Loc, ])
+    }
+    else {
+      object <- object[!names(object) %in% model$HybridizationSpecs$Processes$Code_Loc]
+    }
+  }
+  return(object)
+}
+

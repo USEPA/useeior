@@ -75,7 +75,8 @@ hybridizeModelObjects <- function (model) {
   new_processes <- unique(model$HybridizationSpecs$TechFileDF[process_cols])
   colnames(new_processes) <- c("Code", "Name", "Unit", "Location")
   new_processes["Code_Loc"] <- paste(new_processes$Code, new_processes$Location, sep="/")
-
+  model$HybridizationSpecs$Processes <- new_processes
+  
   # Update Industry and Commodity tables
   new_processes[setdiff(names(model$Commodities), names(new_processes))] <- ""
   new_processes[setdiff(names(model$Industries), names(new_processes))] <- ""
@@ -87,7 +88,7 @@ hybridizeModelObjects <- function (model) {
   new_processes[setdiff(names(model$Margins), names(new_processes))] <- 0
   model$Margins <- rbind(new_processes[colnames(model$Margins)], model$Margins)
 
-  # Update output dfs
+  # Update MultiYear dfs, set to 0
   for (df in c('MultiYearCommodityOutput', 'MultiYearIndustryOutput',
                'MultiYearCommodityCPI', 'MultiYearIndustryCPI')){
     new_processes[setdiff(names(model[[df]]), names(new_processes))] <- 0
@@ -95,32 +96,12 @@ hybridizeModelObjects <- function (model) {
     model[[df]] <- rbind(new_processes[colnames(model[[df]])], model[[df]])
   }
     
-  # Update matrices
+  # Update matrices, set to 1
   for (table in c('Rho', 'Phi')){
     process_matrix <-  matrix(data = 1, nrow = nrow(new_processes), ncol = ncol(model[[table]]))
     rownames(process_matrix) <- new_processes$Code_Loc
     model[[table]] <- rbind(process_matrix, model[[table]])
   }
-
-  # Expand matrices assigning 1 at intersection and zeros elsewhere
-  for (table in c('C_m', 'V_n', 'U_d')){
-    t <- model[[table]]
-    x <- diag(nrow=nrow(new_processes))
-    rownames(x) <- new_processes$Code_Loc
-    colnames(x) <- new_processes$Code_Loc
-    x <- merge(x, t, by="row.names", all=TRUE)
-    
-    # rename and reorder
-    rownames(x) <- x[,1]
-    x[is.na(x)] <- 0
-    x <- as.matrix(x[-1])
-    x <- x[c(new_processes$Code_Loc, rownames(t)[!rownames(t) %in% new_processes$Code_Loc]),]
-    if (!identical(x[-(1:nrow(new_processes)),-(1:nrow(new_processes))], t)){
-      stop("Error in forming hybrid tables")
-    }
-    model[[table]] <- x
-  }
-
 
   # Expand demand vectors with values of 0
   process_demand <- vector(mode='numeric', length = nrow(new_processes))
@@ -129,11 +110,12 @@ hybridizeModelObjects <- function (model) {
     model$DemandVectors$vectors[[vector]] <- c(process_demand, model$DemandVectors$vectors[[vector]])
   }
 
-  # Expand q and x, necessary for model validation
+  # Expand q, x and mu with values of 0
   process_output <- vector(mode='numeric', length = nrow(new_processes))
   names(process_output) <- new_processes$Code_Loc
   model$q <- c(process_output, model$q)
   model$x <- c(process_output, model$x)
+  model$mu <- c(process_output, model$mu)
   
   
   return(model)
