@@ -2,7 +2,8 @@
 % Please edit documentation in R/CalculationFunctions.R
 \name{getScalingVector}
 \alias{getScalingVector}
-\title{Multiply the Leontief inverse L and the demand vector.}
+\title{Multiply the Leontief inverse L and the demand vector to calculate scaling vector
+that represents production needed to fulfill the demand.}
 \usage{
 getScalingVector(L, demand)
 }
@@ -15,7 +16,8 @@ getScalingVector(L, demand)
 Scaling vector.
 }
 \description{
-Multiply the Leontief inverse L and the demand vector.
+Multiply the Leontief inverse L and the demand vector to calculate scaling vector
+that represents production needed to fulfill the demand.
 }
 \references{
 Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.

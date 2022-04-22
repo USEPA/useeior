@@ -1,10 +1,10 @@
 # Functions for loading input-output tables
 
-#' Prepare economic components of an EEIO model.
-#' @param model An EEIO model object with model specs loaded
+#' Prepare economic components of an EEIO form USEEIO model.
+#' @param model An EEIO form USEEIO model object with model specs loaded
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
-#' @return A list with EEIO model economic components.
+#' @return A list with EEIO form USEEIO model economic components.
 loadIOData <- function(model, configpaths = NULL) {
   # Declare model IO objects
   logging::loginfo("Initializing IO tables...")
