@@ -15,6 +15,8 @@ The package offers various functions for validating, calculating, visualizing, a
 `useeior` is in a stable development state.
 Users intending to use the package for production purposes and applications should use [Releases](https://github.com/USEPA/useeior/releases).
 
+`useeior` v1.0.0 was peer-reviewed internally at USEPA and published at Zenodo. An article describing `useeior` was peer-reviewed and published by the journal of Applied Sciences.
+
 See the following sections for installation and basic usage of `useeior`.
 See [Wiki](https://github.com/USEPA/useeior/wiki) for advanced uses, details about built-in data and metadata and how to contribute to `useeior`.
 
