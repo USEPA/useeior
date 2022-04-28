@@ -2,7 +2,8 @@
 <!-- badges: start -->
 [![R CI/CD test](https://github.com/USEPA/useeior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/USEPA/useeior/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6370101.svg)](https://doi.org/10.5281/zenodo.6370101)
+[![useeior v1.0.0](http://img.shields.io/badge/useeior%20v1.0.0-10.5281/zenodo.6370101-blue.svg)](https://doi.org/10.5281/zenodo.6370101)
+[![useeior paper](http://img.shields.io/badge/useeior%20paper-10.3390/app12094469-blue.svg)](https://doi.org/10.3390/app12094469)
 <!-- badges: end -->
 
 `useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models).
