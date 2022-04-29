@@ -1,4 +1,4 @@
-# useeior <img src="inst/img/logo.png" align="right" width="120" />
+# useeior <img src="inst/img/logo.png" align="right" width="240" />
 <!-- badges: start -->
 [![R CI/CD test](https://github.com/USEPA/useeior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/USEPA/useeior/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
