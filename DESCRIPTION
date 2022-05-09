@@ -31,7 +31,6 @@ Imports:
     reticulate (>= 1.1),
     rlang (>= 0.4.11),
     scales (>= 1.1.1),
-    stateior,
     stats (>= 3.6.1),
     stringr (>= 1.4),
     usethis (>= 1.5),
@@ -39,8 +38,6 @@ Imports:
     writexl (>= 1.2)
 Depends:
   R (>= 3.6)
-Remotes:
-  USEPA/stateior
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
