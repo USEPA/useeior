@@ -20,7 +20,9 @@ getTwoRegionIOData <- function(specs, dataname) {
   } else if (dataname %in% c("DomesticUseTransactions", "DomesticFinalDemand")) {
     filename <- gsub(dataname, "DomesticUse", filename)
   }
+  # Load data
   TwoRegionIOData <- loadDataCommonsfile(paste0("stateio/", filename, ".rds"))
-  # Try loading data from local folder
+  # Keep SoI and RoUS only
+  TwoRegionIOData <- TwoRegionIOData[[state]]
   return(TwoRegionIOData)
 }

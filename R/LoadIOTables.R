@@ -216,13 +216,13 @@ loadTwoRegionStateIOtables <- function(specs) {
     state <- "District of Columbia"
   }
   # Load IO tables from stateior
-  StateIO$MakeTransactions <- getTwoRegionIOData(specs, "Make")[[state]]
-  StateIO$UseTransactions <- getTwoRegionIOData(specs, "UseTransactions")[[state]]
-  StateIO$FinalDemand <- getTwoRegionIOData(specs, "FinalDemand")[[state]]
-  StateIO$DomesticUseTransactions <- getTwoRegionIOData(specs, "DomesticUseTransactions")[[state]]
-  StateIO$DomesticFinalDemand <- getTwoRegionIOData(specs, "DomesticFinalDemand")[[state]]
-  StateIO$UseValueAdded <- getTwoRegionIOData(specs, "UseValueAdded")[[state]]
-  StateIO$InternationalTradeAdjustment <- getTwoRegionIOData(specs, "InternationalTradeAdjustment")[[state]]
+  StateIO$MakeTransactions <- getTwoRegionIOData(specs, "Make")
+  StateIO$UseTransactions <- getTwoRegionIOData(specs, "UseTransactions")
+  StateIO$FinalDemand <- getTwoRegionIOData(specs, "FinalDemand")
+  StateIO$DomesticUseTransactions <- getTwoRegionIOData(specs, "DomesticUseTransactions")
+  StateIO$DomesticFinalDemand <- getTwoRegionIOData(specs, "DomesticFinalDemand")
+  StateIO$UseValueAdded <- getTwoRegionIOData(specs, "UseValueAdded")
+  StateIO$InternationalTradeAdjustment <- getTwoRegionIOData(specs, "InternationalTradeAdjustment")
   return(StateIO)
 }
 
@@ -253,18 +253,18 @@ loadCommodityandIndustryOutput <- function(model) {
     year <- model$specs$IOYear
     iolevel <- model$specs$BaseIOLevel
     # Load industry and commodity output
-    model$IndustryOutput <- getTwoRegionIOData(specs, "IndustryOutput")[[state]]
-    model$CommodityOutput <- getTwoRegionIOData(specs, "CommodityOutput")[[state]]
+    model$IndustryOutput <- getTwoRegionIOData(specs, "IndustryOutput")
+    model$CommodityOutput <- getTwoRegionIOData(specs, "CommodityOutput")
     # Load multi-year industry and commodity output
-    years <- 2012:2017
+    years <- as.character(2012:2017)
+    newspecs <- specs
     model$MultiYearIndustryOutput <- as.data.frame(model$IndustryOutput)[, FALSE]
-    model$MultiYearIndustryOutput[, as.character(years)] <- lapply(years,
-                                                                   FUN = stateior::getTwoRegionIndustryOutput,
-                                                                   state = state, iolevel = iolevel)
     model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
-    model$MultiYearCommodityOutput[, as.character(years)] <- lapply(years,
-                                                                    FUN = stateior::getTwoRegionCommodityOutput,
-                                                                    state = state, iolevel = iolevel)
+    for (year in years) {
+      newspecs$IOYear <- year
+      model$MultiYearIndustryOutput[, year] <- getTwoRegionIOData(newspecs, "IndustryOutput")
+      model$MultiYearCommodityOutput[, year] <- getTwoRegionIOData(newspecs, "CommodityOutput")
+    }
   }
   return(model)
 }
