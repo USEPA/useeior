@@ -5,10 +5,10 @@
 \title{Load two-region IO data of model iolevel and year from user's local directory
 or the EPA Data Commons.}
 \usage{
-getTwoRegionIOData(specs, dataname)
+getTwoRegionIOData(model, dataname)
 }
 \arguments{
-\item{specs}{Model specifiations.}
+\item{model}{An EEIO form USEEIO model object with model specs and IO meta data loaded.}
 
 \item{dataname}{Name of desired IO data, can be "Make", "Use", "DomesticUse",
 "UseTransactions", "FinalDemand", "InternationalTradeAdjustment,
