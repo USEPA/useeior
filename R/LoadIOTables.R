@@ -58,7 +58,7 @@ loadIOData <- function(model, configpaths = NULL) {
   }
   
   # Check for disaggregation
-  if(!is.null(model$DisaggregationSpecs)){
+  if(!is.null(model$specs$DisaggregationSpecs)){
     model <- getDisaggregationSpecs(model, configpaths)
     model <- disaggregateModel(model)
   }
