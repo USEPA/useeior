@@ -312,29 +312,30 @@ calculateMarginSectorImpacts <- function(model) {
 #' dataframe of exchanges, with sector names mapped to sector codes.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param indicator str, index of a model indicator, e.g. "Greenhouse Gases".
+#' @export
 #' @return A data frame of direct and per-tier-1-purchase sector impacts
 disaggregateTotalToDirectAndTier1 <- function(model, indicator) {
   sector_map <- setNames(model$Commodities$Name, model$Commodities$Code_Loc)
   
   # direct sector impacts
-  df_A_D <- tibble::enframe(model$D[impact,])
-  df_A_D <- dplyr::rename(df_A_D, impact_per_purchase=value, sector_code=name) 
+  df_D <- tibble::enframe(model$D[indicator,])
+  df_D <- dplyr::rename(df_D, impact_per_purchase=value, sector_code=name) 
   # assign "Direct" as purchased commodity label for data-vis & stat convenience
-  df_A_D <- dplyr::mutate(df_A_D, purchased_commodity = 'Direct')
+  df_D <- dplyr::mutate(df_D, purchased_commodity = 'Direct')
   
   # total impacts per Tier 1 purchase by sector
-  df_A_p <- calculateTotalImpactbyTier1Purchases(model, impact) 
-  df_A_p <- tibble::as_tibble(df_A_p, rownames="purchased_commodity_code") 
-  df_A_p <- reshape2::melt(df_A_p, id.vars="purchased_commodity_code", 
-                           variable.name="sector_code", 
-                           value.name="impact_per_purchase") 
-  df_A_p <- dplyr::mutate(df_A_p, purchased_commodity = dplyr::recode(
+  df_N <- calculateTotalImpactbyTier1Purchases(model, indicator) 
+  df_N <- tibble::as_tibble(df_N, rownames="purchased_commodity_code") 
+  df_N <- reshape2::melt(df_N, id.vars="purchased_commodity_code", 
+                         variable.name="sector_code", 
+                         value.name="impact_per_purchase") 
+  df_N <- dplyr::mutate(df_N, purchased_commodity = dplyr::recode(
     purchased_commodity_code, !!!sector_map))
   
   # combined df 
-  df_A <- dplyr::bind_rows(df_A_p, df_A_D) 
-  df_A <- dplyr::mutate(df_A, sector = dplyr::recode(sector_code, !!!sector_map))
-  return(df_A)
+  df_impacts <- dplyr::bind_rows(df_N, df_D) 
+  df_impacts <- dplyr::mutate(df_impacts, sector = dplyr::recode(sector_code, !!!sector_map))
+  return(df_impacts)
 }
 
 #' Calculate sector x sector total impacts (single indicator) for Tier 1 purchases
@@ -344,6 +345,6 @@ disaggregateTotalToDirectAndTier1 <- function(model, indicator) {
 #' @param indicator str, index of a model indicator, e.g. "Greenhouse Gases".
 #' @return A sector x sector, impact-per-tier-1-purchase matrix.
 calculateTotalImpactbyTier1Purchases <- function(model, indicator) {
-  A_impactPerPurchase <- model$N[indicator,] * model$A
-  return(A_impactPerPurchase)
+  totalImpactPerPurchase <- model$N[indicator,] * model$A
+  return(totalImpactPerPurchase)
 }
