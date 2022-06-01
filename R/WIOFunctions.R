@@ -45,3 +45,22 @@ getWIOFiles <- function (model, configpaths = NULL){
                                                           check.names = FALSE)
   return(model)
 }
+
+#' Include the WIO elements of the Use table in the correct configuration
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return A model with the UseTransactions matrix modified with WIO specs.
+includeUseWIO <- function (model){
+  
+
+  return(model)
+}
+
+#' Include the WIO elements of the Make table in the correct configuration
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return A model with the MakeTransactions matrix modified with WIO specs.
+includeMakeWIO <- function (model){
+  
+  
+  return(model)
+}
+
