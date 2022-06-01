@@ -68,6 +68,12 @@ loadIOData <- function(model, configpaths = NULL) {
     model <- getHybridizationSpecs(model, configpaths)
     model <- getHybridizationFiles(model, configpaths)
   }
+  
+  # Check for WIO specs
+  if(model$specs$ModelType == "WIO"){
+    model <- getWIOSpecs(model, configpaths)
+    model <- getWIOFiles(model, configpaths)
+  }
     
   return(model)
 }
