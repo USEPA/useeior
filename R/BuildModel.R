@@ -26,6 +26,13 @@ constructEEIOMatrices <- function(model) {
   # Generate coefficients 
   model$CbS <- generateCbSfromTbSandModel(model)
   
+  # Modify matrices with WIO elements before model EEIO construction continues
+  if(model$specs$ModelType == "WIO"){
+    model$UseTransactions <- includeUseWIO(model)
+    model$MakeTransactions <- includeMakeWIO(model)
+  }
+  
+  
   # Generate matrices
   model$V <- as.matrix(model$MakeTransactions) # Make
   model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
