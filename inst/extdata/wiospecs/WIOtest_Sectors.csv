@@ -1,0 +1,7 @@
+Sector Type,NAICS_2012_Code,USEEIO_Code,USEEIO_Name,Category,Subcategory,Description
+WIO,N/A,WTI001,Treat Ind 1,Waste Treatment Industries,N/A,Waste Treatment Industries
+WIO,N/A,WTC001,Treat Com 1,Waste Treatment Commodities,N/A,Waste Treatment Commodities
+WIO,N/A,WGT001,Wgen treatmeth 1,Waste Generation by Treatment,N/A,Waste Generation by Treatment
+WIO,N/A,WGM001,Wgen Type 1,Waste Generation by Mass,N/A,Waste Generation by Mass
+WIO,N/A,RCT001,Rec treatmeth 1,Recycling by Treatment,N/A,Recycling by Treatment
+WIO,N/A,RCM001,Rec type 1,Recycling by Mass,N/A,Recycling by Mass

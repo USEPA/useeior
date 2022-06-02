@@ -1,3 +1,5 @@
 WIO: 
-  TechFile: WIOtest_tech.csv
-  EnvFile: WIOtest_env.csv 
+  SectorFile: WIOtest_Sectors.csv
+  MakeFile: WIOtest_Make.csv
+  UseFile: WIOtest_Use.csv
+  EnvFile: WIOtest_Env.csv 
