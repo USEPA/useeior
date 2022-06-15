@@ -73,6 +73,7 @@ loadIOData <- function(model, configpaths = NULL) {
   if(model$specs$ModelType == "WIO"){
     model <- getWIOSpecs(model, configpaths)
     model <- getWIOFiles(model, configpaths)
+    model <- assembleWIOModel(model)
   }
     
   return(model)
