@@ -19,30 +19,25 @@ getWIOSpecs <- function (model, configpaths = NULL){
   return(model)
 }
 
-#' Setup the WIO specs based on the input files
+#' Setup the WIO specs based on the input files. 
+#' This function is essentially a wrapper for disaggregateSetup() function, but included for clarifying the different code flows between the two model types.
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
 #' If NULL, built-in config files are used.
 #' @return A model object with the correct WIO specs.
 getWIOFiles <- function (model, configpaths = NULL){ 
-  spec <- model$WIOSpecs
-  # Load Tech file
-  filename <- ifelse(is.null(configpaths),
-                     system.file("extdata/wiospecs", spec$TechFile, package = "useeior"),
-                     file.path(dirname(configpaths)[1], spec$TechFile))
-  model$WIOSpecs$TechFileDF <- utils::read.table(filename,
-                                                           sep = ",", header = TRUE,
-                                                           stringsAsFactors = FALSE,
-                                                           check.names = FALSE)
   
-  # Load Env file
-  filename <- ifelse(is.null(configpaths),
-                     system.file("extdata/wiospecs", spec$EnvFile, package = "useeior"),
-                     file.path(dirname(configpaths)[1], spec$EnvFile))
-  model$WIOSpecs$EnvFileDF <- utils::read.table(filename,
-                                                          sep = ",", header = TRUE,
-                                                          stringsAsFactors = FALSE,
-                                                          check.names = FALSE)
+  model <- disaggregateSetup(model)
+
+  return(model)
+}
+
+#' Build a WIO-style model by including data read from wiospecs folder
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return A model with the UseTransactions matrix modified with WIO specs.
+assembleWIOModel <- function (model){
+  
+  
   return(model)
 }
 
