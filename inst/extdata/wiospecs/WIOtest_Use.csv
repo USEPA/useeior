@@ -1,9 +1,9 @@
 IndustryCode,CommodityCode,Amount,Unit,WIO Section (?),Note
-WTI001/US,221100/US,1.00E+09,$,U12,IO Commodities by Waste Treatment Industries
-WTI001/US,V00100/US,1.00E+09,$,U12,VA by Waste Treatment Industry - Unconfirmed if this is an actual value in the Extended WSUT framework
-221100/US,WTC001/US,1.00E+09,$,U21,Waste Treatment Commodity by IO Industry / Final Demand
-F01000/US,WTC001/US,1.00E+09,$,U21,Waste Treatment Commodity by IO Industry / Final Demand
-WTI001/US,WTC001/US,1.00E+09,$,U22,Waste Treatment Commodity by Waste Treatment Industry
+WTI001/US,221100/US,1.00E+09,USD,U12,IO Commodities by Waste Treatment Industries
+WTI001/US,V00100/US,1.00E+09,USD,U12,VA by Waste Treatment Industry - Unconfirmed if this is an actual value in the Extended WSUT framework
+221100/US,WTC001/US,1.00E+09,USD,U21,Waste Treatment Commodity by IO Industry / Final Demand
+F01000/US,WTC001/US,1.00E+09,USD,U21,Waste Treatment Commodity by IO Industry / Final Demand
+WTI001/US,WTC001/US,1.00E+09,USD,U22,Waste Treatment Commodity by Waste Treatment Industry
 221100/US,WGM001/US,1.00E+09,kg,W41,Waste Generation Mass by IO Industry / Final Demand
 F01000/US,WGM001/US,1.00E+09,kg,W41,Waste Generation Mass by IO Industry / Final Demand
 WTI001/US,WGM001/US,1.00E+06,kg,W42,Waste Generation Mass by Waste Treatment Industry

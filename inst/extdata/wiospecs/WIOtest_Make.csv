@@ -1,6 +1,6 @@
 IndustryCode,CommodityCode,Amount,Unit,WIO Section (?),Note
-221100/US,WTC001/US,1.00E+09,$,V12,IO Industry by Waste Treatment Commodity
-WTI001/US,221100/US,1.00E+09,$,V21,Waste Treatment Industry by IO Commodity (note that this is 0 in the SI 2 example)
-WTI001/US,WTC001/US,1.00E+09,$,V22,Waste Treatment Industry by Waste Treatment Commodity
+221100/US,WTC001/US,1.00E+09,USD,V12,IO Industry by Waste Treatment Commodity
+WTI001/US,221100/US,1.00E+09,USD,V21,Waste Treatment Industry by IO Commodity (note that this is 0 in the SI 2 example)
+WTI001/US,WTC001/US,1.00E+09,USD,V22,Waste Treatment Industry by Waste Treatment Commodity
 WGM001/US,WGT001/US,1.00E+06,kg,W34,Waste Generation Treatment by Waste Generation Mass (Waste Allocation Matrix in Nakamuras WIO)
 RCM001/US,RCT001/US,-5.00E+05,kg,R56,Recycling Treatment by Recycling by Mass (Recycling Allocation Matrix)
