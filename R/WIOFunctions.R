@@ -32,6 +32,47 @@ getWIOFiles <- function (model, configpaths = NULL){
   return(model)
 }
 
+#' Prepare make and use input files from FlowBySector file.
+#' @param fbs FlowBySector dataframe.
+#' @return list of two dataframes: UseTableDF and MakeTableDF
+prepareWIODFfromFBS <- function(fbs) {
+  
+  # Temp
+  sectorlist <- c('562920')
+  
+  # Update FBS column names
+  old_names <- c('SectorProducedBy', 'SectorConsumedBy', 'FlowAmount', 'Unit', 'MetaSources')
+  new_names <- c('IndustryCode', 'CommodityCode', 'Amount', 'Unit', 'Note')
+  fbs <- dplyr::rename_with(fbs, ~ new_names,
+                            all_of(old_names))
+  fbs <- fbs[,(names(fbs) %in% new_names)]
+  
+  use1 <- fbs[fbs$CommodityCode %in% sectorlist, ]
+  use1$WIOSection <- 'Waste Generation Mass'
+  use2 <- fbs[fbs$IndustryCode %in% sectorlist, ]
+  use2[, c("IndustryCode", "CommodityCode")] <- use2[, c("CommodityCode", "IndustryCode")]
+  use2$WIOSection <- 'Waste Treatment Commodities Mass'
+  use <- rbind(use1, use2)
+  
+  make <- fbs[fbs$IndustryCode %in% sectorlist, ]  
+  make_agg <- dplyr::group_by(make, IndustryCode, Unit) 
+  make_agg <- dplyr::summarize(
+    make_agg,
+    AmountAgg = sum(Amount),
+    Note = dplyr::nth(Note, 1),
+    .groups = 'drop'
+  )
+  colnames(make_agg)[colnames(make_agg)=="AmountAgg"] <- "Amount"
+  make_agg$CommodityCode <- make_agg$IndustryCode
+  make_agg <- make_agg[,new_names]
+  
+  x <- list()
+  x$UseTableDF <- use
+  x$MakeTableDF <- make_agg
+  return(x)
+}
+
+
 #' Initialize all the WIO model objects simultaneously. 
 #' @param model An EEIO model object with model sepcs and IO tables loaded
 #' @return A model object with the WIO lists initialized but empty 
