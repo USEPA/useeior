@@ -32,41 +32,149 @@ getWIOFiles <- function (model, configpaths = NULL){
   return(model)
 }
 
+#' Initialize all the WIO model objects simultaneously. 
+#' @param model An EEIO model object with model sepcs and IO tables loaded
+#' @return A model object with the WIO lists initialized but empty 
+initializeWIOObjects <- function(model){
+  
+  model$WasteTreatmentIndustries <- data.frame()
+  model$WasteTreatmentCommodities <- data.frame()
+  model$WasteGenTreat <- data.frame()
+  model$WasteGenMass <- data.frame()
+  model$RecyclingTreat <- data.frame()
+  model$RecyclingnMass <- data.frame()
+  
+  return(model)
+}
+
+
 #' Build a WIO-style model by including data read from wiospecs folder
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @return A model with the UseTransactions matrix modified with WIO specs.
 assembleWIOModel <- function (model){
   temp <- 1
-  
-  #model$WasteTreatmentIndustries <- subset of model$NAICSSectorCW whose category column matches "Waste Treatment Industries"
-  #model$WasteTreatmentCommodities <- subset of model$NAICSSectorCW whose category column matches "Waste Treatment Commodities"
-  #model$WasteGenTreat <- subset of model$NAICSSectorCW whose category column matches "Waste Generation by Treatment"
-  #model$WasteGenMass <- subset of model$NAICSSectorCW whose category column matches "Waste Generation by Mass"
-  #model$RecyclingTreat <- subset of model$NAICSSectorCW whose category column matches "Recycling by Treatment"
-  #model$RecyclingnMass <- subset of model$NAICSSectorCW whose category column matches "Recycling by Mass"
-  
-  # Main idea: fill out the different sections of the use table by looking for industry/commodity combinations that fall in to the model objects defined above (+ regular IO industries)
-  
-  # Fill out intersection of IO commodities by WasteTreatment Industries (U12)
-  # Find rows in model$UseFileDF where commodity column has a code included in model$Commodities$Code_Loc and industry column has a code included in model$WasteTreatmentCommodities
-  
+
+  for(WIO in model$WIOSpecs){
+    
+    if(is.null(model$WasteTreatmentIndustries)){
+      model <- initializeWIOObjects(model) # Initialize all WIO objects
+    }
+    
+    model <- subsetWIOSectors(model, WIO, "Waste Treatment Industries")
+    model <- subsetWIOSectors(model, WIO, "Waste Treatment Commodities")
+    model <- subsetWIOSectors(model, WIO, "Waste Generation by Treatment")
+    model <- subsetWIOSectors(model, WIO, "Waste Generation by Mass")
+    model <- subsetWIOSectors(model, WIO, "Recycling by Treatment")
+    model <- subsetWIOSectors(model, WIO, "Recycling by Mass")
+ 
+    model <- includeUseWIO(model, WIO)
+
+    
+    
+    
+    # Main idea: fill out the different sections of the use table by looking for industry/commodity combinations that fall in to the model objects defined above (+ regular IO industries)
+    
+    # Fill out intersection of IO commodities by WasteTreatment Industries (U12)
+    # Find rows in model$UseFileDF where commodity column has a code included in model$Commodities$Code_Loc and industry column has a code included in model$WasteTreatmentCommodities
+    temp <- 1.5
+    
+  }
+    
+
   temp <- 2
+  return(model)
+}
+
+#' Get subset of sectors corresponding to WasteTreatmentIndustries, WasteTreatmentCommodities, WasteGentTreatment, WasteGenMass, RecyclingTreatment, or RecyclingMass
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param WIO A list with WIO specifications and data
+#' @param WIOSection A string that indicates which section of the WIO model the sectors belong to
+#' @return A model with the model WIO model objects with the correct subset of sectors and format
+subsetWIOSectors <- function (model, WIO, WIOSection){
+  
+
+  sectorsSubset <- subset(WIO$NAICSSectorCW, WIO$NAICSSectorCW$Category == WIOSection) # Get rows from WIO$NAICSSectorCW that only have the value "Waste Treatment Industries" under the category column
+  colsToRemove <- c("Sector Type", "NAICS_2012_Code")
+  sectorsSubset   <- sectorsSubset  [, !colnames(sectorsSubset  ) %in% colsToRemove] # Remove unneeded columns
+  colnames(sectorsSubset) <- colnames(model$Commodities) # Rename columns to match model$Industries
+  sectorsSubset$Code_Loc <- paste0(sectorsSubset$Code,"/",sectorsSubset$Code_Loc) # Create Code_Loc by combining Code and Location columns
+  
+   if(WIOSection == "Waste Treatment Industries"){
+    model$WasteTreatmentIndustries <- rbind(model$WasteTreatIndustries, sectorsSubset)
+    
+  }else if(WIOSection == "Waste Treatment Commodities"){
+    model$WasteTreatmentCommodities <- rbind(model$WasteTreatmentCommodities, sectorsSubset)
+    
+  }else if(WIOSection == "Waste Generation by Treatment"){
+    model$WasteGenTreat  <- rbind(model$model$WasteGenTreat, sectorsSubset)
+    
+  }else if(WIOSection == "Waste Generation by Mass"){
+    model$WasteGenMass <- rbind(model$WasteGenMass, sectorsSubset)
+
+  }else if(WIOSection == "Recycling by Treatment"){
+    model$RecyclingTreat <- rbind(model$RecyclingTreat, sectorsSubset) 
+
+  }else if(WIOSection == "Recycling by Mass"){
+    model$RecyclingnMass <- rbind(model$RecyclingnMass, sectorsSubset) 
+    
+  }else{
+    stop("Not a valid sector for a WIO model.")
+  }
+  
   return(model)
 }
 
 #' Include the WIO elements of the Use table in the correct configuration
 #' @param model An EEIO model object with model specs and IO tables loaded
+#' @param WIO A list with WIO specifications and data
 #' @return A model with the UseTransactions matrix modified with WIO specs.
-includeUseWIO <- function (model){
+includeUseWIO <- function (model, WIO){
+  temp <- 1
   
+  
+  # Get list of all WIO "commodities" and "industries" in a structural sense (i.e., WIO rows and columns for Use)
+  WIOUseCommodities <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
+  WIOUseIndustries <- do.call("rbind", list(model$WasteTreatmentIndustries, model$WasteGenTreat, model$RecyclingTreat))
+  
+  #Create WIO matrices with the correct dimensions to append to use table
+  WIOComLength <- dim(model$UseTransactions)[1] + dim(WIOUseCommodities)[1] # Find the total commodity and industry length of the use table with the WIO elements
+  WIOIndLength <- dim(model$UseTransactions)[2] + dim(WIOUseIndustries)[1]
+  
+  fullWIOComList <- rbind(model$Commodities, WIOUseCommodities) # Create commodity and industry lists of the full WIO Use table
+  rownames(fullWIOComList) <- 1:nrow(fullWIOComList)
+  
+  fullWIOIndList <- rbind(model$Industries, WIOUseIndustries[,-(3:5)])
+  rownames(fullWIOIndList) <- 1:nrow(fullWIOIndList)
+  
+  WIOUseTransactions <- data.frame(matrix(0, nrow = WIOComLength, ncol = WIOIndLength)) # Create an empty dataframe of the appropriate dimensions
+  rownames(WIOUseTransactions) <- fullWIOComList$Code_Loc # Name the rows and columns of the dataframe with the appropriate commodity and industry names respectively
+  colnames(WIOUseTransactions) <- fullWIOIndList$Code_Loc
+  
+  WIOUseTransactions[1:dim(model$UseTransactions)[1], 1:dim(model$UseTransactions)[2]] <- model$UseTransactions # Populate the IO only portion with the model$UseTransactions values
+  
+  # Assign WIO specific values in the correct location of the full WIOUseTransactions
+  for(r in 1:nrow(WIO$UseFileDF)){
+    comIndex <- which(fullWIOComList$Code_Loc %in% WIO$UseFileDF[r,]$CommodityCode)
+    indIndex <- which(fullWIOIndList$Code_Loc %in% WIO$UseFileDF[r,]$IndustryCode)
 
+    if(length(comIndex)!=0 & length(indIndex) !=0){
+      WIOUseTransactions[comIndex, indIndex] <- WIO$UseFileDF[r,]$Amount
+    }
+  
+    temp <- 3
+  }
+  
+  
+  model$UseTransactions <- WIOUseTransactions
+  
+  temp <- 2
   return(model)
 }
 
 #' Include the WIO elements of the Make table in the correct configuration
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @return A model with the MakeTransactions matrix modified with WIO specs.
-includeMakeWIO <- function (model){
+includeMakeWIO <- function (model, WIO){
   
   
   return(model)
