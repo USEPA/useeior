@@ -68,14 +68,6 @@ assembleWIOModel <- function (model){
     model <- subsetWIOSectors(model, WIO, "Recycling by Mass")
  
     model <- includeUseWIO(model, WIO)
-
-    
-    
-    
-    # Main idea: fill out the different sections of the use table by looking for industry/commodity combinations that fall in to the model objects defined above (+ regular IO industries)
-    
-    # Fill out intersection of IO commodities by WasteTreatment Industries (U12)
-    # Find rows in model$UseFileDF where commodity column has a code included in model$Commodities$Code_Loc and industry column has a code included in model$WasteTreatmentCommodities
     temp <- 1.5
     
   }
