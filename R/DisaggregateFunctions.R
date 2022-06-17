@@ -249,7 +249,12 @@ disaggregateSetup <- function (model, configpaths = NULL){
                                             stringsAsFactors = FALSE,
                                             check.names = FALSE)
     }
-    
+
+    if(!is.null(disagg$SourceFile)){
+      fbs <- getFlowbySector(disagg$SourceFile)
+      disagg <- append(disagg, prepareWIODFfromFBS(fbs))
+    }
+        
     if("FlowRatio" %in% colnames(disagg$EnvFileDF)) {
       disagg$EnvAllocRatio <- TRUE
     } else {

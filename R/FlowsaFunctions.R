@@ -64,10 +64,10 @@ prepareFlowBySectorCollapsedforSatellite <- function(fbsc) {
 
 
 #' Load flowsa's FlowBySector df
-#' @param sat_spec, a standard specification for a single satellite table
+#' @param filepath, a filepath to local parquet file
 #' @return A data frame for flowsa data in sector by region totals format
-getFlowbySector <- function(sat_spec) {
-  f <- loadDataCommonsfile(sat_spec$StaticFile)
+getFlowbySector <- function(filepath) {
+  f <- loadDataCommonsfile(filepath)
   fbs <- as.data.frame(arrow::read_parquet(f))
   fbs <- prepareFlowBySectorCollapsedforSatellite(fbs)
   return(fbs)

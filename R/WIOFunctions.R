@@ -67,8 +67,8 @@ prepareWIODFfromFBS <- function(fbs) {
   make_agg <- make_agg[,new_names]
   
   x <- list()
-  x$UseTableDF <- use
-  x$MakeTableDF <- make_agg
+  x$UseFileDF <- use
+  x$MakeFileDF <- data.frame(make_agg)
   return(x)
 }
 

@@ -1,6 +1,7 @@
 WIO: 
   WIOTest:
     SectorFile: WIOtest_Sectors.csv
+    # SourceFile: "flowsa/FlowBySector/CDD_concrete_national_2014_v1.2.1_324a70c.parquet"
     MakeFile: WIOtest_Make.csv
     UseFile: WIOtest_Use.csv
     EnvFile: WIOtest_Env.csv 
