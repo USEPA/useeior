@@ -109,6 +109,7 @@ assembleWIOModel <- function (model){
     model <- subsetWIOSectors(model, WIO, "Recycling by Mass")
  
     model <- includeUseWIO(model, WIO)
+    model <- includeMakeWIO(model, WIO)
     temp <- 1.5
     
   }
@@ -165,20 +166,22 @@ includeUseWIO <- function (model, WIO){
   temp <- 1
   
   
-  # Get list of all WIO "commodities" and "industries" in a structural sense (i.e., WIO rows and columns for Use)
-  WIOUseCommodities <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
-  WIOUseIndustries <- do.call("rbind", list(model$WasteTreatmentIndustries, model$WasteGenTreat, model$RecyclingTreat))
+  # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
+  WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
+  WIOUseColumns <- do.call("rbind", list(model$WasteTreatmentIndustries, model$WasteGenTreat, model$RecyclingTreat))
   
   #Create WIO matrices with the correct dimensions to append to use table
-  WIOComLength <- dim(model$UseTransactions)[1] + dim(WIOUseCommodities)[1] # Find the total commodity and industry length of the use table with the WIO elements
-  WIOIndLength <- dim(model$UseTransactions)[2] + dim(WIOUseIndustries)[1]
+  WIOComLength <- dim(model$UseTransactions)[1] + dim(WIOUseRows)[1] # Find the total commodity and industry length of the use table with the WIO elements
+  WIOIndLength <- dim(model$UseTransactions)[2] + dim(WIOUseColumns)[1]
   
-  fullWIOComList <- rbind(model$Commodities, WIOUseCommodities) # Create commodity and industry lists of the full WIO Use table
+  fullWIOComList <- rbind(model$Commodities, WIOUseRows) # Create commodity and industry lists of the full WIO Use table
   rownames(fullWIOComList) <- 1:nrow(fullWIOComList)
   
-  fullWIOIndList <- rbind(model$Industries, WIOUseIndustries[,-(3:5)])
+  fullWIOIndList <- rbind(model$Industries, WIOUseColumns[,-(3:5)])
   rownames(fullWIOIndList) <- 1:nrow(fullWIOIndList)
   
+  # For Use Transactions
+  # Create WIO Use table and fill with correct values
   WIOUseTransactions <- data.frame(matrix(0, nrow = WIOComLength, ncol = WIOIndLength)) # Create an empty dataframe of the appropriate dimensions
   rownames(WIOUseTransactions) <- fullWIOComList$Code_Loc # Name the rows and columns of the dataframe with the appropriate commodity and industry names respectively
   colnames(WIOUseTransactions) <- fullWIOIndList$Code_Loc
@@ -197,9 +200,9 @@ includeUseWIO <- function (model, WIO){
     temp <- 3
   }
   
-  
   model$UseTransactions <- WIOUseTransactions
   
+
   temp <- 2
   return(model)
 }
@@ -208,7 +211,45 @@ includeUseWIO <- function (model, WIO){
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @return A model with the MakeTransactions matrix modified with WIO specs.
 includeMakeWIO <- function (model, WIO){
+  temp <- 1
   
+  # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
+  WIOMakeRows <- do.call("rbind", list(model$WasteTreatmentIndustries, model$WasteGenTreat, model$RecyclingTreat))
+  WIOMakeColumns <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass)) 
+
+  #Create WIO matrices with the correct dimensions to append to use table
+  WIOIndLength <- dim(model$MakeTransactions)[1] + dim(WIOMakeRows)[1] # Find the total commodity and industry length of the use table with the WIO elements
+  WIOComLength <- dim(model$MakeTransactions)[2] + dim(WIOMakeColumns)[1]
+  
+  fullWIOIndList <- rbind(model$Industries, WIOMakeRows[,-(3:5)]) # Create commodity and industry lists of the full WIO Make table
+  rownames(fullWIOIndList) <- 1:nrow(fullWIOIndList)
+  
+  fullWIOComList <- rbind(model$Commodities, WIOMakeColumns) 
+  rownames(fullWIOComList) <- 1:nrow(fullWIOComList)
+  
+  # For MakeTransactions
+  # Create WIO Make table and fill with correct values
+  WIOMakeTransactions <- data.frame(matrix(0, nrow = WIOIndLength, ncol = WIOComLength)) # Create an empty dataframe of the appropriate dimensions
+  rownames(WIOMakeTransactions) <- fullWIOIndList$Code_Loc # Name the rows and columns of the dataframe with the appropriate commodity and industry names respectively
+  colnames(WIOMakeTransactions) <- fullWIOComList$Code_Loc
+  
+  WIOMakeTransactions[1:dim(model$MakeTransactions)[1], 1:dim(model$MakeTransactions)[2]] <- model$MakeTransactions # Populate the IO only portion with the model$MakeTransactions values
+  
+  # Assign WIO specific values in the correct location of the full WIOUseTransactions
+  for(r in 1:nrow(WIO$MakeFileDF)){
+    comIndex <- which(fullWIOComList$Code_Loc %in% WIO$MakeFileDF[r,]$CommodityCode)
+    indIndex <- which(fullWIOIndList$Code_Loc %in% WIO$MakeFileDF[r,]$IndustryCode)
+    
+    if(length(comIndex)!=0 & length(indIndex) !=0){
+      WIOMakeTransactions[indIndex, comIndex] <- WIO$MakeFileDF[r,]$Amount
+    }
+    
+    temp <- 3
+  }
+  
+  model$MakeTransactions <- WIOMakeTransactions
+  
+  temp <- 2
   
   return(model)
 }
