@@ -170,7 +170,7 @@ includeUseWIO <- function (model, WIO){
   WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
   WIOUseColumns <- do.call("rbind", list(model$WasteTreatmentIndustries, model$WasteGenTreat, model$RecyclingTreat))
   
-  #Create WIO matrices with the correct dimensions to append to use table
+  # Find commodity an industry lengths for the expanded use table
   WIOComLength <- dim(model$UseTransactions)[1] + dim(WIOUseRows)[1] # Find the total commodity and industry length of the use table with the WIO elements
   WIOIndLength <- dim(model$UseTransactions)[2] + dim(WIOUseColumns)[1]
   
@@ -179,22 +179,39 @@ includeUseWIO <- function (model, WIO){
   
   fullWIOIndList <- rbind(model$Industries, WIOUseColumns[,-(3:5)])
   rownames(fullWIOIndList) <- 1:nrow(fullWIOIndList)
-  
+
+  # Create WIO tables and fill with correct values  
   # For Use Transactions
-  # Create WIO Use table and fill with correct values
   WIOUseTransactions <- data.frame(matrix(0, nrow = WIOComLength, ncol = WIOIndLength)) # Create an empty dataframe of the appropriate dimensions
   rownames(WIOUseTransactions) <- fullWIOComList$Code_Loc # Name the rows and columns of the dataframe with the appropriate commodity and industry names respectively
   colnames(WIOUseTransactions) <- fullWIOIndList$Code_Loc
-  
   WIOUseTransactions[1:dim(model$UseTransactions)[1], 1:dim(model$UseTransactions)[2]] <- model$UseTransactions # Populate the IO only portion with the model$UseTransactions values
   
-  # Assign WIO specific values in the correct location of the full WIOUseTransactions
-  for(r in 1:nrow(WIO$UseFileDF)){
-    comIndex <- which(fullWIOComList$Code_Loc %in% WIO$UseFileDF[r,]$CommodityCode)
-    indIndex <- which(fullWIOIndList$Code_Loc %in% WIO$UseFileDF[r,]$IndustryCode)
+  # For FinalDemand
+  WIOFinalDemand <- data.frame(matrix(0, nrow = WIOComLength, ncol = dim(model$FinalDemand)[2]))
+  rownames(WIOFinalDemand) <- fullWIOComList$Code_Loc
+  colnames(WIOFinalDemand) <- model$FinalDemandMeta$Code_Loc
+  WIOFinalDemand[1:dim(model$UseTransactions)[1],] <- model$FinalDemand
+  
+  # For UseValueAdded
+  WIOUseValueAdded <- data.frame(matrix(0, nrow = dim(model$UseValueAdded)[1], ncol = WIOIndLength))
+  rownames(WIOUseValueAdded) <- model$ValueAddedMeta$Code_Loc
+  colnames(WIOUseValueAdded) <- fullWIOIndList$Code_Loc
+  WIOUseValueAdded[,1:dim(model$UseTransactions)[2]] <- model$UseValueAdded
+  
+  #Split WIO$UseFile into UseTransactions, FinalDemand, and UseValueAdded segments
+  useTransactionsDF <-  subset(WIO$UseFileDF, WIO$UseFileDF$CommodityCode %in% fullWIOComList$Code_Loc & WIO$UseFileDF$IndustryCode %in% fullWIOIndList$Code_Loc)
+  finalDemandDF <- subset(WIO$UseFileDF, WIO$UseFileDF$CommodityCode %in% fullWIOComList$Code_Loc & WIO$UseFileDF$IndustryCode %in% model$FinalDemandMeta$Code_Loc)
+  VADF <- subset(WIO$UseFileDF, WIO$UseFileDF$CommodityCode %in% model$ValueAddedMeta$Code_Loc & WIO$UseFileDF$IndustryCode %in% fullWIOIndList$Code_Loc)
+  
+  # Assign WIO specific values in the correct location of the WIOfullUse
+  # For UseTransactions
+  for(r in 1:nrow(useTransactionsDF)){
+    comIndex <- which(fullWIOComList$Code_Loc %in% useTransactionsDF[r,]$CommodityCode)
+    indIndex <- which(fullWIOIndList$Code_Loc %in% useTransactionsDF[r,]$IndustryCode)
 
     if(length(comIndex)!=0 & length(indIndex) !=0){
-      WIOUseTransactions[comIndex, indIndex] <- WIO$UseFileDF[r,]$Amount
+      WIOUseTransactions[comIndex, indIndex] <- useTransactionsDF[r,]$Amount
     }
   
     temp <- 3
@@ -202,7 +219,34 @@ includeUseWIO <- function (model, WIO){
   
   model$UseTransactions <- WIOUseTransactions
   
+  # For FinalDemand
+  for(r in 1:nrow(finalDemandDF)){
+    comIndex <- which(fullWIOComList$Code_Loc %in% finalDemandDF[r,]$CommodityCode)
+    indIndex <- which(fullWIOIndList$Code_Loc %in% finalDemandDF[r,]$IndustryCode)
+    
+    if(length(comIndex)!=0 & length(indIndex) !=0){
+      WIOFinalDemand[comIndex, indIndex] <- finalDemandDF[r,]$Amount
+    }
+    
+    temp <- 3
+  }
+  
+  model$FinalDemand <- WIOFinalDemand
 
+  # For UseValueAdded
+  for(r in 1:nrow(VADF)){
+    comIndex <- which(fullWIOComList$Code_Loc %in% VADF[r,]$CommodityCode)
+    indIndex <- which(fullWIOIndList$Code_Loc %in% VADF[r,]$IndustryCode)
+    
+    if(length(comIndex)!=0 & length(indIndex) !=0){
+      WIOUseValueAdded[comIndex, indIndex] <- VADF[r,]$Amount
+    }
+    
+    temp <- 3
+  }
+  
+  model$UseValueAdded <- WIOUseValueAdded
+  
   temp <- 2
   return(model)
 }
