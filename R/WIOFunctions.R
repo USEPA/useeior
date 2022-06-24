@@ -35,13 +35,42 @@ getWIOFiles <- function (model, configpaths = NULL){
 #' Prepare make and use input files from FlowBySector file.
 #' @param fbs FlowBySector dataframe.
 #' @return list of two dataframes: UseTableDF and MakeTableDF
-prepareWIODFfromFBS <- function(fbs) {
+prepareWIODFfromFBS <- function(fbs, model) {
   
-  # Temp
+  ### TEMP
   sectorlist <- c('562-ConcreteTreatment', '562-ConcreteProd')
+  year <- fbs$Year[[1]]
+
+  # TEMP Map Sectors and flows to new WIO codes
+  fbs[fbs == "Concrete"] <- "3273-Waste"
+  fbs["SectorConsumedBy"][fbs["SectorConsumedBy"] == "562920"] <- "562-ConcreteTreatment"
+  fbs["SectorProducedBy"][fbs["SectorProducedBy"] == "562920"] <- "562-ConcreteProd"
+  fbs[fbs == "Concrete Processed"] <- "3273-Treated"    
   
+  # Consolidate master crosswalk on model level and rename
+  NAICStoBEA <- unique(model$crosswalk[, c("NAICS","USEEIO")])
+  colnames(NAICStoBEA) <- c("NAICS","BEA")
+  # Generate allocation_factor data frame containing allocation factors between NAICS and BEA sectors
+  allocation_factor <- getNAICStoBEAAllocation(year, model)
+  colnames(allocation_factor) <- c("NAICS", "BEA", "allocation_factor")
   
-  
+  for(col in c("SectorProducedBy", "SectorConsumedBy")) {
+    colnames(fbs)[colnames(fbs)==col] <- "NAICS"
+    # Merge fbs table with NAICStoBEA mapping
+    fbs <- merge(fbs, NAICStoBEA, by = "NAICS", all.x = TRUE)
+    # Merge the BEA-coded satellite table with allocation_factor dataframe
+    fbs <- merge(fbs, allocation_factor, by = c("NAICS", "BEA"), all.x = TRUE)
+    # Replace NA in allocation_factor with 1
+    fbs[is.na(fbs$allocation_factor), "allocation_factor"] <- 1
+    # Where no mapping exists (e.g. new waste sectors), maintain the original sector code
+    fbs$BEA <- ifelse(is.na(fbs$BEA), fbs$NAICS, fbs$BEA)
+    # Calculate FlowAmount for BEA-coded sectors using allocation factors
+    fbs$FlowAmount <- fbs$FlowAmount*fbs$allocation_factor
+    colnames(fbs)[colnames(fbs)=="BEA"] <- col
+    fbs[, c("NAICS", "allocation_factor")] <- list(NULL)
+        
+  }
+
   # Update FBS column names
   old_names <- c('FlowAmount', 'Unit', 'MetaSources')
   new_names <- c('Amount', 'Unit', 'Note')
@@ -50,12 +79,6 @@ prepareWIODFfromFBS <- function(fbs) {
   fbs <- dplyr::rename_with(fbs, ~ new_names,
                             all_of(old_names))
   
-  # Map Sectors and flows to new WIO codes
-  fbs[fbs == "Concrete"] <- "3273-Waste"
-  fbs["SectorConsumedBy"][fbs["SectorConsumedBy"] == "562920"] <- "562-ConcreteTreatment"
-  fbs["SectorProducedBy"][fbs["SectorProducedBy"] == "562920"] <- "562-ConcreteProd"
-  fbs[fbs == "Concrete Processed"] <- "3273-Treated"
-
   # Separate out use data
   use1 <- fbs[fbs$SectorConsumedBy %in% sectorlist, ]
   use1$WIOSection <- 'Waste Generation Mass'
@@ -168,8 +191,12 @@ subsetWIOSectors <- function (model, WIO, WIOSection){
   
 
   sectorsSubset <- subset(WIO$NAICSSectorCW, WIO$NAICSSectorCW$Category == WIOSection) # Get rows from WIO$NAICSSectorCW that only have the value "Waste Treatment Industries" under the category column
-  colsToRemove <- c("Sector Type", "NAICS_2012_Code")
-  sectorsSubset   <- sectorsSubset  [, !colnames(sectorsSubset  ) %in% colsToRemove] # Remove unneeded columns
+  colsToRemove <- c("Sector Type", "NAICS_2012_Code", "Tag", "Type")
+  
+  sectorsSubset   <- sectorsSubset  [, !colnames(sectorsSubset) %in% colsToRemove] # Remove unneeded columns
+  if(nrow(sectorsSubset) == 0){
+    return(model)
+  }
   colnames(sectorsSubset) <- colnames(model$Commodities) # Rename columns to match model$Industries
   sectorsSubset$Code_Loc <- paste0(sectorsSubset$Code,"/",sectorsSubset$Code_Loc) # Create Code_Loc by combining Code and Location columns
   
