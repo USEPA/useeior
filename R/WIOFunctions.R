@@ -94,8 +94,9 @@ prepareWIODFfromFBS <- function(fbs, model) {
   # Add loc to all sectors
   use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
   use <- use[,(names(use) %in% cols)]
-
-      
+  use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
+                   data = use, FUN = sum)
+  
   # Separate out make data
   make <- fbs[fbs$SectorConsumedBy %in% sectorlist, ]  
   make_agg <- dplyr::group_by(make, Flowable, SectorConsumedBy, Location, Unit) 
