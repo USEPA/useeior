@@ -38,19 +38,24 @@ getWIOFiles <- function (model, configpaths = NULL){
 prepareWIODFfromFBS <- function(fbs) {
   
   # Temp
-  sectorlist <- c('562920')
+  sectorlist <- c('562-ConcreteTreatment', '562-ConcreteProd')
+  
+  
   
   # Update FBS column names
   old_names <- c('FlowAmount', 'Unit', 'MetaSources')
   new_names <- c('Amount', 'Unit', 'Note')
   cols <- c("CommodityCode", "IndustryCode", new_names, "WIOSection")
+  code_cols <- c("IndustryCode", "CommodityCode")
   fbs <- dplyr::rename_with(fbs, ~ new_names,
                             all_of(old_names))
   
   # Map Sectors and flows to new WIO codes
-  
+  fbs[fbs == "Concrete"] <- "3273-Waste"
+  fbs["SectorConsumedBy"][fbs["SectorConsumedBy"] == "562920"] <- "562-ConcreteTreatment"
+  fbs["SectorProducedBy"][fbs["SectorProducedBy"] == "562920"] <- "562-ConcreteProd"
+  fbs[fbs == "Concrete Processed"] <- "3273-Treated"
 
-  
   # Separate out use data
   use1 <- fbs[fbs$SectorConsumedBy %in% sectorlist, ]
   use1$WIOSection <- 'Waste Generation Mass'
@@ -63,12 +68,14 @@ prepareWIODFfromFBS <- function(fbs) {
                              all_of(c('Flowable', 'SectorConsumedBy')))
   use2$SectorProducedBy <- NULL
   use <- rbind(use1, use2)
+  # Add loc to all sectors
+  use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
   use <- use[,(names(use) %in% cols)]
 
       
   # Separate out make data
   make <- fbs[fbs$SectorConsumedBy %in% sectorlist, ]  
-  make_agg <- dplyr::group_by(make, Flowable, SectorConsumedBy, Unit) 
+  make_agg <- dplyr::group_by(make, Flowable, SectorConsumedBy, Location, Unit) 
   make_agg <- dplyr::summarize(
     make_agg,
     Amount = sum(Amount),
@@ -79,8 +86,8 @@ prepareWIODFfromFBS <- function(fbs) {
                                  all_of(c('Flowable', 'SectorConsumedBy')))
   make_agg$WIOSection <- 'Waste Generation by Treatment'
 
-  make2 <- fbs[fbs$SectorProducedBy %in% sectorlist, ]  
-  make_agg2 <- dplyr::group_by(make2, Flowable, SectorProducedBy, Unit) 
+  make2 <- fbs[fbs$SectorProducedBy %in% sectorlist, ]
+  make_agg2 <- dplyr::group_by(make2, Flowable, SectorProducedBy, Location, Unit) 
   make_agg2 <- dplyr::summarize(
     make_agg2,
     Amount = sum(Amount),
@@ -91,8 +98,8 @@ prepareWIODFfromFBS <- function(fbs) {
                                  all_of(c('Flowable', 'SectorProducedBy')))
   make_agg2$WIOSection <- 'Waste Treatment Commodities'  
   make_agg <- rbind(make_agg, make_agg2)
+  make_agg[code_cols] <- lapply(make_agg[code_cols], function(x) paste0(x,"/",make_agg$Location))
   make_agg <- make_agg[,cols]
-  
   
   x <- list()
   x$UseFileDF <- use
