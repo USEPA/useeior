@@ -1,0 +1,5 @@
+Sector Type,Tag,Type,NAICS_2012_Code,USEEIO_Code,USEEIO_Name,Category,Subcategory,Description,Location,Unit
+WIO,Concrete,Flowable,3273,3273-Waste,Wgen Type 1,Waste Generation by Mass,N/A,Waste Generation by Mass,US,kg
+WIO,562920,SectorConsumedBy,562,562-ConcreteTreatment,Wgen treatmeth 1,Waste Generation by Treatment,N/A,Waste Generation by Treatment,US,kg
+WIO,562920,SectorProducedBy,562,562-ConcreteProd,Treat Ind 1,Waste Treatment Industries,N/A,Waste Treatment Industries,US,kg
+WIO,Concrete Processed,Flowable,3273,3273-Treated,Treat Com 1,Waste Treatment Commodities,N/A,Waste Treatment Commodities,US,kg

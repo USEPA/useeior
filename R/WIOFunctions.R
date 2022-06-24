@@ -35,36 +35,95 @@ getWIOFiles <- function (model, configpaths = NULL){
 #' Prepare make and use input files from FlowBySector file.
 #' @param fbs FlowBySector dataframe.
 #' @return list of two dataframes: UseTableDF and MakeTableDF
-prepareWIODFfromFBS <- function(fbs) {
+prepareWIODFfromFBS <- function(fbs, model) {
   
-  # Temp
-  sectorlist <- c('562920')
+  ### TEMP
+  sectorlist <- c('562-ConcreteTreatment', '562-ConcreteProd')
+  year <- fbs$Year[[1]]
+
+  # TEMP Map Sectors and flows to new WIO codes
+  fbs[fbs == "Concrete"] <- "3273-Waste"
+  fbs["SectorConsumedBy"][fbs["SectorConsumedBy"] == "562920"] <- "562-ConcreteTreatment"
+  fbs["SectorProducedBy"][fbs["SectorProducedBy"] == "562920"] <- "562-ConcreteProd"
+  fbs[fbs == "Concrete Processed"] <- "3273-Treated"    
   
+  # Consolidate master crosswalk on model level and rename
+  NAICStoBEA <- unique(model$crosswalk[, c("NAICS","USEEIO")])
+  colnames(NAICStoBEA) <- c("NAICS","BEA")
+  # Generate allocation_factor data frame containing allocation factors between NAICS and BEA sectors
+  allocation_factor <- getNAICStoBEAAllocation(year, model)
+  colnames(allocation_factor) <- c("NAICS", "BEA", "allocation_factor")
+  
+  for(col in c("SectorProducedBy", "SectorConsumedBy")) {
+    colnames(fbs)[colnames(fbs)==col] <- "NAICS"
+    # Merge fbs table with NAICStoBEA mapping
+    fbs <- merge(fbs, NAICStoBEA, by = "NAICS", all.x = TRUE)
+    # Merge the BEA-coded satellite table with allocation_factor dataframe
+    fbs <- merge(fbs, allocation_factor, by = c("NAICS", "BEA"), all.x = TRUE)
+    # Replace NA in allocation_factor with 1
+    fbs[is.na(fbs$allocation_factor), "allocation_factor"] <- 1
+    # Where no mapping exists (e.g. new waste sectors), maintain the original sector code
+    fbs$BEA <- ifelse(is.na(fbs$BEA), fbs$NAICS, fbs$BEA)
+    # Calculate FlowAmount for BEA-coded sectors using allocation factors
+    fbs$FlowAmount <- fbs$FlowAmount*fbs$allocation_factor
+    colnames(fbs)[colnames(fbs)=="BEA"] <- col
+    fbs[, c("NAICS", "allocation_factor")] <- list(NULL)
+        
+  }
+
   # Update FBS column names
-  old_names <- c('SectorProducedBy', 'SectorConsumedBy', 'FlowAmount', 'Unit', 'MetaSources')
-  new_names <- c('IndustryCode', 'CommodityCode', 'Amount', 'Unit', 'Note')
+  old_names <- c('FlowAmount', 'Unit', 'MetaSources')
+  new_names <- c('Amount', 'Unit', 'Note')
+  cols <- c("CommodityCode", "IndustryCode", new_names, "WIOSection")
+  code_cols <- c("IndustryCode", "CommodityCode")
   fbs <- dplyr::rename_with(fbs, ~ new_names,
                             all_of(old_names))
-  fbs <- fbs[,(names(fbs) %in% new_names)]
   
-  use1 <- fbs[fbs$CommodityCode %in% sectorlist, ]
+  # Separate out use data
+  use1 <- fbs[fbs$SectorConsumedBy %in% sectorlist, ]
   use1$WIOSection <- 'Waste Generation Mass'
-  use2 <- fbs[fbs$IndustryCode %in% sectorlist, ]
-  use2[, c("IndustryCode", "CommodityCode")] <- use2[, c("CommodityCode", "IndustryCode")]
-  use2$WIOSection <- 'Waste Treatment Commodities Mass'
+  use1 <- dplyr::rename_with(use1, ~c('CommodityCode', 'IndustryCode'),
+                             all_of(c('Flowable', 'SectorProducedBy')))
+  use1$SectorConsumedBy <- NULL
+  use2 <- fbs[fbs$SectorProducedBy %in% sectorlist, ]
+  use2$WIOSection <- 'Waste Treatment Commodities Mass'  
+  use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
+                             all_of(c('Flowable', 'SectorConsumedBy')))
+  use2$SectorProducedBy <- NULL
   use <- rbind(use1, use2)
+  # Add loc to all sectors
+  use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
+  use <- use[,(names(use) %in% cols)]
+  use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
+                   data = use, FUN = sum)
   
-  make <- fbs[fbs$IndustryCode %in% sectorlist, ]  
-  make_agg <- dplyr::group_by(make, IndustryCode, Unit) 
+  # Separate out make data
+  make <- fbs[fbs$SectorConsumedBy %in% sectorlist, ]  
+  make_agg <- dplyr::group_by(make, Flowable, SectorConsumedBy, Location, Unit) 
   make_agg <- dplyr::summarize(
     make_agg,
-    AmountAgg = sum(Amount),
+    Amount = sum(Amount),
     Note = dplyr::nth(Note, 1),
     .groups = 'drop'
   )
-  colnames(make_agg)[colnames(make_agg)=="AmountAgg"] <- "Amount"
-  make_agg$CommodityCode <- make_agg$IndustryCode
-  make_agg <- make_agg[,new_names]
+  make_agg <- dplyr::rename_with(make_agg, ~c('CommodityCode', 'IndustryCode'),
+                                 all_of(c('Flowable', 'SectorConsumedBy')))
+  make_agg$WIOSection <- 'Waste Generation by Treatment'
+
+  make2 <- fbs[fbs$SectorProducedBy %in% sectorlist, ]
+  make_agg2 <- dplyr::group_by(make2, Flowable, SectorProducedBy, Location, Unit) 
+  make_agg2 <- dplyr::summarize(
+    make_agg2,
+    Amount = sum(Amount),
+    Note = dplyr::nth(Note, 1),
+    .groups = 'drop'
+  )
+  make_agg2 <- dplyr::rename_with(make_agg2, ~c('CommodityCode', 'IndustryCode'),
+                                 all_of(c('Flowable', 'SectorProducedBy')))
+  make_agg2$WIOSection <- 'Waste Treatment Commodities'  
+  make_agg <- rbind(make_agg, make_agg2)
+  make_agg[code_cols] <- lapply(make_agg[code_cols], function(x) paste0(x,"/",make_agg$Location))
+  make_agg <- make_agg[,cols]
   
   x <- list()
   x$UseFileDF <- use
@@ -133,8 +192,12 @@ subsetWIOSectors <- function (model, WIO, WIOSection){
   
 
   sectorsSubset <- subset(WIO$NAICSSectorCW, WIO$NAICSSectorCW$Category == WIOSection) # Get rows from WIO$NAICSSectorCW that only have the value "Waste Treatment Industries" under the category column
-  colsToRemove <- c("Sector Type", "NAICS_2012_Code")
-  sectorsSubset   <- sectorsSubset  [, !colnames(sectorsSubset  ) %in% colsToRemove] # Remove unneeded columns
+  colsToRemove <- c("Sector Type", "NAICS_2012_Code", "Tag", "Type")
+  
+  sectorsSubset   <- sectorsSubset  [, !colnames(sectorsSubset) %in% colsToRemove] # Remove unneeded columns
+  if(nrow(sectorsSubset) == 0){
+    return(model)
+  }
   colnames(sectorsSubset) <- colnames(model$Commodities) # Rename columns to match model$Industries
   sectorsSubset$Code_Loc <- paste0(sectorsSubset$Code,"/",sectorsSubset$Code_Loc) # Create Code_Loc by combining Code and Location columns
   

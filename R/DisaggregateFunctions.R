@@ -252,7 +252,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
 
     if(!is.null(disagg$SourceFile)){
       fbs <- getFlowbySector(disagg$SourceFile)
-      disagg <- append(disagg, prepareWIODFfromFBS(fbs))
+      disagg <- append(disagg, prepareWIODFfromFBS(fbs, model))
     }
         
     if("FlowRatio" %in% colnames(disagg$EnvFileDF)) {
