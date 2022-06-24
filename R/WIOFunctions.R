@@ -114,6 +114,7 @@ assembleWIOModel <- function (model){
     model <- includeFullUseWIO(model, WIO)
     model <- includeMakeWIO(model, WIO)
     model <- calculateWIOOutputs(model, WIO)
+    model <- adjustITAwithWIOSectors(model)
     temp <- 1.5
     
   }
@@ -203,7 +204,7 @@ includeFullUseWIO <- function (model, WIO){
   # For DomesticUseTransactions
   WIODomesticUseTransactions <- data.frame(matrix(0, nrow = WIOComLength, ncol = WIOIndLength)) # Create an empty dataframe of the appropriate dimensions
   rownames(WIODomesticUseTransactions) <- model$Commodities$Code_Loc # Name the rows and columns of the dataframe with the appropriate commodity and industry names respectively
-  colnames(WIOUseTransactions) <- model$Industries$Code_Loc
+  colnames(WIODomesticUseTransactions) <- model$Industries$Code_Loc
   WIODomesticUseTransactions[1:dim(model$DomesticUseTransactions)[1], 1:dim(model$DomesticUseTransactions)[2]] <- model$DomesticUseTransactions # Populate the IO only portion with the model$UseTransactions values
   
   # For FinalDemand
@@ -211,6 +212,12 @@ includeFullUseWIO <- function (model, WIO){
   rownames(WIOFinalDemand) <- model$Commodities$Code_Loc
   colnames(WIOFinalDemand) <- model$FinalDemandMeta$Code_Loc
   WIOFinalDemand[1:dim(model$UseTransactions)[1],] <- model$FinalDemand
+  
+  # For FinalDemand
+  WIODomesticFinalDemand <- data.frame(matrix(0, nrow = WIOComLength, ncol = dim(model$DomesticFinalDemand)[2]))
+  rownames(WIODomesticFinalDemand) <- model$Commodities$Code_Loc
+  colnames(WIODomesticFinalDemand) <- model$FinalDemandMeta$Code_Loc
+  WIODomesticFinalDemand[1:dim(model$UseTransactions)[1],] <- model$DomesticFinalDemand
   
   # For UseValueAdded
   WIOUseValueAdded <- data.frame(matrix(0, nrow = dim(model$UseValueAdded)[1], ncol = WIOIndLength))
@@ -238,17 +245,19 @@ includeFullUseWIO <- function (model, WIO){
   model$UseTransactions <- WIOUseTransactions
   model$DomesticUseTransactions <- WIODomesticUseTransactions
 
-  # For FinalDemand
+  # For FinalDemand and DomesticFinalDemand
   for(r in 1:nrow(finalDemandDF)){
     comIndex <- which(model$Commodities$Code_Loc %in% finalDemandDF[r,]$CommodityCode)
     indIndex <- which(model$FinalDemandMeta$Code_Loc %in% finalDemandDF[r,]$IndustryCode)
     
     if(length(comIndex)!=0 & length(indIndex) !=0){
       WIOFinalDemand[comIndex, indIndex] <- finalDemandDF[r,]$Amount
+      WIODomesticFinalDemand[comIndex, indIndex] <- finalDemandDF[r,]$Amount
     }
   }
   
   model$FinalDemand <- WIOFinalDemand
+  model$DomesticFinalDemand <- WIODomesticFinalDemand
 
   # For UseValueAdded
   for(r in 1:nrow(VADF)){
@@ -305,8 +314,22 @@ calculateWIOOutputs<- function (model, WIO){
   # The outputs need to be calculated using the row sums for each table to avoid mixing units
 
   model$IndustryOutput <- rowSums(model$MakeTransactions)
-  model$CommodityOUtput <- rowSums(model$UseTransactions)+rowSums(model$FinalDemand)
+  model$CommodityOutput <- rowSums(model$UseTransactions)+rowSums(model$FinalDemand)
   
   return(model)
 }
 
+#' Adjust InternationalTradeAdjustment to the correct dimensions based on WIO sectors
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return A model object with a modified international trade adjustment object based on WIO sectors
+adjustITAwithWIOSectors <- function (model){
+  # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
+  WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
+  
+  WIOITA <- double(dim(WIOUseRows)[1])
+  names(WIOITA) <- WIOUseRows$Code_Loc
+  model$InternationalTradeAdjustment <- append(model$InternationalTradeAdjustment, WIOITA)
+  
+  
+  return(model)
+}
