@@ -1,0 +1,5 @@
+WIO: 
+  Concrete:
+    SectorFile: WIOConcrete_Sectors.csv
+    SourceFile: "flowsa/FlowBySector/CDD_concrete_national_2014_v1.2.1_cf8963d.parquet"
+
