@@ -41,30 +41,58 @@ prepareWIODFfromFBS <- function(fbs) {
   sectorlist <- c('562920')
   
   # Update FBS column names
-  old_names <- c('SectorProducedBy', 'SectorConsumedBy', 'FlowAmount', 'Unit', 'MetaSources')
-  new_names <- c('IndustryCode', 'CommodityCode', 'Amount', 'Unit', 'Note')
+  old_names <- c('FlowAmount', 'Unit', 'MetaSources')
+  new_names <- c('Amount', 'Unit', 'Note')
+  cols <- c("CommodityCode", "IndustryCode", new_names, "WIOSection")
   fbs <- dplyr::rename_with(fbs, ~ new_names,
                             all_of(old_names))
-  fbs <- fbs[,(names(fbs) %in% new_names)]
   
-  use1 <- fbs[fbs$CommodityCode %in% sectorlist, ]
+  # Map Sectors and flows to new WIO codes
+  
+
+  
+  # Separate out use data
+  use1 <- fbs[fbs$SectorConsumedBy %in% sectorlist, ]
   use1$WIOSection <- 'Waste Generation Mass'
-  use2 <- fbs[fbs$IndustryCode %in% sectorlist, ]
-  use2[, c("IndustryCode", "CommodityCode")] <- use2[, c("CommodityCode", "IndustryCode")]
-  use2$WIOSection <- 'Waste Treatment Commodities Mass'
+  use1 <- dplyr::rename_with(use1, ~c('CommodityCode', 'IndustryCode'),
+                             all_of(c('Flowable', 'SectorProducedBy')))
+  use1$SectorConsumedBy <- NULL
+  use2 <- fbs[fbs$SectorProducedBy %in% sectorlist, ]
+  use2$WIOSection <- 'Waste Treatment Commodities Mass'  
+  use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
+                             all_of(c('Flowable', 'SectorConsumedBy')))
+  use2$SectorProducedBy <- NULL
   use <- rbind(use1, use2)
-  
-  make <- fbs[fbs$IndustryCode %in% sectorlist, ]  
-  make_agg <- dplyr::group_by(make, IndustryCode, Unit) 
+  use <- use[,(names(use) %in% cols)]
+
+      
+  # Separate out make data
+  make <- fbs[fbs$SectorConsumedBy %in% sectorlist, ]  
+  make_agg <- dplyr::group_by(make, Flowable, SectorConsumedBy, Unit) 
   make_agg <- dplyr::summarize(
     make_agg,
-    AmountAgg = sum(Amount),
+    Amount = sum(Amount),
     Note = dplyr::nth(Note, 1),
     .groups = 'drop'
   )
-  colnames(make_agg)[colnames(make_agg)=="AmountAgg"] <- "Amount"
-  make_agg$CommodityCode <- make_agg$IndustryCode
-  make_agg <- make_agg[,new_names]
+  make_agg <- dplyr::rename_with(make_agg, ~c('CommodityCode', 'IndustryCode'),
+                                 all_of(c('Flowable', 'SectorConsumedBy')))
+  make_agg$WIOSection <- 'Waste Generation by Treatment'
+
+  make2 <- fbs[fbs$SectorProducedBy %in% sectorlist, ]  
+  make_agg2 <- dplyr::group_by(make2, Flowable, SectorProducedBy, Unit) 
+  make_agg2 <- dplyr::summarize(
+    make_agg2,
+    Amount = sum(Amount),
+    Note = dplyr::nth(Note, 1),
+    .groups = 'drop'
+  )
+  make_agg2 <- dplyr::rename_with(make_agg2, ~c('CommodityCode', 'IndustryCode'),
+                                 all_of(c('Flowable', 'SectorProducedBy')))
+  make_agg2$WIOSection <- 'Waste Treatment Commodities'  
+  make_agg <- rbind(make_agg, make_agg2)
+  make_agg <- make_agg[,cols]
+  
   
   x <- list()
   x$UseFileDF <- use
