@@ -92,7 +92,7 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
   return(model)
 }
 
-#' #' Setup the configuration specs based on the input files
+#' Setup the configuration specs based on the input files
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
 #' If NULL, built-in config files are used.

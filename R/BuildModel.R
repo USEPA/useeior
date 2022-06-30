@@ -29,7 +29,7 @@ constructEEIOMatrices <- function(model) {
   # Generate matrices
   model$V <- as.matrix(model$MakeTransactions) # Make
   model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
-  model$V_n <- generateMarketSharesfromMake(model) # normalized Make 
+  model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   if (model$specs$CommodityorIndustryType=="Industry") {
     FinalDemand_df <- model$FinalDemandbyCommodity
     DomesticFinalDemand_df <- model$DomesticFinalDemandbyCommodity
