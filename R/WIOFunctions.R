@@ -142,7 +142,7 @@ initializeWIOObjects <- function(model){
   model$WasteGenTreat <- data.frame()
   model$WasteGenMass <- data.frame()
   model$RecyclingTreat <- data.frame()
-  model$RecyclingnMass <- data.frame()
+  model$RecyclingMass <- data.frame()
   
   return(model)
 }
@@ -174,6 +174,10 @@ assembleWIOModel <- function (model){
     model <- includeMakeWIO(model, WIO)
     model <- calculateWIOOutputs(model, WIO)
     model <- adjustITAwithWIOSectors(model)
+    
+    checkWIOBalance(model, "Waste")
+    checkWIOBalance(model, "Recycling")
+    
     temp <- 1.5
     
   }
@@ -395,4 +399,37 @@ adjustITAwithWIOSectors <- function (model){
   
   
   return(model)
+}
+
+#' Check balance of WIO waste and recycling sectors
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param sectorType A string that indicates to compare the balance of waste or recycling generation and treatment sectors.
+#' @return A model with the UseTransactions matrix modified with WIO specs.
+checkWIOBalance <- function (model, sectorType = "Waste"){
+  
+  if(sectorType == "Waste"){
+    useGen <- model$UseTransactions[which(rownames(model$UseTransactions) == model$WasteGenMass$Code_Loc),]
+    makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) == model$WasteGenTreat$Code_Loc),]
+  }else{
+    useGen <- model$UseTransactions[which(rownames(model$UseTransactions) == model$RecyclingMass$Code_Loc),]
+    makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) == model$RecyclingTreat$Code_Loc),]
+  }
+
+  if(dim(useGen)[1] != 0 & dim(makeTreatment)[1] != 0){
+    # Get all waste generation by mass and treatment from use table
+    useGen <- model$UseTransactions[which(rownames(model$UseTransactions) == model$WasteGenMass$Code_Loc),]
+    makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) == model$WasteGenTreat$Code_Loc),]
+    
+    genSum <- sum(useGen)
+    treatSum <- sum(makeTreatment)
+    
+    # if the ratio of the sum of generation over the sum of treatment is greater than 1% then the generation and treatment is not balanced and we need to stop execution
+    if(abs(1 - genSum/treatSum) > 0.01){
+      stop(paste0(sectorType, " not balanced"))
+    }else{
+      logging::loginfo(paste0(sectorType, " adequately balanced within 1%."))
+    }
+  }
+  
+  
 }
