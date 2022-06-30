@@ -30,15 +30,7 @@ constructEEIOMatrices <- function(model) {
   model$V <- as.matrix(model$MakeTransactions) # Make
   model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
   
-  # Modify matrices with WIO elements before model EEIO construction continues
-  if(model$specs$ModelType == "WIO"){
-    model$V_n <- normalizeIOTransactions(model$MakeTransactions, model$IndustryOutput)
-
-  }else{
-    model$V_n <- generateMarketSharesfromMake(model) # normalized Make
-  }
-  
-  
+  model$V_n <- generateMarketSharesfromMake(model) # normalized Make 
 
   if (model$specs$CommodityorIndustryType=="Industry") {
     FinalDemand_df <- model$FinalDemandbyCommodity
@@ -57,20 +49,10 @@ constructEEIOMatrices <- function(model) {
   colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
-  # Modify matrices with WIO elements before model EEIO construction continues
-  if(model$specs$ModelType == "WIO"){
-    
-    model$U_n <- normalizeIOTransactions(model$UseTransactions, model$CommodityOutput) # B = U %*% solve(x_hat) #normalized Use
-    model$U_d_n <- normalizeIOTransactions(model$DomesticUseTransactions, model$CommodityOutput) # B = U %*% solve(x_hat)
-    
-  }else{
 
-    model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
-    model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
-  }
   
-  # model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
-  # model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
+  model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
+  model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
   
   model$q <- model$CommodityOutput
   model$x <- model$IndustryOutput
