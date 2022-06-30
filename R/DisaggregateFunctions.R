@@ -92,88 +92,6 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
   return(model)
 }
 
-#' Original disaggregateSetup function - kept here while trying out changes
-#' #' Setup the configuration specs based on the input files
-#' #' @param model An EEIO model object with model specs and IO tables loaded
-#' #' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
-#' #' If NULL, built-in config files are used.
-#' #' @return A model object with the correct disaggregation specs.
-#' disaggregateSetup <- function (model, configpaths = NULL){
-#'   
-#'   counter = 1
-#'   for (disagg in model$DisaggregationSpecs){  
-#'     filename <- ifelse(is.null(configpaths),
-#'                        system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
-#'                        file.path(dirname(configpaths)[1], disagg$SectorFile))
-#'     disagg$NAICSSectorCW <- utils::read.table(filename,
-#'                                               sep = ",", header = TRUE,
-#'                                               stringsAsFactors = FALSE,
-#'                                               check.names = FALSE)
-#'     
-#'     newNames <- unique(data.frame("SectorCode" = disagg$NAICSSectorCW$USEEIO_Code,
-#'                                   "SectorName" = disagg$NAICSSectorCW$USEEIO_Name,
-#'                                   "Category" = disagg$NAICSSectorCW$Category,
-#'                                   "Subcategory" = disagg$NAICSSectorCW$Subcategory,
-#'                                   "Description" = disagg$NAICSSectorCW$Description,
-#'                                   stringsAsFactors = TRUE))
-#'     disagg$DisaggregatedSectorNames <- as.list(levels(newNames[, 'SectorName']))
-#'     disagg$DisaggregatedSectorCodes <- as.list(levels(newNames[, 'SectorCode']))
-#'     disagg$Category <- lapply(newNames[, 'Category'], as.character)
-#'     disagg$Subcategory <- lapply(newNames[, 'Subcategory'], as.character)
-#'     disagg$Description <- lapply(newNames[, 'Description'], as.character)
-#'     
-#'     #reordering disaggSectorNames and DisaggSectorCodes to match the mapping in newNames
-#'     disagg$DisaggregatedSectorNames <- as.list(disagg$DisaggregatedSectorNames[match(newNames$SectorName,disagg$DisaggregatedSectorNames)])
-#'     disagg$DisaggregatedSectorCodes <- as.list(disagg$DisaggregatedSectorCodes[match(newNames$SectorCode,disagg$DisaggregatedSectorCodes)])
-#'     
-#'     # Load Make table disaggregation file
-#'     if(!is.null(disagg$MakeFile)){
-#'       filename <- ifelse(is.null(configpaths),
-#'                          system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
-#'                          file.path(dirname(configpaths)[1], disagg$MakeFile))
-#'       disagg$MakeFileDF <- utils::read.table(filename,
-#'                                              sep = ",", header = TRUE,
-#'                                              stringsAsFactors = FALSE,
-#'                                              check.names = FALSE)
-#'     }
-#'     
-#'     # Load Use table disaggregation file
-#'     if(!is.null(disagg$UseFile)){
-#'       filename <- ifelse(is.null(configpaths),
-#'                          system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
-#'                          file.path(dirname(configpaths)[1], disagg$UseFile))
-#'       disagg$UseFileDF <- utils::read.table(filename,
-#'                                             sep = ",", header = TRUE,
-#'                                             stringsAsFactors = FALSE,
-#'                                             check.names = FALSE)
-#'     }
-#'     
-#'     # Load Environment flows table
-#'     if(!is.null(disagg$EnvFile)){
-#'       filename <- ifelse(is.null(configpaths),
-#'                          system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
-#'                          file.path(dirname(configpaths)[1], disagg$EnvFile))
-#'       disagg$EnvFileDF <- utils::read.table(filename,
-#'                                             sep = ",", header = TRUE,
-#'                                             stringsAsFactors = FALSE,
-#'                                             check.names = FALSE)
-#'     }
-#'     
-#'     if("FlowRatio" %in% colnames(disagg$EnvFileDF)) {
-#'       disagg$EnvAllocRatio <- TRUE
-#'     } else {
-#'       disagg$EnvAllocRatio <- FALSE
-#'     }
-#'     #Need to assign these DFs back to the modelspecs
-#'     model$DisaggregationSpecs[[counter]] <- disagg
-#'     
-#'     counter <- counter + 1
-#'   }
-#'   
-#'   return(model)
-#' }
-#' 
-
 #' #' Setup the configuration specs based on the input files
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
@@ -181,13 +99,12 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
 #' @return A model object with the correct disaggregation specs.
 disaggregateSetup <- function (model, configpaths = NULL){
   
-  if(!is.null(model$DisaggregationsSpecs)){
+  if(!is.null(model$DisaggregationsSpecs)) {
     folderPath <- "extdata/disaggspecs"
-  }else if(!is.null(model$WIOSpecs)){
+  } else if(!is.null(model$WIOSpecs)) {
     folderPath <- "extdata/wiospecs"
     model$DisaggregationSpecs <- model$WIOSpecs
-  }
-  else{
+  } else {
     stop("No valid path available for disaggregated or WIO model.")
   }
   
@@ -250,7 +167,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
                                             check.names = FALSE)
     }
 
-    if(!is.null(disagg$SourceFile)){
+    if(!is.null(disagg$SourceFile)) {
       fbs <- getFlowbySector(disagg$SourceFile)
       disagg <- append(disagg, prepareWIODFfromFBS(fbs, model))
     }
@@ -266,9 +183,9 @@ disaggregateSetup <- function (model, configpaths = NULL){
     counter <- counter + 1
   }
   
-  if(!is.null(model$WIOSpecs)){
+  if(!is.null(model$WIOSpecs)) {
     # Update WIOSpecs with modified DisaggregationSpecs
-     model$WIOSpecs <- model$DisaggregationSpecs
+    model$WIOSpecs <- model$DisaggregationSpecs
     # Delete temporary disaggSpecs list object
     model[c("DisaggregationSpecs")] <- NULL
   }
