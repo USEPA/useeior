@@ -29,9 +29,7 @@ constructEEIOMatrices <- function(model) {
   # Generate matrices
   model$V <- as.matrix(model$MakeTransactions) # Make
   model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
-  
-  model$V_n <- generateMarketSharesfromMake(model) # normalized Make 
-
+  model$V_n <- generateMarketSharesfromMake(model) # normalized Make
   if (model$specs$CommodityorIndustryType=="Industry") {
     FinalDemand_df <- model$FinalDemandbyCommodity
     DomesticFinalDemand_df <- model$DomesticFinalDemandbyCommodity
@@ -49,11 +47,8 @@ constructEEIOMatrices <- function(model) {
   colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
-
-  
   model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
   model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
-  
   model$q <- model$CommodityOutput
   model$x <- model$IndustryOutput
   model$mu <- model$InternationalTradeAdjustment
