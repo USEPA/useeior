@@ -28,7 +28,7 @@ getWIOSpecs <- function (model, configpaths = NULL){
 #' @return A model object with the correct WIO specs.
 getWIOFiles <- function (model, configpaths = NULL){ 
   
-  model <- disaggregateSetup(model)
+  model <- disaggregateSetup(model, configpaths)
 
   return(model)
 }
