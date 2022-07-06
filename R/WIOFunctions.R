@@ -418,7 +418,7 @@ adjustITAwithWIOSectors <- function (model){
 #' @param sectorType A string that indicates to compare the balance of waste or recycling generation and treatment sectors.
 #' @return A model with the UseTransactions matrix modified with WIO specs.
 checkWIOBalance <- function (model, sectorType = "Waste"){
-  
+  # Get all waste generation and recycling by mass and treatment from use table
   if(sectorType == "Waste"){
     useGen <- model$UseTransactions[which(rownames(model$UseTransactions) == model$WasteGenMass$Code_Loc),]
     makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) == model$WasteGenTreat$Code_Loc),]
@@ -428,9 +428,7 @@ checkWIOBalance <- function (model, sectorType = "Waste"){
   }
 
   if(dim(useGen)[1] != 0 & dim(makeTreatment)[1] != 0){
-    # Get all waste generation by mass and treatment from use table
-    useGen <- model$UseTransactions[which(rownames(model$UseTransactions) == model$WasteGenMass$Code_Loc),]
-    makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) == model$WasteGenTreat$Code_Loc),]
+
     
     genSum <- sum(useGen)
     treatSum <- sum(makeTreatment)
@@ -441,6 +439,8 @@ checkWIOBalance <- function (model, sectorType = "Waste"){
     }else{
       logging::loginfo(paste0(sectorType, " adequately balanced within 1%."))
     }
+  } else if(dim(useGen)[1] != 0 | dim(makeTreatment)[1] != 0) { # for the case where some, but not all, WIO sectors are properly defined 
+    stop(paste0(sectorType, " sector(s) missing from table."))
   }
   
   
