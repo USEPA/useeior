@@ -420,11 +420,11 @@ adjustITAwithWIOSectors <- function (model){
 checkWIOBalance <- function (model, sectorType = "Waste"){
   # Get all waste generation and recycling by mass and treatment from use table
   if(sectorType == "Waste"){
-    useGen <- model$UseTransactions[which(rownames(model$UseTransactions) == model$WasteGenMass$Code_Loc),]
-    makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) == model$WasteGenTreat$Code_Loc),]
+    useGen <- model$UseTransactions[which(rownames(model$UseTransactions) %in% model$WasteGenMass$Code_Loc),]
+    makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) %in% model$WasteGenTreat$Code_Loc),]
   }else{
-    useGen <- model$UseTransactions[which(rownames(model$UseTransactions) == model$RecyclingMass$Code_Loc),]
-    makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) == model$RecyclingTreat$Code_Loc),]
+    useGen <- model$UseTransactions[which(rownames(model$UseTransactions) %in% model$RecyclingMass$Code_Loc),]
+    makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) %in% model$RecyclingTreat$Code_Loc),]
   }
 
   if(dim(useGen)[1] != 0 & dim(makeTreatment)[1] != 0){
