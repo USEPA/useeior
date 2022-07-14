@@ -203,7 +203,6 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
   
   # Rename the rows of the vector
   disaggRowNames <- unlist(disagg$DisaggregatedSectorCodes)
-  disaggRowNames <- sapply(strsplit(disaggRowNames, split = "/"), "[",1)
   names(disaggInternationalTradeAdjustment) <- disaggRowNames
   
   # Combine elements in a new vector
