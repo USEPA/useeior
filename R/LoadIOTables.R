@@ -1,7 +1,7 @@
 # Functions for loading input-output tables
 
-#' Prepare economic components of an EEIO model.
-#' @param model An EEIO model object with model specs loaded
+#' Prepare economic components of an EEIO form USEEIO model.
+#' @param model An EEIO form USEEIO model object with model specs loaded
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @return A list with EEIO form USEEIO model economic components.
@@ -52,17 +52,23 @@ loadIOData <- function(model, configpaths = NULL) {
   }
   
   # Check for aggregation
-  model <- getAggregationSpecs(model, configpaths)
-  if(length(model$AggregationSpecs)!=0){
+  if(!is.null(model$specs$AggregationSpecs)){
+    model <- getAggregationSpecs(model, configpaths)
     model <- aggregateModel(model)
   }
   
   # Check for disaggregation
-  model <- getDisaggregationSpecs(model, configpaths)
-  if(length(model$DisaggregationSpecs)!=0){
+  if(!is.null(model$specs$DisaggregationSpecs)){
+    model <- getDisaggregationSpecs(model, configpaths)
     model <- disaggregateModel(model)
   }
   
+  # Check for hybridization
+  if(model$specs$ModelType == "EEIO-IH"){
+    model <- getHybridizationSpecs(model, configpaths)
+    model <- getHybridizationFiles(model, configpaths)
+  }
+    
   return(model)
 }
 
@@ -113,7 +119,9 @@ loadIOmeta <- function(model) {
     model[[meta]][] <- lapply(model[[meta]], as.character)
     # Add Code_Loc column
     model[[meta]][["Code_Loc"]] <- apply(code_loc, 1, FUN = joinStringswithSlashes)
-  }
+  } 
+  model$Commodities$Unit <- "USD"
+  model$Industries$Unit <- "USD"
   # Apply final touches to FinalDemandMeta and MarginSectors
   model$FinalDemandMeta$Group <- gsub(c("Codes|DemandCodes"), "",
                                       model$FinalDemandMeta$Group)

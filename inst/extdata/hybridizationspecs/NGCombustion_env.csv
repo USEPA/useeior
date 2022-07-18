@@ -1,0 +1,4 @@
+ProcessID,ProcessName,Location,Amount,Flowable,Context,Unit,FlowUUID
+NG01,"Natural gas combustion, large wall-fired boiler",US,54431,Carbon dioxide,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7
+NG01,"Natural gas combustion, large wall-fired boiler",US,0.29,Nitrous oxide,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492
+NG01,"Natural gas combustion, large wall-fired boiler",US,1.043,Methane,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80

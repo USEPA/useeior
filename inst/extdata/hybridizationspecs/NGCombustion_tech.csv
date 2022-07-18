@@ -1,0 +1,3 @@
+ProcessID,ProcessName,ProcessUnit,Location,Amount,FlowID,Flow,FlowUnit
+NG01,"Natural gas combustion, large wall-fired boiler",mmscf,US,0,NG01/US,"Natural gas combustion, large wall-fired boiler",mmscf
+NG01,"Natural gas combustion, large wall-fired boiler",mmscf,US,3880,221200/US,Natural gas,USD

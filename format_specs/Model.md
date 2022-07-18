@@ -27,7 +27,8 @@ Items are listed in the order in which they appear in a built Model object in R.
 | MultiYearIndustryCPI | data.frame | supporting data | Multi-year industry CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityCPI | data.frame |   supporting data | Multi-year commodity CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
 | AggregationSpecs | list | metadata | Specifications for one or more aggregations
-| DisaggregationSpecs | list | metadata | Specifications for one or more [disaggregation](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecification.md) |
+| DisaggregationSpecs | list | metadata | Specifications for one or more [disaggregation](https://github.com/USEPA/useeior/tree/master/format_specs/ModelCustomization.md#disaggreation-and-aggregation-yml-file-specification) |
+| HybridizationSpecs | list | metadata | Specifications for [model hybridization](https://github.com/USEPA/useeior/tree/master/format_specs/ModelCustomization.md#hybridization-file-specification) |
 | SatelliteTables | list | component data | [Satellite tables](#satellitetables) |
 | Indicators | list | component data | [Indicators](#indicators) |
 | DemandVectors | list | component data | [Demand vectors](#demandvectors) |
@@ -82,6 +83,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | Code | str | 6-digit code |
 | Name | str | Name of sector or component |
 | Code_Loc | str | Code joined with a location acronym by a forward slash (e.g. `1111A0/US`) |
+| Unit | str | Typically `USD` for EEIO model types but can include physical units for hybrid models |
 
 Commodity sector meta may also have the following fields:
 
