@@ -13,7 +13,7 @@ loadIOData(model, configpaths = NULL)
 and optional agg/disagg configuration file(s). If NULL, built-in config files are used.}
 }
 \value{
-A list with EEIO model economic components.
+A list with EEIO form USEEIO model economic components.
 }
 \description{
 Prepare economic components of an EEIO model.
