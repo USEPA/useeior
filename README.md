@@ -7,17 +7,36 @@
 <!-- badges: end -->
 
 `useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models).
+
 The [model object](format_specs/Model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecification.md) and optional hybridization specification, e.g. [disaggregation](format_specs/DisaggregationAndAggregationSpecification.md).
 [Model specifications](inst/extdata/modelspecs) and associated hybridization specifications, e.g. [disaggregation](inst/extdata/disaggspecs), for EPA-validated models are included in the package.
-The package offers various functions for validating, calculating, visualizing, and writing out models and/or their components.
-`useeior` is a core component of the [USEEIO Modeling Framework](https://github.com/USEPA/useeio).
 
-`useeior` is in a stable development state.
+`useeior` offers various functions for validating, calculating, visualizing, and writing out models and/or their components.
+`useeior` is a core component of the [USEEIO Modeling Framework](https://github.com/USEPA/useeio) and is in a stable development state.
 Users intending to use the package for production purposes and applications should use [Releases](https://github.com/USEPA/useeior/releases).
+`useeior` v1.0.0 was peer-reviewed internally at USEPA and published at Zenodo.
 
-`useeior` v1.0.0 was peer-reviewed internally at USEPA and published at Zenodo. An article describing `useeior` was peer-reviewed and published by the journal of Applied Sciences.
+An peer-reviewed article describing `useeior` was published in the journal Applied Sciences in April 2022
+If you use `useeior` in a scientific publication, we would appreciate that you cite it using:
+```
+@article{li2022useeior,
+  author  = {Li, Mo and Ingwersen, Wesley W. and Young, Ben and Vendries, Jorge and Birney, Catherine},
+  title   = {useeior: An Open-Source R Package for Building and Using US Environmentally-Extended Input–Output Models},
+  journal = {Applied Sciences},
+  year    = {2022},
+  volume  = {12},
+  number  = {9},
+  pages   = {4469},
+  doi     = {10.3390/app12094469}
+}
+```
+or
+```
+Li, M., Ingwersen, W.W., Young, B., Vendries, J. and Birney, C., 2022. useeior: An Open-Source R Package for Building and Using US Environmentally-Extended Input–Output Models. Applied Sciences, 12(9), p.4469.
+```
 
 See the following sections for installation and basic usage of `useeior`.
+
 See [Wiki](https://github.com/USEPA/useeior/wiki) for advanced uses, details about built-in data and metadata and how to contribute to `useeior`.
 
 ## Installation
