@@ -2,7 +2,7 @@
 % Please edit documentation in R/LoadIOTables.R
 \name{loadIOData}
 \alias{loadIOData}
-\title{Prepare economic components of an EEIO model.}
+\title{Prepare economic components of an EEIO form USEEIO model.}
 \usage{
 loadIOData(model, configpaths = NULL)
 }
@@ -16,5 +16,5 @@ and optional agg/disagg configuration file(s). If NULL, built-in config files ar
 A list with EEIO form USEEIO model economic components.
 }
 \description{
-Prepare economic components of an EEIO model.
+Prepare economic components of an EEIO form USEEIO model.
 }
