@@ -35,18 +35,17 @@ getWIOFiles <- function (model, configpaths = NULL){
 
 #' Prepare make and use input files from FlowBySector file.
 #' @param fbs FlowBySector dataframe.
+#' @param spec WIO model spec
 #' @return list of two dataframes: UseTableDF and MakeTableDF
-prepareWIODFfromFBS <- function(fbs, model) {
-  
-  ### TEMP
-  sectorlist <- c('562-ConcreteTreatment', '562-ConcreteProd')
+prepareWIODFfromFBS <- function(fbs, spec, model) {
+  sectorlist <- spec$NAICSSectorCW$USEEIO_Code[spec$NAICSSectorCW$Type != "Flowable"]
   year <- fbs$Year[[1]]
 
   # TEMP Map Sectors and flows to new WIO codes
-  fbs[fbs == "Concrete"] <- "3273-Waste"
+  fbs["Flowable"][fbs["Flowable"] == "Concrete"] <- "3273-Waste"
   fbs["SectorConsumedBy"][fbs["SectorConsumedBy"] == "562920"] <- "562-ConcreteTreatment"
   fbs["SectorProducedBy"][fbs["SectorProducedBy"] == "562920"] <- "562-ConcreteProd"
-  fbs[fbs == "Concrete Processed"] <- "3273-Treated"    
+  fbs["Flowable"][fbs["Flowable"] == "Concrete Processed"] <- "3273-Treated"    
   
   # Consolidate master crosswalk on model level and rename
   NAICStoBEA <- unique(model$crosswalk[, c("NAICS","USEEIO")])
