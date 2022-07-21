@@ -280,6 +280,7 @@ checkNamesandOrdering <- function(n1, n2, note) {
 
 #' Run validation checks and print to console
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @export
 printValidationResults <- function(model) {
   print("Validate that commodity output can be recalculated (within 1%) with the model total requirements matrix (L) and demand vector (y) for US production")
   econval <- compareOutputandLeontiefXDemand(model, tolerance = 0.01)
