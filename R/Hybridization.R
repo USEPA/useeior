@@ -75,6 +75,7 @@ hybridizeModelObjects <- function (model) {
   new_processes <- unique(model$HybridizationSpecs$TechFileDF[process_cols])
   colnames(new_processes) <- c("Code", "Name", "Unit", "Location")
   new_processes["Code_Loc"] <- paste(new_processes$Code, new_processes$Location, sep="/")
+  new_processes <- new_processes[order(new_processes$Code_Loc),]
   model$HybridizationSpecs$Processes <- new_processes
   
   # Update Industry and Commodity tables
