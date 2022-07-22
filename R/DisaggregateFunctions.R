@@ -99,7 +99,6 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
 #' @return A model object with the correct disaggregation specs.
 disaggregateSetup <- function (model, configpaths = NULL){
   
-  counter = 1
   for (disagg in model$DisaggregationSpecs){  
     filename <- ifelse(is.null(configpaths),
                        system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
@@ -163,14 +162,107 @@ disaggregateSetup <- function (model, configpaths = NULL){
     } else {
       disagg$EnvAllocRatio <- FALSE
     }
-    #Need to assign these DFs back to the modelspecs
-    model$DisaggregationSpecs[[counter]] <- disagg
-    
-    counter <- counter + 1
+
+    # For Two-region model, develop two-region specs from national disaggregation files
+    if (model$specs$IODataSource=="stateior" & stringr::str_sub(disagg$OriginalSectorCode, start=-3)=="/US") {
+      for(region in model$specs$ModelRegionAcronyms){
+        d2 <- prepareTwoRegionDisaggregation(disagg, region, model$specs$ModelRegionAcronyms)
+        model$DisaggregationSpecs[[d2$OriginalSectorCode]] <- d2
+      }
+      # Remove original disaggregation spec
+      model$DisaggregationSpecs[disagg$OriginalSectorCode] <- NULL
+
+    } else {
+      #Need to assign these DFs back to the modelspecs
+      model$DisaggregationSpecs[[disagg$OriginalSectorCode]] <- disagg
+    }
   }
   
   return(model)
 }
+
+
+#' Generate two-region disaggregation specs from a national spec
+#' @param disagg Specifications for disaggregating the current Table
+#' @param region Str, Location code for target disaggregation specs
+#' @param regions list of location codes from ModelRegionAcronyms
+#' @return modified disagg specs for target region
+prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
+
+  d2 <- disagg
+  OriginalSector <- gsub("/US", "", disagg$OriginalSectorCode)
+  d2$OriginalSectorCode <- paste0(OriginalSector, "/", region)
+  other_region <- regions[regions != region]
+  
+  # Update NAICSSectorCW
+  d2$NAICSSectorCW$USEEIO_Code <- gsub("/US", paste0("/",region), d2$NAICSSectorCW$USEEIO_Code)
+  d2$DisaggregatedSectorCodes <- lapply(d2$DisaggregatedSectorCodes, function(x) gsub("/US", paste0("/",region), x))
+
+  # Duplicate national allocations
+  cols <- c("IndustryCode","CommodityCode")
+  d2$MakeFileDF[cols] <- lapply(d2$MakeFileDF[cols], function(x) gsub("/US", paste0("/",region), x))
+  d2$UseFileDF[cols] <- lapply(d2$UseFileDF[cols], function(x) gsub("/US", paste0("/",region), x))  
+
+  # For Use table, adjust use table intersections for sequential disaggregation
+  rep <- subset(d2$UseFileDF, CommodityCode %in% d2$DisaggregatedSectorCodes &
+                              IndustryCode %in% d2$DisaggregatedSectorCodes)
+  
+  rep1 <- rep
+  rep2 <- rep
+  
+  # For the first pass (region 1), consolidate on the original sector code (not yet disaggregated)
+  if(region == regions[1]) {
+    rep1["CommodityCode"] <- paste0(OriginalSector, "/", other_region)
+    rep1 <- aggregate(PercentUsed ~ IndustryCode + CommodityCode, rep1, sum)
+
+    rep2["IndustryCode"] <- paste0(OriginalSector, "/", other_region)
+    rep2 <- aggregate(PercentUsed ~ IndustryCode + CommodityCode, rep2, sum)
+    
+    # Invert columns for sequential disaggregation
+    rep1[cols] <- rep1[rev(cols)]
+    rep2[cols] <- rep2[rev(cols)]
+    
+    # Add back blank 'Note' column
+    rep <- rbind(rep1, rep2)
+    rep['Note'] <- NA
+
+  } else {
+  # On the second pass (region 2), apply to disaggregated sectors
+
+    # Renormalize intersection columns
+    total <- list()
+    total[c("CommodityCode", "Total")] <- aggregate(PercentUsed ~ CommodityCode,
+                                                    rep1, sum)
+    rep1 <- merge(rep1, total)
+    rep1["PercentUsed"] = rep1["PercentUsed"]/rep1["Total"]
+    rep1["Total"] <- NULL
+    rep1[cols] <- rep1[rev(cols)]
+    rep1["IndustryCode"] <- lapply(rep1["IndustryCode"], function(x) gsub(paste0("/", region), 
+                                                                          paste0("/", other_region), x))
+
+    # Renormalize intersection columns
+    total <- list()
+    total[c("IndustryCode", "Total")] <- aggregate(PercentUsed ~ IndustryCode,
+                                                    rep2, sum)
+    rep2 <- merge(rep2, total)
+    rep2["PercentUsed"] = rep2["PercentUsed"]/rep2["Total"]
+    rep2["Total"] <- NULL
+    rep2[cols] <- rep2[rev(cols)]
+
+    rep2["CommodityCode"] <- lapply(rep2["CommodityCode"], function(x) gsub(paste0("/", region), 
+                                                                            paste0("/", other_region), x))
+    rep <- rbind(rep1, rep2)    
+  }
+  d2$UseFileDF <- rbind(d2$UseFileDF, rep)
+  rownames(d2$UseFileDF) <- NULL
+
+  ## Disaggregate Satellite Table
+  ## TODO
+
+  
+  return(d2)
+}
+
 
 #' Disaggregate model$InternationalTradeAdjustments vector in the main model object
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
@@ -332,18 +424,18 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
 
   if(list_type == "Commodity") {
     originalList <- model$Commodities
-    originalIndex <- grep(disagg$OriginalSectorCode, model$Commodities$Code_Loc)
-    newSectors <- data.frame(matrix(ncol = ncol(model$Commodities), nrow = length(disagg$DisaggregatedSectorCodes)))
-    names(newSectors) <- names(model$Commodities) #rename columns for the df
-    newSectors$Category <- sapply(disagg$Category, paste0, collapse = "")
-    newSectors$Subcategory <- sapply(disagg$Subcategory, paste0, collapse = "")
-    newSectors$Description <- sapply(disagg$Description, paste0, collapse = "")
   } else {
     #assume industry if not specified
     originalList <- model$Industries
-    originalIndex <- grep(disagg$OriginalSectorCode, model$Industries$Code_Loc)
-    newSectors <- data.frame(matrix(ncol = ncol(model$Industries), nrow = length(disagg$DisaggregatedSectorCodes)))
-    names(newSectors) <- names(model$Industries) #rename columns for the df
+  }
+  originalIndex <- grep(disagg$OriginalSectorCode, originalList$Code_Loc)
+  newSectors <- data.frame(matrix(ncol = ncol(originalList), nrow = length(disagg$DisaggregatedSectorCodes)))
+  names(newSectors) <- names(originalList) #rename columns for the df
+
+  if(list_type == "Commodity") {  
+    newSectors$Category <- sapply(disagg$Category, paste0, collapse = "")
+    newSectors$Subcategory <- sapply(disagg$Subcategory, paste0, collapse = "")
+    newSectors$Description <- sapply(disagg$Description, paste0, collapse = "")
   }
 
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
@@ -790,7 +882,7 @@ disaggregateMasterCrosswalk <- function (model, disagg){
 
   secLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
   cw <- disagg$NAICSSectorCW[, c('NAICS_2012_Code','USEEIO_Code')]
-  cw$USEEIO_Code <- sapply(cw$USEEIO_Code, function(x) {substr(x, 1, secLength)})
+  cw$USEEIO_Code <- sub("/.*","",cw$USEEIO_Code) # For all rows in the USEEIO_Code column, remove all characters after (and including) "/"
 
   #Update original sector codes with disaggregated sector codes in the relevant column (i.e. cwColIndex) where rows have an exact match for the disaggregated codes in the NAICS column
   new_cw <-merge(new_cw, cw, by.x=c("NAICS"), by.y=c("NAICS_2012_Code"), all=T)
@@ -800,7 +892,7 @@ disaggregateMasterCrosswalk <- function (model, disagg){
   #Update remaining rows where the original sector is present in cwColIndex but there is no exact match in the NAICS column for the disaggregated sector codes (e.g. 2-5 level NAICS codes)
   remainingDisaggNAICSIndex <- which(new_cw$USEEIO == substr(disagg$OriginalSectorCode,1,secLength))
   
-  for (i in 1:length(remainingDisaggNAICSIndex)){
+  for (i in seq_along(remainingDisaggNAICSIndex)){
     disaggNAICSIndex <- which(new_cw$USEEIO == substr(disagg$OriginalSectorCode,1,secLength))
     crosswalkRow <- new_cw[disaggNAICSIndex[1],] #extract current row where code in last column needs to be updated
     
@@ -813,7 +905,7 @@ disaggregateMasterCrosswalk <- function (model, disagg){
     }
     
     rowReplacements <- disagg$NAICSSectorCW$NAICS_2012_Code[rowComparisons] #Get the NAICS sector codes in the disagg crosswalk that are a match for the NAICS substring in the master crosswalk 
-    rowReplacements <- substr(disagg$NAICSSectorCW$USEEIO_Code[rowComparisons],1,secLength) #Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
+    rowReplacements <- sub("/.*","",disagg$NAICSSectorCW$USEEIO_Code[rowComparisons]) #Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
     rowReplacements <- unique(rowReplacements) #reduce the list to the unique number of disaggregated sectors that the row comparisons map to
     
     crosswalkRow <- crosswalkRow[rep(seq_len(nrow(crosswalkRow)), length(rowReplacements)),, drop=FALSE] #replicate the crosswalk row as many times as there were matches in the substring search

@@ -23,19 +23,21 @@ getNAICStoBEAAllocation <- function (year, model) {
   AllocationCodes <- stats::na.omit(AllocationCodes)
   # Merge AllocationCodes with Gross Output table to calculate allocation factors
   output <- model$MultiYearIndustryOutput[, as.character(year), drop = FALSE]
-  row.names(output) <- gsub("/.*", "", row.names(output))
-  AllocationTable <- merge(AllocationCodes, output, by.x = "BEA_Code", by.y = 0, all.x = TRUE)
-  colnames(AllocationTable)[3] <- "Output"
+  output$Code <- gsub("/.*", "", row.names(output))
+  output$Location <- gsub(".*/", "", row.names(output))
+  AllocationTable <- merge(AllocationCodes, output,
+                           by.x = "BEA_Code", by.y = "Code", all.x = TRUE)
+  AllocationTable$Output <- AllocationTable[, as.character(year)]
   # Insert placeholders for NAs in the "Output" column
   AllocationTable[is.na(AllocationTable)] <- 1
   # Aggregate Output for the same NAICS code
   sum_temp <- stats::aggregate(AllocationTable$Output, by = list(AllocationTable$NAICS_Code), sum)
   colnames(sum_temp) <- c("NAICS_Code", "SumOutput")
-  AllocationTable <- merge(AllocationTable, sum_temp, by="NAICS_Code", all.x = TRUE)
+  AllocationTable <- merge(AllocationTable, sum_temp, by = "NAICS_Code", all.x = TRUE)
   # Calculate allocation factors
   AllocationTable$allocation_factor <- AllocationTable$Output/AllocationTable$SumOutput
   # Keep wanted columns
-  AllocationTable <- AllocationTable[, c("NAICS_Code", "BEA_Code", "allocation_factor")]
+  AllocationTable <- AllocationTable[, c("NAICS_Code", "BEA_Code", "Location", "allocation_factor")]
   return(AllocationTable)
 }
 

@@ -4,10 +4,10 @@
 \alias{loadTwoRegionStateIOtables}
 \title{Load two-region state IO tables in a list based on model config.}
 \usage{
-loadTwoRegionStateIOtables(specs)
+loadTwoRegionStateIOtables(model)
 }
 \arguments{
-\item{specs}{Model specifications.}
+\item{model}{An EEIO form USEEIO model object with model specs and IO meta data loaded.}
 }
 \value{
 A list with state IO tables.
