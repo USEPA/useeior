@@ -19,14 +19,14 @@ Users intending to use the package for production purposes and applications shou
 An peer-reviewed article describing `useeior` was published in the journal Applied Sciences in April 2022
 If you use `useeior` in a scientific publication, we would appreciate that you cite it using:
 ```
-@article{li2022useeior,
-  author  = {Li, Mo and Ingwersen, Wesley W. and Young, Ben and Vendries, Jorge and Birney, Catherine},
-  title   = {useeior: An Open-Source R Package for Building and Using US Environmentally-Extended Input–Output Models},
+@article{li_useeior_2022,
+  title   = {useeior: {An} {Open-Source} {R} {Package} for {Building} and {Using} {US} {Environmentally-Extended} {Input-Output} {Models}},
   journal = {Applied Sciences},
+  author  = {{Li, Mo} and {Ingwersen, Wesley} and {Young, Ben} and {Vendries, Jorge} and {Birney, Catherine}},
   year    = {2022},
-  volume  = {12},
-  number  = {9},
   pages   = {4469},
+  number  = {9},
+  volume  = {12},
   doi     = {10.3390/app12094469}
 }
 ```
