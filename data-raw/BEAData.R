@@ -941,7 +941,8 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
                                                   "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv",
                                                   package = "useeior"),
                                       sep = ",", header = TRUE,
-                                      stringsAsFactors = FALSE)
+                                      stringsAsFactors = FALSE,
+                                      quote = "\"")
   DetailGrossOutputIO <- merge(Detail_mapping, DetailGrossOutput,
                                by = "Gross_Output_Detail_Industry",
                                all.y = TRUE)
