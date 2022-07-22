@@ -196,7 +196,8 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
 
 #' Gets industry output from model Use and Make and checks if they are the same
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
-compareIndustryOutputinMakeandUse <- function(model) {
+#' @param tolerance A numeric value setting tolerance of the comparison
+compareIndustryOutputinMakeandUse <- function(model, tolerance) {
   # Calculate Industry Output (x) from Make and Use tables
   x_make <-rowSums(model$V)
   x_use <- colSums(model$U[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +

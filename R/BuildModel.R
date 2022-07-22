@@ -43,7 +43,6 @@ constructEEIOMatrices <- function(model) {
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
                                                 DomesticFinalDemand_df),
                                           model$UseValueAdded)) # DomesticUse
-  colnames(model$U)[which(colnames(model$U)=="model$InternationalTradeAdjustment")] <- model$InternationalTradeAdjustmentMeta$Code_Loc
   colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))

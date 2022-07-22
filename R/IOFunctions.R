@@ -166,43 +166,44 @@ calculateLeontiefInverse <- function(A) {
 
 #' Generate domestic Use table by adjusting Use table based on Import matrix.
 #' @param Use, dataframe of a Use table
-#' @param specs, list of model specifications
+#' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return A Domestic Use table with rows as commodity codes and columns as industry and final demand codes
-generateDomesticUse <- function(Use, specs) {
+generateDomesticUse <- function(Use, model) {
   # Load Import matrix
-  if (specs$BaseIOLevel!="Sector") {
-    Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+  if (model$specs$BaseIOLevel!="Sector") {
+    Import <- get(paste(model$specs$BaseIOLevel, "Import",
+                        model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
   } else {
     # Load Summary level Import matrix
-    Import <- get(paste("Summary_Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+    Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
     # Aggregate Import from Summary to Sector
-    Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", specs))
+    Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
   }
   # Subtract Import from Use
   DomesticUse <- Use - Import[rownames(Use), colnames(Use)]
   # Adjust Import column in DomesticUse to 0.
   # Note: the original values in Import column are essentially the International Trade Adjustment
   # that are reserved and added as an additional column (F050/F05000) in DomesticUse.
-  DomesticUse[, getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")] <- 0
+  DomesticUse[, getVectorOfCodes(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Import")] <- 0
   return(DomesticUse)
 }
 
 #' Generate international trade adjustment vector from Use and Import matrix.
 #' @param Use, dataframe of a Use table
-#' @param specs, list of model specifications
+#' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return An international trade adjustment vector with names as commodity codes
-generateInternationalTradeAdjustmentVector <- function(Use, specs) {
+generateInternationalTradeAdjustmentVector <- function(Use, model) {
   # Load Import matrix
-  if (specs$BaseIOLevel!="Sector") {
-    Import <- get(paste(specs$BaseIOLevel, "Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+  if (model$specs$BaseIOLevel!="Sector") {
+    Import <- get(paste(model$specs$BaseIOLevel, "Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
   } else {
     # Load Summary level Import matrix
-    Import <- get(paste("Summary_Import", specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+    Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
     # Aggregate Import from Summary to Sector
-    Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", specs))
+    Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
   }
   # Define Import code
-  ImportCode <- getVectorOfCodes(specs$BaseIOSchema, specs$BaseIOLevel, "Import")
+  ImportCode <- getVectorOfCodes(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Import")
   # Calculate InternationalTradeAdjustment
   # In the Import matrix, the imports column is in domestic (US) port value.
   # But in the Use table, it is in foreign port value.
