@@ -35,8 +35,7 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 
   # Calculate scaling factor c=Ly
   c <- calculateProductofLeontiefAndProductionDemand(model, use_domestic)
-  c <- removeHybridProcesses(model, c)
-  
+
   #LCI = B dot Chi %*% c
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
   
@@ -64,6 +63,7 @@ calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) 
     y <- as.matrix(formatDemandVector(f, model$L))
     c <- getScalingVector(model$L, y)
   }
+  c <- removeHybridProcesses(model, c)
   return(c)  
 }
 
@@ -82,6 +82,8 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
   } else {
     x <- model$x
   }
+  x <- removeHybridProcesses(model, x)
+  
   # Calculate scaling factor c=Ly
   c <- calculateProductofLeontiefAndProductionDemand(model, use_domestic)
   
