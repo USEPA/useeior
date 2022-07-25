@@ -1,0 +1,18 @@
+# Creates an issue from a template based on schedule
+# See example: https://jasonet.co/posts/scheduled-actions/#jasonetcocreate-an-issue
+
+name: Data download reminder
+on:
+  schedule:
+    - cron: '0 0 15 9 *' # Runs on Sept 15 0:00 UTC
+  workflow_dispatch:
+jobs:
+  issue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: JasonEtco/create-an-issue@v2.6.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/ISSUE_TEMPLATE/data_update.md
