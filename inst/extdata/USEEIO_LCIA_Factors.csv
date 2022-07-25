@@ -1,602 +1,602 @@
-Flowable,Context,Unit,UUID,VADD,JOBS,CRHW,CMSW,CCDD
-Concrete,Waste Flows/CDD,kg,,0,0,0,0,1
-Asphalt Pavement,Waste Flows/CDD,kg,,0,0,0,0,1
-Asphalt Shingles,Waste Flows/CDD,kg,,0,0,0,0,1
-Bricks,Waste Flows/CDD,kg,,0,0,0,0,1
-Metal,Waste Flows/CDD,kg,,0,0,0,0,1
-Gypsum Drywall,Waste Flows/CDD,kg,,0,0,0,0,1
-Wood,Waste Flows/CDD,kg,,0,0,0,0,1
-Fines,Waste Flows/CDD,kg,,0,0,0,0,0
-Other,Waste Flows/CDD,kg,,0,0,0,0,0
-Cardboard,Waste Flows/MSW,kg,,0,0,0,1,0
-Paper Bags,Waste Flows/MSW,kg,,0,0,0,1,0
-Newspaper,Waste Flows/MSW,kg,,0,0,0,1,0
-White Ledger Paper,Waste Flows/MSW,kg,,0,0,0,1,0
-Other Office Paper,Waste Flows/MSW,kg,,0,0,0,1,0
-Magazines and Catalogs,Waste Flows/MSW,kg,,0,0,0,1,0
-Phone Books and Directories,Waste Flows/MSW,kg,,0,0,0,1,0
-Other Miscellaneous Paper - Compostable,Waste Flows/MSW,kg,,0,0,0,1,0
-Other Miscellaneous Paper - Other,Waste Flows/MSW,kg,,0,0,0,1,0
-Remainder/Composite Paper - Compostable,Waste Flows/MSW,kg,,0,0,0,1,0
-Remainder/Composite Paper - Other,Waste Flows/MSW,kg,,0,0,0,1,0
-Clear Glass Bottles and Containers,Waste Flows/MSW,kg,,0,0,0,1,0
-Green Glass Bottles and Containers,Waste Flows/MSW,kg,,0,0,0,1,0
-Brown Glass Bottles and Containers,Waste Flows/MSW,kg,,0,0,0,1,0
-Other Glass Colored Bottles and Containers,Waste Flows/MSW,kg,,0,0,0,1,0
-Flat Glass,Waste Flows/MSW,kg,,0,0,0,1,0
-Glass,Waste Flows/MSW,kg,,0,0,0,1,0
-Tin/Steel Cans,Waste Flows/MSW,kg,,0,0,0,1,0
-Major Appliances,Waste Flows/MSW,kg,,0,0,0,1,0
-Used Oil Filters,Waste Flows/MSW,kg,,0,0,0,1,0
-Other Ferrous,Waste Flows/MSW,kg,,0,0,0,1,0
-Aluminum Cans,Waste Flows/MSW,kg,,0,0,0,1,0
-Other Non-Ferrous,Waste Flows/MSW,kg,,0,0,0,1,0
-Remainder/Composite Metal,Waste Flows/MSW,kg,,0,0,0,1,0
-Brown Goods,Waste Flows/MSW,kg,,0,0,0,1,0
-Computer-related Electronics,Waste Flows/MSW,kg,,0,0,0,1,0
-Other Small Consumer Electronics,Waste Flows/MSW,kg,,0,0,0,1,0
-Video Display Devices,Waste Flows/MSW,kg,,0,0,0,1,0
-PETE Plastic Containers,Waste Flows/MSW,kg,,0,0,0,1,0
-HDPE Plastic Containers,Waste Flows/MSW,kg,,0,0,0,1,0
-Miscellaneous Plastic Containers,Waste Flows/MSW,kg,,0,0,0,1,0
-Plastic Trash Bags,Waste Flows/MSW,kg,,0,0,0,1,0
-Plastic Grocery and Other Merchandise Bags,Waste Flows/MSW,kg,,0,0,0,1,0
-Non-Bag Commercial and Industrial Packaging Film,Waste Flows/MSW,kg,,0,0,0,1,0
-Film Products,Waste Flows/MSW,kg,,0,0,0,1,0
-Other Film - Other,Waste Flows/MSW,kg,,0,0,0,1,0
-Durable Plastic Items - Number 2 and 5 Bulky Rigids,Waste Flows/MSW,kg,,0,0,0,1,0
-Durable Plastic Items - Other,Waste Flows/MSW,kg,,0,0,0,1,0
-Plastic,Waste Flows/MSW,kg,,0,0,0,1,0
-Food,Waste Flows/MSW,kg,,0,0,0,1,0
-Leaves and Grass,Waste Flows/MSW,kg,,0,0,0,1,0
-Prunings and Trimmings,Waste Flows/MSW,kg,,0,0,0,1,0
-Branches and Stumps,Waste Flows/MSW,kg,,0,0,0,1,0
-Manures,Waste Flows/MSW,kg,,0,0,0,0,0
-Textiles,Waste Flows/MSW,kg,,0,0,0,1,0
-Carpet,Waste Flows/MSW,kg,,0,0,0,1,0
-Organics,Waste Flows/MSW,kg,,0,0,0,1,0
-Paint,Waste Flows/MSW,kg,,0,0,1,0,0
-Vehicle and Equipment Fluids,Waste Flows/MSW,kg,,0,0,1,0,0
-Used Oil,Waste Flows/MSW,kg,,0,0,1,0,0
-Batteries,Waste Flows/MSW,kg,,0,0,1,0,0
-Remainder/Composite Household Hazardous,Waste Flows/MSW,kg,,0,0,1,0,0
-Ash,Waste Flows/MSW,kg,,0,0,1,0,0
-Treated Medical Waste,Waste Flows/MSW,kg,,0,0,1,0,0
-Bulky Items,Waste Flows/MSW,kg,,0,0,0,1,0
-Tires,Waste Flows/MSW,kg,,0,0,0,1,0
-Remainder/Composite Special Waste,Waste Flows/MSW,kg,,0,0,0,0,0
-Mixed Residue,Waste Flows/MSW,kg,,0,0,0,0,0
-Jobs,,p,52d170d5-0399-3137-8bf5-57f5c39fd492,0,1,0,0,0
-Compensation of employees,,USD,,1,0,0,0,0
-"Taxes on production and imports, less subsidies",,USD,,1,0,0,0,0
-Gross operating surplus,,USD,,1,0,0,0,0
-"1,1,1,2-TETRACHLOROETHANE (OR) ETHANE, 1,1,1,2-TETRACHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,1,2,2-TETRACHLOROETHANE (OR) ETHANE, 1,1,2,2-TETRACHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,1,2-TRICHLOROETHANE (OR) ETHANE, 1,1,2-TRICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,1-DICHLOROETHYLENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,1-DICHLOROETHYLENE (OR) ETHENE, 1,1-DICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,1-DIMETHYLHYDRAZINE (OR) HYDRAZINE, 1,1-DIMETHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2,3-PROPANETRIOL, TRINITRATE (R) (OR) NITROGLYCERINE (R)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2,4,5-TETRACHLOROBENZENE (OR) BENZENE, 1,2,4,5-TETRACHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-BENZENEDICARBOXYLIC ACID, BIS(2-ETHYLHEXYL) ESTER (OR) DIETHYLHEXYL PHTHALATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-BENZENEDICARBOXYLIC ACID, DIBUTYL ESTER (OR) DIBUTYL PHTHALATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-BENZENEDICARBOXYLIC ACID, DIETHYL ESTER (OR) DIETHYL PHTHALATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-BENZENEDICARBOXYLIC ACID, DIMETHYL ESTER (OR) DIMETHYL PHTHALATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-BENZENEDICARBOXYLIC ACID, DIOCTYL ESTER (OR) DI-N-OCTYL PHTHALATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-BENZENEDIOL, 4-[1-HYDROXY-2-(METHYLAMINO)ETHYL]-, (R)- (OR) EPINEPHRINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-BENZISOTHIAZOL-3(2H)-ONE, 1,1-DIOXIDE, & SALTS (OR) SACCHARIN, & SALTS",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-DIBROMO-3-CHLOROPROPANE (OR) PROPANE, 1,2-DIBROMO-3-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-DICHLOROETHANE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-DICHLOROETHYLENE (OR) ETHENE, 1,2-DICHLORO-,(E)-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-DIPHENYLHYDRAZINE (OR) HYDRAZINE, 1,2-DIPHENYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-ETHANEDIAMINE, N,N-DIMETHYL-N'-2-PYRIDINYL-N'-(2-THIENYLMETHYL)- (OR) METHAPYRILENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-OXATHIOLANE, 2,2-DIOXIDE (OR) 1,3-PROPANE SULTONE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-PROPYLENIMINE (OR) AZIRIDINE, 2-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2:3,4-DIEPOXYBUTANE (I,T) (OR) 2,2'-BIOXIRANE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,3,5-TRIOXANE, 2,4,6-TRIMETHYL- (OR) PARALDEHYDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,3-BENZENEDIOL (OR) RESORCINOL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,3-BUTADIENE, 1,1,2,3,4,4-HEXACHLORO- (OR) HEXACHLOROBUTADIENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,3-CYCLOPENTADIENE, 1,2,3,4,5,5-HEXACHLORO- (OR) HEXACHLOROCYCLOPENTADIENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,3-DICHLOROPROPENE (OR) 1-PROPENE, 1,3-DICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,3-ISOBENZOFURANDIONE (OR) PHTHALIC ANHYDRIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,4-DICHLORO-2-BUTENE (I,T) (OR) 2-BUTENE, 1,4-DICHLORO- (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,4-DICHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,4-DIETHYLENEOXIDE (OR) 1,4-DIOXANE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1-ACETYL-2-THIOUREA (OR) ACETAMIDE, N-(AMINOTHIOXOMETHYL)-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-1-BUTANOL (I) (OR) N-BUTYL ALCOHOL (I),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-1-NAPTHALENAMINE (OR) ALPHA-NAPHTHYLAMINE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1-PROPANAMINE (I,T) (OR) N-PROPYLAMINE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1-PROPANIMINE, N-PROPYL-(I) (OR) DIPROPYLAMINE (I)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1-PROPANOL, 2-METHYL- (I,T) (OR) ISOBUTYL ALCOHOL (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1H-1,2,4-TRIAZOL-3-AMINE (OR) AMITROLE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4,5-TP SILVEX (2,4,5-TRICHLOROPHENOXYPROPIONIC ACID)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4,5-TRICHLOROPHENOL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4,6-TRICHLOROPHENOL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4-(1H,3H)-PYRIMIDINEDIONE, 5-[BIS(2-CHLOROETHYL)AMINO]- (OR) URACIL MUSTARD",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4-D (2,4-DICHLOROPHENOXYACETIC ACID)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4-D, SALTS & ESTERS (OR) ACETIC ACID, (2,4-DICHLOROPHENOXY)-, SALTS & ESTERS (OR) DICHLOROPHENOXYACETIC ACID 2,4-D",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4-DIMETHYLPHENOL (OR) PHENOL, 2,4-DIMETHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4-DINITROPHENOL (OR) PHENOL, 2,4-DINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4-DINITROTOLUENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4-DINITROTOLUENE (OR) BENZENE, 1-METHYL-2,4-DINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,5-CYCLOHEXADIENE-1,4-DIONE (OR) P-BENZOQUINONE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,5-FURANDIONE (OR) MALEIC ANHYDRIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,6-DICHLOROPHENOL (OR) PHENOL, 2,6-DICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,7-NAPHTHALENEDISULFONIC ACID,3,3'-[(3,3'-DIMETHYL[1,1'-BIPHENYL]-4,4'-DIYL)BIS(AZO)BIS[5-AMINO-4-HYDROXY]-, TETRASODIUM SALT (OR) TRYPAN BLUE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,7:3,6-DIMETHANONAPHTH[2,3-B]OXIRENE, 3,4,5,6,9,9-HEXACHLORO-1A,2,2A,3,6,6A,7,7A-OCTAHYDRO-, (1AALPHA, 2BETA, 2AALPHA, 3BETA, 6BETA, 6AALPHA, 7BETA, 7AALPHA)- (OR) DIELDRIN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-ACETYLAMINOFLUORENE (OR) ACETAMIDE, N-9H-FLUOREN-2-YL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-BUTANONE (I,T) (OR) METHYL ETHYL KETONE (MEK) (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-BUTANONE, PEROXIDE (R,T) (OR) METHYL ETHYL KETONE PEROXIDE (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-BUTENAL (OR) CROTONALDEHYDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-BUTENOIC ACID, 2-METHYL-, 7-[[2,3-DIHYDROXY-2-(1-METHOXYETHYL)-3-METHYL-1-OXOBUTOXY]METHYL]-2,3,5,7A-TETRAHYDRO-1H-PYRROLIZIN-1-YL ESTER, [1S-[1ALPHA(Z), 7(2S*,3R*), 7AALPHA]]- (OR) LASIOCARPINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-FURANCARBOXALDEHYDE (I) (OR) FURFURAL (I),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-IMIDAZOLIDINETHIONE (OR) ETHYLENETHIOUREA,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-METHYLLACTONITRILE (OR) PROPANENITRILE, 2-HYDROXY-2-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-NAPTHALENAMINE (OR) BETA-NAPHTHYLAMINE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-NITROPROPANE (I,T) (OR) PROPANE, 2-NITRO- (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-PICOLINE (OR) PYRIDINE, 2-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-PROPANONE (I) (OR) ACETONE (I),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-PROPEN-1-OL (OR) ALLYL ALCOHOL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-PROPENAL (OR) ACROLEIN,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-PROPENAMIDE (OR) ACRYLAMIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-PROPENENITRILE (OR) ACRYLONITRILE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-PROPENENITRILE, 2-METHYL- (I,T) (OR) METHACRYLONITRILE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-PROPENOIC ACID (I) (OR) ACRYLIC ACID (I),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-PROPENOIC ACID, 2-METHYL-, ETHYL ESTER (OR) ETHYL METHACRYLATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-PROPENOIC ACID, 2-METHYL-, METHYL ESTER (I,T) (OR) METHYL METHACRYLATE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-PROPENOIC ACID, ETHYL ESTER (I) (OR) ETHYL ACRYLATE (I)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-2-PROPYN-1-OL (OR) PROPARGYL ALCOHOL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2H-1,3,2-OXAZAPHOSPHORIN-2-AMINE, N,N-BIS(2-CHLOROETHYL)TETRAHYDRO-, 2-OXIDE (OR) CYCLOPHOSPHAMIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2H-1-BENZOPYRAN-2-ONE, 4-HYDROXY-3-(3-OXO-1-PHENYL-BUTYL)-, & SALTS, WHEN PRESENT AT CONCENTRATIONS OF 0.3% OR LESS (OR) WARFARIN, & SALTS, WHEN PRESENT AT CONCENTRATIONS OF 0.3% OR LESS",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2H-1-BENZOPYRAN-2-ONE, 4-HYDROXY-3-(3-OXO-1-PHENYLBUTYL)-, & SALTS, WHEN PRESENT AT CONCENTRATIONS GREATER THAN 0.3% (OR) WARFARIN, & SALTS, WHEN PRESENT AT CONCENTRATIONS GREATER THAN 0.3%",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"3(2H)-ISOXAZOLONE, 5-(AMINOMETHYL)- (OR) 5-(AMINOMETHYL)-3-ISOXAZOLOL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"4(1H)-PYRIMIDINONE, 2,3-DIHYDRO-6-METHYL-2-THIOXO- (OR) METHYLTHIOURACIL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"4,4'-METHYLENEBIS(2-CHLOROANILINE) (OR) BENZENAMINE, 4,4'-METHYLENEBIS[2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"4,7-METHANO-1H-INDENE, 1,2,4,5,6,7,8,8-OCTACHLORO-2,3,3A,4,7,7A-HEXAHYDRO- (OR) CHLORDANE, ALPHA & GAMMA ISOMERS",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-4-AMINOPYRIDINE (OR) 4-PYRIDINAMINE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"4-CHLORO-O-TOLUIDINE, HYDROCHLORIDE (OR) BENZENAMINE, 4-CHLORO-2-METHYL-, HYDROCHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"4-METHYL-2-PENTANONE (I) (OR) METHYL ISOBUTYL KETONE (I) (OR) PENTANOL, 4-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"6,9-METHANO-2,4,3-BENZODIOXATHIEPIN,6,7,8,9,10,10-HEXACHLORO-1,5,5A,6,9,9A-HEXAHYDRO-,3-OXIDE (OR) ENDOSULFAN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"7,12-DIMETHYLBENZ[A]ANTHRACENE (OR) BENZ[A]ANTHRACENE, 7,12-DIMETHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"7-BENZOFURANOL, 2,3-DIHYDRO-2,2-DIMETHYL-, METHYLCARBAMATE (OR) CARBOFURAN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"7-OXABICYCLO[2.2.1]HEPTANE-2,3-DICARBOXYLIC ACID (OR) ENDOTHALL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ACETALDEHYDE (I) (OR) ETHANAL (I),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETALDEHYDE, CHLORO- (OR) CHLOROACETALDEHYDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETALDEHYDE, TRICHLORO- (OR) CHLORAL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETAMIDE, 2-FLUORO- (OR) FLUOROACETAMIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETIC ACID, ETHYL ESTER (I) (OR) ETHYL ACETATE (I)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETIC ACID, LEAD(2+) SALT (OR) LEAD ACETATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETIC ACID, THALLIUM(1+) SALT (OR) THALLIUM(I) ACETATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETONITRILE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETOPHENONE (OR) ETHANONE, 1-PHENYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETYL CHLORIDE (C,R,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ACIDIC AQUEOUS WST,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ALDICARB (OR) PROPANAL, 2-METHYL-2-(METHYLTHIO)-, O-[(METHYLAMINO)CARBONYL]OXIME",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ALPHA,ALPHA-DIMETHYLBENZYLHYDROPEROXIDE (R) (OR) HYDROPEROXIDE, 1-METHYL-1-PHENYLETHYL- (R)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ALPHA,ALPHA-DIMETHYLPHENETHYLAMINE (OR) BENZENEETHANAMINE, ALPHA, ALPHA-DIMETHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ALUMINUM PHOSPHIDE (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-AMMONIA STILL LIME SLUDGE FROM COKING OPERATIONS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"AMMONIUM PICRATE (R) (OR) PHENOL, 2,4,6-TRINITRO-, AMMONIUM SALT (R)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"AMMONIUM VANADATE (OR) VANADIC ACID, AMMONIUM SALT",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ANILINE (I,T) (OR) BENZENAMINE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-API SEPARATOR SLUDGE FROM THE PETROLEUM REFINING INDUSTRY.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-AQUEOUS W/O CYANIDES,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-AQUEOUS/CYANIDES,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ARSENIC,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ARSENIC ACID H3ASO4,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ARSENIC OXIDE AS2O3 (OR) ARSENIC TRIOXIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ARSENIC OXIDE AS2O5 (OR) ARSENIC PENTOXIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ARSINIC ACID, DIMETHYL- (OR) CACODYLIC ACID",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ASH,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"AZASERINE (OR) L-SERINE, DIAZOACETATE (ESTER)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-AZIRIDINE (OR) ETHYLENEIMINE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"AZIRINO [2',3':3,4]PYRROLO[1,2-A]INDOLE-4,7-DIONE, 6-AMINO-8-[[(AMINOCARBONYL)OXY]METHYL]-1,1A,2,8,8A,8B-HEXAHYDRO-8A-METHOXY-5-METHYL-, [1AS-(1AALPHA, 8BETA, 8AALPHA, 8BALPHA)]- (OR) MITOMYCIN C",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BAG HOUSE DUSTS AND FILTER/SEPARATION SOLIDS FROM THE PRODUCTION OF CARBAMATES AND CARBAMOYL OXIMES.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BARIUM,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BARIUM CYANIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BATTERIES,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENDIOCARB (OR) 1,3-BENZODIOXOL-4-OL, 2,2-DIMETHYL-, METHYL CARBAMATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENOMYL (OR) CARBAMIC ACID, [1-[(BUTYLAMINO)CARBONYL]-1H-BENZIMIDAZOL-2-YL]-, METHYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZAMIDE, 3,5-DICHLORO-N-(1,1-DIMETHYL-2-PROPYNYL)- (OR) PRONAMIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENAMINE, 2-METHYL- (OR) O-TOLUIDINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENAMINE, 4-CHLORO- (OR) P-CHLORANILINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENAMINE, 4-METHYL- (OR) P-TOLUIDINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENAMINE, 4-NITRO- (OR) P-NITROANILINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENAMINE, N,N-DIMETHYL-4-(PHENYLAZO)- (OR) P-DIMETHYLAMINOAZOBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BENZENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, (1-METHYLETHYL)- (I) (OR) CUMENE (I)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, (CHLOROMETHYL)- (OR) BENZYL CHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, (TRICHLOROMETHYL)- (OR) BENZOTRICHLORIDE (C,R,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, 1,1'-(2,2,2-TRICHLOROETHYLIDENE)BIS[4-CHLORO- (OR) DDT",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, 1,1'-(2,2,2-TRICHLOROETHYLIDENE)BIS[4-METHOXY- (OR) METHOXYCHLOR",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, 1,2-DICHLORO- (OR) O-DICHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, 1,3-DIISOCYANATOMETHYL- (R,T) (OR) TOLUENE DIISOCYANATE (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, 1,4-DICHLORO- (OR) P-DICHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, CHLORO- (OR) CHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, DIMETHYL- (I,T) (OR) XYLENE (I)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, HEXAHYDRO- (I) (OR) CYCLOHEXANE (I)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, METHYL- (OR) TOLUENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, NITRO- (OR) NITROBENZENE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, PENTACHLORONITRO- (OR) PENTACHLORONITROBENZENE (PCNB)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENEACETIC ACID, 4-CHLORO-ALPHA-(4-CHLOROPHENYL)-ALPHA-HYDROXY-, ETHYL ESTER (OR) CHLOROBENZILATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENEBUTANOIC ACID, 4-[BIS(2-CHLOROETHYL)AMINO]- (OR) CHLORAMBUCIL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENEDIAMINE, AR-METHYL- (OR) TOLUENEDIAMINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENESULFONIC ACID CHLORIDE (C,R) (OR) BENZENESULFONYL CHLORIDE (C,R)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BENZENETHIOL (OR) THIOPHENOL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZOIC ACID, 2-HYDROXY-, COMPD. WITH (3AS-CIS)-1,2,3,3A,8,8A-HEXAHYDRO-1,3A,8-TRIMETHYLPYRROLO[2,3-B]INDOL-5-YL METHYLCARBAMATE ESTER (1:1) (OR) PHYSOSTIGMINE SALICYLATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BENZO[A]PYRENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BENZ[A]ANTHRACENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BERYLLIUM,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BETA-CHLORONAPHTHALENE (OR) NAPHTHALENE, 2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BOTTOM SEDIMENT SLUDGE FROM THE TREATMENT OF WASTEWATERS FROM WOOD PRESERVING PROCESSES THAT USE CREOSOTE AND/OR PENTACHLOROPHENOL.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BOTTOM STREAM FROM THE ACETONITRILE COLUMN IN THE PRODUCTION OF ACRYLONITRILE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BOTTOM STREAM FROM THE WASTEWATER STRIPPER IN THE PRODUCTION OF ACRYLONITRILE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BOTTOMS FROM THE ACETONITRILE PURIFICATION COLUMN IN THE PRODUCTION OF ACRYLONITRILE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BRINE PURIFICATION MUDS FROM THE MERCURY CELL PROCESS IN CHLORINE PRODUCTION, IN WHICH SEPARATELY PREPURIFIED BRINE IS NOT USED.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BROMOFORM (OR) METHANE, TRIBROMO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BRUCINE (OR) STRYCHNIDIN-10-ONE, 2,3-DIMETHOXY-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CADMIUM,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CALCIUM CHROMATE (OR) CHROMIC ACID H2CRO4, CALCIUM SALT",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CALCIUM CYANIDE (OR) CALCIUM CYANIDE CA(CN)2,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBAMIC ACID, 1H-BENZIMIDAZOL-2-YL, METHYL ESTER (OR) CARBENDAZIM",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBAMIC ACID, ETHYL ESTER (OR) ETHYL CARBAMATE (URETHANE)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBAMIC ACID, [(DIBUTYLAMINO)-THIO]METHYL-, 2,3-DIHYDRO-2,2-DIMETHYL -7-BENZOFURANYL ESTER (OR) CARBOSULFAN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBAMIC ACID, [1,2-PHENYLENEBIS (IMINOCARBONOTHIOYL)]BIS-, DIMETHYL ESTER (OR) THIOPHANATE-METHYL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBAMODITHIOIC ACID, 1,2-ETHANEDIYLBIS-, SALTS & ESTERS (OR) ETHYLENEBISDITHIOCARBAMIC ACID, SALTS & ESTERS",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBAMOTHIOIC ACID, BIS(1-METHYLETHYL)-, S-(2,3,3-TRICHLORO-2-PROPENYL) ESTER (OR) TRIALLATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBAMOTHIOIC ACID, BIS(1-METHYLETHYL)-, S-(2,3-DICHLORO-2-PROPENYL) ESTER (OR) DIALLATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBARYL (OR) 1-NAPHTHALENOL, METHYLCARBAMATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CARBON DISULFIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBON OXYFLUORIDE (R,T) (OR) CARBONIC DIFLUORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CARBON TETRACHLORIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBON TETRACHLORIDE (OR) METHANE, TETRACHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CARBONIC DICHLORIDE (OR) PHOSGENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBONOCHLORIDIC ACID, METHYL ESTER, (I,T) (OR) METHYL CHLOROCARBONATE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CENTRIFUGE AND DISTILLATION RESIDUES FROM TOLUENE DIISOCYANATE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CHLORDANE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CHLOROBENZENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CHLOROFORM,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CHLOROFORM (OR) METHANE, TRICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CHLOROMETHYL METHYL ETHER (OR) METHANE, CHLOROMETHOXY-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CHROMIUM,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CHRYSENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CLARIFIED SLURRY OIL TANK SEDIMENT AND/OR IN-LINE FILTER/SEPARATION SOLIDS FROM PETROLEUM REFINING OPERATIONS,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-COMBINED WASTEWATERS GENERATED FROM NITROBENZENE/ANILINE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-COMPRESSED GAS,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CONDENSED LIGHT ENDS, SPENT FILTERS AND FILTER AIDS, AND SPENT DESICCANT WASTES FROM THE PRODUCTION OF CERTAIN CHLORINATED ALIPHATIC HYDROCARBONS BY FREE RADICAL CATALYZED PROCESSES.  THESE CHLORINATED ALIPHATIC HYDROCARBONS ARE THOSE HAVING CARBON CHAIN ",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CONT. DEBRIS,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CONTAMINATED SOIL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-COPPER CYANIDE (OR) COPPER CYANIDE CU(CN),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CORROSIVE WASTE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CREOSOTE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CRESOL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CRESOL (CRESYLIC ACID) (OR) PHENOL, METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CRUDE OIL STORAGE TANK SEDIMENT FROM PETROLEUM REFINING OPERATIONS,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CYAN. BEARING SLUDGE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CYANIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CYANIDES (SOLUBLE CYANIDE SALTS), NOT OTHERWISE SPECIFIED",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CYANOGEN (OR) ETHANEDINITRILE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CYANOGEN BROMIDE (CN)BR,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CYANOGEN CHLORIDE (OR) CYANOGEN CHLORIDE (CN)CL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CYCLOHEXANE, 1,2,3,4,5,6-HEXACHLORO-, (1ALPHA, 2ALPHA, 3BETA, 4ALPHA, 5ALPHA, 6BETA)- (OR) LINDANE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-CYCLOHEXANONE (I),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"D-GLUCOSE, 2-DEOXY-2-[[(METHYLNITROSOAMINO)-CARBONYL]AMINO]- (OR) GLUCOPYRANOSE, 2-DEOXY-2-(3-METHYL-3-NITROSOUREIDO)-,D- (OR) STREPTOZOTOCIN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-DECANTER TANK TAR SLUDGE FROM COKING OPERATIONS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DIBENZ[A,H]ANTHRACENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DICHLORODIFLUOROMETHANE (OR) METHANE, DICHLORODIFLUORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DICHLOROETHYL ETHER (OR) ETHANE, 1,1'-OXYBIS[2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DICHLOROMETHOXY ETHANE (OR) ETHANE, 1,1'-[METHYLENEBIS(OXY)]BIS[2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DICHLOROMETHYL ETHER (OR) METHANE, OXYBIS[CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DIETHYL-P-NITROPHENYL PHOSPHATE (OR) PHOSPHORIC ACID, DIETHYL 4-NITROPHENYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DIETHYLENE GLYCOL, DICARBAMATE (OR) ETHANOL, 2,2'-OXYBIS-, DICARBAMATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DIETHYLSTILBESTEROL (OR) PHENOL, 4,4'-(1,2-DIETHYL-1,2-ETHENEDIYL)BIS, (E)-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DIISOPROPYLFLUOROPHOSPHATE (DFP) (OR) PHOSPHOROFLUORIDIC ACID, BIS(1-METHYLETHYL) ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-DILUTE AQUEOUS WST,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DIMETHOATE (OR) PHOSPHORODITHIOIC ACID, O,O-DIMETHYL S-[2-(METHYLAMINO)-2-OXOETHYL] ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DIMETHYL SULFATE (OR) SULFURIC ACID, DIMETHYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DIMETHYLAMINE (I) (OR) METHANAMINE, N-METHYL- (I)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DINOSEB (OR) PHENOL, 2-(1-METHYLPROPYL)-4,6-DINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DISCARDED UNUSED FORMULATIONS CONTAINING TRI-, TETRA-, OR PENTACHLOROPHENOL OR DISCARDED UNUSED FORMULATIONS CONTAINING COMPOUNDS DERIVED FROM THESE CHLOROPHENOLS.  (THIS LISTING DOES NOT INCLUDE FORMULATIONS CONTAINING HEXACHLOROPHENE SYNTHESIZED FROM PR",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-DISSOLVED AIR FLOTATION (DAF) FLOAT FROM THE PETROLEUM REFINING INDUSTRY.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-DISTILLATION BOTTOM TARS FROM THE PRODUCTION OF PHENOL/ACETONE FROM CUMENE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-DISTILLATION BOTTOMS FROM ANILINE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-DISTILLATION BOTTOMS FROM THE PRODUCTION OF ACETALDEHYDE FROM ETHYLENE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DISTILLATION BOTTOMS FROM THE PRODUCTION OF ALPHA (OR METHYL-) CHLORINATED TOLUNES, RING-CHLORINATED TOLUNES, BENZOYL CHLORIDES, AND COMPOUNDS WITH MIXTURES OF THESE FUNCTIONAL GROUPS.  [THIS WASTE DOES NOT INCLUDE STILL BOTTOMS FROM THE DISTILLATION OF B",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-DISTILLATION BOTTOMS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM ORTHO-XYLENE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-DISTILLATION OR FRACTIONATION COLUMN BOTTOMS FROM THE PRODUCTION OF CHLOROBENZENES.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DISULFOTON (OR) PHOSPHORODITHIOIC ACID, O,O-DIETHYL S-[2-(ETHYLTHIO)ETHYL] ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-DRIED PAINT,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ELECTRICAL DEVICES,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-EMISSION CONTROL DUST/SLUDGE FROM SECONDARY LEAD SMELTING.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-EMISSION CONTROL DUST/SLUDGE FROM THE PRIMARY PRODUCTION OF STEEL IN ELECTRIC FURNACES.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ENDRIN (1,2,3,4,10,10-HEXACHLORO-1,7-EPOXY-1,4,4A,5,6,7,8,8A-OCTAHYDRO-1,4-ENDO, ENDO-5,8-DIMETH-ANO-NAPHTHALENE)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"EPICHLOROHYDRIN (OR) OXIRANE, (CHLOROMETHYL)-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANAMINE, N,N-DIETHYL- (OR) TRIETHYLAMINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANE, 1,1'-OXYBIS-(I) (OR) ETHYL ETHER (I)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANE, 1,1,1-TRICHLORO- (OR) METHYL CHLOROFORM",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANE, 1,2-DIBROMO- (OR) ETHYLENE DIBROMIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANE, 1,2-DICHLORO- (OR) ETHYLENE DICHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANE, HEXACHLORO- (OR) HEXACHLOROETHANE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ETHANETHIOAMIDE (OR) THIOACETAMIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANIMIDOTHIOC ACID, 2-(DIMETHYLAMINO)-N-[[(METHYLAMINO) CARBONYL]OXY]-2-OXO-, METHYL ESTER (OR) OXAMYL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANIMIDOTHIOIC ACID, N,N'-[THIOBIS[(METHYLIMINO)CARBONYLOXY]]BIS-, DIMETHYL ESTER (OR) THIODICARB",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANIMIDOTHIOIC ACID, N-[[(METHYLAMINO)CARBONYL]OXY]-, METHYL ESTER (OR) METHOMYL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANOL, 2-ETHOXY- (OR) ETHYLENE GLYCOL MONOETHYL ETHER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHENE, CHLORO- (OR) VINYL CHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHENE, TETRACHLORO- (OR) TETRACHLOROETHYLENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHENE, TRICHLORO- (OR) TRICHLOROETHYLENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ETHYL CYANIDE (OR) PROPANENITRILE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHYL METHANESULFONATE (OR) METHANESULFONIC ACID, ETHYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHYLENE OXIDE (I,T) (OR) OXIRANE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"EXPLOSIVES, ETC.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-FILTER CAKE FROM THE FILTRATION OF DIETHYLPHOSPHORODITHIOIC ACID IN THE PRODUCTION OF PHORATE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-FLUORANTHENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-FLUORINE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-FORMALDEHYDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"FORMIC ACID (C,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-FURAN (I) (OR) FURFURAN (I),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"FURAN, TETRAHYDRO-(I) (OR) TETRAHYDROFURAN (I)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"GUANIDINE, N-METHYL-N'-NITRO-N-NITROSO- (OR) MNNG",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-GYPSUM SLUDGES,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HALOGENATED SOLVENT,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HEAT EXCHANGER BUNDLE CLEANING SLUDGE FROM THE PETROLEUM REFINING INDUSTRY.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HEAVY ENDS (STILL BOTTOMS) FROM THE PURIFICATION COLUMN IN THE PRODUCTION OF EPICHLOROHYDRIN.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HEAVY ENDS FROM THE DISTILLATION OF ETHYLENE DICHLORIDE IN ETHYLENE DICHLORIDE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HEAVY ENDS FROM THE FRACTIONATION COLUMN IN ETHYL CHLORIDE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HEAVY ENDS OR DISTILLATION RESIDUES FROM THE PRODUCTION OF CARBON TETRACHLORIDE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HEPTACHLOR (AND ITS EPOXIDE),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HEXACHLOROBENZENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HEXACHLOROBUTADIENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HEXACHLOROETHANE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"HEXACHLOROPHENE (OR) PHENOL, 2,2'-METHYLENEBIS[3,4,6-TRICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"HYDRAZINE (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"HYDRAZINE, METHYL- (OR) METHYL HYDRAZINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HYDRAZINECARBOTHIOAMIDE (OR) THIOSEMICARBAZIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HYDROCYANIC ACID (OR) HYDROGEN CYANIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"HYDROFLUORIC ACID (C,T) (OR) HYDROGEN FLUORIDE (C,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HYDROGEN PHOSPHIDE (OR) PHOSPHINE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HYDROGEN SULFIDE (OR) HYDROGEN SULFIDE H2S,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-IGNITABLE WASTE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"INDENO[1,2,3-CD]PYRENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"L-PHENYLALANINE, 4-[BIS(2-CHLOROETHYL)AMINO]- (OR) MELPHALAN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-LAB PACK,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-LAB PACKS/ACUTE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-LAB PACKS/NO ACUTE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"LEACHATE RESULTING FROM THE TREATMENT, STORAGE, OR DISPOSAL OF WASTES CLASSIFIED BY MORE THAN ONE WASTE CODE UNDER SUBPART D, OR FROM A MIXTURE OF WASTES CLASSIFIED UNDER SUBPARTS C AND D OF THIS PART.  (LEACHATE RESULTING FROM THE MANAGEMENT OF ONE OR MO",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-LEAD,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"LIME, ETC.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"LINDANE (1,2,3,4,5,6-HEXA-CHLOROCYCLOHEXANE, GAMMA ISOMER)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-LIQUID MERCURY,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-M-CRESOL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-MALONONITRILE (OR) PROPANEDINITRILE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-MERCURY,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"MERCURY, (ACETATO-O)PHENYL- (OR) PHENYLMERCURY ACETATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-METAL BEARING SLUDGE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-METAL SALTS/CHEM.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METAL SCALE, ETC.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANE, BROMO- (OR) METHYL BROMIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANE, CHLORO- (I,T) (OR) METHYL CHLORIDE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANE, DIBROMO- (OR) METHYLENE BROMIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANE, DICHLORO- (OR) METHYLENE CHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANE, IODO- (OR) METHYL IODIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANE, ISOCYANATO- (OR) METHYL ISOCYANATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANE, TETRANITRO- (R) (OR) TETRANITROMETHANE (R)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANE, TRICHLOROFLUORO- (OR) TRICHLOROMONOFLUOROMETHANE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANETHIOL (I,T) (OR) THIOMETHANOL (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANETHIOL, TRICHLORO- (OR) TRICHLOROMETHANETHIOL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANIMIDAMIDE, N,N-DIMETHYL-N'-[3-[[(METHYLAMINO)-CARBONYL]OXY]PHENYL]-, MONOHYDROCHLORIDE (OR) FORMETANATE HYDROCHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHANIMINE, N-METHYL-N-NITROSO- (OR) N-NITROSODIMETHYLAMINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-METHANOL (I) (OR) METHYL ALCOHOL (I),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHIOCARB (OR) MEXACARBATE (OR) PHENOL, (3,5-DIMETHYL-4-(METHYLTHIO)-, METHYLCARBAMATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHOXYCHLOR (1,1,1-TRICHLORO-2,2-BIS [P-METHOXYPHENYL] ETHANE)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-METHYL ETHYL KETONE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"METHYL PARATHION (OR) PHOSPHOROTHIOIC ACID, O,O,-DIMETHYL O-(4-NITROPHENYL) ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"N-NITROSOPYRROLIDINE (OR) PYRROLIDINE, 1-NITROSO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-NAPHTHALENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"NICKEL CARBONYL (OR) NICKEL CARBONYL NI(CO)4, (T-4)-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-NICKEL CYANIDE (OR) NICKEL CYANIDE NI(CN)2,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"NICOTINE, & SALTS (OR) PYRIDINE, 3-(1-METHYL-2-PYRROLIDINYL)-,(S)-, & SALTS",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"NITRIC ACID, THALLIUM(1+) SALT (OR) THALLIUM(I) NITRATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-NITRIC OXIDE (OR) NITROGEN OXIDE NO,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-NITROBENZENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-NITROGEN DIOXIDE (OR) NITROGEN OXIDE NO2,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-NONHALOGEN. SOLVENT,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-Nonwastewaters from the production of dyes and/or pigments.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"O-CHLOROPHENOL (OR) PHENOL, 2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-O-CRESOL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OIL-WATER EMULSION,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OILY SLUDGE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ORGANIC CONDENSATE FROM THE SOLVENT RECOVERY COLUMN IN THE PRODUCTION OF TOLUENE DIISOCYANATE VIA PHOSGENATION OF TOLUENEDIAMINE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ORGANIC RESIDULES EXCLUDING SPENT CARBON ADSORBENT, FROM THE SPENT CHLORINE GAS AND HYDROCHLORIC ACID RECOVERY PROCESSES ASSOCIATED WITH THE PRODUCTION OF ALPHA (OR METHYL-) CHLORINATED TOLUNES, BENZOYL CHLORIDES, AND COMPOUNDS WITH MIXTURES OF THESE FUNC",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ORGANIC WASTE (INCLUDING HEAVY ENDS, STILL BOTTOMS, LIGHT ENDS, SPENT SOLVENTS, FILTRATES, AND DECANTATES) FROM THE PRODUCTION OF CARBAMATES AND CARBAMOYL OXIMES.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"OSMIUM OXIDE OSO4, (T-4)- (OR) OSMIUM TETROXIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OTH INORGANIC LIQUID,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OTH INORGANIC SLUDGE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OTH INORGANIC SOLIDS,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OTH ORGANIC LIQUID,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OTH ORGANIC SOLIDS,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OTHER AQUEOUS WST,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OTHER ORGANIC SLUDGE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OTHER SLUDGES,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"P-CHLORO-M-CRESOL (OR) PHENOL, 4-CHLORO-3-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-P-CRESOL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"P-NITROPHENOL (I,T) (OR) PHENOL, 4-NITRO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PAINT THINNER,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PAINT, INK SLUDGE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PAINT, INK, ETC.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PARATHION (OR) PHOSPHOROTHIOIC ACID, O,O-DIETHYL-O-(4-NITROPHENYL) ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PENTACHLOROPHENOL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PESTICIDE SOLIDS,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PETROLEUM REFINERY PRIMARY OIL/WATER/SOLIDS SEPARATION SLUDGE - ANY SLUDGE GENERATED FROM THE GRAVITATIONAL SEPARATION OF OIL/WATER/SOLIDS DURING THE STORAGE OR TREATMENT OF PROCESS WASTEWATERS AND OILY COOLING WASTEWATERS FROM PETROLEUM REFINERIES.  SUCH,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PETROLEUM REFINERY SECONDARY (EMULSIFIED) OIL/WATER/SOLIDS SEPARATION SLUDGE - ANY SLUDGE AND/OR FLOAT GENERATED FROM THE PHYSICAL AND/OR CHEMICAL SEPARATION OF OIL/WATER/SOLIDS IN PROCESS WASTEWATERS AND OILY COOLING WASTEWATERS FROM PETROLEUM REFINERIES,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PHENOL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PHENOL, 2-(1-METHYLETHOXY)-, METHYLCARBAMATE (OR) PROPOXUR",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PHENYLTHIOUREA (OR) THIOUREA, PHENYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PHORATE (OR) PHOSPHORODITHIOIC ACID, O,O-DIETHYL S-[(ETHYLTHIO)METHYL] ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PHOSPHORUS SULFIDE (R) (OR) SULFUR PHOSPHIDE (R),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PHYSOSTIGMINE (OR) PYRROLO[2,3-B]INDOL-5-OL, 1,2,3,3A,8,8A-HEXAHYDRO-1,3A,8-TRIMETHYL-METHYLCARBAMATE (ESTER), (3AS-CIS)-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PLATING BATH RESIDUES FROM THE BOTTOM OF PLATING BATHS FROM ELECTROPLATING OPERATIONS IN WHICH CYANIDES ARE USED IN THE PROCESS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PLUMBANE, TETRAETHYL- (OR) TETRAETHYL LEAD",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-POTASSIUM CYANIDE (OR) POTASSIUM CYANIDE K(CN),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PROCESS RESIDUES FROM THE RECOVERY OF COAL TAR, INCLUDING, BUT NOT LIMITED TO, TAR COLLECTING SUMP RESIDUES FROM THE PRODUCTION OF COKE FROM COAL OR THE RECOVERY OF COKE BY-PRODUCTS PRODUCED FROM COAL.  THIS LISTING DOES NOT INCLUDE K087 (DECANTER TANK SL",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PROCESS RESIDUES FROM THE RECOVERY OF LIGHT OIL, INCLUDING, BUT NOT LIMITED TO, THOSE GENERATED IN STILLS, DECANTERS, AND WASH OIL RECOVERY UNITS FROM THE RECOVERY OF COKE BY-PRODUCTS PRODUCED FROM COAL.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PROCESS WASTES INCLUDING, BUT NOT LIMITED TO, DISTILLATION RESIDUES, HEAVY ENDS, TARS, AND REACTOR CLEAN-OUT WASTES FROM THE PRODUCTION OF CERTAIN CHLORINATED ALIPHATIC HYDROCARBONS BY FREE RADICAL CATALYZED PROCESSES.  THESE CHLORINATED ALIPHATIC HYDROCA",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PRODUCT WASHWATERS FROM THE PRODUCTION OF DINITROTOLUENE VIA NITRATION OF TOLUENE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PURIFICATION SOLIDS (INCLUDING FILTRATION, EVAPORATION, AND CENTRIFUGATION SOLIDS), BAG HOUSE DUST AND FLOOR SWEEPINGS FROM THE PRODUCTION OF DITHIOCARBAMATE ACIDS AND THEIR SALTS. (THIS LISTING DOES NOT INCLUDE K125 OR K126).",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PYRIDINE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-QUENCHING BATH RESIDUES FROM OIL BATHS FROM METAL HEAT TREATING OPERATIONS IN WHICH CYANIDES ARE USED IN THE PROCESS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-QUENCHING WASTEWATER TREATMENT SLUDGES FROM METAL HEAT TREATING OPERATIONS IN WHICH CYANIDES ARE USED IN THE PROCESS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-REACTIVE ORG. LIQUID,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-REACTIVE WASTE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"RESERPINE (OR) YOHIMBAN-16-CARBOXYLIC ACID, 11,17-DIMETHOXY-18-[(3,4,5-TRIMETHOXYBENZOYL)OXY]-, METHYL ESTER, (3BETA, 16BETA, 17ALPHA, 18BETA, 20ALPHA)-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"RESIDUES FROM COAL TAR DISTILLATION, INCLUDING, BUT NOT LIMITED TO, STILL BOTTOMS.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-RESIDUES FROM MANUFACTURING AND MANUFACTURING-SITE STORAGE OF FERRIC CHLORIDE FROM ACIDS FORMED DURING THE PRODUCTION OF TITANIUM DIOXIDE USING THE CHLORIDE-ILMENITE PROCESS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-RESIDUES FROM NAPHTHALENE COLLECTION AND RECOVERY OPERATIONS FROM THE RECOVERY OF COKE BY-PRODUCTS PRODUCED FROM COAL.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"RESINS, TAR SLUDGE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SEDIMENT,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SELENIOUS ACID (OR) SELENIUM DIOXIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"SELENIOUS ACID, DITHALLIUM (1+) SALT (OR) THALLIUM(I) SELENITE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SELENIUM,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"SELENIUM SULFIDE (OR) SELENIUM SULFIDE SES2 (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SILVER,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SILVER CYANIDE (OR) SILVER CYANIDE AG(CN),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SLOP OIL EMULSION SOLIDS FROM THE PETROLEUM REFINING INDUSTRY.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SODIUM AZIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SODIUM CYANIDE (OR) SODIUM CYANIDE NA(CN),Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"SOLID RESINS, ETC.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SOLID THERMAL RES.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SOLVENT MIXTURE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"SOLVENT WASHES AND SLUDGES, CAUSTIC WASHES AND SLUDGES, OR WATER WASHES AND SLUDGES FROM CLEANING TUBS AND EQUIPMENT USED IN THE FORMULATION OF INK FROM PIGMENTS, DRIERS, SOAPS, AND STABILIZERS CONTAINING CHROMIUM AND LEAD.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SPENT ABSORBENT AND WASTEWATER SEPARATOR SOLIDS FROM THE PRODUCTION OF METHYL BROMIDE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SPENT ACID,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SPENT CARBON FROM THE TREATMENT OF WASTEWATER CONTAINING EXPLOSIVES.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SPENT CYANIDE PLATING BATH SOLUTIONS FROM ELECTROPLATING OPERATIONS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SPENT CYANIDE SOLUTIONS FROM SLAT BATH POT CLEANING FROM METAL HEAT TREATING OPERATIONS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SPENT FILTERS,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"SPENT HYDROREFINING CATALYST FROM PETROLEUM REFINING OPERATIONS, INCLUDING GUARD BEDS USED TO DESULFURIZE FEEDS TO OTHER CATALYTIC REACTORS (THIS LISTING DOES NOT INCLUDE INERT SUPPORT MEDIA)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"SPENT HYDROTREATING CATALYST FROM PETROLEUM REFINING OPERATIONS,INCLUDING GUARD BEDS USED TO DESULFURIZE FEEDS TO OTHER CATALYTIC REACTORS (THIS LISTING DOES NOT INCLUDE INERT SUPPORT MEDIA)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SPENT PICKLE LIQUOR FROM STEEL FINISHING OPERATIONS OF PLANTS THAT PRODUCE IRON OR STEEL.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SPENT POTLINERS FROM PRIMARY ALUMINUM REDUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SPENT STRIPPING AND CLEANING BATH SOLUTIONS FROM ELECTROPLATING OPERATIONS IN WHICH CYANIDES ARE USED IN THE PROCESS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-STILL BOTTOMS,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-STILL BOTTOMS FROM THE DISTILLATION OF BENZYL CHLORIDE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"STRYCHNIDIN-10-ONE, & SALTS (OR) STRYCHNINE, & SALTS",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"SULFURIC ACID, DITHALLIUM (1+) SALT (OR) THALLIUM(I) SULFATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-TANK BOTTOMS (LEADED) FROM THE PETROLEUM REFINING INDUSTRY.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-TANK STORAGE RESIDUES FROM THE PRODUCTION OF COKE FROM COAL OR FROM THE RECOVERY OF COKE BY-PRODUCTS FROM COAL.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-TETRACHLOROETHYLENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"THE FOLLOWING SPENT HALOGENATED SOLVENTS USED IN DEGREASING: TETRACHLOROETHYLENE, TRICHLORETHYLENE, METHYLENE CHLORIDE, 1,1,1-TRICHLOROETHANE, CARBON TETRACHLORIDE AND CHLORINATED FLUOROCARBONS; ALL SPENT SOLVENT MIXTURES/BLENDS USED IN DEGREASING CONTAIN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"THE FOLLOWING SPENT HALOGENATED SOLVENTS: TETRACHLOROETHYLENE, METHYLENE CHLORIDE, TRICHLOROETHYLENE, 1,1,1-TRICHLOROETHANE, CHLOROBENZENE, 1,1,2-TRICHLORO-1,2,2-TRIFLUOROETHANE, ORTHO-DICHLOROBENZENE, TRICHLOROFLUOROMETHANE, AND 1,1,2, TRICHLOROETHANE; A",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: CRESOLS, CRESYLIC ACID, AND NITROBENZENE; AND THE STILL BOTTOMS FROM THE RECOVERY OF THESE SOLVENTS; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, A TOTAL OF TEN PERCENT OR MORE (BY VOLUME) OF ONE O",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: TOLUENE, METHYL ETHYL KETONE, CARBON DISULFIDE, ISOBUTANOL, PYRIDINE, BENZENE, 2-ETHOXYETHANOL, AND 2-NITROPROPANE; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, A TOTAL OF TEN PERCENT OR MORE (BY V",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: XYLENE, ACETONE, ETHYL ACETATE, ETHYL BENZENE, ETHYL ETHER, METHYL ISOBUTYL KETONE, N-BUTYL ALCOHOL, CYCLOHEXANONE, AND METHANOL; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, ONLY THE ABOVE SPENT N",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"THIOPEROXYDICARBONIC DIAMIDE [(H2N)C(S)]2S2, TETRAMETHYL- (OR) THIRAM",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-THIOUREA,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"TOXAPHENE (C10 H10 CL8, TECHNICAL CHLORINATED CAMPHENE, 67-69 PERCENT CHLORINE)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-TRICHLORETHYLENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"UNTREATED WASTEWATER FROM THE PRODUCTION OF 2,4-D.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-VANADIUM OXIDE V2O5 (OR) VANADIUM PENTOXIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-VICINALS FROM THE PURIFICATION OF TOLUENEDIAMINE IN PRODUCTION OF TOLUENEDIAMINE VIA HYDROGENATION OF DINITROTOLUENE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-VINYL CHLORIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTE OIL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTE PHARMACEUTICAL,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTES (EXCEPT WASTEWATER AND SPENT CARBON FROM HYDROGEN CHLORIDE PURIFICATION) FROM THE MANUFACTURING USE (AS A REACTANT, CHEMICAL INTERMEDIATE, OR COMPONENT IN A FORMULATING PROCESS) OF TETRA-, PENTA-, OR HEXACHLOROBENZENES UNDER ALKALINE CONDITIONS.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTES (EXCEPT WASTEWATER AND SPENT CARBON FROM HYDROGEN CHLORIDE PURIFICATION) FROM THE PRODUCTION OF MATERIALS ON EQUIPMENT PREVIOUSLY USED FOR THE PRODUCTION OR MANUFACTURING USE (AS A REACTANT, CHEMICAL INTERMEDIATE, OR COMPONENT IN A FORMULATING PROC",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTES (EXCEPT WASTEWATER AND SPENT CARBON FROM HYDROGEN CHLORIDE PURIFICATION) FROM THE PRODUCTION OR MANUFACTURING USE (AS A REACTANT, CHEMICAL INTERMEDIATE, OR COMPONENT IN A FORMULATING PROCESS) OF PENTACHLOROPHENOL, OR OF INTERMEDIATES USED TO PRODUC",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTES (EXCEPT WASTEWATER AND SPENT CARBON FROM HYDROGEN CHLORIDE PURIFICATION) FROM THE PRODUCTION OR MANUFACTURING USE (AS A REACTANT, CHEMICAL INTERMEDIATE, OR COMPONENT IN A FORMULATING PROCESS) OF TRI- OR TETRACHLOROPHENOL OR OF INTERMEDIATES USED TO",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER FROM THE REACTOR AND SPENT SULFURIC ACID FROM THE ACID DRYER FROM THE PRODUCTION OF METHYL BROMIDE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER FROM THE WASHING AND STRIPPING OF PHORATE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER TREATMENT SLUDGE FROM THE MERCURY CELL PROCESS IN CHLORINE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF CHROME GREEN PIGMENTS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF CHROME OXIDE GREEN PIGMENTS (ANHYDROUS AND HYDRATED).,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF IRON BLUE PIGMENTS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTEWATER TREATMENT SLUDGES FROM ELECTROPLATING OPERATIONS, EXCEPT FROM THE FOLLOWING PROCESSES: (1) SULFURIC ACID ANODIZING OF ALUMINUM; (2) TIN PLATING ON CARBON STEEL; (3) ZINC PLATING (SEGREGATED BASIS) ON CARBON STEEL; (4) ALUMINUM OR ZINC-ALUMINUM ",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTEWATER TREATMENT SLUDGES FROM THE CHEMICAL CONVERSION COATING OF ALUMINUM, EXCEPT FROM ZIRCONIUM PHOSPHATING IN ALUMINUM CAN WASHING WHEN SUCH PHOSPHATING IS AN EXCLUSIVE CONVERSION COATING PROCESS.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER TREATMENT SLUDGES FROM THE MANUFACTURING AND PROCESSING OF EXPLOSIVES.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTEWATER TREATMENT SLUDGES FROM THE MANUFACTURING, FORMULATION, AND LOADING OF LEAD-BASED INITIATING COMPOUNDS.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER TREATMENT SLUDGES GENERATED IN THE PRODUCTION OF CREOSOTE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTEWATERS (INCLUDING SCRUBBER WATERS, CONDENSER WATERS, WASHWATERS, AND SEPARATION WATERS) FROM THE PRODUCTION OF CARBAMATES AND CARBAMOYL OXIMES.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTEWATERS, PROCESS RESIDUALS, PRESERVATIVE DRIPPAGE, AND SPENT FORMULATIONS FROM WOOD PRESERVING PROCESSES GENERATED AT PLANTS THAT CURRENTLY USE, OR HAVE PREVIOUSLY USED, CHLOROPHENOLIC FORMULATIONS [EXCEPT POTENTIALLY CROSS-CONTAMINATED WASTES THAT HA",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTEWATERS, PROCESS RESIDUALS, PRESERVATIVE DRIPPAGE, AND SPENT FORMULATIONS FROM WOOD PRESERVING PROCESSES GENERATED AT PLANTS THAT USE CREOSOTE FORMULATIONS.  THIS LISTING DOES NOT INCLUDE K001 BOTTOM SEDIMENT SLUDGE FROM THE TREATMENT OF WASTEWATER FR",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTEWATERS, PROCESS RESIDUALS, PRESERVATIVE DRIPPAGE, AND SPENT FORMULATIONS FROM WOOD PRESERVING PROCESSES GENERATED AT PLANTS THAT USE INORGANIC PRESERVATIVES CONTAINING ARSENIC OR CHROMIUM.  THIS LISTING DOES NOT INCLUDE K001 BOTTOM SEDIMENT SLUDGE FR",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-ZINC CYANIDE (OR) ZINC CYANIDE ZN(CN)2,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ZINC PHOSPHIDE ZN3P2, WHEN PRESENT AT CONCENTRATIONS GREATER THAN 10% (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ZINC PHOSPHIDE ZN3P2, WHEN PRESENT AT CONCENTRATIONS OF 10% OR LESS",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ZINC, BIS(DIMETHYLCARBAMODITHIOATO-S,S')-, (OR) ZIRAM",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"[1,1'-BIPHENYL]-4,4'-DIAMINE (OR) BENZIDINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"[1,1'-BIPHENYL]-4,4'-DIAMINE, 3,3'-DIMETHOXY- (OR) 3,3'-DIMETHOXYBENZIDINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"[1,1'-BIPHENYL]-4,4'-DIAMINE, 3,3'-DIMETHYL- (OR) 3,3'-DIMETHYLBENZIDINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,2-DIMETHYLHYDRAZINE (OR) HYDRAZINE, 1,2-DIPHENYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,3,5-TRINITROBENZENE (R,T) (OR) BENZENE, 1,3,5-TRINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,3-BENZODIOXOLE, 5-(1-PROPENYL)- (OR) ISOSAFROLE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,3-PENTADIENE (I) (OR) 1-METHYLBUTADIENE (I)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,4,5,8-DIMETHANONAPHTHALENE, 1,2,3,4,10,10-HEXA-CHLORO-1,4,4A,5,8,8A,-HEXAHYDRO-, (1ALPHA, 4ALPHA, 4ABETA, 5ALPHA, 8ALPHA, 8ABETA)- (OR) ALDRIN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,4,5,8-DIMETHANONAPHTHALENE, 1,2,3,4,10,10-HEXA-CHLORO-1,4,4A,5,8,8A,-HEXAHYDRO-, (1ALPHA, 4ALPHA, 4ABETA, 5BETA, 8BETA, 8ABETA)- (OR) ISODRIN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1,4-NAPHTHALENEDIONE (OR) 1,4-NAPHTHOQUINONE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"1-PROPENE, 1,1,2,3,3,3-HEXACHLORO- (OR) HEXACHLOROPROPENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,4-DICHLOROPHENOL (OR) PHENOL, 2,4-DICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,6-DICHLOROPHENOL WASTE FROM THE PRODUCTION OF 2,4-D.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,6-DINITROTOLUENE (OR) BENZENE, 2-METHYL-1,3-DINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2,7:3,6-DIMETHANONAPHTH[2,3-B]OXIRENE, 3,4,5,6,9,9-HEXACHLORO-1A,2,2A,3,6,6A,7,7A-OCTAHYDRO-, (1AALPHA, 2BETA, 2ABETA, 3ALPHA, 6ALPHA, 6ABETA, 7BETA, 7AALPHA)- & METABOLITES (OR) ENDRIN (OR) ENDRIN, & METABOLITES",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-BUTANONE, 3,3-DIMETHYL-1-(METHYLTHIO)-, O-[METHYLAMINO)CARBONYL] OXIME (OR) THIOFANOX",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"3,6-PYRIDAZINEDIONE, 1,2-DIHYDRO- (OR) MALEIC HYDRAZIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"3-CHLOROPROPIONITRILE (OR) PROPANENITRILE, 3-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"4,6-DINITRO-O-CRESOL, & SALTS (OR) PHENOL, 2-METHYL-4,6-DINITRO-, & SALTS",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"4,7-METHANO-1H-INDENE, 1,4,5,6,7,8,8-HEPTACHLORO-3A,4,7,7A-TETRAHYDRO- (OR) HEPTACHLOR",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"4-BROMOPHENYL PHENYL ETHER (OR) BENZENE, 1-BROMO-4-PHENOXY-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"5,12-NAPHTHACENEDIONE, 8-ACETYL-10-[(3-AMINO-2,3,6-TRIDEOXY)-ALPHA-L-LYXO-HEXOPYRANOSYL)OXY]-7,8,9,10-TETRAHYDRO-6,8,11-TRIHYDROXY-1-METHOXY-, (8S-CIS)- (OR) DAUNOMYCIN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETAMIDE, N-(4-ETHOXYPHENYL)- (OR) PHENACETIN",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZAL CHLORIDE (OR) BENZENE, (DICHLOROMETHYL)-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENAMINE, 2-METHYL-, HYDROCHLORIDE (OR) O-TOLUIDINE HYDROCHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, 1,1'-(2,2-DICHLOROETHYLIDENE)BIS[4-CHLORO- (OR) DDD",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, 1,3-DICHLORO- (OR) M-DICHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, HEXACHLORO- (OR) HEXACHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZENE, PENTACHLORO- (OR) PENTACHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"BENZO[RST]PENTAPHENE (OR) DIBENZO[A,I]PYRENE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BY-PRODUCT SALTS GENERATED IN THE PRODUCTION OF MSMA AND CACODYLIC ACID.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBAMIC CHLORIDE, DIMETHYL- (OR) DIMETHYLCARBAMOYL CHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CHLORNAPHAZIN (OR) NAPHTHALENAMINE, N,N'-BIS(2-CHLOROETHYL)-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DIPHOSPHORIC ACID, TETRAETHYL ESTER (OR) TETRAETHYL PYROPHOSPHATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANE, 1,1-DICHLORO- (OR) ETHYLIDENE DICHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"FAMPHUR (OR) PHOSPHOROTHIOIC ACID O-[4-[(DIMETHYLAMINO)SULFONYL]PHENYL] O,O-DIMETHYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"FULMINIC ACID, MERCURY(2+) SALT (R,T) (OR) MERCURY FULMINATE (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-HEAVY ENDS FROM THE DISTILLATION OF VINYL CHLORIDE IN VINYL CHLORIDE MONOMER PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"LEAD PHOSPHATE (OR) PHOSPHORIC ACID, LEAD(2+) SALT (2:3)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"N-NITROSOPIPERIDINE (OR) PIPERIDINE, 1-NITROSO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PINK/RED WATER FROM TNT OPERATIONS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-PROCESS RESIDUES FROM ANILINE EXTRACTION FROM THE PRODUCTION OF ANILINE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"PROPANE, 1,2-DICHLORO- (OR) PROPYLENE DICHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-SELENOUREA,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-TAR STORAGE RESIDUES FROM COAL TAR REFINING.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"TETRAETHYLDITHIOPYROPHOSPHATE (OR) THIODIPHOSPHORIC ACID, TETRAETHYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-THALLIC OXIDE (OR) THALLIUM OXIDE TL2O3,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-THALLIUM CHLORIDE TLCL (OR) THALLIUM(I) CHLORIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-TOXAPHENE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTES (EXCEPT WASTEWATER AND SPENT CARBON FROM HYDROGEN CHLORIDE PURIFICATION) FROM THE PRODUCTION OF MATERIALS ON EQUIPMENT PREVIOUSLY USED FOR THE MANUFACTURING USE (AS A REACTANT, CHEMICAL INTERMEDIATE, OR COMPONENT IN A FORMULATING PROCESS) OF TETRA-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTEWATER SUMP RESIDUES FROM LIGHT OIL REFINING, INCLUDING, BUT NOT LIMITED TO, INTERCEPTING OR CONTAMINATION SUMP SLUDGES FROM THE RECOVERY OF COKE BY-PRODUCTS PRODUCED FROM COAL.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF TOXAPHENE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF ZINC YELLOW PIGMENTS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER TREATMENT SLUDGES FROM THE PRODUCTION OF DISULFOTON.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-WASTEWATER TREATMENT SLUDGES FROM THE PRODUCTION OF ETHLYENE DICHLORIDE OR VINYL CHLORIDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"[1,1'-BIPHENYL]-4,4'-DIAMINE, 3,3'-DICHLORO- (OR) 3,3'-DICHLOROBENZIDINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"2-CYCLOHEXYL-4,6-DINITROPHENOL (OR) PHENOL, 2-CYCLOHEXYL-4,6-DINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"3-METHYLCHOLANTHRENE (OR) BENZ[J]ACEANTHRYLENE, 1,2-DIHYDRO-3-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ACETIC ACID, FLUORO-, SODIUM SALT (OR) FLUOROACETIC ACID, SODIUM SALT",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ARGENTATE (1-), BIS(CYANO-C)-, POTASSIUM (OR) POTASSIUM SILVER CYANIDE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ARSINE, DIETHYL- (OR) DIETHYLARSINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"AURAMINE (OR) BENZENAMINE, 4,4'-CARBONIMIDOYLBIS[N,N-DIMETHYL-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-BAGHOUSE DUST AND FLOOR SWEEPINGS IN MILLING AND PACKAGING OPERATIONS FROM PRODUCTION OR FORMULATION OF ETHYLENEBISDITHIOCARBAMIC ACID AND ITS SALTS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"CARBONIC ACID, DITHALLIUM(1+) SALT (OR) THALLIUM(I) CARBONATE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-COLUMN BOTTOMS OR HEAVY ENDS FROM THE COMBINED PRODUCTION OF TRICHLOROETHYLENE AND PERCHLOROETHYLENE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DICHLOROISOPROPYL ETHER (OR) PROPANE, 2,2'-OXYBIS[2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"DISTILLATION BOTTOMS FROM THE PRODUCTION OF 1,1,1-TRICHLOROETHANE.",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-DISTILLATION LIGHT ENDS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM NAPHTHALENE.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"ETHANOL, 2,2'-(NITROSOIMINO)BIS- (OR) N-NITROSODIETHANOLAMINE",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-GLYCIDYLALDEHYDE (OR) OXIRANECARBOXYALDEHYDE,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"N-NITROSO-N-METHYLUREA (OR) UREA, N-METHYL-N-NITROSO-",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"O,O-DIETHYL O-PYRAZINYL PHOSPHOROTHIOATE (OR) PHOSPHOROTHIOIC ACID, O,O-DIETHYL O-PYRAZINYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-OVEN RESIDUE FROM THE PRODUCTION OF CHROME OXIDE GREEN PIGMENTS.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"SLAG FROM THE PRODUCTION OF ANTIMONY OXIDE THAT IS SPECULATIVELY ACCUMULATED OR DISPOSED,INCLUDING SLAG FROM THE PRODUCTION OF INTERMEDIATES (E.G.,ANTIMONY METAL OR CRUDE ANTIMONY OXIDE)",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-STRIPPING STILL TAILS FROM THE PRODUCTION OF METHYL ETHYL PYRIDINES.,Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
-"WASTEWATER TREATMENT SLUDGES, EXCLUDING NEUTRALIZATION AND BIOLOGICAL SLUDGES, GENERATED DURING THE TREATMENT OF WASTEWATERS FROM THE PRODUCTION OF ALPHA (OR METHYL-) CHLORINATED TOLUNES, BENZOYL CHLORIDES, AND COMPOUNDS WITH MIXTURES OF THESE FUNCTIONAL ",Waste Flows/Hazardous Waste,kg,,0,0,1,0,0
+Flowable,Context,Unit,UUID,VADD,WAGE,TAX,JOBS,CRHW,CMSW,CCDD
+Concrete,Waste Flows/CDD,kg,,0,0,0,0,0,0,1
+Asphalt Pavement,Waste Flows/CDD,kg,,0,0,0,0,0,0,1
+Asphalt Shingles,Waste Flows/CDD,kg,,0,0,0,0,0,0,1
+Bricks,Waste Flows/CDD,kg,,0,0,0,0,0,0,1
+Metal,Waste Flows/CDD,kg,,0,0,0,0,0,0,1
+Gypsum Drywall,Waste Flows/CDD,kg,,0,0,0,0,0,0,1
+Wood,Waste Flows/CDD,kg,,0,0,0,0,0,0,1
+Fines,Waste Flows/CDD,kg,,0,0,0,0,0,0,0
+Other,Waste Flows/CDD,kg,,0,0,0,0,0,0,0
+Cardboard,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Paper Bags,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Newspaper,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+White Ledger Paper,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Other Office Paper,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Magazines and Catalogs,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Phone Books and Directories,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Other Miscellaneous Paper - Compostable,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Other Miscellaneous Paper - Other,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Remainder/Composite Paper - Compostable,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Remainder/Composite Paper - Other,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Clear Glass Bottles and Containers,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Green Glass Bottles and Containers,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Brown Glass Bottles and Containers,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Other Glass Colored Bottles and Containers,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Flat Glass,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Glass,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Tin/Steel Cans,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Major Appliances,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Used Oil Filters,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Other Ferrous,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Aluminum Cans,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Other Non-Ferrous,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Remainder/Composite Metal,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Brown Goods,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Computer-related Electronics,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Other Small Consumer Electronics,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Video Display Devices,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+PETE Plastic Containers,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+HDPE Plastic Containers,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Miscellaneous Plastic Containers,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Plastic Trash Bags,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Plastic Grocery and Other Merchandise Bags,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Non-Bag Commercial and Industrial Packaging Film,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Film Products,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Other Film - Other,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Durable Plastic Items - Number 2 and 5 Bulky Rigids,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Durable Plastic Items - Other,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Plastic,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Food,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Leaves and Grass,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Prunings and Trimmings,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Branches and Stumps,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Manures,Waste Flows/MSW,kg,,0,0,0,0,0,0,0
+Textiles,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Carpet,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Organics,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Paint,Waste Flows/MSW,kg,,0,0,0,0,1,0,0
+Vehicle and Equipment Fluids,Waste Flows/MSW,kg,,0,0,0,0,1,0,0
+Used Oil,Waste Flows/MSW,kg,,0,0,0,0,1,0,0
+Batteries,Waste Flows/MSW,kg,,0,0,0,0,1,0,0
+Remainder/Composite Household Hazardous,Waste Flows/MSW,kg,,0,0,0,0,1,0,0
+Ash,Waste Flows/MSW,kg,,0,0,0,0,1,0,0
+Treated Medical Waste,Waste Flows/MSW,kg,,0,0,0,0,1,0,0
+Bulky Items,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Tires,Waste Flows/MSW,kg,,0,0,0,0,0,1,0
+Remainder/Composite Special Waste,Waste Flows/MSW,kg,,0,0,0,0,0,0,0
+Mixed Residue,Waste Flows/MSW,kg,,0,0,0,0,0,0,0
+Jobs,,p,52d170d5-0399-3137-8bf5-57f5c39fd492,0,0,0,1,0,0,0
+Compensation of employees,,USD,,1,1,0,0,0,0,0
+"Taxes on production and imports, less subsidies",,USD,,1,0,1,0,0,0,0
+Gross operating surplus,,USD,,1,0,0,0,0,0,0
+"1,1,1,2-TETRACHLOROETHANE (OR) ETHANE, 1,1,1,2-TETRACHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,1,2,2-TETRACHLOROETHANE (OR) ETHANE, 1,1,2,2-TETRACHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,1,2-TRICHLOROETHANE (OR) ETHANE, 1,1,2-TRICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,1-DICHLOROETHYLENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,1-DICHLOROETHYLENE (OR) ETHENE, 1,1-DICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,1-DIMETHYLHYDRAZINE (OR) HYDRAZINE, 1,1-DIMETHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2,3-PROPANETRIOL, TRINITRATE (R) (OR) NITROGLYCERINE (R)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2,4,5-TETRACHLOROBENZENE (OR) BENZENE, 1,2,4,5-TETRACHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-BENZENEDICARBOXYLIC ACID, BIS(2-ETHYLHEXYL) ESTER (OR) DIETHYLHEXYL PHTHALATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-BENZENEDICARBOXYLIC ACID, DIBUTYL ESTER (OR) DIBUTYL PHTHALATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-BENZENEDICARBOXYLIC ACID, DIETHYL ESTER (OR) DIETHYL PHTHALATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-BENZENEDICARBOXYLIC ACID, DIMETHYL ESTER (OR) DIMETHYL PHTHALATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-BENZENEDICARBOXYLIC ACID, DIOCTYL ESTER (OR) DI-N-OCTYL PHTHALATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-BENZENEDIOL, 4-[1-HYDROXY-2-(METHYLAMINO)ETHYL]-, (R)- (OR) EPINEPHRINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-BENZISOTHIAZOL-3(2H)-ONE, 1,1-DIOXIDE, & SALTS (OR) SACCHARIN, & SALTS",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-DIBROMO-3-CHLOROPROPANE (OR) PROPANE, 1,2-DIBROMO-3-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-DICHLOROETHANE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-DICHLOROETHYLENE (OR) ETHENE, 1,2-DICHLORO-,(E)-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-DIPHENYLHYDRAZINE (OR) HYDRAZINE, 1,2-DIPHENYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-ETHANEDIAMINE, N,N-DIMETHYL-N'-2-PYRIDINYL-N'-(2-THIENYLMETHYL)- (OR) METHAPYRILENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-OXATHIOLANE, 2,2-DIOXIDE (OR) 1,3-PROPANE SULTONE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-PROPYLENIMINE (OR) AZIRIDINE, 2-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2:3,4-DIEPOXYBUTANE (I,T) (OR) 2,2'-BIOXIRANE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,3,5-TRIOXANE, 2,4,6-TRIMETHYL- (OR) PARALDEHYDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,3-BENZENEDIOL (OR) RESORCINOL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,3-BUTADIENE, 1,1,2,3,4,4-HEXACHLORO- (OR) HEXACHLOROBUTADIENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,3-CYCLOPENTADIENE, 1,2,3,4,5,5-HEXACHLORO- (OR) HEXACHLOROCYCLOPENTADIENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,3-DICHLOROPROPENE (OR) 1-PROPENE, 1,3-DICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,3-ISOBENZOFURANDIONE (OR) PHTHALIC ANHYDRIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,4-DICHLORO-2-BUTENE (I,T) (OR) 2-BUTENE, 1,4-DICHLORO- (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,4-DICHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,4-DIETHYLENEOXIDE (OR) 1,4-DIOXANE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1-ACETYL-2-THIOUREA (OR) ACETAMIDE, N-(AMINOTHIOXOMETHYL)-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+1-BUTANOL (I) (OR) N-BUTYL ALCOHOL (I),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+1-NAPTHALENAMINE (OR) ALPHA-NAPHTHYLAMINE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1-PROPANAMINE (I,T) (OR) N-PROPYLAMINE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1-PROPANIMINE, N-PROPYL-(I) (OR) DIPROPYLAMINE (I)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1-PROPANOL, 2-METHYL- (I,T) (OR) ISOBUTYL ALCOHOL (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1H-1,2,4-TRIAZOL-3-AMINE (OR) AMITROLE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4,5-TP SILVEX (2,4,5-TRICHLOROPHENOXYPROPIONIC ACID)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4,5-TRICHLOROPHENOL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4,6-TRICHLOROPHENOL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4-(1H,3H)-PYRIMIDINEDIONE, 5-[BIS(2-CHLOROETHYL)AMINO]- (OR) URACIL MUSTARD",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4-D (2,4-DICHLOROPHENOXYACETIC ACID)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4-D, SALTS & ESTERS (OR) ACETIC ACID, (2,4-DICHLOROPHENOXY)-, SALTS & ESTERS (OR) DICHLOROPHENOXYACETIC ACID 2,4-D",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4-DIMETHYLPHENOL (OR) PHENOL, 2,4-DIMETHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4-DINITROPHENOL (OR) PHENOL, 2,4-DINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4-DINITROTOLUENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4-DINITROTOLUENE (OR) BENZENE, 1-METHYL-2,4-DINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,5-CYCLOHEXADIENE-1,4-DIONE (OR) P-BENZOQUINONE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,5-FURANDIONE (OR) MALEIC ANHYDRIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,6-DICHLOROPHENOL (OR) PHENOL, 2,6-DICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,7-NAPHTHALENEDISULFONIC ACID,3,3'-[(3,3'-DIMETHYL[1,1'-BIPHENYL]-4,4'-DIYL)BIS(AZO)BIS[5-AMINO-4-HYDROXY]-, TETRASODIUM SALT (OR) TRYPAN BLUE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,7:3,6-DIMETHANONAPHTH[2,3-B]OXIRENE, 3,4,5,6,9,9-HEXACHLORO-1A,2,2A,3,6,6A,7,7A-OCTAHYDRO-, (1AALPHA, 2BETA, 2AALPHA, 3BETA, 6BETA, 6AALPHA, 7BETA, 7AALPHA)- (OR) DIELDRIN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-ACETYLAMINOFLUORENE (OR) ACETAMIDE, N-9H-FLUOREN-2-YL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-BUTANONE (I,T) (OR) METHYL ETHYL KETONE (MEK) (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-BUTANONE, PEROXIDE (R,T) (OR) METHYL ETHYL KETONE PEROXIDE (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-BUTENAL (OR) CROTONALDEHYDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-BUTENOIC ACID, 2-METHYL-, 7-[[2,3-DIHYDROXY-2-(1-METHOXYETHYL)-3-METHYL-1-OXOBUTOXY]METHYL]-2,3,5,7A-TETRAHYDRO-1H-PYRROLIZIN-1-YL ESTER, [1S-[1ALPHA(Z), 7(2S*,3R*), 7AALPHA]]- (OR) LASIOCARPINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-FURANCARBOXALDEHYDE (I) (OR) FURFURAL (I),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-IMIDAZOLIDINETHIONE (OR) ETHYLENETHIOUREA,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-METHYLLACTONITRILE (OR) PROPANENITRILE, 2-HYDROXY-2-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-NAPTHALENAMINE (OR) BETA-NAPHTHYLAMINE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-NITROPROPANE (I,T) (OR) PROPANE, 2-NITRO- (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-PICOLINE (OR) PYRIDINE, 2-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-PROPANONE (I) (OR) ACETONE (I),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-PROPEN-1-OL (OR) ALLYL ALCOHOL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-PROPENAL (OR) ACROLEIN,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-PROPENAMIDE (OR) ACRYLAMIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-PROPENENITRILE (OR) ACRYLONITRILE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-PROPENENITRILE, 2-METHYL- (I,T) (OR) METHACRYLONITRILE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-PROPENOIC ACID (I) (OR) ACRYLIC ACID (I),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-PROPENOIC ACID, 2-METHYL-, ETHYL ESTER (OR) ETHYL METHACRYLATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-PROPENOIC ACID, 2-METHYL-, METHYL ESTER (I,T) (OR) METHYL METHACRYLATE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-PROPENOIC ACID, ETHYL ESTER (I) (OR) ETHYL ACRYLATE (I)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+2-PROPYN-1-OL (OR) PROPARGYL ALCOHOL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2H-1,3,2-OXAZAPHOSPHORIN-2-AMINE, N,N-BIS(2-CHLOROETHYL)TETRAHYDRO-, 2-OXIDE (OR) CYCLOPHOSPHAMIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2H-1-BENZOPYRAN-2-ONE, 4-HYDROXY-3-(3-OXO-1-PHENYL-BUTYL)-, & SALTS, WHEN PRESENT AT CONCENTRATIONS OF 0.3% OR LESS (OR) WARFARIN, & SALTS, WHEN PRESENT AT CONCENTRATIONS OF 0.3% OR LESS",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2H-1-BENZOPYRAN-2-ONE, 4-HYDROXY-3-(3-OXO-1-PHENYLBUTYL)-, & SALTS, WHEN PRESENT AT CONCENTRATIONS GREATER THAN 0.3% (OR) WARFARIN, & SALTS, WHEN PRESENT AT CONCENTRATIONS GREATER THAN 0.3%",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"3(2H)-ISOXAZOLONE, 5-(AMINOMETHYL)- (OR) 5-(AMINOMETHYL)-3-ISOXAZOLOL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"4(1H)-PYRIMIDINONE, 2,3-DIHYDRO-6-METHYL-2-THIOXO- (OR) METHYLTHIOURACIL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"4,4'-METHYLENEBIS(2-CHLOROANILINE) (OR) BENZENAMINE, 4,4'-METHYLENEBIS[2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"4,7-METHANO-1H-INDENE, 1,2,4,5,6,7,8,8-OCTACHLORO-2,3,3A,4,7,7A-HEXAHYDRO- (OR) CHLORDANE, ALPHA & GAMMA ISOMERS",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+4-AMINOPYRIDINE (OR) 4-PYRIDINAMINE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"4-CHLORO-O-TOLUIDINE, HYDROCHLORIDE (OR) BENZENAMINE, 4-CHLORO-2-METHYL-, HYDROCHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"4-METHYL-2-PENTANONE (I) (OR) METHYL ISOBUTYL KETONE (I) (OR) PENTANOL, 4-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"6,9-METHANO-2,4,3-BENZODIOXATHIEPIN,6,7,8,9,10,10-HEXACHLORO-1,5,5A,6,9,9A-HEXAHYDRO-,3-OXIDE (OR) ENDOSULFAN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"7,12-DIMETHYLBENZ[A]ANTHRACENE (OR) BENZ[A]ANTHRACENE, 7,12-DIMETHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"7-BENZOFURANOL, 2,3-DIHYDRO-2,2-DIMETHYL-, METHYLCARBAMATE (OR) CARBOFURAN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"7-OXABICYCLO[2.2.1]HEPTANE-2,3-DICARBOXYLIC ACID (OR) ENDOTHALL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ACETALDEHYDE (I) (OR) ETHANAL (I),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETALDEHYDE, CHLORO- (OR) CHLOROACETALDEHYDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETALDEHYDE, TRICHLORO- (OR) CHLORAL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETAMIDE, 2-FLUORO- (OR) FLUOROACETAMIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETIC ACID, ETHYL ESTER (I) (OR) ETHYL ACETATE (I)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETIC ACID, LEAD(2+) SALT (OR) LEAD ACETATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETIC ACID, THALLIUM(1+) SALT (OR) THALLIUM(I) ACETATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETONITRILE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETOPHENONE (OR) ETHANONE, 1-PHENYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETYL CHLORIDE (C,R,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ACIDIC AQUEOUS WST,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ALDICARB (OR) PROPANAL, 2-METHYL-2-(METHYLTHIO)-, O-[(METHYLAMINO)CARBONYL]OXIME",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ALPHA,ALPHA-DIMETHYLBENZYLHYDROPEROXIDE (R) (OR) HYDROPEROXIDE, 1-METHYL-1-PHENYLETHYL- (R)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ALPHA,ALPHA-DIMETHYLPHENETHYLAMINE (OR) BENZENEETHANAMINE, ALPHA, ALPHA-DIMETHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ALUMINUM PHOSPHIDE (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+AMMONIA STILL LIME SLUDGE FROM COKING OPERATIONS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"AMMONIUM PICRATE (R) (OR) PHENOL, 2,4,6-TRINITRO-, AMMONIUM SALT (R)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"AMMONIUM VANADATE (OR) VANADIC ACID, AMMONIUM SALT",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ANILINE (I,T) (OR) BENZENAMINE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+API SEPARATOR SLUDGE FROM THE PETROLEUM REFINING INDUSTRY.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+AQUEOUS W/O CYANIDES,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+AQUEOUS/CYANIDES,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ARSENIC,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ARSENIC ACID H3ASO4,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ARSENIC OXIDE AS2O3 (OR) ARSENIC TRIOXIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ARSENIC OXIDE AS2O5 (OR) ARSENIC PENTOXIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ARSINIC ACID, DIMETHYL- (OR) CACODYLIC ACID",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ASH,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"AZASERINE (OR) L-SERINE, DIAZOACETATE (ESTER)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+AZIRIDINE (OR) ETHYLENEIMINE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"AZIRINO [2',3':3,4]PYRROLO[1,2-A]INDOLE-4,7-DIONE, 6-AMINO-8-[[(AMINOCARBONYL)OXY]METHYL]-1,1A,2,8,8A,8B-HEXAHYDRO-8A-METHOXY-5-METHYL-, [1AS-(1AALPHA, 8BETA, 8AALPHA, 8BALPHA)]- (OR) MITOMYCIN C",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BAG HOUSE DUSTS AND FILTER/SEPARATION SOLIDS FROM THE PRODUCTION OF CARBAMATES AND CARBAMOYL OXIMES.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BARIUM,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BARIUM CYANIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BATTERIES,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENDIOCARB (OR) 1,3-BENZODIOXOL-4-OL, 2,2-DIMETHYL-, METHYL CARBAMATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENOMYL (OR) CARBAMIC ACID, [1-[(BUTYLAMINO)CARBONYL]-1H-BENZIMIDAZOL-2-YL]-, METHYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZAMIDE, 3,5-DICHLORO-N-(1,1-DIMETHYL-2-PROPYNYL)- (OR) PRONAMIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENAMINE, 2-METHYL- (OR) O-TOLUIDINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENAMINE, 4-CHLORO- (OR) P-CHLORANILINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENAMINE, 4-METHYL- (OR) P-TOLUIDINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENAMINE, 4-NITRO- (OR) P-NITROANILINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENAMINE, N,N-DIMETHYL-4-(PHENYLAZO)- (OR) P-DIMETHYLAMINOAZOBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BENZENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, (1-METHYLETHYL)- (I) (OR) CUMENE (I)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, (CHLOROMETHYL)- (OR) BENZYL CHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, (TRICHLOROMETHYL)- (OR) BENZOTRICHLORIDE (C,R,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, 1,1'-(2,2,2-TRICHLOROETHYLIDENE)BIS[4-CHLORO- (OR) DDT",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, 1,1'-(2,2,2-TRICHLOROETHYLIDENE)BIS[4-METHOXY- (OR) METHOXYCHLOR",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, 1,2-DICHLORO- (OR) O-DICHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, 1,3-DIISOCYANATOMETHYL- (R,T) (OR) TOLUENE DIISOCYANATE (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, 1,4-DICHLORO- (OR) P-DICHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, CHLORO- (OR) CHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, DIMETHYL- (I,T) (OR) XYLENE (I)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, HEXAHYDRO- (I) (OR) CYCLOHEXANE (I)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, METHYL- (OR) TOLUENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, NITRO- (OR) NITROBENZENE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, PENTACHLORONITRO- (OR) PENTACHLORONITROBENZENE (PCNB)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENEACETIC ACID, 4-CHLORO-ALPHA-(4-CHLOROPHENYL)-ALPHA-HYDROXY-, ETHYL ESTER (OR) CHLOROBENZILATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENEBUTANOIC ACID, 4-[BIS(2-CHLOROETHYL)AMINO]- (OR) CHLORAMBUCIL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENEDIAMINE, AR-METHYL- (OR) TOLUENEDIAMINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENESULFONIC ACID CHLORIDE (C,R) (OR) BENZENESULFONYL CHLORIDE (C,R)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BENZENETHIOL (OR) THIOPHENOL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZOIC ACID, 2-HYDROXY-, COMPD. WITH (3AS-CIS)-1,2,3,3A,8,8A-HEXAHYDRO-1,3A,8-TRIMETHYLPYRROLO[2,3-B]INDOL-5-YL METHYLCARBAMATE ESTER (1:1) (OR) PHYSOSTIGMINE SALICYLATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BENZO[A]PYRENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BENZ[A]ANTHRACENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BERYLLIUM,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BETA-CHLORONAPHTHALENE (OR) NAPHTHALENE, 2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BOTTOM SEDIMENT SLUDGE FROM THE TREATMENT OF WASTEWATERS FROM WOOD PRESERVING PROCESSES THAT USE CREOSOTE AND/OR PENTACHLOROPHENOL.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BOTTOM STREAM FROM THE ACETONITRILE COLUMN IN THE PRODUCTION OF ACRYLONITRILE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BOTTOM STREAM FROM THE WASTEWATER STRIPPER IN THE PRODUCTION OF ACRYLONITRILE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BOTTOMS FROM THE ACETONITRILE PURIFICATION COLUMN IN THE PRODUCTION OF ACRYLONITRILE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BRINE PURIFICATION MUDS FROM THE MERCURY CELL PROCESS IN CHLORINE PRODUCTION, IN WHICH SEPARATELY PREPURIFIED BRINE IS NOT USED.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BROMOFORM (OR) METHANE, TRIBROMO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BRUCINE (OR) STRYCHNIDIN-10-ONE, 2,3-DIMETHOXY-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CADMIUM,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CALCIUM CHROMATE (OR) CHROMIC ACID H2CRO4, CALCIUM SALT",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CALCIUM CYANIDE (OR) CALCIUM CYANIDE CA(CN)2,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBAMIC ACID, 1H-BENZIMIDAZOL-2-YL, METHYL ESTER (OR) CARBENDAZIM",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBAMIC ACID, ETHYL ESTER (OR) ETHYL CARBAMATE (URETHANE)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBAMIC ACID, [(DIBUTYLAMINO)-THIO]METHYL-, 2,3-DIHYDRO-2,2-DIMETHYL -7-BENZOFURANYL ESTER (OR) CARBOSULFAN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBAMIC ACID, [1,2-PHENYLENEBIS (IMINOCARBONOTHIOYL)]BIS-, DIMETHYL ESTER (OR) THIOPHANATE-METHYL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBAMODITHIOIC ACID, 1,2-ETHANEDIYLBIS-, SALTS & ESTERS (OR) ETHYLENEBISDITHIOCARBAMIC ACID, SALTS & ESTERS",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBAMOTHIOIC ACID, BIS(1-METHYLETHYL)-, S-(2,3,3-TRICHLORO-2-PROPENYL) ESTER (OR) TRIALLATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBAMOTHIOIC ACID, BIS(1-METHYLETHYL)-, S-(2,3-DICHLORO-2-PROPENYL) ESTER (OR) DIALLATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBARYL (OR) 1-NAPHTHALENOL, METHYLCARBAMATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CARBON DISULFIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBON OXYFLUORIDE (R,T) (OR) CARBONIC DIFLUORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CARBON TETRACHLORIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBON TETRACHLORIDE (OR) METHANE, TETRACHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CARBONIC DICHLORIDE (OR) PHOSGENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBONOCHLORIDIC ACID, METHYL ESTER, (I,T) (OR) METHYL CHLOROCARBONATE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CENTRIFUGE AND DISTILLATION RESIDUES FROM TOLUENE DIISOCYANATE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CHLORDANE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CHLOROBENZENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CHLOROFORM,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CHLOROFORM (OR) METHANE, TRICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CHLOROMETHYL METHYL ETHER (OR) METHANE, CHLOROMETHOXY-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CHROMIUM,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CHRYSENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CLARIFIED SLURRY OIL TANK SEDIMENT AND/OR IN-LINE FILTER/SEPARATION SOLIDS FROM PETROLEUM REFINING OPERATIONS,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+COMBINED WASTEWATERS GENERATED FROM NITROBENZENE/ANILINE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+COMPRESSED GAS,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CONDENSED LIGHT ENDS, SPENT FILTERS AND FILTER AIDS, AND SPENT DESICCANT WASTES FROM THE PRODUCTION OF CERTAIN CHLORINATED ALIPHATIC HYDROCARBONS BY FREE RADICAL CATALYZED PROCESSES.  THESE CHLORINATED ALIPHATIC HYDROCARBONS ARE THOSE HAVING CARBON CHAIN ",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CONT. DEBRIS,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CONTAMINATED SOIL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+COPPER CYANIDE (OR) COPPER CYANIDE CU(CN),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CORROSIVE WASTE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CREOSOTE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CRESOL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CRESOL (CRESYLIC ACID) (OR) PHENOL, METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CRUDE OIL STORAGE TANK SEDIMENT FROM PETROLEUM REFINING OPERATIONS,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CYAN. BEARING SLUDGE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CYANIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CYANIDES (SOLUBLE CYANIDE SALTS), NOT OTHERWISE SPECIFIED",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CYANOGEN (OR) ETHANEDINITRILE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CYANOGEN BROMIDE (CN)BR,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CYANOGEN CHLORIDE (OR) CYANOGEN CHLORIDE (CN)CL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CYCLOHEXANE, 1,2,3,4,5,6-HEXACHLORO-, (1ALPHA, 2ALPHA, 3BETA, 4ALPHA, 5ALPHA, 6BETA)- (OR) LINDANE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+CYCLOHEXANONE (I),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"D-GLUCOSE, 2-DEOXY-2-[[(METHYLNITROSOAMINO)-CARBONYL]AMINO]- (OR) GLUCOPYRANOSE, 2-DEOXY-2-(3-METHYL-3-NITROSOUREIDO)-,D- (OR) STREPTOZOTOCIN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+DECANTER TANK TAR SLUDGE FROM COKING OPERATIONS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DIBENZ[A,H]ANTHRACENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DICHLORODIFLUOROMETHANE (OR) METHANE, DICHLORODIFLUORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DICHLOROETHYL ETHER (OR) ETHANE, 1,1'-OXYBIS[2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DICHLOROMETHOXY ETHANE (OR) ETHANE, 1,1'-[METHYLENEBIS(OXY)]BIS[2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DICHLOROMETHYL ETHER (OR) METHANE, OXYBIS[CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DIETHYL-P-NITROPHENYL PHOSPHATE (OR) PHOSPHORIC ACID, DIETHYL 4-NITROPHENYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DIETHYLENE GLYCOL, DICARBAMATE (OR) ETHANOL, 2,2'-OXYBIS-, DICARBAMATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DIETHYLSTILBESTEROL (OR) PHENOL, 4,4'-(1,2-DIETHYL-1,2-ETHENEDIYL)BIS, (E)-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DIISOPROPYLFLUOROPHOSPHATE (DFP) (OR) PHOSPHOROFLUORIDIC ACID, BIS(1-METHYLETHYL) ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+DILUTE AQUEOUS WST,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DIMETHOATE (OR) PHOSPHORODITHIOIC ACID, O,O-DIMETHYL S-[2-(METHYLAMINO)-2-OXOETHYL] ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DIMETHYL SULFATE (OR) SULFURIC ACID, DIMETHYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DIMETHYLAMINE (I) (OR) METHANAMINE, N-METHYL- (I)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DINOSEB (OR) PHENOL, 2-(1-METHYLPROPYL)-4,6-DINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DISCARDED UNUSED FORMULATIONS CONTAINING TRI-, TETRA-, OR PENTACHLOROPHENOL OR DISCARDED UNUSED FORMULATIONS CONTAINING COMPOUNDS DERIVED FROM THESE CHLOROPHENOLS.  (THIS LISTING DOES NOT INCLUDE FORMULATIONS CONTAINING HEXACHLOROPHENE SYNTHESIZED FROM PR",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+DISSOLVED AIR FLOTATION (DAF) FLOAT FROM THE PETROLEUM REFINING INDUSTRY.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+DISTILLATION BOTTOM TARS FROM THE PRODUCTION OF PHENOL/ACETONE FROM CUMENE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+DISTILLATION BOTTOMS FROM ANILINE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+DISTILLATION BOTTOMS FROM THE PRODUCTION OF ACETALDEHYDE FROM ETHYLENE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DISTILLATION BOTTOMS FROM THE PRODUCTION OF ALPHA (OR METHYL-) CHLORINATED TOLUNES, RING-CHLORINATED TOLUNES, BENZOYL CHLORIDES, AND COMPOUNDS WITH MIXTURES OF THESE FUNCTIONAL GROUPS.  [THIS WASTE DOES NOT INCLUDE STILL BOTTOMS FROM THE DISTILLATION OF B",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+DISTILLATION BOTTOMS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM ORTHO-XYLENE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+DISTILLATION OR FRACTIONATION COLUMN BOTTOMS FROM THE PRODUCTION OF CHLOROBENZENES.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DISULFOTON (OR) PHOSPHORODITHIOIC ACID, O,O-DIETHYL S-[2-(ETHYLTHIO)ETHYL] ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+DRIED PAINT,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ELECTRICAL DEVICES,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+EMISSION CONTROL DUST/SLUDGE FROM SECONDARY LEAD SMELTING.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+EMISSION CONTROL DUST/SLUDGE FROM THE PRIMARY PRODUCTION OF STEEL IN ELECTRIC FURNACES.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ENDRIN (1,2,3,4,10,10-HEXACHLORO-1,7-EPOXY-1,4,4A,5,6,7,8,8A-OCTAHYDRO-1,4-ENDO, ENDO-5,8-DIMETH-ANO-NAPHTHALENE)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"EPICHLOROHYDRIN (OR) OXIRANE, (CHLOROMETHYL)-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANAMINE, N,N-DIETHYL- (OR) TRIETHYLAMINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANE, 1,1'-OXYBIS-(I) (OR) ETHYL ETHER (I)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANE, 1,1,1-TRICHLORO- (OR) METHYL CHLOROFORM",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANE, 1,2-DIBROMO- (OR) ETHYLENE DIBROMIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANE, 1,2-DICHLORO- (OR) ETHYLENE DICHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANE, HEXACHLORO- (OR) HEXACHLOROETHANE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ETHANETHIOAMIDE (OR) THIOACETAMIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANIMIDOTHIOC ACID, 2-(DIMETHYLAMINO)-N-[[(METHYLAMINO) CARBONYL]OXY]-2-OXO-, METHYL ESTER (OR) OXAMYL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANIMIDOTHIOIC ACID, N,N'-[THIOBIS[(METHYLIMINO)CARBONYLOXY]]BIS-, DIMETHYL ESTER (OR) THIODICARB",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANIMIDOTHIOIC ACID, N-[[(METHYLAMINO)CARBONYL]OXY]-, METHYL ESTER (OR) METHOMYL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANOL, 2-ETHOXY- (OR) ETHYLENE GLYCOL MONOETHYL ETHER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHENE, CHLORO- (OR) VINYL CHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHENE, TETRACHLORO- (OR) TETRACHLOROETHYLENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHENE, TRICHLORO- (OR) TRICHLOROETHYLENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ETHYL CYANIDE (OR) PROPANENITRILE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHYL METHANESULFONATE (OR) METHANESULFONIC ACID, ETHYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHYLENE OXIDE (I,T) (OR) OXIRANE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"EXPLOSIVES, ETC.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+FILTER CAKE FROM THE FILTRATION OF DIETHYLPHOSPHORODITHIOIC ACID IN THE PRODUCTION OF PHORATE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+FLUORANTHENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+FLUORINE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+FORMALDEHYDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"FORMIC ACID (C,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+FURAN (I) (OR) FURFURAN (I),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"FURAN, TETRAHYDRO-(I) (OR) TETRAHYDROFURAN (I)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"GUANIDINE, N-METHYL-N'-NITRO-N-NITROSO- (OR) MNNG",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+GYPSUM SLUDGES,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HALOGENATED SOLVENT,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HEAT EXCHANGER BUNDLE CLEANING SLUDGE FROM THE PETROLEUM REFINING INDUSTRY.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HEAVY ENDS (STILL BOTTOMS) FROM THE PURIFICATION COLUMN IN THE PRODUCTION OF EPICHLOROHYDRIN.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HEAVY ENDS FROM THE DISTILLATION OF ETHYLENE DICHLORIDE IN ETHYLENE DICHLORIDE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HEAVY ENDS FROM THE FRACTIONATION COLUMN IN ETHYL CHLORIDE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HEAVY ENDS OR DISTILLATION RESIDUES FROM THE PRODUCTION OF CARBON TETRACHLORIDE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HEPTACHLOR (AND ITS EPOXIDE),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HEXACHLOROBENZENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HEXACHLOROBUTADIENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HEXACHLOROETHANE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"HEXACHLOROPHENE (OR) PHENOL, 2,2'-METHYLENEBIS[3,4,6-TRICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"HYDRAZINE (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"HYDRAZINE, METHYL- (OR) METHYL HYDRAZINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HYDRAZINECARBOTHIOAMIDE (OR) THIOSEMICARBAZIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HYDROCYANIC ACID (OR) HYDROGEN CYANIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"HYDROFLUORIC ACID (C,T) (OR) HYDROGEN FLUORIDE (C,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HYDROGEN PHOSPHIDE (OR) PHOSPHINE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HYDROGEN SULFIDE (OR) HYDROGEN SULFIDE H2S,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+IGNITABLE WASTE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"INDENO[1,2,3-CD]PYRENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"L-PHENYLALANINE, 4-[BIS(2-CHLOROETHYL)AMINO]- (OR) MELPHALAN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+LAB PACK,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+LAB PACKS/ACUTE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+LAB PACKS/NO ACUTE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"LEACHATE RESULTING FROM THE TREATMENT, STORAGE, OR DISPOSAL OF WASTES CLASSIFIED BY MORE THAN ONE WASTE CODE UNDER SUBPART D, OR FROM A MIXTURE OF WASTES CLASSIFIED UNDER SUBPARTS C AND D OF THIS PART.  (LEACHATE RESULTING FROM THE MANAGEMENT OF ONE OR MO",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+LEAD,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"LIME, ETC.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"LINDANE (1,2,3,4,5,6-HEXA-CHLOROCYCLOHEXANE, GAMMA ISOMER)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+LIQUID MERCURY,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+M-CRESOL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+MALONONITRILE (OR) PROPANEDINITRILE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+MERCURY,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"MERCURY, (ACETATO-O)PHENYL- (OR) PHENYLMERCURY ACETATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+METAL BEARING SLUDGE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+METAL SALTS/CHEM.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METAL SCALE, ETC.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANE, BROMO- (OR) METHYL BROMIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANE, CHLORO- (I,T) (OR) METHYL CHLORIDE (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANE, DIBROMO- (OR) METHYLENE BROMIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANE, DICHLORO- (OR) METHYLENE CHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANE, IODO- (OR) METHYL IODIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANE, ISOCYANATO- (OR) METHYL ISOCYANATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANE, TETRANITRO- (R) (OR) TETRANITROMETHANE (R)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANE, TRICHLOROFLUORO- (OR) TRICHLOROMONOFLUOROMETHANE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANETHIOL (I,T) (OR) THIOMETHANOL (I,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANETHIOL, TRICHLORO- (OR) TRICHLOROMETHANETHIOL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANIMIDAMIDE, N,N-DIMETHYL-N'-[3-[[(METHYLAMINO)-CARBONYL]OXY]PHENYL]-, MONOHYDROCHLORIDE (OR) FORMETANATE HYDROCHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHANIMINE, N-METHYL-N-NITROSO- (OR) N-NITROSODIMETHYLAMINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+METHANOL (I) (OR) METHYL ALCOHOL (I),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHIOCARB (OR) MEXACARBATE (OR) PHENOL, (3,5-DIMETHYL-4-(METHYLTHIO)-, METHYLCARBAMATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHOXYCHLOR (1,1,1-TRICHLORO-2,2-BIS [P-METHOXYPHENYL] ETHANE)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+METHYL ETHYL KETONE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"METHYL PARATHION (OR) PHOSPHOROTHIOIC ACID, O,O,-DIMETHYL O-(4-NITROPHENYL) ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"N-NITROSOPYRROLIDINE (OR) PYRROLIDINE, 1-NITROSO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+NAPHTHALENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"NICKEL CARBONYL (OR) NICKEL CARBONYL NI(CO)4, (T-4)-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+NICKEL CYANIDE (OR) NICKEL CYANIDE NI(CN)2,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"NICOTINE, & SALTS (OR) PYRIDINE, 3-(1-METHYL-2-PYRROLIDINYL)-,(S)-, & SALTS",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"NITRIC ACID, THALLIUM(1+) SALT (OR) THALLIUM(I) NITRATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+NITRIC OXIDE (OR) NITROGEN OXIDE NO,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+NITROBENZENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+NITROGEN DIOXIDE (OR) NITROGEN OXIDE NO2,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+NONHALOGEN. SOLVENT,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+Nonwastewaters from the production of dyes and/or pigments.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"O-CHLOROPHENOL (OR) PHENOL, 2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+O-CRESOL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OIL-WATER EMULSION,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OILY SLUDGE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ORGANIC CONDENSATE FROM THE SOLVENT RECOVERY COLUMN IN THE PRODUCTION OF TOLUENE DIISOCYANATE VIA PHOSGENATION OF TOLUENEDIAMINE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ORGANIC RESIDULES EXCLUDING SPENT CARBON ADSORBENT, FROM THE SPENT CHLORINE GAS AND HYDROCHLORIC ACID RECOVERY PROCESSES ASSOCIATED WITH THE PRODUCTION OF ALPHA (OR METHYL-) CHLORINATED TOLUNES, BENZOYL CHLORIDES, AND COMPOUNDS WITH MIXTURES OF THESE FUNC",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ORGANIC WASTE (INCLUDING HEAVY ENDS, STILL BOTTOMS, LIGHT ENDS, SPENT SOLVENTS, FILTRATES, AND DECANTATES) FROM THE PRODUCTION OF CARBAMATES AND CARBAMOYL OXIMES.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"OSMIUM OXIDE OSO4, (T-4)- (OR) OSMIUM TETROXIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OTH INORGANIC LIQUID,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OTH INORGANIC SLUDGE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OTH INORGANIC SOLIDS,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OTH ORGANIC LIQUID,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OTH ORGANIC SOLIDS,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OTHER AQUEOUS WST,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OTHER ORGANIC SLUDGE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OTHER SLUDGES,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"P-CHLORO-M-CRESOL (OR) PHENOL, 4-CHLORO-3-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+P-CRESOL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"P-NITROPHENOL (I,T) (OR) PHENOL, 4-NITRO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PAINT THINNER,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PAINT, INK SLUDGE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PAINT, INK, ETC.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PARATHION (OR) PHOSPHOROTHIOIC ACID, O,O-DIETHYL-O-(4-NITROPHENYL) ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PENTACHLOROPHENOL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PESTICIDE SOLIDS,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PETROLEUM REFINERY PRIMARY OIL/WATER/SOLIDS SEPARATION SLUDGE - ANY SLUDGE GENERATED FROM THE GRAVITATIONAL SEPARATION OF OIL/WATER/SOLIDS DURING THE STORAGE OR TREATMENT OF PROCESS WASTEWATERS AND OILY COOLING WASTEWATERS FROM PETROLEUM REFINERIES.  SUCH,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PETROLEUM REFINERY SECONDARY (EMULSIFIED) OIL/WATER/SOLIDS SEPARATION SLUDGE - ANY SLUDGE AND/OR FLOAT GENERATED FROM THE PHYSICAL AND/OR CHEMICAL SEPARATION OF OIL/WATER/SOLIDS IN PROCESS WASTEWATERS AND OILY COOLING WASTEWATERS FROM PETROLEUM REFINERIES,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PHENOL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PHENOL, 2-(1-METHYLETHOXY)-, METHYLCARBAMATE (OR) PROPOXUR",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PHENYLTHIOUREA (OR) THIOUREA, PHENYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PHORATE (OR) PHOSPHORODITHIOIC ACID, O,O-DIETHYL S-[(ETHYLTHIO)METHYL] ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PHOSPHORUS SULFIDE (R) (OR) SULFUR PHOSPHIDE (R),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PHYSOSTIGMINE (OR) PYRROLO[2,3-B]INDOL-5-OL, 1,2,3,3A,8,8A-HEXAHYDRO-1,3A,8-TRIMETHYL-METHYLCARBAMATE (ESTER), (3AS-CIS)-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PLATING BATH RESIDUES FROM THE BOTTOM OF PLATING BATHS FROM ELECTROPLATING OPERATIONS IN WHICH CYANIDES ARE USED IN THE PROCESS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PLUMBANE, TETRAETHYL- (OR) TETRAETHYL LEAD",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+POTASSIUM CYANIDE (OR) POTASSIUM CYANIDE K(CN),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PROCESS RESIDUES FROM THE RECOVERY OF COAL TAR, INCLUDING, BUT NOT LIMITED TO, TAR COLLECTING SUMP RESIDUES FROM THE PRODUCTION OF COKE FROM COAL OR THE RECOVERY OF COKE BY-PRODUCTS PRODUCED FROM COAL.  THIS LISTING DOES NOT INCLUDE K087 (DECANTER TANK SL",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PROCESS RESIDUES FROM THE RECOVERY OF LIGHT OIL, INCLUDING, BUT NOT LIMITED TO, THOSE GENERATED IN STILLS, DECANTERS, AND WASH OIL RECOVERY UNITS FROM THE RECOVERY OF COKE BY-PRODUCTS PRODUCED FROM COAL.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PROCESS WASTES INCLUDING, BUT NOT LIMITED TO, DISTILLATION RESIDUES, HEAVY ENDS, TARS, AND REACTOR CLEAN-OUT WASTES FROM THE PRODUCTION OF CERTAIN CHLORINATED ALIPHATIC HYDROCARBONS BY FREE RADICAL CATALYZED PROCESSES.  THESE CHLORINATED ALIPHATIC HYDROCA",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PRODUCT WASHWATERS FROM THE PRODUCTION OF DINITROTOLUENE VIA NITRATION OF TOLUENE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PURIFICATION SOLIDS (INCLUDING FILTRATION, EVAPORATION, AND CENTRIFUGATION SOLIDS), BAG HOUSE DUST AND FLOOR SWEEPINGS FROM THE PRODUCTION OF DITHIOCARBAMATE ACIDS AND THEIR SALTS. (THIS LISTING DOES NOT INCLUDE K125 OR K126).",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PYRIDINE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+QUENCHING BATH RESIDUES FROM OIL BATHS FROM METAL HEAT TREATING OPERATIONS IN WHICH CYANIDES ARE USED IN THE PROCESS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+QUENCHING WASTEWATER TREATMENT SLUDGES FROM METAL HEAT TREATING OPERATIONS IN WHICH CYANIDES ARE USED IN THE PROCESS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+REACTIVE ORG. LIQUID,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+REACTIVE WASTE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"RESERPINE (OR) YOHIMBAN-16-CARBOXYLIC ACID, 11,17-DIMETHOXY-18-[(3,4,5-TRIMETHOXYBENZOYL)OXY]-, METHYL ESTER, (3BETA, 16BETA, 17ALPHA, 18BETA, 20ALPHA)-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"RESIDUES FROM COAL TAR DISTILLATION, INCLUDING, BUT NOT LIMITED TO, STILL BOTTOMS.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+RESIDUES FROM MANUFACTURING AND MANUFACTURING-SITE STORAGE OF FERRIC CHLORIDE FROM ACIDS FORMED DURING THE PRODUCTION OF TITANIUM DIOXIDE USING THE CHLORIDE-ILMENITE PROCESS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+RESIDUES FROM NAPHTHALENE COLLECTION AND RECOVERY OPERATIONS FROM THE RECOVERY OF COKE BY-PRODUCTS PRODUCED FROM COAL.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"RESINS, TAR SLUDGE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SEDIMENT,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SELENIOUS ACID (OR) SELENIUM DIOXIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"SELENIOUS ACID, DITHALLIUM (1+) SALT (OR) THALLIUM(I) SELENITE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SELENIUM,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"SELENIUM SULFIDE (OR) SELENIUM SULFIDE SES2 (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SILVER,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SILVER CYANIDE (OR) SILVER CYANIDE AG(CN),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SLOP OIL EMULSION SOLIDS FROM THE PETROLEUM REFINING INDUSTRY.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SODIUM AZIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SODIUM CYANIDE (OR) SODIUM CYANIDE NA(CN),Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"SOLID RESINS, ETC.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SOLID THERMAL RES.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SOLVENT MIXTURE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"SOLVENT WASHES AND SLUDGES, CAUSTIC WASHES AND SLUDGES, OR WATER WASHES AND SLUDGES FROM CLEANING TUBS AND EQUIPMENT USED IN THE FORMULATION OF INK FROM PIGMENTS, DRIERS, SOAPS, AND STABILIZERS CONTAINING CHROMIUM AND LEAD.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SPENT ABSORBENT AND WASTEWATER SEPARATOR SOLIDS FROM THE PRODUCTION OF METHYL BROMIDE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SPENT ACID,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SPENT CARBON FROM THE TREATMENT OF WASTEWATER CONTAINING EXPLOSIVES.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SPENT CYANIDE PLATING BATH SOLUTIONS FROM ELECTROPLATING OPERATIONS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SPENT CYANIDE SOLUTIONS FROM SLAT BATH POT CLEANING FROM METAL HEAT TREATING OPERATIONS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SPENT FILTERS,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"SPENT HYDROREFINING CATALYST FROM PETROLEUM REFINING OPERATIONS, INCLUDING GUARD BEDS USED TO DESULFURIZE FEEDS TO OTHER CATALYTIC REACTORS (THIS LISTING DOES NOT INCLUDE INERT SUPPORT MEDIA)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"SPENT HYDROTREATING CATALYST FROM PETROLEUM REFINING OPERATIONS,INCLUDING GUARD BEDS USED TO DESULFURIZE FEEDS TO OTHER CATALYTIC REACTORS (THIS LISTING DOES NOT INCLUDE INERT SUPPORT MEDIA)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SPENT PICKLE LIQUOR FROM STEEL FINISHING OPERATIONS OF PLANTS THAT PRODUCE IRON OR STEEL.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SPENT POTLINERS FROM PRIMARY ALUMINUM REDUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SPENT STRIPPING AND CLEANING BATH SOLUTIONS FROM ELECTROPLATING OPERATIONS IN WHICH CYANIDES ARE USED IN THE PROCESS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+STILL BOTTOMS,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+STILL BOTTOMS FROM THE DISTILLATION OF BENZYL CHLORIDE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"STRYCHNIDIN-10-ONE, & SALTS (OR) STRYCHNINE, & SALTS",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"SULFURIC ACID, DITHALLIUM (1+) SALT (OR) THALLIUM(I) SULFATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+TANK BOTTOMS (LEADED) FROM THE PETROLEUM REFINING INDUSTRY.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+TANK STORAGE RESIDUES FROM THE PRODUCTION OF COKE FROM COAL OR FROM THE RECOVERY OF COKE BY-PRODUCTS FROM COAL.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+TETRACHLOROETHYLENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"THE FOLLOWING SPENT HALOGENATED SOLVENTS USED IN DEGREASING: TETRACHLOROETHYLENE, TRICHLORETHYLENE, METHYLENE CHLORIDE, 1,1,1-TRICHLOROETHANE, CARBON TETRACHLORIDE AND CHLORINATED FLUOROCARBONS; ALL SPENT SOLVENT MIXTURES/BLENDS USED IN DEGREASING CONTAIN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"THE FOLLOWING SPENT HALOGENATED SOLVENTS: TETRACHLOROETHYLENE, METHYLENE CHLORIDE, TRICHLOROETHYLENE, 1,1,1-TRICHLOROETHANE, CHLOROBENZENE, 1,1,2-TRICHLORO-1,2,2-TRIFLUOROETHANE, ORTHO-DICHLOROBENZENE, TRICHLOROFLUOROMETHANE, AND 1,1,2, TRICHLOROETHANE; A",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: CRESOLS, CRESYLIC ACID, AND NITROBENZENE; AND THE STILL BOTTOMS FROM THE RECOVERY OF THESE SOLVENTS; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, A TOTAL OF TEN PERCENT OR MORE (BY VOLUME) OF ONE O",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: TOLUENE, METHYL ETHYL KETONE, CARBON DISULFIDE, ISOBUTANOL, PYRIDINE, BENZENE, 2-ETHOXYETHANOL, AND 2-NITROPROPANE; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, A TOTAL OF TEN PERCENT OR MORE (BY V",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"THE FOLLOWING SPENT NONHALOGENATED SOLVENTS: XYLENE, ACETONE, ETHYL ACETATE, ETHYL BENZENE, ETHYL ETHER, METHYL ISOBUTYL KETONE, N-BUTYL ALCOHOL, CYCLOHEXANONE, AND METHANOL; ALL SPENT SOLVENT MIXTURES/BLENDS CONTAINING, BEFORE USE, ONLY THE ABOVE SPENT N",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"THIOPEROXYDICARBONIC DIAMIDE [(H2N)C(S)]2S2, TETRAMETHYL- (OR) THIRAM",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+THIOUREA,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"TOXAPHENE (C10 H10 CL8, TECHNICAL CHLORINATED CAMPHENE, 67-69 PERCENT CHLORINE)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+TRICHLORETHYLENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"UNTREATED WASTEWATER FROM THE PRODUCTION OF 2,4-D.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+VANADIUM OXIDE V2O5 (OR) VANADIUM PENTOXIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+VICINALS FROM THE PURIFICATION OF TOLUENEDIAMINE IN PRODUCTION OF TOLUENEDIAMINE VIA HYDROGENATION OF DINITROTOLUENE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+VINYL CHLORIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTE OIL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTE PHARMACEUTICAL,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTES (EXCEPT WASTEWATER AND SPENT CARBON FROM HYDROGEN CHLORIDE PURIFICATION) FROM THE MANUFACTURING USE (AS A REACTANT, CHEMICAL INTERMEDIATE, OR COMPONENT IN A FORMULATING PROCESS) OF TETRA-, PENTA-, OR HEXACHLOROBENZENES UNDER ALKALINE CONDITIONS.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTES (EXCEPT WASTEWATER AND SPENT CARBON FROM HYDROGEN CHLORIDE PURIFICATION) FROM THE PRODUCTION OF MATERIALS ON EQUIPMENT PREVIOUSLY USED FOR THE PRODUCTION OR MANUFACTURING USE (AS A REACTANT, CHEMICAL INTERMEDIATE, OR COMPONENT IN A FORMULATING PROC",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTES (EXCEPT WASTEWATER AND SPENT CARBON FROM HYDROGEN CHLORIDE PURIFICATION) FROM THE PRODUCTION OR MANUFACTURING USE (AS A REACTANT, CHEMICAL INTERMEDIATE, OR COMPONENT IN A FORMULATING PROCESS) OF PENTACHLOROPHENOL, OR OF INTERMEDIATES USED TO PRODUC",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTES (EXCEPT WASTEWATER AND SPENT CARBON FROM HYDROGEN CHLORIDE PURIFICATION) FROM THE PRODUCTION OR MANUFACTURING USE (AS A REACTANT, CHEMICAL INTERMEDIATE, OR COMPONENT IN A FORMULATING PROCESS) OF TRI- OR TETRACHLOROPHENOL OR OF INTERMEDIATES USED TO",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER FROM THE REACTOR AND SPENT SULFURIC ACID FROM THE ACID DRYER FROM THE PRODUCTION OF METHYL BROMIDE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER FROM THE WASHING AND STRIPPING OF PHORATE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER TREATMENT SLUDGE FROM THE MERCURY CELL PROCESS IN CHLORINE PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF CHROME GREEN PIGMENTS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF CHROME OXIDE GREEN PIGMENTS (ANHYDROUS AND HYDRATED).,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF IRON BLUE PIGMENTS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTEWATER TREATMENT SLUDGES FROM ELECTROPLATING OPERATIONS, EXCEPT FROM THE FOLLOWING PROCESSES: (1) SULFURIC ACID ANODIZING OF ALUMINUM; (2) TIN PLATING ON CARBON STEEL; (3) ZINC PLATING (SEGREGATED BASIS) ON CARBON STEEL; (4) ALUMINUM OR ZINC-ALUMINUM ",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTEWATER TREATMENT SLUDGES FROM THE CHEMICAL CONVERSION COATING OF ALUMINUM, EXCEPT FROM ZIRCONIUM PHOSPHATING IN ALUMINUM CAN WASHING WHEN SUCH PHOSPHATING IS AN EXCLUSIVE CONVERSION COATING PROCESS.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER TREATMENT SLUDGES FROM THE MANUFACTURING AND PROCESSING OF EXPLOSIVES.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTEWATER TREATMENT SLUDGES FROM THE MANUFACTURING, FORMULATION, AND LOADING OF LEAD-BASED INITIATING COMPOUNDS.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER TREATMENT SLUDGES GENERATED IN THE PRODUCTION OF CREOSOTE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTEWATERS (INCLUDING SCRUBBER WATERS, CONDENSER WATERS, WASHWATERS, AND SEPARATION WATERS) FROM THE PRODUCTION OF CARBAMATES AND CARBAMOYL OXIMES.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTEWATERS, PROCESS RESIDUALS, PRESERVATIVE DRIPPAGE, AND SPENT FORMULATIONS FROM WOOD PRESERVING PROCESSES GENERATED AT PLANTS THAT CURRENTLY USE, OR HAVE PREVIOUSLY USED, CHLOROPHENOLIC FORMULATIONS [EXCEPT POTENTIALLY CROSS-CONTAMINATED WASTES THAT HA",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTEWATERS, PROCESS RESIDUALS, PRESERVATIVE DRIPPAGE, AND SPENT FORMULATIONS FROM WOOD PRESERVING PROCESSES GENERATED AT PLANTS THAT USE CREOSOTE FORMULATIONS.  THIS LISTING DOES NOT INCLUDE K001 BOTTOM SEDIMENT SLUDGE FROM THE TREATMENT OF WASTEWATER FR",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTEWATERS, PROCESS RESIDUALS, PRESERVATIVE DRIPPAGE, AND SPENT FORMULATIONS FROM WOOD PRESERVING PROCESSES GENERATED AT PLANTS THAT USE INORGANIC PRESERVATIVES CONTAINING ARSENIC OR CHROMIUM.  THIS LISTING DOES NOT INCLUDE K001 BOTTOM SEDIMENT SLUDGE FR",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+ZINC CYANIDE (OR) ZINC CYANIDE ZN(CN)2,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ZINC PHOSPHIDE ZN3P2, WHEN PRESENT AT CONCENTRATIONS GREATER THAN 10% (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ZINC PHOSPHIDE ZN3P2, WHEN PRESENT AT CONCENTRATIONS OF 10% OR LESS",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ZINC, BIS(DIMETHYLCARBAMODITHIOATO-S,S')-, (OR) ZIRAM",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"[1,1'-BIPHENYL]-4,4'-DIAMINE (OR) BENZIDINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"[1,1'-BIPHENYL]-4,4'-DIAMINE, 3,3'-DIMETHOXY- (OR) 3,3'-DIMETHOXYBENZIDINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"[1,1'-BIPHENYL]-4,4'-DIAMINE, 3,3'-DIMETHYL- (OR) 3,3'-DIMETHYLBENZIDINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,2-DIMETHYLHYDRAZINE (OR) HYDRAZINE, 1,2-DIPHENYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,3,5-TRINITROBENZENE (R,T) (OR) BENZENE, 1,3,5-TRINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,3-BENZODIOXOLE, 5-(1-PROPENYL)- (OR) ISOSAFROLE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,3-PENTADIENE (I) (OR) 1-METHYLBUTADIENE (I)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,4,5,8-DIMETHANONAPHTHALENE, 1,2,3,4,10,10-HEXA-CHLORO-1,4,4A,5,8,8A,-HEXAHYDRO-, (1ALPHA, 4ALPHA, 4ABETA, 5ALPHA, 8ALPHA, 8ABETA)- (OR) ALDRIN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,4,5,8-DIMETHANONAPHTHALENE, 1,2,3,4,10,10-HEXA-CHLORO-1,4,4A,5,8,8A,-HEXAHYDRO-, (1ALPHA, 4ALPHA, 4ABETA, 5BETA, 8BETA, 8ABETA)- (OR) ISODRIN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1,4-NAPHTHALENEDIONE (OR) 1,4-NAPHTHOQUINONE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"1-PROPENE, 1,1,2,3,3,3-HEXACHLORO- (OR) HEXACHLOROPROPENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,4-DICHLOROPHENOL (OR) PHENOL, 2,4-DICHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,6-DICHLOROPHENOL WASTE FROM THE PRODUCTION OF 2,4-D.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,6-DINITROTOLUENE (OR) BENZENE, 2-METHYL-1,3-DINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2,7:3,6-DIMETHANONAPHTH[2,3-B]OXIRENE, 3,4,5,6,9,9-HEXACHLORO-1A,2,2A,3,6,6A,7,7A-OCTAHYDRO-, (1AALPHA, 2BETA, 2ABETA, 3ALPHA, 6ALPHA, 6ABETA, 7BETA, 7AALPHA)- & METABOLITES (OR) ENDRIN (OR) ENDRIN, & METABOLITES",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-BUTANONE, 3,3-DIMETHYL-1-(METHYLTHIO)-, O-[METHYLAMINO)CARBONYL] OXIME (OR) THIOFANOX",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"3,6-PYRIDAZINEDIONE, 1,2-DIHYDRO- (OR) MALEIC HYDRAZIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"3-CHLOROPROPIONITRILE (OR) PROPANENITRILE, 3-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"4,6-DINITRO-O-CRESOL, & SALTS (OR) PHENOL, 2-METHYL-4,6-DINITRO-, & SALTS",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"4,7-METHANO-1H-INDENE, 1,4,5,6,7,8,8-HEPTACHLORO-3A,4,7,7A-TETRAHYDRO- (OR) HEPTACHLOR",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"4-BROMOPHENYL PHENYL ETHER (OR) BENZENE, 1-BROMO-4-PHENOXY-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"5,12-NAPHTHACENEDIONE, 8-ACETYL-10-[(3-AMINO-2,3,6-TRIDEOXY)-ALPHA-L-LYXO-HEXOPYRANOSYL)OXY]-7,8,9,10-TETRAHYDRO-6,8,11-TRIHYDROXY-1-METHOXY-, (8S-CIS)- (OR) DAUNOMYCIN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETAMIDE, N-(4-ETHOXYPHENYL)- (OR) PHENACETIN",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZAL CHLORIDE (OR) BENZENE, (DICHLOROMETHYL)-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENAMINE, 2-METHYL-, HYDROCHLORIDE (OR) O-TOLUIDINE HYDROCHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, 1,1'-(2,2-DICHLOROETHYLIDENE)BIS[4-CHLORO- (OR) DDD",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, 1,3-DICHLORO- (OR) M-DICHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, HEXACHLORO- (OR) HEXACHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZENE, PENTACHLORO- (OR) PENTACHLOROBENZENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"BENZO[RST]PENTAPHENE (OR) DIBENZO[A,I]PYRENE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BY-PRODUCT SALTS GENERATED IN THE PRODUCTION OF MSMA AND CACODYLIC ACID.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBAMIC CHLORIDE, DIMETHYL- (OR) DIMETHYLCARBAMOYL CHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CHLORNAPHAZIN (OR) NAPHTHALENAMINE, N,N'-BIS(2-CHLOROETHYL)-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DIPHOSPHORIC ACID, TETRAETHYL ESTER (OR) TETRAETHYL PYROPHOSPHATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANE, 1,1-DICHLORO- (OR) ETHYLIDENE DICHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"FAMPHUR (OR) PHOSPHOROTHIOIC ACID O-[4-[(DIMETHYLAMINO)SULFONYL]PHENYL] O,O-DIMETHYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"FULMINIC ACID, MERCURY(2+) SALT (R,T) (OR) MERCURY FULMINATE (R,T)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+HEAVY ENDS FROM THE DISTILLATION OF VINYL CHLORIDE IN VINYL CHLORIDE MONOMER PRODUCTION.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"LEAD PHOSPHATE (OR) PHOSPHORIC ACID, LEAD(2+) SALT (2:3)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"N-NITROSOPIPERIDINE (OR) PIPERIDINE, 1-NITROSO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PINK/RED WATER FROM TNT OPERATIONS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+PROCESS RESIDUES FROM ANILINE EXTRACTION FROM THE PRODUCTION OF ANILINE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"PROPANE, 1,2-DICHLORO- (OR) PROPYLENE DICHLORIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+SELENOUREA,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+TAR STORAGE RESIDUES FROM COAL TAR REFINING.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"TETRAETHYLDITHIOPYROPHOSPHATE (OR) THIODIPHOSPHORIC ACID, TETRAETHYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+THALLIC OXIDE (OR) THALLIUM OXIDE TL2O3,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+THALLIUM CHLORIDE TLCL (OR) THALLIUM(I) CHLORIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+TOXAPHENE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTES (EXCEPT WASTEWATER AND SPENT CARBON FROM HYDROGEN CHLORIDE PURIFICATION) FROM THE PRODUCTION OF MATERIALS ON EQUIPMENT PREVIOUSLY USED FOR THE MANUFACTURING USE (AS A REACTANT, CHEMICAL INTERMEDIATE, OR COMPONENT IN A FORMULATING PROCESS) OF TETRA-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTEWATER SUMP RESIDUES FROM LIGHT OIL REFINING, INCLUDING, BUT NOT LIMITED TO, INTERCEPTING OR CONTAMINATION SUMP SLUDGES FROM THE RECOVERY OF COKE BY-PRODUCTS PRODUCED FROM COAL.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF TOXAPHENE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER TREATMENT SLUDGE FROM THE PRODUCTION OF ZINC YELLOW PIGMENTS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER TREATMENT SLUDGES FROM THE PRODUCTION OF DISULFOTON.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+WASTEWATER TREATMENT SLUDGES FROM THE PRODUCTION OF ETHLYENE DICHLORIDE OR VINYL CHLORIDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"[1,1'-BIPHENYL]-4,4'-DIAMINE, 3,3'-DICHLORO- (OR) 3,3'-DICHLOROBENZIDINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"2-CYCLOHEXYL-4,6-DINITROPHENOL (OR) PHENOL, 2-CYCLOHEXYL-4,6-DINITRO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"3-METHYLCHOLANTHRENE (OR) BENZ[J]ACEANTHRYLENE, 1,2-DIHYDRO-3-METHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ACETIC ACID, FLUORO-, SODIUM SALT (OR) FLUOROACETIC ACID, SODIUM SALT",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ARGENTATE (1-), BIS(CYANO-C)-, POTASSIUM (OR) POTASSIUM SILVER CYANIDE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ARSINE, DIETHYL- (OR) DIETHYLARSINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"AURAMINE (OR) BENZENAMINE, 4,4'-CARBONIMIDOYLBIS[N,N-DIMETHYL-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+BAGHOUSE DUST AND FLOOR SWEEPINGS IN MILLING AND PACKAGING OPERATIONS FROM PRODUCTION OR FORMULATION OF ETHYLENEBISDITHIOCARBAMIC ACID AND ITS SALTS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"CARBONIC ACID, DITHALLIUM(1+) SALT (OR) THALLIUM(I) CARBONATE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+COLUMN BOTTOMS OR HEAVY ENDS FROM THE COMBINED PRODUCTION OF TRICHLOROETHYLENE AND PERCHLOROETHYLENE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DICHLOROISOPROPYL ETHER (OR) PROPANE, 2,2'-OXYBIS[2-CHLORO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"DISTILLATION BOTTOMS FROM THE PRODUCTION OF 1,1,1-TRICHLOROETHANE.",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+DISTILLATION LIGHT ENDS FROM THE PRODUCTION OF PHTHALIC ANHYDRIDE FROM NAPHTHALENE.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"ETHANOL, 2,2'-(NITROSOIMINO)BIS- (OR) N-NITROSODIETHANOLAMINE",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+GLYCIDYLALDEHYDE (OR) OXIRANECARBOXYALDEHYDE,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"N-NITROSO-N-METHYLUREA (OR) UREA, N-METHYL-N-NITROSO-",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"O,O-DIETHYL O-PYRAZINYL PHOSPHOROTHIOATE (OR) PHOSPHOROTHIOIC ACID, O,O-DIETHYL O-PYRAZINYL ESTER",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+OVEN RESIDUE FROM THE PRODUCTION OF CHROME OXIDE GREEN PIGMENTS.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"SLAG FROM THE PRODUCTION OF ANTIMONY OXIDE THAT IS SPECULATIVELY ACCUMULATED OR DISPOSED,INCLUDING SLAG FROM THE PRODUCTION OF INTERMEDIATES (E.G.,ANTIMONY METAL OR CRUDE ANTIMONY OXIDE)",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+STRIPPING STILL TAILS FROM THE PRODUCTION OF METHYL ETHYL PYRIDINES.,Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
+"WASTEWATER TREATMENT SLUDGES, EXCLUDING NEUTRALIZATION AND BIOLOGICAL SLUDGES, GENERATED DURING THE TREATMENT OF WASTEWATERS FROM THE PRODUCTION OF ALPHA (OR METHYL-) CHLORINATED TOLUNES, BENZOYL CHLORIDES, AND COMPOUNDS WITH MIXTURES OF THESE FUNCTIONAL ",Waste Flows/Hazardous Waste,kg,,0,0,0,0,1,0,0
