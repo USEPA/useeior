@@ -68,6 +68,12 @@ loadIOData <- function(model, configpaths = NULL) {
     model <- getHybridizationSpecs(model, configpaths)
     model <- getHybridizationFiles(model, configpaths)
   }
+  
+  # Check for mixed units
+  if(model$specs$ModelType == "MixedUnits"){
+    temp <- 1
+    
+  }
     
   return(model)
 }
