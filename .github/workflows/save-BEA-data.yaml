@@ -3,17 +3,18 @@
 name: Save BEA Data
 
 on:
-  # push:
-  #   branches: [main, master]
-  #   paths-ignore:
-  #     - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
-  #     - '**.bib'
-  #     - '**.ya?ml'  # captures both .yml and .yaml
-  #     - '**.png'
-  #     # - '**.Rmd'
-  #     - 'LICENSE'
-  #     - '.gitignore'
-  #     - '.gitattributes'
+  push:
+    branches:
+      - 'updateIO'
+    paths-ignore:
+      - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
+      - '**.bib'
+      - '**.ya?ml'  # captures both .yml and .yaml
+      - '**.png'
+      # - '**.Rmd'
+      - 'LICENSE'
+      - '.gitignore'
+      - '.gitattributes'
   # pull_request:
   #   branches: [master, dev]
   #   paths-ignore:
