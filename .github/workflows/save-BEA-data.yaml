@@ -64,13 +64,10 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
           extra-packages: devtools
-      
-       # Load package
-      - name: Load useeior
-        run: Rscript -e 'devtools::load_all'
         
       - name: Download and save BEA data
         run: |
+          devtools::load_all()
           source("data-raw/BEAData.R")
         shell: Rscript {0}
         
