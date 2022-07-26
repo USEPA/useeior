@@ -9,7 +9,7 @@ on:
     paths-ignore:
       - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
       - '**.bib'
-      # - '**.ya?ml'  # captures both .yml and .yaml
+      - '**.ya?ml'  # captures both .yml and .yaml
       - '**.png'
       # - '**.Rmd'
       - 'LICENSE'
@@ -29,7 +29,7 @@ on:
   workflow_dispatch:  # also allow manual trigger, for testing purposes
 
 jobs:
-  validate-model:
+  save-BEA-data:
     runs-on: ${{ matrix.config.os }}
 
     name: save BEA data ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -74,7 +74,7 @@ jobs:
           source("data-raw/BEAData.R")
         shell: Rscript {0}
         
-      - name: Commit model validation results
+      - name: Commit updated BEA IO data
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
