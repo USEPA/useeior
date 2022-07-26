@@ -9,7 +9,7 @@ on:
     paths-ignore:
       - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
       - '**.bib'
-      - '**.ya?ml'  # captures both .yml and .yaml
+      # - '**.ya?ml'  # captures both .yml and .yaml
       - '**.png'
       # - '**.Rmd'
       - 'LICENSE'
