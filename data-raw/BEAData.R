@@ -937,7 +937,7 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
   # Determine year range
   year_range <- colnames(DetailGrossOutput)[2:ncol(DetailGrossOutput)]
   # Map BEA Detail industry code to IO code
-  Detail_mapping <- utils::read.table(system.file("inst/extdata",
+  Detail_mapping <- utils::read.table(system.file("extdata",
                                                   "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv",
                                                   package = "useeior"),
                                       sep = ",", header = TRUE,
@@ -957,7 +957,7 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
   ### Summary ###
   SummaryGrossOutput <- getBEASummaryGrossOutput2012Schema()
   # Map BEA Summary industry code to IO code
-  Summary_mapping <- utils::read.table(system.file("inst/extdata",
+  Summary_mapping <- utils::read.table(system.file("extdata",
                                                    "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv",
                                                    package = "useeior"),
                                        sep = ",", header = TRUE,
@@ -973,7 +973,7 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
   ### Sector ###
   SectorGrossOutput <- getBEASectorGrossOutput2012Schema()
   # Map BEA Sector industry code to IO code
-  Sector_mapping <- utils::read.table(system.file("inst/extdata",
+  Sector_mapping <- utils::read.table(system.file("extdata",
                                                   "Crosswalk_SectorGDPIndustrytoIO2012Schema.csv",
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
@@ -1107,7 +1107,7 @@ mapBEACPItoIOIndustry2012Schema <- function() {
   # Determine year range
   year_range <- colnames(DetailCPI)[2:ncol(DetailCPI)]
   # Map BEA Detail industry code to IO code
-  Detail_mapping <- utils::read.table(system.file("inst/extdata",
+  Detail_mapping <- utils::read.table(system.file("extdata",
                                                   "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv",
                                                   package = "useeior"),
                                       sep = ",", header = TRUE,
@@ -1140,7 +1140,7 @@ mapBEACPItoIOIndustry2012Schema <- function() {
   ### Summary ###
   SummaryCPI <- getBEASummaryCPI2012Schema()
   # Map BEA Summary industry code to IO code
-  Summary_mapping <- utils::read.table(system.file("inst/extdata",
+  Summary_mapping <- utils::read.table(system.file("extdata",
                                                    "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv",
                                                    package = "useeior"),
                                        sep = ",", header = TRUE, stringsAsFactors = FALSE)
@@ -1155,7 +1155,7 @@ mapBEACPItoIOIndustry2012Schema <- function() {
   ### Sector ###
   SectorCPI <- getBEASectorCPI2012Schema()
   # Map BEA Sector industry code to IO code
-  Sector_mapping <- utils::read.table(system.file("inst/extdata",
+  Sector_mapping <- utils::read.table(system.file("extdata",
                                                   "Crosswalk_SectorGDPIndustrytoIO2012Schema.csv",
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
@@ -1259,7 +1259,7 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function() {
   # Determine year range
   year_range <- colnames(SummaryValueAdded)[2:ncol(SummaryValueAdded)]
   # Map BEA Summary industry code to IO code
-  Summary_mapping <- utils::read.table(system.file("inst/extdata",
+  Summary_mapping <- utils::read.table(system.file("extdata",
                                                    "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv",
                                                    package = "useeior"),
                                        sep = ",", header = TRUE, stringsAsFactors = FALSE)
@@ -1274,7 +1274,7 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function() {
   ### Sector ###
   SectorValueAdded <- getBEASectorValueAdded2012Schema()
   # Map BEA Sector industry code to IO code
-  Sector_mapping <- utils::read.table(system.file("inst/extdata",
+  Sector_mapping <- utils::read.table(system.file("extdata",
                                                   "Crosswalk_SectorGDPIndustrytoIO2012Schema.csv",
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
