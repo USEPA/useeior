@@ -16,7 +16,7 @@ The [model object](format_specs/Model.md) is the primary output that is built ac
 Users intending to use the package for production purposes and applications should use [Releases](https://github.com/USEPA/useeior/releases).
 `useeior` v1.0.0 was peer-reviewed internally at USEPA and published at Zenodo.
 
-An peer-reviewed article describing `useeior` was published in the journal Applied Sciences in April 2022
+An peer-reviewed article describing `useeior` was published in the journal Applied Sciences in April 2022.
 If you use `useeior` in a scientific publication, we would appreciate that you cite it using:
 ```
 @article{li_useeior_2022,
