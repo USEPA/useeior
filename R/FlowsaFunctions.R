@@ -36,7 +36,7 @@ getFlowbySectorCollapsed <- function(sat_spec) {
     fbs_collapsed <- fbs[,!(names(fbs) %in% c('SectorProducedBy', 'SectorConsumedBy'))]
   }
   # reorder col
-  fbs_collapsed <- prepareFlowBySectorCollapsedforSatellite(fbs_collapsed)
+  fbs_collapsed <- prepareFlowBySectorCollapsed(fbs_collapsed, satellite=TRUE)
 
   return(fbs_collapsed)
 }
@@ -46,15 +46,18 @@ getFlowbySectorCollapsed <- function(sat_spec) {
 #' Currently only works for national totals (location="00000") and
 #' assumes that sector schema is NAICS_2012_Code
 #' @param fbsc A FlowBySector collapsed df from flowsa
+#' @param satellite bool, set to TRUE when used for env satellite tables
 #' @return A data frame of sector by region totals
-prepareFlowBySectorCollapsedforSatellite <- function(fbsc) {
+prepareFlowBySectorCollapsed <- function(fbsc, satellite=TRUE) {
   # Replace Python type None with NA
   fbsc <- replaceNonewithNA(fbsc)
   # If context is NA replace with blank
   fbsc[,"Context"][is.na(fbsc[,"Context"])] <- ""
+  if(satellite) {
   # Filter technosphere flows
-  acceptable_types <- c("ELEMENTARY_FLOW", "WASTE_FLOW")
-  fbsc <- fbsc[fbsc$FlowType %in% acceptable_types, ]
+    acceptable_types <- c("ELEMENTARY_FLOW", "WASTE_FLOW")
+    fbsc <- fbsc[fbsc$FlowType %in% acceptable_types, ]
+  }
   # Map location codes to names
   fbsc$Location <- mapLocationCodestoNames(fbsc$Location, unique(fbsc$LocationSystem))
   # Remove unused data
@@ -69,6 +72,6 @@ prepareFlowBySectorCollapsedforSatellite <- function(fbsc) {
 getFlowbySector <- function(filepath) {
   f <- loadDataCommonsfile(filepath)
   fbs <- as.data.frame(arrow::read_parquet(f))
-  fbs <- prepareFlowBySectorCollapsedforSatellite(fbs)
+  fbs <- prepareFlowBySectorCollapsed(fbs, satellite=FALSE)
   return(fbs)
 }
