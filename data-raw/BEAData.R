@@ -1111,7 +1111,8 @@ mapBEACPItoIOIndustry2012Schema <- function() {
                                                   "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv",
                                                   package = "useeior"),
                                       sep = ",", header = TRUE,
-                                      stringsAsFactors = FALSE)
+                                      stringsAsFactors = FALSE,
+                                      quote = "\"")
   Detail_mapping$Gross_Output_Detail_Industry <- sub("’", "'",
                                                      Detail_mapping$Gross_Output_Detail_Industry)
   DetailCPIIO <- merge(Detail_mapping, DetailCPI,
