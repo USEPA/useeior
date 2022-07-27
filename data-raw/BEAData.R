@@ -844,7 +844,7 @@ getBEADetailGrossOutput2012Schema <- function() {
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
-                                                      na = )))
+                                                      na = "")))
   sheet <- paste0(content[content$Title ==
                             "U.Gross Output by Industry - Detail Level", "Code"],
                   "-A")
@@ -874,7 +874,7 @@ getBEASummaryGrossOutput2012Schema <- function() {
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
-                                                      na = )))
+                                                      na = "")))
   sheet <- paste0(content[content$Title == "U.Gross Output by Industry", "Code"],
                   "-A")
   SummaryGrossOutput <- as.data.frame(readxl::read_excel(FileName,
@@ -903,7 +903,7 @@ getBEASectorGrossOutput2012Schema <- function() {
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
-                                                      na = )))
+                                                      na = "")))
   sheet <- paste0(content[content$Title == "U.Gross Output by Industry", "Code"],
                   "-A")
   SectorGrossOutput <- as.data.frame(readxl::read_excel(FileName,
@@ -1015,7 +1015,7 @@ getBEADetailCPI2012Schema <- function() {
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
-                                                      na = )))
+                                                      na = "")))
   dataname <- "U.Chain-Type Price Indexes for Gross Output by Industry"
   sheet <- paste0(content[content$Title == paste(dataname, "- Detail Level"), "Code"],
                   "-A")
@@ -1044,7 +1044,7 @@ getBEASummaryCPI2012Schema <- function() {
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
-                                                      na = )))
+                                                      na = "")))
   dataname <- "U.Chain-Type Price Indexes for Gross Output by Industry"
   sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
   SummaryCPI <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
@@ -1072,7 +1072,7 @@ getBEASectorCPI2012Schema <- function() {
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
-                                                      na = )))
+                                                      na = "")))
   dataname <- "U.Chain-Type Price Indexes for Gross Output by Industry"
   sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
   SectorCPI <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
@@ -1197,7 +1197,7 @@ getBEASummaryValueAdded2012Schema <- function() {
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
-                                                      na = )))
+                                                      na = "")))
   dataname <- "U.Value Added by Industry"
   sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
   SummaryValueAdded <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
@@ -1225,7 +1225,7 @@ getBEASectorValueAdded2012Schema <- function() {
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
-                                                      na = )))
+                                                      na = "")))
   dataname <- "U.Value Added by Industry"
   sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
   SectorValueAdded <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
