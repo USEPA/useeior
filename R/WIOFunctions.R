@@ -41,11 +41,23 @@ prepareWIODFfromFBS <- function(fbs, spec, model) {
   sectorlist <- spec$NAICSSectorCW$USEEIO_Code[spec$NAICSSectorCW$Type != "Flowable"]
   year <- fbs$Year[[1]]
 
-  # TEMP Map Sectors and flows to new WIO codes
-  fbs["Flowable"][fbs["Flowable"] == "Concrete"] <- "3273-Waste"
-  fbs["SectorConsumedBy"][fbs["SectorConsumedBy"] == "562920"] <- "562-ConcreteTreatment"
-  fbs["SectorProducedBy"][fbs["SectorProducedBy"] == "562920"] <- "562-ConcreteProd"
-  fbs["Flowable"][fbs["Flowable"] == "Concrete Processed"] <- "3273-Treated"    
+# Map Sectors and flows to new WIO codes
+lookup <- spec$NAICSSectorCW[c("Type", "Tag", "USEEIO_Code")]
+for (col in unique(lookup$Type)){
+  fbs[col] <- dplyr::recode(
+    fbs[[col]],
+    !!!setNames(subset(lookup, Type==col)$USEEIO_Code,
+                subset(lookup, Type==col)$Tag))
+}
+## full dplyr implementation runs into 'promise already under evaluation' error:
+# fbs <- dplyr::mutate(
+#   fbs,
+#   dplyr::across(
+#     dplyr::all_of(unique(lookup$Type)),
+#     ~ dplyr::recode(.x,
+#       !!!setNames(subset(lookup, Type==dplyr::cur_column())$USEEIO_Code,
+#                   subset(lookup, Type==dplyr::cur_column())$Tag))))
+   
   
   # Consolidate master crosswalk on model level and rename
   NAICStoBEA <- unique(model$crosswalk[, c("NAICS","USEEIO")])
