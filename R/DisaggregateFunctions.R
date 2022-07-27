@@ -14,18 +14,33 @@ disaggregateModel <- function (model){
     #Disaggregating main model components
     model$UseTransactions <- disaggregateUseTable(model, disagg)
     model$MakeTransactions <- disaggregateMakeTable(model, disagg)
-    model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
     model$UseValueAdded <- disaggregateVA(model, disagg)
-    model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
     model$DomesticUseTransactions <- disaggregateUseTable(model, disagg, domestic = TRUE)
+    
+    if(model$specs$CommodityorIndustryType=="Commodity") {
+      model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+      model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+    } else {
+      model$FinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+      model$DomesticFinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+      model$InternationalTradeAdjustmentbyCommodity <- disaggregateInternationalTradeAdjustment(model, disagg, NULL, adjustmentByCommodity = TRUE)
+    }
     
     #Balancing model
     if(disagg$DisaggregationType == "Userdefined"){
       model <- balanceDisagg(model, disagg)
     }
 
-    #Recalculate model$CommodityOutput and model$IndustryOutput objects 
-    model <- calculateIndustryCommodityOutput(model)
+    #Recalculate model$CommodityOutput and model$IndustryOutput objects. This if else has to be separate from the one above because 
+    #the calculateIndustryCommodityOutput function is used prior to the creation of model$FinalDemandbyCommodity object, 
+    #and we can't recalculate the commodity and industry totals before balancing. 
+    if(model$specs$CommodityorIndustryType=="Commodity") {
+      model <- calculateIndustryCommodityOutput(model)
+      
+    } else{
+      model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+      model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemandbyCommodity)
+    }
     
     #Disaggregating MultiyearIndustryOutput and MultiYearCommodityOutput 
     model$MultiYearCommodityOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
@@ -41,7 +56,14 @@ disaggregateModel <- function (model){
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
     model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
-
+    
+    # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
+    if (model$specs$CommodityorIndustryType=="Industry") {
+      # Keep the orignal FinalDemand (in by-commodity form)
+      model$FinalDemand <- transformFinalDemandwithMarketShares(model$FinalDemandbyCommodity, model)
+      model$DomesticFinalDemand <- transformFinalDemandwithMarketShares(model$DomesticFinalDemandbyCommodity, model)
+      model$InternationalTradeAdjustment <- unlist(transformFinalDemandwithMarketShares(model$InternationalTradeAdjustmentbyCommodity, model))
+    }
   }
   
   return(model)
@@ -77,7 +99,6 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
 #' @return A model object with the correct disaggregation specs.
 disaggregateSetup <- function (model, configpaths = NULL){
   
-  counter = 1
   for (disagg in model$DisaggregationSpecs){  
     filename <- ifelse(is.null(configpaths),
                        system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
@@ -141,27 +162,126 @@ disaggregateSetup <- function (model, configpaths = NULL){
     } else {
       disagg$EnvAllocRatio <- FALSE
     }
-    #Need to assign these DFs back to the modelspecs
-    model$DisaggregationSpecs[[counter]] <- disagg
-    
-    counter <- counter + 1
+
+    # For Two-region model, develop two-region specs from national disaggregation files
+    if (model$specs$IODataSource=="stateior" & stringr::str_sub(disagg$OriginalSectorCode, start=-3)=="/US") {
+      for(region in model$specs$ModelRegionAcronyms){
+        d2 <- prepareTwoRegionDisaggregation(disagg, region, model$specs$ModelRegionAcronyms)
+        model$DisaggregationSpecs[[d2$OriginalSectorCode]] <- d2
+      }
+      # Remove original disaggregation spec
+      model$DisaggregationSpecs[disagg$OriginalSectorCode] <- NULL
+
+    } else {
+      #Need to assign these DFs back to the modelspecs
+      model$DisaggregationSpecs[[disagg$OriginalSectorCode]] <- disagg
+    }
   }
   
   return(model)
 }
 
+
+#' Generate two-region disaggregation specs from a national spec
+#' @param disagg Specifications for disaggregating the current Table
+#' @param region Str, Location code for target disaggregation specs
+#' @param regions list of location codes from ModelRegionAcronyms
+#' @return modified disagg specs for target region
+prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
+
+  d2 <- disagg
+  OriginalSector <- gsub("/US", "", disagg$OriginalSectorCode)
+  d2$OriginalSectorCode <- paste0(OriginalSector, "/", region)
+  other_region <- regions[regions != region]
+  
+  # Update NAICSSectorCW
+  d2$NAICSSectorCW$USEEIO_Code <- gsub("/US", paste0("/",region), d2$NAICSSectorCW$USEEIO_Code)
+  d2$DisaggregatedSectorCodes <- lapply(d2$DisaggregatedSectorCodes, function(x) gsub("/US", paste0("/",region), x))
+
+  # Duplicate national allocations
+  cols <- c("IndustryCode","CommodityCode")
+  d2$MakeFileDF[cols] <- lapply(d2$MakeFileDF[cols], function(x) gsub("/US", paste0("/",region), x))
+  d2$UseFileDF[cols] <- lapply(d2$UseFileDF[cols], function(x) gsub("/US", paste0("/",region), x))  
+
+  # For Use table, adjust use table intersections for sequential disaggregation
+  rep <- subset(d2$UseFileDF, CommodityCode %in% d2$DisaggregatedSectorCodes &
+                              IndustryCode %in% d2$DisaggregatedSectorCodes)
+  
+  rep1 <- rep
+  rep2 <- rep
+  
+  # For the first pass (region 1), consolidate on the original sector code (not yet disaggregated)
+  if(region == regions[1]) {
+    rep1["CommodityCode"] <- paste0(OriginalSector, "/", other_region)
+    rep1 <- aggregate(PercentUsed ~ IndustryCode + CommodityCode, rep1, sum)
+
+    rep2["IndustryCode"] <- paste0(OriginalSector, "/", other_region)
+    rep2 <- aggregate(PercentUsed ~ IndustryCode + CommodityCode, rep2, sum)
+    
+    # Invert columns for sequential disaggregation
+    rep1[cols] <- rep1[rev(cols)]
+    rep2[cols] <- rep2[rev(cols)]
+    
+    # Add back blank 'Note' column
+    rep <- rbind(rep1, rep2)
+    rep['Note'] <- NA
+
+  } else {
+  # On the second pass (region 2), apply to disaggregated sectors
+
+    # Renormalize intersection columns
+    total <- list()
+    total[c("CommodityCode", "Total")] <- aggregate(PercentUsed ~ CommodityCode,
+                                                    rep1, sum)
+    rep1 <- merge(rep1, total)
+    rep1["PercentUsed"] = rep1["PercentUsed"]/rep1["Total"]
+    rep1["Total"] <- NULL
+    rep1[cols] <- rep1[rev(cols)]
+    rep1["IndustryCode"] <- lapply(rep1["IndustryCode"], function(x) gsub(paste0("/", region), 
+                                                                          paste0("/", other_region), x))
+
+    # Renormalize intersection columns
+    total <- list()
+    total[c("IndustryCode", "Total")] <- aggregate(PercentUsed ~ IndustryCode,
+                                                    rep2, sum)
+    rep2 <- merge(rep2, total)
+    rep2["PercentUsed"] = rep2["PercentUsed"]/rep2["Total"]
+    rep2["Total"] <- NULL
+    rep2[cols] <- rep2[rev(cols)]
+
+    rep2["CommodityCode"] <- lapply(rep2["CommodityCode"], function(x) gsub(paste0("/", region), 
+                                                                            paste0("/", other_region), x))
+    rep <- rbind(rep1, rep2)    
+  }
+  d2$UseFileDF <- rbind(d2$UseFileDF, rep)
+  rownames(d2$UseFileDF) <- NULL
+
+  ## Disaggregate Satellite Table
+  ## TODO
+
+  
+  return(d2)
+}
+
+
 #' Disaggregate model$InternationalTradeAdjustments vector in the main model object
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param disagg Specifications for disaggregating the current Table
 #' @param ratios Specific ratios to be used for the disaggregation of the InternationalTradeAdjusment object in place of using economic totals to derive the ratios.
+#' @param adjustmentByCommodity Flag to denote whether to disaggregate the InternationalTradeAdjustmentbyCommodity object which is only present in industry models
 #' @return newInternationalTradeAdjustment A vector which contains the InternationalTradeAdjustment for the disaggregated sectors
-disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NULL){
+disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NULL, adjustmentByCommodity = FALSE){
+  if (adjustmentByCommodity == FALSE) {
+    originalInternationalTradeAdjustment <- model$InternationalTradeAdjustment
+  } else {
+    originalInternationalTradeAdjustment <- model$InternationalTradeAdjustmentbyCommodity
+  }
+  originalNameList <- names(originalInternationalTradeAdjustment) # Get names from named vector
+#  codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
+#  originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
+  originalIndex <- which(originalNameList == disagg$OriginalSectorCode) # Get row index of the original aggregate sector in the object
   
-  originalInternationalTradeAdjustment <- model$InternationalTradeAdjustment
-  originalNameList <- names(model$InternationalTradeAdjustment) # Get names from named vector
-  codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
-  originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
-  originalRow <- model$InternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
+  originalRow <- originalInternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
   disaggInternationalTradeAdjustment <- rep(originalRow,length(disagg$DisaggregatedSectorCodes)) # Replicate the original a number of times equal to the number of disaggregate sectors
  
   if(is.null(ratios)){# Use default ratios, i.e., commodity output ratios
@@ -245,7 +365,14 @@ disaggregatedRatios <- function(model, disagg, output_type = "Commodity") {
     disaggUseEndIndex <- disaggUseStartIndex+length(disagg$DisaggregatedSectorCodes)-1
     
     #calculate industry ratios after disaggregation from Use table
-    disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemand[disaggUseStartIndex:disaggUseEndIndex,])
+#    disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemand[disaggUseStartIndex:disaggUseEndIndex,])
+    if(model$specs$CommodityorIndustryType == "Industry"){
+      disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemandbyCommodity[disaggUseStartIndex:disaggUseEndIndex,])
+      
+    }else{
+      disaggRatios <- rowSums(model$UseTransactions[disaggUseStartIndex:disaggUseEndIndex,]) + rowSums(model$FinalDemand[disaggUseStartIndex:disaggUseEndIndex,])
+      
+    }
     disaggRatios <- disaggRatios / sum(disaggRatios) 
     
   }
@@ -297,18 +424,18 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
 
   if(list_type == "Commodity") {
     originalList <- model$Commodities
-    originalIndex <- grep(disagg$OriginalSectorCode, model$Commodities$Code_Loc)
-    newSectors <- data.frame(matrix(ncol = ncol(model$Commodities), nrow = length(disagg$DisaggregatedSectorCodes)))
-    names(newSectors) <- names(model$Commodities) #rename columns for the df
-    newSectors$Category <- sapply(disagg$Category, paste0, collapse = "")
-    newSectors$Subcategory <- sapply(disagg$Subcategory, paste0, collapse = "")
-    newSectors$Description <- sapply(disagg$Description, paste0, collapse = "")
   } else {
     #assume industry if not specified
     originalList <- model$Industries
-    originalIndex <- grep(disagg$OriginalSectorCode, model$Industries$Code_Loc)
-    newSectors <- data.frame(matrix(ncol = ncol(model$Industries), nrow = length(disagg$DisaggregatedSectorCodes)))
-    names(newSectors) <- names(model$Industries) #rename columns for the df
+  }
+  originalIndex <- grep(disagg$OriginalSectorCode, originalList$Code_Loc)
+  newSectors <- data.frame(matrix(ncol = ncol(originalList), nrow = length(disagg$DisaggregatedSectorCodes)))
+  names(newSectors) <- names(originalList) #rename columns for the df
+
+  if(list_type == "Commodity") {  
+    newSectors$Category <- sapply(disagg$Category, paste0, collapse = "")
+    newSectors$Subcategory <- sapply(disagg$Subcategory, paste0, collapse = "")
+    newSectors$Description <- sapply(disagg$Description, paste0, collapse = "")
   }
 
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
@@ -491,9 +618,17 @@ disaggregateUseTable <- function (model, disagg, domestic = FALSE) {
 disaggregateFinalDemand <- function(model, disagg, domestic = FALSE) {
 
   if(domestic) {
-    originalFD <-model$DomesticFinalDemand
+    if (model$specs$CommodityorIndustryType=="Commodity") {
+      originalFD <-model$DomesticFinalDemand
+    } else {
+      originalFD <- model$DomesticFinalDemandbyCommodity
+    }
   } else {
-    originalFD <-model$FinalDemand
+    if (model$specs$CommodityorIndustryType=="Commodity") {
+      originalFD <-model$FinalDemand
+    } else {
+      originalFD <- model$FinalDemandbyCommodity
+    }
   }
   #specify type of disaggregation
   disaggType = disagg$DisaggregationType
@@ -558,13 +693,11 @@ disaggregateVA <- function(model, disagg) {
     AllocVADF <- applyAllocation(disagg, VAPercentages, "ValueAdded", model$UseValueAdded)#need to edit applyAllocation to handle value added.
 
     ####assembling disaggregated VA
-
     #Determine number of commodities and industries in DisaggSpecs
     numNewSectors <- length(disagg$DisaggregatedSectorCodes)
 
     #Determine commodity and industry indeces corresponding to the original sector code
     originalColIndex <- which(colnames(model$UseValueAdded)==disagg$OriginalSectorCode)
-
     #Determine end index of disaggregated sectors
     endColIndex <- originalColIndex + numNewSectors
 
@@ -572,7 +705,6 @@ disaggregateVA <- function(model, disagg) {
     tablePartTwo <- model$UseValueAdded[,-(1:originalColIndex)]#all rows, all columns except cols to left of disagg col
     
     disaggTable <- cbind(tablePartOne, AllocVADF, tablePartTwo)
-
   } else {
     stop("Disaggregation not performed, type not defined")
   }
@@ -750,7 +882,7 @@ disaggregateMasterCrosswalk <- function (model, disagg){
 
   secLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1 #used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally be 3 though variable, and sector would be variable
   cw <- disagg$NAICSSectorCW[, c('NAICS_2012_Code','USEEIO_Code')]
-  cw$USEEIO_Code <- sapply(cw$USEEIO_Code, function(x) {substr(x, 1, secLength)})
+  cw$USEEIO_Code <- sub("/.*","",cw$USEEIO_Code) # For all rows in the USEEIO_Code column, remove all characters after (and including) "/"
 
   #Update original sector codes with disaggregated sector codes in the relevant column (i.e. cwColIndex) where rows have an exact match for the disaggregated codes in the NAICS column
   new_cw <-merge(new_cw, cw, by.x=c("NAICS"), by.y=c("NAICS_2012_Code"), all=T)
@@ -760,7 +892,7 @@ disaggregateMasterCrosswalk <- function (model, disagg){
   #Update remaining rows where the original sector is present in cwColIndex but there is no exact match in the NAICS column for the disaggregated sector codes (e.g. 2-5 level NAICS codes)
   remainingDisaggNAICSIndex <- which(new_cw$USEEIO == substr(disagg$OriginalSectorCode,1,secLength))
   
-  for (i in 1:length(remainingDisaggNAICSIndex)){
+  for (i in seq_along(remainingDisaggNAICSIndex)){
     disaggNAICSIndex <- which(new_cw$USEEIO == substr(disagg$OriginalSectorCode,1,secLength))
     crosswalkRow <- new_cw[disaggNAICSIndex[1],] #extract current row where code in last column needs to be updated
     
@@ -773,7 +905,7 @@ disaggregateMasterCrosswalk <- function (model, disagg){
     }
     
     rowReplacements <- disagg$NAICSSectorCW$NAICS_2012_Code[rowComparisons] #Get the NAICS sector codes in the disagg crosswalk that are a match for the NAICS substring in the master crosswalk 
-    rowReplacements <- substr(disagg$NAICSSectorCW$USEEIO_Code[rowComparisons],1,secLength) #Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
+    rowReplacements <- sub("/.*","",disagg$NAICSSectorCW$USEEIO_Code[rowComparisons]) #Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
     rowReplacements <- unique(rowReplacements) #reduce the list to the unique number of disaggregated sectors that the row comparisons map to
     
     crosswalkRow <- crosswalkRow[rep(seq_len(nrow(crosswalkRow)), length(rowReplacements)),, drop=FALSE] #replicate the crosswalk row as many times as there were matches in the substring search
@@ -1049,7 +1181,6 @@ applyAllocation <- function (disagg, allocPercentages, vectorToDisagg, originalT
     rownames(defaultAllocVector) <- newSectorCodes
     
   } else if (vectorToDisagg == "UseCol" || vectorToDisagg == "ValueAdded") {
-
     #Get commodity and/or industry indeces corresponding to the original sector code
     originalVectorIndex <- which(colnames(originalTable)==disagg$OriginalSectorCode)
     #Get original row or column
@@ -1304,10 +1435,17 @@ balanceDisagg <- function(model, disagg){
   tolerance <- ones*0.05#set all elements to 0.05 (ie 5% for all sectors)
   
   if(any(abs(useIndAllocPercentages - makeIndAllocPercentages) > tolerance) || any(abs(useComAllocPercentages - makeComAllocPercentages > tolerance))){
-    
+
     #Balance. Create FullUse from UseTransanctions, UseValueAdded, and Final Demand, then call ApplyRAS
+    
+    if(model$specs$CommodityorIndustryType == "Industry"){
+      FDIndTotals <- data.frame(colSums(model$FinalDemandbyCommodity))
+    } else{
+      FDIndTotals <- data.frame(colSums(model$FinalDemand))
+
+    }
+    
     targetIndTotals <- data.frame(rowSums(model$MakeTransactions))
-    FDIndTotals <- data.frame(colSums(model$FinalDemand))
     colnames(FDIndTotals) <- colnames(targetIndTotals) #needed for rbind step
     targetIndTotals <- rbind(targetIndTotals, FDIndTotals)
     
@@ -1327,11 +1465,20 @@ balanceDisagg <- function(model, disagg){
   #break balancedDisaggFullUse back into model components
   domesticTables <- calculateBalancedDomesticTables(model, disagg, balancedDisaggFullUse)
   
+  if(model$specs$CommodityorIndustryType == "Industry"){
+    model$DomesticFinalDemandbyCommodity <- domesticTables$DomesticFinalDemand
+    model$FinalDemandbyCommodity <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
+    
+  } else{
+    model$DomesticFinalDemand <- domesticTables$DomesticFinalDemand
+    model$FinalDemand <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
+  }
+
+#  model$FinalDemand <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]  
+#  model$DomesticFinalDemand <- domesticTables$DomesticFinalDemand  
+
   model$DomesticUseTransactions <- domesticTables$DomesticUseTransactions
-  model$DomesticFinalDemand <- domesticTables$DomesticFinalDemand
-  
   model$UseTransactions <- balancedDisaggFullUse[1:nrow(model$UseTransactions), 1:ncol(model$UseTransactions)]
-  model$FinalDemand <- balancedDisaggFullUse[1:nrow(model$UseTransactions),-(1:ncol(model$UseTransactions))]
   model$UseValueAdded <- balancedDisaggFullUse[-(1:nrow(model$UseTransactions)),1:ncol(model$UseTransactions)]
 
   return(model)
@@ -1346,11 +1493,20 @@ buildDisaggFullUse <- function(model, disagg) {
   
   disaggFullUse <- rbind(model$UseTransactions, model$UseValueAdded)
   
-  tempVA <- matrix(0, nrow(model$UseValueAdded), ncol(model$FinalDemand))
-  colnames(tempVA) <- colnames(model$FinalDemand)
-  rownames(tempVA) <- rownames(model$UseValueAdded)
-  fullFD <- rbind(model$FinalDemand, tempVA)
+  if(model$specs$CommodityorIndustryType == "Industry"){
+    originalFD <- model$FinalDemandbyCommodity
+  } else{
+    originalFD <- model$FinalDemand
+  }
   
+#  tempVA <- matrix(0, nrow(model$UseValueAdded), ncol(model$FinalDemand))
+  tempVA <- matrix(0, nrow(model$UseValueAdded), ncol(originalFD))
+#  colnames(tempVA) <- colnames(model$FinalDemand)
+  colnames(tempVA) <- colnames(originalFD)
+  rownames(tempVA) <- rownames(model$UseValueAdded)
+#  fullFD <- rbind(model$FinalDemand, tempVA)
+  fullFD <- rbind(originalFD, tempVA)
+    
   disaggFullUse <- cbind(disaggFullUse, fullFD)
   
   return(disaggFullUse)
@@ -1371,7 +1527,14 @@ calculateBalancedDomesticTables <- function(model, disagg, balancedFullUse) {
   domesticUseRatios[is.na(domesticUseRatios)] <- 0# means numerator, denominator, or both are 0
   domesticUseRatios[domesticUseRatios == Inf] <-0 #inf means denominator is 0
   
-  domesticFDRatios <- model$DomesticFinalDemand / model$FinalDemand
+  if(model$specs$CommodityorIndustryType == "Industry"){
+    domesticFDRatios <- model$DomesticFinalDemandbyCommodity / model$FinalDemandbyCommodity
+  } else {
+    domesticFDRatios <- model$DomesticFinalDemand / model$FinalDemand
+  }
+  
+  
+#  domesticFDRatios <- model$DomesticFinalDemand / model$FinalDemand
   domesticFDRatios[is.na(domesticFDRatios)] <-0
   domesticFDRatios[domesticFDRatios == Inf] <- 0
 

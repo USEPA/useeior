@@ -9,16 +9,21 @@ Model specifications are assigned in a yml file based on the parameters shown be
 | IOYear | int | Y | The base IO year |
 | PrimaryRegionAcronym | str | Y | The primary region acronym |
 | ModelRegionAcronyms | list | Y | The model region acronyms |
-| ModelType | str | Y | The model type |
+| ModelType | str | Y | The [model type](#Model-Types) (e.g. `EEIO`) |
 | ModelSource | str | Y | The model source |
 | BasePriceType | str | Y | The model base price type (producer or purchaser) |
 | BasewithRedefinitions | bool | Y | Whether the model is based with redefinitions (TRUE or FALSE) |
 | CommodityorIndustryType | str | Y | Define if this is a commodity x commodity (`Commodity`) or industry x industry (`Industry`) model |
 | ScrapIncluded | bool | Y | Whether the model includes scrap (TRUE or FALSE) |
-| DisaggregationSpecs | str | N | The [disaggregation specifications](https://github.com/USEPA/useeior/tree/master/format_specs/DisaggregationSpecifications.md) |
+| DisaggregationSpecs | str | N | The [disaggregation specifications](https://github.com/USEPA/useeior/blob/hybridization/format_specs/ModelCustomization.md#disaggregation) |
+| HybridizationSpecs | str | N | The [hybridization specifications](https://github.com/USEPA/useeior/blob/hybridization/format_specs/ModelCustomization.md#hybridization-file-specification) |
 | SatelliteTable | list |  | The [satellite table specifications](#Satellite-Table-Specifications) |
 | Indicators | list |  | The [indicator specifications](#Indicator-Specifications) |
 | DemandVectors | list |  | The [demand vector specifications](#Demand-Vector-Specifications) |
+
+## Model Types
+- EEIO: (default) Environmentally Extended Input Output
+- EEIO-IH: Integrated hybrid model
 
 
 ## Satellite Table Specifications

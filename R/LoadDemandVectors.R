@@ -26,11 +26,11 @@ loadDemandVectors <- function(model) {
     #Check if the demand is registered
     i <- meta[row,]
     if (!is.null(DemandVectorFunctionRegistry[[i$Type]][[i$System]])) {
-      logging::loginfo(paste("Loading", i["Name"], "demand vector..."))
+      logging::loginfo(paste("Loading", i["Location"], i["Name"], "demand vector..."))
       func_to_eval <- DemandVectorFunctionRegistry[[i$Type]][[i$System]]
       demandFunction <- as.name(func_to_eval)
       dv <- do.call(eval(demandFunction), list(model))
-      model$DemandVectors$vectors[[i$ID]] <- dv
+      model$DemandVectors$vectors[[i$ID]] <- dv[grepl(i$Location, names(dv))]
     } else {
       stop(paste(i$Type,i$System,"not found in registered demand vector functions. This vector must be registered or removed from the model spec."))
     }
@@ -47,14 +47,18 @@ loadDemandVectors <- function(model) {
 loadDefaultDemandVectorMeta <- function(model) {
   meta <- data.frame()
   specs <- getConfiguration("DefaultDemandVectors", "demand")
-  for (v in names(specs)) {
-    # Populate metadata
-    i <- specs[[v]]
-    i["Name"] <- v
-    i["Year"] <- model$specs$IOYear
-    i["Location"] <- model$specs$ModelRegionAcronyms[1]
-    i["ID"] <- createDemandID(i)
-    meta <- rbind(meta, as.data.frame(i, stringsAsFactors = FALSE))
+  for (r in model$specs$ModelRegionAcronyms) {
+    meta_r <- data.frame()
+    for (v in names(specs)) {
+      # Populate metadata
+      i <- specs[[v]]
+      i["Name"] <- v
+      i["Year"] <- model$specs$IOYear
+      i["Location"] <- r
+      i["ID"] <- createDemandID(i)
+      meta_r <- rbind(meta_r, as.data.frame(i, stringsAsFactors = FALSE))
+    }
+    meta <- rbind(meta, meta_r)
   }
   return(meta)
 }

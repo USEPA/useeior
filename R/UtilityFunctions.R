@@ -28,9 +28,9 @@ joinStringswithSlashes <- function(...) {
 #' @param matrix      A matrix
 #' @param from_level  The level of BEA code this matrix starts at
 #' @param to_level    The level of BEA code this matrix will be aggregated to
-#' @param specs       Model specifications
+#' @param model       An EEIO model object with model specs and crosswalk table loaded
 #' @return An aggregated matrix
-aggregateMatrix <- function (matrix, from_level, to_level, specs) {
+aggregateMatrix <- function (matrix, from_level, to_level, model) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste0("BEA_", from_level)
   to_code <- paste0("BEA_", to_level)
@@ -180,17 +180,39 @@ loadDataCommonsfile <- function(static_file) {
   return(f)
 }
 
-#' Maps a vector of FIPS codes to location codes
-#' ! Placeholder only works for '00000' now
+#' Maps a vector of 5-digit FIPS codes to location names
 #' @param fipscodes A vector of 5 digit FIPS codes
-#' @return A vector of location codes where matches are found
-mapFIPS5toLocationCodes <- function(fipscodes) {
-  mapping <- c('00000' = 'US')
-  
-  locations <- stringr::str_replace_all(string = fipscodes,pattern = mapping)
+#' @param fipssystem A text value specifying FIPS System, can be FIPS_2015
+#' @return A vector of location names where matches are found
+mapFIPS5toLocationNames <- function(fipscodes, fipssystem) {
+  mapping_file <- "Crosswalk_FIPS.csv"
+  mapping <- utils::read.table(system.file("extdata", mapping_file, package = "useeior"),
+                               sep = ",", header = TRUE, stringsAsFactors = FALSE, 
+                               check.names = FALSE, quote = "")
+  # Add leading zeros to FIPS codes if necessary
+  if (!fipssystem%in%colnames(mapping)) {
+    fipssystem <- max(which(startsWith(colnames(mapping), "FIPS")))
+  }
+  mapping[, fipssystem] <- formatC(mapping[, fipssystem], width = 5, format = "d", flag = "0")
+  mapping <- mapping[mapping[, fipssystem]%in%fipscodes, ]
+  # Get locations based on fipscodes
+  locations <- stringr::str_replace_all(string = fipscodes,
+                                        pattern = setNames(as.vector(mapping$State),
+                                                           mapping[, fipssystem]))
   return(locations)
-}  
-  
+}
+
+#' Maps location codes to names
+#' @param codes A vector of location codes
+#' @param codesystem A text value specifying code system, e.g. FIPS.
+#' @return A vector of location names where matches are found.
+mapLocationCodestoNames <- function(codes, codesystem) {
+  func_dict <- list("FIPS" = "mapFIPS5toLocationNames") # add more component for new location codes
+  func_to_eval <- func_dict[[codesystem]]
+  location_names <- do.call(eval(as.name(func_to_eval)), list(codes, codesystem))
+  return(location_names)
+}
+
 #' Replaces all `None` in a dataframe with the R NULL type NA
 #' @param df A data frame
 #' @return A data frame without `None`
@@ -362,25 +384,45 @@ generateModelSectorSchema <- function(model) {
 #' @param year A numeric value specifying data year.
 #' @param source A string specifying data source.
 #' @param url A string specifying data url.
+#' @param date_last_modified A string specifying when the original data was
+#' last modified by provider, e.g. BEA.
+#' @param date_accessed A string specifying when the original data was accessed
+#' by package.
 #' @description Write metadata of downloaded data to JSON.
-writeMetadatatoJSON <- function(package, name, year, source, url) {
-  metadata <- list("tool" = utils::packageDescription(package, fields = "Package"),
-                   #"category" = "",
+writeMetadatatoJSON <- function(package,
+                                name,
+                                year,
+                                source,
+                                url,
+                                date_last_modified,
+                                date_accessed) {
+  metadata <- list("tool" = utils::packageDescription(package,
+                                                      fields = "Package"),
                    "name_data" = name,
-                   "tool_version" = utils::packageDescription(package, fields = "Version"),
+                   "tool_version" = utils::packageDescription(package,
+                                                              fields = "Version"),
                    #"git_hash" = "",
                    "ext" = "json",
-                   "date_created" = Sys.time(),
-                   "tool_meta" = list(#"method_url" = "",
-                                      "data_year" = year,
+                   "date_created" = Sys.Date(),
+                   "data_meta" = list("data_year" = year,
                                       "author" = source,
-                                      #"source_name" = "",
                                       "source_url" = url,
-                                      "bib_id" = ""))
+                                      "date_last_modified" = date_last_modified,
+                                      "date_accessed" = date_accessed))
   metadata_dir <- "inst/extdata/metadata/"
   if (!dir.exists(metadata_dir)) {
     dir.create(metadata_dir, recursive = TRUE)
   }
   write(jsonlite::toJSON(metadata, pretty = TRUE),
         paste0(metadata_dir, paste0(name, "_metadata"), ".json"))
+}
+
+#' Format location in state models from formal state name to US-ST
+#' @param location A text value of input location name
+#' @return A text value of formatted location for state models
+formatLocationforStateModels <- function(location) {
+  loc <- stringr::str_replace_all(string = tolower(location),
+                                  pattern = setNames(paste("US", state.abb, sep = "-"),
+                                                     tolower(state.name)))
+  return(loc)
 }

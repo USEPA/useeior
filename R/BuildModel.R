@@ -19,10 +19,6 @@ buildModel <- function(modelname, configpaths = NULL) {
 #' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
 #' @return A list with EEIO matrices.
 constructEEIOMatrices <- function(model) {
-  if(model$specs$ModelRegionAcronyms!="US"){
-    stop("This function needs to be revised before it is suitable for multi-regional models")
-  }
-  
   # Combine data into a single totals by sector df
   model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
   # Set common year for flow when more than one year exists
@@ -47,7 +43,6 @@ constructEEIOMatrices <- function(model) {
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
                                                 DomesticFinalDemand_df),
                                           model$UseValueAdded)) # DomesticUse
-  colnames(model$U)[which(colnames(model$U)=="model$InternationalTradeAdjustment")] <- model$InternationalTradeAdjustmentMeta$Code_Loc
   colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
@@ -68,6 +63,11 @@ constructEEIOMatrices <- function(model) {
     model$A_d <- model$V_n %*% model$U_d_n
   }
   
+  if(model$specs$ModelType == "EEIO-IH"){
+    model$A <- hybridizeAMatrix(model)
+    model$A_d <- hybridizeAMatrix(model, domestic=TRUE)
+  }
+
   # Calculate total requirements matrix as Leontief inverse (L) of A
   logging::loginfo("Calculating L matrix (total requirements)...")
   I <- diag(nrow(model$A))
@@ -79,7 +79,11 @@ constructEEIOMatrices <- function(model) {
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
   model$B <- createBfromFlowDataandOutput(model)
-  
+
+  if(model$specs$ModelType == "EEIO-IH"){
+    model$B <- hybridizeBMatrix(model)
+  }
+    
   # Generate C matrix
   logging::loginfo("Building C matrix (characterization factors for model indicators)...")
   model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
@@ -123,6 +127,10 @@ constructEEIOMatrices <- function(model) {
                          "InternationalTradeAdjustmentbyCommodity"))
   }
   model <- within(model, rm(list = mat_to_remove))
+  
+  if(model$specs$ModelType == "EEIO-IH"){
+    model <- hybridizeModelObjects(model)
+  }  
   
   logging::loginfo("Model build complete.")
   return(model)

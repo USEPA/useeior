@@ -1,0 +1,61 @@
+Model: "GAEEIOv2.0-s-WAT" # 2012 Summary, Commodity
+BaseIOSchema: 2012
+BaseIOLevel: "Summary"
+IOYear: 2012 # Year for IO data
+ModelRegionAcronyms: ["US-GA", "RoUS"]
+ModelType: "EEIO"
+IODataSource: "stateior"
+IODataVersion: "0.1.0"
+BasePriceType: "PRO" #producer
+BasewithRedefinitions: FALSE
+CommodityorIndustryType: "Commodity"
+ScrapIncluded: FALSE
+DisaggregationSpecs: null
+  
+SatelliteTable:
+  WAT:
+    FullName: "Water withdrawals"
+    Abbreviation: "WAT"
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/Water_state_2015_m1_v1.1_b05ad38.parquet"
+    FileLocation: "DataCommons"
+    DataYears: [2015]
+    SectorListSource: "NAICS"
+    SectorListYear: 2012
+    SectorListLevel: "6"
+    OriginalFlowSource: "FEDEFLv1.0.6"
+    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+    ScriptFunctionParameters: null
+    DataSources:
+      USGS_NWIS_WU_2015:
+        Title: "Water Use in the US"
+        Author: "USGS"
+        DataYear: 2015
+        URL: "https://waterdata.usgs.gov/"
+        Primary: TRUE
+
+Indicators:
+  freshwater_withdrawal:
+    Name: "Freshwater withdrawals"
+    Code: "WATR"
+    Group: "Resource Use"
+    Unit: "kg"
+    SimpleUnit: "Kilograms"
+    SimpleName: "Water Use" 
+    StaticSource: TRUE
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_5555779.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["freshwater_resources"]
+    DataSources:
+      LCIAformatter:
+        Title: "LCIAformatter FEDEFL Inventory Methods"
+        Author: "USEPA"
+        DataYear: 2020
+        URL: "https://github.com/USEPA/LCIAformatter"
+        Primary: TRUE
+
+DemandVectors:
+    DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
+# Additional demand vectors beyond useeior defaults

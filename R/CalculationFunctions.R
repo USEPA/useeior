@@ -48,18 +48,18 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
   f <- as.matrix(d)  
   # Calculate LCI and LCIA in direct or final perspective
   if (perspective=="DIRECT") {
-    # Calculate DirectPerspectiveLCI (transposed m_d with total impacts in form of sectorxflows)
+    # Calculate Direct Perspective LCI (a matrix with direct impacts in form of sector x flows)
     logging::loginfo("Calculating Direct Perspective LCI...")
     s <- getScalingVector(L, f)
     result$LCI_d <- calculateDirectPerspectiveLCI(model$B, s)
-    # Calculate DirectPerspectiveLCIA (transposed u_d with total impacts in form of sectorximpact categories)
+    # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Direct Perspective LCIA...")
     result$LCIA_d <- calculateDirectPerspectiveLCIA(model$D, s)
   } else if (perspective=="FINAL") {
-    # Calculate FinalPerspectiveLCI 
+    # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Final Perspective LCI...")
     result$LCI_f <- calculateFinalPerspectiveLCI(model$M, f)
-    # Calculate FinalPerspectiveLCIA 
+    # Calculate Final Perspective LCIA (matrix with total impacts in form of sector x impacts)
     logging::loginfo("Calculating Final Perspective LCIA...")
     result$LCIA_f <- calculateFinalPerspectiveLCIA(model$N, f)
   }
@@ -69,7 +69,8 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
 }
 
 
-#' Multiply the Leontief inverse L and the demand vector.
+#' Multiply the Leontief inverse L and the demand vector to calculate scaling vector
+#' that represents production needed to fulfill the demand.
 #' @param L Leontief inverse.
 #' @param demand Final demand vector.
 #' @return Scaling vector.
@@ -82,29 +83,30 @@ getScalingVector <- function(L, demand) {
   return(s)
 }
 
-#' Multiply the B matrix and the scaling vector c.
+#' The direct perspective LCI aligns flows with sectors consumed by direct use.
+#' Multiply the B matrix and the scaling vector s.
 #' @param B Marginal impact per unit of the environmental flows.
 #' @param s Scaling vector.
-#' @return A transposed matrix with total impacts in form of sector x flows.
+#' @return A matrix with direct impacts in form of sector x flows.
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
-#' SI1, Equation 8.
+#' SI1, Equation 9.
 calculateDirectPerspectiveLCI <- function(B, s) {
   lci_d <- t(B %*% diag(as.vector(s), nrow(s)))
   rownames(lci_d) <- rownames(s)
   return(lci_d)
 }
 
-#' The final perspective LCI aligns flows with sectors consumed by final users
+#' The final perspective LCI aligns flows with sectors consumed by final users.
 #' Multiply the M matrix and the diagonal of demand, y.
 #' @param M, a model M matrix, direct + indirect flows per $ output of sector.
 #' @param y, a model demand vector
-#' @return A matrix of model sectors x model flows with total flows per sector
+#' @return A matrix with total impacts in form of sectors x flows..
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
-#' SI1, Equation 8.
+#' SI1, Equation 10.
 calculateFinalPerspectiveLCI <- function(M, y) {
   lci_f <- t(M %*% diag(as.vector(y)))
   colnames(lci_f) <- rownames(M)
@@ -112,29 +114,30 @@ calculateFinalPerspectiveLCI <- function(M, y) {
   return(lci_f)
 }
 
-#' Multiply the C matrix and the product of B matrix and scaling vector c.
+#' The direct perspective LCIA aligns impacts with sectors consumed by direct use.
+#' Multiply the D matrix (the product of C matrix and B matrix) and scaling vector s.
 #' @param D Direct impact per unit of the environmental flows.
 #' @param s Scaling vector.
-#' @return A transposed matrix with total impacts in form of sector x impact categories.
+#' @return A matrix with direct impacts in form of sector x impact categories.
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
-#' SI1, Equation 8.
+#' SI1, Equation 9.
 calculateDirectPerspectiveLCIA <- function(D, s) {
   lcia_d <- t(D %*% diag(as.vector(s), nrow(s)))
   rownames(lcia_d) <- rownames(s)
   return(lcia_d)
 }
 
-#' The final perspective aligns impacts with sectors consumed by final users
+#' The final perspective LCIA aligns impacts with sectors consumed by final users.
 #' Multiply the N matrix and the diagonal of demand, y.
 #' @param N, a model N matrix, direct + indirect impact per unit of the environmental flows.
 #' @param y, a model demand vector
-#' @return A transposed matrix with total impacts in form of sector x impact categories.
+#' @return A matrix with total impacts in form of sector x impact categories.
 #' @references Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 #' 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
-#' SI1, Equation 8.
+#' SI1, Equation 10.
 calculateFinalPerspectiveLCIA <- function(N, y) {
   lcia_f <- t(N %*% diag(as.vector(y)))
   colnames(lcia_f) <- rownames(N)
@@ -302,4 +305,46 @@ calculateMarginSectorImpacts <- function(model) {
              "N_margin" = model$N %*% A_margin)
   logging::loginfo("Model margin impacts calculated.")
   return(ls)
+}
+
+#' For a given indicator, disaggregate total impacts per purchase (N) into 
+#' direct impacts (D) and upstream, Tier 1 purchase impacts. Return a long format
+#' dataframe of exchanges, with sector names mapped to sector codes.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param indicator str, index of a model indicator, e.g. "Greenhouse Gases".
+#' @export
+#' @return A data frame of direct and per-tier-1-purchase sector impacts
+disaggregateTotalToDirectAndTier1 <- function(model, indicator) {
+  sector_map <- setNames(model$Commodities$Name, model$Commodities$Code_Loc)
+  
+  # direct sector impacts
+  df_D <- tibble::enframe(model$D[indicator,])
+  df_D <- dplyr::rename(df_D, impact_per_purchase=value, sector_code=name) 
+  # assign "Direct" as purchased commodity label for data-vis & stat convenience
+  df_D <- dplyr::mutate(df_D, purchased_commodity = 'Direct')
+  
+  # total impacts per Tier 1 purchase by sector
+  df_N <- calculateTotalImpactbyTier1Purchases(model, indicator) 
+  df_N <- tibble::as_tibble(df_N, rownames="purchased_commodity_code") 
+  df_N <- reshape2::melt(df_N, id.vars="purchased_commodity_code", 
+                         variable.name="sector_code", 
+                         value.name="impact_per_purchase") 
+  df_N <- dplyr::mutate(df_N, purchased_commodity = dplyr::recode(
+    purchased_commodity_code, !!!sector_map))
+  
+  # combined df 
+  df_impacts <- dplyr::bind_rows(df_N, df_D) 
+  df_impacts <- dplyr::mutate(df_impacts, sector = dplyr::recode(sector_code, !!!sector_map))
+  return(df_impacts)
+}
+
+#' Calculate sector x sector total impacts (single indicator) for Tier 1 purchases
+#' Multiply each row of sector x sector A matrix by scalar elements of an
+#' indicator (single) x sector array from N
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @param indicator str, index of a model indicator, e.g. "Greenhouse Gases".
+#' @return A sector x sector, impact-per-tier-1-purchase matrix.
+calculateTotalImpactbyTier1Purchases <- function(model, indicator) {
+  totalImpactPerPurchase <- model$N[indicator,] * model$A
+  return(totalImpactPerPurchase)
 }

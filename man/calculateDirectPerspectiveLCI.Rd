@@ -2,7 +2,8 @@
 % Please edit documentation in R/CalculationFunctions.R
 \name{calculateDirectPerspectiveLCI}
 \alias{calculateDirectPerspectiveLCI}
-\title{Multiply the B matrix and the scaling vector c.}
+\title{The direct perspective LCI aligns flows with sectors consumed by direct use.
+Multiply the B matrix and the scaling vector s.}
 \usage{
 calculateDirectPerspectiveLCI(B, s)
 }
@@ -12,14 +13,15 @@ calculateDirectPerspectiveLCI(B, s)
 \item{s}{Scaling vector.}
 }
 \value{
-A transposed matrix with total impacts in form of sector x flows.
+A matrix with direct impacts in form of sector x flows.
 }
 \description{
-Multiply the B matrix and the scaling vector c.
+The direct perspective LCI aligns flows with sectors consumed by direct use.
+Multiply the B matrix and the scaling vector s.
 }
 \references{
 Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
-SI1, Equation 8.
+SI1, Equation 9.
 }

@@ -95,8 +95,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   USEEIOtoXLSX_ls[[sector_meta_name]] <- USEEIOtoXLSX_ls$sectors
   
   demand_meta_fields <- colnames(USEEIOtoXLSX_ls$sectors)
-  demand_meta_fields <- demand_meta_fields[(demand_meta_fields != "Category") &
-                                             (demand_meta_fields != "Subcategory")]
+  demand_meta_fields <- demand_meta_fields[!demand_meta_fields %in% c("Category", "Subcategory", "Unit")]
   # Remove USEEIOtoXLSX_ls$sectors
   USEEIOtoXLSX_ls$sectors <- NULL
   

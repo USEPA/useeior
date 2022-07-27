@@ -2,7 +2,8 @@
 % Please edit documentation in R/CalculationFunctions.R
 \name{calculateDirectPerspectiveLCIA}
 \alias{calculateDirectPerspectiveLCIA}
-\title{Multiply the C matrix and the product of B matrix and scaling vector c.}
+\title{The direct perspective LCIA aligns impacts with sectors consumed by direct use.
+Multiply the D matrix (the product of C matrix and B matrix) and scaling vector s.}
 \usage{
 calculateDirectPerspectiveLCIA(D, s)
 }
@@ -12,14 +13,15 @@ calculateDirectPerspectiveLCIA(D, s)
 \item{s}{Scaling vector.}
 }
 \value{
-A transposed matrix with total impacts in form of sector x impact categories.
+A matrix with direct impacts in form of sector x impact categories.
 }
 \description{
-Multiply the C matrix and the product of B matrix and scaling vector c.
+The direct perspective LCIA aligns impacts with sectors consumed by direct use.
+Multiply the D matrix (the product of C matrix and B matrix) and scaling vector s.
 }
 \references{
 Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
-SI1, Equation 8.
+SI1, Equation 9.
 }
