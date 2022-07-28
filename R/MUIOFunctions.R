@@ -98,8 +98,8 @@ convertSectorsToPhysical <- function (model, configpaths = NULL){
   # Replace only multi year outputs for the curret model year?
   multiYearComOutputIndex <- which(colnames(model$MultiYearCommodityOutput) == model$specs$IOYear)
   multiYearIndOutputIndex <- which(colnames(model$MultiYearIndustryOutput) == model$specs$IOYear)
-  model$MultiYearCommodityOutput[,multiYearComOutputIndex] == model$CommodityOutput
-  model$MultiYearIndustryOutput[,multiYearIndOutputIndex] == model$IndustryOutput
+  model$MultiYearCommodityOutput[,multiYearComOutputIndex] <- model$CommodityOutput
+  model$MultiYearIndustryOutput[,multiYearIndOutputIndex] <- model$IndustryOutput
   
   temp <- 2
   
