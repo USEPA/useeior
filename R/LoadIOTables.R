@@ -70,8 +70,10 @@ loadIOData <- function(model, configpaths = NULL) {
   }
   
   # Check for mixed units
-  if(model$specs$ModelType == "MixedUnits"){
+  if(model$specs$ModelType == "MUIO"){
     temp <- 1
+    model <- getMUIOSectors(model, configpaths)
+    model <- convertSectorsToPhysical(model, configpaths)
     
   }
     
