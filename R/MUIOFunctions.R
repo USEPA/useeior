@@ -5,16 +5,6 @@
 #' @return A model with the specified WIO specs.
 getMUIOSectors <- function (model, configpaths = NULL){
   
-  # model$WIOSpecs <- vector(mode='list')
-  # 
-  # for (configFile in model$specs$WIOSpecs){
-  #   logging::loginfo(paste0("Loading WIO specification file for ", configFile, "..."))
-  #   config <- getConfiguration(configFile, "WIO", configpaths)
-  #   
-  #   if('WIO' %in% names(config)){
-  #     model$WIOSpecs <- append(model$WIOSpecs, config$WIO)
-  #   }
-  # }
   MUIOSectors <- data.frame()
   if(is.null(model$DisaggregationSpecs))
   {
