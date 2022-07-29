@@ -73,6 +73,7 @@ reorderPhysicalSectors <- function (model, physComIndeces, physIndIndeces, econC
 #' @return A model with the specified WIO specs.
 convertSectorsToPhysical <- function (model, configpaths = NULL){
   
+  logging::loginfo("Converting select sectors to physical units...")
   # Get the sectors we want to convert to physical, as well as the "other" sector that will house the off-diagonal values from the original sector
   physicalMUIOSectors <- subset(model$MUIOSectors, model$MUIOSectors$Unit != "USD")
   economicMUIOSectors <- subset(model$MUIOSectors, model$MUIOSectors$Unit == "USD")
