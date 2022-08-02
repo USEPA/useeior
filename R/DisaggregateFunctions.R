@@ -224,7 +224,6 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
   
   # Rename the rows of the vector
   disaggRowNames <- unlist(disagg$NewSectorCodes)
-  disaggRowNames <- sapply(strsplit(disaggRowNames, split = "/"), "[",1)
   names(disaggInternationalTradeAdjustment) <- disaggRowNames
   
   # Combine elements in a new vector
@@ -474,6 +473,8 @@ disaggregateSatelliteTable <- function (disagg, tbs, sat_spec) {
         included_sectors <- unique(new_sector_totals[,"Sector"])
         if (!identical(sort(included_sectors),sort(unlist(gsub("/.*","",disagg$NewSectorCodes))))) {
           logging::logwarn("Satellite table does not include all disaggregated sectors")
+          # Drop sectors that are not part of this disaggregation
+          new_sector_totals <- subset(new_sector_totals, Sector %in% gsub("/.*","",disagg$DisaggregatedSectorCodes))
         }
         # Append to the main dataframe
         sattable <- rbind(sattable,new_sector_totals)
