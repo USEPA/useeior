@@ -28,7 +28,7 @@ getWIOSpecs <- function (model, configpaths = NULL){
 #' @return A model object with the correct WIO specs.
 getWIOFiles <- function (model, configpaths = NULL){ 
   
-  model <- disaggregateSetup(model, configpaths)
+  model <- disaggregateSetup(model, configpaths, "WIO")
 
   return(model)
 }
@@ -93,7 +93,7 @@ for (col in unique(lookup$Type)){
   
   # Separate out use data
   use1 <- fbs[fbs$SectorConsumedBy %in% sectorlist, ]
-  use1$WIOSection <- 'Waste Generation Mass'
+  use1$WIOSection <- 'Waste Generation by Mass'
   use1 <- dplyr::rename_with(use1, ~c('CommodityCode', 'IndustryCode'),
                              all_of(c('Flowable', 'SectorProducedBy')))
   use1$SectorConsumedBy <- NULL
