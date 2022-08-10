@@ -172,7 +172,14 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
 
     if(!is.null(spec$SourceFile)) {
       fbs <- getFlowbySector(spec$SourceFile)
-      spec <- append(spec, prepareWIODFfromFBS(fbs, spec, model))
+      
+      # TODO: check if this if statement is necessary. 
+      # That is, confirm that disaggregation cannot happen from SourceFile and thus this if statement would not be entered 
+      # for setupType == Disaggregation
+      if(setupType == "WIO"){
+        spec <- append(spec, prepareWIODFfromFBS(fbs, spec, model))
+      }
+
     }
         
     if("FlowRatio" %in% colnames(spec$EnvFileDF)) {
