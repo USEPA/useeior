@@ -259,6 +259,9 @@ disaggregateMargins <- function(model, disagg) {
   
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
   codeLength <- nchar(gsub("/.*", "", disagg$NewSectorCodes[1]))
+
+  #  codeLength <- nchar(gsub("/.*", "", disagg$NewSectorCodes)) # Possible fix for removing an extra / when new sector codes don't have same codeLength, along with similar change in disaggregateSectorDFs
+
   disaggMargins$Code_Loc <- unlist(disagg$NewSectorCodes)#replace Code_Loc values from aggregate sector with Code_Loc values for disaggregated sectors. Need to unlist for compatibility with Rho matrix later in the model build process.
   disaggMargins$SectorCode <- substr(disagg$NewSectorCodes,1,codeLength) #replace SectorCode values from aggregate sector with Code_Loc values for disaggregated sectors, except for the geographic identifer
   disaggMargins$Name <- unlist(disagg$NewSectorNames)#replace Name values from aggregate sector with Name values for disaggregated sectors.  Need to unlist for compatibility with other functions later in the model build process.
@@ -378,6 +381,9 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
 
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
   codeLength <- nchar(gsub("/.*", "", disagg$NewSectorCodes[1]))
+
+#  codeLength <- nchar(gsub("/.*", "", disagg$NewSectorCodes)) #  # Possible fix for removing an extra / when new sector codes don't have same codeLength, along with similar change in disaggregateMargins
+  
   newSectors$Code <- substr(disagg$NewSectorCodes,1,codeLength)
   newSectors$Code_Loc <- sapply(disagg$NewSectorCodes, paste0, collapse = "")#sapply needed to convert NewSectorCodes from list to char vector
   newSectors$Name <- sapply(disagg$NewSectorNames, paste0, collapse = "")
