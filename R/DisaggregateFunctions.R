@@ -371,6 +371,7 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
     newSectors$Category <- sapply(disagg$Category, paste0, collapse = "")
     newSectors$Subcategory <- sapply(disagg$Subcategory, paste0, collapse = "")
     newSectors$Description <- sapply(disagg$Description, paste0, collapse = "")
+
   } else {
     #assume industry if not specified
     originalList <- model$Industries
@@ -379,6 +380,7 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
     names(newSectors) <- names(model$Industries) #rename columns for the df
   }
 
+  newSectors$Unit <- sapply("USD", paste0, collapse = "")
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
   codeLength <- nchar(gsub("/.*", "", disagg$NewSectorCodes[1]))
 
