@@ -82,6 +82,10 @@ convertSectorsToPhysical <- function (model, configpaths = NULL){
   model$IndustryOutput <- rowSums(model$MakeTransactions)
   model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
   
+  # Replace Unit column in model$Industries and model$Commodities objects with appropriate unit
+  model$Commodities$Unit[physComIndeces] <- physicalMUIOSectors$Unit
+  model$Industries$Unit[physIndIndeces] <- physicalMUIOSectors$Unit
+  
   # Move physical sectors to top-left quadrant of tables, followed by non-physical MUIO sectors
   model <- reorderPhysicalSectors(model, physComIndeces, physIndIndeces, econComIndeces, econIndIndeces)
   
