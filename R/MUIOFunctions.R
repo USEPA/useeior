@@ -40,28 +40,9 @@ reorderPhysicalSectors <- function (model, physComIndeces, physIndIndeces, econC
   indOrder <- indOrder[-(MUIOIndOrder)]
   indOrder <- c(MUIOIndOrder, indOrder)
   
-  # Rearrange relevant model objects
-  model$UseTransactions <- model$UseTransactions[comOrder, indOrder]
-  model$DomesticUseTransactions <- model$UseTransactions[comOrder, indOrder]
-  model$FinalDemand <- model$FinalDemand[comOrder, ]
-  model$DomesticFinalDemand <- model$DomesticFinalDemand[comOrder, ]
-  model$UseValueAdded <- model$UseValueAdded[, indOrder]
-  model$MakeTransactions <- model$MakeTransactions[indOrder, comOrder]
-  model$Commodities <- model$Commodities[comOrder, ]
-  model$Industries <- model$Industries[indOrder, ]
-  model$InternationalTradeAdjustment <- model$InternationalTradeAdjustment[comOrder]
-  model$MultiYearCommodityOutput <- model$MultiYearCommodityOutput[comOrder,]
-  model$MultiYearIndustryOutput <- model$MultiYearIndustryOutput[indOrder,]
-  model$MultiYearCommodityCPI <- model$MultiYearCommodityCPI[comOrder,]
-  model$MultiYearIndustryCPI <- model$MultiYearIndustryCPI[indOrder,]
-  model$CommodityOutput <- model$CommodityOutput[comOrder]
-  model$IndustryOutput <- model$IndustryOutput[indOrder]
-  
-  # Replace only multi year outputs for the curret model year?
-  multiYearComOutputIndex <- which(colnames(model$MultiYearCommodityOutput) == model$specs$IOYear)
-  multiYearIndOutputIndex <- which(colnames(model$MultiYearIndustryOutput) == model$specs$IOYear)
-  model$MultiYearCommodityOutput[,multiYearComOutputIndex] <- model$CommodityOutput
-  model$MultiYearIndustryOutput[,multiYearIndOutputIndex] <- model$IndustryOutput
+  # TODO: replace code below with a call to reoderModelSectors function
+  model <- reorderModelSectors(model, comOrder, indOrder)
+
   
   return(model)
 }
