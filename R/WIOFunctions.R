@@ -98,11 +98,20 @@ for (col in unique(lookup$Type)){
                              all_of(c('Flowable', 'SectorProducedBy')))
   use1$SectorConsumedBy <- NULL
   use2 <- fbs[fbs$SectorProducedBy %in% sectorlist, ]
-  use2$WIOSection <- 'Waste Treatment Commodities Mass'  
+  use2$WIOSection <- 'Waste Treatment Commodities'  
   use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
                              all_of(c('Flowable', 'SectorConsumedBy')))
   use2$SectorProducedBy <- NULL
-  use <- rbind(use1, use2)
+  
+  # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors
+  if(is.null(spec$BEASectorsAsTreatmentSectors)){
+    use <- rbind(use1, use2)
+  } else{
+    use <- use1
+    use3 <- transformBEASectorToDFInput(model, spec, "UseTransactions")
+  }
+  
+  
   # Add loc to all sectors
   use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
   use <- use[,(names(use) %in% cols)]
@@ -132,8 +141,14 @@ for (col in unique(lookup$Type)){
   )
   make_agg2 <- dplyr::rename_with(make_agg2, ~c('CommodityCode', 'IndustryCode'),
                                  all_of(c('Flowable', 'SectorProducedBy')))
-  make_agg2$WIOSection <- 'Waste Treatment Commodities'  
-  make_agg <- rbind(make_agg, make_agg2)
+  make_agg2$WIOSection <- 'Waste Treatment Commodities' 
+  
+  # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors
+  if(is.null(spec$BEASectorsAsTreatmentSectors)){
+    make_agg <- rbind(make_agg, make_agg2)
+  } # else leave make_agg unchanged
+  
+
   make_agg[code_cols] <- lapply(make_agg[code_cols], function(x) paste0(x,"/",make_agg$Location))
   make_agg <- make_agg[,cols]
   
@@ -182,8 +197,11 @@ assembleWIOModel <- function (model){
     model <- includeWIOSectorDFs(model, WIO)
     model <- includeFullUseWIO(model, WIO)
     model <- includeMakeWIO(model, WIO)
-    model <- calculateWIOOutputs(model, WIO)
     model <- adjustITAwithWIOSectors(model)
+    
+
+    model <- calculateWIOOutputs(model, WIO)
+
 
     
     checkWIOBalance(model, "Waste")
@@ -195,6 +213,36 @@ assembleWIOModel <- function (model){
 
   return(model)
 }
+
+
+#' #' Get subset of sectors corresponding to WasteTreatmentIndustries, WasteTreatmentCommodities,
+#' #' in the case exisiting BEA sectors are assigned to those WIO model components
+#' #' @param model An EEIO model object with model specs and IO tables loaded
+#' #' @param WIO A list with WIO specifications and data
+#' #' @param WIOSection A string that indicates which section of the WIO model the sectors belong to
+#' #' @param sectorsSubset A dataframe with the column names required for subsetting the WIO sectors appropriately
+#' #' @return A model with the model WIO model objects with the correct subset of sectors and format
+#' subsetBEASectorsAsWIOSectors <- function (model, WIO, WIOSection, sectorsSubset){
+#'   if(WIOSection == "Waste Treatment Industries")
+#'   {
+#'     
+#'     indIndeces <- which(model$Industries$Code_Loc %in% WIO$BEASectorsAsTreatmentSectors$WasteTreatmentIndustries)
+#'     sectors <- model$Industries[indIndeces,]
+#'     colnames(sectors) <- c("USEEIO_Code","USEEIO_Name","Location","Unit")
+#'     
+#'   }else if(WIOSection == "Waste Treatment Commodities"){
+#'     comIndeces <- which(model$Commodities$Code_Loc %in% WIO$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities)
+#'     sectors <- model$Commodities[comIndeces,]
+#'     colnames(sectors) <- c("USEEIO_Code","USEEIO_Name","Category","Subcategory","Description","Location","Unit")
+#' 
+#'   }
+#'   
+#'   sectors$Location <- gsub(".*/","",sectors$Location) # remove everything before /
+#'   sectorsSubset[1:dim(sectors)[1],colnames(sectors)] <- sectors
+#'   sectorsSubset$Category <- WIOSection
+#'   
+#'   return(sectorsSubset)
+#' }
 
 #' Get subset of sectors corresponding to WasteTreatmentIndustries, WasteTreatmentCommodities,
 #' WasteGentTreatment, WasteGenMass, RecyclingTreatment, or RecyclingMass
@@ -212,7 +260,19 @@ subsetWIOSectors <- function (model, WIO, WIOSection){
   if(nrow(sectorsSubset) == 0){
     return(model)
   }
-  colnames(sectorsSubset) <- colnames(model$Commodities) # Rename columns to match model$Industries
+  # if(nrow(sectorsSubset) == 0 & (!is.null(WIO$BEASectorsAsTreatmentSectors)))
+  # {
+  #   if(WIOSection == "Recycling by Treatment" | WIOSection == "Recycling by Mass"){
+  #     return(model)
+  #   }else{
+  #     sectorsSubset <- subsetBEASectorsAsWIOSectors(model, WIO, WIOSection, sectorsSubset)
+  #   }
+  #   
+  # }else if(nrow(sectorsSubset) == 0 & is.null(WIO$BEASectorsAsTreatmentSectors)){
+  #   return(model)
+  # }
+  
+  colnames(sectorsSubset) <- colnames(model$Commodities) # Rename columns to match model$commodities
   sectorsSubset$Code_Loc <- paste0(sectorsSubset$Code,"/",sectorsSubset$Code_Loc)
   
    if(WIOSection == "Waste Treatment Industries"){
@@ -455,4 +515,32 @@ checkWIOBalance <- function (model, sectorType = "Waste"){
   }
   
   
+}
+
+#' Take an exisiting USEEIO sector and transform it into a dataframe formated as a WIO-style input file
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param spec A model object contain the WIO specifications
+#' @param table A string indicating which table to use. Can be MakeTransaction, UseTransactions, ValueAdded, FinalDemand
+#' @return A model with the UseTransactions matrix modified with WIO specs.
+transformBEASectorToDFInput <- function (model, spec, table = "Use"){
+  # Get industry and commodity indeces of BEA sectors to transform into WIO-style input DF
+  indIndeces <- which(model$Industries$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentIndustries)
+  comIndeces <- which(model$Commodities$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities)
+  
+  # Create a Use Dataframe from the relevant, existing use table rows and columns
+  useRows <- as.data.frame(t(model$UseTransactions[comIndeces, , drop = FALSE])) # Get relevant use rows
+  commoditiesAsDFCols <- as.data.frame(t(replicate(dim(useRows)[1], colnames(useRows)))) # Create dataframe with a number of rows equal to the number of total commodities in the model, 
+  # and the values equal to the column names of the relevant commodities
+  
+  use3 <- do.call("data.frame", lapply(1:ncol(useRows), function(j) cbind(ts(commoditiesAsDFCols[,j]), ts(useRows[,j])))) # cbind useRows and commoditiesAsDFCols DFs in an alternating manner
+  names(use3) <- make.names(rep(c("CommodityCode","Amount"), dim(useRows)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
+  use3 <- data.frame(CommodityCode=unlist(use3[c(TRUE, FALSE)]), Amount=unlist(use3[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+  use3$Amount <- as.numeric(as.character(use3$Amount)) #transform amount back into a numeric column
+  
+  industriesAsFDCols <- data.frame(rep(rownames(useRows), dim(useRows)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+  colnames(industriesAsFDCols) <- c("IndustryCode")
+  use3 <- cbind(industriesAsFDCols, use3) # add industryCode column as the first column in a UseDF
+  
+  rownames(use3) <- 1:nrow(use3)
+  return(use3)
 }
