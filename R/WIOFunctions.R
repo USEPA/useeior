@@ -108,7 +108,10 @@ for (col in unique(lookup$Type)){
     use <- rbind(use1, use2)
   } else{
     use <- use1
-    use3 <- transformBEASectorToDFInput(model, spec, "UseTransactions")
+    userows <- transformBEASectorToDFInput(model, spec, "UseRows")
+    usecols <- transformBEASectorToDFInput(model, spec, "UseCols")
+    fdrows <- transformBEASectorToDFInput(model, spec, "FD")
+    vacols <- transformBEASectorToDFInput(model, spec, "VA")
   }
   
   
@@ -146,7 +149,11 @@ for (col in unique(lookup$Type)){
   # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors
   if(is.null(spec$BEASectorsAsTreatmentSectors)){
     make_agg <- rbind(make_agg, make_agg2)
-  } # else leave make_agg unchanged
+  } else{
+    make_agg3 <- transformBEASectorToDFInput(model, spec, "MakeRows")
+    make_agg4 <- transformBEASectorToDFInput(model, spec, "MakeCols")
+    #removeSectorsFromModel
+  }
   
 
   make_agg[code_cols] <- lapply(make_agg[code_cols], function(x) paste0(x,"/",make_agg$Location))
@@ -520,27 +527,123 @@ checkWIOBalance <- function (model, sectorType = "Waste"){
 #' Take an exisiting USEEIO sector and transform it into a dataframe formated as a WIO-style input file
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param spec A model object contain the WIO specifications
-#' @param table A string indicating which table to use. Can be MakeTransaction, UseTransactions, ValueAdded, FinalDemand
+#' @param vectorToTransform A string indicating which table and vector to use, e.g., UseRows, MakeCols, etc.
 #' @return A model with the UseTransactions matrix modified with WIO specs.
-transformBEASectorToDFInput <- function (model, spec, table = "Use"){
+transformBEASectorToDFInput <- function (model, spec, vectorToTransform){
   # Get industry and commodity indeces of BEA sectors to transform into WIO-style input DF
   indIndeces <- which(model$Industries$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentIndustries)
   comIndeces <- which(model$Commodities$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities)
   
-  # Create a Use Dataframe from the relevant, existing use table rows and columns
-  useRows <- as.data.frame(t(model$UseTransactions[comIndeces, , drop = FALSE])) # Get relevant use rows
-  commoditiesAsDFCols <- as.data.frame(t(replicate(dim(useRows)[1], colnames(useRows)))) # Create dataframe with a number of rows equal to the number of total commodities in the model, 
-  # and the values equal to the column names of the relevant commodities
+  # TODO: Simplify if-else by taking common elements outside.
+  if(vectorToTransform == "UseRows" | vectorToTransform == "FD"){
+
+    # # Create a Use Dataframe from the relevant, existing use table rows and columns
+    # originalVector <- as.data.frame(t(model$UseTransactions[comIndeces, , drop = FALSE])) # Get relevant use rows
+    # originalVectorAsDFCols <- as.data.frame(t(replicate(dim(originalVector)[1], colnames(originalVector)))) # Create dataframe with a number of rows equal to the number of total commodities in the model,
+    # # and the values equal to the column names of the relevant commodities
+    # 
+    # outputDF <- do.call("data.frame", lapply(1:ncol(originalVector), function(j) cbind(ts(originalVectorAsDFCols[,j]), ts(originalVector[,j])))) # cbind originalVector and originalVectorAsDFCols DFs in an alternating manner
+    # names(outputDF) <- make.names(rep(c("CommodityCode","Amount"), dim(originalVector)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
+    # outputDF <- data.frame(CommodityCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+    # outputDF$Amount <- as.numeric(as.character(outputDF$Amount)) #transform amount back into a numeric column
+    # 
+    # industriesAsDFCols <- data.frame(rep(rownames(originalVector), dim(originalVector)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    # colnames(industriesAsDFCols) <- c("IndustryCode")
+    # outputDF <- cbind(industriesAsDFCols, outputDF) # add industryCode column as the first column in a UseDF
+    # 
+    # rownames(outputDF) <- 1:nrow(outputDF)
+    
+    # Create a Use Dataframe from the relevant sectors
+    useRows <- as.data.frame(t(model$UseTransactions[comIndeces, , drop = FALSE])) # Get relevant use rows
+    commoditiesAsDFCols <- as.data.frame(t(replicate(dim(useRows)[1], colnames(useRows)))) # Create dataframe with a number of rows equal to the number of total commodities in the model,
+    # and the values equal to the column names of the relevant commodities
+
+    outputDF <- do.call("data.frame", lapply(1:ncol(useRows), function(j) cbind(ts(commoditiesAsDFCols[,j]), ts(useRows[,j])))) # cbind useRows and commoditiesAsDFCols DFs in an alternating manner
+    names(outputDF) <- make.names(rep(c("CommodityCode","Amount"), dim(useRows)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
+    outputDF <- data.frame(CommodityCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+    outputDF$Amount <- as.numeric(as.character(outputDF$Amount)) #transform amount back into a numeric column
+
+    industriesAsDFCols <- data.frame(rep(rownames(useRows), dim(useRows)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    colnames(industriesAsDFCols) <- c("IndustryCode")
+    outputDF <- cbind(industriesAsDFCols, outputDF) # add industryCode column as the first column in a UseDF
+
+    rownames(outputDF) <- 1:nrow(outputDF)
+    
+    
+  }else if(vectorToTransform == "UseCols" | vectorToTransform == "VA"){
+
+    # Create a Use Dataframe from the relevant sectors
+    useCols <- as.data.frame(model$UseTransactions[, indIndeces]) # Get relevant use rows
+    industriesAsDFCols <- as.data.frame(t(replicate(dim(useCols)[1], colnames(useCols)))) # Create dataframe with a number of rows equal to the number of total commodities in the model,
+    # and the values equal to the column names of the relevant commodities
+
+    outputDF <- do.call("data.frame", lapply(1:ncol(useCols), function(j) cbind(ts(industriesAsDFCols[,j]), ts(useCols[,j])))) # cbind useCols and industriesAsDFCols DFs in an alternating manner
+    names(outputDF) <- make.names(rep(c("IndustryCode","Amount"), dim(useCols)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
+    outputDF <- data.frame(IndustryCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+    outputDF$Amount <- as.numeric(as.character(outputDF$Amount)) #transform amount back into a numeric column
+
+    commoditiesAsDFCols <- data.frame(rep(rownames(useCols), dim(useCols)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    colnames(commoditiesAsDFCols) <- c("CommodityCode")
+    outputDF <- cbind(outputDF$IndustryCode,commoditiesAsDFCols, outputDF$Amount) # add commodity column as the second column in a DF
+
+    colnames(outputDF) <- c("IndustryCode","CommodityCode","Amount")
+
+    rownames(outputDF) <- 1:nrow(outputDF)
+    
+  }else if(vectorToTransform == "MakeRows"){
+    # Create a  Dataframe from the relevant sectors
+    makeRows <- as.data.frame(t(model$MakeTransactions[indIndeces, , drop = FALSE])) # Get relevant use rows
+    industriesAsDFCols <- as.data.frame(t(replicate(dim(makeRows)[1], colnames(makeRows)))) # Create dataframe with a number of rows equal to the number of total commodities in the model,
+    # and the values equal to the column names of the relevant commodities
+    
+    outputDF <- do.call("data.frame", lapply(1:ncol(makeRows), function(j) cbind(ts(industriesAsDFCols[,j]), ts(makeRows[,j])))) # cbind makeRows and industriesAsDFCols DFs in an alternating manner
+    names(outputDF) <- make.names(rep(c("Industry","Amount"), dim(makeRows)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
+    outputDF <- data.frame(IndustryCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+    outputDF$Amount <- as.numeric(as.character(outputDF$Amount)) #transform amount back into a numeric column
+    
+    commoditiesAsDFCols <- data.frame(rep(rownames(makeRows), dim(makeRows)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    colnames(commoditiesAsDFCols) <- c("CommodityCode")
+    outputDF <- cbind(outputDF$IndustryCode,commoditiesAsDFCols, outputDF$Amount) # add commodity column as the second column in a DF
+    
+    colnames(outputDF) <- c("IndustryCode","CommodityCode","Amount")
+    
+    rownames(outputDF) <- 1:nrow(outputDF)
+    
+    
+  }else if(vectorToTransform == "MakeCols"){
+    # Create a  Dataframe from the relevant sectors
+    makeCols <- as.data.frame(model$MakeTransactions[,comIndeces , drop = FALSE]) # Get relevant use rows
+    commoditiesAsDFCols <- as.data.frame(t(replicate(dim(makeCols)[1], colnames(makeCols)))) # Create dataframe with a number of rows equal to the number of total commodities in the model,
+    # and the values equal to the column names of the relevant commodities
+    
+    outputDF <- do.call("data.frame", lapply(1:ncol(makeCols), function(j) cbind(ts(commoditiesAsDFCols[,j]), ts(makeCols[,j])))) # cbind makeCols and commoditiesAsDFCols DFs in an alternating manner
+    names(outputDF) <- make.names(rep(c("Commodity","Amount"), dim(makeCols)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
+    outputDF <- data.frame(CommodityCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+    outputDF$Amount <- as.numeric(as.character(outputDF$Amount)) #transform amount back into a numeric column
+    
+    industriesAsDFCols <- data.frame(rep(rownames(makeCols), dim(makeCols)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    colnames(industriesAsDFCols) <- c("IndustryCode")
+    outputDF <- cbind(industriesAsDFCols, outputDF) # add industryCode column as the first column in a UseDF
+    
+    rownames(outputDF) <- 1:nrow(outputDF)
+  }
   
-  use3 <- do.call("data.frame", lapply(1:ncol(useRows), function(j) cbind(ts(commoditiesAsDFCols[,j]), ts(useRows[,j])))) # cbind useRows and commoditiesAsDFCols DFs in an alternating manner
-  names(use3) <- make.names(rep(c("CommodityCode","Amount"), dim(useRows)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
-  use3 <- data.frame(CommodityCode=unlist(use3[c(TRUE, FALSE)]), Amount=unlist(use3[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
-  use3$Amount <- as.numeric(as.character(use3$Amount)) #transform amount back into a numeric column
   
-  industriesAsFDCols <- data.frame(rep(rownames(useRows), dim(useRows)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
-  colnames(industriesAsFDCols) <- c("IndustryCode")
-  use3 <- cbind(industriesAsFDCols, use3) # add industryCode column as the first column in a UseDF
-  
-  rownames(use3) <- 1:nrow(use3)
-  return(use3)
+  # # Create a Use Dataframe from the relevant, existing use table rows and columns
+  # useRows <- as.data.frame(t(model$UseTransactions[comIndeces, , drop = FALSE])) # Get relevant use rows
+  # commoditiesAsDFCols <- as.data.frame(t(replicate(dim(useRows)[1], colnames(useRows)))) # Create dataframe with a number of rows equal to the number of total commodities in the model, 
+  # # and the values equal to the column names of the relevant commodities
+  # 
+  # use3 <- do.call("data.frame", lapply(1:ncol(useRows), function(j) cbind(ts(commoditiesAsDFCols[,j]), ts(useRows[,j])))) # cbind useRows and commoditiesAsDFCols DFs in an alternating manner
+  # names(use3) <- make.names(rep(c("CommodityCode","Amount"), dim(useRows)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
+  # use3 <- data.frame(CommodityCode=unlist(use3[c(TRUE, FALSE)]), Amount=unlist(use3[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+  # use3$Amount <- as.numeric(as.character(use3$Amount)) #transform amount back into a numeric column
+  # 
+  # industriesAsDFCols <- data.frame(rep(rownames(useRows), dim(useRows)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+  # colnames(industriesAsDFCols) <- c("IndustryCode")
+  # use3 <- cbind(industriesAsDFCols, use3) # add industryCode column as the first column in a UseDF
+  # 
+  # rownames(use3) <- 1:nrow(use3)
+  outputDF <- outputDF[outputDF$Amount !=0,] # Remove rows with 0s under Amount column
+  return(outputDF)
 }
