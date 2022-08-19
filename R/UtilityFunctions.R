@@ -110,7 +110,7 @@ calculateOutputRatio <- function(model, output_type = "Commodity") {
   # Generate SectorCode column
   ratio_table$SectorCode <- ratio_table[, "USEEIO"]
   # Keep ratio columns
-  ratio_table <- unique(ratio_table[, c("SectorCode", "toSummaryRatio", "toSectorRatio")])
+  ratio_table <- ratio_table[, c("SectorCode", "toSummaryRatio", "toSectorRatio")]
   return(ratio_table)
 }
 
