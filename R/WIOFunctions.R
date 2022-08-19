@@ -130,9 +130,6 @@ for (col in unique(lookup$Type)){
     use2 <- use2[-(duplicateRows),]
     
     use <- rbind(use, use2) # bind Waste Gen and Waste Treatment sections of the Use DF
-    
-    # Remove disagggregated sectors that we are using as WIO sectors from model
-    #
   }
   
   # Separate out make data
@@ -170,13 +167,19 @@ for (col in unique(lookup$Type)){
     make_agg[code_cols] <- lapply(make_agg[code_cols], function(x) paste0(x,"/",make_agg$Location))
     make_agg <- make_agg[,cols]
     
-    make_agg3 <- transformBEASectorToDFInput(model, spec, "MakeRows")
-    make_agg4 <- transformBEASectorToDFInput(model, spec, "MakeCols")
-    #removeSectorsFromModel
+    make_agg2 <- transformBEASectorToDFInput(model, spec, "MakeRows")
+    make_agg2 <- rbind(make_agg2, transformBEASectorToDFInput(model, spec, "MakeCols"))
+    
+    duplicateRows <- which(duplicated(make_agg2[,-(4:5)]) == "TRUE")# find duplicate rows (without comparing columns 4 & 5, Notes & WIO section)
+    make_agg2 <- make_agg2[-(duplicateRows),]
+    
+    make_agg <- rbind(make_agg, make_agg2) # bind Waste Gen and Waste Treatment sections of the Use DF
+    
+    # Remove disagggregated sectors that we are using as WIO sectors from model
+    comIndexes <- which(model$Commodities$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities)
+    indIndexes <- which(model$Industries$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentIndustries)
+    model <- removeModelSectors(model, comIndexes, indIndexes)
   }
-  
-
-
   
   x <- list()
   x$UseFileDF <- use
