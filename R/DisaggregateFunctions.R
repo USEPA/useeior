@@ -177,7 +177,11 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
       # That is, confirm that disaggregation cannot happen from SourceFile and thus this if statement would not be entered 
       # for setupType == Disaggregation
       if(setupType == "WIO"){
-        spec <- append(spec, prepareWIODFfromFBS(fbs, spec, model))
+        #spec <- append(spec, prepareWIODFfromFBS(fbs, spec, model))
+  
+        WIOFBSList <- prepareWIODFfromFBS(fbs, spec, model)
+        spec <-  WIOFBSList$spec
+        model <- WIOFBSList$model
       }
 
     }
