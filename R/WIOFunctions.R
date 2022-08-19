@@ -103,7 +103,7 @@ for (col in unique(lookup$Type)){
                              all_of(c('Flowable', 'SectorConsumedBy')))
   use2$SectorProducedBy <- NULL
   
-  # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors
+
   if(is.null(spec$BEASectorsAsTreatmentSectors)){
     use <- rbind(use1, use2)
     # Add loc to all sectors
@@ -112,25 +112,27 @@ for (col in unique(lookup$Type)){
     use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
                      data = use, FUN = sum)
   } else{
+    # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors
     use <- use1
     # Add loc to all sectors
     use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
     use <- use[,(names(use) %in% cols)]
     use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
                      data = use, FUN = sum)
-    # userows <- transformBEASectorToDFInput(model, spec, "UseRows")
-    # usecols <- transformBEASectorToDFInput(model, spec, "UseCols")
-    # fdrows <- transformBEASectorToDFInput(model, spec, "FD")
-    # vacols <- transformBEASectorToDFInput(model, spec, "VA")
+    
+    # Get disaggregated sectors and format them as inputs for WIO as Treatment Commodities/Industries
     use2 <- transformBEASectorToDFInput(model, spec, "UseRows")
     use2 <- rbind(use2, transformBEASectorToDFInput(model, spec, "UseCols"))
     use2 <- rbind(use2, transformBEASectorToDFInput(model, spec, "FD"))
     use2 <- rbind(use2, transformBEASectorToDFInput(model, spec, "VA"))
     
-    duplicateRows <- which(duplicated(use2[,-(4)]) == "TRUE")# find duplicate rows (without comparing column 4, Notes)
+    duplicateRows <- which(duplicated(use2[,-(4:5)]) == "TRUE")# find duplicate rows (without comparing columns 4 & 5, Notes & WIO section)
     use2 <- use2[-(duplicateRows),]
     
-    use <- rbind(use, use2) # bind 
+    use <- rbind(use, use2) # bind Waste Gen and Waste Treatment sections of the Use DF
+    
+    # Remove disagggregated sectors that we are using as WIO sectors from model
+    #
   }
   
   # Separate out make data
@@ -158,18 +160,23 @@ for (col in unique(lookup$Type)){
                                  all_of(c('Flowable', 'SectorProducedBy')))
   make_agg2$WIOSection <- 'Waste Treatment Commodities' 
   
-  # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors
+
   if(is.null(spec$BEASectorsAsTreatmentSectors)){
     make_agg <- rbind(make_agg, make_agg2)
+    make_agg[code_cols] <- lapply(make_agg[code_cols], function(x) paste0(x,"/",make_agg$Location))
+    make_agg <- make_agg[,cols]
   } else{
+    # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors
+    make_agg[code_cols] <- lapply(make_agg[code_cols], function(x) paste0(x,"/",make_agg$Location))
+    make_agg <- make_agg[,cols]
+    
     make_agg3 <- transformBEASectorToDFInput(model, spec, "MakeRows")
     make_agg4 <- transformBEASectorToDFInput(model, spec, "MakeCols")
     #removeSectorsFromModel
   }
   
 
-  make_agg[code_cols] <- lapply(make_agg[code_cols], function(x) paste0(x,"/",make_agg$Location))
-  make_agg <- make_agg[,cols]
+
   
   x <- list()
   x$UseFileDF <- use
