@@ -175,10 +175,15 @@ for (col in unique(lookup$Type)){
     
     make_agg <- rbind(make_agg, make_agg2) # bind Waste Gen and Waste Treatment sections of the Use DF
     
-    # Remove disagggregated sectors that we are using as WIO sectors from model
+    # Add specified sectors to WIOspecs
+    model <- addSectorsToWIOCW(model, spec)
+    
+    # Remove specified sectors that we are using as WIO sectors from model
     comIndexes <- which(model$Commodities$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities)
     indIndexes <- which(model$Industries$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentIndustries)
     model <- removeModelSectors(model, comIndexes, indIndexes)
+    
+
   }
   
   x <- list()
@@ -668,15 +673,34 @@ transformBEASectorToDFInput <- function (model, spec, vectorToTransform){
   return(outputDF)
 }
 
-#' Format DF created from BEA sectors as inputs to WIO
+#' Add sectors specified by BEASectorsAsTreatmentSectors to the spec$NAICSSetorCW object 
 #' @param model An EEIO model object with model specs and IO tables loaded
-#' @param DF A dataframe object to format
-#' @return A model with the UseTransactions matrix modified with WIO specs.
-formatBEASectorToDFInput <- function (model, DF){
+#' @param spec A dataframe with WIO specifications
+#' @return A model with the specified sectors added to the spec$NAICSSetorCW object 
+addSectorsToWIOCW <- function (model, spec){
   
-  # Remove 0s
+  WIONAICSSectorCW <- data.frame(matrix(nrow = sum(length(spec$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities), 
+                                                   length(spec$BEASectorsAsTreatmentSectors$WasteTreatmentIndustries)), 
+                                        ncol = ncol(spec$NAICSSectorCW)))
+  colnames(WIONAICSSectorCW) <- colnames(spec$NAICSSectorCW)
+  WIONAICSSectorCW[,1] <- "WIO"
+  WIONAICSSectorCW$Tag <- "USEEIO sectors as WIO Treatment sectors"
+  WIONAICSSectorCW$Type <- "N/A"
+  WIONAICSSectorCW$NAICS_2012_Code <- "N/A"
+
+  #LEFT OFF: Get indeces for spec$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities in model$Commodities, 
+  # replace some columns with columns from model$Commodities, som with the procedure below
   
-  # Remove duplicates
+  WTCommodities <- strsplit(spec$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities,"/")
+  WTCommodities <- data.frame(matrix(unlist(WTCommodities), nrow = length(WTCommodities), byrow = TRUE))
+  colnames(WTCommodities) <- c("USEEIO_Code", "Location")
+  WTCommodities$Category <- "Waste Treatment Commodities"
   
-  return(DF)
+  WTIndustries <- strsplit(spec$BEASectorsAsTreatmentSectors$WasteTreatmentIndustries,"/")
+  WTIndustries <- data.frame(matrix(unlist(WTIndustries), nrow = length(WTIndustries), byrow = TRUE))
+  colnames(WTIndustries) <- c("USEEIO_Code", "Location")
+  WTIndustries$Category <- "Waste Treatment Industries"
+  
+  
+  return(model)
 }
