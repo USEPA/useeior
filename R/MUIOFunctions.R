@@ -40,7 +40,6 @@ reorderPhysicalSectors <- function (model, physComIndeces, physIndIndeces, econC
   indOrder <- indOrder[-(MUIOIndOrder)]
   indOrder <- c(MUIOIndOrder, indOrder)
   
-  # TODO: replace code below with a call to reoderModelSectors function
   model <- reorderModelSectors(model, comOrder, indOrder)
 
   
