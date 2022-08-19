@@ -750,32 +750,3 @@ addSectorsToWIOCW <- function (model, spec){
   return(spec)
 }
 
-#' Remove sectors from the model objects according to the provided indexes
-#' @param model An EEIO model object with model specs and IO tables loaded
-#' @param comIndexes A list containing the indexes of the commodities in the model
-#' @param indIndexes A list containing the indexes of the industries in the model
-#' @return A model with the specified MUIO sectors in physical units and rearranged sector orders (optional)
-removeModelSectors <- function (model, comIndexes, indIndexes){
-  
-  # Rearrange relevant model objects
-  model$UseTransactions <- model$UseTransactions[-(comIndexes), -(indIndexes)]
-  model$DomesticUseTransactions <- model$DomesticUseTransactions[-(comIndexes), -(indIndexes)]
-  model$FinalDemand <- model$FinalDemand[-(comIndexes), ]
-  model$DomesticFinalDemand <- model$DomesticFinalDemand[-(comIndexes), ]
-  model$UseValueAdded <- model$UseValueAdded[, -(indIndexes)]
-  model$MakeTransactions <- model$MakeTransactions[-(indIndexes), -(comIndexes)]
-  model$Commodities <- model$Commodities[-(comIndexes), ]
-  model$Industries <- model$Industries[-(indIndexes), ]
-  model$InternationalTradeAdjustment <- model$InternationalTradeAdjustment[-(comIndexes)]
-  model$MultiYearCommodityOutput <- model$MultiYearCommodityOutput[-(comIndexes),]
-  model$MultiYearIndustryOutput <- model$MultiYearIndustryOutput[-(indIndexes),]
-  model$MultiYearCommodityCPI <- model$MultiYearCommodityCPI[-(comIndexes),]
-  model$MultiYearIndustryCPI <- model$MultiYearIndustryCPI[-(indIndexes),]
-  model$CommodityOutput <- model$CommodityOutput[-(comIndexes)]
-  model$IndustryOutput <- model$IndustryOutput[-(indIndexes)]
-  model$Margins <- model$Margins[-(comIndexes),]
-  
-  
-  return(model)
-  
-}
