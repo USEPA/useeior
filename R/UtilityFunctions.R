@@ -60,38 +60,57 @@ aggregateMatrix <- function (matrix, from_level, to_level, model) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param output_type Either Commodity or Industry, default is Commodity
 #' @return A data frame of output ratio
-calculateOutputRatio <- function (model, output_type="Commodity") {
+calculateOutputRatio <- function(model, output_type = "Commodity") {
   # Generate Output based on output_type 
-  if (output_type=="Commodity") {
+  if (output_type == "Commodity") {
     Output <- model$q
   } else {
     Output <- model$x
   }
-  # Map CommodityOutput to more aggregated IO levels
-  Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")|
-                                        colnames(model$crosswalk)=="USEEIO"])
+  # Map Output to more aggregated IO levels
+  Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA") |
+                                        colnames(model$crosswalk) == "USEEIO"])
   ratio_table <- merge(Crosswalk,
                        as.data.frame(Output, row.names = gsub("/.*", "", names(Output))),
                        by.x = "USEEIO", by.y = 0)
-  # Calculate output ratios
-  for (iolevel in c("Summary", "Sector")) {
-    # Generate flexible sector_code
-    sector_code <- paste0("BEA_", iolevel)
-    # Sum Detail output to Summary/Sector
-    output_sum <- stats::aggregate(ratio_table$Output, by = list(ratio_table[, sector_code]), sum)
-    colnames(output_sum) <- c(sector_code, paste0(iolevel, "Output"))
-    ratio_table <- merge(ratio_table, output_sum, by = sector_code)
-    # Calculate DetailSummaryRatio and DetailSectorRatio
-    ratio_table[, paste0("to", iolevel, "Ratio")] <- ratio_table$Output/ratio_table[, paste0(iolevel, "Output")]
-    # Generate SectorCode column
-    ratio_table$SectorCode <- ratio_table[, paste0("BEA_", model$specs$BaseIOLevel)]
+  # Calculate output ratio based on model IO level
+  if (model$specs$BaseIOLevel == "Detail") {
+    # For Detail model, calculate toSummaryRatio and toSectorRatio after aggregating
+    # DetailOutput to Summary and Sector levels
+    for (iolevel in c("Summary", "Sector")) {
+      # Generate flexible sector_code
+      sector_code <- paste0("BEA_", iolevel)
+      # Sum Detail output to Summary/Sector
+      output_sum <- stats::aggregate(ratio_table$Output,
+                                     by = list(ratio_table[, sector_code]), sum)
+      colnames(output_sum) <- c(sector_code, paste0(iolevel, "Output"))
+      ratio_table <- merge(ratio_table, output_sum, by = sector_code)
+      # Calculate toSummaryRatio and toSectorRatio
+      ratio_col <- paste0("to", iolevel, "Ratio")
+      ratio_table[, ratio_col] <- ratio_table$Output/ratio_table[, paste0(iolevel, "Output")]
+    }
+  } else if (model$specs$BaseIOLevel == "Summary") {
+    # For Summary model, calculate toSectorRatio after aggregating SummaryOutput
+    # to Sector level. toSummaryRatio is 1.
+    ratio_table <- unique(ratio_table[, c("USEEIO", "BEA_Sector", "Output")])
+    # Sum Summary output to Sector
+    output_sum <- stats::aggregate(ratio_table$Output,
+                                   by = list(ratio_table[, "BEA_Sector"]), sum)
+    colnames(output_sum) <- c("BEA_Sector", "SectorOutput")
+    ratio_table <- merge(ratio_table, output_sum, by = "BEA_Sector")
+    # Calculate toSummaryRatio and toSectorRatio
+    ratio_table[, "toSummaryRatio"] <- 1
+    ratio_table[, "toSectorRatio"] <- ratio_table$Output/ratio_table[, "SectorOutput"]
+  } else if (model$specs$BaseIOLevel == "Sector") {
+    # For Summary model, toSummaryRatio is NA, and toSectorRatio is 1.
+    ratio_table <- unique(ratio_table[, c("USEEIO", "BEA_Sector", "Output")])
+    ratio_table[, "toSummaryRatio"] <- NA
+    ratio_table[, "toSectorRatio"] <- 1
   }
+  # Generate SectorCode column
+  ratio_table$SectorCode <- ratio_table[, "USEEIO"]
   # Keep ratio columns
-  ratio_table <- unique(ratio_table[, c("SectorCode", "toSummaryRatio", "toSectorRatio")])
-  if(model$specs$BaseIOLevel=="Sector") {
-    ratio_table$toSectorRatio <- 1
-    ratio_table <- unique(ratio_table[, c("SectorCode", "toSectorRatio")])
-  }
+  ratio_table <- ratio_table[, c("SectorCode", "toSummaryRatio", "toSectorRatio")]
   return(ratio_table)
 }
 
