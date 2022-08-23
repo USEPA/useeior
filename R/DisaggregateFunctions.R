@@ -113,13 +113,11 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
   
   counter = 1
   for (spec in specs){  
-    filename <- ifelse(is.null(configpaths),
-                       system.file(folderPath, spec$SectorFile, package = "useeior"),
-                       file.path(dirname(configpaths)[1], spec$SectorFile))
+    filename <- getInputFilePath(configpaths, folderPath, spec$SectorFile)
     spec$NAICSSectorCW <- utils::read.table(filename,
-                                              sep = ",", header = TRUE,
-                                              stringsAsFactors = FALSE,
-                                              check.names = FALSE)
+                                            sep = ",", header = TRUE,
+                                            stringsAsFactors = FALSE,
+                                            check.names = FALSE)
     
     newNames <- unique(data.frame("SectorCode" = spec$NAICSSectorCW$USEEIO_Code,
                                   "SectorName" = spec$NAICSSectorCW$USEEIO_Name,
@@ -139,9 +137,7 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
     
     # Load Make table disaggregation file
     if(!is.null(spec$MakeFile)){
-      filename <- ifelse(is.null(configpaths),
-                         system.file(folderPath, spec$MakeFile, package = "useeior"),
-                         file.path(dirname(configpaths)[1], spec$MakeFile))
+      filename <- getInputFilePath(configpaths, folderPath, spec$MakeFile)
       spec$MakeFileDF <- utils::read.table(filename,
                                            sep = ",", header = TRUE,
                                            stringsAsFactors = FALSE,
@@ -150,9 +146,7 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
     
     # Load Use table disaggregation file
     if(!is.null(spec$UseFile)){
-      filename <- ifelse(is.null(configpaths),
-                         system.file(folderPath, spec$UseFile, package = "useeior"),
-                         file.path(dirname(configpaths)[1], spec$UseFile))
+      filename <- getInputFilePath(configpaths, folderPath, spec$UseFile)
       spec$UseFileDF <- utils::read.table(filename,
                                           sep = ",", header = TRUE,
                                           stringsAsFactors = FALSE,
@@ -161,13 +155,11 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
     
     # Load Environment flows table
     if(!is.null(spec$EnvFile)){
-      filename <- ifelse(is.null(configpaths),
-                         system.file(folderPath, spec$EnvFile, package = "useeior"),
-                         file.path(dirname(configpaths)[1], spec$EnvFile))
+      filename <- getInputFilePath(configpaths, folderPath, spec$EnvFile)
       spec$EnvFileDF <- utils::read.table(filename,
                                           sep = ",", header = TRUE,
                                           stringsAsFactors = FALSE,
-                                           check.names = FALSE)
+                                          check.names = FALSE)
     }
 
     if(!is.null(spec$SourceFile)) {

@@ -417,6 +417,20 @@ formatLocationforStateModels <- function(location) {
   return(loc)
 }
 
+#' Identify location of filepath for model input files
+#' @param configpaths str vector, paths (including file name) of configuration files.
+#' @param folderPath str local path to configuration type
+#' @param filename str filename of model spec 
+getInputFilePath <- function(configpaths, folderPath="extdata", filename){
+  if(!is.null(configpaths)) {
+    filepath <- file.path(dirname(configpaths)[1], filename)
+    if(file.exists(filepath)) {
+      return(filepath)
+    }
+  }
+  filepath <- system.file(folderPath, filename, package = "useeior")
+  return(filepath)
+}
 
 #' Reorder sectors in the model objects according to the provided order.
 #' @param model An EEIO model object with model specs and IO tables loaded
