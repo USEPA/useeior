@@ -692,3 +692,233 @@
 #'  \item{NAICS_2007_Code}{text code}
 #' }
 "MasterCrosswalk2007"
+
+#' Detail 2012 Supply (2012 schema)
+#' @format A dataframe with 406 obs. and 417 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Detail_Supply_2012"
+
+#' Detail 2012 Use (under the Supply-Use framework, 2012 schema)
+#' @format A dataframe with 414 obs. and 426 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Detail_Use_2012"
+
+#' Summary 2010 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2010"
+
+#' Summary 2011 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2011"
+
+#' Summary 2012 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2012"
+
+#' Summary 2013 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2013"
+
+#' Summary 2014 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2014"
+
+#' Summary 2015 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2015"
+
+#' Summary 2016 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2016"
+
+#' Summary 2017 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2017"
+
+#' Summary 2018 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2018"
+
+#' Summary 2019 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2019"
+
+#' Summary 2020 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Supply_2020"
+
+#' Summary 2010 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2010"
+
+#' Summary 2011 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2011"
+
+#' Summary 2012 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2012"
+
+#' Summary 2013 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2013"
+
+#' Summary 2014 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2014"
+
+#' Summary 2015 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2015"
+
+#' Summary 2016 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2016"
+
+#' Summary 2017 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2017"
+
+#' Summary 2018 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2018"
+
+#' Summary 2019 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2019"
+
+#' Summary 2020 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Summary_Use_2020"
+
+#' Sector 2010 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2010"
+
+#' Sector 2011 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2011"
+
+#' Sector 2012 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2012"
+
+#' Sector 2013 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2013"
+
+#' Sector 2014 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2014"
+
+#' Sector 2015 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2015"
+
+#' Sector 2016 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2016"
+
+#' Sector 2017 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2017"
+
+#' Sector 2018 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2018"
+
+#' Sector 2019 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2019"
+
+#' Sector 2020 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Supply_2020"
+
+#' Sector 2010 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2010"
+
+#' Sector 2011 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2011"
+
+#' Sector 2012 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2012"
+
+#' Sector 2013 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2013"
+
+#' Sector 2014 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2014"
+
+#' Sector 2015 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2015"
+
+#' Sector 2016 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2016"
+
+#' Sector 2017 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2017"
+
+#' Sector 2018 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2018"
+
+#' Sector 2019 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2019"
+
+#' Sector 2020 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip}
+"Sector_Use_2020"
