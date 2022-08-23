@@ -1612,10 +1612,10 @@ getBEADetailUseSUT2012Schema <- function(year) {
                       date_accessed = date_accessed)
 }
 # Download, save and document 2012 BEA Detail Supply (2012 schema)
-getBEADetailSupply2012Schema(2012)
+getBEADetailUseSUT2012Schema(2012)
 
 # Get BEA Summary Supply (2012 schema) table from static Excel
-getBEASummarySupply2012Schema <- function(year) {
+getBEASummarySupply2012Schema <- function() {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
@@ -1658,11 +1658,11 @@ getBEASummarySupply2012Schema <- function(year) {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2012 BEA Summary Supply (2012 schema)
-getBEASummarySupply2012Schema(2012)
+# Download, save and document 2010-2020 BEA Summary Supply (2012 schema)
+getBEASummarySupply2012Schema()
 
 # Get BEA Summary Use (under the Supply-Use framework, 2012 schema) table from static Excel
-getBEASummaryUseSUT2012Schema <- function(year) {
+getBEASummaryUseSUT2012Schema <- function() {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
@@ -1705,11 +1705,11 @@ getBEASummaryUseSUT2012Schema <- function(year) {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2012 BEA Summary Supply (2012 schema)
-getBEASummarySupply2012Schema(2012)
+# Download, save and document 2010-2020 BEA Summary Use (2012 schema)
+getBEASummaryUseSUT2012Schema()
 
 # Get BEA Sector Supply (2012 schema) table from static Excel
-getBEASectorSupply2012Schema <- function(year) {
+getBEASectorSupply2012Schema <- function() {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
@@ -1756,11 +1756,11 @@ getBEASectorSupply2012Schema <- function(year) {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2012 BEA Sector Supply (2012 schema)
-getBEASectorSupply2012Schema(2012)
+# Download, save and document 2010-2020 BEA Sector Supply (2012 schema)
+getBEASectorSupply2012Schema()
 
 # Get BEA Sector Use (under the Supply-Use framework, 2012 schema) table from static Excel
-getBEASectorUseSUT2012Schema <- function(year) {
+getBEASectorUseSUT2012Schema <- function() {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
@@ -1803,5 +1803,5 @@ getBEASectorUseSUT2012Schema <- function(year) {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2012 BEA Sector Supply (2012 schema)
-getBEASectorSupply2012Schema(2012)
+# Download, save and document 2010-2020 BEA Sector Supply (2012 schema)
+getBEASectorUseSUT2012Schema()
