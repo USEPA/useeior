@@ -97,7 +97,7 @@ for (col in unique(lookup$Type)){
   use1 <- dplyr::rename_with(use1, ~c('CommodityCode', 'IndustryCode'),
                              all_of(c('Flowable', 'SectorProducedBy')))
   use1$SectorConsumedBy <- NULL
-  use2 <- fbs[fbs$SectorProducedBy %in% sectorlist, ]
+  use2 <- fbs[(fbs$SectorProducedBy %in% sectorlist & !(fbs$SectorConsumedBy %in% sectorlist)), ]
   use2$WIOSection <- 'Waste Treatment Commodities'  
   use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
                              all_of(c('Flowable', 'SectorConsumedBy')))
@@ -150,7 +150,7 @@ for (col in unique(lookup$Type)){
                                  all_of(c('Flowable', 'SectorConsumedBy')))
   make_agg$WIOSection <- 'Waste Generation by Treatment'
 
-  make2 <- fbs[fbs$SectorProducedBy %in% sectorlist, ]
+  make2 <- fbs[(fbs$SectorProducedBy %in% sectorlist & !(fbs$SectorConsumedBy %in% sectorlist)), ]
   make_agg2 <- dplyr::group_by(make2, Flowable, SectorProducedBy, Location, Unit) 
   make_agg2 <- dplyr::summarize(
     make_agg2,
