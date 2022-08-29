@@ -53,8 +53,6 @@ calculateProducerbyPurchaserPriceRatio <- function(model) {
     TWR_CPI <- useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), ]
     TWR_CPI_ratio <- TWR_CPI[, year]/TWR_CPI[, as.character(model$specs$IOYear)]
     TWRValue <- sweep(Margins[, c("Transportation", "Wholesale", "Retail")], 2, TWR_CPI_ratio, "*")
-    # Calculate PurchasersValue
-    PurchasersValue <- rowSums(Margins[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
     # Generate PRObyPURRatios, or phi vector
     PHI[, year] <- ProducersValue/(ProducersValue + rowSums(TWRValue))
   }
