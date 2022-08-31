@@ -199,11 +199,6 @@ for (col in unique(lookup$Type)){
 
   }
   
-  # x <- list()
-  # x$UseFileDF <- use
-  # x$MakeFileDF <- data.frame(make_agg)
-  # return(x)
-  
   x <- list()
   x$UseFileDF <- use
   x$MakeFileDF <- data.frame(make_agg)
