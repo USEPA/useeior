@@ -120,10 +120,7 @@ for (col in unique(lookup$Type)){
     use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
                      data = use, FUN = sum)
     
-    # Assign correct commodity code for this case, where we are not using FBS inputs as Waste Treatment Sectors
-    use$CommodityCode <- paste0(spec$NAICSSectorCW$USEEIO_Code[which(spec$NAICSSectorCW$Category == "Waste Generation by Mass")],
-                                "/",
-                                spec$NAICSSectorCW$Location[which(spec$NAICSSectorCW$Category == "Waste Generation by Mass")])
+    #
     
     # Get disaggregated sectors and format them as inputs for WIO as Treatment Commodities/Industries
     use2 <- transformBEASectorToDFInput(model, spec, "UseRows")
@@ -174,11 +171,6 @@ for (col in unique(lookup$Type)){
     
     #Reorder make_agg to appropriate input DF order
     make_agg <- make_agg[,c(2,1,3,4,5,6)]
-    
-    # Assign correct commodity code for this case, where we are not using FBS inputs as Waste Treatment Sectors
-    make_agg$CommodityCode <- paste0(spec$NAICSSectorCW$USEEIO_Code[which(spec$NAICSSectorCW$Category == "Waste Generation by Mass")],
-                                     "/",
-                                     spec$NAICSSectorCW$Location[which(spec$NAICSSectorCW$Category == "Waste Generation by Mass")])
     
     make_agg2 <- transformBEASectorToDFInput(model, spec, "MakeRows")
     make_agg2 <- rbind(make_agg2, transformBEASectorToDFInput(model, spec, "MakeCols"))
@@ -690,12 +682,16 @@ transformBEASectorToDFInput <- function (model, spec, vectorToTransform){
   return(outputDF)
 }
 
-#' Add sectors specified by BEASectorsAsTreatmentSectors to the spec$NAICSSetorCW object 
+#' Add sectors specified by BEASectorsAsTreatmentSectors to the spec object 
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param spec A dataframe with WIO specifications
 #' @return spec A dataframe with the specified sectors added to the spec$NAICSSetorCW object 
 addSectorsToWIOCW <- function (model, spec){
   
+  #' Remove sectors labeled by "Waste Treatment Commodities" and "Waste Treatment Industries", 
+  #' which are NOT specified by BEASectorsAsTreatmentSectors, from the spec object  
+  spec <- removeSectorsFromWIOCW(model, spec)
+
   # Get industry and commodity indeces of BEA sectors to transform into WIO-style input DF
   indIndeces <- which(model$Industries$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentIndustries)
   comIndeces <- which(model$Commodities$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities)
@@ -745,3 +741,26 @@ addSectorsToWIOCW <- function (model, spec){
   return(spec)
 }
 
+#' Remove sectors labeled by "Waste Treatment Commodities" and "Waste Treatment Industries", 
+#' which are NOT specified by BEASectorsAsTreatmentSectors, from the spec object 
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param spec A dataframe with WIO specifications
+#' @return spec A dataframe with the specified sectors added to the spec$NAICSSetorCW object 
+removeSectorsFromWIOCW <- function (model, spec){
+  
+  # Remove existing rows labeled as "Waste Treatment Commodities" and "Waste Treatment Industries" within spec$NAICSSectorCW
+  # These will be replaced by the disaggregated sectors
+  indexesToRemove <- which(spec$NAICSSectorCW$Category == "Waste Treatment Commodities")
+  indexesToRemove <- append(indexesToRemove, which(spec$NAICSSectorCW$Category == "Waste Treatment Industries"))
+  
+  if(length(indexesToRemove) !=0 ){
+    spec$NAICSSectorCW <- spec$NAICSSectorCW[-indexesToRemove,]
+    spec$NewSectorNames[indexesToRemove] <- NULL
+    spec$NewSectorCodes[indexesToRemove] <- NULL
+    spec$Category[indexesToRemove] <- NULL
+    spec$Subcategory[indexesToRemove] <- NULL
+    spec$Description[indexesToRemove] <- NULL
+  }
+  
+  return(spec)
+}
