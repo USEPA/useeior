@@ -98,21 +98,38 @@ for (col in unique(lookup$Type)){
                              all_of(c('Flowable', 'SectorProducedBy')))
   use1$SectorConsumedBy <- NULL
   use2 <- fbs[(fbs$SectorProducedBy %in% sectorlist & !(fbs$SectorConsumedBy %in% sectorlist)), ]
-  use2$WIOSection <- 'Waste Treatment Commodities'  
-  use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
-                             all_of(c('Flowable', 'SectorConsumedBy')))
-  use2$SectorProducedBy <- NULL
-  
 
-  if(is.null(spec$BEASectorsAsTreatmentSectors)){
+  # For the case where there are waste treatment sectors mapped to data in the fbs
+  if(dim(use2)[1] != 0 & is.null(spec$BEASectorsAsTreatmentSectors )){
+    use2$WIOSection <- 'Waste Treatment Commodities'  
+    use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
+                               all_of(c('Flowable', 'SectorConsumedBy')))
+    use2$SectorProducedBy <- NULL
+ 
     use <- rbind(use1, use2)
     # Add loc to all sectors
     use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
     use <- use[,(names(use) %in% cols)]
     use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
                      data = use, FUN = sum)
-  } else{
-    # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors
+    
+#  }
+  
+  # use2$WIOSection <- 'Waste Treatment Commodities'  
+  # use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
+  #                            all_of(c('Flowable', 'SectorConsumedBy')))
+  # use2$SectorProducedBy <- NULL
+  
+ 
+#   if(is.null(spec$BEASectorsAsTreatmentSectors)){
+#     use <- rbind(use1, use2)
+#     # Add loc to all sectors
+#     use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
+#     use <- use[,(names(use) %in% cols)]
+#     use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
+#                      data = use, FUN = sum)
+   } else{
+    # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors/ there are no waste treatment sectors. 
     use <- use1
     # Add loc to all sectors
     use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
@@ -535,6 +552,7 @@ checkWIOBalance <- function (model, sectorType = "Waste"){
   # Get all waste generation and recycling by mass and treatment from use table
   if(sectorType == "Waste"){
     useGen <- model$UseTransactions[which(rownames(model$UseTransactions) %in% model$WasteGenMass$Code_Loc),]
+    FDGen <-  model$FinalDemand[which(rownames(model$FinalDemand) %in% model$WasteGenMass$Code_Loc),]
     makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) %in% model$WasteGenTreat$Code_Loc),]
   }else{
     useGen <- model$UseTransactions[which(rownames(model$UseTransactions) %in% model$RecyclingMass$Code_Loc),]
@@ -544,7 +562,7 @@ checkWIOBalance <- function (model, sectorType = "Waste"){
   if(dim(useGen)[1] != 0 & dim(makeTreatment)[1] != 0){
 
     
-    genSum <- sum(useGen)
+    genSum <- sum(useGen) + sum(FDGen)
     treatSum <- sum(makeTreatment)
     
     # if the ratio of the sum of generation over the sum of treatment is greater than 1% then the generation and treatment is not balanced and we need to stop execution
