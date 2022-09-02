@@ -215,3 +215,33 @@ generateInternationalTradeAdjustmentVector <- function(Use, model) {
   names(InternationalTradeAdjustment) <- rownames(Use)
   return(InternationalTradeAdjustment)
 }
+
+#' Convert Use table in the Supply-Use framework from purchasers' price (PUR)
+#' to basic price (BAS)
+#' @param UseSUT_PUR, a Use table (from the Supply-Use framework) in purchasers' price (PUR)
+#' @param specs, model specifications.
+#' @param io_codes, a list of BEA IO codes.
+#' @return A Use table in basic price (BAS)
+convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
+  # Load UsePRO and UsePUR under Make-Use framework
+  Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
+  UsePUR <- get(paste(specs$BaseIOLevel, "Use", specs$IOYear, "PUR", Redef, sep = "_"))
+  UsePRO <- get(paste(specs$BaseIOLevel, "Use", specs$IOYear, "PRO", Redef, sep = "_"))
+  # Convert from PUR to PRO by removing margins obtained from Use tables under
+  # Make-Use framework
+  rows <- io_codes$Commodities
+  cols <- c(io_codes$Industries, io_codes$FinalDemandCodes)
+  UseSUT_PRO <- UseSUT_PUR[rows, cols] - (UsePUR[rows, cols] - UsePRO[rows, cols])
+  # Convert from PRO to BAS by removing tax less subsidies from the Supply table
+  # Note: import duties (MDTY) is considered tax on imported goods
+  Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
+  tax_less_subsidies <- rowSums(Supply[rows, c("MDTY", "TOP", "SUB")]) # TODO: use io_codes to call these columns in the future
+  # Allocate tax_less_subsidies throughout Use based on consumption of commodities
+  ratio_m <- UseSUT_PRO/rowSums(UseSUT_PRO)
+  ratio_m[is.na(ratio_m)] <- 0
+  UseSUT_BAS <- UseSUT_PRO - sweep(ratio_m,
+                                   MARGIN = 1,
+                                   STATS = tax_less_subsidies,
+                                   FUN = "*")
+  return(UseSUT_BAS)
+}
