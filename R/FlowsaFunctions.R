@@ -51,8 +51,11 @@ getFlowbySectorCollapsed <- function(sat_spec) {
 prepareFlowBySectorCollapsed <- function(fbsc, satellite=TRUE) {
   # Replace Python type None with NA
   fbsc <- replaceNonewithNA(fbsc)
+  # Ensure correct type, parquet can come in as vctrs_unspecified
+  fbsc[c("Context", "FlowUUID")] <- sapply(fbsc[c("Context", "FlowUUID")], function(x) as.character(x))
   # If context is NA replace with blank
   fbsc[,"Context"][is.na(fbsc[,"Context"])] <- ""
+  fbsc[,"FlowUUID"][is.na(fbsc[,"FlowUUID"])] <- ""
   if(satellite) {
   # Filter technosphere flows
     acceptable_types <- c("ELEMENTARY_FLOW", "WASTE_FLOW")
