@@ -274,7 +274,12 @@ assembleWIOModel <- function (model){
 
   }
 
-
+  # If there is more than 1 WIO spec, reorder the WIO sectors such that all Waste Treatment Industries/Commodities are placed 
+  # before all Waste Generation by Mass/Treatment sectors
+  if(length(model$WIOSpecs) > 1 ){
+    model <- reorderWIOSectors(model)
+  }
+  
   
   return(model)
 }
@@ -386,7 +391,7 @@ includeFullUseWIO <- function (model, WIO){
   colnames(WIOFinalDemand) <- model$FinalDemandMeta$Code_Loc
   WIOFinalDemand[1:dim(model$UseTransactions)[1],] <- model$FinalDemand
   
-  # For FinalDemand
+  # For DomesticFinalDemand
   WIODomesticFinalDemand <- data.frame(matrix(0, nrow = WIOComLength, ncol = dim(model$DomesticFinalDemand)[2]))
   rownames(WIODomesticFinalDemand) <- model$Commodities$Code_Loc
   colnames(WIODomesticFinalDemand) <- model$FinalDemandMeta$Code_Loc
@@ -818,4 +823,34 @@ adjustMultiYearObjectsForWIO <- function(model, WIO){
   
   
   return(model)
+}
+
+#' Adjust WIO sectors such that they are in the correct order. Should only be needed in the case that there is more than 1 WIOSpec.
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return  A model object with the WIO sectors in the correct order
+reorderWIOSectors <- function(model){
+  
+  # Get WIO sectors in correct order
+  WIOTreatmentComIndexes <- which(model$Commodities$Code_Loc %in% model$WasteTreatmentCommodities$Code_Loc)
+  WIOTreatmentIndIndexes <- which(model$Industries$Code_Loc %in% model$WasteTreatmentIndustries$Code_Loc)
+  
+  wasteGenMassComIndexes <- which(model$Commodities$Code_Loc %in% model$WasteGenMass$Code_Loc)
+  wasteGenTreatIndIndexes <- which(model$Industries$Code_Loc %in% model$WasteGenTreat$Code_Loc)
+  
+  # Reorder commodities
+  WIOComOrder <- c(WIOTreatmentComIndexes,wasteGenMassComIndexes)
+  comOrder <- 1:dim(model$Commodities)[1]  # Create an ordered int vector from 1 to number of commodities
+  comOrder <- comOrder[-(WIOComOrder)] # Remove ints corresponding to the WIO commodity indeces from their proper order
+  comOrder <- c(comOrder, WIOComOrder) # Add ints corresponding to the WIO commodity indeces to the end of the list
+  
+  # Reorder industries
+  WIOIndOrder <- c(WIOTreatmentIndIndexes,wasteGenTreatIndIndexes)
+  indOrder <- 1:dim(model$Industries)[1]  # Create an ordered int vector from 1 to number of commodities
+  indOrder <- indOrder[-(WIOIndOrder)] # Remove ints corresponding to the WIO commodity indeces from their proper order
+  indOrder <- c(indOrder, WIOIndOrder) # Add ints corresponding to the WIO commodity indeces to the end of the list
+ 
+  model <- reorderModelSectors(model, comOrder, indOrder)
+  
+  return(model)
+  
 }
