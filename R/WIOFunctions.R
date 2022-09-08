@@ -259,16 +259,17 @@ assembleWIOModel <- function (model){
     model <- includeFullUseWIO(model, WIO)
     model <- includeMakeWIO(model, WIO)
     model <- adjustITAwithWIOSectors(model, WIO)
-    
 
+    # Check WIO balances
     model <- calculateWIOOutputs(model, WIO)
-
-
-    
     checkWIOBalance(model, "Waste")
     checkWIOBalance(model, "Recycling")
     
+    # Adjust MultiYear objects with WIO sectors
     model <- adjustMultiYearObjectsForWIO(model, WIO)
+    
+    # Adjust Margins object with WIO sectors
+    model <- adjustMarginswithWIOSectors(model, WIO)
     
     temp <- 1.5
 
@@ -521,6 +522,45 @@ adjustITAwithWIOSectors <- function (model, WIO){
   
   return(model)
 }
+
+
+#' Adjust Margins to the correct dimensions based on WIO sectors
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param WIO A list with WIO specifications and data
+#' @return A model object with a modified Margins object based on WIO sectors
+adjustMarginswithWIOSectors <- function (model, WIO){
+  # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
+  WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
+  
+  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
+  WIOUseRows <- WIOUseRows[which(WIOUseRows$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
+  
+  # Create DF to house margin values for WIO sectors
+  WIOMargins <- data.frame(matrix(nrow = dim(WIOUseRows)[1], 
+                                  ncol = ncol(model$Margins)))
+  colnames(WIOMargins) <- colnames(model$Margins)
+  
+  # Populate WIOMargins DF with the relevant data from WIOUseRows
+  # For Producers value, assume total commodity output 
+  # For Transportation, Wholese, and Retail, assume 0
+  # For Purchasers value, assume total commodity output. 
+  # This assumptions are due to a lack of relevant data in the WIOspecs (i.e. WIO input files)
+  WIOMargins$SectorCode <- WIOUseRows$Code
+  WIOMargins$ProducersValue <- model$CommodityOutput[names(model$CommodityOutput) %in% WIOUseRows$Code_Loc]
+  WIOMargins$Transportation <- rep(0,dim(WIOUseRows)[1])
+  WIOMargins$Wholesale <- rep(0,dim(WIOUseRows)[1])
+  WIOMargins$Retail <- rep(0,dim(WIOUseRows)[1])
+  WIOMargins$Name <- WIOUseRows$Name
+  WIOMargins$Code_Loc <- WIOUseRows$Code_Loc
+  WIOMargins$PurchasersValue <- rowSums(WIOMargins[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
+  
+  # Append to model$Margins
+  model$Margins <- rbind(model$Margins, WIOMargins)
+  rownames(model$Margins) <- 1:nrow(model$Margins) # relable rows
+  
+  return(model)
+}
+
 
 #' Check balance of WIO waste and recycling sectors
 #' @param model An EEIO model object with model specs and IO tables loaded
