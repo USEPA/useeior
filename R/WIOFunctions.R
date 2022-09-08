@@ -830,7 +830,7 @@ adjustMultiYearObjectsForWIO <- function(model, WIO){
 #' @return  A model object with the WIO sectors in the correct order
 reorderWIOSectors <- function(model){
   
-  # Get WIO sectors in correct order
+  # Get WIO sector indexes
   WIOTreatmentComIndexes <- which(model$Commodities$Code_Loc %in% model$WasteTreatmentCommodities$Code_Loc)
   WIOTreatmentIndIndexes <- which(model$Industries$Code_Loc %in% model$WasteTreatmentIndustries$Code_Loc)
   
