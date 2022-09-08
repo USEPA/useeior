@@ -14,9 +14,6 @@ loadIOData <- function(model, configpaths = NULL) {
   io_table_names <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                       "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
                       "InternationalTradeAdjustment")
-  if (model$specs$BasePriceType == "BAS") {
-    io_table_names <- sub("MakeTransactions", "SupplyTransactions", io_table_names)
-  }
   # Load IO data
   if (model$specs$IODataSource=="BEA") {
     io_codes <- loadIOcodes(model$specs)
@@ -208,19 +205,19 @@ loadBEAtables <- function(specs, io_codes) {
     Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
     BEA$Make <- get(paste(specs$BaseIOLevel, "Make", specs$IOYear, Redef, sep = "_"))
     BEA$Use <-  get(paste(specs$BaseIOLevel, "Use", specs$IOYear, specs$BasePriceType, Redef, sep = "_"))
-    # Separate Make tables into specific IO tables (all values in $)
+    # Separate Make table into specific IO tables (all values in $)
     BEA$MakeTransactions <- BEA$Make[io_codes$Industries, io_codes$Commodities] * 1E6
-    BEA$MakeIndustryOutput <- as.data.frame(rowSums(BEA$MakeTransactions))
   } else if (specs$BasePriceType == "BAS") {
     # Load pre-saved Supply and Use tables
     BEA$Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
     UseSUT_PUR <- get(paste(specs$BaseIOLevel, "Use_SUT", specs$IOYear, sep = "_"))
     BEA$Use <- convertUsefromPURtoBAS(UseSUT_PUR, specs, io_codes)
-    # Separate Supply tables into specific IO tables (all values in $)
-    BEA$SupplyTransactions <- BEA$Supply[io_codes$Commodities, io_codes$Industries] * 1E6
-    BEA$SupplyIndustryOutput <- as.data.frame(colSums(BEA$SupplyTransactions))
+    # Separate Supply table into specific IO tables (all values in $)
+    # Transpose Supply table to conform the structure of Make table
+    BEA$MakeTransactions <- t(BEA$Supply[io_codes$Commodities, io_codes$Industries]) * 1E6
   }
-  # Separate Use tables into specific IO tables (all values in $)
+  BEA$MakeIndustryOutput <- as.data.frame(rowSums(BEA$MakeTransactions))
+  # Separate Use table into specific IO tables (all values in $)
   BEA$UseTransactions <- BEA$Use[io_codes$Commodities, io_codes$Industries] * 1E6
   BEA$FinalDemand <- BEA$Use[io_codes$Commodities, io_codes$FinalDemandCodes] * 1E6
   BEA$UseValueAdded <- BEA$Use[io_codes$ValueAddedCodes, io_codes$Industries] * 1E6
