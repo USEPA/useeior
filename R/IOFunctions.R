@@ -204,6 +204,7 @@ generateInternationalTradeAdjustmentVector <- function(Use, model) {
   }
   # Define Import code
   ImportCode <- getVectorOfCodes(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Import")
+  ImportCode <- ImportCode[startsWith(ImportCode, "F")]
   # Calculate InternationalTradeAdjustment
   # In the Import matrix, the imports column is in domestic (US) port value.
   # But in the Use table, it is in foreign port value.
