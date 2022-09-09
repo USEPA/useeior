@@ -230,12 +230,14 @@ convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
   # Convert from PUR to PRO by removing margins obtained from Use tables under
   # Make-Use framework
   rows <- io_codes$Commodities
-  cols <- c(io_codes$Industries, io_codes$FinalDemandCodes)
+  cols <- c(io_codes$Industries,
+            intersect(colnames(UseSUT_PUR), io_codes$FinalDemandCodes))
   UseSUT_PRO <- UseSUT_PUR[rows, cols] - (UsePUR[rows, cols] - UsePRO[rows, cols])
   # Convert from PRO to BAS by removing tax less subsidies from the Supply table
-  # Note: import duties (MDTY) is considered tax on imported goods
+  # Note: import duties (MDTY) is considered tax on imported goods, see page 3 of
+  # https://apps.bea.gov/scb/pdf/2015/09%20September/0915_supply_use_tables_for_the_united_states.pdf
   Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
-  tax_less_subsidies <- rowSums(Supply[rows, c("MDTY", "TOP", "SUB")]) # TODO: use io_codes to call these columns in the future
+  tax_less_subsidies <- rowSums(Supply[rows, io_codes$TaxLessSubsidiesCodes])
   # Allocate tax_less_subsidies throughout Use based on consumption of commodities
   ratio_m <- UseSUT_PRO/rowSums(UseSUT_PRO)
   ratio_m[is.na(ratio_m)] <- 0
@@ -243,5 +245,12 @@ convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
                                    MARGIN = 1,
                                    STATS = tax_less_subsidies,
                                    FUN = "*")
+  # Append right columns, including T001 and T109, and bottom rows, including
+  # Value Added and totals, back to Use table
+  UseSUT_BAS <- rbind(cbind(UseSUT_BAS,
+                            UseSUT_PUR[rows, setdiff(colnames(UseSUT_PUR),
+                                                     colnames(UseSUT_BAS))]),
+                      UseSUT_PUR[setdiff(rownames(UseSUT_PUR),
+                                         rownames(UseSUT_BAS)), ])
   return(UseSUT_BAS)
 }
