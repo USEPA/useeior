@@ -242,10 +242,7 @@ convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
   # Allocate tax_less_subsidies throughout Use based on consumption of commodities
   ratio_m <- UseSUT_PRO/rowSums(UseSUT_PRO)
   ratio_m[is.na(ratio_m)] <- 0
-  UseSUT_BAS <- UseSUT_PRO - sweep(ratio_m,
-                                   MARGIN = 1,
-                                   STATS = tax_less_subsidies,
-                                   FUN = "*")
+  UseSUT_BAS <- UseSUT_PRO - diag(tax_less_subsidies) %*% as.matrix(ratio_m)
   # Append right columns, including T001 and T109, and bottom rows, including
   # Value Added and totals, back to Use table
   UseSUT_BAS <- rbind(cbind(UseSUT_BAS,
