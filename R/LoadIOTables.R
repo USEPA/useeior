@@ -233,12 +233,13 @@ loadBEAtables <- function(specs, io_codes) {
                                                        io_codes$Industries])) * 1E6
     # Separate Use table into specific IO tables (all values in $)
     # Final Demand
-    # Note: import column (in BAS from Supply) is appended to Use in BAS
+    # Note: import column (in BAS from Supply) is converted to negative then
+    # appended to Use in BAS
     SupplyImport_col <- intersect(colnames(BEA$Supply), io_codes$FinalDemandCodes)
     UseImport_col <- setdiff(io_codes$ImportCodes, SupplyImport_col)
     BEA$FinalDemand <- cbind(BEA$Use[io_codes$Commodities,
                                intersect(colnames(BEA$Use), io_codes$FinalDemandCodes)],
-                             BEA$Supply[io_codes$Commodities, SupplyImport_col]) * 1E6
+                             BEA$Supply[io_codes$Commodities, SupplyImport_col] * -1) * 1E6
     colnames(BEA$FinalDemand)[ncol(BEA$FinalDemand)] <- UseImport_col
     BEA$FinalDemand <- BEA$FinalDemand[, setdiff(io_codes$FinalDemandCodes,
                                                  SupplyImport_col)]
