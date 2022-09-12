@@ -98,21 +98,38 @@ for (col in unique(lookup$Type)){
                              all_of(c('Flowable', 'SectorProducedBy')))
   use1$SectorConsumedBy <- NULL
   use2 <- fbs[(fbs$SectorProducedBy %in% sectorlist & !(fbs$SectorConsumedBy %in% sectorlist)), ]
-  use2$WIOSection <- 'Waste Treatment Commodities'  
-  use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
-                             all_of(c('Flowable', 'SectorConsumedBy')))
-  use2$SectorProducedBy <- NULL
-  
 
-  if(is.null(spec$BEASectorsAsTreatmentSectors)){
+  # For the case where there are waste treatment sectors mapped to data in the fbs
+  if(dim(use2)[1] != 0 & is.null(spec$BEASectorsAsTreatmentSectors )){
+    use2$WIOSection <- 'Waste Treatment Commodities'  
+    use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
+                               all_of(c('Flowable', 'SectorConsumedBy')))
+    use2$SectorProducedBy <- NULL
+ 
     use <- rbind(use1, use2)
     # Add loc to all sectors
     use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
     use <- use[,(names(use) %in% cols)]
     use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
                      data = use, FUN = sum)
-  } else{
-    # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors
+    
+#  }
+  
+  # use2$WIOSection <- 'Waste Treatment Commodities'  
+  # use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
+  #                            all_of(c('Flowable', 'SectorConsumedBy')))
+  # use2$SectorProducedBy <- NULL
+  
+ 
+#   if(is.null(spec$BEASectorsAsTreatmentSectors)){
+#     use <- rbind(use1, use2)
+#     # Add loc to all sectors
+#     use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
+#     use <- use[,(names(use) %in% cols)]
+#     use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
+#                      data = use, FUN = sum)
+   } else{
+    # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors/ there are no waste treatment sectors. 
     use <- use1
     # Add loc to all sectors
     use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
@@ -222,6 +239,7 @@ initializeWIOObjects <- function(model){
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @return A model with the UseTransactions matrix modified with WIO specs.
 assembleWIOModel <- function (model){
+  
   for(WIO in model$WIOSpecs){
     
     if(is.null(model$WasteTreatmentIndustries)){
@@ -240,52 +258,33 @@ assembleWIOModel <- function (model){
     model <- includeWIOSectorDFs(model, WIO)
     model <- includeFullUseWIO(model, WIO)
     model <- includeMakeWIO(model, WIO)
-    model <- adjustITAwithWIOSectors(model)
-    
+    model <- adjustITAwithWIOSectors(model, WIO)
 
+    # Check WIO balances
     model <- calculateWIOOutputs(model, WIO)
-
-
-    
     checkWIOBalance(model, "Waste")
     checkWIOBalance(model, "Recycling")
+    
+    # Adjust MultiYear objects with WIO sectors
+    model <- adjustMultiYearObjectsForWIO(model, WIO)
+    
+    # Adjust Margins object with WIO sectors
+    model <- adjustMarginswithWIOSectors(model, WIO)
     
     temp <- 1.5
 
   }
 
+  # If there is more than 1 WIO spec, reorder the WIO sectors such that all Waste Treatment Industries/Commodities are placed 
+  # before all Waste Generation by Mass/Treatment sectors
+  if(length(model$WIOSpecs) > 1 ){
+    model <- reorderWIOSectors(model)
+  }
+  
+  
   return(model)
 }
 
-
-#' #' Get subset of sectors corresponding to WasteTreatmentIndustries, WasteTreatmentCommodities,
-#' #' in the case exisiting BEA sectors are assigned to those WIO model components
-#' #' @param model An EEIO model object with model specs and IO tables loaded
-#' #' @param WIO A list with WIO specifications and data
-#' #' @param WIOSection A string that indicates which section of the WIO model the sectors belong to
-#' #' @param sectorsSubset A dataframe with the column names required for subsetting the WIO sectors appropriately
-#' #' @return A model with the model WIO model objects with the correct subset of sectors and format
-#' subsetBEASectorsAsWIOSectors <- function (model, WIO, WIOSection, sectorsSubset){
-#'   if(WIOSection == "Waste Treatment Industries")
-#'   {
-#'     
-#'     indIndeces <- which(model$Industries$Code_Loc %in% WIO$BEASectorsAsTreatmentSectors$WasteTreatmentIndustries)
-#'     sectors <- model$Industries[indIndeces,]
-#'     colnames(sectors) <- c("USEEIO_Code","USEEIO_Name","Location","Unit")
-#'     
-#'   }else if(WIOSection == "Waste Treatment Commodities"){
-#'     comIndeces <- which(model$Commodities$Code_Loc %in% WIO$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities)
-#'     sectors <- model$Commodities[comIndeces,]
-#'     colnames(sectors) <- c("USEEIO_Code","USEEIO_Name","Category","Subcategory","Description","Location","Unit")
-#' 
-#'   }
-#'   
-#'   sectors$Location <- gsub(".*/","",sectors$Location) # remove everything before /
-#'   sectorsSubset[1:dim(sectors)[1],colnames(sectors)] <- sectors
-#'   sectorsSubset$Category <- WIOSection
-#'   
-#'   return(sectorsSubset)
-#' }
 
 #' Get subset of sectors corresponding to WasteTreatmentIndustries, WasteTreatmentCommodities,
 #' WasteGentTreatment, WasteGenMass, RecyclingTreatment, or RecyclingMass
@@ -303,29 +302,18 @@ subsetWIOSectors <- function (model, WIO, WIOSection){
   if(nrow(sectorsSubset) == 0){
     return(model)
   }
-  # if(nrow(sectorsSubset) == 0 & (!is.null(WIO$BEASectorsAsTreatmentSectors)))
-  # {
-  #   if(WIOSection == "Recycling by Treatment" | WIOSection == "Recycling by Mass"){
-  #     return(model)
-  #   }else{
-  #     sectorsSubset <- subsetBEASectorsAsWIOSectors(model, WIO, WIOSection, sectorsSubset)
-  #   }
-  #   
-  # }else if(nrow(sectorsSubset) == 0 & is.null(WIO$BEASectorsAsTreatmentSectors)){
-  #   return(model)
-  # }
-  
+
   colnames(sectorsSubset) <- colnames(model$Commodities) # Rename columns to match model$commodities
   sectorsSubset$Code_Loc <- paste0(sectorsSubset$Code,"/",sectorsSubset$Code_Loc)
   
    if(WIOSection == "Waste Treatment Industries"){
-    model$WasteTreatmentIndustries <- rbind(model$WasteTreatIndustries, sectorsSubset)
+    model$WasteTreatmentIndustries <- rbind(model$WasteTreatmentIndustries, sectorsSubset)
     
   }else if(WIOSection == "Waste Treatment Commodities"){
     model$WasteTreatmentCommodities <- rbind(model$WasteTreatmentCommodities, sectorsSubset)
     
   }else if(WIOSection == "Waste Generation by Treatment"){
-    model$WasteGenTreat  <- rbind(model$model$WasteGenTreat, sectorsSubset)
+    model$WasteGenTreat  <- rbind(model$WasteGenTreat, sectorsSubset)
     
   }else if(WIOSection == "Waste Generation by Mass"){
     model$WasteGenMass <- rbind(model$WasteGenMass, sectorsSubset)
@@ -343,14 +331,18 @@ subsetWIOSectors <- function (model, WIO, WIOSection){
   return(model)
 }
 
-#' Include the WIO elements of the Use table in the correct configuration
+#' Include the WIO elements in the model$Commodity and model$Industry objects
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param WIO A list with WIO specifications and data
-#' @return A model object which contain the model$Commodity or model$Industry objects with WIO sectors
+#' @return A model object which contain the model$Commodity and model$Industry objects with WIO sectors
 includeWIOSectorDFs <- function (model, WIO){
   # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
   WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
   WIOUseColumns <- do.call("rbind", list(model$WasteTreatmentIndustries, model$WasteGenTreat, model$RecyclingTreat))
+  
+  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
+  WIOUseRows <- WIOUseRows[which(WIOUseRows$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
+  WIOUseColumns <- WIOUseColumns[which(WIOUseColumns$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
   
   fullWIOComList <- rbind(model$Commodities, WIOUseRows) # Create commodity and industry lists of the full WIO Use table
   rownames(fullWIOComList) <- 1:nrow(fullWIOComList)
@@ -400,7 +392,7 @@ includeFullUseWIO <- function (model, WIO){
   colnames(WIOFinalDemand) <- model$FinalDemandMeta$Code_Loc
   WIOFinalDemand[1:dim(model$UseTransactions)[1],] <- model$FinalDemand
   
-  # For FinalDemand
+  # For DomesticFinalDemand
   WIODomesticFinalDemand <- data.frame(matrix(0, nrow = WIOComLength, ncol = dim(model$DomesticFinalDemand)[2]))
   rownames(WIODomesticFinalDemand) <- model$Commodities$Code_Loc
   colnames(WIODomesticFinalDemand) <- model$FinalDemandMeta$Code_Loc
@@ -514,10 +506,14 @@ calculateWIOOutputs<- function (model, WIO){
 
 #' Adjust InternationalTradeAdjustment to the correct dimensions based on WIO sectors
 #' @param model An EEIO model object with model specs and IO tables loaded
+#' @param WIO A list with WIO specifications and data
 #' @return A model object with a modified international trade adjustment object based on WIO sectors
-adjustITAwithWIOSectors <- function (model){
+adjustITAwithWIOSectors <- function (model, WIO){
   # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
   WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
+  
+  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
+  WIOUseRows <- WIOUseRows[which(WIOUseRows$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
   
   WIOITA <- double(dim(WIOUseRows)[1])
   names(WIOITA) <- WIOUseRows$Code_Loc
@@ -527,6 +523,45 @@ adjustITAwithWIOSectors <- function (model){
   return(model)
 }
 
+
+#' Adjust Margins to the correct dimensions based on WIO sectors
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param WIO A list with WIO specifications and data
+#' @return A model object with a modified Margins object based on WIO sectors
+adjustMarginswithWIOSectors <- function (model, WIO){
+  # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
+  WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
+  
+  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
+  WIOUseRows <- WIOUseRows[which(WIOUseRows$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
+  
+  # Create DF to house margin values for WIO sectors
+  WIOMargins <- data.frame(matrix(nrow = dim(WIOUseRows)[1], 
+                                  ncol = ncol(model$Margins)))
+  colnames(WIOMargins) <- colnames(model$Margins)
+  
+  # Populate WIOMargins DF with the relevant data from WIOUseRows
+  # For Producers value, assume total commodity output 
+  # For Transportation, Wholese, and Retail, assume 0
+  # For Purchasers value, assume total commodity output. 
+  # This assumptions are due to a lack of relevant data in the WIOspecs (i.e. WIO input files)
+  WIOMargins$SectorCode <- WIOUseRows$Code
+  WIOMargins$ProducersValue <- model$CommodityOutput[names(model$CommodityOutput) %in% WIOUseRows$Code_Loc]
+  WIOMargins$Transportation <- rep(0,dim(WIOUseRows)[1])
+  WIOMargins$Wholesale <- rep(0,dim(WIOUseRows)[1])
+  WIOMargins$Retail <- rep(0,dim(WIOUseRows)[1])
+  WIOMargins$Name <- WIOUseRows$Name
+  WIOMargins$Code_Loc <- WIOUseRows$Code_Loc
+  WIOMargins$PurchasersValue <- rowSums(WIOMargins[, c("ProducersValue", "Transportation", "Wholesale", "Retail")])
+  
+  # Append to model$Margins
+  model$Margins <- rbind(model$Margins, WIOMargins)
+  rownames(model$Margins) <- 1:nrow(model$Margins) # relable rows
+  
+  return(model)
+}
+
+
 #' Check balance of WIO waste and recycling sectors
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param sectorType A string that indicates to compare the balance of waste or recycling generation and treatment sectors.
@@ -535,6 +570,7 @@ checkWIOBalance <- function (model, sectorType = "Waste"){
   # Get all waste generation and recycling by mass and treatment from use table
   if(sectorType == "Waste"){
     useGen <- model$UseTransactions[which(rownames(model$UseTransactions) %in% model$WasteGenMass$Code_Loc),]
+    FDGen <-  model$FinalDemand[which(rownames(model$FinalDemand) %in% model$WasteGenMass$Code_Loc),]
     makeTreatment <- model$MakeTransactions[which(rownames(model$MakeTransactions) %in% model$WasteGenTreat$Code_Loc),]
   }else{
     useGen <- model$UseTransactions[which(rownames(model$UseTransactions) %in% model$RecyclingMass$Code_Loc),]
@@ -544,7 +580,7 @@ checkWIOBalance <- function (model, sectorType = "Waste"){
   if(dim(useGen)[1] != 0 & dim(makeTreatment)[1] != 0){
 
     
-    genSum <- sum(useGen)
+    genSum <- sum(useGen) + sum(FDGen)
     treatSum <- sum(makeTreatment)
     
     # if the ratio of the sum of generation over the sum of treatment is greater than 1% then the generation and treatment is not balanced and we need to stop execution
@@ -763,4 +799,98 @@ removeSectorsFromWIOCW <- function (model, spec){
   }
   
   return(spec)
+}
+
+
+#' Adjust MultiYearObjects in WIO models such that they have the same dimensions as the other model objects
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param spec A dataframe with WIO specifications
+#' @return spec A dataframe with the specified sectors added to the spec$NAICSSetorCW object 
+adjustMultiYearObjectsForWIO <- function(model, WIO){
+  
+  temp <- 1
+  
+  # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
+  WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
+  WIOUseColumns <- do.call("rbind", list(model$WasteTreatmentIndustries, model$WasteGenTreat, model$RecyclingTreat))
+  
+  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
+  WIOUseRows <- WIOUseRows[which(WIOUseRows$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
+  WIOUseColumns <- WIOUseColumns[which(WIOUseColumns$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
+  
+  # Populate MultiYearCommodityoutput and MultiYearIndustryOutput objects 
+  
+  # Populate MultiYearCommodityOutput by repeating the value of the current year output of the WIO Commodities
+  multiYearWIOComOutput <- data.frame(matrix(nrow = dim(WIOUseRows)[1], 
+                                             ncol = ncol(model$MultiYearCommodityOutput)))
+  
+  colnames(multiYearWIOComOutput) <- colnames(model$MultiYearCommodityOutput)
+  rownames(multiYearWIOComOutput) <- WIOUseRows$Code_Loc
+  comValues <- model$CommodityOutput[names(model$CommodityOutput) %in% WIOUseRows$Code_Loc]
+  multiYearWIOComOutput[,] <- rep(comValues, ncol(model$MultiYearCommodityOutput))
+  model$MultiYearCommodityOutput <- rbind(model$MultiYearCommodityOutput, multiYearWIOComOutput)
+  
+  # Populate MultiYearIndustryOutput by repeating the value of the current year output of the WIO Industries
+  multiYearWIOIndOutput <- data.frame(matrix(nrow = dim(WIOUseColumns)[1], 
+                                             ncol = ncol(model$MultiYearIndustryOutput)))
+  
+  colnames(multiYearWIOIndOutput) <- colnames(model$MultiYearIndustryOutput)
+  rownames(multiYearWIOIndOutput) <- WIOUseColumns$Code_Loc
+  indValues <- model$IndustryOutput[names(model$IndustryOutput) %in% WIOUseColumns$Code_Loc]
+  multiYearWIOIndOutput[,] <- rep(indValues, ncol(model$MultiYearIndustryOutput))
+  model$MultiYearIndustryOutput <- rbind(model$MultiYearIndustryOutput, multiYearWIOIndOutput)
+  
+  # Populate MultiYearCommodityCPI and MultiYearIndustryCPI
+  # Assume constant CPI for the WIO commodities as there currently is no data available to calculate this for waste sectors
+  multiYearWIOCPI <- data.frame(matrix(nrow = dim(WIOUseRows)[1], 
+                                             ncol = ncol(model$MultiYearCommodityCPI)))
+  
+  colnames(multiYearWIOCPI) <- colnames(model$MultiYearCommodityCPI)
+  rownames(multiYearWIOCPI) <- WIOUseRows$Code_Loc
+  comValues <- rep(100,dim(multiYearWIOCPI)[1])
+  multiYearWIOCPI[,] <- rep(comValues, ncol(model$MultiYearCommodityCPI))
+  model$MultiYearCommodityCPI <- rbind(model$MultiYearCommodityCPI, multiYearWIOCPI)
+  
+  # Assume constant CPI for the WIO industries as there currently is no data available to calculate this for waste sectors
+  multiYearWIOCPI <- data.frame(matrix(nrow = dim(WIOUseColumns)[1], 
+                                       ncol = ncol(model$MultiYearIndustryCPI)))
+  
+  colnames(multiYearWIOCPI) <- colnames(model$MultiYearIndustryCPI)
+  rownames(multiYearWIOCPI) <- WIOUseColumns$Code_Loc
+  indValues <- rep(100,dim(multiYearWIOCPI)[1])
+  multiYearWIOCPI[,] <- rep(indValues, ncol(model$MultiYearIndustryCPI))
+  model$MultiYearIndustryCPI <- rbind(model$MultiYearIndustryCPI, multiYearWIOCPI)
+  
+  
+  return(model)
+}
+
+#' Adjust WIO sectors such that they are in the correct order. Should only be needed in the case that there is more than 1 WIOSpec.
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return  A model object with the WIO sectors in the correct order
+reorderWIOSectors <- function(model){
+  
+  # Get WIO sector indexes
+  WIOTreatmentComIndexes <- which(model$Commodities$Code_Loc %in% model$WasteTreatmentCommodities$Code_Loc)
+  WIOTreatmentIndIndexes <- which(model$Industries$Code_Loc %in% model$WasteTreatmentIndustries$Code_Loc)
+  
+  wasteGenMassComIndexes <- which(model$Commodities$Code_Loc %in% model$WasteGenMass$Code_Loc)
+  wasteGenTreatIndIndexes <- which(model$Industries$Code_Loc %in% model$WasteGenTreat$Code_Loc)
+  
+  # Reorder commodities
+  WIOComOrder <- c(WIOTreatmentComIndexes,wasteGenMassComIndexes)
+  comOrder <- 1:dim(model$Commodities)[1]  # Create an ordered int vector from 1 to number of commodities
+  comOrder <- comOrder[-(WIOComOrder)] # Remove ints corresponding to the WIO commodity indeces from their proper order
+  comOrder <- c(comOrder, WIOComOrder) # Add ints corresponding to the WIO commodity indeces to the end of the list
+  
+  # Reorder industries
+  WIOIndOrder <- c(WIOTreatmentIndIndexes,wasteGenTreatIndIndexes)
+  indOrder <- 1:dim(model$Industries)[1]  # Create an ordered int vector from 1 to number of commodities
+  indOrder <- indOrder[-(WIOIndOrder)] # Remove ints corresponding to the WIO commodity indeces from their proper order
+  indOrder <- c(indOrder, WIOIndOrder) # Add ints corresponding to the WIO commodity indeces to the end of the list
+ 
+  model <- reorderModelSectors(model, comOrder, indOrder)
+  
+  return(model)
+  
 }
