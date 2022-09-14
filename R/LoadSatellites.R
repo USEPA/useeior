@@ -118,6 +118,7 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
     f <- loadDataCommonsfile(sat_spec$StaticFile)
     totals_by_sector <- utils::read.table(f, sep = ",", header = TRUE, stringsAsFactors = FALSE,
                                           fileEncoding = 'UTF-8-BOM')
+    totals_by_sector[is.na(totals_by_sector)] <- ""
   }
   return(totals_by_sector)
 }
