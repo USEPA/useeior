@@ -72,16 +72,16 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
   # Merge the satellite table with the adjusted industry output
   Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "Sector", by.y = 0, all.x = TRUE)
   outputcolname <- paste0(outputyear, output_type, "Output")
-  if(model$specs$ModelType=="WIO"){
-    # Extract Industry output from the model for WIO sectors as these will not be found in the BEA data
-    wio <- Sattable_USEEIO_wOutput[(Sattable_USEEIO_wOutput$Sector %in% model$WasteTreatmentIndustries$Code), ]
-    industry_output <- as.data.frame(model$IndustryOutput)
-    rownames(industry_output) <- gsub(paste0("/", location_acronym), "", rownames(industry_output))
-    wio <- merge(wio, industry_output, by.x = 'Sector', by.y = 0)
-    wio[[outputcolname]] <- wio[['model$IndustryOutput']]
-    wio[['model$IndustryOutput']] <- NULL
-    Sattable_USEEIO_wOutput <- rbind(Sattable_USEEIO_wOutput, wio)
-  }
+  # if(model$specs$ModelType=="WIO"){
+  #   # Extract Industry output from the model for WIO sectors as these will not be found in the BEA data
+  #   wio <- Sattable_USEEIO_wOutput[(Sattable_USEEIO_wOutput$Sector %in% model$WasteTreatmentIndustries$Code), ]
+  #   industry_output <- as.data.frame(model$IndustryOutput)
+  #   rownames(industry_output) <- gsub(paste0("/", location_acronym), "", rownames(industry_output))
+  #   wio <- merge(wio, industry_output, by.x = 'Sector', by.y = 0)
+  #   wio[[outputcolname]] <- wio[['model$IndustryOutput']]
+  #   wio[['model$IndustryOutput']] <- NULL
+  #   Sattable_USEEIO_wOutput <- rbind(Sattable_USEEIO_wOutput, wio)
+  # }
   # Drop rows where output is NA
   Sattable_USEEIO_wOutput <- Sattable_USEEIO_wOutput[!is.na(Sattable_USEEIO_wOutput[, outputcolname]), ]
   # Drop rows where output is zero
