@@ -233,7 +233,15 @@ convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
   rows <- io_codes$Commodities
   cols <- c(io_codes$Industries,
             intersect(colnames(UseSUT_PUR), io_codes$FinalDemandCodes))
-  UseSUT_PRO <- UseSUT_PUR[rows, cols] - (UsePUR[rows, cols] - UsePRO[rows, cols])
+  # Calculate margins matrix
+  # Note: there are no retail (comm) sectors in UsePUR, so these sectors in the
+  # margins matrix are filled with NA. Update rownames of the matrix.
+  margins <- UsePUR[rows, cols] - UsePRO[rows, cols]
+  rownames(margins) <- rows
+  # Replace NA with 0 because retail sectors should not have additional margins
+  margins[is.na(margins)] <- 0
+  # Calculate UseSUT_PRO
+  UseSUT_PRO <- UseSUT_PUR[rows, cols] - margins
   # Convert from PRO to BAS by removing tax less subsidies from the Supply table
   # Note: import duties (MDTY) is considered tax on imported goods, see page 3 of
   # https://apps.bea.gov/scb/pdf/2015/09%20September/0915_supply_use_tables_for_the_united_states.pdf
