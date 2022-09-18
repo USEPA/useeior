@@ -58,6 +58,9 @@ convertSectorsToPhysical <- function (model, configpaths = NULL){
   physicalMUIOSectors <- subset(model$MUIOSectors, model$MUIOSectors$Unit != "USD")
   economicMUIOSectors <- subset(model$MUIOSectors, model$MUIOSectors$Unit == "USD")
   
+  # Resort to match model
+  physicalMUIOSectors <- physicalMUIOSectors[order(match(physicalMUIOSectors$USEEIO_Code, model$Commodities$Code_Loc)),]
+  
   # Get indeces for physical industries and commodities in the Make and Use tables
   physComIndeces <- which(model$Commodities$Code_Loc %in% physicalMUIOSectors$USEEIO_Code)
   physIndIndeces <- which(model$Industries$Code_Loc %in% physicalMUIOSectors$USEEIO_Code)
