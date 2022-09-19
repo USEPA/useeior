@@ -804,7 +804,7 @@ removeSectorsFromWIOCW <- function (model, spec){
 
 #' Adjust MultiYearObjects in WIO models such that they have the same dimensions as the other model objects
 #' @param model An EEIO model object with model specs and IO tables loaded
-#' @param spec A dataframe with WIO specifications
+#' @param WIO A dataframe with WIO specifications
 #' @return spec A dataframe with the specified sectors added to the spec$NAICSSetorCW object 
 adjustMultiYearObjectsForWIO <- function(model, WIO){
   
