@@ -88,9 +88,43 @@ convertSectorsToPhysical <- function (model, configpaths = NULL){
   model$Commodities$Unit[physComIndeces] <- physicalMUIOSectors$Unit
   model$Industries$Unit[physIndIndeces] <- physicalMUIOSectors$Unit
   
+  # Adjust MultiYear Objects for MUIO
+  model <- adjustMultiYearObjectsForMUIO(model, physComIndeces, physIndIndeces, econComIndeces, econIndIndeces)
+  
   # Move physical sectors to top-left quadrant of tables, followed by non-physical MUIO sectors
   model <- reorderPhysicalSectors(model, physComIndeces, physIndIndeces, econComIndeces, econIndIndeces)
   
   return(model)
   
+}
+
+#' Adjust MultiYearObjects in WIO models such that they have the same dimensions as the other model objects
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param physComIndeces Indeces that specify the location of the physical MUIO commodities in the commodity lists
+#' @param physIndIndeces Indeces that specify the location of the physical MUIO industries in the industry lists
+#' @param econComIndeces Indeces that specify the location of the economic MUIO commodities (i.e., the "Other" sectors, X in code) in the commodity lists
+#' @param econIndIndeces Indeces that specify the location of the economic MUIO industries (i.e., the "Other" sectors, X in code) in the industry lists
+#' @return A model with the multiyear objects adjusted for the MUIO industries/commodities.
+adjustMultiYearObjectsForMUIO <- function(model, physComIndeces, physIndIndeces, econComIndeces, econIndIndeces){
+  
+  # Adjust MultiYearCommodity/Indistry Output values for MUIO
+  # Assumes constant physical totals and economic totals for MUIO sectors across years, similar to WIO
+  
+  model$MultiYearIndustryOutput[physIndIndeces,] <- rep(model$IndustryOutput[physIndIndeces], ncol(model$MultiYearIndustryOutput))
+  model$MultiYearIndustryOutput[econIndIndeces,] <- rep(model$IndustryOutput[econIndIndeces], ncol(model$MultiYearIndustryOutput))
+  
+  model$MultiYearCommodityOutput[physComIndeces,] <- rep(model$CommodityOutput[physComIndeces], ncol(model$MultiYearCommodityOutput))
+  model$MultiYearCommodityOutput[econComIndeces,] <- rep(model$CommodityOutput[econComIndeces], ncol(model$MultiYearCommodityOutput))
+  
+  #Adjust MultiYearCPI values for MUIO
+  #Assumes constant CPI for MUIO sectors across years, similar to WIO
+  model$MultiYearIndustryCPI[physIndIndeces,] <- rep(100, ncol(model$MultiYearIndustryCPI))
+  model$MultiYearIndustryCPI[econIndIndeces,] <- rep(100, ncol(model$MultiYearIndustryCPI))
+  
+  model$MultiYearCommodityCPI[physComIndeces,] <- rep(100, ncol(model$MultiYearCommodityCPI))
+  model$MultiYearCommodityCPI[econComIndeces,] <- rep(100, ncol(model$MultiYearCommodityCPI))
+  
+
+  
+  return(model)
 }
