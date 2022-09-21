@@ -170,7 +170,7 @@ calculateLeontiefInverse <- function(A) {
 #' @return A Domestic Use table with rows as commodity codes and columns as industry and final demand codes
 generateDomesticUse <- function(Use, model) {
   # Load Import matrix
-  if (model$specs$BaseIOLevel!="Sector") {
+  if (model$specs$BaseIOLevel != "Sector") {
     Import <- get(paste(model$specs$BaseIOLevel, "Import",
                         model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
   } else {
@@ -179,8 +179,38 @@ generateDomesticUse <- function(Use, model) {
     # Aggregate Import from Summary to Sector
     Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
   }
+  Import <- Import[rownames(Use), colnames(Use)]
+  # Adjust Import matrix to BAS price if model is in BAS price
+  # Note: according to the documentation in BEA Import matrix, import values in
+  # the Import matrix are in producer (PRO) values. For PRO models, imports in the
+  # Import matrix are valued at their domestic port value, while imports in Use
+  # (Make-Use framework) are valued at their foreign port value, meaning
+  # domestic port value = foreign port value + 
+  #                       the value of all transportation and insurance services to import +
+  #                       customs duties.
+  # To get an Import matrix in BAS price, customs duties (i.e. import duties or tax on imports)
+  # needs to be subtracted from the original Import matrix
+  if (model$specs$BasePriceType == "BAS") {
+    # Find "MDTY - import duties" in Supply table
+    Supply <- get(paste(model$specs$BaseIOLevel, "Supply", model$specs$IOYear,
+                        sep = "_")) * 1E6
+    ImportDuty <- Supply[rownames(Import), "MDTY"]
+    # Subtract import duties from  Import matrix
+    # Expanding it to a matrix based on the Import matrix, except for the import column
+    # Then subtract the matrix from the Import matrix to convert it from PRO to BAS
+    import_col <- model$FinalDemandMeta[model$FinalDemandMeta$Group == "Import",
+                                        "Code"]
+    non_import_cols <- setdiff(colnames(Import), import_col)
+    ratio_m <- Import/rowSums(Import[, non_import_cols])
+    ratio_m[is.na(ratio_m)] <- 1/(ncol(Import) - 1)
+    Import_BAS <- Import[, non_import_cols] - diag(ImportDuty) %*% as.matrix(ratio_m)
+    # Recalculate import column in the Import matrix by adding import duties
+    Import_BAS[, import_col] <- Import[, import_col] + ImportDuty
+    # Assign Import_BAS to Import
+    Import <- Import_BAS
+  }
   # Subtract Import from Use
-  DomesticUse <- Use - Import[rownames(Use), colnames(Use)]
+  DomesticUse <- Use - Import
   # Adjust Import column in DomesticUse to 0.
   # Note: the original values in Import column are essentially the International Trade Adjustment
   # that are reserved and added as an additional column (F050/F05000) in DomesticUse.
