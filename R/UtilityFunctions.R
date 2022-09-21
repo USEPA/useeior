@@ -28,9 +28,9 @@ joinStringswithSlashes <- function(...) {
 #' @param matrix      A matrix
 #' @param from_level  The level of BEA code this matrix starts at
 #' @param to_level    The level of BEA code this matrix will be aggregated to
-#' @param specs       Model specifications
+#' @param model       An EEIO model object with model specs and crosswalk table loaded
 #' @return An aggregated matrix
-aggregateMatrix <- function (matrix, from_level, to_level, specs) {
+aggregateMatrix <- function (matrix, from_level, to_level, model) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste0("BEA_", from_level)
   to_code <- paste0("BEA_", to_level)
@@ -60,38 +60,57 @@ aggregateMatrix <- function (matrix, from_level, to_level, specs) {
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param output_type Either Commodity or Industry, default is Commodity
 #' @return A data frame of output ratio
-calculateOutputRatio <- function (model, output_type="Commodity") {
+calculateOutputRatio <- function(model, output_type = "Commodity") {
   # Generate Output based on output_type 
-  if (output_type=="Commodity") {
+  if (output_type == "Commodity") {
     Output <- model$q
   } else {
     Output <- model$x
   }
-  # Map CommodityOutput to more aggregated IO levels
-  Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA")|
-                                        colnames(model$crosswalk)=="USEEIO"])
+  # Map Output to more aggregated IO levels
+  Crosswalk <- unique(model$crosswalk[startsWith(colnames(model$crosswalk), "BEA") |
+                                        colnames(model$crosswalk) == "USEEIO"])
   ratio_table <- merge(Crosswalk,
                        as.data.frame(Output, row.names = gsub("/.*", "", names(Output))),
                        by.x = "USEEIO", by.y = 0)
-  # Calculate output ratios
-  for (iolevel in c("Summary", "Sector")) {
-    # Generate flexible sector_code
-    sector_code <- paste0("BEA_", iolevel)
-    # Sum Detail output to Summary/Sector
-    output_sum <- stats::aggregate(ratio_table$Output, by = list(ratio_table[, sector_code]), sum)
-    colnames(output_sum) <- c(sector_code, paste0(iolevel, "Output"))
-    ratio_table <- merge(ratio_table, output_sum, by = sector_code)
-    # Calculate DetailSummaryRatio and DetailSectorRatio
-    ratio_table[, paste0("to", iolevel, "Ratio")] <- ratio_table$Output/ratio_table[, paste0(iolevel, "Output")]
-    # Generate SectorCode column
-    ratio_table$SectorCode <- ratio_table[, paste0("BEA_", model$specs$BaseIOLevel)]
+  # Calculate output ratio based on model IO level
+  if (model$specs$BaseIOLevel == "Detail") {
+    # For Detail model, calculate toSummaryRatio and toSectorRatio after aggregating
+    # DetailOutput to Summary and Sector levels
+    for (iolevel in c("Summary", "Sector")) {
+      # Generate flexible sector_code
+      sector_code <- paste0("BEA_", iolevel)
+      # Sum Detail output to Summary/Sector
+      output_sum <- stats::aggregate(ratio_table$Output,
+                                     by = list(ratio_table[, sector_code]), sum)
+      colnames(output_sum) <- c(sector_code, paste0(iolevel, "Output"))
+      ratio_table <- merge(ratio_table, output_sum, by = sector_code)
+      # Calculate toSummaryRatio and toSectorRatio
+      ratio_col <- paste0("to", iolevel, "Ratio")
+      ratio_table[, ratio_col] <- ratio_table$Output/ratio_table[, paste0(iolevel, "Output")]
+    }
+  } else if (model$specs$BaseIOLevel == "Summary") {
+    # For Summary model, calculate toSectorRatio after aggregating SummaryOutput
+    # to Sector level. toSummaryRatio is 1.
+    ratio_table <- unique(ratio_table[, c("USEEIO", "BEA_Sector", "Output")])
+    # Sum Summary output to Sector
+    output_sum <- stats::aggregate(ratio_table$Output,
+                                   by = list(ratio_table[, "BEA_Sector"]), sum)
+    colnames(output_sum) <- c("BEA_Sector", "SectorOutput")
+    ratio_table <- merge(ratio_table, output_sum, by = "BEA_Sector")
+    # Calculate toSummaryRatio and toSectorRatio
+    ratio_table[, "toSummaryRatio"] <- 1
+    ratio_table[, "toSectorRatio"] <- ratio_table$Output/ratio_table[, "SectorOutput"]
+  } else if (model$specs$BaseIOLevel == "Sector") {
+    # For Summary model, toSummaryRatio is NA, and toSectorRatio is 1.
+    ratio_table <- unique(ratio_table[, c("USEEIO", "BEA_Sector", "Output")])
+    ratio_table[, "toSummaryRatio"] <- NA
+    ratio_table[, "toSectorRatio"] <- 1
   }
+  # Generate SectorCode column
+  ratio_table$SectorCode <- ratio_table[, "USEEIO"]
   # Keep ratio columns
-  ratio_table <- unique(ratio_table[, c("SectorCode", "toSummaryRatio", "toSectorRatio")])
-  if(model$specs$BaseIOLevel=="Sector") {
-    ratio_table$toSectorRatio <- 1
-    ratio_table <- unique(ratio_table[, c("SectorCode", "toSectorRatio")])
-  }
+  ratio_table <- ratio_table[, c("SectorCode", "toSummaryRatio", "toSectorRatio")]
   return(ratio_table)
 }
 
@@ -180,17 +199,39 @@ loadDataCommonsfile <- function(static_file) {
   return(f)
 }
 
-#' Maps a vector of FIPS codes to location codes
-#' ! Placeholder only works for '00000' now
+#' Maps a vector of 5-digit FIPS codes to location names
 #' @param fipscodes A vector of 5 digit FIPS codes
-#' @return A vector of location codes where matches are found
-mapFIPS5toLocationCodes <- function(fipscodes) {
-  mapping <- c('00000' = 'US')
-  
-  locations <- stringr::str_replace_all(string = fipscodes,pattern = mapping)
+#' @param fipssystem A text value specifying FIPS System, can be FIPS_2015
+#' @return A vector of location names where matches are found
+mapFIPS5toLocationNames <- function(fipscodes, fipssystem) {
+  mapping_file <- "Crosswalk_FIPS.csv"
+  mapping <- utils::read.table(system.file("extdata", mapping_file, package = "useeior"),
+                               sep = ",", header = TRUE, stringsAsFactors = FALSE, 
+                               check.names = FALSE, quote = "")
+  # Add leading zeros to FIPS codes if necessary
+  if (!fipssystem%in%colnames(mapping)) {
+    fipssystem <- max(which(startsWith(colnames(mapping), "FIPS")))
+  }
+  mapping[, fipssystem] <- formatC(mapping[, fipssystem], width = 5, format = "d", flag = "0")
+  mapping <- mapping[mapping[, fipssystem]%in%fipscodes, ]
+  # Get locations based on fipscodes
+  locations <- stringr::str_replace_all(string = fipscodes,
+                                        pattern = setNames(as.vector(mapping$State),
+                                                           mapping[, fipssystem]))
   return(locations)
-}  
-  
+}
+
+#' Maps location codes to names
+#' @param codes A vector of location codes
+#' @param codesystem A text value specifying code system, e.g. FIPS.
+#' @return A vector of location names where matches are found.
+mapLocationCodestoNames <- function(codes, codesystem) {
+  func_dict <- list("FIPS" = "mapFIPS5toLocationNames") # add more component for new location codes
+  func_to_eval <- func_dict[[codesystem]]
+  location_names <- do.call(eval(as.name(func_to_eval)), list(codes, codesystem))
+  return(location_names)
+}
+
 #' Replaces all `None` in a dataframe with the R NULL type NA
 #' @param df A data frame
 #' @return A data frame without `None`
@@ -362,25 +403,45 @@ generateModelSectorSchema <- function(model) {
 #' @param year A numeric value specifying data year.
 #' @param source A string specifying data source.
 #' @param url A string specifying data url.
+#' @param date_last_modified A string specifying when the original data was
+#' last modified by provider, e.g. BEA.
+#' @param date_accessed A string specifying when the original data was accessed
+#' by package.
 #' @description Write metadata of downloaded data to JSON.
-writeMetadatatoJSON <- function(package, name, year, source, url) {
-  metadata <- list("tool" = utils::packageDescription(package, fields = "Package"),
-                   #"category" = "",
+writeMetadatatoJSON <- function(package,
+                                name,
+                                year,
+                                source,
+                                url,
+                                date_last_modified,
+                                date_accessed) {
+  metadata <- list("tool" = utils::packageDescription(package,
+                                                      fields = "Package"),
                    "name_data" = name,
-                   "tool_version" = utils::packageDescription(package, fields = "Version"),
+                   "tool_version" = utils::packageDescription(package,
+                                                              fields = "Version"),
                    #"git_hash" = "",
                    "ext" = "json",
-                   "date_created" = Sys.time(),
-                   "tool_meta" = list(#"method_url" = "",
-                                      "data_year" = year,
+                   "date_created" = Sys.Date(),
+                   "data_meta" = list("data_year" = year,
                                       "author" = source,
-                                      #"source_name" = "",
                                       "source_url" = url,
-                                      "bib_id" = ""))
+                                      "date_last_modified" = date_last_modified,
+                                      "date_accessed" = date_accessed))
   metadata_dir <- "inst/extdata/metadata/"
   if (!dir.exists(metadata_dir)) {
     dir.create(metadata_dir, recursive = TRUE)
   }
   write(jsonlite::toJSON(metadata, pretty = TRUE),
         paste0(metadata_dir, paste0(name, "_metadata"), ".json"))
+}
+
+#' Format location in state models from formal state name to US-ST
+#' @param location A text value of input location name
+#' @return A text value of formatted location for state models
+formatLocationforStateModels <- function(location) {
+  loc <- stringr::str_replace_all(string = tolower(location),
+                                  pattern = setNames(paste("US", state.abb, sep = "-"),
+                                                     tolower(state.name)))
+  return(loc)
 }

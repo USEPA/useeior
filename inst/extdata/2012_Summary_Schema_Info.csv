@@ -1,4 +1,4 @@
-Code,Commodity,Industry,Scrap,UsedGoods,NonComparableImport,RoWAdjustment,ValueAdded,CommodityTotalOutput,IndustryTotalOutput,CommodityIntermediateOutput,HouseholdDemand,InvestmentDemand,ChangeInventories,Export,Import,GovernmentDemand,Wholesale,Retail,Distribution
+Code,Commodity,Industry,Scrap,UsedGoods,NonComparableImport,RoWAdjustment,ValueAdded,CommodityTotalOutput,IndustryTotalOutput,CommodityIntermediateOutput,HouseholdDemand,InvestmentDemand,ChangeInventories,Export,Import,GovernmentDemand,Wholesale,Retail,Transportation
 111CA,1,1,,,,,,,,,,,,,,,,,
 113FF,1,1,,,,,,,,,,,,,,,,,
 211,1,1,,,,,,,,,,,,,,,,,
@@ -36,7 +36,7 @@ Code,Commodity,Industry,Scrap,UsedGoods,NonComparableImport,RoWAdjustment,ValueA
 484,1,1,,,,,,,,,,,,,,,,,1
 485,1,1,,,,,,,,,,,,,,,,,1
 486,1,1,,,,,,,,,,,,,,,,,1
-487OS,1,1,,,,,,,,,,,,,,,,,
+487OS,1,1,,,,,,,,,,,,,,,,,1
 493,1,1,,,,,,,,,,,,,,,,,1
 511,1,1,,,,,,,,,,,,,,,,,
 512,1,1,,,,,,,,,,,,,,,,,

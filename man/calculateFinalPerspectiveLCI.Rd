@@ -2,7 +2,7 @@
 % Please edit documentation in R/CalculationFunctions.R
 \name{calculateFinalPerspectiveLCI}
 \alias{calculateFinalPerspectiveLCI}
-\title{The final perspective LCI aligns flows with sectors consumed by final users
+\title{The final perspective LCI aligns flows with sectors consumed by final users.
 Multiply the M matrix and the diagonal of demand, y.}
 \usage{
 calculateFinalPerspectiveLCI(M, y)
@@ -13,15 +13,15 @@ calculateFinalPerspectiveLCI(M, y)
 \item{y, }{a model demand vector}
 }
 \value{
-A matrix of model sectors x model flows with total flows per sector
+A matrix with total impacts in form of sectors x flows..
 }
 \description{
-The final perspective LCI aligns flows with sectors consumed by final users
+The final perspective LCI aligns flows with sectors consumed by final users.
 Multiply the M matrix and the diagonal of demand, y.
 }
 \references{
 Yang, Yi, Wesley W. Ingwersen, Troy R. Hawkins, Michael Srocka, and David E. Meyer.
 2017. “USEEIO: A New and Transparent United States Environmentally-Extended Input-Output Model.”
 Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
-SI1, Equation 8.
+SI1, Equation 10.
 }

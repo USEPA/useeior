@@ -1,0 +1,14 @@
+{
+  "tool": ["useeior"],
+  "name_data": ["Sector_Make_2019_BeforeRedef"],
+  "tool_version": ["1.1.0"],
+  "ext": ["json"],
+  "date_created": ["2022-07-27"],
+  "data_meta": {
+    "data_year": [2019],
+    "author": ["US Bureau of Economic Analysis"],
+    "source_url": ["https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesIO.zip"],
+    "date_last_modified": ["2021-09-14"],
+    "date_accessed": ["2022-07-27"]
+  }
+}

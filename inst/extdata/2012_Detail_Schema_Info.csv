@@ -1,4 +1,4 @@
-Code,Commodity,Industry,Scrap,UsedGoods,NonComparableImport,RoWAdjustment,ValueAdded,CommodityTotalOutput,IndustryTotalOutput,CommodityIntermediateOutput,HouseholdDemand,InvestmentDemand,ChangeInventories,Export,Import,GovernmentDemand,NaturalGas,Water,Electricity,Petroleum,PersonalTransportRelated,Wholesale,Retail,Distribution
+Code,Commodity,Industry,Scrap,UsedGoods,NonComparableImport,RoWAdjustment,ValueAdded,CommodityTotalOutput,IndustryTotalOutput,CommodityIntermediateOutput,HouseholdDemand,InvestmentDemand,ChangeInventories,Export,Import,GovernmentDemand,NaturalGas,Water,Electricity,Petroleum,PersonalTransportRelated,Wholesale,Retail,Transportation
 1111A0,1,1,,,,,,,,,,,,,,,,,,,,,,
 1111B0,1,1,,,,,,,,,,,,,,,,,,,,,,
 111200,1,1,,,,,,,,,,,,,,,,,,,,,,
@@ -296,8 +296,8 @@ Code,Commodity,Industry,Scrap,UsedGoods,NonComparableImport,RoWAdjustment,ValueA
 484000,1,1,,,,,,,,,,,,,,,,,,,,,,1
 485000,1,1,,,,,,,,,,,,,,,,,,,,,,1
 486000,1,1,,,,,,,,,,,,,,,,,,,,,,1
-48A000,1,1,,,,,,,,,,,,,,,,,,,,,,
-492000,1,1,,,,,,,,,,,,,,,,,,,,,,
+48A000,1,1,,,,,,,,,,,,,,,,,,,,,,1
+492000,1,1,,,,,,,,,,,,,,,,,,,,,,1
 493000,1,1,,,,,,,,,,,,,,,,,,,,,,1
 511110,1,1,,,,,,,,,,,,,,,,,,,,,,
 511120,1,1,,,,,,,,,,,,,,,,,,,,,,

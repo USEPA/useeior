@@ -4,10 +4,12 @@
 \alias{compareIndustryOutputinMakeandUse}
 \title{Gets industry output from model Use and Make and checks if they are the same}
 \usage{
-compareIndustryOutputinMakeandUse(model)
+compareIndustryOutputinMakeandUse(model, tolerance)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
+
+\item{tolerance}{A numeric value setting tolerance of the comparison}
 }
 \description{
 Gets industry output from model Use and Make and checks if they are the same

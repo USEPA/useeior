@@ -33,12 +33,12 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   totals_by_sector_BEA$BEA <- ifelse(totals_by_sector_BEA$NAICS %in% disaggNAICS, totals_by_sector_BEA$NAICS, totals_by_sector_BEA$BEA)
   totals_by_sector_BEA$TechnologicalCorrelationAdjustment[is.na(totals_by_sector_BEA$TechnologicalCorrelationAdjustment)] <- 0
   
-  
   # Generate allocation_factor data frame containing allocation factors between NAICS and BEA sectors
   allocation_factor <- getNAICStoBEAAllocation(totals_by_sector_year, model)
-  colnames(allocation_factor) <- c("NAICS", "BEA", "allocation_factor")
+  colnames(allocation_factor) <- c("NAICS", "BEA", "Location", "allocation_factor")
   # Merge the BEA-coded satellite table with allocation_factor dataframe
-  totals_by_sector_BEA <- merge(totals_by_sector_BEA, allocation_factor, by = c("NAICS", "BEA"), all.x = TRUE)
+  totals_by_sector_BEA <- merge(totals_by_sector_BEA, allocation_factor,
+                                by = c("NAICS", "BEA", "Location"), all.x = TRUE)
   # Replace NA in allocation_factor with 1
   totals_by_sector_BEA[is.na(totals_by_sector_BEA$allocation_factor), "allocation_factor"] <- 1
   # Calculate FlowAmount for BEA-coded sectors using allocation factors
