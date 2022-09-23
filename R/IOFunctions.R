@@ -258,28 +258,35 @@ convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
   UsePUR <- get(paste(specs$BaseIOLevel, "Use", specs$IOYear, "PUR", Redef, sep = "_"))
   UsePRO <- get(paste(specs$BaseIOLevel, "Use", specs$IOYear, "PRO", Redef, sep = "_"))
-  # Convert from PUR to PRO by removing margins obtained from Use tables under
-  # Make-Use framework
+  # Load Supply table
+  Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
+  
+  # Convert from PUR to PRO by removing margins obtained from Supply table
   rows <- io_codes$Commodities
   cols <- c(io_codes$Industries,
             intersect(colnames(UseSUT_PUR), io_codes$FinalDemandCodes))
-  # Calculate margins matrix
+  # Calculate margins in matrix form using Use tables under the Make-Use framework
   # Note: there are no retail (comm) sectors in UsePUR, so these sectors in the
-  # margins matrix are filled with NA. Update rownames of the matrix.
+  # margins matrix are filled with NA.
   margins <- UsePUR[rows, cols] - UsePRO[rows, cols]
+  # Update rownames of the matrix
   rownames(margins) <- rows
   # Replace NA with 0 because retail sectors should not have additional margins
   margins[is.na(margins)] <- 0
-  # Calculate UseSUT_PRO
-  UseSUT_PRO <- UseSUT_PUR[rows, cols] - margins
+  # Extract margins from Supply
+  margins_Supply <- rowSums(Supply[rows, c("TRADE", "TRANS")])
+  # Allocate margins_Supply throughout Use based on margins matrix
+  margins_ratio_m <- margins/rowSums(margins)
+  margins_ratio_m[is.na(margins_ratio_m)] <- 1/ncol(margins_ratio_m)
+  UseSUT_PRO <- UseSUT_PUR[rows, cols] - diag(margins_Supply) %*% as.matrix(margins_ratio_m)
+  
   # Convert from PRO to BAS by removing tax less subsidies from the Supply table
   # Note: import duties (MDTY) is considered tax on imported goods, see page 3 of
   # https://apps.bea.gov/scb/pdf/2015/09%20September/0915_supply_use_tables_for_the_united_states.pdf
-  Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
   tax_less_subsidies <- rowSums(Supply[rows, io_codes$TaxLessSubsidiesCodes])
   # Allocate tax_less_subsidies throughout Use based on consumption of commodities
   ratio_m <- UseSUT_PRO/rowSums(UseSUT_PRO)
-  ratio_m[is.na(ratio_m)] <- 0
+  ratio_m[is.na(ratio_m)] <- 1/ncol(ratio_m)
   UseSUT_BAS <- UseSUT_PRO - diag(tax_less_subsidies) %*% as.matrix(ratio_m)
   # Append right columns, including T001 and T109, and bottom rows, including
   # Value Added and totals, back to Use table
