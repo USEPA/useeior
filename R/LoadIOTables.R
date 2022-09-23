@@ -233,16 +233,16 @@ loadBEAtables <- function(specs, io_codes) {
                                                        io_codes$Industries])) * 1E6
     # Separate Use table into specific IO tables (all values in $)
     # Final Demand
-    # Note: import column (in BAS from Supply) is converted to negative then
-    # appended to Use in BAS
-    SupplyImport_col <- intersect(colnames(BEA$Supply), io_codes$FinalDemandCodes)
-    UseImport_col <- setdiff(io_codes$ImportCodes, SupplyImport_col)
+    # Note: import columns (MCIF and MADJ in BAS from Supply) is summed first,
+    # converted to negative, then appended to Use in BAS
+    SupplyImport_cols <- intersect(colnames(BEA$Supply), io_codes$FinalDemandCodes)
+    UseImport_col <- setdiff(io_codes$ImportCodes, SupplyImport_cols)
     BEA$FinalDemand <- cbind(BEA$Use[io_codes$Commodities,
                                intersect(colnames(BEA$Use), io_codes$FinalDemandCodes)],
-                             BEA$Supply[io_codes$Commodities, SupplyImport_col] * -1) * 1E6
+                             rowSums(BEA$Supply[io_codes$Commodities, SupplyImport_cols]) * -1) * 1E6
     colnames(BEA$FinalDemand)[ncol(BEA$FinalDemand)] <- UseImport_col
     BEA$FinalDemand <- BEA$FinalDemand[, setdiff(io_codes$FinalDemandCodes,
-                                                 SupplyImport_col)]
+                                                 SupplyImport_cols)]
     # Value Added
     # Note: VA in BAS == V001(00) + V003(00) + T00OTOP, so T00OTOP is preserved
     # and renamed to V002(00) in BEA$ValueAdded
