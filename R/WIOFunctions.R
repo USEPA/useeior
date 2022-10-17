@@ -270,8 +270,6 @@ assembleWIOModel <- function (model){
     
     # Adjust Margins object with WIO sectors
     model <- adjustMarginswithWIOSectors(model, WIO)
-    
-    temp <- 1.5
 
   }
 
@@ -807,8 +805,6 @@ removeSectorsFromWIOCW <- function (model, spec){
 #' @param WIO A dataframe with WIO specifications
 #' @return spec A dataframe with the specified sectors added to the spec$NAICSSetorCW object 
 adjustMultiYearObjectsForWIO <- function(model, WIO){
-  
-  temp <- 1
   
   # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
   WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
