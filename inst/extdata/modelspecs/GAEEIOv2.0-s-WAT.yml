@@ -17,7 +17,7 @@ SatelliteTable:
     FullName: "Water withdrawals"
     Abbreviation: "WAT"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/Water_state_2015_m1_v1.1_b05ad38.parquet"
+    StaticFile: "flowsa/FlowBySector/Water_state_2015_m1_v1.2.4_7c15ea5.parquet"
     FileLocation: "DataCommons"
     DataYears: [2015]
     SectorListSource: "NAICS"
