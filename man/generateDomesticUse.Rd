@@ -4,12 +4,12 @@
 \alias{generateDomesticUse}
 \title{Generate domestic Use table by adjusting Use table based on Import matrix.}
 \usage{
-generateDomesticUse(Use, specs)
+generateDomesticUse(Use, model)
 }
 \arguments{
 \item{Use, }{dataframe of a Use table}
 
-\item{specs, }{list of model specifications}
+\item{model, }{An EEIO model object with model specs and crosswalk table loaded}
 }
 \value{
 A Domestic Use table with rows as commodity codes and columns as industry and final demand codes

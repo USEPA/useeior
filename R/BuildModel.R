@@ -43,7 +43,6 @@ constructEEIOMatrices <- function(model) {
   model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
                                                 DomesticFinalDemand_df),
                                           model$UseValueAdded)) # DomesticUse
-  colnames(model$U)[which(colnames(model$U)=="model$InternationalTradeAdjustment")] <- model$InternationalTradeAdjustmentMeta$Code_Loc
   colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
@@ -80,18 +79,18 @@ constructEEIOMatrices <- function(model) {
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
   model$B <- createBfromFlowDataandOutput(model)
-
   if(model$specs$ModelType == "EEIO-IH"){
     model$B <- hybridizeBMatrix(model)
   }
-    
-  # Generate C matrix
-  logging::loginfo("Building C matrix (characterization factors for model indicators)...")
-  model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
+  if(!is.null(model$Indicators)) {
+    # Generate C matrix
+    logging::loginfo("Building C matrix (characterization factors for model indicators)...")
+    model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
 
-  # Add direct impact matrix
-  logging::loginfo("Calculating D matrix (direct environmental impacts per dollar)...")
-  model$D <- model$C %*% model$B 
+    # Add direct impact matrix
+    logging::loginfo("Calculating D matrix (direct environmental impacts per dollar)...")
+    model$D <- model$C %*% model$B
+  }
   
   # Calculate total emissions/resource use per dollar (M)
   logging::loginfo("Calculating M matrix (total emissions and resource use per dollar)...")
@@ -102,12 +101,13 @@ constructEEIOMatrices <- function(model) {
   model$M_d <- model$B %*% model$L_d
   colnames(model$M_d) <- colnames(model$M)
   
-  # Calculate total impacts per dollar (N), impact category x sector
-  logging::loginfo("Calculating N matrix (total environmental impacts per dollar)...")
-  model$N <- model$C %*% model$M
-  # Calculate U_d, the domestic impacts per dollar
-  logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity)...")
-  model$N_d <- model$C %*% model$M_d
+  if(!is.null(model$Indicators)) {
+    # Calculate total impacts per dollar (N), impact category x sector
+    logging::loginfo("Calculating N matrix (total environmental impacts per dollar)...")
+    model$N <- model$C %*% model$M
+    logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity)...")
+    model$N_d <- model$C %*% model$M_d
+  }
   
   # Calculate year over model IO year price ratio
   logging::loginfo("Calculating Rho matrix (price year ratio)...")

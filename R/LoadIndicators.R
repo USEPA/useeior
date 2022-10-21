@@ -1,13 +1,15 @@
 # Functions for loading and checking indicator data
 
 #' Loads data for all model indicators as listed in model specs
-#' @param model A model object with model specs, IO tables, and satelilte tables loaded
+#' @param model A model object with model specs, IO tables, and satellite tables loaded
 #' @return A model object with Indicators added
 loadandbuildIndicators <- function(model) {
-   # Load model indicators
-   indicators <- loadIndicators(model)
-   # Add to model object
-   model$Indicators <- indicators
+   if(!is.null(model$specs$Indicators)) {
+      # Load model indicators
+      indicators <- loadIndicators(model)
+      # Add to model object
+      model$Indicators <- indicators
+   }
    return(model)
 }
 

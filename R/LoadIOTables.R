@@ -12,16 +12,14 @@ loadIOData <- function(model, configpaths = NULL) {
   model <- loadIOmeta(model)
   # Define IO table names
   io_table_names <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand")
+                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
+                      "InternationalTradeAdjustment")
   # Load IO data
   if (model$specs$IODataSource=="BEA") {
     io_codes <- loadIOcodes(model$specs)
-    io_table_names <- c(io_table_names, "InternationalTradeAdjustment")
     model[io_table_names] <- loadNationalIOData(model, io_codes)[io_table_names]
   } else if (model$specs$IODataSource=="stateior") {
-    io_tables <- loadTwoRegionStateIOtables(model$specs)
-    model[io_table_names] <- io_tables[io_table_names]
-    model$Demand <- io_tables$Demand
+    model[io_table_names] <- loadTwoRegionStateIOtables(model)[io_table_names]
   }
   
   # Add Industry and Commodity Output
@@ -176,6 +174,12 @@ loadIOcodes <- function(specs) {
 loadNationalIOData <- function(model, io_codes) {
   # Load BEA IO and gross output tables
   BEA <- loadBEAtables(model$specs, io_codes)
+  # Generate domestic Use transaction and final demand
+  DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$FinalDemand), model)
+  BEA$DomesticUseTransactions <- DomesticUse[, io_codes$Industries]
+  BEA$DomesticFinalDemand <- DomesticUse[, io_codes$FinalDemandCodes]
+  # Generate Import Cost vector
+  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$FinalDemand), model)
   # Modify row and column names to Code_Loc format in all IO tables
   # Use model$Industries
   rownames(BEA$MakeTransactions) <- colnames(BEA$UseTransactions) <-
@@ -212,12 +216,6 @@ loadBEAtables <- function(specs, io_codes) {
   BEA$FinalDemand <- BEA$Use[io_codes$Commodities, io_codes$FinalDemandCodes] * 1E6
   BEA$UseValueAdded <- BEA$Use[io_codes$ValueAddedCodes, io_codes$Industries] * 1E6
   BEA$UseCommodityOutput <- as.data.frame(rowSums(cbind(BEA$UseTransactions, BEA$FinalDemand)))
-  # Generate domestic Use transaction and final demand
-  DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$FinalDemand), specs)
-  BEA$DomesticUseTransactions <- DomesticUse[, io_codes$Industries]
-  BEA$DomesticFinalDemand <- DomesticUse[, io_codes$FinalDemandCodes]
-  # Generate Import Cost vector
-  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$FinalDemand), specs)
   # Replace NA with 0 in IO tables
   if(specs$BaseIOSchema==2007) {
     BEA$MakeTransactions[is.na(BEA$MakeTransactions)] <- 0
@@ -228,25 +226,18 @@ loadBEAtables <- function(specs, io_codes) {
 }
 
 #' Load two-region state IO tables in a list based on model config.
-#' @param specs Model specifications.
+#' @param model An EEIO form USEEIO model object with model specs and IO meta data loaded.
 #' @return A list with state IO tables.
-loadTwoRegionStateIOtables <- function(specs) {
+loadTwoRegionStateIOtables <- function(model) {
   StateIO <- list()
-  # Define state, year and iolevel
-  if (!"US-DC"%in%specs$ModelRegionAcronyms) {
-    state <- state.name[state.abb==gsub(".*-", "", specs$ModelRegionAcronyms[1])]
-  } else {
-    state <- "District of Columbia"
-  }
-  year <- specs$IOYear
-  iolevel <- specs$BaseIOLevel
   # Load IO tables from stateior
-  StateIO$MakeTransactions <- stateior::getTwoRegionMakeTransactions(state, year, iolevel)
-  StateIO$UseTransactions <- stateior::getTwoRegionUseTransactions(state, year, iolevel)
-  StateIO$DomesticUseTransactions <- stateior::getTwoRegionDomesticUseTransactions(state, year, iolevel)
-  StateIO$FinalDemand <- stateior::getTwoRegionFinalDemand(state, year, iolevel)
-  StateIO$DomesticFinalDemand <- stateior::getTwoRegionDomesticFinalDemand(state, year, iolevel)
-  StateIO$UseValueAdded <- stateior::getTwoRegionValueAdded(state, year, iolevel)
+  StateIO$MakeTransactions <- getTwoRegionIOData(model, "Make")
+  StateIO$UseTransactions <- getTwoRegionIOData(model, "UseTransactions")
+  StateIO$FinalDemand <- getTwoRegionIOData(model, "FinalDemand")
+  StateIO$DomesticUseTransactions <- getTwoRegionIOData(model, "DomesticUseTransactions")
+  StateIO$DomesticFinalDemand <- getTwoRegionIOData(model, "DomesticFinalDemand")
+  StateIO$UseValueAdded <- getTwoRegionIOData(model, "ValueAdded")
+  StateIO$InternationalTradeAdjustment <- getTwoRegionIOData(model, "InternationalTradeAdjustment")
   return(StateIO)
 }
 
@@ -274,21 +265,19 @@ loadCommodityandIndustryOutput <- function(model) {
     } else {
       state <- "District of Columbia"
     }
-    year <- model$specs$IOYear
-    iolevel <- model$specs$BaseIOLevel
     # Load industry and commodity output
-    model$IndustryOutput <- stateior::getTwoRegionIndustryOutput(state, year, iolevel)
-    model$CommodityOutput <- stateior::getTwoRegionCommodityOutput(state, year, iolevel)
+    model$IndustryOutput <- getTwoRegionIOData(model, "IndustryOutput")
+    model$CommodityOutput <- getTwoRegionIOData(model, "CommodityOutput")
     # Load multi-year industry and commodity output
-    years <- 2012:2017
+    years <- as.character(2012:2017)
+    tmpmodel <- model
     model$MultiYearIndustryOutput <- as.data.frame(model$IndustryOutput)[, FALSE]
-    model$MultiYearIndustryOutput[, as.character(years)] <- lapply(years,
-                                                                   FUN = stateior::getTwoRegionIndustryOutput,
-                                                                   state = state, iolevel = iolevel)
     model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
-    model$MultiYearCommodityOutput[, as.character(years)] <- lapply(years,
-                                                                    FUN = stateior::getTwoRegionCommodityOutput,
-                                                                    state = state, iolevel = iolevel)
+    for (year in years) {
+      tmpmodel$specs$IOYear <- year
+      model$MultiYearIndustryOutput[, year] <- getTwoRegionIOData(tmpmodel, "IndustryOutput")
+      model$MultiYearCommodityOutput[, year] <- getTwoRegionIOData(tmpmodel, "CommodityOutput")
+    }
   }
   return(model)
 }

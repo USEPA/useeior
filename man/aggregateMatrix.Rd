@@ -4,7 +4,7 @@
 \alias{aggregateMatrix}
 \title{Aggregate matrix by rows then by columns}
 \usage{
-aggregateMatrix(matrix, from_level, to_level, specs)
+aggregateMatrix(matrix, from_level, to_level, model)
 }
 \arguments{
 \item{matrix}{A matrix}
@@ -13,7 +13,7 @@ aggregateMatrix(matrix, from_level, to_level, specs)
 
 \item{to_level}{The level of BEA code this matrix will be aggregated to}
 
-\item{specs}{Model specifications}
+\item{model}{An EEIO model object with model specs and crosswalk table loaded}
 }
 \value{
 An aggregated matrix

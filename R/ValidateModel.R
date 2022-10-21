@@ -35,8 +35,7 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 
   # Calculate scaling factor c=Ly
   c <- calculateProductofLeontiefAndProductionDemand(model, use_domestic)
-  c <- removeHybridProcesses(model, c)
-  
+
   #LCI = B dot Chi %*% c
   LCI <- t(calculateDirectPerspectiveLCI(B_chi, c))
   
@@ -64,6 +63,7 @@ calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) 
     y <- as.matrix(formatDemandVector(f, model$L))
     c <- getScalingVector(model$L, y)
   }
+  c <- removeHybridProcesses(model, c)
   return(c)  
 }
 
@@ -82,6 +82,8 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
   } else {
     x <- model$x
   }
+  x <- removeHybridProcesses(model, x)
+  
   # Calculate scaling factor c=Ly
   c <- calculateProductofLeontiefAndProductionDemand(model, use_domestic)
   
@@ -196,7 +198,8 @@ generateChiMatrix <- function(model, output_type = "Commodity") {
 
 #' Gets industry output from model Use and Make and checks if they are the same
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
-compareIndustryOutputinMakeandUse <- function(model) {
+#' @param tolerance A numeric value setting tolerance of the comparison
+compareIndustryOutputinMakeandUse <- function(model, tolerance) {
   # Calculate Industry Output (x) from Make and Use tables
   x_make <-rowSums(model$V)
   x_use <- colSums(model$U[model$Commodities$Code_Loc, model$Industries$Code_Loc]) +
@@ -280,6 +283,7 @@ checkNamesandOrdering <- function(n1, n2, note) {
 
 #' Run validation checks and print to console
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
+#' @export
 printValidationResults <- function(model) {
   print("Validate that commodity output can be recalculated (within 1%) with the model total requirements matrix (L) and demand vector (y) for US production")
   econval <- compareOutputandLeontiefXDemand(model, tolerance = 0.01)

@@ -1,0 +1,80 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+name: Save BEA Data
+
+on:
+  # push:
+  #   branches:
+  #     - 'updateIO'
+  #   paths-ignore:
+  #     - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
+  #     - '**.bib'
+  #     - '**.ya?ml'  # captures both .yml and .yaml
+  #     - '**.png'
+  #     # - '**.Rmd'
+  #     - 'LICENSE'
+  #     - '.gitignore'
+  #     - '.gitattributes'
+  # pull_request:
+  #   branches: [master, dev]
+  #   paths-ignore:
+  #     - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
+  #     - '**.bib'
+  #     - '**.ya?ml'  # captures both .yml and .yaml
+  #     - '**.png'
+  #     # - '**.Rmd'
+  #     - 'LICENSE'
+  #     - '.gitignore'
+  #     - '.gitattributes'
+  workflow_dispatch:  # allow manual trigger
+
+jobs:
+  save-BEA-data:
+    runs-on: ${{ matrix.config.os }}
+
+    name: save BEA data ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest, r: 'release'}
+
+    env:
+      #GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }} 
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: updateIO
+      # - run: git checkout HEAD^
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-renv@v2
+      
+      - uses: r-lib/actions/setup-r-dependencies@v1
+        with:
+          extra-packages: devtools
+        
+      - name: Download and save BEA data
+        run: |
+          devtools::load_all()
+          source("data-raw/BEAData.R")
+        shell: Rscript {0}
+        
+      - name: Commit updated BEA IO data
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/*.rda inst/extdata/metadata/*.json
+          git commit -m "Update BEA data"
+          git push origin updateIO

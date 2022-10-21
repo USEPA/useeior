@@ -73,6 +73,18 @@
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Make_2018_BeforeRedef"
 
+#' Summary 2019 Make Before Redefinition (2012 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Make_2019_BeforeRedef"
+
+#' Summary 2020 Make Before Redefinition (2012 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Make_2020_BeforeRedef"
+
 #' Summary 2010 Use Producer's Value Before Redefinition (2012 schema)
 #' @format A dataframe with 83 obs. and 98 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
@@ -118,6 +130,17 @@
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2018_PRO_BeforeRedef"
 
+#' Summary 2019 Use Producer's Value Before Redefinition (2012 schema)
+#' @format A dataframe with 83 obs. and 98 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Use_2019_PRO_BeforeRedef"
+
+#' Summary 2020 Use Producer's Value Before Redefinition (2012 schema)
+#' @format A dataframe with 83 obs. and 98 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Use_2020_PRO_BeforeRedef"
 
 #' Summary 2012 Use Purchaser's Value Before Redefinition (2012 schema)
 #' @format A dataframe with 80 obs. and 98 variables
@@ -169,6 +192,18 @@
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Make_2018_AfterRedef"
 
+#' Summary 2019 Make After Redefinition (2012 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Make_2019_AfterRedef"
+
+#' Summary 2020 Make After Redefinition (2012 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Make_2020_AfterRedef"
+
 #' Summary 2010 Use Producer's Value After Redefinition (2012 schema)
 #' @format A dataframe with 83 obs. and 98 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
@@ -213,6 +248,18 @@
 #' @format A dataframe with 83 obs. and 98 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2018_PRO_AfterRedef"
+
+#' Summary 2019 Use Producer's Value After Redefinition (2012 schema)
+#' @format A dataframe with 83 obs. and 98 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Use_2019_PRO_AfterRedef"
+
+#' Summary 2020 Use Producer's Value After Redefinition (2012 schema)
+#' @format A dataframe with 83 obs. and 98 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Use_2020_PRO_AfterRedef"
 
 #' Sector 2010 Make Before Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
@@ -259,6 +306,18 @@
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Make_2018_BeforeRedef"
 
+#' Sector 2019 Make Before Redefinition (2012 schema)
+#' @format A dataframe with 16 obs. and 18 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Make_2019_BeforeRedef"
+
+#' Sector 2020 Make Before Redefinition (2012 schema)
+#' @format A dataframe with 16 obs. and 18 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Make_2020_BeforeRedef"
+
 #' Sector 2010 Use Producer's Value Before Redefinition (2012 schema)
 #' @format A dataframe with 27 obs. and 28 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
@@ -303,6 +362,18 @@
 #' @format A dataframe with 27 obs. and 28 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2018_PRO_BeforeRedef"
+
+#' Sector 2019 Use Producer's Value Before Redefinition (2012 schema)
+#' @format A dataframe with 27 obs. and 28 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Use_2019_PRO_BeforeRedef"
+
+#' Sector 2020 Use Producer's Value Before Redefinition (2012 schema)
+#' @format A dataframe with 27 obs. and 28 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Use_2020_PRO_BeforeRedef"
 
 #' Sector 2012 Use Purchaser's Value Before Redefinition (2012 schema)
 #' @format A dataframe with 27 obs. and 28 variables
@@ -354,6 +425,18 @@
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Make_2018_AfterRedef"
 
+#' Sector 2019 Make After Redefinition (2012 schema)
+#' @format A dataframe with 16 obs. and 18 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Make_2019_AfterRedef"
+
+#' Sector 2020 Make After Redefinition (2012 schema)
+#' @format A dataframe with 16 obs. and 18 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Make_2020_AfterRedef"
+
 #' Sector 2010 Use Producer's Value After Redefinition (2012 schema)
 #' @format A dataframe with 27 obs. and 28 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
@@ -398,6 +481,18 @@
 #' @format A dataframe with 27 obs. and 28 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2018_PRO_AfterRedef"
+
+#' Sector 2019 Use Producer's Value After Redefinition (2012 schema)
+#' @format A dataframe with 27 obs. and 28 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Use_2019_PRO_AfterRedef"
+
+#' Sector 2020 Use Producer's Value After Redefinition (2012 schema)
+#' @format A dataframe with 27 obs. and 28 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Use_2020_PRO_AfterRedef"
 
 #' Detail 2012 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 405 obs. and 427 variables
@@ -448,6 +543,16 @@
 #' @format A dataframe with 73 obs. and 93 variables
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2018.xlsx}
 "Summary_Import_2018_BeforeRedef"
+
+#' Summary 2019 Import Before Redefinition (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2020.xlsx}
+"Summary_Import_2019_BeforeRedef"
+
+#' Summary 2020 Import Before Redefinition (2012 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_1997-2020.xlsx}
+"Summary_Import_2020_BeforeRedef"
 
 #' Detail 2007-2018 Gross Output (2012 schema)
 #' @format A dataframe with 405 obs. and 17 variables
