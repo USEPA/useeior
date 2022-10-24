@@ -12,6 +12,8 @@ getWIOSpecs <- function (model, configpaths = NULL){
     config <- getConfiguration(configFile, "WIO", configpaths)
     
     if('WIO' %in% names(config)){
+      name <- names(config$WIO)
+      config$WIO[[name]]$OriginalSectorCode <- name
       model$WIOSpecs <- append(model$WIOSpecs, config$WIO)
     }
   }
