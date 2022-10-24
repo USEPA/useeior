@@ -64,14 +64,14 @@ for (col in unique(lookup$Type)){
   colnames(NAICStoBEA) <- c("NAICS","BEA")
   # Generate allocation_factor data frame containing allocation factors between NAICS and BEA sectors
   allocation_factor <- getNAICStoBEAAllocation(year, model)
-  colnames(allocation_factor) <- c("NAICS", "BEA", "allocation_factor")
+  colnames(allocation_factor) <- c("NAICS", "BEA", "Location", "allocation_factor")
   
   for(col in c("SectorProducedBy", "SectorConsumedBy")) {
     colnames(fbs)[colnames(fbs)==col] <- "NAICS"
     # Merge fbs table with NAICStoBEA mapping
     fbs <- merge(fbs, NAICStoBEA, by = "NAICS", all.x = TRUE)
     # Merge the BEA-coded satellite table with allocation_factor dataframe
-    fbs <- merge(fbs, allocation_factor, by = c("NAICS", "BEA"), all.x = TRUE)
+    fbs <- merge(fbs, allocation_factor, by = c("NAICS", "BEA", "Location"), all.x = TRUE)
     # Replace NA in allocation_factor with 1
     fbs[is.na(fbs$allocation_factor), "allocation_factor"] <- 1
     # Where no mapping exists (e.g. new waste sectors), maintain the original sector code
