@@ -43,24 +43,24 @@ prepareWIODFfromFBS <- function(fbs, spec, model) {
   sectorlist <- spec$NAICSSectorCW$USEEIO_Code[spec$NAICSSectorCW$Type != "Flowable"]
   year <- fbs$Year[[1]]
 
-# Map Sectors and flows to new WIO codes
-lookup <- spec$NAICSSectorCW[c("Type", "Tag", "USEEIO_Code")]
-for (col in unique(lookup$Type)){
-  fbs[col] <- dplyr::recode(
-    fbs[[col]],
-    !!!setNames(subset(lookup, Type==col)$USEEIO_Code,
-                subset(lookup, Type==col)$Tag))
-}
-## full dplyr implementation runs into 'promise already under evaluation' error:
-# fbs <- dplyr::mutate(
-#   fbs,
-#   dplyr::across(
-#     dplyr::all_of(unique(lookup$Type)),
-#     ~ dplyr::recode(.x,
-#       !!!setNames(subset(lookup, Type==dplyr::cur_column())$USEEIO_Code,
-#                   subset(lookup, Type==dplyr::cur_column())$Tag))))
-   
-  
+  # Map Sectors and flows to new WIO codes
+  lookup <- spec$NAICSSectorCW[c("Type", "Tag", "USEEIO_Code")]
+  for (col in unique(lookup$Type)){
+    fbs[col] <- dplyr::recode(
+      fbs[[col]],
+      !!!setNames(subset(lookup, Type==col)$USEEIO_Code,
+                  subset(lookup, Type==col)$Tag))
+  }
+
+  ## full dplyr implementation runs into 'promise already under evaluation' error:
+  # fbs <- dplyr::mutate(
+  #   fbs,
+  #   dplyr::across(
+  #     dplyr::all_of(unique(lookup$Type)),
+  #     ~ dplyr::recode(.x,
+  #       !!!setNames(subset(lookup, Type==dplyr::cur_column())$USEEIO_Code,
+  #                   subset(lookup, Type==dplyr::cur_column())$Tag))))
+
   # Consolidate master crosswalk on model level and rename
   NAICStoBEA <- unique(model$crosswalk[, c("NAICS","USEEIO")])
   colnames(NAICStoBEA) <- c("NAICS","BEA")
@@ -115,22 +115,7 @@ for (col in unique(lookup$Type)){
     use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
                      data = use, FUN = sum)
     
-#  }
-  
-  # use2$WIOSection <- 'Waste Treatment Commodities'  
-  # use2 <- dplyr::rename_with(use2, ~c('CommodityCode', 'IndustryCode'),
-  #                            all_of(c('Flowable', 'SectorConsumedBy')))
-  # use2$SectorProducedBy <- NULL
-  
- 
-#   if(is.null(spec$BEASectorsAsTreatmentSectors)){
-#     use <- rbind(use1, use2)
-#     # Add loc to all sectors
-#     use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
-#     use <- use[,(names(use) %in% cols)]
-#     use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
-#                      data = use, FUN = sum)
-   } else{
+  } else {
     # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors/ there are no waste treatment sectors. 
     use <- use1
     # Add loc to all sectors
@@ -138,9 +123,7 @@ for (col in unique(lookup$Type)){
     use <- use[,(names(use) %in% cols)]
     use <- aggregate(Amount ~ IndustryCode + CommodityCode + Unit + Note + WIOSection,
                      data = use, FUN = sum)
-    
-    #
-    
+
     # Get disaggregated sectors and format them as inputs for WIO as Treatment Commodities/Industries
     use2 <- transformBEASectorToDFInput(model, spec, "UseRows")
     use2 <- rbind(use2, transformBEASectorToDFInput(model, spec, "UseCols"))
