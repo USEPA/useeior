@@ -184,17 +184,18 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
     }
 
     # For Two-region model, develop two-region specs from national disaggregation files
-    if (model$specs$IODataSource=="stateior" & stringr::str_sub(spec$OriginalSectorCode, start=-3)=="/US") {
-      for(region in model$specs$ModelRegionAcronyms){
-        d2 <- prepareTwoRegionDisaggregation(spec, region, model$specs$ModelRegionAcronyms)
-        model$DisaggregationSpecs[[d2$OriginalSectorCode]] <- d2
+    if (model$specs$IODataSource=="stateior"){
+      if (stringr::str_sub(spec$OriginalSectorCode, start=-3)=="/US") {
+        for(region in model$specs$ModelRegionAcronyms){
+          d2 <- prepareTwoRegionDisaggregation(spec, region, model$specs$ModelRegionAcronyms)
+          specs[[d2$OriginalSectorCode]] <- d2
+        }
+        # Remove original disaggregation spec
+        specs[spec$OriginalSectorCode] <- NULL
       }
-      # Remove original disaggregation spec
-      model$DisaggregationSpecs[spec$OriginalSectorCode] <- NULL
-
     } else {
-      # Need to assign these DFs back to the modelspecs
-      model$DisaggregationSpecs[[spec$OriginalSectorCode]] <- spec
+    # Need to assign these DFs back to the modelspecs
+    specs[[spec$OriginalSectorCode]] <- spec
     }
   }
   
