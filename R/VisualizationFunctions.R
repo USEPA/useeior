@@ -33,6 +33,10 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     rownames(matrix) <- Y_title
     matrix <- as.data.frame(reshape2::melt(matrix))
     colnames(matrix) <- c("CoefficientName", "Sector", "Value")
+    # For two-region models assign model name based on region here
+    if (length(model$specs$ModelRegionAcronyms) > 1) {
+      matrix$modelname <- sapply(strsplit(as.character(matrix$Sector),"/"), "[", 2)
+    }
     matrix$Sector <- toupper(gsub("/.*", "", matrix$Sector))
     # Convert matrix to df
     df_model <- data.frame()
@@ -44,9 +48,14 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     } else {
       SectorName <- model$Industries[, c("Code", "Name")]
     }
+    # Remove duplicate sector names for two-region models
+    SectorName <- SectorName[!duplicated(SectorName), ]
     colnames(SectorName) <- c("Sector", "SectorName")
     df_model <- merge(df_model, SectorName, by = "Sector")
-    df_model$modelname <- modelname
+    # Bypass this step for two-region models as modelname assigned above
+    if (!('modelname' %in% colnames(df_model))) {
+      df_model$modelname <- modelname
+    }
     # Remove certain sectors
     df_model <- df_model[!df_model$Sector%in%sector_to_remove, ]
     df_model <- df_model[order(df_model$GroupName), ]
