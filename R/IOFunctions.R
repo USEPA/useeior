@@ -301,3 +301,34 @@ convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
                                          rownames(UseSUT_BAS)), ])
   return(UseSUT_BAS)
 }
+
+#' Generate tax less subsidies table using BEA Supply table which include
+#' total product supply in basic price and tax less subsidies for all commodities
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return A data.frame containing CommodityCode, basic price, tax less subsidies,
+#' and producer price of total product supply
+generateTaxLessSubsidiesTable <- function(model) {
+  # Load Supply table
+  Supply <- get(paste(model$specs$BaseIOLevel, "Supply", model$specs$IOYear,
+                      sep = "_"))
+  # Get basic price and tax less subsidies vectors from Supply
+  import_cols <- getVectorOfCodes(model$specs$BaseIOSchema,
+                                  model$specs$BaseIOLevel,
+                                  "Import")
+  import_cols <- import_cols[!startsWith(import_cols, "F")]
+  taxlesssubsidies_col <- getVectorOfCodes(model$specs$BaseIOSchema,
+                                           model$specs$BaseIOLevel,
+                                           "TaxLessSubsidies")
+  TaxLessSubsidies <- cbind(rowSums(Supply[model$Commodities$Code,
+                                           c(model$Industries$Code, import_cols)]),
+                            Supply[model$Commodities$Code, taxlesssubsidies_col])
+  colnames(TaxLessSubsidies)[1] <- "BasicValue"
+  # Calculate Producer price
+  TaxLessSubsidies$ProducerValue <- rowSums(TaxLessSubsidies)
+  # Assign Code_Loc to TaxLessSubsidies
+  TaxLessSubsidies <-  merge(TaxLessSubsidies,
+                             model$Commodities[,c("Code","Name", "Code_Loc")],
+                             by.x = 0, by.y = "Code", all.y = TRUE)
+  return(TaxLessSubsidies)
+}
+  
