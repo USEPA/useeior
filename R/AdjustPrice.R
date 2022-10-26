@@ -84,3 +84,22 @@ adjustMultiplierPriceType <- function(matrix, currency_year, model) {
   return(matrix_new)
 }
 
+#' Calculate basic to producer price ratio.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @return A dataframe of basic to producer price ratio.
+calculateBasicbyProducerPriceRatio <- function(model) {
+  # Get TaxLessSubsidies table
+  TaxLessSubsidies <- merge(model$TaxLessSubsidies, model$Rho,
+                            by.x = "Code_Loc", by.y = 0, all.y = TRUE)
+  TaxLessSubsidies <- TaxLessSubsidies[match(rownames(model$Rho),
+                                             TaxLessSubsidies$Code_Loc), ]
+  # Prepare ratio table Tau
+  Tau <- model$Rho
+  for (year in colnames(model$Rho)) {
+    # Adjust BasicValue from model$specs$IOyear to currency year using model$Rho
+    BasicValue <- TaxLessSubsidies$BasicValue * (TaxLessSubsidies[, year]/TaxLessSubsidies[, as.character(model$specs$IOYear)])
+    Tau[, year] <- BasicValue/TaxLessSubsidies$ProducerValue
+  }
+  Tau[is.na(Tau)] <- 1
+  return(Tau)
+}
