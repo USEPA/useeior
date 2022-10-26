@@ -332,5 +332,8 @@ loadCommodityandIndustryOutput <- function(model) {
 calculateIndustryCommodityOutput <- function(model) {
   model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
   model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
+  if (model$specs$BasePriceType == "BAS") {
+    model$IndustryOutput <- rowSums(model$MakeTransactions)
+  }
   return(model)
 }
