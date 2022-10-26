@@ -40,6 +40,9 @@ loadIOData <- function(model, configpaths = NULL) {
   # Add Margins table
   model$Margins <- getMarginsTable(model)
   
+  # Add TaxLessSubsidies table
+  model$TaxLessSubsidies <- generateTaxLessSubsidiesTable(model)
+  
   # Add Chain Price Index (CPI) to model
   model$MultiYearIndustryCPI <- loadChainPriceIndexTable(model$specs)[model$Industries$Code, ]
   rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
