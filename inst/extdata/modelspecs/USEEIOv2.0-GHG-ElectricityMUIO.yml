@@ -12,7 +12,7 @@ ScrapIncluded: FALSE
 DisaggregationSpecs: null
 HybridizationSpecs: null
 WIOSpecs: null
-MUIOSpecs: null
+MUIOSpecs: "ElectricityMUIO"
 
 SatelliteTable:
   GHG:
