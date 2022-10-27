@@ -94,8 +94,21 @@ convertSectorsToPhysical <- function (model, configpaths = NULL){
   # Replace all values in make transactions with 0s except the intersections
   model$MakeTransactions[physIndIndeces,] <- 0 
   model$MakeTransactions[, physComIndeces] <- 0 
-  model$MakeTransactions[physIndIndeces, physComIndeces] <- diag(rowSums(model$UseTransactions[physComIndeces,]) # Place the entire production of the physical sectors in the intersection of the make table
-                                                                 + rowSums(model$FinalDemand[physComIndeces,]))
+  # Place the entire production of the physical sectors in the intersection of the make table
+  physSum <- rowSums(model$UseTransactions[physComIndeces,]) + rowSums(model$FinalDemand[physComIndeces,])
+  
+  # if replacing only one row, can't call diag function
+  if(length(physSum) == 1){
+    model$MakeTransactions[physIndIndeces, physComIndeces] <- physSum
+  } else{
+    model$MakeTransactions[physIndIndeces, physComIndeces] <- diag(physSum)
+  }
+  
+
+
+#  model$MakeTransactions[physIndIndeces, physComIndeces] <- diag(rowSums(model$UseTransactions[physComIndeces,]) 
+#                                                                 + rowSums(model$FinalDemand[physComIndeces,]))
+  
   # Calculate new industry and commodity totals 
   # TODO: Replace this with a call to calculateWIOOutputs? Rename that function?
   model$IndustryOutput <- rowSums(model$MakeTransactions)
