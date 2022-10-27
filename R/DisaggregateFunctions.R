@@ -107,7 +107,11 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
   } else if(setupType == "WIO") {
     folderPath <- "extdata/wiospecs"
     specs <- model$WIOSpecs
-  } else {
+  } else if(setupType == "MUIO"){
+    folderPath <- "extdata/muiospecs"
+    specs <- model$MUIOSpecs
+  }
+    else {
     stop("No valid path available for disaggregated or WIO model.")
   }
   
@@ -194,6 +198,8 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
     model$DisaggregationSpecs <- specs
   } else if(setupType == "WIO") {
     model$WIOSpecs <- specs
+  } else if(setupType == "MUIO"){
+    model$MUIOSpecs <- specs
   }
   
   return(model)

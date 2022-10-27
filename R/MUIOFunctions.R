@@ -9,6 +9,23 @@ getMUIOSectors <- function (model, configpaths = NULL){
   if(is.null(model$DisaggregationSpecs))
   {
     # TODO: read in file with MUIO specs that are not included in the disaggregation_Env
+    model$MUIOSpecs <- vector(mode='list')
+    for (configFile in model$specs$MUIOSpecs){
+      logging::loginfo(paste0("Loading MUIO specification file for ", configFile, "..."))
+      config <- getConfiguration(configFile, "muio", configpaths)
+      
+      if('MUIO' %in% names(config)){
+        model$MUIOSpecs <- append(model$MUIOSpecs, config$MUIO)
+      }
+    }
+    
+    model <- disaggregateSetup(model, configpaths, "MUIO")
+    
+    for(muio in model$MUIOSpecs){
+      MUIOSectors <- rbind(MUIOSectors, subset(muio$NAICSSectorCW, muio$NAICSSectorCW$SectorType == "MUIO"))
+    }
+    
+    temp <-1
   } else{
     for(disagg in model$DisaggregationSpecs){
       MUIOSectors <- rbind(MUIOSectors, subset(disagg$NAICSSectorCW, disagg$NAICSSectorCW$SectorType == "MUIO"))
