@@ -8,7 +8,7 @@ getMUIOSectors <- function (model, configpaths = NULL){
   MUIOSectors <- data.frame()
   if(is.null(model$DisaggregationSpecs))
   {
-    # TODO: read in file with MUIO specs that are not included in the disaggregation_Env
+
     model$MUIOSpecs <- vector(mode='list')
     for (configFile in model$specs$MUIOSpecs){
       logging::loginfo(paste0("Loading MUIO specification file for ", configFile, "..."))
