@@ -2,5 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.RProfile
 work
 inst/doc/**/*.html
+renv/
