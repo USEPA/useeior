@@ -43,13 +43,12 @@ See [Wiki](https://github.com/USEPA/useeior/wiki) for advanced uses, details abo
 
 ```r
 # Install development version from GitHub
-install.packages("devtools")
-devtools::install_github("USEPA/useeior")
+remotes::install_github("USEPA/useeior")
 ```
 
 ```r
 # Install a previously released version (e.g. v1.0.0) from GitHub
-devtools::install_github("USEPA/useeior@v1.0.0")
+remotes::install_github("USEPA/useeior@v1.0.0")
 ```
 
 See [Releases](https://github.com/USEPA/useeior/releases) for all previously realeased versions.
