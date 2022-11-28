@@ -17,7 +17,10 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
   # Check that all processes are represented as rows in A_proc, otherwise add them
   
   # Get list of unique processes in sector/location format (e.g. 562213F/US)
-  processes <- cbind(model$HybridizationSpecs$TechFileDF[,1:2],paste0(model$HybridizationSpecs$TechFileDF[,1],"/",model$HybridizationSpecs$TechFileDF[,4]))
+  processes <- cbind(model$HybridizationSpecs$TechFileDF[,c("ProcessID","ProcessName")],
+                     paste0(model$HybridizationSpecs$TechFileDF[,"ProcessID"],"/",
+                            model$HybridizationSpecs$TechFileDF[,"Location"])
+                     )
   processes <- unique(processes)
   colnames(processes) <- c("ProcessID", "ProcessName", "ProcessID_Loc")
   
@@ -31,7 +34,7 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
     missingRows <- data.frame(matrix(0,  nrow = dim(processes)[1]-length(rowProcesses), ncol = dim(processes)[1]))
     rownames(missingRows) <- processes$ProcessID_Loc[-(rowProcesses)]
     colnames(missingRows) <- colnames(A_proc)
-    A_proc <- rbind(A_proc,missingRows)
+    A_proc <- rbind(A_proc, missingRows)
     A_proc <- as.matrix(A_proc)
   }
   
