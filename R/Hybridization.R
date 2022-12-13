@@ -188,6 +188,7 @@ getHybridizationFiles <- function (model, configpaths = NULL){
     model$HybridizationSpecs$EnvFileDF <- utils::read.csv(filename,
                                                           sep = ",", header = TRUE,
                                                           stringsAsFactors = FALSE,
-                                                          check.names = FALSE)
+                                                          check.names = FALSE,
+                                                          encoding='UTF-8')
   return(model)
 }
