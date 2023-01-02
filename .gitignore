@@ -6,3 +6,4 @@
 work
 inst/doc/**/*.html
 renv/
+examples
