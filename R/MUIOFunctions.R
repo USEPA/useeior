@@ -25,7 +25,6 @@ getMUIOSectors <- function (model, configpaths = NULL){
       MUIOSectors <- rbind(MUIOSectors, subset(muio$NAICSSectorCW, muio$NAICSSectorCW$SectorType == "MUIO"))
     }
     
-    temp <-1
   } else{
     for(disagg in model$DisaggregationSpecs){
       MUIOSectors <- rbind(MUIOSectors, subset(disagg$NAICSSectorCW, disagg$NAICSSectorCW$SectorType == "MUIO"))
