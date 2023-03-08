@@ -25,18 +25,19 @@ writeModelforAPI <-function(model, basedir){
 #' @description Writes model matrices as .csv or .bin files to output folder.
 #' @export
 writeModelMatrices <- function(model, to_format, outputfolder) {
+  matrix_ls <- matrices[!sapply(model[matrices],is.null)]
   if (to_format=="csv") {
     modelfolder <- file.path(outputfolder, model$specs$Model, "matrices")
     if (!dir.exists(modelfolder)) {
       dir.create(modelfolder, recursive = TRUE) 
     }
-    for (matrix in matrices) {
+    for (matrix in matrix_ls) {
       utils::write.csv(model[[matrix]], paste0(modelfolder, "/", matrix, ".csv"),
                        na = "", row.names = TRUE, fileEncoding = "UTF-8")
     }
   } else if (to_format=="bin") {
     modelfolder <- outputfolder
-    for (matrix in matrices) {
+    for (matrix in matrix_ls) {
       writeMatrixasBinFile(as.matrix(model[[matrix]]),
                            paste0(modelfolder, "/",matrix, ".bin"))
       
@@ -56,6 +57,8 @@ writeModelMatrices <- function(model, to_format, outputfolder) {
 writeModeltoXLSX <- function(model, outputfolder) {
   # List model matrices
   USEEIOtoXLSX_ls <- model[matrices]
+  # Remove non-existent model objects (e.g. indicator matrices)
+  USEEIOtoXLSX_ls <- USEEIOtoXLSX_ls[!sapply(USEEIOtoXLSX_ls,is.null)]
   # Write commodity and industry output
   USEEIOtoXLSX_ls$q <- model$q
   USEEIOtoXLSX_ls$x <- model$x
@@ -80,7 +83,11 @@ writeModeltoXLSX <- function(model, outputfolder) {
                                         "Model_Builds", model$specs$Model))
   prepareWriteDirs(model, dirs)
   writeModelMetadata(model, dirs)
-  for (df_name in c("demands", "flows", "indicators", "sectors")) {
+  metadata_tabs <- c("demands", "flows", "indicators", "sectors")
+  if(is.null(model$Indicators)){
+    metadata_tabs <- metadata_tabs[metadata_tabs != "indicators"]
+  }
+  for (df_name in metadata_tabs) {
     filename <- paste0(df_name, ".csv")
     USEEIOtoXLSX_ls[[df_name]] <- utils::read.table(paste(dirs$model, filename, sep = "/"),
                                                     sep = ",", header = TRUE,
@@ -239,17 +246,19 @@ writeModelMetadata <- function(model, dirs) {
   }
   utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
   
-  # Write indicators to indicators.csv
-  indicators <- model$Indicators$meta  
-  indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")], 1,
-                         FUN = joinStringswithSlashes)
-  indicators <- indicators[order(indicators$Name), ]
-  indicators$Index <- c(1:nrow(indicators)-1)
-  indicators <- indicators[,fields$indicators]
-  checkNamesandOrdering(indicators$Name, rownames(model$C),
-                        "code in indicators.csv and rows in C matrix")
-  utils::write.csv(indicators, paste0(dirs$model, "/indicators.csv"), na = "",
-                   row.names = FALSE, fileEncoding = "UTF-8")
+  if(!is.null(model$Indicators)) {
+    # Write indicators to indicators.csv
+    indicators <- model$Indicators$meta  
+    indicators$ID <- apply(indicators[, c("Group", "Code", "Unit")], 1,
+                           FUN = joinStringswithSlashes)
+    indicators <- indicators[order(indicators$Name), ]
+    indicators$Index <- c(1:nrow(indicators)-1)
+    indicators <- indicators[,fields$indicators]
+    checkNamesandOrdering(indicators$Name, rownames(model$C),
+                          "code in indicators.csv and rows in C matrix")
+    utils::write.csv(indicators, paste0(dirs$model, "/indicators.csv"), na = "",
+                     row.names = FALSE, fileEncoding = "UTF-8")
+  }
   
   # Write demands to demands.csv
   demands <- model$DemandVectors$meta
