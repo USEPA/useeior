@@ -101,7 +101,7 @@ getDisaggregationSpecs <- function (model, configpaths = NULL, pkg = "useeior"){
 disaggregateSetup <- function (model, configpaths = NULL){
   
   for (disagg in model$DisaggregationSpecs){  
-    if(is.na(disagg$package)){
+    if(is.null(disagg$package)){
       disagg$package = "useeior"
     }
     filename <- ifelse(is.null(configpaths),
