@@ -5,11 +5,12 @@
 #' @param configtype str, configuration type, can be "model", "disagg", or "agg"
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @param pkg str, indicate package for access to config, either "useeior" or "stateior"
 #' @return A list of model specifications.
-getConfiguration <- function(configname, configtype, configpaths = NULL) {
+getConfiguration <- function(configname, configtype, configpaths = NULL, pkg="useeior") {
   configfile <- paste0(configname, ".yml")
   if (is.null(configpaths)) {
-    configpath <- system.file(paste0("extdata/", configtype, "specs/"), configfile, package = "useeior")
+    configpath <- system.file(paste0("extdata/", configtype, "specs/"), configfile, package = pkg)
   } else {
     configpath <- configpaths[endsWith(configpaths, configfile)]
   }

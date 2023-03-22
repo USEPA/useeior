@@ -74,13 +74,14 @@ disaggregateModel <- function (model){
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
 #' If NULL, built-in config files are used.
+#' @param pkg str, indicate package for access to config, either "useeior" or "stateior"
 #' @return A model with the specified aggregation and disaggregation specs.
-getDisaggregationSpecs <- function (model, configpaths = NULL){
+getDisaggregationSpecs <- function (model, configpaths = NULL, pkg = "useeior"){
 
   model$DisaggregationSpecs <- vector(mode='list')
   for (configFile in model$specs$DisaggregationSpecs){
     logging::loginfo(paste0("Loading disaggregation specification file for ", configFile, "..."))
-    config <- getConfiguration(configFile, "disagg", configpaths)
+    config <- getConfiguration(configFile, "disagg", configpaths, pkg=pkg)
 
     if('Disaggregation' %in% names(config)){
       model$DisaggregationSpecs <- append(model$DisaggregationSpecs, config$Disaggregation)
