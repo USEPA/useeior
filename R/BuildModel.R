@@ -223,3 +223,30 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
   return(C)
 }
 
+#' Build two-region models for all 50 states based on a single config reference file.
+#' @param modelname Name of the model from a config file.
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @return A list of EEIO models for each state with complete components and attributes
+#' @export
+buildTwoRegionModels <- function(modelname, configpaths = NULL) {
+  model_ls <- list()
+  basemodel <- initializeModel(modelname, configpaths)
+  for (s in state.abb){
+    model <- basemodel
+    state <- paste("US", s, sep="-")
+    model$specs$ModelRegionAcronyms[1] <- state
+    logging::loginfo(paste0("Building two-region model for ",
+                            paste(state, model$specs$ModelRegionAcronyms[2], sep="/"),
+                            "..."))
+    model <- loadIOData(model, configpaths)
+    model <- loadandbuildSatelliteTables(model)
+    model <- loadandbuildIndicators(model)
+    model <- loadDemandVectors(model)
+    model <- constructEEIOMatrices(model)
+    model_ls[[state]] <- model
+  }
+
+  return(model_ls)
+}
+
