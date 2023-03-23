@@ -126,7 +126,7 @@ aggregateSatelliteTable <- function(sattable, from_level, model) {
 #' @return aggregated totals by sector
 collapseTBS <- function(tbs, model) {
   # Add in BEA industry names
-  sectornames <- model$Industries[, c("Code", "Name")]
+  sectornames <- unique(model$Industries[, c("Code", "Name")])
   colnames(sectornames) <- c("Sector", "SectorName")
   # Add F01000 or F010 to sectornames
   if (model$specs$BaseIOLevel=="Detail") {
