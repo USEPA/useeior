@@ -183,11 +183,6 @@ prepareWriteDirs <- function(model, dirs) {
 #' @param outputfolder A directory to write model demand vectors.
 #' @description Writes model demand vectors, including y and y_d for consumption and production.
 writeModelDemandstoJSON <- function(model, outputfolder) {
-  #!WARNING: Only works for single region model
-  if (model$specs$ModelRegionAcronyms!="US") {
-    stop("Currently only works for single region US models.")
-  }
-  
   for (n in names(model$DemandVectors$vectors)) {
     f <- model$DemandVectors$vectors[[n]]
     f <- data.frame(amount=f)
@@ -206,11 +201,6 @@ writeModelDemandstoJSON <- function(model, outputfolder) {
 #' @param dirs A named list of directories with model and data directory paths
 #' @description Writes model metadata, including indicators and demands.
 writeModelMetadata <- function(model, dirs) {
-  #!WARNING: Only works for single region model
-  if (model$specs$ModelRegionAcronyms!="US") {
-    stop("Currently only works for single region US models.")
-  }
-  
   # Load metadata fields for API
   fields <- configr::read.config(system.file("extdata/USEEIO_API_fields.yml",
                                              package="useeior"))
