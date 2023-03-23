@@ -110,7 +110,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   final_demand_meta <- model$FinalDemandMeta
   final_demand_meta$Index <- c(1:nrow(final_demand_meta)-1)
   final_demand_meta$ID <- final_demand_meta$Code_Loc
-  final_demand_meta$Location <- model$specs$ModelRegionAcronyms
+  final_demand_meta$Location <- gsub(".*/", "", final_demand_meta$Code_Loc)
   final_demand_meta$Description <- ""
   USEEIOtoXLSX_ls[["final_demand_meta"]] <- final_demand_meta[, demand_meta_fields]
   
@@ -118,7 +118,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   value_added_meta <- model$ValueAddedMeta
   value_added_meta$Index <- c(1:nrow(value_added_meta)-1)
   value_added_meta$ID <- value_added_meta$Code_Loc
-  value_added_meta$Location <- model$specs$ModelRegionAcronyms
+  value_added_meta$Location <- gsub(".*/", "", value_added_meta$Code_Loc)
   value_added_meta$Description <- ""
   USEEIOtoXLSX_ls[["value_added_meta"]] <- value_added_meta[, demand_meta_fields]
   
@@ -260,7 +260,7 @@ writeModelMetadata <- function(model, dirs) {
   # Write sectors to csv
   sectors <- model[[gsub("y", "ies", model$specs$CommodityorIndustryType)]]
   sectors$ID <- sectors$Code_Loc
-  sectors$Location <- model$specs$ModelRegionAcronyms
+  sectors$Location <- gsub(".*/", "", sectors$Code_Loc)
   sectors$Index <- c(1:nrow(sectors)-1)
   sectors$Category <- paste(sectors$Category, sectors$Subcategory, sep="/")
   sectors <- sectors[, fields$sectors]
