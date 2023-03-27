@@ -158,7 +158,7 @@ collapseTBS <- function(tbs, model) {
     GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
     TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
     DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
-    MetaSources = dplyr::nth(MetaSources, which.max(nchar(MetaSources))),
+    MetaSources = dplyr::summarize(MetaSources = paste(unique(MetaSources), collapse = '_')),
     .groups = 'drop'
   )
   colnames(tbs_agg)[colnames(tbs_agg)=="FlowAmountAgg"] <- "FlowAmount"
