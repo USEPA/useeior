@@ -50,14 +50,15 @@ disaggregateModel <- function (model){
       #Disaggregating CPI model objects. Assumption is that the disaggregated sectors have the same CPI values as the original sector. 
       model$MultiYearCommodityCPI <- disaggregateCols(model$MultiYearCommodityCPI, disagg, duplicate = TRUE)
       model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
+      
+      model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
     }
     #Disaggregating Crosswalk
     model$crosswalk <- disaggregateMasterCrosswalk(model, disagg)
     
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
-    model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
-    
+
     # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
     if (model$specs$CommodityorIndustryType=="Industry") {
       # Keep the orignal FinalDemand (in by-commodity form)
@@ -319,7 +320,7 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
 #' @return newMargins A dataframe which contain the margins for the disaggregated sectors
 disaggregateMargins <- function(model, disagg) {
   originalMargins <- model$Margins
-  originalIndex <-  grep(disagg$OriginalSectorCode, model$Margins$Code_Loc)#get row index of the original aggregate sector in the model$Margins object
+  originalIndex <-  grep(paste0("^", disagg$OriginalSectorCode), model$Margins$Code_Loc)#get row index of the original aggregate sector in the model$Margins object
   originalRow <- model$Margins[originalIndex,]#copy row containing the Margins information for the original aggregate sector
   disaggMargins <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]#replicate the original a number of times equal to the number of disaggregate sectors
   disaggRatios <- unname(disaggregatedRatios(model, disagg, "Commodity"))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
@@ -433,7 +434,7 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
     #assume industry if not specified
     originalList <- model$Industries
   }
-  originalIndex <- grep(paste("^",disagg$OriginalSectorCode, sep=""), originalList$Code_Loc)
+  originalIndex <- grep(paste0("^",disagg$OriginalSectorCode), originalList$Code_Loc)
   newSectors <- data.frame(matrix(ncol = ncol(originalList), nrow = length(disagg$DisaggregatedSectorCodes)))
   names(newSectors) <- names(originalList) #rename columns for the df
 
