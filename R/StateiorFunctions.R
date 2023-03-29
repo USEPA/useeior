@@ -33,14 +33,12 @@ getTwoRegionIOData <- function(model, dataname) {
   # Keep SoI and RoUS only
   TwoRegionIOData <- TwoRegionIOData[[state]]
   if (dataname %in% c("UseTransactions", "DomesticUseTransactions")) {
-    TwoRegionIOData <- TwoRegionIOData[model$Commodities$Code_Loc,
-                                       model$Industries$Code_Loc]
+    TwoRegionIOData <- TwoRegionIOData[, !(colnames(TwoRegionIOData) 
+                                           %in% model$FinalDemandMeta$Code_Loc)]
   } else if (dataname %in% c("FinalDemand", "DomesticFinalDemand")) {
-    TwoRegionIOData <- TwoRegionIOData[model$Commodities$Code_Loc,
-                                       model$FinalDemandMeta$Code_Loc]
+    TwoRegionIOData <- TwoRegionIOData[, model$FinalDemandMeta$Code_Loc]
   } else if (dataname == "ValueAdded") {
-    TwoRegionIOData <- TwoRegionIOData[model$ValueAddedMeta$Code_Loc,
-                                       model$Industries$Code_Loc]
+    TwoRegionIOData <- TwoRegionIOData[model$ValueAddedMeta$Code_Loc, ]
   }
   return(TwoRegionIOData)
 }
