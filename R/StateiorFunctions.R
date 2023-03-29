@@ -18,8 +18,10 @@ getTwoRegionIOData <- function(model, dataname) {
     state <- "District of Columbia"
   }
   # Define data file name
-  filename <- paste("TwoRegion", model$specs$BaseIOLevel, dataname, model$specs$IOYear,
-                    model$specs$IODataVersion, sep = "_")
+  filename <- paste(lapply(c("TwoRegion", model$specs$BaseIOLevel, dataname,
+                              model$specs$DisaggregationSpecs, model$specs$IOYear,
+                              model$specs$IODataVersion),  
+                  function(x) x[!is.na(x)]), collapse = "_")
   # Adjust filename to fit what is on the Data Commons
   if (dataname %in% c("UseTransactions", "FinalDemand")) {
     filename <- gsub(dataname, "Use", filename)
