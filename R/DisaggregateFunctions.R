@@ -11,45 +11,46 @@ disaggregateModel <- function (model){
     model$Commodities <- disaggregateSectorDFs(model, disagg, "Commodity")
     model$Industries <- disaggregateSectorDFs(model, disagg, "Industry")
 
-    #Disaggregating main model components
-    model$UseTransactions <- disaggregateUseTable(model, disagg)
-    model$MakeTransactions <- disaggregateMakeTable(model, disagg)
-    model$UseValueAdded <- disaggregateVA(model, disagg)
-    model$DomesticUseTransactions <- disaggregateUseTable(model, disagg, domestic = TRUE)
-    
-    if(model$specs$CommodityorIndustryType=="Commodity") {
-      model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
-      model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
-    } else {
-      model$FinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
-      model$DomesticFinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
-      model$InternationalTradeAdjustmentbyCommodity <- disaggregateInternationalTradeAdjustment(model, disagg, NULL, adjustmentByCommodity = TRUE)
-    }
-    
-    #Balancing model
-    if(disagg$DisaggregationType == "Userdefined"){
-      model <- balanceDisagg(model, disagg)
-    }
-
-    #Recalculate model$CommodityOutput and model$IndustryOutput objects. This if else has to be separate from the one above because 
-    #the calculateIndustryCommodityOutput function is used prior to the creation of model$FinalDemandbyCommodity object, 
-    #and we can't recalculate the commodity and industry totals before balancing. 
-    if(model$specs$CommodityorIndustryType=="Commodity") {
-      model <- calculateIndustryCommodityOutput(model)
+    if(model$specs$IODataSource != "stateior"){
+      #Disaggregating main model components
+      model$UseTransactions <- disaggregateUseTable(model, disagg)
+      model$MakeTransactions <- disaggregateMakeTable(model, disagg)
+      model$UseValueAdded <- disaggregateVA(model, disagg)
+      model$DomesticUseTransactions <- disaggregateUseTable(model, disagg, domestic = TRUE)
       
-    } else{
-      model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
-      model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemandbyCommodity)
+      if(model$specs$CommodityorIndustryType=="Commodity") {
+        model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+        model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+      } else {
+        model$FinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+        model$DomesticFinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+        model$InternationalTradeAdjustmentbyCommodity <- disaggregateInternationalTradeAdjustment(model, disagg, NULL, adjustmentByCommodity = TRUE)
+      }
+      
+      #Balancing model
+      if(disagg$DisaggregationType == "Userdefined"){
+        model <- balanceDisagg(model, disagg)
+      }
+  
+      #Recalculate model$CommodityOutput and model$IndustryOutput objects. This if else has to be separate from the one above because 
+      #the calculateIndustryCommodityOutput function is used prior to the creation of model$FinalDemandbyCommodity object, 
+      #and we can't recalculate the commodity and industry totals before balancing. 
+      if(model$specs$CommodityorIndustryType=="Commodity") {
+        model <- calculateIndustryCommodityOutput(model)
+        
+      } else{
+        model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+        model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemandbyCommodity)
+      }
+      
+      #Disaggregating MultiyearIndustryOutput and MultiYearCommodityOutput 
+      model$MultiYearCommodityOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
+      model$MultiYearIndustryOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Industry")
+  
+      #Disaggregating CPI model objects. Assumption is that the disaggregated sectors have the same CPI values as the original sector. 
+      model$MultiYearCommodityCPI <- disaggregateCols(model$MultiYearCommodityCPI, disagg, duplicate = TRUE)
+      model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
     }
-    
-    #Disaggregating MultiyearIndustryOutput and MultiYearCommodityOutput 
-    model$MultiYearCommodityOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
-    model$MultiYearIndustryOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Industry")
-
-    #Disaggregating CPI model objects. Assumption is that the disaggregated sectors have the same CPI values as the original sector. 
-    model$MultiYearCommodityCPI <- disaggregateCols(model$MultiYearCommodityCPI, disagg, duplicate = TRUE)
-    model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
-
     #Disaggregating Crosswalk
     model$crosswalk <- disaggregateMasterCrosswalk(model, disagg)
     
@@ -432,7 +433,7 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
     #assume industry if not specified
     originalList <- model$Industries
   }
-  originalIndex <- grep(disagg$OriginalSectorCode, originalList$Code_Loc)
+  originalIndex <- grep(paste("^",disagg$OriginalSectorCode, sep=""), originalList$Code_Loc)
   newSectors <- data.frame(matrix(ncol = ncol(originalList), nrow = length(disagg$DisaggregatedSectorCodes)))
   names(newSectors) <- names(originalList) #rename columns for the df
 
