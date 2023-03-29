@@ -42,3 +42,25 @@ getTwoRegionIOData <- function(model, dataname) {
   }
   return(TwoRegionIOData)
 }
+
+#' @description Disaggregate CPI table to ensure the correct dimensions
+#' @param df, CPI table
+#' @param model An EEIO form USEEIO model object with model specs and IO meta data loaded.
+#' @return An expanded CPI table with values replicated for disaggregated sectors.
+disaggregateCPI <- function(df, model){
+  ## Find rows in IndustryCPI not in IndustryOutput, and duplicate them 
+  sector_index <- !(rownames(df) %in% names(model$IndustryOutput))
+  disagg_sectors <- rownames(df)[sector_index]
+  
+  numNewSectors <- (length(model$IndustryOutput) - nrow(df)) / 2
+  for (row in disagg_sectors){
+    originalIndex <- which(rownames(df)==row)
+    originalRowVector <- df[originalIndex,]
+    disaggRows <-originalRowVector[rep(seq_len(nrow(originalRowVector)), numNewSectors + 1),,drop=FALSE]
+    
+    df <- rbind(df[1:originalIndex-1,,drop=FALSE],  #from 1st row to row right before disaggregation
+                disaggRows,
+                df[-(1:originalIndex),,drop=FALSE])
+  }
+  return(df)
+}

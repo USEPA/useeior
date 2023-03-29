@@ -43,8 +43,14 @@ loadIOData <- function(model, configpaths = NULL) {
   # Add Chain Price Index (CPI) to model
   model$MultiYearIndustryCPI <- loadChainPriceIndexTable(model$specs)[model$Industries$Code, ]
   rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
+  
+  ## if Disaggregated two-region model, adjust CPI data frame
+  if(model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
+    model$MultiYearIndustryCPI <- disaggregateCPI(model$MultiYearIndustryCPI, model)
+  }
+
   # Transform industry CPI to commodity CPI
-  model$MultiYearCommodityCPI <- as.data.frame(model$Commodities, row.names = model$Commodities$Code_Loc)[, FALSE]
+  model$MultiYearCommodityCPI <- as.data.frame(model$CommodityOutput, row.names = names(model$CommodityOutput))[, FALSE]
   for (year_col in colnames(model$MultiYearIndustryCPI)) {
     model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
   }
