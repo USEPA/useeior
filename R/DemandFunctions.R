@@ -30,9 +30,11 @@ sumDemandCols <- function(Y,codes) {
 #' Domestic portion of national consumption: y_dc <- Y_dh + Y_dv + Y_dg
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param Y, a model Demand df.
+#' @param location, str of location code for demand vector
 #' @return A named vector with model sectors and demand amounts
-sumforConsumption <- function(model, Y) {
-  codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household", "Investment", "Government"),
+sumforConsumption <- function(model, Y, location) {
+  codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household", "Investment", "Government") &
+                                 grepl(location, model$FinalDemandMeta$Code_Loc),
                                  "Code_Loc"]
   y_c <- sumDemandCols(Y, codes)
   return (y_c) 
@@ -43,12 +45,14 @@ sumforConsumption <- function(model, Y) {
 #' where y_c = consumption, y_e = exports, y_m = imports, y_delta = change in inventories
 #' y_m values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)
 #' @param model An EEIO model object with model specs and IO tables loaded
+#' @param location, str of location code for demand vector
 #' @return A named vector with demand
-prepareProductionDemand <- function(model) {
-  export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export", "Code_Loc"]
-  changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories", "Code_Loc"]
-  import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import", "Code_Loc"]
-  y_c <- sumforConsumption(model, model$FinalDemand)
+prepareProductionDemand <- function(model, location) {
+  loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
+  export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
+  changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
+  import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
+  y_c <- sumforConsumption(model, model$FinalDemand, location)
   y_e <- sumDemandCols(model$FinalDemand, export_code)
   y_m <- sumDemandCols(model$FinalDemand, import_code)
   y_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
@@ -59,11 +63,13 @@ prepareProductionDemand <- function(model) {
 #' Prepares a demand vector representing domestic production
 #' Formula for production vector: y_p <- y_dc + y_e + y_d_delta + mu
 #' @param model An EEIO model object with model specs and IO tables loaded
+#' @param location, str of location code for demand vector
 #' @return A named vector with demand
-prepareDomesticProductionDemand <- function(model) {
-  export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export", "Code_Loc"]
-  changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories", "Code_Loc"]
-  y_d_c <- sumforConsumption(model, model$DomesticFinalDemand)
+prepareDomesticProductionDemand <- function(model, location) {
+  loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
+  export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
+  changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
+  y_d_c <- sumforConsumption(model, model$DomesticFinalDemand, location)
   y_d_e <- sumDemandCols(model$DomesticFinalDemand, export_code)
   y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
   mu <- model$InternationalTradeAdjustment
@@ -73,26 +79,30 @@ prepareDomesticProductionDemand <- function(model) {
 
 #' Prepares a demand vector representing consumption
 #' @param model An EEIO model object with model specs and IO tables loaded
+#' @param location, str of location code for demand vector
 #' @return a named vector with demand
-prepareConsumptionDemand <- function(model) {
-  y_c <- sumforConsumption(model, model$FinalDemand)
+prepareConsumptionDemand <- function(model, location) {
+  y_c <- sumforConsumption(model, model$FinalDemand, location)
   return(y_c)
 }
 
 #' Prepares a demand vector representing domestic consumption
 #' @param model An EEIO model object with model specs and IO tables loaded
+#' @param location, str of location code for demand vector
 #' @return A named vector with demand
-prepareDomesticConsumptionDemand <- function(model) {
-  y_c_d <- sumforConsumption(model, model$DomesticFinalDemand)
+prepareDomesticConsumptionDemand <- function(model, location) {
+  y_c_d <- sumforConsumption(model, model$DomesticFinalDemand, location)
   return(y_c_d)
 }
 
 #' Prepares a demand vector representing household consumption
 #' @param model An EEIO model object with model specs and IO tables loaded
+#' @param location, str of location code for demand vector
 #' @return A named vector with demand
-prepareHouseholdDemand <- function(model) {
+prepareHouseholdDemand <- function(model, location) {
   Y <- model$FinalDemand
-  household_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Household", "Code_Loc"]
+  household_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Household" &
+                                            grepl(location, model$FinalDemandMeta$Code_Loc), "Code_Loc"]
   y_h <- sumDemandCols(Y, household_code)
   return(y_h)
 }
