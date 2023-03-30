@@ -7,11 +7,12 @@
 #' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production",
 #' or an actual demand vector with names as one or more model sectors and
 #' numeric values in USD with the same dollar year as model.
+#' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateEEIOModel <- function(model, perspective, demand = "Production", use_domestic_requirements = FALSE) {
+calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL, use_domestic_requirements = FALSE) {
   result <- list()
   # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
   if (use_domestic_requirements) {
@@ -30,7 +31,15 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
                             paste0("Domestic", demand),
                             paste0("Complete", demand))
       # Get vector name (ID) from the meta table
-      id <- meta[which(meta$Name==demand_name),"ID"]
+      if(is.null(location)) {
+        id <- meta[which(meta$Name==demand_name),"ID"]
+        if(length(id)>1) {
+          stop("Unique demand vector not found, consider passing location")
+        }
+      } else {
+        id <- meta[which(meta$Name==demand_name &
+                         meta$Location==location),"ID"]
+      }
       d <- model$DemandVectors$vectors[[id]]
     } else {
       stop(paste0("'", demand, "' is not a valid demand vector name in model."))
