@@ -4,7 +4,7 @@
 \alias{getConfiguration}
 \title{Gets a stored or user specified model or aggregation/disaggregation configuration file}
 \usage{
-getConfiguration(configname, configtype, configpaths = NULL)
+getConfiguration(configname, configtype, configpaths = NULL, pkg = "useeior")
 }
 \arguments{
 \item{configname}{str, name of the configuration file}
@@ -13,6 +13,8 @@ getConfiguration(configname, configtype, configpaths = NULL)
 
 \item{configpaths}{str vector, paths (including file name) of model configuration file
 and optional agg/disagg configuration file(s). If NULL, built-in config files are used.}
+
+\item{pkg}{str, indicate package for access to config, either "useeior" or "stateior"}
 }
 \value{
 A list of model specifications.

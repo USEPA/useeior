@@ -4,10 +4,12 @@
 \alias{prepareDomesticConsumptionDemand}
 \title{Prepares a demand vector representing domestic consumption}
 \usage{
-prepareDomesticConsumptionDemand(model)
+prepareDomesticConsumptionDemand(model, location)
 }
 \arguments{
 \item{model}{An EEIO model object with model specs and IO tables loaded}
+
+\item{location, }{str of location code for demand vector}
 }
 \value{
 A named vector with demand

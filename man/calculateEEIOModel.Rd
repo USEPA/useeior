@@ -9,6 +9,7 @@ calculateEEIOModel(
   model,
   perspective,
   demand = "Production",
+  location = NULL,
   use_domestic_requirements = FALSE
 )
 }
@@ -20,6 +21,8 @@ calculateEEIOModel(
 \item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production",
 or an actual demand vector with names as one or more model sectors and
 numeric values in USD with the same dollar year as model.}
+
+\item{location, }{str optional location code for demand vector, required for two-region models}
 
 \item{use_domestic_requirements}{A logical value: if TRUE, use domestic demand and L_d matrix;
 if FALSE, use complete demand and L matrix.}
