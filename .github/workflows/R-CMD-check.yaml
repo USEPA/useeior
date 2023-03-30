@@ -4,7 +4,7 @@ name: R CI/CD test #R-CMD-check
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, develop]
     paths-ignore:
       - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
       - '**.bib'
@@ -15,7 +15,7 @@ on:
       - '.gitignore'
       - '.gitattributes'
   pull_request:
-    branches: [master] # develop
+    branches: [master, develop]
     paths-ignore:
       - '**.md'
       - '**.bib'
@@ -73,7 +73,6 @@ jobs:
           devtools::load_all()
           m <- useeior::buildModel("USEEIOv2.0-411")
           useeior::printValidationResults(m)
-      
         shell: Rscript {0}
 
       - name: Build and validate models - USEEIOv2.0-i-411 detail industry model with waste disaggregation
@@ -83,7 +82,6 @@ jobs:
           devtools::load_all()
           m <- useeior::buildModel("USEEIOv2.0-i-411")
           useeior::printValidationResults(m)
-      
         shell: Rscript {0}
       
       - name: Build and validate models - USEEIOv2.0 industry model
@@ -93,7 +91,6 @@ jobs:
           devtools::load_all()
           m <- useeior::buildModel("USEEIOv2.0-i-GHG")
           useeior::printValidationResults(m)
-      
         shell: Rscript {0}
       
       - name: Build and validate models - USEEIOv2.0 summary model
@@ -103,7 +100,6 @@ jobs:
           devtools::load_all()
           m <- useeior::buildModel("USEEIOv2.0-s-GHG")
           useeior::printValidationResults(m)
-      
         shell: Rscript {0}
       
       - name: Build and validate models - USEEIOv2.0.1-411 detail model with waste disaggregation
@@ -122,8 +118,16 @@ jobs:
           devtools::load_all()
           m <- useeior::buildModel("USEEIOv2.0-GHG-NGCombustion")
           useeior::printValidationResults(m)
-
         shell: Rscript {0}
+
+      # - name: Build and validate models - MEEEIOv2.0-s-GHG summary two-region model
+      #   if: always()
+      #   run: |
+      #     require(devtools)
+      #     devtools::load_all()
+      #     m <- useeior::buildModel("MEEEIOv2.0-s-GHG")
+      #     useeior::printValidationResults(m)
+      #   shell: Rscript {0}
 
       #- name: Show testthat output
       #  if: always()  # step will run even if previous steps fail

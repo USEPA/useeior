@@ -56,10 +56,16 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) {
   if (use_domestic) {
     f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[1]]
+    if (model$specs$IODataSource=="stateior") {
+      f <- (f + model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[2]])
+    }
     y <- as.matrix(formatDemandVector(f, model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
     f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[1]]
+    if (model$specs$IODataSource=="stateior") {
+      f <- (f + model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[2]])
+    }
     y <- as.matrix(formatDemandVector(f, model$L))
     c <- getScalingVector(model$L, y)
   }
@@ -108,10 +114,13 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 #' @export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   q <- removeHybridProcesses(model, model$q)
+  demand <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors),"Production_Domestic")][[1]]
+  if (model$specs$IODataSource=="stateior") {
+    demand <- (demand + model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[2]])
+  }
   x <- rowSums(model$U_d[removeHybridProcesses(model, model$Commodities$Code_Loc),
                          removeHybridProcesses(model, model$Industries$Code_Loc)]) +
-    removeHybridProcesses(model, model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors),
-                                                                      "Production_Domestic")][[1]])
+       removeHybridProcesses(model, demand)
   # Row names should be identical
   if (!identical(names(q), names(x))) {
     stop("Sectors not aligned in model ouput variable and calculation result")
