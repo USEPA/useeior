@@ -1,6 +1,6 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/master/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
-name: Save BEA Data
+name: Save BEA Data - Annual
 
 on:
   workflow_dispatch:  # allow manual trigger
@@ -43,7 +43,7 @@ jobs:
       - name: Download and save BEA data
         run: |
           devtools::load_all()
-          source("data-raw/BEAData_Detail.R")
+          source("data-raw/BEAData_Support.R")
         shell: Rscript {0}
         
       - name: Commit updated BEA IO data
@@ -51,5 +51,5 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/*.rda inst/extdata/metadata/*.json
-          git commit -m "Update BEA data"
+          git commit -m "Update annual BEA data"
           git push
