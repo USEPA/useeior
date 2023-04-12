@@ -405,6 +405,12 @@
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Sector_Use_2020_PRO_BeforeRedef"
 
+#' Sector 2021 Use Producer's Value Before Redefinition (2012 schema)
+#' @format A dataframe with 23 obs. and 24 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Use_2021_PRO_BeforeRedef"
+
 #' Sector 2012 Use Purchaser's Value Before Redefinition (2012 schema)
 #' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
