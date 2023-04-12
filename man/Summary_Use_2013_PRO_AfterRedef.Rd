@@ -5,7 +5,7 @@
 \alias{Summary_Use_2013_PRO_AfterRedef}
 \title{Summary 2013 Use Producer's Value After Redefinition (2012 schema)}
 \format{
-A dataframe with 83 obs. and 98 variables
+A dataframe with 79 obs. and 94 variables
 }
 \source{
 \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
