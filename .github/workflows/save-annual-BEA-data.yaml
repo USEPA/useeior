@@ -1,0 +1,55 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+name: Save BEA Data - Annual
+
+on:
+  workflow_dispatch:  # allow manual trigger
+
+jobs:
+  save-BEA-data:
+    runs-on: ${{ matrix.config.os }}
+
+    name: save BEA data ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest, r: 'release'}
+
+    env:
+      #GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }} 
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-renv@v2
+      
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: devtools
+        
+      - name: Download and save BEA data
+        run: |
+          devtools::load_all()
+          source("data-raw/BEAData_Support.R")
+        shell: Rscript {0}
+        
+      - name: Commit updated BEA IO data
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/*.rda inst/extdata/metadata/*.json
+          git commit -m "Update annual BEA data"
+          git push
