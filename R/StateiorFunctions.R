@@ -27,6 +27,8 @@ getTwoRegionIOData <- function(model, dataname) {
     filename <- gsub(dataname, "Use", filename)
   } else if (dataname %in% c("DomesticUseTransactions", "DomesticFinalDemand")) {
     filename <- gsub(dataname, "DomesticUse", filename)
+  } else if (dataname %in% c("DomesticUseTransactionswithTrade")){
+    filename <- gsub(dataname, "DomesticUsewithTrade", filename)
   }
   # Load data
   TwoRegionIOData <- readRDS(loadDataCommonsfile(paste0("stateio/", filename, ".rds")))
