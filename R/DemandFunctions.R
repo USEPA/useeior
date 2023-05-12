@@ -48,17 +48,63 @@ sumforConsumption <- function(model, Y, location) {
 #' @param location, str of location code for demand vector
 #' @return A named vector with demand
 prepareProductionDemand <- function(model, location) {
-  loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
-  export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
-  changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
-  import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
-  y_c <- sumforConsumption(model, model$FinalDemand, location)
-  y_e <- sumDemandCols(model$FinalDemand, export_code)
-  y_m <- sumDemandCols(model$FinalDemand, import_code)
-  y_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
-  y_p <- y_c + y_e + y_m + y_delta
+
+  if(model$specs$IODataSource=="BEA"){
+    loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
+    export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
+    changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
+    import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
+    y_c <- sumforConsumption(model, model$FinalDemand, location)
+    y_e <- sumDemandCols(model$FinalDemand, export_code)
+    y_m <- sumDemandCols(model$FinalDemand, import_code)
+    y_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
+    y_p <- y_c + y_e + y_m + y_delta
+    
+  }else if(model$specs$IODataSource == "stateior"){
+    y_p <- prepare2RProductionDemand(model, location)
+  }
+
+  return(y_p)
+  
+}
+
+#' Prepares a demand vector representing production for two region models
+#' Formula for production vector: y_p <- y_c + y_e + y_m + y_delta
+#' where y_c = consumption, y_e = exports, y_m = imports, y_delta = change in inventories
+#' y_m values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param location, str of location code for demand vector
+#' @return A named vector with demand
+prepare2RProductionDemand <- function(model, location) {
+  # loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
+  # export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
+  # changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
+  # import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
+  # y_c <- sumforConsumption(model, model$FinalDemand, location)
+  # y_e <- sumDemandCols(model$FinalDemand, export_code)
+  # y_m <- sumDemandCols(model$FinalDemand, import_code)
+  # y_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
+  # y_p <- y_c + y_e + y_m + y_delta
+  
+  #TODO: CHECK THE CODE BELOW
+  # # Replacing model$Demandvectors for ME and RoUS production with the proper vectors that match U_d_n_w_trade from stateior
+  # FD_columns  <- getFinalDemandCodes("Summary")
+  # ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
+  # SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
+  # SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns, ita_column)])
+  # RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns, ita_column)])
+  # RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
+  # 
+  # SoI_Production_Complete <- c(SoI2SoI_y,RoUS2SoI_y)
+  # names(SoI_Production_Complete) <- names(model$DemandVectors$vectors$`2019_US-ME_Production_Complete`)
+  # RoUS_Production_Complete <- c(SoI2RoUS_y, RoUS2RoUS_y)
+  # names(RoUS_Production_Complete) <- names(model$DemandVectors$vectors$`2019_RoUS_Production_Complete`)
+  # 
+  # model$DemandVectors$vectors$`2019_US-ME_Production_Complete` <- SoI_Production_Complete
+  # model$DemandVectors$vectors$`2019_RoUS_Production_Complete` <- RoUS_Production_Complete
   return(y_p)
 }
+
 
 #' Prepares a demand vector representing domestic production
 #' Formula for production vector: y_p <- y_dc + y_e + y_d_delta + mu
