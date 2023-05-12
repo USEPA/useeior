@@ -46,8 +46,17 @@ constructEEIOMatrices <- function(model) {
   colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
-  model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
-  model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
+  
+  if(model$specs$IODataSource=="BEA"){
+    model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
+    model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse    
+  } else if (model$specs$IODataSource=="stateior"){
+    model$U_n <- generate2RDirectRequirementsfromUseWithTrade(model)
+    model$U_d_n <- generate2RDirectRequirementsfromUseWithTrade(model) #this makes U_n and U_d_n equivalent, but for 2-region models domestic models are temporarily not being used
+  }
+
+  
+  
   model$q <- model$CommodityOutput
   model$x <- model$IndustryOutput
   model$mu <- model$InternationalTradeAdjustment
