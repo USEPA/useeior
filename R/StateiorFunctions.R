@@ -170,3 +170,46 @@ prepare2RDemand <- function(model, location, demand_type = "Production") {
   names(y_p) <- model$Commodities$Code_Loc
   return(y_p)
 }
+
+
+#' Run validation checks for 2R models and print to console
+#' @param model A complete 2R EEIO model: a list with USEEIO model components and attributes
+#' @export
+print2RValidationResults <- function(model) {
+  
+  # Check that Production demand can be run without errors
+  cat("Checking that production demand vectors do not produce errors for 2-R models, as well as validating model components.\n\n")
+  printValidationResults(model)
+  cat("\n")
+  
+  # Creating 2-R Production Complete demand vector
+  f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[1]]
+  f <- (f + model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[2]])
+  
+  cat("Calculating direct results using Production Complete final demand...\n")
+  directResultsProductionComplete <- calculateEEIOModel(model, perspective = "DIRECT", demand = f, location = NULL, use_domestic_requirements = FALSE)
+  
+  cat("\nCalculating final results using Production Complete final demand...\n\n")
+  finalResultsProductionComplete <- calculateEEIOModel(model, perspective = "FINAL", demand = f, location = NULL, use_domestic_requirements = FALSE)
+  
+  # Check that Consumption demand can be run without errors
+  cat("\n\nChecking that consumption demand vectors do not produce errors for 2-R models.\n\n")
+  
+  # Creating 2-R Consumption Complete demand vector
+  f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Consumption_Complete")][[1]]
+  f <- (f + model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Consumption_Complete")][[2]])
+  
+  
+  cat("Calculating direct results using Consumption Complete final demand...\n")
+  directResultsConsumptionComplete <- calculateEEIOModel(model, perspective = "DIRECT", demand = f, location = NULL, use_domestic_requirements = FALSE)
+  
+  cat("\nCalculating final results using Consumption Complete final demand...\n")
+  finalResultsConsumptionComplete <- calculateEEIOModel(model, perspective = "FINAL", demand = f, location = NULL, use_domestic_requirements = FALSE)
+  
+  twoRegionResults_ls <- list()
+  twoRegionResults_ls$directResultsProductionComplete <- directResultsProductionComplete
+  twoRegionResults_ls$directResultsConsumptionComplete <- directResultsConsumptionComplete
+  twoRegionResults_ls$finalResultsProductionComplete <- finalResultsProductionComplete
+  twoRegionResults_ls$finalResultsConsumptionComplete <- finalResultsConsumptionComplete
+  
+}
