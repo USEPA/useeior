@@ -123,31 +123,56 @@ generate2RDirectRequirementsfromUseWithTrade <- function(model){
 #' Demand for RoUS = SoI2RoUS + RoUS2RoUS
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param location, str of location code for demand vector
+#' @param demand_type A str indicating whether demand is Production or Consumption
 #' @return A named vector with demand
-prepare2RProductionDemand <- function(model, location) {
+prepare2RDemand <- function(model, location, demand_type = "Production") {
 
   # Get state abbreviations, e.g., "US-ME" and "RoUS"
   state_abb <- sub(".*/","",model$FinalDemandMeta$Code_Loc) ## Extract characters after /
   state_abb <- unique(state_abb)
-  
   iolevel <- model$specs$BaseIOLevel
-  #FD_columns  <- getFinalDemandCodes("Summary")
-  FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", "ChangeInventories", "Export", "Import", "GovernmentDemand"),
-                              getVectorOfCodes, ioschema = model$specs$BaseIOSchema, iolevel = iolevel))
   
-  
-  ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
-  
-  if(location == state_abb[1]){# calculate production final demand for SoI
-    SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
-    RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns, ita_column)])
-    y_p <- c(SoI2SoI_y,RoUS2SoI_y)
+  # Getting list of final demand columns used for the appropriate demand
+  if(demand_type == "Production"){
+    FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", "ChangeInventories", "Export", "Import", "GovernmentDemand"),
+                                getVectorOfCodes, ioschema = model$specs$BaseIOSchema, iolevel = iolevel))
     
-  }else if(location == state_abb[2]){# calculate production final demand for RoUS
-    SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns, ita_column)])
-    RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
-    y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
+    # Calculate production demand for both regions
+    ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
+    if(location == state_abb[1]){# calculate production final demand for SoI
+      SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
+      RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns, ita_column)])
+      y_p <- c(SoI2SoI_y,RoUS2SoI_y)
+      
+    }else if(location == state_abb[2]){# calculate production final demand for RoUS
+      SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns, ita_column)])
+      RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
+      y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
+    }
+    
+    
+    
+  } else if(demand_type == "Consumption"){
+    FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", "GovernmentDemand"),
+                                getVectorOfCodes, ioschema = model$specs$BaseIOSchema, iolevel = iolevel))
+    
+    # Calculate consumption demand for both regions
+    ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
+    if(location == state_abb[1]){# calculate production final demand for SoI
+      SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
+      RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns, ita_column)])
+      y_p <- c(SoI2SoI_y,RoUS2SoI_y)
+      
+    }else if(location == state_abb[2]){# calculate production final demand for RoUS
+      SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns, ita_column)])
+      RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
+      y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
+    }
   }
+
+  
+  
+
   
   names(y_p) <- model$Commodities$Code_Loc
   return(y_p)
