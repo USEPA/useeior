@@ -68,11 +68,6 @@ prepareProductionDemand <- function(model, location) {
   
 }
 
-#TODO: 
-#1) Modify prepareConsumptionDemand() and prepareDomesticConsumptionDemand() functions to handle 2R models.
-#2) MODIFY prepareDomesticProductionDemand() function to handle 2R models similar to how prepareProductionDemand function was modified.
-
-
 #' Prepares a demand vector representing domestic production
 #' Formula for production vector: y_p <- y_dc + y_e + y_d_delta + mu
 #' @param model An EEIO model object with model specs and IO tables loaded
@@ -103,7 +98,14 @@ prepareDomesticProductionDemand <- function(model, location) {
 #' @param location, str of location code for demand vector
 #' @return a named vector with demand
 prepareConsumptionDemand <- function(model, location) {
-  y_c <- sumforConsumption(model, model$FinalDemand, location)
+  
+  if(model$specs$IODataSource == "BEA"){
+    y_c <- sumforConsumption(model, model$FinalDemand, location)
+  } else if(model$specs$IODataSource == "stateior"){
+    y_c <- prepare2RDemand(model, location, demand_type = "Consumption")
+  }
+  
+
   return(y_c)
 }
 
@@ -112,7 +114,13 @@ prepareConsumptionDemand <- function(model, location) {
 #' @param location, str of location code for demand vector
 #' @return A named vector with demand
 prepareDomesticConsumptionDemand <- function(model, location) {
-  y_c_d <- sumforConsumption(model, model$DomesticFinalDemand, location)
+  
+  if(model$specs$IODataSource == "BEA"){
+    y_c_d <- sumforConsumption(model, model$DomesticFinalDemand, location)
+  } else if(model$specs$IODataSource == "stateior"){
+    y_c_d <- prepare2RDemand(model, location, demand_type = "Consumption")
+  }
+
   return(y_c_d)
 }
 
