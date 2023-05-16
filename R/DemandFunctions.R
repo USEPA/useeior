@@ -61,56 +61,12 @@ prepareProductionDemand <- function(model, location) {
     y_p <- y_c + y_e + y_m + y_delta
     
   }else if(model$specs$IODataSource == "stateior"){
-    y_p <- prepare2RProductionDemand(model, location)
+    y_p <- prepare2RDemand(model, location)
   }
 
   return(y_p)
   
 }
-
-#' #' Prepares a production demand vector representing production for two region models
-#' #' Demand for SoI = SoI2SoI + RoUS2SoI
-#' #' Demand for RoUS = SoI2RoUS + RoUS2RoUS
-#' #' @param model An EEIO model object with model specs and IO tables loaded
-#' #' @param location, str of location code for demand vector
-#' #' @return A named vector with demand
-#' prepare2RProductionDemand <- function(model, location) {
-#' temp <-1
-#' 
-#'   # Get state abbreviations, e.g., "US-ME" and "RoUS"
-#'   state_abb <- sub(".*/","",model$FinalDemandMeta$Code_Loc) ## Extract characters after /
-#'   state_abb <- unique(state_abb)
-#'   
-#'   loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
-#'   iolevel <- model$specs$BaseIOLevel
-#'   FD_columns  <- getFinalDemandCodes("Summary")
-#'   ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
-#'   
-#'   if(location == state_abb[1]){# calculate production final demand for SoI
-#'     SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
-#'     RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns, ita_column)])
-#'     y_p <- c(SoI2SoI_y,RoUS2SoI_y)
-#' 
-#'   }else if(location == state_abb[2]){# calculate production final demand for RoUS
-#'     SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns, ita_column)])
-#'     RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
-#'     y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
-#'   }
-#'   
-#'   names(y_p) <- model$Commodities$Code_Loc
-#'   # loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
-#'   # export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
-#'   # changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
-#'   # import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
-#'   # y_c <- sumforConsumption(model, model$FinalDemand, location)
-#'   # y_e <- sumDemandCols(model$FinalDemand, export_code)
-#'   # y_m <- sumDemandCols(model$FinalDemand, import_code)
-#'   # y_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
-#'   # y_p <- y_c + y_e + y_m + y_delta
-#'   
-#' 
-#'   return(y_p)
-#' }
 
 #TODO: 
 #1) Modify prepareConsumptionDemand() and prepareDomesticConsumptionDemand() functions to handle 2R models.
@@ -123,14 +79,22 @@ prepareProductionDemand <- function(model, location) {
 #' @param location, str of location code for demand vector
 #' @return A named vector with demand
 prepareDomesticProductionDemand <- function(model, location) {
-  loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
-  export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
-  changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
-  y_d_c <- sumforConsumption(model, model$DomesticFinalDemand, location)
-  y_d_e <- sumDemandCols(model$DomesticFinalDemand, export_code)
-  y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
-  mu <- model$InternationalTradeAdjustment
-  y_d_p <- y_d_c + y_d_e + y_d_delta + mu
+
+  if(model$specs$IODataSource == "BEA"){
+    loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
+    export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
+    changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
+    y_d_c <- sumforConsumption(model, model$DomesticFinalDemand, location)
+    y_d_e <- sumDemandCols(model$DomesticFinalDemand, export_code)
+    y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
+    mu <- model$InternationalTradeAdjustment
+    y_d_p <- y_d_c + y_d_e + y_d_delta + mu
+  }else if(model$specs$IODataSource == "stateior"){
+    # This calls the same function as non-domestic demand since for 2R models the non-domestic Use table is replaced with 
+    # domestic Use table with trade, meaning the model$U and model$U_d objects are equal.
+    y_d_p <- prepare2RDemand(model, location) 
+  }
+
   return(y_d_p)
 }
 
