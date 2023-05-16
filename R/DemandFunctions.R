@@ -68,10 +68,9 @@ prepareProductionDemand <- function(model, location) {
   
 }
 
-#' Prepares a demand vector representing production for two region models
-#' Formula for production vector: y_p <- y_c + y_e + y_m + y_delta
-#' where y_c = consumption, y_e = exports, y_m = imports, y_delta = change in inventories
-#' y_m values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)
+#' Prepares a production demand vector representing production for two region models
+#' Demand for SoI = SoI2SoI + RoUS2SoI
+#' Demand for RoUS = SoI2RoUS + RoUS2RoUS
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param location, str of location code for demand vector
 #' @return A named vector with demand
@@ -82,18 +81,23 @@ temp <-1
   state_abb <- sub(".*/","",model$FinalDemandMeta$Code_Loc) ## Extract characters after /
   state_abb <- unique(state_abb)
   
+  loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
+  iolevel <- model$specs$BaseIOLevel
   FD_columns  <- getFinalDemandCodes("Summary")
   ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
   
-  if(loc == state_abb[1]){# calculate production final demand for SoI
+  if(location == state_abb[1]){# calculate production final demand for SoI
     SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
     RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns, ita_column)])
     y_p <- c(SoI2SoI_y,RoUS2SoI_y)
-  }else if(loc == state_abb[2]){# calculate production final demand for RoUS
+
+  }else if(location == state_abb[2]){# calculate production final demand for RoUS
     SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns, ita_column)])
     RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
+    y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
   }
   
+  names(y_p) <- model$Commodities$Code_Loc
   # loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
   # export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
   # changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
@@ -104,24 +108,13 @@ temp <-1
   # y_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
   # y_p <- y_c + y_e + y_m + y_delta
   
-  #TODO: CHECK THE CODE BELOW
-  # # Replacing model$Demandvectors for ME and RoUS production with the proper vectors that match U_d_n_w_trade from stateior
-  # FD_columns  <- getFinalDemandCodes("Summary")
-  # ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
-  # SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
-  # SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns, ita_column)])
-  # RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns, ita_column)])
-  # RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
-  # 
-  # SoI_Production_Complete <- c(SoI2SoI_y,RoUS2SoI_y)
-  # names(SoI_Production_Complete) <- names(model$DemandVectors$vectors$`2019_US-ME_Production_Complete`)
-  # RoUS_Production_Complete <- c(SoI2RoUS_y, RoUS2RoUS_y)
-  # names(RoUS_Production_Complete) <- names(model$DemandVectors$vectors$`2019_RoUS_Production_Complete`)
-  # 
-  # model$DemandVectors$vectors$`2019_US-ME_Production_Complete` <- SoI_Production_Complete
-  # model$DemandVectors$vectors$`2019_RoUS_Production_Complete` <- RoUS_Production_Complete
+
   return(y_p)
 }
+
+#TODO: 
+#1) Modify prepareConsumptionDemand() and prepareDomesticConsumptionDemand() functions to handle 2R models.
+#2) MODIFY prepareDomesticProductionDemand() function to handle 2R models similar to how prepareProductionDemand function was modified.
 
 
 #' Prepares a demand vector representing domestic production
