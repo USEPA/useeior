@@ -76,6 +76,24 @@ prepareProductionDemand <- function(model, location) {
 #' @param location, str of location code for demand vector
 #' @return A named vector with demand
 prepare2RProductionDemand <- function(model, location) {
+temp <-1
+
+  # Get state abbreviations, e.g., "US-ME" and "RoUS"
+  state_abb <- sub(".*/","",model$FinalDemandMeta$Code_Loc) ## Extract characters after /
+  state_abb <- unique(state_abb)
+  
+  FD_columns  <- getFinalDemandCodes("Summary")
+  ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
+  
+  if(loc == state_abb[1]){# calculate production final demand for SoI
+    SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
+    RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns, ita_column)])
+    y_p <- c(SoI2SoI_y,RoUS2SoI_y)
+  }else if(loc == state_abb[2]){# calculate production final demand for RoUS
+    SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns, ita_column)])
+    RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
+  }
+  
   # loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
   # export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
   # changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
