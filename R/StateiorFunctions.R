@@ -73,7 +73,6 @@ disaggregateCPI <- function(df, model){
 #' @return A 2-region direct requirements table generated using the domestic Use table with trade
 generate2RDirectRequirementsfromUseWithTrade <- function(model){
   # This function contains code adapted from stateior's validateTwoRegionLagainstOutput() function adapted to work within the useeior package.
-  #Get model data
   iolevel <- model$specs$BaseIOLevel
   ioschema <- model$specs$BaseIOSchema
   year <- model$specs$IOYear
@@ -133,40 +132,47 @@ prepare2RDemand <- function(model, location, demand_type = "Production") {
   iolevel <- model$specs$BaseIOLevel
   
   # Getting list of final demand columns used for the appropriate demand
-  if(demand_type == "Production"){
-    FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", "ChangeInventories", "Export", "Import", "GovernmentDemand"),
-                                getVectorOfCodes, ioschema = model$specs$BaseIOSchema, iolevel = iolevel))
+  if (demand_type == "Production") {
+    FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", 
+                                     "ChangeInventories", "Export", "Import",
+                                     "GovernmentDemand"),
+                                getVectorOfCodes, ioschema = model$specs$BaseIOSchema,
+                                iolevel = iolevel))
     
     # Calculate production demand for both regions
     ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
-    if(location == state_abb[1]){# calculate production final demand for SoI
+    if (location == state_abb[1]) {
+      # calculate production final demand for SoI
       SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
       RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns, ita_column)])
       y_p <- c(SoI2SoI_y,RoUS2SoI_y)
       
-    }else if(location == state_abb[2]){# calculate production final demand for RoUS
+    } else if (location == state_abb[2]) {
+      # calculate production final demand for RoUS
       SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns, ita_column)])
       RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
       y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
     }
     
-  } else if(demand_type == "Consumption"){ # Includes only household, investment, and goverment consumption as per Ingwersen et al. 2022 (USEEIOv2.0 paper)
+  } else if (demand_type == "Consumption") {
+    # Includes only household, investment, and government consumption as per Ingwersen et al. 2022 (USEEIOv2.0 paper)
     FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", "GovernmentDemand"),
                                 getVectorOfCodes, ioschema = model$specs$BaseIOSchema, iolevel = iolevel))
     
     # Calculate consumption demand for both regions
-    if(location == state_abb[1]){# calculate production final demand for SoI
+    if (location == state_abb[1]) {
+      # calculate production final demand for SoI
       SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, "ExportResidual")])
       RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns)])
       y_p <- c(SoI2SoI_y,RoUS2SoI_y)
       
-    }else if(location == state_abb[2]){# calculate production final demand for RoUS
+    } else if (location == state_abb[2]) {
+      # calculate production final demand for RoUS
       SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns)])
       RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, "ExportResidual")])
       y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
     }
   }
-
   names(y_p) <- model$Commodities$Code_Loc
   return(y_p)
 }
@@ -199,7 +205,6 @@ print2RValidationResults <- function(model) {
   f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Consumption_Complete")][[1]]
   f <- (f + model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Consumption_Complete")][[2]])
   
-  
   cat("Calculating direct results using Consumption Complete final demand...\n")
   directResultsConsumptionComplete <- calculateEEIOModel(model, perspective = "DIRECT", demand = f, location = NULL, use_domestic_requirements = FALSE)
   
@@ -211,5 +216,4 @@ print2RValidationResults <- function(model) {
   twoRegionResults_ls$directResultsConsumptionComplete <- directResultsConsumptionComplete
   twoRegionResults_ls$finalResultsProductionComplete <- finalResultsProductionComplete
   twoRegionResults_ls$finalResultsConsumptionComplete <- finalResultsConsumptionComplete
-  
 }
