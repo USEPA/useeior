@@ -3,8 +3,8 @@
 #' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model
 #' for a given perspective and demand vector.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param perspective Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".
-#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production",
+#' @param perspective Perspective of the model, can be "DIRECT" or "FINAL".
+#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
 #' or an actual demand vector with names as one or more model sectors and
 #' numeric values in USD with the same dollar year as model.
 #' @param location, str optional location code for demand vector, required for two-region models

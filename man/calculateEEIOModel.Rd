@@ -16,9 +16,9 @@ calculateEEIOModel(
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{perspective}{Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".}
+\item{perspective}{Perspective of the model, can be "DIRECT" or "FINAL".}
 
-\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production",
+\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
 or an actual demand vector with names as one or more model sectors and
 numeric values in USD with the same dollar year as model.}
 
