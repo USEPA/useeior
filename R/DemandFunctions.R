@@ -48,15 +48,19 @@ sumforConsumption <- function(model, Y, location) {
 #' @param location, str of location code for demand vector
 #' @return A named vector with demand
 prepareProductionDemand <- function(model, location) {
-  loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
-  export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
-  changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
-  import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
-  y_c <- sumforConsumption(model, model$FinalDemand, location)
-  y_e <- sumDemandCols(model$FinalDemand, export_code)
-  y_m <- sumDemandCols(model$FinalDemand, import_code)
-  y_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
-  y_p <- y_c + y_e + y_m + y_delta
+  if (model$specs$IODataSource == "stateior") {
+    y_p <- prepare2RDemand(model, location)
+  } else {
+    loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
+    export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
+    changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
+    import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
+    y_c <- sumforConsumption(model, model$FinalDemand, location)
+    y_e <- sumDemandCols(model$FinalDemand, export_code)
+    y_m <- sumDemandCols(model$FinalDemand, import_code)
+    y_delta <- sumDemandCols(model$FinalDemand, changeinventories_code)
+    y_p <- y_c + y_e + y_m + y_delta
+  }
   return(y_p)
 }
 
@@ -66,14 +70,20 @@ prepareProductionDemand <- function(model, location) {
 #' @param location, str of location code for demand vector
 #' @return A named vector with demand
 prepareDomesticProductionDemand <- function(model, location) {
-  loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
-  export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
-  changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
-  y_d_c <- sumforConsumption(model, model$DomesticFinalDemand, location)
-  y_d_e <- sumDemandCols(model$DomesticFinalDemand, export_code)
-  y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
-  mu <- model$InternationalTradeAdjustment
-  y_d_p <- y_d_c + y_d_e + y_d_delta + mu
+  if (model$specs$IODataSource == "stateior") {
+    # This calls the same function as non-domestic demand since for 2R models the non-domestic Use table is replaced with 
+    # domestic Use table with trade, meaning the model$U and model$U_d objects are equal.
+    y_d_p <- prepare2RDemand(model, location) 
+  } else {
+    loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
+    export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
+    changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
+    y_d_c <- sumforConsumption(model, model$DomesticFinalDemand, location)
+    y_d_e <- sumDemandCols(model$DomesticFinalDemand, export_code)
+    y_d_delta <- sumDemandCols(model$DomesticFinalDemand, changeinventories_code)
+    mu <- model$InternationalTradeAdjustment
+    y_d_p <- y_d_c + y_d_e + y_d_delta + mu
+  }
   return(y_d_p)
 }
 
@@ -82,7 +92,11 @@ prepareDomesticProductionDemand <- function(model, location) {
 #' @param location, str of location code for demand vector
 #' @return a named vector with demand
 prepareConsumptionDemand <- function(model, location) {
-  y_c <- sumforConsumption(model, model$FinalDemand, location)
+  if (model$specs$IODataSource == "stateior") {
+    y_c <- prepare2RDemand(model, location, demand_type = "Consumption")
+  } else {
+    y_c <- sumforConsumption(model, model$FinalDemand, location)
+  }
   return(y_c)
 }
 
@@ -91,7 +105,11 @@ prepareConsumptionDemand <- function(model, location) {
 #' @param location, str of location code for demand vector
 #' @return A named vector with demand
 prepareDomesticConsumptionDemand <- function(model, location) {
-  y_c_d <- sumforConsumption(model, model$DomesticFinalDemand, location)
+  if (model$specs$IODataSource == "stateior") {
+    y_c_d <- prepare2RDemand(model, location, demand_type = "Consumption")
+  } else {
+    y_c_d <- sumforConsumption(model, model$DomesticFinalDemand, location)
+  } 
   return(y_c_d)
 }
 
