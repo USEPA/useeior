@@ -180,6 +180,7 @@ prepare2RDemand <- function(model, location, demand_type = "Production") {
 
 #' Run validation checks for 2R models and print to console
 #' @param model A complete 2R EEIO model: a list with USEEIO model components and attributes
+#' @return A list with 2R model results. 
 #' @export
 print2RValidationResults <- function(model) {
   
@@ -216,4 +217,6 @@ print2RValidationResults <- function(model) {
   twoRegionResults_ls$directResultsConsumptionComplete <- directResultsConsumptionComplete
   twoRegionResults_ls$finalResultsProductionComplete <- finalResultsProductionComplete
   twoRegionResults_ls$finalResultsConsumptionComplete <- finalResultsConsumptionComplete
+  
+  return(twoRegionResults_ls)
 }
