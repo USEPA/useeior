@@ -48,8 +48,8 @@ constructEEIOMatrices <- function(model) {
                                  function(x) ifelse(is.na(x), 0, x))
   
  if (model$specs$IODataSource=="stateior") {
-    model$U_n <- generate2RDirectRequirementsfromUseWithTrade(model)
-    model$U_d_n <- generate2RDirectRequirementsfromUseWithTrade(model)
+    model$U_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = FALSE)
+    model$U_d_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = TRUE)
     # ^^ this makes U_n and U_d_n equivalent, but for 2-region models domestic models are temporarily not being used
   } else {
     model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
