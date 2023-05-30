@@ -49,7 +49,7 @@ sumforConsumption <- function(model, Y, location) {
 #' @return A named vector with demand
 prepareProductionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
-    y_p <- prepare2RDemand(model, location)
+    y_p <- prepare2RDemand(model, location, domestic = FALSE)
   } else {
     loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
     export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
@@ -73,7 +73,7 @@ prepareDomesticProductionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
     # This calls the same function as non-domestic demand since for 2R models the non-domestic Use table is replaced with 
     # domestic Use table with trade, meaning the model$U and model$U_d objects are equal.
-    y_d_p <- prepare2RDemand(model, location) 
+    y_d_p <- prepare2RDemand(model, location, domestic = TRUE) 
   } else {
     loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
     export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
@@ -93,7 +93,7 @@ prepareDomesticProductionDemand <- function(model, location) {
 #' @return a named vector with demand
 prepareConsumptionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
-    y_c <- prepare2RDemand(model, location, demand_type = "Consumption")
+    y_c <- prepare2RDemand(model, location, domestic = FALSE, demand_type = "Consumption")
   } else {
     y_c <- sumforConsumption(model, model$FinalDemand, location)
   }
@@ -106,7 +106,7 @@ prepareConsumptionDemand <- function(model, location) {
 #' @return A named vector with demand
 prepareDomesticConsumptionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
-    y_c_d <- prepare2RDemand(model, location, demand_type = "Consumption")
+    y_c_d <- prepare2RDemand(model, location, domestic = TRUE, demand_type = "Consumption")
   } else {
     y_c_d <- sumforConsumption(model, model$DomesticFinalDemand, location)
   } 

@@ -130,14 +130,22 @@ generate2RDirectRequirementsfromUseWithTrade <- function(model, domestic){
 #' Demand for RoUS = SoI2RoUS + RoUS2RoUS
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param location, str of location code for demand vector
+#' @param domestic A logical parameter indicating whether to generate domestic demand vector.
 #' @param demand_type A str indicating whether demand is Production or Consumption
 #' @return A named vector with demand
-prepare2RDemand <- function(model, location, demand_type = "Production") {
+prepare2RDemand <- function(model, location, domestic, demand_type = "Production") {
 
   # Get state abbreviations, e.g., "US-ME" and "RoUS"
   state_abb <- sub(".*/","",model$FinalDemandMeta$Code_Loc) ## Extract characters after /
   state_abb <- unique(state_abb)
   iolevel <- model$specs$BaseIOLevel
+  
+  if(domestic){
+    use_table <- model$DomesticUseTransactionswithTrade    
+  } else {
+    use_table <- model$UseTransactionswithTrade
+  }
+
   
   # Getting list of final demand columns used for the appropriate demand
   if (demand_type == "Production") {
@@ -151,14 +159,14 @@ prepare2RDemand <- function(model, location, demand_type = "Production") {
     ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
     if (location == state_abb[1]) {
       # calculate production final demand for SoI
-      SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
-      RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns, ita_column)])
+      SoI2SoI_y   <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
+      RoUS2SoI_y  <- rowSums(use_table[["RoUS2SoI"]][, c(FD_columns, ita_column)])
       y_p <- c(SoI2SoI_y,RoUS2SoI_y)
       
     } else if (location == state_abb[2]) {
       # calculate production final demand for RoUS
-      SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns, ita_column)])
-      RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
+      SoI2RoUS_y  <- rowSums(use_table[["SoI2RoUS"]][, c(FD_columns, ita_column)])
+      RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
       y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
     }
     
@@ -170,14 +178,14 @@ prepare2RDemand <- function(model, location, demand_type = "Production") {
     # Calculate consumption demand for both regions
     if (location == state_abb[1]) {
       # calculate production final demand for SoI
-      SoI2SoI_y   <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2SoI"]][, c(FD_columns, "ExportResidual")])
-      RoUS2SoI_y  <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2SoI"]][, c(FD_columns)])
+      SoI2SoI_y   <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns, "ExportResidual")])
+      RoUS2SoI_y  <- rowSums(use_table[["RoUS2SoI"]][, c(FD_columns)])
       y_p <- c(SoI2SoI_y,RoUS2SoI_y)
       
     } else if (location == state_abb[2]) {
       # calculate production final demand for RoUS
-      SoI2RoUS_y  <- rowSums(model$DomesticUseTransactionswithTrade[["SoI2RoUS"]][, c(FD_columns)])
-      RoUS2RoUS_y <- rowSums(model$DomesticUseTransactionswithTrade[["RoUS2RoUS"]][, c(FD_columns, "ExportResidual")])
+      SoI2RoUS_y  <- rowSums(use_table[["SoI2RoUS"]][, c(FD_columns)])
+      RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns, "ExportResidual")])
       y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
     }
   }
