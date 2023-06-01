@@ -159,14 +159,24 @@ prepare2RDemand <- function(model, location, domestic, demand_type = "Production
     ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
     if (location == state_abb[1]) {
       # calculate production final demand for SoI
-      SoI2SoI_y   <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
+      if(domestic == FALSE){
+        SoI2SoI_y   <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns, "ExportResidual")])
+      }else{
+        SoI2SoI_y   <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
+      }
+      #SoI2SoI_y   <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
       RoUS2SoI_y  <- rowSums(use_table[["RoUS2SoI"]][, c(FD_columns, ita_column)])
       y_p <- c(SoI2SoI_y,RoUS2SoI_y)
       
     } else if (location == state_abb[2]) {
       # calculate production final demand for RoUS
+      if(domestic == FALSE){
+        RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns, "ExportResidual")])
+      }else{
+        RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
+      }
       SoI2RoUS_y  <- rowSums(use_table[["SoI2RoUS"]][, c(FD_columns, ita_column)])
-      RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
+      #RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns, ita_column, "ExportResidual")])
       y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
     }
     
