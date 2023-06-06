@@ -5,7 +5,7 @@
 \alias{Sector_Use_2020_PRO_AfterRedef}
 \title{Sector 2020 Use Producer's Value After Redefinition (2012 schema)}
 \format{
-A dataframe with 27 obs. and 28 variables
+A dataframe with 23 obs. and 24 variables
 }
 \source{
 \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}

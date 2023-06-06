@@ -7,7 +7,7 @@
 loadandbuildIndicators(model)
 }
 \arguments{
-\item{model}{A model object with model specs, IO tables, and satelilte tables loaded}
+\item{model}{A model object with model specs, IO tables, and satellite tables loaded}
 }
 \value{
 A model object with Indicators added

@@ -1,0 +1,39 @@
+{
+    "description": "Estimating potential environmental impacts of goods and services in the US economy", 
+    "license": "MIT", 
+    "title": "useeior", 
+    "upload_type": "software", 
+    "creators": [
+        {
+            "affiliation": "General Dynamics Information Technology, Inc.", 
+            "name": "Mo Li"
+            "orcid": "https://orcid.org/0000-0002-3672-1622"
+        }, 
+        {
+            "affiliation": "US Environmental Protection Agency", 
+            "name": "Wesley Ingwersen"
+            "orcid": "https://orcid.org/0000-0002-9614-701X"
+        }, 
+        {
+            "affiliation": "Eastern Research Group", 
+            "name": "Ben Young"
+            "orcid": "https://orcid.org/0000-0001-6276-8670"
+        }, 
+        {
+            "affiliation": "Eastern Research Group", 
+            "name": "Jorge Vendries"
+            "orcid": "https://orcid.org/0000-0002-8452-229X"
+        }, 
+        {
+            "affiliation": "US Environmental Protection Agency", 
+            "name": "Catherine Birney",
+            "orcid": "https://orcid.org/0000-0003-4467-9927"
+        },
+        {
+            "affiliation": "Eastern Research Group", 
+            "name": "Andrew Beck",
+            "orcid": "https://orcid.org/0000-0003-4051-6901"
+        }
+    ], 
+    "access_right": "open"
+}

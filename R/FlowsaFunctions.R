@@ -57,7 +57,9 @@ prepareFlowBySectorCollapsedforSatellite <- function(fbsc) {
   fbsc <- fbsc[fbsc$FlowType %in% acceptable_types, ]
   # Map location codes to names
   fbsc$Location <- mapLocationCodestoNames(fbsc$Location, unique(fbsc$LocationSystem))
+  # Get standard sat table fields
+  fields <- getStandardSatelliteTableFormat()
   # Remove unused data
-  fbsc[, c("Class", "FlowType", "LocationSystem", "MeasureofSpread", "Spread")] <- NULL
+  fbsc <- fbsc[which(colnames(fbsc) %in% fields)]
   return(fbsc)
 }

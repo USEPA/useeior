@@ -61,8 +61,6 @@ getBEADetailMakeBeforeRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Make (Before Redef, 2012 schema)
-getBEADetailMakeBeforeRedef2012Schema(2012)
 
 # Get BEA Detail Use (PRO, Before Redef, 2012 schema) table from static Excel
 getBEADetailUsePROBeforeRedef2012Schema <- function(year) {
@@ -99,8 +97,6 @@ getBEADetailUsePROBeforeRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Use (PRO, Before Redef, 2012 schema)
-getBEADetailUsePROBeforeRedef2012Schema(2012)
 
 # Get BEA Detail Use (PUR, Before Redef, 2012 schema) 2012 table from static Excel
 getBEADetailUsePURBeforeRedef2012Schema <- function(year) {
@@ -137,8 +133,6 @@ getBEADetailUsePURBeforeRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Use (PUR, Before Redef, 2012 schema)
-getBEADetailUsePURBeforeRedef2012Schema(2012)
 
 # Get BEA Detail Make (After Redef, 2012 schema) table from static Excel
 getBEADetailMakeAfterRedef2012Schema <- function(year) {
@@ -175,8 +169,6 @@ getBEADetailMakeAfterRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Make (After Redef, 2012 schema)
-getBEADetailMakeAfterRedef2012Schema(2012)
 
 # Get BEA Detail Use (PRO, After Redef, 2012 schema) table from static Excel
 getBEADetailUsePROAfterRedef2012Schema <- function(year) {
@@ -213,8 +205,6 @@ getBEADetailUsePROAfterRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Use (PRO, After Redef, 2012 schema)
-getBEADetailUsePROAfterRedef2012Schema(2012)
 
 # Get BEA Detail Use (PUR, After Redef, 2012 schema) table from static Excel
 getBEADetailUsePURAfterRedef2012Schema <- function(year) {
@@ -251,8 +241,6 @@ getBEADetailUsePURAfterRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Use (PUR, After Redef, 2012 schema)
-getBEADetailUsePURAfterRedef2012Schema(2012)
 
 # Get BEA Summary Make (Before Redef, 2012 schema) table from static Excel
 getBEASummaryMakeBeforeRedef2012Schema <- function() {
@@ -299,8 +287,6 @@ getBEASummaryMakeBeforeRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Summary Make (Before Redef, 2012 schema)
-getBEASummaryMakeBeforeRedef2012Schema()
 
 # Get BEA Summary Use (PRO, Before Redef, 2012 schema) table from static Excel
 getBEASummaryUsePROBeforeRedef2012Schema <- function() {
@@ -347,8 +333,6 @@ getBEASummaryUsePROBeforeRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Summary Use (PRO, Before Redef, 2012 schema)
-getBEASummaryUsePROBeforeRedef2012Schema()
 
 # Get BEA Summary Use (PUR, Before Redef, 2012 schema) table from static Excel
 getBEASummaryUsePURBeforeRedef2012Schema <- function(year) {
@@ -389,8 +373,6 @@ getBEASummaryUsePURBeforeRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Summary Use (PUR, Before Redef, 2012 schema)
-getBEASummaryUsePURBeforeRedef2012Schema(2012)
 
 # Get BEA Summary Make (After Redef, 2012 schema) table from static Excel
 getBEASummaryMakeAfterRedef2012Schema <- function() {
@@ -437,8 +419,6 @@ getBEASummaryMakeAfterRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Summary Make (After Redef, 2012 schema)
-getBEASummaryMakeAfterRedef2012Schema()
 
 # Get BEA Summary Use (PRO, After Redef, 2012 schema) table from static Excel
 getBEASummaryUsePROAfterRedef2012Schema <- function() {
@@ -485,8 +465,6 @@ getBEASummaryUsePROAfterRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Summary Use (PRO, After Redef, 2012 schema)
-getBEASummaryUsePROAfterRedef2012Schema()
 
 # Get BEA Sector Make (Before Redef, 2012 schema) table from static Excel
 getBEASectorMakeBeforeRedef2012Schema <- function() {
@@ -533,8 +511,6 @@ getBEASectorMakeBeforeRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Sector Make (Before Redef, 2012 schema)
-getBEASectorMakeBeforeRedef2012Schema()
 
 # Get BEA Sector Use (PRO, Before Redef, 2012 schema) table from static Excel
 getBEASectorUsePROBeforeRedef2012Schema <- function() {
@@ -580,8 +556,6 @@ getBEASectorUsePROBeforeRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Sector Use (PRO, Before Redef, 2012 schema)
-getBEASectorUsePROBeforeRedef2012Schema()
 
 # Get BEA Sector Use (PUR, Before Redef, 2012 schema) table from static Excel
 getBEASectorUsePURBeforeRedef2012Schema <- function(year) {
@@ -622,8 +596,6 @@ getBEASectorUsePURBeforeRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Sector Use (PUR, Before Redef, 2012 schema)
-getBEASectorUsePURBeforeRedef2012Schema(2012)
 
 # Get BEA Sector Make (After Redef, 2012 schema) table from static Excel
 getBEASectorMakeAfterRedef2012Schema <- function() {
@@ -670,8 +642,6 @@ getBEASectorMakeAfterRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Sector Make (After Redef, 2012 schema)
-getBEASectorMakeAfterRedef2012Schema()
 
 # Get BEA Sector Use (PRO, After Redef, 2012 schema) table from static Excel
 getBEASectorUsePROAfterRedef2012Schema <- function() {
@@ -717,8 +687,6 @@ getBEASectorUsePROAfterRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2018 BEA Sector Use (PRO, After Redef, 2012 schema)
-getBEASectorUsePROAfterRedef2012Schema()
 
 # Get BEA Detail Import (Before Redef, 2012 schema) from static Excel
 getBEADetailImportBeforeRedef2012Schema <- function(year) {
@@ -757,8 +725,6 @@ getBEADetailImportBeforeRedef2012Schema <- function(year) {
                       date_last_modified = "unknown",
                       date_accessed = as.character(as.Date(file.mtime(FileName))))
 }
-# Download, save and document 2012 BEA Detail Import matrix
-getBEADetailImportBeforeRedef2012Schema(2012)
 
 # Get BEA Summary Import (Before Redef, 2012 schema) from static Excel
 getBEASummaryImportBeforeRedef2012Schema <- function() {
@@ -803,9 +769,6 @@ getBEASummaryImportBeforeRedef2012Schema <- function() {
                         date_accessed = as.character(as.Date(file.mtime(FileName))))
   }
 }
-# Download, save and document 2010-2020 BEA Summary Import matrix
-getBEASummaryImportBeforeRedef2012Schema()
-
 
 # Download all GDP tables from BEA
 getBEAUnderlyingTables <- function() {
@@ -1002,8 +965,6 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Detail, Summary, and Sector Gross Output tables
-mapBEAGrossOutputtoIOIndustry2012Schema()
 
 # Get Detail BEA Chain-Type Price Indexes (CPI) (2012 schema) since 2002
 getBEADetailCPI2012Schema <- function() {
@@ -1185,8 +1146,6 @@ mapBEACPItoIOIndustry2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Detail, Summary, and Sector CPI tables since 2002
-mapBEACPItoIOIndustry2012Schema()
 
 #' Get Summary BEA Value Added (2012 schema) since 2007
 getBEASummaryValueAdded2012Schema <- function() {
@@ -1303,8 +1262,6 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Summary and Sector Value Added tables since 2002
-mapBEAValueAddedtoIOIndustry2012Schema()
 
 #'Applies string functions to clean BEA codes in a df
 #'@param df, a sector dataframe with codes in col 1
@@ -1470,8 +1427,6 @@ getBEACodeName2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Detail, Summary, and Sector Code and Name (2012 schema)
-getBEACodeName2012Schema()
 
 # Get Detail Margins (Before Redefinition, 2012 schema) table from BEA static URL
 getBEADetailMarginsBeforeRedef2012Schema <- function(year) {
@@ -1507,8 +1462,6 @@ getBEADetailMarginsBeforeRedef2012Schema <- function(year) {
                       date_last_modified = "2022-03-04", # page last modified
                       date_accessed = as.character(as.Date(file.mtime(FileName))))
 }
-# Download, save and document 2012 BEA Detail Margins table
-getBEADetailMarginsBeforeRedef2012Schema(2012)
 
 
 # Download all Supply and Use tables from BEA iTable
@@ -1805,3 +1758,4 @@ getBEASectorUseSUT2012Schema <- function() {
 }
 # Download, save and document 2010-2020 BEA Sector Supply (2012 schema)
 getBEASectorUseSUT2012Schema()
+

@@ -317,7 +317,7 @@ disaggregateMargins <- function(model, disagg) {
   originalIndex <-  grep(disagg$OriginalSectorCode, model$Margins$Code_Loc)#get row index of the original aggregate sector in the model$Margins object
   originalRow <- model$Margins[originalIndex,]#copy row containing the Margins information for the original aggregate sector
   disaggMargins <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]#replicate the original a number of times equal to the number of disaggregate sectors
-  disaggRatios <- unname(disaggregatedRatios(model, disagg, "Commodity"))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
+  disaggRatios <- unname(disaggregatedRatios(model, disagg, model$specs$CommodityorIndustryType))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
   
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
   codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1]))
@@ -337,7 +337,12 @@ disaggregateMargins <- function(model, disagg) {
   
   #update rownames so that the row names of the disaggregated sectors do not contain decimals (e.g., 351.1)
   rownames(newMargins) <- NULL
-  newMargins <- newMargins[match(newMargins$SectorCode, model$Commodities$Code), ]
+  if(model$specs$CommodityorIndustryType == "Industry") {
+    names <- model$Industries$Code
+  } else {
+    names <- model$Commodities$Code
+  }
+  newMargins <- newMargins[match(newMargins$SectorCode, names), ]
   
   return(newMargins)
 }
