@@ -5,7 +5,7 @@
 \alias{Sector_Use_2013_PRO_AfterRedef}
 \title{Sector 2013 Use Producer's Value After Redefinition (2012 schema)}
 \format{
-A dataframe with 27 obs. and 28 variables
+A dataframe with 23 obs. and 24 variables
 }
 \source{
 \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
