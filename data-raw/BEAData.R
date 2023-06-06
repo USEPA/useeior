@@ -1526,8 +1526,7 @@ getBEADetailSupply2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Supply (2012 schema)
-getBEADetailSupply2012Schema(2012)
+
 
 # Get BEA Detail Use (under the Supply-Use framework, 2012 schema) table from static Excel
 getBEADetailUseSUT2012Schema <- function(year) {
@@ -1564,8 +1563,7 @@ getBEADetailUseSUT2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Supply (2012 schema)
-getBEADetailUseSUT2012Schema(2012)
+
 
 # Get BEA Summary Supply (2012 schema) table from static Excel
 getBEASummarySupply2012Schema <- function() {
@@ -1611,8 +1609,6 @@ getBEASummarySupply2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Summary Supply (2012 schema)
-getBEASummarySupply2012Schema()
 
 # Get BEA Summary Use (under the Supply-Use framework, 2012 schema) table from static Excel
 getBEASummaryUseSUT2012Schema <- function() {
@@ -1658,8 +1654,7 @@ getBEASummaryUseSUT2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Summary Use (2012 schema)
-getBEASummaryUseSUT2012Schema()
+
 
 # Get BEA Sector Supply (2012 schema) table from static Excel
 getBEASectorSupply2012Schema <- function() {
@@ -1709,8 +1704,7 @@ getBEASectorSupply2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Sector Supply (2012 schema)
-getBEASectorSupply2012Schema()
+
 
 # Get BEA Sector Use (under the Supply-Use framework, 2012 schema) table from static Excel
 getBEASectorUseSUT2012Schema <- function() {
@@ -1756,6 +1750,4 @@ getBEASectorUseSUT2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Sector Supply (2012 schema)
-getBEASectorUseSUT2012Schema()
 
