@@ -118,10 +118,9 @@ generate2RDirectRequirementsfromUseWithTrade <- function(model, domestic){
                                          RoUS_Industry_Output)
 
   U_n_w_trade <- cbind(rbind(SoI2SoI_A, RoUS2SoI_A), rbind(SoI2RoUS_A, RoUS2RoUS_A))
-  colnames(U_n_w_trade) <- colnames(model$U_n)
-  rownames(U_n_w_trade) <- rownames(model$U_n)
+  colnames(U_n_w_trade) <- colnames(model$UseTransactions)
+  rownames(U_n_w_trade) <- rownames(model$UseTransactions)
   return(U_n_w_trade)
-  
 }
 
 
