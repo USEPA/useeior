@@ -219,3 +219,64 @@ generateInternationalTradeAdjustmentVector <- function(Use, model) {
   names(InternationalTradeAdjustment) <- rownames(Use)
   return(InternationalTradeAdjustment)
 }
+
+#' Create import direct requirements table and validate domestic+import against full use model .
+#' @param model, An EEIO model object with model specs and crosswalk table loaded
+#' @return A model object with explicit import components.
+buildAndValidateA_m<- function(model) {
+  # Deriving the economic component of the Swedish equation for import factors: f^(d+m) = S^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
+  # S and Q are the environmental intensity matrices, so getting rid of those components we would have the following (where x is the economic component of f)
+  # x^(d+m) = L^d*y^d + A^m*L^d*y^d + y^m + f^h
+  # Since f^h is not currently part of the useeior model calculations, we drop it:
+  # x^(d+m) = L^d*y^d + A^m*L^d*y^d + y^m 
+  # The resulting expression should be equivalent to the x = L*y such that
+  # x^(d+m) = x = L*y
+  
+  
+  # Re-derive import values in Use and final demand
+  # _m denotes import-related structures
+  UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
+  FD_m <- model$FinalDemand - model$DomesticFinalDemand
+  
+  # # Check that import values are the same as the original import data 
+  # # Note that this check is not meant to be included in the code
+  # Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+  # rownames(Import) <-rownames(UseTransactions_m)
+  # colnames(Import[1:71]) <- colnames(UseTransactions_m[1:71])
+  # temp <- UseTransactions_m - Import[,1:71]
+  # sum(sum(temp)) == 0 # should be TRUE
+  
+  U_n_m <- normalizeIOTransactions(UseTransactions_m, model$IndustryOutput) 
+  A_m <- U_n_m %*% model$V_n
+  
+  
+  # Calculate production demand vector
+  FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", 
+                                   "ChangeInventories", "Export", "Import",
+                                   "GovernmentDemand"),
+                              getVectorOfCodes, ioschema = model$specs$BaseIOSchema,
+                              iolevel = model$specs$BaseIOLevel))
+  FD_columns <- model$FinalDemandMeta$Code_Loc[which(model$FinalDemandMeta$Code %in% FD_columns)] #get the right column names, with location ids
+  
+  # calculate "standard" x
+  y <- rowSums(model$FinalDemand[,c(FD_columns)])
+  x <- model$L %*% y
+  
+  # Calculate x as domestic + import components
+  y_m <- rowSums(FD_m[,c(FD_columns)])
+  y_d <- rowSums(model$DomesticFinalDemand[,c(FD_columns)])
+  
+  s_d <- model$L_d %*% y_d
+  x_dm <- s_d + A_m%*%s_d + y_m
+  
+  result <- all.equal(x,x_dm)
+  if(result!=TRUE){
+    print(paste0("Economic impacts from 'standard' leontief equation and from domestic + import appproach are not equivalent. ",result))
+  }
+  
+  #add domestic components to model object
+  model$A_m <- A_m
+  model$ImportFinalDemand <- FD_m
+  
+  return(model)
+}
