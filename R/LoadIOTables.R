@@ -12,7 +12,6 @@ loadIOData <- function(model, configpaths = NULL) {
   model <- loadIOmeta(model)
   # Define IO table names
   io_table_names <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                      "DomesticUseTransactionswithTrade", "UseTransactionswithTrade",
                       "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
                       "InternationalTradeAdjustment")
   # Load IO data
@@ -20,6 +19,7 @@ loadIOData <- function(model, configpaths = NULL) {
     io_codes <- loadIOcodes(model$specs)
     model[io_table_names] <- loadNationalIOData(model, io_codes)[io_table_names]
   } else if (model$specs$IODataSource=="stateior") {
+    io_table_names <- c(io_table_names, "DomesticUseTransactionswithTrade", "UseTransactionswithTrade")
     model[io_table_names] <- loadTwoRegionStateIOtables(model)[io_table_names]
   }
   
