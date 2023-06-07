@@ -125,6 +125,11 @@ constructEEIOMatrices <- function(model) {
   logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
   model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
   
+  
+  if(model$specs$ExternalImportFactors){
+    model <- buildAndValidateA_m(model)
+  }
+  
   #Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
