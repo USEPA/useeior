@@ -126,7 +126,7 @@ constructEEIOMatrices <- function(model) {
   model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
   
   
-  if(model$specs$ExternalImportFactors){
+  if(!is.null(model$specs$ExternalImportFactors)){
     model <- buildAndValidateA_m(model)
   }
   
