@@ -235,9 +235,10 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
 #' @param modelname Name of the model from a config file.
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @param validate bool, if TRUE print validation results for each model
 #' @return A list of EEIO models for each state with complete components and attributes
 #' @export
-buildTwoRegionModels <- function(modelname, configpaths = NULL) {
+buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE) {
   model_ls <- list()
   basemodel <- initializeModel(modelname, configpaths)
   for (s in state.abb){
@@ -252,6 +253,9 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL) {
     model <- loadandbuildIndicators(model)
     model <- loadDemandVectors(model)
     model <- constructEEIOMatrices(model)
+    if (validate) {
+      print2RValidationResults(model)
+    }
     model_ls[[state]] <- model
   }
 
