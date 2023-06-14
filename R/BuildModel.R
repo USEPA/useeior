@@ -248,17 +248,28 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
     logging::loginfo(paste0("Building two-region model for ",
                             paste(state, model$specs$ModelRegionAcronyms[2], sep="/"),
                             "..."))
-    model <- loadIOData(model, configpaths)
-    model <- loadandbuildSatelliteTables(model)
-    model <- loadandbuildIndicators(model)
-    model <- loadDemandVectors(model)
-    model <- constructEEIOMatrices(model)
-    if (validate) {
-      print2RValidationResults(model)
-    }
-    model_ls[[state]] <- model
+    
+    model_ls[[state]] <- tryCatch(
+      {
+        model <- loadIOData(model, configpaths)
+        model <- loadandbuildSatelliteTables(model)
+        model <- loadandbuildIndicators(model)
+        model <- loadDemandVectors(model)
+        model <- constructEEIOMatrices(model)
+        if (validate) {
+          print2RValidationResults(model)
+        }
+        model_ls[[state]] <- model
+      },
+      error=function(e)
+      {
+        message(paste0("Error for ", state, " model."))
+        return(NA)
+      }
+    )# end of try catch
+    
+    
   }
-
+  
   return(model_ls)
 }
-
