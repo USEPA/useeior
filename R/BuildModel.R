@@ -240,6 +240,7 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
 #' @export
 buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE) {
   model_ls <- list()
+  q_comparison_failures_ls <- list()
   basemodel <- initializeModel(modelname, configpaths)
   for (s in state.abb){
     model <- basemodel
@@ -258,6 +259,7 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
         model <- constructEEIOMatrices(model)
         if (validate) {
           print2RValidationResults(model)
+          q_comparison_failures_ls <- validate2RCommodityTotals(model)
         }
         model_ls[[state]] <- model
       },
