@@ -265,29 +265,29 @@ validate2RCommodityTotals <- function(model) {
   q_make <- colSums(model$V)
   q_use <- rowSums(model$U[1:commodityNum,])#excluding VA rows, including all columns
 
-  failures_ls$Make_Use <- compare2RCommodityTotals(q_make, q_use)
+  failures_ls$Make_Use <- compare2RVectorTotals(q_make, q_use)
   
   cat("Comparing commodity totals summed from Make and Domestic Use (with trade) tables.\n")
   q_d_use <- rowSums(model$U_d[1:commodityNum,])#excluding VA rows, including all columns
-  failures_ls$Make_DUse <- compare2RCommodityTotals(q_make, q_d_use)
+  failures_ls$Make_DUse <- compare2RVectorTotals(q_make, q_d_use)
   
   
   cat("Comparing commodity totals summed from Make and commodityTotal (model$q) object imported from stateior.\n\n")
-  failures_ls$Make_modelq <- compare2RCommodityTotals(q_make, model$q)
+  failures_ls$Make_modelq <- compare2RVectorTotals(q_make, model$q)
 
   return(failures_ls)
   
 }
 
-#' Compare commodity totals between the specified 2R model objects
-#' @param q_One A vector of commodity totals derived from specific model object
-#' @param q_Two A vector of commodity totals dervied from a different model object than q_One
+#' Compare  totals between the specified 2R model vectors
+#' @param v_One A vector of totals derived from specific 2R model object
+#' @param v_Two A vector of totals dervied from a different 2R model object than v_One
 #' @return A list of sectors that failed the comparison between the two specified q vectors. 
 #' @export
-compare2RCommodityTotals <- function(q_One, q_Two) {
+compare2RVectorTotals <- function(v_One, v_Two) {
   
-  # Calculate relative differences in q_One and q_Two
-  rel_diff_q <- (q_Two - q_One)/q_One
+  # Calculate relative differences in v_One and v_Two
+  rel_diff_q <- (v_Two - v_One)/v_One
   # Validate relative diff
   validationResults <- formatValidationResult(rel_diff_q, abs_diff = TRUE, tolerance = 0.01)
   failures <- validationResults$Failure
