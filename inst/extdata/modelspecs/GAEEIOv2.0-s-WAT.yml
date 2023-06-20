@@ -5,7 +5,7 @@ IOYear: 2012 # Year for IO data
 ModelRegionAcronyms: ["US-GA", "RoUS"]
 ModelType: "EEIO"
 IODataSource: "stateior"
-IODataVersion: "0.1.0"
+IODataVersion: "0.2.1"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"

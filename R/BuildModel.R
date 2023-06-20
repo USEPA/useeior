@@ -240,10 +240,12 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
 #' @param modelname Name of the model from a config file.
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @param validate bool, if TRUE print validation results for each model
 #' @return A list of EEIO models for each state with complete components and attributes
 #' @export
-buildTwoRegionModels <- function(modelname, configpaths = NULL) {
+buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE) {
   model_ls <- list()
+  q_comparison_failures_ls <- list()
   basemodel <- initializeModel(modelname, configpaths)
   for (s in state.abb){
     model <- basemodel
@@ -252,14 +254,29 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL) {
     logging::loginfo(paste0("Building two-region model for ",
                             paste(state, model$specs$ModelRegionAcronyms[2], sep="/"),
                             "..."))
-    model <- loadIOData(model, configpaths)
-    model <- loadandbuildSatelliteTables(model)
-    model <- loadandbuildIndicators(model)
-    model <- loadDemandVectors(model)
-    model <- constructEEIOMatrices(model)
-    model_ls[[state]] <- model
+    
+    model_ls[[state]] <- tryCatch(
+      {
+        model <- loadIOData(model, configpaths)
+        model <- loadandbuildSatelliteTables(model)
+        model <- loadandbuildIndicators(model)
+        model <- loadDemandVectors(model)
+        model <- constructEEIOMatrices(model)
+        if (validate) {
+          print2RValidationResults(model)
+          q_comparison_failures_ls <- validate2RCommodityTotals(model)
+        }
+        model_ls[[state]] <- model
+      },
+      error=function(e)
+      {
+        message(paste0("Error for ", state, " model."))
+        return(NA)
+      }
+    )# end of try catch
+    
+    
   }
-
+  
   return(model_ls)
 }
-

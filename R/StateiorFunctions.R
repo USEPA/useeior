@@ -250,3 +250,53 @@ print2RValidationResults <- function(model) {
 
   # return(twoRegionResults_ls)
 }
+
+
+#' Validate commodity totals between 2R Use table, Make table, and total commodity output objects
+#' @param model A complete 2R EEIO model: a list with USEEIO model components and attributes
+#' @return A list containing failures of commodity total comparisons between various model objects. 
+#' @export
+validate2RCommodityTotals <- function(model) {
+  
+  failures_ls <- list()
+
+  cat("Comparing commodity totals summed from Make and Use (with trade) tables.\n")
+  commodityNum <- dim(model$Commodities)[1] # Get number of commodities
+  q_make <- colSums(model$V)
+  q_use <- rowSums(model$U[1:commodityNum,])#excluding VA rows, including all columns
+
+  failures_ls$Make_Use <- compare2RCommodityTotals(q_make, q_use)
+  
+  cat("Comparing commodity totals summed from Make and Domestic Use (with trade) tables.\n")
+  q_d_use <- rowSums(model$U_d[1:commodityNum,])#excluding VA rows, including all columns
+  failures_ls$Make_DUse <- compare2RCommodityTotals(q_make, q_d_use)
+  
+  
+  cat("Comparing commodity totals summed from Make and commodityTotal (model$q) object imported from stateior.\n\n")
+  failures_ls$Make_modelq <- compare2RCommodityTotals(q_make, model$q)
+
+  return(failures_ls)
+  
+}
+
+#' Compare commodity totals between the specified 2R model objects
+#' @param q_One A vector of commodity totals derived from specific model object
+#' @param q_Two A vector of commodity totals dervied from a different model object than q_One
+#' @return A list of sectors that failed the comparison between the two specified q vectors. 
+#' @export
+compare2RCommodityTotals <- function(q_One, q_Two) {
+  
+  # Calculate relative differences in q_One and q_Two
+  rel_diff_q <- (q_Two - q_One)/q_One
+  # Validate relative diff
+  validationResults <- formatValidationResult(rel_diff_q, abs_diff = TRUE, tolerance = 0.01)
+  failures <- validationResults$Failure
+  failuresIndex <- which(rownames(validationResults$RelativeDifference) %in% failures$rownames)
+  failures <- cbind(failures, validationResults$RelativeDifference[failuresIndex,1])
+  colnames(failures)[1:3] <- c("Commodity", "Validation", "Relative Diff")
+  cat(paste(c("Number of failures: ",length(failures$Commodity)),"\n", collapse = " "))
+  cat(paste(c("Failing commodities: ", failures$Commodity),"\n", collapse = " "))
+  cat("\n")
+  return(failures)
+  
+}

@@ -32,8 +32,9 @@ adjustOutputbyCPI <- function (outputyear, referenceyear, location_acronym, IsRo
 #' @return A matrix.
 normalizeIOTransactions <- function (IO_transactions_df, IO_output_df) {
   # Replace 0 in IO_transactions_df and IO_output_df with 1E-3 to avoid errors in solve(x_hat)
-  IO_transactions_df[names(IO_output_df[IO_output_df == 0]),
-                     names(IO_output_df[IO_output_df == 0])] <- 1E-3
+  for (s in names(IO_output_df[IO_output_df == 0])){
+    IO_transactions_df[s, s] <- 1E-3    
+  }
   IO_output_df[IO_output_df == 0] <- 1E-3
   Z <- as.matrix(IO_transactions_df)
   x <- unname(unlist(IO_output_df))
