@@ -270,10 +270,11 @@ buildAndValidateA_m<- function(model) {
   s_d <- model$L_d %*% y_d
   x_dm <- s_d + A_m%*%s_d + y_m
   
-  result <- all.equal(x,x_dm)
-  if(result!=TRUE){
-    print(paste0("Economic impacts from 'standard' leontief equation and from domestic + import appproach are not equivalent. ",result))
-  }
+  
+  # Validate results
+  rel_dif_x <- (x-x_dm)/x_dm
+  failures <- compare2RVectorTotals(x_dm, x)
+
   
   #add domestic components to model object
   model$A_m <- A_m
