@@ -127,7 +127,7 @@ constructEEIOMatrices <- function(model) {
   
   
   if(!is.null(model$specs$ExternalImportFactors)){
-    model <- buildAndValidateA_m(model)
+    model <- builImportA(model)
   }
   
   #Clean up model elements not written out or used in further functions to reduce clutter
