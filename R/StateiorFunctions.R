@@ -260,7 +260,7 @@ validate2RCommodityTotals <- function(model) {
   
   failures_ls <- list()
 
-  cat("Comparing commodity totals summed from Make and Use (with trade) tables.\n")
+  cat("\nComparing commodity totals summed from Make and Use (with trade) tables.\n")
   commodityNum <- dim(model$Commodities)[1] # Get number of commodities
   q_make <- colSums(model$V)
   q_use <- rowSums(model$U[1:commodityNum,])#excluding VA rows, including all columns
