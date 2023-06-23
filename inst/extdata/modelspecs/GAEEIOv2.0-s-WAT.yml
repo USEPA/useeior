@@ -5,6 +5,7 @@ IOYear: 2012 # Year for IO data
 ModelRegionAcronyms: ["US-GA", "RoUS"]
 ModelType: "EEIO"
 IODataSource: "stateior"
+IODataVersion: "0.1.0"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
@@ -16,7 +17,7 @@ SatelliteTable:
     FullName: "Water withdrawals"
     Abbreviation: "WAT"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/Water_state_2015_m1_v0.1.1_61bc755.parquet"
+    StaticFile: "flowsa/FlowBySector/Water_state_2015_m1_v1.1_b05ad38.parquet"
     FileLocation: "DataCommons"
     DataYears: [2015]
     SectorListSource: "NAICS"
@@ -42,7 +43,7 @@ Indicators:
     SimpleUnit: "Kilograms"
     SimpleName: "Water Use" 
     StaticSource: TRUE
-    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_3cf443f.parquet"
+    StaticFile: "lciafmt/fedefl/FEDEFL_Inventory_v1.0.0_5555779.parquet"
     FileLocation: "DataCommons"
     ScriptFunctionCall: "getImpactMethod" #function to call for script
     ScriptFunctionParameters: 
@@ -56,23 +57,5 @@ Indicators:
         Primary: TRUE
 
 DemandVectors:
-    Consumption:
-      Type: "Consumption"
-      Year: 2012
-      System: "Complete"
-      Location: "US-GA"
-    Production:
-      Type: "Production"
-      Year: 2012
-      System: "Complete"
-      Location: "US-GA"
-    HouseholdConsumption:
-      Type: "Consumption"
-      Year: 2012
-      System: "Household"
-      Location: "US-GA"
-    DomesticConsumption:
-      Type: "Consumption"
-      Year: 2012
-      System: "Domestic"
-      Location: "US-GA"    
+    DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
+# Additional demand vectors beyond useeior defaults

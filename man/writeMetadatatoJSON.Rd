@@ -4,7 +4,15 @@
 \alias{writeMetadatatoJSON}
 \title{Write metadata of downloaded data to JSON.}
 \usage{
-writeMetadatatoJSON(package, name, year, source, url)
+writeMetadatatoJSON(
+  package,
+  name,
+  year,
+  source,
+  url,
+  date_last_modified,
+  date_accessed
+)
 }
 \arguments{
 \item{package}{A string specifying package.}
@@ -16,6 +24,12 @@ writeMetadatatoJSON(package, name, year, source, url)
 \item{source}{A string specifying data source.}
 
 \item{url}{A string specifying data url.}
+
+\item{date_last_modified}{A string specifying when the original data was
+last modified by provider, e.g. BEA.}
+
+\item{date_accessed}{A string specifying when the original data was accessed
+by package.}
 }
 \description{
 Write metadata of downloaded data to JSON.

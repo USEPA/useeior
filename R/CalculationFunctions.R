@@ -287,7 +287,7 @@ calculateMarginSectorImpacts <- function(model) {
   output_ratio <- calculateOutputRatio(model, output_type="Commodity")
   for (i in rownames(margin_allocation)) {
     codes <- model$MarginSectors[model$MarginSectors$Name==i, "Code"]
-    margin_allocation[i, codes] <- output_ratio[output_ratio$SectorCode%in%codes, "toSectorRatio"]
+    margin_allocation[i, codes] <- output_ratio[match(codes, output_ratio$SectorCode), "toSectorRatio"]
   }
   # Multiply fractions by allocation matrix to get a fraction per margin sector for each commodity
   margins_by_sector <- MarginCoefficients %*% margin_allocation
