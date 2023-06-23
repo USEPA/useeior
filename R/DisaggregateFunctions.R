@@ -100,9 +100,7 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
 disaggregateSetup <- function (model, configpaths = NULL){
   
   for (disagg in model$DisaggregationSpecs){  
-    filename <- ifelse(is.null(configpaths),
-                       system.file("extdata/disaggspecs", disagg$SectorFile, package = "useeior"),
-                       file.path(dirname(configpaths)[1], disagg$SectorFile))
+    filename <- getInputFilePath(configpaths, "extdata/disaggspecs", disagg$SectorFile)
     disagg$NAICSSectorCW <- utils::read.table(filename,
                                               sep = ",", header = TRUE,
                                               stringsAsFactors = FALSE,
@@ -126,9 +124,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
     
     # Load Make table disaggregation file
     if(!is.null(disagg$MakeFile)){
-      filename <- ifelse(is.null(configpaths),
-                         system.file("extdata/disaggspecs", disagg$MakeFile, package = "useeior"),
-                         file.path(dirname(configpaths)[1], disagg$MakeFile))
+      filename <- getInputFilePath(configpaths, "extdata/disaggspecs", disagg$MakeFile)
       disagg$MakeFileDF <- utils::read.table(filename,
                                              sep = ",", header = TRUE,
                                              stringsAsFactors = FALSE,
@@ -137,9 +133,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
     
     # Load Use table disaggregation file
     if(!is.null(disagg$UseFile)){
-      filename <- ifelse(is.null(configpaths),
-                         system.file("extdata/disaggspecs", disagg$UseFile, package = "useeior"),
-                         file.path(dirname(configpaths)[1], disagg$UseFile))
+      filename <- getInputFilePath(configpaths, "extdata/disaggspecs", disagg$UseFile)
       disagg$UseFileDF <- utils::read.table(filename,
                                             sep = ",", header = TRUE,
                                             stringsAsFactors = FALSE,
@@ -148,9 +142,7 @@ disaggregateSetup <- function (model, configpaths = NULL){
     
     # Load Environment flows table
     if(!is.null(disagg$EnvFile)){
-      filename <- ifelse(is.null(configpaths),
-                         system.file("extdata/disaggspecs", disagg$EnvFile, package = "useeior"),
-                         file.path(dirname(configpaths)[1], disagg$EnvFile))
+      filename <- getInputFilePath(configpaths, "extdata/disaggspecs", disagg$EnvFile)      
       disagg$EnvFileDF <- utils::read.table(filename,
                                             sep = ",", header = TRUE,
                                             stringsAsFactors = FALSE,
