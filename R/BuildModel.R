@@ -236,12 +236,18 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @param validate bool, if TRUE print validation results for each model
+#' @param years vector of ints indicating for which years to run the models
 #' @return A list of EEIO models for each state with complete components and attributes
 #' @export
-buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE) {
+buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE, year = NULL) {
   model_ls <- list()
   q_comparison_failures_ls <- list()
   basemodel <- initializeModel(modelname, configpaths)
+  
+  if(!is.null(year)){
+    basemodel$specs$IOYear <- year
+  }
+  
   for (s in state.abb){
     model <- basemodel
     state <- paste("US", s, sep="-")
@@ -249,6 +255,7 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
     logging::loginfo(paste0("Building two-region model for ",
                             paste(state, model$specs$ModelRegionAcronyms[2], sep="/"),
                             "..."))
+    cat("\n")
     
     model_ls[[state]] <- tryCatch(
       {
@@ -274,4 +281,33 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
   }
   
   return(model_ls)
+}
+
+
+#' Build two-region models for various years, for all 50 states based on a single config reference file.
+#' @param modelname Name of the model from a config file.
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @param validate bool, if TRUE print validation results for each model
+#' @param years vector of ints indicating for which years to run the models
+#' @return A list of EEIO models for each year, for all states with complete components and attributes
+#' @export
+build2RModelsByYear <- function(modelname, configpaths = NULL, validate = FALSE, years = NULL) {
+  
+  if(is.null(years)){
+    begin <- 2012
+    end <- 2020
+    increment <- 1
+    years <- seq(begin, end, 1)
+  }
+  
+  model_yr_ls <- list()
+  for(y in years){
+    cat("\n")
+    print(paste0("Running models for year ",y))
+    model_yr_ls[[y]] <- buildTwoRegionModels(modelname, configpaths, validate, y)
+    cat("\n")
+  }
+
+  return(model_yr_ls)
 }
