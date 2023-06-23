@@ -153,16 +153,17 @@ getHybridizationFiles <- function (model, configpaths = NULL){
     spec <- model$HybridizationSpecs
     # Load Tech file
     filename <- getInputFilePath(configpaths, "extdata/hybridizationspecs", spec$TechFile)
-    model$HybridizationSpecs$TechFileDF <- utils::read.table(filename,
-                                                             sep = ",", header = TRUE,
-                                                             stringsAsFactors = FALSE,
-                                                             check.names = FALSE)
+    model$HybridizationSpecs$TechFileDF <- utils::read.csv(filename,
+                                                           sep = ",", header = TRUE,
+                                                           stringsAsFactors = FALSE,
+                                                           check.names = FALSE)
 
     # Load Env file
     filename <- getInputFilePath(configpaths, "extdata/hybridizationspecs", spec$EnvFile)
-    model$HybridizationSpecs$EnvFileDF <- utils::read.table(filename,
-                                                            sep = ",", header = TRUE,
-                                                            stringsAsFactors = FALSE,
-                                                            check.names = FALSE)
+    model$HybridizationSpecs$EnvFileDF <- utils::read.csv(filename,
+                                                          sep = ",", header = TRUE,
+                                                          stringsAsFactors = FALSE,
+                                                          check.names = FALSE,
+                                                          encoding = 'UTF-8')
   return(model)
 }
