@@ -291,13 +291,42 @@ calculateAndValidateImportA <- function(model, UseTransactions_m, FD_m, y = NULL
   y_m <- rowSums(FD_m[,c(FD_columns)])
   y_d <- rowSums(model$DomesticFinalDemand[,c(FD_columns)])
   
-  s_d <- model$L_d %*% y_d
-  x_dm <- s_d + A_m%*%s_d + y_m
+  x_d <- model$L_d %*% y_d
+  x_dm <- x_d + A_m%*%x_d + y_m
   
   
   # Validate results
   rel_dif_x <- (x-x_dm)/x_dm
   failures <- compare2RVectorTotals(x_dm, x)
+  
+  
+  
+  # TODO: Move this to new function - testing adding environmental import factors
+  # Including the environmental components, S^d and Q^t, of the Swedish equation for import factors: f^(d+m) = S^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
+  # Since f^h is not currently part of the useeior model calculations, we drop it:
+
+  # f^(d+m) = S^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m (eq 1)
+
+  # Note that: 
+  # S^d = model$B, where model$B is used for both domestic and non-domestic calculations in the standard results calculations.
+  # L^d = model$L_d.
+  # y^d = y_d as defined in the code above
+  # Q^t = model$M. This is because the non-domestic L matrix in the M calculation (model$B %*% model$L) takes the place of the MRIO-based L matrix, 
+        # even though the satellite table of environmental coefficients (B) is equivalent in this case.
+  # A^m = A_m as defined in the code above
+  # y^m = y_m as defined in the code above
+  
+  # Thus, Eq. 1 then becomes
+  
+  # f^(d+m) = model$B %*% model$L_d %*% y_d + {model$M,model$M_d, or model$B} %*% A_m %*% model$L_d %*% y_d + {model$M,model$M_d, or model$B} %*% y_m (eq 2)
+  
+  # "Standard" result calculation is model$B %*% model$L %*% y = model$M %*% y
+  cat("\n Calculating results using import A (A_m).\n")
+  result_Standard <- model$M %*% y
+  result_M <- model$B %*% model$L_d %*% y_d + model$M %*% A_m %*% model$L_d %*% y_d + model$M %*% y_m
+
+  rel_dif_result <- (result_Standard - result_M)/result_M
+  result_failures <- compare2RVectorTotals(result_M, result_Standard)
   
   return(A_m)
   
