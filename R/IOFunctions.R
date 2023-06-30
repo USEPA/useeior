@@ -318,7 +318,7 @@ calculateAndValidateImportA <- function(model, UseTransactions_m, FD_m, y = NULL
   
   # Thus, Eq. 1 then becomes
   
-  # f^(d+m) = model$B %*% model$L_d %*% y_d + {model$M,model$M_d, or model$B} %*% A_m %*% model$L_d %*% y_d + {model$M,model$M_d, or model$B} %*% y_m (eq 2)
+  # f^(d+m) = model$B %*% model$L_d %*% y_d + model$M %*% A_m %*% model$L_d %*% y_d + model$M %*% y_m (eq 2)
   
   # "Standard" result calculation is model$B %*% model$L %*% y = model$M %*% y
   cat("\n Calculating results using import A (A_m).\n")
