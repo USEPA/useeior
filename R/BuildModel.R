@@ -305,7 +305,7 @@ build2RModelsByYear <- function(modelname, configpaths = NULL, validate = FALSE,
   for(y in years){
     cat("\n")
     print(paste0("Running models for year ",y))
-    model_yr_ls[[y]] <- buildTwoRegionModels(modelname, configpaths, validate, y)
+    model_yr_ls[[paste0("Y",y)]] <- buildTwoRegionModels(modelname, configpaths, validate, y) # have to add a char in front of the year value to avoid a list of 2020 elements
     cat("\n")
   }
 
