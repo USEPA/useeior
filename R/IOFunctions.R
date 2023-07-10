@@ -323,7 +323,8 @@ calculateAndValidateImportA <- function(model, UseTransactions_m, FD_m, y = NULL
   # "Standard" result calculation is model$B %*% model$L %*% y = model$M %*% y
   cat("\n Calculating results using import A (A_m).\n")
   result_Standard <- model$M %*% y
-  result_M <- model$B %*% model$L_d %*% y_d + model$M %*% A_m %*% model$L_d %*% y_d + model$M %*% y_m
+  M_m <- model$M #Q^t = M_m = imported M matrix, which for validation purposes is equivalent to the current model$M
+  result_M <- (model$B %*% model$L_d %*% y_d) + (M_m %*% A_m %*% model$L_d %*% y_d + M_m %*% y_m) # parentheses used to denote (domestic) and (import) components
 
   rel_dif_result <- (result_Standard - result_M)/result_M
   result_failures <- compare2RVectorTotals(result_M, result_Standard)
