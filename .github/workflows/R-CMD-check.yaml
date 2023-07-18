@@ -120,14 +120,14 @@ jobs:
           useeior::printValidationResults(m)
         shell: Rscript {0}
 
-      # - name: Build and validate models - MEEEIOv2.0-s-GHG summary two-region model
-      #   if: always()
-      #   run: |
-      #     require(devtools)
-      #     devtools::load_all()
-      #     m <- useeior::buildModel("MEEEIOv2.0-s-GHG")
-      #     useeior::printValidationResults(m)
-      #   shell: Rscript {0}
+      - name: Build and validate models - GAEEIOv2.0-s-WAT summary two-region model
+        if: always()
+        run: |
+          require(devtools)
+          devtools::load_all()
+          m <- useeior::buildModel("GAEEIOv2.0-s-WAT")
+          useeior::print2RValidationResults(m)
+        shell: Rscript {0}
 
       #- name: Show testthat output
       #  if: always()  # step will run even if previous steps fail
