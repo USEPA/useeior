@@ -451,7 +451,7 @@ formatLocationforStateModels <- function(location) {
 #' @param folderPath str local path to configuration type
 #' @param filename str filename of model spec
 #' @param package str name of package for location of input file
-getInputFilePath <- function(configpaths, folderPath="extdata", filename, package){
+getInputFilePath <- function(configpaths, folderPath="extdata", filename, package="useeior"){
   if(!is.null(configpaths)) {
     filepath <- file.path(dirname(configpaths)[1], filename)
     if(file.exists(filepath)) {
