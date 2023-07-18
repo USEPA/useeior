@@ -4,7 +4,7 @@ name: R CI/CD test #R-CMD-check
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, develop]
     paths-ignore:
       - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
       - '**.bib'
@@ -15,7 +15,7 @@ on:
       - '.gitignore'
       - '.gitattributes'
   pull_request:
-    branches: [master] # develop
+    branches: [master, develop]
     paths-ignore:
       - '**.md'
       - '**.bib'
