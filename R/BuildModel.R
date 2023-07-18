@@ -252,6 +252,7 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
     model <- basemodel
     state <- paste("US", s, sep="-")
     model$specs$ModelRegionAcronyms[1] <- state
+    cat("\n")
     logging::loginfo(paste0("Building two-region model for ",
                             paste(state, model$specs$ModelRegionAcronyms[2], sep="/"),
                             "..."))
