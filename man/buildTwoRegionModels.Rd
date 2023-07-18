@@ -19,7 +19,7 @@ and optional agg/disagg configuration file(s). If NULL, built-in config files ar
 
 \item{validate}{bool, if TRUE print validation results for each model}
 
-\item{years}{vector of ints indicating for which years to run the models}
+\item{year}{int, indicating for which year to run the models}
 }
 \value{
 A list of EEIO models for each state with complete components and attributes

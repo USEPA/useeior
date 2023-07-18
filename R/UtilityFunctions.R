@@ -440,9 +440,8 @@ writeMetadatatoJSON <- function(package,
 #' @param location A text value of input location name
 #' @return A text value of formatted location for state models
 formatLocationforStateModels <- function(location) {
-  loc <- stringr::str_replace_all(string = tolower(location),
-                                  pattern = setNames(paste("US", state.abb, sep = "-"),
-                                                     tolower(state.name)))
+  pattern <- setNames(paste("US", state.abb, sep = "-"), tolower(state.name))
+  loc <- dplyr::recode(tolower(location), !!!pattern)
   return(loc)
 }
 
