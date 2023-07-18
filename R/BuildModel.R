@@ -282,32 +282,3 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
   
   return(model_ls)
 }
-
-
-#' Build two-region models for various years, for all 50 states based on a single config reference file.
-#' @param modelname Name of the model from a config file.
-#' @param configpaths str vector, paths (including file name) of model configuration file
-#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
-#' @param validate bool, if TRUE print validation results for each model
-#' @param years vector of ints indicating for which years to run the models
-#' @return A list of EEIO models for each year, for all states with complete components and attributes
-#' @export
-build2RModelsByYear <- function(modelname, configpaths = NULL, validate = FALSE, years = NULL) {
-  
-  if(is.null(years)){
-    begin <- 2012
-    end <- 2020
-    increment <- 1
-    years <- seq(begin, end, 1)
-  }
-  
-  model_yr_ls <- list()
-  for(y in years){
-    cat("\n")
-    print(paste0("Running models for year ",y))
-    model_yr_ls[[paste0("Y",y)]] <- buildTwoRegionModels(modelname, configpaths, validate, y) # have to add a char in front of the year value to avoid a list of 2020 elements
-    cat("\n")
-  }
-
-  return(model_yr_ls)
-}
