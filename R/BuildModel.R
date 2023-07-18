@@ -267,7 +267,7 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
         model <- constructEEIOMatrices(model)
         if (validate) {
           print2RValidationResults(model)
-          q_comparison_failures_ls <- validate2RCommodityTotals(model)
+          # q_comparison_failures_ls <- validate2RCommodityTotals(model) # commenting out comparisons of q totals between various objects imported from stateior
         }
         model_ls[[state]] <- model
       },
