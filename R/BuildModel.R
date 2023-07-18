@@ -236,7 +236,7 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @param validate bool, if TRUE print validation results for each model
-#' @param years vector of ints indicating for which years to run the models
+#' @param year int, indicating for which year to run the models
 #' @return A list of EEIO models for each state with complete components and attributes
 #' @export
 buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE, year = NULL) {
