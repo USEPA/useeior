@@ -284,8 +284,8 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
     
     
   }
-  
   return(model_ls)
+}
 
 #' Build an EIO model with economic components only.
 #' @param modelname Name of the model from a config file.
