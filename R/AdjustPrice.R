@@ -93,7 +93,7 @@ calculateBasicbyProducerPriceRatio <- function(model) {
                             by.x = "Code_Loc", by.y = 0, all.y = TRUE)
   TaxLessSubsidies <- TaxLessSubsidies[match(rownames(model$Rho),
                                              TaxLessSubsidies$Code_Loc), ]
-  # Prepare ratio table Tau
+  # Prepare ratio table Tau using the structure of Rho
   Tau <- model$Rho
   for (year in colnames(model$Rho)) {
     # Adjust BasicValue from model$specs$IOyear to currency year using model$Rho
