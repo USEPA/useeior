@@ -58,7 +58,6 @@ disaggregateModel <- function (model){
     
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
-    model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
     model$TaxLessSubsidies <- disaggregateTaxLessSubsidies(model, disagg)
     
     # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
