@@ -120,12 +120,12 @@ jobs:
           useeior::printValidationResults(m)
         shell: Rscript {0}
 
-      - name: Build and validate models - GAEEIOv2.0-s-WAT summary two-region model
+      - name: Build and validate models - GAEEIOv1.0-s-WAT-12 summary two-region model
         if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("GAEEIOv2.0-s-WAT")
+          m <- useeior::buildModel("GAEEIOv1.0-s-WAT-12")
           useeior::print2RValidationResults(m)
         shell: Rscript {0}
 
