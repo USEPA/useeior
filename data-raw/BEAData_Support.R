@@ -40,3 +40,16 @@ mapBEACPItoIOIndustry2012Schema()
 
 # Download, save and document BEA Summary and Sector Value Added tables since 2002
 mapBEAValueAddedtoIOIndustry2012Schema()
+
+## Supply and Use Tables
+# Download, save and document 2010-2020 BEA Summary Supply (2012 schema)
+getBEASummarySupply2012Schema()
+
+# Download, save and document 2010-2020 BEA Summary Use (2012 schema)
+getBEASummaryUseSUT2012Schema()
+
+# Download, save and document 2010-2020 BEA Sector Supply (2012 schema)
+getBEASectorSupply2012Schema()
+
+# Download, save and document 2010-2020 BEA Sector Supply (2012 schema)
+getBEASectorUseSUT2012Schema()
