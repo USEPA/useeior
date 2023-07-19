@@ -345,3 +345,24 @@ removeHybridProcesses <- function(model, object) {
   return(object)
 }
 
+#' Compare commodity or industry output calculated from Make and Use tables.
+#' @param model A model list object with model specs and IO tables listed
+#' @param output_type A string indicating commodity or industry output.
+#' @return A vector of relative difference between commodity or industry output
+#' calculated from Supply and Use tables.
+compareOutputfromMakeandUse <- function(model, output_type = "Commodity") {
+  # Calculate output
+  if (output_type == "Commodity") {
+    # commodity output
+    output_make <- colSums(model$MakeTransactions)
+    output_use <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
+  } else {
+    # industry output
+    output_make <- rowSums(model$MakeTransactions)
+    output_use <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+  }
+  # Compare output
+  rel_diff <- (output_make - output_use) / output_use
+  rel_diff[is.nan(rel_diff)] <- 0
+  return(rel_diff)
+}
