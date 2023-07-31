@@ -123,6 +123,12 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
                                           header = TRUE, stringsAsFactors = FALSE,
                                           fileEncoding = 'UTF-8-BOM')    
   }
+  # Ensure context is not NA
+  for (i in c('Context')) {
+    if (all(is.na(totals_by_sector[, i]))) {
+      totals_by_sector[ , i] <- ""
+    }
+  }
   return(totals_by_sector)
 }
 
