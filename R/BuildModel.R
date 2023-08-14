@@ -50,7 +50,6 @@ constructEEIOMatrices <- function(model) {
  if (model$specs$IODataSource=="stateior") {
     model$U_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = FALSE)
     model$U_d_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = TRUE)
-    # ^^ this makes U_n and U_d_n equivalent, but for 2-region models domestic models are temporarily not being used
   } else {
     model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
     model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse  
@@ -271,7 +270,6 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
         model <- constructEEIOMatrices(model)
         if (validate) {
           print2RValidationResults(model)
-          # q_comparison_failures_ls <- validate2RCommodityTotals(model) # commenting out comparisons of q totals between various objects imported from stateior
         }
         model_ls[[state]] <- model
       },
