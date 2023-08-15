@@ -12,6 +12,7 @@ loadIOData <- function(model, configpaths = NULL) {
   model <- loadIOmeta(model)
   # Define IO table names
   io_table_names <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
+                      "DomesticUseTransactionswithTrade", "UseTransactionswithTrade",
                       "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
                       "InternationalTradeAdjustment")
   # Load IO data
@@ -46,8 +47,14 @@ loadIOData <- function(model, configpaths = NULL) {
   # Add Chain Price Index (CPI) to model
   model$MultiYearIndustryCPI <- loadChainPriceIndexTable(model$specs)[model$Industries$Code, ]
   rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
+  
+  ## if Disaggregated two-region model, adjust CPI data frame
+  if(model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
+    model$MultiYearIndustryCPI <- disaggregateCPI(model$MultiYearIndustryCPI, model)
+  }
+
   # Transform industry CPI to commodity CPI
-  model$MultiYearCommodityCPI <- as.data.frame(model$Commodities, row.names = model$Commodities$Code_Loc)[, FALSE]
+  model$MultiYearCommodityCPI <- as.data.frame(model$CommodityOutput, row.names = names(model$CommodityOutput))[, FALSE]
   for (year_col in colnames(model$MultiYearIndustryCPI)) {
     model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
   }
@@ -60,7 +67,8 @@ loadIOData <- function(model, configpaths = NULL) {
   
   # Check for disaggregation
   if(!is.null(model$specs$DisaggregationSpecs)){
-    model <- getDisaggregationSpecs(model, configpaths)
+    pkg <- ifelse(model$specs$IODataSource=="stateior", "stateior", "useeior")
+    model <- getDisaggregationSpecs(model, configpaths, pkg)
     model <- disaggregateModel(model)
   }
   
@@ -280,8 +288,10 @@ loadTwoRegionStateIOtables <- function(model) {
   # Load IO tables from stateior
   StateIO$MakeTransactions <- getTwoRegionIOData(model, "Make")
   StateIO$UseTransactions <- getTwoRegionIOData(model, "UseTransactions")
+  StateIO$UseTransactionswithTrade <- getTwoRegionIOData(model, "UseTransactionswithTrade")
   StateIO$FinalDemand <- getTwoRegionIOData(model, "FinalDemand")
   StateIO$DomesticUseTransactions <- getTwoRegionIOData(model, "DomesticUseTransactions")
+  StateIO$DomesticUseTransactionswithTrade <- getTwoRegionIOData(model, "DomesticUseTransactionswithTrade")
   StateIO$DomesticFinalDemand <- getTwoRegionIOData(model, "DomesticFinalDemand")
   StateIO$UseValueAdded <- getTwoRegionIOData(model, "ValueAdded")
   StateIO$InternationalTradeAdjustment <- getTwoRegionIOData(model, "InternationalTradeAdjustment")
@@ -316,7 +326,7 @@ loadCommodityandIndustryOutput <- function(model) {
     model$IndustryOutput <- getTwoRegionIOData(model, "IndustryOutput")
     model$CommodityOutput <- getTwoRegionIOData(model, "CommodityOutput")
     # Load multi-year industry and commodity output
-    years <- as.character(2012:2017)
+    years <- as.character(2012:2020)
     tmpmodel <- model
     model$MultiYearIndustryOutput <- as.data.frame(model$IndustryOutput)[, FALSE]
     model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]

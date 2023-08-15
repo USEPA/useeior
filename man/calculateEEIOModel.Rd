@@ -9,17 +9,22 @@ calculateEEIOModel(
   model,
   perspective,
   demand = "Production",
+  location = NULL,
   use_domestic_requirements = FALSE
 )
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{perspective}{Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".}
+\item{perspective}{Perspective of the model, can be "DIRECT" or "FINAL". "DIRECT" perspective
+aligns results with the sectors in which they are produced, while "FINAL" perspective aligns
+results with the sectors consumed by the final user.}
 
-\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production",
+\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
 or an actual demand vector with names as one or more model sectors and
 numeric values in USD with the same dollar year as model.}
+
+\item{location, }{str optional location code for demand vector, required for two-region models}
 
 \item{use_domestic_requirements}{A logical value: if TRUE, use domestic demand and L_d matrix;
 if FALSE, use complete demand and L matrix.}

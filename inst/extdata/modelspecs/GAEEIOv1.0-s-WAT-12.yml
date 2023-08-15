@@ -1,11 +1,11 @@
-Model: "GAEEIOv2.0-s-WAT" # 2012 Summary, Commodity
+Model: "GAEEIOv1.0-s-WAT-12" # 2012 Summary, Commodity
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2012 # Year for IO data
 ModelRegionAcronyms: ["US-GA", "RoUS"]
 ModelType: "EEIO"
 IODataSource: "stateior"
-IODataVersion: "0.1.0"
+IODataVersion: "0.2.1"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
@@ -17,7 +17,7 @@ SatelliteTable:
     FullName: "Water withdrawals"
     Abbreviation: "WAT"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/Water_state_2015_m1_v1.1_b05ad38.parquet"
+    StaticFile: "flowsa/FlowBySector/Water_state_2015_m1_v1.2.4_7c15ea5.parquet"
     FileLocation: "DataCommons"
     DataYears: [2015]
     SectorListSource: "NAICS"

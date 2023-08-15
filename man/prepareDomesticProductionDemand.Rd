@@ -5,10 +5,12 @@
 \title{Prepares a demand vector representing domestic production
 Formula for production vector: y_p <- y_dc + y_e + y_d_delta + mu}
 \usage{
-prepareDomesticProductionDemand(model)
+prepareDomesticProductionDemand(model, location)
 }
 \arguments{
 \item{model}{An EEIO model object with model specs and IO tables loaded}
+
+\item{location, }{str of location code for demand vector}
 }
 \value{
 A named vector with demand

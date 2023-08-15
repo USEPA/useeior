@@ -4,7 +4,12 @@
 \alias{getInputFilePath}
 \title{Identify location of filepath for model input files}
 \usage{
-getInputFilePath(configpaths, folderPath = "extdata", filename)
+getInputFilePath(
+  configpaths,
+  folderPath = "extdata",
+  filename,
+  package = "useeior"
+)
 }
 \arguments{
 \item{configpaths}{str vector, paths (including file name) of configuration files.}
@@ -12,6 +17,8 @@ getInputFilePath(configpaths, folderPath = "extdata", filename)
 \item{folderPath}{str local path to configuration type}
 
 \item{filename}{str filename of model spec}
+
+\item{package}{str name of package for location of input file}
 }
 \description{
 Identify location of filepath for model input files
