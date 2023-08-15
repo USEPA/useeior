@@ -35,3 +35,11 @@ getBEACodeName2012Schema()
 
 # Download, save and document 2012 BEA Detail Margins table
 getBEADetailMarginsBeforeRedef2012Schema(schema_year)
+
+## Supply and Use Tables
+# Download, save and document 2012 BEA Detail Supply (2012 schema)
+getBEADetailSupply2012Schema(schema_year)
+
+# Download, save and document 2012 BEA Detail Supply (2012 schema)
+getBEADetailUseSUT2012Schema(schema_year)
+
