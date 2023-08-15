@@ -50,7 +50,6 @@ constructEEIOMatrices <- function(model) {
  if (model$specs$IODataSource=="stateior") {
     model$U_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = FALSE)
     model$U_d_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = TRUE)
-    # ^^ this makes U_n and U_d_n equivalent, but for 2-region models domestic models are temporarily not being used
   } else {
     model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
     model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse  
@@ -124,12 +123,15 @@ constructEEIOMatrices <- function(model) {
   # Calculate producer over purchaser price ratio.
   logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
   model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
-  
-  
+
+  # Calculate basic over producer price ratio.
+  logging::loginfo("Calculating Tau matrix (basic over producer price ratio)...")
+  model$Tau <- calculateBasicbyProducerPriceRatio(model)
+
   if(!is.null(model$specs$ExternalImportFactors)){
     model <- builImportA(model)
   }
-  
+    
   #Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
@@ -241,19 +243,27 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @param validate bool, if TRUE print validation results for each model
+#' @param year int, indicating for which year to run the models
 #' @return A list of EEIO models for each state with complete components and attributes
 #' @export
-buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE) {
+buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE, year = NULL) {
   model_ls <- list()
   q_comparison_failures_ls <- list()
   basemodel <- initializeModel(modelname, configpaths)
+  
+  if(!is.null(year)){
+    basemodel$specs$IOYear <- year
+  }
+  
   for (s in state.abb){
     model <- basemodel
     state <- paste("US", s, sep="-")
     model$specs$ModelRegionAcronyms[1] <- state
+    cat("\n")
     logging::loginfo(paste0("Building two-region model for ",
                             paste(state, model$specs$ModelRegionAcronyms[2], sep="/"),
                             "..."))
+    cat("\n")
     
     model_ls[[state]] <- tryCatch(
       {
@@ -264,7 +274,6 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
         model <- constructEEIOMatrices(model)
         if (validate) {
           print2RValidationResults(model)
-          q_comparison_failures_ls <- validate2RCommodityTotals(model)
         }
         model_ls[[state]] <- model
       },
@@ -277,6 +286,80 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
     
     
   }
-  
   return(model_ls)
+}
+
+#' Build an EIO model with economic components only.
+#' @param modelname Name of the model from a config file.
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @return A list of EIO model with only economic components
+buildEIOModel <- function(modelname, configpaths = NULL) {
+  model <- initializeModel(modelname, configpaths)
+  model <- loadIOData(model, configpaths)
+  model <- loadDemandVectors(model)
+  
+  model$V <- as.matrix(model$MakeTransactions) # Make
+  model$C_m <- generateCommodityMixMatrix(model) # normalized t(Make)
+  model$V_n <- generateMarketSharesfromMake(model) # normalized Make
+  if (model$specs$CommodityorIndustryType=="Industry") {
+    FinalDemand_df <- model$FinalDemandbyCommodity
+    DomesticFinalDemand_df <- model$DomesticFinalDemandbyCommodity
+  } else {
+    FinalDemand_df <- model$FinalDemand
+    DomesticFinalDemand_df <- model$DomesticFinalDemand
+  }
+  model$U <- as.matrix(dplyr::bind_rows(cbind(model$UseTransactions,
+                                              FinalDemand_df),
+                                        model$UseValueAdded)) # Use
+  model$U_d <- as.matrix(dplyr::bind_rows(cbind(model$DomesticUseTransactions,
+                                                DomesticFinalDemand_df),
+                                          model$UseValueAdded)) # DomesticUse
+  colnames(model$U_d) <- colnames(model$U)
+  model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
+                                 function(x) ifelse(is.na(x), 0, x))
+  model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
+  model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
+  model$q <- model$CommodityOutput
+  model$x <- model$IndustryOutput
+  model$mu <- model$InternationalTradeAdjustment
+  if(model$specs$CommodityorIndustryType == "Commodity") {
+    logging::loginfo("Building commodity-by-commodity A matrix (direct requirements)...")
+    model$A <- model$U_n %*% model$V_n
+    logging::loginfo("Building commodity-by-commodity A_d matrix (domestic direct requirements)...")
+    model$A_d <- model$U_d_n %*% model$V_n
+  } else if(model$specs$CommodityorIndustryType == "Industry") {
+    logging::loginfo("Building industry-by-industry A matrix (direct requirements)...")
+    model$A <- model$V_n %*% model$U_n
+    logging::loginfo("Building industry-by-industry A_d matrix (domestic direct requirements)...")
+    model$A_d <- model$V_n %*% model$U_d_n
+  }
+  
+  if(model$specs$ModelType == "EEIO-IH"){
+    model$A <- hybridizeAMatrix(model)
+    model$A_d <- hybridizeAMatrix(model, domestic=TRUE)
+  }
+  
+  # Calculate total requirements matrix as Leontief inverse (L) of A
+  logging::loginfo("Calculating L matrix (total requirements)...")
+  I <- diag(nrow(model$A))
+  I_d <- diag(nrow(model$A_d))
+  model$L <- solve(I - model$A)
+  logging::loginfo("Calculating L_d matrix (domestic total requirements)...")
+  model$L_d <- solve(I_d - model$A_d)
+  
+  # Calculate year over model IO year price ratio
+  logging::loginfo("Calculating Rho matrix (price year ratio)...")
+  model$Rho <- calculateModelIOYearbyYearPriceRatio(model)
+  
+  # Calculate producer over purchaser price ratio.
+  logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
+  model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
+  
+  # Calculate basic over producer price ratio.
+  logging::loginfo("Calculating Tau matrix (basic over producer price ratio)...")
+  model$Tau <- calculateBasicbyProducerPriceRatio(model)
+  
+  logging::loginfo("EIO model build complete.")
+  return(model)
 }

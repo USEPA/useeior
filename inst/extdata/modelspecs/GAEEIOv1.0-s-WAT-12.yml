@@ -1,4 +1,4 @@
-Model: "GAEEIOv2.0-s-WAT" # 2012 Summary, Commodity
+Model: "GAEEIOv1.0-s-WAT-12" # 2012 Summary, Commodity
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2012 # Year for IO data

@@ -8,7 +8,7 @@ on:
         model:
             description: "Model"
             required: true
-            default: "GAEEIOv2.0-s-WAT"
+            default: "GAEEIOv1.0-s-WAT-12"
 
 jobs:
   build:

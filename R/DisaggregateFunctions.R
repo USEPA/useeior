@@ -58,7 +58,8 @@ disaggregateModel <- function (model){
     
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
-
+    model$TaxLessSubsidies <- disaggregateTaxLessSubsidies(model, disagg)
+    
     # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
     if (model$specs$CommodityorIndustryType=="Industry") {
       # Keep the orignal FinalDemand (in by-commodity form)
@@ -106,9 +107,8 @@ disaggregateSetup <- function (model, configpaths = NULL){
     if(is.null(disagg$package)){
       disagg$package = "useeior"
     }
-    filename <- ifelse(is.null(configpaths),
-                       system.file("extdata/disaggspecs", disagg$SectorFile, package = disagg$package),
-                       file.path(dirname(configpaths)[1], disagg$SectorFile))
+    filename <- getInputFilePath(configpaths, "extdata/disaggspecs", disagg$SectorFile,
+                                 package = disagg$package)
     disagg$NAICSSectorCW <- utils::read.table(filename,
                                               sep = ",", header = TRUE,
                                               stringsAsFactors = FALSE,
@@ -132,9 +132,8 @@ disaggregateSetup <- function (model, configpaths = NULL){
     
     # Load Make table disaggregation file
     if(!is.null(disagg$MakeFile)){
-      filename <- ifelse(is.null(configpaths),
-                         system.file("extdata/disaggspecs", disagg$MakeFile, package = disagg$package),
-                         file.path(dirname(configpaths)[1], disagg$MakeFile))
+      filename <- getInputFilePath(configpaths, "extdata/disaggspecs", disagg$MakeFile,
+                                   package = disagg$package)
       disagg$MakeFileDF <- utils::read.table(filename,
                                              sep = ",", header = TRUE,
                                              stringsAsFactors = FALSE,
@@ -143,9 +142,8 @@ disaggregateSetup <- function (model, configpaths = NULL){
     
     # Load Use table disaggregation file
     if(!is.null(disagg$UseFile)){
-      filename <- ifelse(is.null(configpaths),
-                         system.file("extdata/disaggspecs", disagg$UseFile, package = disagg$package),
-                         file.path(dirname(configpaths)[1], disagg$UseFile))
+      filename <- getInputFilePath(configpaths, "extdata/disaggspecs", disagg$UseFile,
+                                   package = disagg$package)
       disagg$UseFileDF <- utils::read.table(filename,
                                             sep = ",", header = TRUE,
                                             stringsAsFactors = FALSE,
@@ -154,9 +152,8 @@ disaggregateSetup <- function (model, configpaths = NULL){
     
     # Load Environment flows table
     if(!is.null(disagg$EnvFile)){
-      filename <- ifelse(is.null(configpaths),
-                         system.file("extdata/disaggspecs", disagg$EnvFile, package = disagg$package),
-                         file.path(dirname(configpaths)[1], disagg$EnvFile))
+      filename <- getInputFilePath(configpaths, "extdata/disaggspecs", disagg$EnvFile,
+                                   package = disagg$package)
       disagg$EnvFileDF <- utils::read.table(filename,
                                             sep = ",", header = TRUE,
                                             stringsAsFactors = FALSE,
@@ -283,8 +280,6 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
     originalInternationalTradeAdjustment <- model$InternationalTradeAdjustmentbyCommodity
   }
   originalNameList <- names(originalInternationalTradeAdjustment) # Get names from named vector
-#  codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
-#  originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
   originalIndex <- which(originalNameList == disagg$OriginalSectorCode) # Get row index of the original aggregate sector in the object
   
   originalRow <- originalInternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
@@ -351,6 +346,37 @@ disaggregateMargins <- function(model, disagg) {
   newMargins <- newMargins[match(newMargins$SectorCode, names), ]
   
   return(newMargins)
+}
+
+
+#' Disaggregate TaxLessSubsidies dataframe in the main model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' @return newTLS A dataframe which contain the TaxLessSubsidies including the disaggregated sectors
+disaggregateTaxLessSubsidies <- function(model, disagg) {
+  original <- model$TaxLessSubsidies
+  originalIndex <-  grep(disagg$OriginalSectorCode, model$TaxLessSubsidies$Code_Loc)
+  originalRow <- model$TaxLessSubsidies[originalIndex,]
+  disaggTLS <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]
+  disaggRatios <- unname(disaggregatedRatios(model, disagg, model$specs$CommodityorIndustryType))
+  
+  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1]))
+  disaggTLS$Code_Loc <- unlist(disagg$DisaggregatedSectorCodes)
+  disaggTLS$Name <- unlist(disagg$DisaggregatedSectorNames)
+  
+  #code below multiplies the values in the relevant columns of the TLS dataframe by the disaggRatios
+  disaggTLS$BasicValue <- disaggTLS$BasicValue * disaggRatios
+  disaggTLS$MDTY <- disaggTLS$MDTY * disaggRatios
+  disaggTLS$TOP <- disaggTLS$TOP * disaggRatios
+  disaggTLS$SUB <- disaggTLS$SUB * disaggRatios
+  disaggTLS$ProducerValue <- disaggTLS$ProducerValue * disaggRatios
+
+  #bind the new values to the original table
+  newTLS <- rbind(original[1:originalIndex-1,], disaggTLS, original[-(1:originalIndex),])
+  
+  rownames(newTLS) <- NULL
+
+  return(newTLS)
 }
 
 #' Calculate ratios of throughputs from the disaggregated sectors

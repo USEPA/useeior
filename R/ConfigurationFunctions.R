@@ -13,10 +13,15 @@ getConfiguration <- function(configname, configtype, configpaths = NULL, pkg="us
     configpath <- system.file(paste0("extdata/", configtype, "specs/"), configfile, package = pkg)
   } else {
     configpath <- configpaths[endsWith(configpaths, configfile)]
-  }
-  if (!file.exists(configpath)) {
-    stop(paste(configfile, "must be available in ", dirname(configpath)),
-         call. = FALSE)
+    if (length(configpath) == 0) {
+      # Specific input file not found in configpaths, assume it is in useeior
+      configpath <- system.file(paste0("extdata/", configtype, "specs/"), configfile, package = "useeior")
+    }
+    
+    if (!file.exists(configpath)) {
+      stop(paste(configfile, "must be available in ", dirname(configpath)),
+           call. = FALSE)
+    }
   }
   config <- configr::read.config(configpath)
   return(config)

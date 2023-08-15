@@ -5,7 +5,7 @@
 \alias{matrices}
 \title{The vector of matrices to write out}
 \format{
-An object of class \code{character} of length 16.
+An object of class \code{character} of length 17.
 }
 \usage{
 matrices

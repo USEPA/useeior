@@ -4,7 +4,7 @@ name: R CI/CD test #R-CMD-check
 
 on:
   push:
-    branches: [main, master, develop]
+    # branches: [main, master, develop]
     paths-ignore:
       - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
       - '**.bib'
@@ -120,14 +120,14 @@ jobs:
           useeior::printValidationResults(m)
         shell: Rscript {0}
 
-      # - name: Build and validate models - MEEEIOv2.0-s-GHG summary two-region model
-      #   if: always()
-      #   run: |
-      #     require(devtools)
-      #     devtools::load_all()
-      #     m <- useeior::buildModel("MEEEIOv2.0-s-GHG")
-      #     useeior::printValidationResults(m)
-      #   shell: Rscript {0}
+      - name: Build and validate models - GAEEIOv1.0-s-WAT-12 summary two-region model
+        if: always()
+        run: |
+          require(devtools)
+          devtools::load_all()
+          m <- useeior::buildModel("GAEEIOv1.0-s-WAT-12")
+          useeior::print2RValidationResults(m)
+        shell: Rscript {0}
 
       #- name: Show testthat output
       #  if: always()  # step will run even if previous steps fail

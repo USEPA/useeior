@@ -175,7 +175,7 @@ calculateLeontiefInverse <- function(A) {
 #' @return A Domestic Use table with rows as commodity codes and columns as industry and final demand codes
 generateDomesticUse <- function(Use, model) {
   # Load Import matrix
-  if (model$specs$BaseIOLevel!="Sector") {
+  if (model$specs$BaseIOLevel != "Sector") {
     Import <- get(paste(model$specs$BaseIOLevel, "Import",
                         model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
   } else {
@@ -184,8 +184,38 @@ generateDomesticUse <- function(Use, model) {
     # Aggregate Import from Summary to Sector
     Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
   }
+  Import <- Import[rownames(Use), colnames(Use)]
+  # Adjust Import matrix to BAS price if model is in BAS price
+  # Note: according to the documentation in BEA Import matrix, import values in
+  # the Import matrix are in producer (PRO) values. For PRO models, imports in the
+  # Import matrix are valued at their domestic port value, while imports in Use
+  # (Make-Use framework) are valued at their foreign port value, meaning
+  # domestic port value = foreign port value + 
+  #                       the value of all transportation and insurance services to import +
+  #                       customs duties.
+  # To get an Import matrix in BAS price, customs duties (i.e. import duties or tax on imports)
+  # needs to be subtracted from the original Import matrix
+  if (model$specs$BasePriceType == "BAS") {
+    # Find "MDTY - import duties" in Supply table
+    Supply <- get(paste(model$specs$BaseIOLevel, "Supply", model$specs$IOYear,
+                        sep = "_")) * 1E6
+    ImportDuty <- Supply[rownames(Import), "MDTY"]
+    # Subtract import duties from  Import matrix
+    # Expanding it to a matrix based on the Import matrix, except for the import column
+    # Then subtract the matrix from the Import matrix to convert it from PRO to BAS
+    import_col <- model$FinalDemandMeta[model$FinalDemandMeta$Group == "Import",
+                                        "Code"]
+    non_import_cols <- setdiff(colnames(Import), import_col)
+    ratio_m <- Import/rowSums(Import[, non_import_cols])
+    ratio_m[is.na(ratio_m)] <- 1/(ncol(Import) - 1)
+    Import_BAS <- Import[, non_import_cols] - diag(ImportDuty) %*% as.matrix(ratio_m)
+    # Recalculate import column in the Import matrix by adding import duties
+    Import_BAS[, import_col] <- Import[, import_col] + ImportDuty
+    # Assign Import_BAS to Import
+    Import <- Import_BAS
+  }
   # Subtract Import from Use
-  DomesticUse <- Use - Import[rownames(Use), colnames(Use)]
+  DomesticUse <- Use - Import
   # Adjust Import column in DomesticUse to 0.
   # Note: the original values in Import column are essentially the International Trade Adjustment
   # that are reserved and added as an additional column (F050/F05000) in DomesticUse.
@@ -209,6 +239,7 @@ generateInternationalTradeAdjustmentVector <- function(Use, model) {
   }
   # Define Import code
   ImportCode <- getVectorOfCodes(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Import")
+  ImportCode <- ImportCode[startsWith(ImportCode, "F")]
   # Calculate InternationalTradeAdjustment
   # In the Import matrix, the imports column is in domestic (US) port value.
   # But in the Use table, it is in foreign port value.
@@ -331,4 +362,85 @@ calculateAndValidateImportA <- function(model, UseTransactions_m, FD_m, y = NULL
   
   return(A_m)
   
+}
+
+#' Convert Use table in the Supply-Use framework from purchasers' price (PUR)
+#' to basic price (BAS)
+#' @param UseSUT_PUR, a Use table (from the Supply-Use framework) in purchasers' price (PUR)
+#' @param specs, model specifications.
+#' @param io_codes, a list of BEA IO codes.
+#' @return A Use table in basic price (BAS)
+convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
+  # Load UsePRO and UsePUR under Make-Use framework
+  Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
+  UsePUR <- get(paste(specs$BaseIOLevel, "Use", specs$IOYear, "PUR", Redef, sep = "_"))
+  UsePRO <- get(paste(specs$BaseIOLevel, "Use", specs$IOYear, "PRO", Redef, sep = "_"))
+  # Load Supply table
+  Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
+  
+  # Convert from PUR to PRO by removing margins obtained from Supply table
+  rows <- io_codes$Commodities
+  cols <- c(io_codes$Industries,
+            intersect(colnames(UseSUT_PUR), io_codes$FinalDemandCodes))
+  # Calculate margins in matrix form using Use tables under the Make-Use framework
+  # Note: there are no retail (comm) sectors in UsePUR, so these sectors in the
+  # margins matrix are filled with NA.
+  margins <- UsePUR[rows, cols] - UsePRO[rows, cols]
+  # Update rownames of the matrix
+  rownames(margins) <- rows
+  # Replace NA with 0 because retail sectors should not have additional margins
+  margins[is.na(margins)] <- 0
+  # Extract margins from Supply
+  margins_Supply <- rowSums(Supply[rows, c("TRADE", "TRANS")])
+  # Allocate margins_Supply throughout Use based on margins matrix
+  margins_ratio_m <- margins/rowSums(margins)
+  margins_ratio_m[is.na(margins_ratio_m)] <- 1/ncol(margins_ratio_m)
+  UseSUT_PRO <- UseSUT_PUR[rows, cols] - diag(margins_Supply) %*% as.matrix(margins_ratio_m)
+  
+  # Convert from PRO to BAS by removing tax less subsidies from the Supply table
+  # Note: import duties (MDTY) is considered tax on imported goods, see page 3 of
+  # https://apps.bea.gov/scb/pdf/2015/09%20September/0915_supply_use_tables_for_the_united_states.pdf
+  tax_less_subsidies <- rowSums(Supply[rows, io_codes$TaxLessSubsidiesCodes])
+  # Allocate tax_less_subsidies throughout Use based on consumption of commodities
+  ratio_m <- UseSUT_PRO/rowSums(UseSUT_PRO)
+  ratio_m[is.na(ratio_m)] <- 1/ncol(ratio_m)
+  UseSUT_BAS <- UseSUT_PRO - diag(tax_less_subsidies) %*% as.matrix(ratio_m)
+  # Append right columns, including T001 and T109, and bottom rows, including
+  # Value Added and totals, back to Use table
+  UseSUT_BAS <- rbind(cbind(UseSUT_BAS,
+                            UseSUT_PUR[rows, setdiff(colnames(UseSUT_PUR),
+                                                     colnames(UseSUT_BAS))]),
+                      UseSUT_PUR[setdiff(rownames(UseSUT_PUR),
+                                         rownames(UseSUT_BAS)), ])
+  return(UseSUT_BAS)
+}
+
+#' Generate tax less subsidies table using BEA Supply table which include
+#' total product supply in basic price and tax less subsidies for all commodities
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @return A data.frame containing CommodityCode, basic price, tax less subsidies,
+#' and producer price of total product supply
+generateTaxLessSubsidiesTable <- function(model) {
+  # Load Supply table
+  Supply <- get(paste(model$specs$BaseIOLevel, "Supply", model$specs$IOYear,
+                      sep = "_"))
+  # Get basic price and tax less subsidies vectors from Supply
+  import_cols <- getVectorOfCodes(model$specs$BaseIOSchema,
+                                  model$specs$BaseIOLevel,
+                                  "Import")
+  import_cols <- import_cols[!startsWith(import_cols, "F")]
+  taxlesssubsidies_col <- getVectorOfCodes(model$specs$BaseIOSchema,
+                                           model$specs$BaseIOLevel,
+                                           "TaxLessSubsidies")
+  TaxLessSubsidies <- cbind(rowSums(Supply[model$Commodities$Code,
+                                           c(model$Industries$Code, import_cols)]),
+                            Supply[model$Commodities$Code, taxlesssubsidies_col])
+  colnames(TaxLessSubsidies)[1] <- "BasicValue"
+  # Calculate Producer price
+  TaxLessSubsidies$ProducerValue <- rowSums(TaxLessSubsidies)
+  # Assign Code_Loc to TaxLessSubsidies
+  TaxLessSubsidies <-  merge(TaxLessSubsidies,
+                             model$Commodities[,c("Code","Name", "Code_Loc")],
+                             by.x = 0, by.y = "Code", all.y = TRUE)
+  return(TaxLessSubsidies)
 }

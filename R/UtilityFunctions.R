@@ -440,8 +440,23 @@ writeMetadatatoJSON <- function(package,
 #' @param location A text value of input location name
 #' @return A text value of formatted location for state models
 formatLocationforStateModels <- function(location) {
-  loc <- stringr::str_replace_all(string = tolower(location),
-                                  pattern = setNames(paste("US", state.abb, sep = "-"),
-                                                     tolower(state.name)))
+  pattern <- setNames(paste("US", state.abb, sep = "-"), tolower(state.name))
+  loc <- dplyr::recode(tolower(location), !!!pattern)
   return(loc)
+}
+
+#' Identify location of filepath for model input files
+#' @param configpaths str vector, paths (including file name) of configuration files.
+#' @param folderPath str local path to configuration type
+#' @param filename str filename of model spec
+#' @param package str name of package for location of input file
+getInputFilePath <- function(configpaths, folderPath="extdata", filename, package="useeior"){
+  if(!is.null(configpaths)) {
+    filepath <- file.path(dirname(configpaths)[1], filename)
+    if(file.exists(filepath)) {
+      return(filepath)
+    }
+  }
+  filepath <- system.file(folderPath, filename, package = package)
+  return(filepath)
 }

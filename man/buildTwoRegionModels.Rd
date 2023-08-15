@@ -4,13 +4,22 @@
 \alias{buildTwoRegionModels}
 \title{Build two-region models for all 50 states based on a single config reference file.}
 \usage{
-buildTwoRegionModels(modelname, configpaths = NULL)
+buildTwoRegionModels(
+  modelname,
+  configpaths = NULL,
+  validate = FALSE,
+  year = NULL
+)
 }
 \arguments{
 \item{modelname}{Name of the model from a config file.}
 
 \item{configpaths}{str vector, paths (including file name) of model configuration file
 and optional agg/disagg configuration file(s). If NULL, built-in config files are used.}
+
+\item{validate}{bool, if TRUE print validation results for each model}
+
+\item{year}{int, indicating for which year to run the models}
 }
 \value{
 A list of EEIO models for each state with complete components and attributes
