@@ -1,0 +1,138 @@
+
+```{r Import Factors model build}
+
+devtools::load_all(".")
+# configpaths <- file.path("C:/Users/jvend/Documents/CodeProjects/USEEIOStateMethod/model_specs", c("StateEEIOv1.0-s-20.yml"))
+modelname <- 'USEEIOv2.0-s-GHG_IF'
+model <- buildModel(modelname)
+
+```
+
+
+```{r Validate 1: results using import factors + domestic matrices}
+
+  # calculate "standard" x
+  y <- rowSums(model$U[1:73, 72:91]) # Indexes represent final demand columns for all commodities in model$U
+  x <- model$L %*% y # if y = I, then x = model$L. I <- diag(nrow(model$A))
+  
+  # Calculate x as domestic + import components
+  y_m <- rowSums(model$ImportFinalDemand[,c(model$FinalDemandMeta$Code_Loc)])
+  y_d <- rowSums(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)])
+#  y_d <- rowSums(model$U_d[1:73,72:91])
+  
+  x_d <- model$L_d %*% y_d
+  x_m <- model$A_m%*%x_d + y_m
+  x_dm <- x_d + x_m
+  
+  
+  # Validate results
+  rel_dif_x <- (x-x_dm)/x_dm
+  toleranceErrors <- which(abs(rel_dif_x) > 0.01)
+  print(paste0("Number of results > 0.01 difference: ", length(toleranceErrors)))
+  failures <- compare2RVectorTotals(x_dm, x)
+
+
+```
+
+```{r Validate 2: results using import factors + domestic matrices using y as a matrix rather than a vector}
+  
+  # calculate "standard" x
+  y <- model$U[1:73, 72:91] # Indexes represent final demand columns for all commodities in model$U
+  x <- model$L %*% y 
+  
+  # Calculate x as domestic + import components
+  y_m <- data.matrix(model$ImportFinalDemand[,c(model$FinalDemandMeta$Code_Loc)])
+  y_d <- data.matrix(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)])
+  
+  print("Testing: y = y_m + y_d")
+  all.equal(y,y_m+y_d)
+
+  x_d <- model$L_d %*% y_d
+  x_m <- model$A_m%*%x_d + y_m
+  x_dm <- x_d + x_m
+  
+  
+  # Validate results
+  rel_dif_x <- (x-x_dm)/x_dm
+  toleranceErrors <- which(abs(rel_dif_x) > 0.01)
+  print(paste0("Number of results > 0.01 difference: ", length(toleranceErrors)))
+#  failures <- compare2RVectorTotals(x_dm, x)
+
+
+```
+
+
+## Approaches for Building L_m matrix
+
+
+```{r Approach 1 for building L_m}
+# Approach 1
+print("Approach 1: building L_m using the equations from Wood et al., but ommitting the use of y vectors")
+
+# L_m = A_m * L_d is a simplified form of the x_d and x_m equations in Validate 1 chunk, but omitting the y vectors
+L_m <- model$A_m %*% model$L_d 
+
+print("Testing: L = L_d + L_m")
+all.equal(model$L, L_m+model$L_d)
+
+
+rel_dif_L <- (model$L-(L_m+model$L_d))/(L_m+model$L_d)
+toleranceErrors <- which(abs(rel_dif_L) > 0.01)
+print(paste0("Number of results > 0.01 difference: ", length(toleranceErrors)))
+
+```
+
+```{r Approach 2 for building L_m}
+# Approach 2
+print("Approach 2: building L_m using the equations from Wood et al. using I as y vector")
+
+# Calculating X using standard Leontief formula using I (identity matrix) as y to test for equality between X and L
+I <- rep(1, dim(model$A)[1])
+#x_standard <- model$L %*% diag(I)
+x_standard <- model$L %*% I
+rownames(x_standard) <- rownames(model$L)
+#colnames(x_standard) <- colnames(model$L)
+print("Testing: x_standard = model$L, where x <- model$L* I")
+all.equal(x_standard, model$L)
+
+
+# Calculating X_dm (economic impacts using domestic + import matrices rather than standard L)
+# y_m is imported final demand; y_d is domestic final demand
+# using y_m and y_d to get a ratio of vectors such that y_m_ratios + y_d_ratios = I
+y_m <- rowSums(model$ImportFinalDemand[,c(model$FinalDemandMeta$Code_Loc)])
+y_d <- rowSums(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)])
+
+y_m_ratios <- y_m/(y_m+y_d)
+y_d_ratios <- y_d/(y_m+y_d)
+I_ratios <- unname(y_m_ratios+y_d_ratios)
+
+#check that y_m_ratios + y_d_ratios = I
+print("Testing: y_m_ratios + y_d_ratios = I")
+all.equal(I, I_ratios <- unname(y_m_ratios+y_d_ratios))
+
+# Calculating x_dm using the approach from the swedish paper
+x_d <- model$L_d %*% y_d_ratios
+x_m <- model$A_m%*%x_d + y_m_ratios
+x_dm <- x_d + x_m
+colnames(x_dm) <- colnames(x_standard)
+rownames(x_dm) <- rownames(x_standard)
+print("Testing: x_standard = x_dm, using y_m_ratios + y_d_ratios = I")
+all.equal(x_standard, x_dm)
+
+
+```
+
+
+```{r Approach 3 for building L_m}
+# Approach 3
+print("Approach 3: Deriving L_m from L and L_d")
+
+L_m <- model$L - model$L_d
+x_3 <- L_m %*% diag(I)
+rownames(x_3) <- rownames(model$L)
+colnames(x_3) <- colnames(model$L)
+print("Testing: x_dm = x_3, where x_dm is derived in approach 2")
+all.equal(x_dm, x_3)
+
+
+```
