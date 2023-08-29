@@ -252,10 +252,10 @@ generateInternationalTradeAdjustmentVector <- function(Use, model) {
   return(InternationalTradeAdjustment)
 }
 
-#' Create import direct requirements table and validate domestic+import against full use model .
+#' Create import Use table and validate domestic+import against full use model .
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return A model object with explicit import components.
-builImportA <- function(model) {
+buildImportUse <- function(model) {
   # Deriving the economic component of the Swedish equation for import factors: f^(d+m) = S^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
   # S and Q are the environmental intensity matrices, so getting rid of those components we would have the following (where x is the economic component of f)
   # x^(d+m) = L^d*y^d + A^m*L^d*y^d + y^m + f^h
@@ -270,8 +270,9 @@ builImportA <- function(model) {
   UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
 
   # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
-  model$DomesticFinalDemand[,"F050/US"] <- model$InternationalTradeAdjustment
-  FD_m <- model$FinalDemand - model$DomesticFinalDemand
+  model$DomesticFDWithITA <- model$DomesticFinalDemand
+  model$DomesticFDWithITA[,"F050/US"] <- model$InternationalTradeAdjustment
+  model$ImportFinalDemand <- model$FinalDemand - model$DomesticFDWithITA
   
   # # Check that import values are the same as the original import data 
   # # Note that this check is not meant to be included in the code
@@ -280,14 +281,10 @@ builImportA <- function(model) {
   # colnames(Import[1:71]) <- colnames(UseTransactions_m[1:71])
   # temp <- UseTransactions_m - Import[,1:71]
   # sum(sum(temp)) == 0 # should be TRUE
-  A_m <- calculateAndValidateImportA(model, UseTransactions_m, FD_m)
-
+  A_m <- calculateAndValidateImportA(model, UseTransactions_m)
   
-  #revert DomesticFinalDemand change for import vector
-  model$DomesticFinalDemand[,"F050/US"]  <- 0
-  #add domestic components to model object
+  #Add Import A to model
   model$A_m <- A_m
-  model$ImportFinalDemand <- FD_m
   
   return(model)
 }
@@ -296,11 +293,12 @@ builImportA <- function(model) {
 #' Create import direct requirements table based on import use and import y tables
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @param UseTransactions_m A use table that describes the import portion of production only.
-#' @param FD_m A final demand TABLE that describes the import portion of final demand only
+# #' @param FD_m A final demand TABLE that describes the import portion of final demand only
 #' @param y A final demand VECTOR used for calculating the conventional model results, L*Y
 #' @param y_d A final demand VECTOR used for validating the model results using the A_m calculation.
 #' @return A calculated direct requirements table
-calculateAndValidateImportA <- function(model, UseTransactions_m, FD_m, y = NULL, y_d = NULL){
+# calculateAndValidateImportA <- function(model, UseTransactions_m, FD_m, y = NULL, y_d = NULL){
+calculateAndValidateImportA <- function(model, UseTransactions_m, y = NULL, y_d = NULL){
   
   U_n_m <- normalizeIOTransactions(UseTransactions_m, model$IndustryOutput) 
   A_m <- U_n_m %*% model$V_n
@@ -316,11 +314,11 @@ calculateAndValidateImportA <- function(model, UseTransactions_m, FD_m, y = NULL
   
   # calculate "standard" x
   y <- rowSums(model$FinalDemand[,c(FD_columns)])
-  x <- model$L %*% y
+  x <- model$L %*% y # if y = I, then x = model$L. I <- diag(nrow(model$A))
   
   # Calculate x as domestic + import components
-  y_m <- rowSums(FD_m[,c(FD_columns)])
-  y_d <- rowSums(model$DomesticFinalDemand[,c(FD_columns)])
+  y_m <- rowSums(model$ImportFinalDemand[,c(FD_columns)])
+  y_d <- rowSums(model$DomesticFDWithITA[,c(FD_columns)])
   
   x_d <- model$L_d %*% y_d
   x_dm <- x_d + A_m%*%x_d + y_m
