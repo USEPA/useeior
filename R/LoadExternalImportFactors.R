@@ -10,7 +10,6 @@
 #' @return A list with EEIO form USEEIO model economic components.
 loadExternalImportFactors <- function(model, configpaths = NULL) {
 
-  #TODO: Convert from basic to producer price using TAU if possible
   temp <- 2
   # Read in file with Import factors
   IFSpec <- model$specs$ImportFactors[[1]]
@@ -24,15 +23,20 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
   meta[2:5] <- IFTable[1,2:5]
   
   # Format IFTable to match model$M
-  mrownames <- paste(IFTable$Flowable, IFTable$Context, IFTable$Unit, sep = "/")
-  if(model$specs$IODataSource =="stateior"){
+  IFTable['Flow'] <- paste(IFTable$Flowable, IFTable$Context, IFTable$Unit, sep = "/")
+
+  #TODO: Convert from basic to producer price using TAU if possible
+  
+  if(model$specs$IODataSource =="stateior") {
     #TODO
-  }else{# assumes that if IODataSource is not stateior, it is a one a region model
-    Code_Loc <- "US"
+  } else {
+    # assumes that if IODataSource is not stateior, it is a one a region model
+    IFTable['Location'] <- "US"
   }
   
+  M_m <- standardizeandcastSatelliteTable(IFTable, model)
+  M_m <- as.matrix(M_m)
 
-  
-  return(IFTable)
+  return(M_m)
 }
 
