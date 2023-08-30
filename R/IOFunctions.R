@@ -283,7 +283,14 @@ buildModelwithImportFactors <- function(model) {
     logging::loginfo("Building industry-by-industry A_m matrix (imported direct requirements)...")
     model$A_m <- model$V_n %*% model$U_d_m
   }
+  model$M <- model$B %*% model$L
   model$M_m <- loadExternalImportFactors(model)
+  
+  # Fill in flows for M_m not found in Import Factors but that exist in model and align order
+  M_m <- rbind(model$M_m, model$M[setdiff(rownames(model$M), rownames(model$M_m)),])
+  M_m <- M_m[rownames(model$M), ]
+
+  
   # # Check that import values are the same as the original import data 
   # # Note that this check is not meant to be included in the code
   # Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
@@ -358,7 +365,7 @@ calculateAndValidateImportA <- function(model, y = NULL, y_d = NULL){
   
   # "Standard" result calculation is model$B %*% model$L %*% y = model$M %*% y
   cat("\n Calculating results using import A (A_m).\n")
-  standard_M <- model$B %*% model$L
+  standard_M <- model$M
   result_Standard <- standard_M %*% y
   M_m <- standard_M #Q^t = M_m = imported M matrix, which for validation purposes is equivalent to the current standard_M
   result_M <- (model$B %*% model$L_d %*% y_d) + (M_m %*% A_m %*% model$L_d %*% y_d + M_m %*% y_m) # parentheses used to denote (domestic) and (import) components
