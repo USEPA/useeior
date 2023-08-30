@@ -88,10 +88,10 @@ print("Approach 2: building L_m using the equations from Wood et al. using I as 
 
 # Calculating X using standard Leontief formula using I (identity matrix) as y to test for equality between X and L
 I <- rep(1, dim(model$A)[1])
-#x_standard <- model$L %*% diag(I)
-x_standard <- model$L %*% I
+x_standard <- model$L %*% diag(I)
+#x_standard <- model$L %*% I
 rownames(x_standard) <- rownames(model$L)
-#colnames(x_standard) <- colnames(model$L)
+colnames(x_standard) <- colnames(model$L)
 print("Testing: x_standard = model$L, where x <- model$L* I")
 all.equal(x_standard, model$L)
 
@@ -110,9 +110,9 @@ I_ratios <- unname(y_m_ratios+y_d_ratios)
 print("Testing: y_m_ratios + y_d_ratios = I")
 all.equal(I, I_ratios <- unname(y_m_ratios+y_d_ratios))
 
-# Calculating x_dm using the approach from the swedish paper
-x_d <- model$L_d %*% y_d_ratios
-x_m <- model$A_m%*%x_d + y_m_ratios
+# Calculating x_dm using the approach from the Swedish paper
+x_d <- model$L_d %*% diag(y_d_ratios)
+x_m <- model$A_m%*%x_d + diag(y_m_ratios)
 x_dm <- x_d + x_m
 colnames(x_dm) <- colnames(x_standard)
 rownames(x_dm) <- rownames(x_standard)
