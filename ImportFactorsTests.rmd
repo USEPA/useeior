@@ -136,3 +136,18 @@ all.equal(x_dm, x_3)
 
 
 ```
+
+
+
+```{r Approach 4 for building L_m}
+# Approach 4
+print("Approach 4: Inverting A_m")
+
+L_m <- solve(diag(nrow(model$A)) - model$A_m)
+L_md <- L_m + model$L_d
+rel_dif_L <- (model$L-L_md)/L_md
+toleranceErrors <- which(abs(rel_dif_L) > 0.01)
+print(paste0("Number of results > 0.01 difference: ", length(toleranceErrors)))
+all.equal(model$L, L_md)
+
+```
