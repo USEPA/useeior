@@ -358,8 +358,9 @@ calculateAndValidateImportA <- function(model, y = NULL, y_d = NULL){
   
   # "Standard" result calculation is model$B %*% model$L %*% y = model$M %*% y
   cat("\n Calculating results using import A (A_m).\n")
-  result_Standard <- model$M %*% y
-  M_m <- model$M #Q^t = M_m = imported M matrix, which for validation purposes is equivalent to the current model$M
+  standard_M <- model$B %*% model$L
+  result_Standard <- standard_M %*% y
+  M_m <- standard_M #Q^t = M_m = imported M matrix, which for validation purposes is equivalent to the current standard_M
   result_M <- (model$B %*% model$L_d %*% y_d) + (M_m %*% A_m %*% model$L_d %*% y_d + M_m %*% y_m) # parentheses used to denote (domestic) and (import) components
 
   rel_dif_result <- (result_Standard - result_M)/result_M
