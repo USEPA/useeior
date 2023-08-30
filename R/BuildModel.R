@@ -47,27 +47,12 @@ constructEEIOMatrices <- function(model) {
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
 
-  # new code for import factors
-  
-  temp <- 1
-  # Re-derive import values in Use and final demand
-  # _m denotes import-related structures
-  model$UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
-  # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
-  model$DomesticFDWithITA <- model$DomesticFinalDemand
-  model$DomesticFDWithITA[,"F050/US"] <- model$InternationalTradeAdjustment
-  model$FinalDemand_m <- model$FinalDemand - model$DomesticFDWithITA
-    
- if (model$specs$IODataSource=="stateior") {
+  if (model$specs$IODataSource=="stateior") {
     model$U_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = FALSE)
     model$U_d_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = TRUE)
-    # TODO: Add U_n_m for 2R models
   } else {
-    
     model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
     model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse 
-    
-    model$U_n_m <- normalizeIOTransactions(model$UseTransactions_m, model$IndustryOutput) #normalized imported Use
   }
 
   model$q <- model$CommodityOutput
@@ -78,23 +63,16 @@ constructEEIOMatrices <- function(model) {
     model$A <- model$U_n %*% model$V_n
     logging::loginfo("Building commodity-by-commodity A_d matrix (domestic direct requirements)...")
     model$A_d <- model$U_d_n %*% model$V_n
-    logging::loginfo("Building commodity-by-commodity A_m matrix (imported direct requirements)...")
-    model$A_m <- model$U_n_m %*% model$V_n
-    
   } else if(model$specs$CommodityorIndustryType == "Industry") {
     logging::loginfo("Building industry-by-industry A matrix (direct requirements)...")
     model$A <- model$V_n %*% model$U_n
     logging::loginfo("Building industry-by-industry A_d matrix (domestic direct requirements)...")
     model$A_d <- model$V_n %*% model$U_d_n
-    
-    logging::loginfo("Building industry-by-industry A_m matrix (imported direct requirements)...")
-    model$A_d <- model$V_n %*% model$U_d_m
   }
   
   if(model$specs$ModelType == "EEIO-IH"){
     model$A <- hybridizeAMatrix(model)
     model$A_d <- hybridizeAMatrix(model, domestic=TRUE)
-    #model$A_m <- hybridizeAMatrix(model) #TODO
   }
 
   # Calculate total requirements matrix as Leontief inverse (L) of A
@@ -107,41 +85,43 @@ constructEEIOMatrices <- function(model) {
   
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
-  model$B <- createBfromFlowDataandOutput(model) #does not need model$L/L_d
+  model$B <- createBfromFlowDataandOutput(model)
   if(model$specs$ModelType == "EEIO-IH"){
     model$B <- hybridizeBMatrix(model)
   }
   if(!is.null(model$Indicators)) {
     # Generate C matrix
     logging::loginfo("Building C matrix (characterization factors for model indicators)...")
-    model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B)) #does not need model$L/L_d
+    model$C <- createCfromFactorsandBflows(model$Indicators$factors,rownames(model$B))
 
     # Add direct impact matrix
     logging::loginfo("Calculating D matrix (direct environmental impacts per dollar)...")
     model$D <- model$C %*% model$B
   }
-  
-  # Calculate total emissions/resource use per dollar (M)
-  logging::loginfo("Calculating M matrix (total emissions and resource use per dollar)...")
-  if(model$specs$ExternalImportFactors == FALSE){
-    model$M <- model$B %*% model$L
-  }else{
-    #model$M <- loadExternalImportFactors(model)
-    model$M <- model$B %*% model$L
-  }
 
-  colnames(model$M) <- colnames(model$M)
-  # Calculate M_d, the domestic emissions per dollar using domestic Leontief
-  logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
-  model$M_d <- model$B %*% model$L_d
-  colnames(model$M_d) <- colnames(model$M)
+  if(!is.null(model$specs$ExternalImportFactors)) {
+    # Alternate model build for implementing Import Factors
+    model <- buildModelwithImportFactors(model)
+  } else {
+    # Standard model build procedure
   
-  if(!is.null(model$Indicators)) {
-    # Calculate total impacts per dollar (N), impact category x sector
-    logging::loginfo("Calculating N matrix (total environmental impacts per dollar)...")
-    model$N <- model$C %*% model$M
-    logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity)...")
-    model$N_d <- model$C %*% model$M_d
+    # Calculate total emissions/resource use per dollar (M)
+    logging::loginfo("Calculating M matrix (total emissions and resource use per dollar)...")
+    model$M <- model$B %*% model$L
+  
+    colnames(model$M) <- colnames(model$M)
+    # Calculate M_d, the domestic emissions per dollar using domestic Leontief
+    logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
+    model$M_d <- model$B %*% model$L_d
+    colnames(model$M_d) <- colnames(model$M)
+    
+    if(!is.null(model$Indicators)) {
+      # Calculate total impacts per dollar (N), impact category x sector
+      logging::loginfo("Calculating N matrix (total environmental impacts per dollar)...")
+      model$N <- model$C %*% model$M
+      logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity)...")
+      model$N_d <- model$C %*% model$M_d
+    }
   }
   
   # Calculate year over model IO year price ratio
@@ -156,10 +136,6 @@ constructEEIOMatrices <- function(model) {
   logging::loginfo("Calculating Tau matrix (basic over producer price ratio)...")
   model$Tau <- calculateBasicbyProducerPriceRatio(model)
 
-  if(!is.null(model$specs$ExternalImportFactors)){
-    model <- buildImportUse(model)
-  }
-    
   #Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",

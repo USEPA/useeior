@@ -255,7 +255,7 @@ generateInternationalTradeAdjustmentVector <- function(Use, model) {
 #' Create import Use table and validate domestic+import against full use model .
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return A model object with explicit import components.
-buildImportUse <- function(model) {
+buildModelwithImportFactors <- function(model) {
   # Deriving the economic component of the Swedish equation for import factors: f^(d+m) = S^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
   # S and Q are the environmental intensity matrices, so getting rid of those components we would have the following (where x is the economic component of f)
   # x^(d+m) = L^d*y^d + A^m*L^d*y^d + y^m + f^h
@@ -264,16 +264,26 @@ buildImportUse <- function(model) {
   # The resulting expression should be equivalent to the x = L*y such that
   # x^(d+m) = x = L*y
   
-  cat("\n Building Import A (A_m) accouting for ITA in Domestic FD.\n")
+  cat("\n Building Import A (A_m) accounting for ITA in Domestic FD.\n")
   # Re-derive import values in Use and final demand
   # _m denotes import-related structures
-  UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
+  model$UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
 
   # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
   model$DomesticFDWithITA <- model$DomesticFinalDemand
   model$DomesticFDWithITA[,"F050/US"] <- model$InternationalTradeAdjustment
   model$ImportFinalDemand <- model$FinalDemand - model$DomesticFDWithITA
   
+  model$U_n_m <- normalizeIOTransactions(model$UseTransactions_m, model$IndustryOutput) #normalized imported Use
+  
+  if(model$specs$CommodityorIndustryType == "Commodity") {
+    logging::loginfo("Building commodity-by-commodity A_m matrix (imported direct requirements)...")
+    model$A_m <- model$U_n_m %*% model$V_n
+  } else if(model$specs$CommodityorIndustryType == "Industry") {
+    logging::loginfo("Building industry-by-industry A_m matrix (imported direct requirements)...")
+    model$A_m <- model$V_n %*% model$U_d_m
+  }
+  model$M_m <- loadExternalImportFactors(model)
   # # Check that import values are the same as the original import data 
   # # Note that this check is not meant to be included in the code
   # Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
@@ -281,11 +291,8 @@ buildImportUse <- function(model) {
   # colnames(Import[1:71]) <- colnames(UseTransactions_m[1:71])
   # temp <- UseTransactions_m - Import[,1:71]
   # sum(sum(temp)) == 0 # should be TRUE
-  A_m <- calculateAndValidateImportA(model, UseTransactions_m)
-  
-  #Add Import A to model
-  model$A_m <- A_m
-  
+  calculateAndValidateImportA(model)
+
   return(model)
 }
 
@@ -298,10 +305,10 @@ buildImportUse <- function(model) {
 #' @param y_d A final demand VECTOR used for validating the model results using the A_m calculation.
 #' @return A calculated direct requirements table
 # calculateAndValidateImportA <- function(model, UseTransactions_m, FD_m, y = NULL, y_d = NULL){
-calculateAndValidateImportA <- function(model, UseTransactions_m, y = NULL, y_d = NULL){
+calculateAndValidateImportA <- function(model, y = NULL, y_d = NULL){
   
-  U_n_m <- normalizeIOTransactions(UseTransactions_m, model$IndustryOutput) 
-  A_m <- U_n_m %*% model$V_n
+  U_n_m <- model$U_n_m
+  A_m <- model$A_m
   
   
   # Calculate production demand vector
@@ -357,9 +364,7 @@ calculateAndValidateImportA <- function(model, UseTransactions_m, y = NULL, y_d 
 
   rel_dif_result <- (result_Standard - result_M)/result_M
   result_failures <- compare2RVectorTotals(result_M, result_Standard)
-  
-  return(A_m)
-  
+
 }
 
 #' Convert Use table in the Supply-Use framework from purchasers' price (PUR)
