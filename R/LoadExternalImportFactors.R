@@ -35,6 +35,10 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
   }
   
   M_m <- standardizeandcastSatelliteTable(IFTable, model)
+  # standardizeandcast prepares df for industries, convert to commodities
+  M_m[, setdiff(model$Commodities$Code_Loc, colnames(M_m))] <- 0
+  # Adjust column order to be the same with V_n rownames
+  M_m <- M_m[, model$Commodities$Code_Loc]
   M_m <- as.matrix(M_m)
 
   return(M_m)
