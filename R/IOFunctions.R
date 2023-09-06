@@ -290,6 +290,7 @@ buildModelwithImportFactors <- function(model) {
   M_m <- rbind(model$M_m, model$M[setdiff(rownames(model$M), rownames(model$M_m)),])
   M_m <- M_m[rownames(model$M), ]
 
+  model$M_m <- M_m
   
   # # Check that import values are the same as the original import data 
   # # Note that this check is not meant to be included in the code
