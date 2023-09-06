@@ -10,7 +10,8 @@ heatmapSectorRanking(
   indicators,
   sector_to_remove,
   N_sector,
-  x_title = NULL
+  x_title = NULL,
+  use_codes = TRUE
 )
 }
 \arguments{
@@ -18,13 +19,15 @@ heatmapSectorRanking(
 
 \item{matrix}{A matrix from model result}
 
-\item{indicators}{A vector of indicators to plot}
+\item{indicators}{A vector of indicators to plot, use Codes if use_codes = TRUE, otherwise use Names}
 
 \item{sector_to_remove}{Code of one or more BEA sectors that will be removed from the plot. Can be "".}
 
 \item{N_sector}{A numeric value indicating number of sectors to show in the ranking}
 
 \item{x_title}{A string specifying desired title on the x-axis, default is NULL, the title will be "modelname indicators"}
+
+\item{use_codes}{bool, indicate if figure should use indicator Code (TRUE) or Name (FALSE)}
 }
 \description{
 SMM tool like heatmap showing ranking of sectors
