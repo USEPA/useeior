@@ -311,7 +311,6 @@ buildModelwithImportFactors <- function(model) {
 #' @param y A final demand VECTOR used for calculating the conventional model results, L*Y
 #' @param y_d A final demand VECTOR used for validating the model results using the A_m calculation.
 #' @return A calculated direct requirements table
-# calculateAndValidateImportA <- function(model, UseTransactions_m, FD_m, y = NULL, y_d = NULL){
 calculateAndValidateImportA <- function(model, y = NULL, y_d = NULL){
   
   U_n_m <- model$U_n_m
