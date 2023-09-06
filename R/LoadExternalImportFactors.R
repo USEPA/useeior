@@ -13,7 +13,8 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
   temp <- 2
   # Read in file with Import factors
   IFSpec <- model$specs$ImportFactors[[1]]
-  IFTable <- utils::read.table(IFSpec$StaticFile, sep = ",", header = TRUE, stringsAsFactors = FALSE)
+  IFTable <- utils::read.table(system.file(IFSpec$StaticFile, package = "useeior"), 
+                               sep = ",", header = TRUE, stringsAsFactors = FALSE)
   
   # Store meta data
   meta <- data.frame(matrix(nrow = 0, ncol = 5))
