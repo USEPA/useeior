@@ -15,15 +15,30 @@
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL, use_domestic_requirements = FALSE) {
-  result <- list()
-  # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
-  if (use_domestic_requirements) {
-    L <- model$L_d
-  } else {
-    L <- model$L
-  }
-  
   # Prepare demand vector
+  f <- prepareDemandVectorForResults(model, demand, location, use_domestic_requirements)
+
+  if(!is.null(model$specs$ExternalImportFactors)) {
+    result <- calculateResultsWithExternalFactors(model, f)
+  }else{
+    # Standard model results calculation
+    result <- calculateStandardResults(model, perspective, f, use_domestic_requirements)
+ 
+  } # End of standard model results calculation
+  
+  logging::loginfo("Result calculation complete.")
+  return(result)
+}
+
+#' Prepare demand vector for EEIO model results calculations
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
+#' or an actual demand vector with names as one or more model sectors and
+#' numeric values in USD with the same dollar year as model.
+#' @param location, str optional location code for demand vector, required for two-region models
+#' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
+#' if FALSE, use complete demand and L matrix.
+prepareDemandVectorForResults <- function(model, demand = "Production", location = NULL, use_domestic_requirements = FALSE){
   if (is.character(demand)) {
     #assume this is a model build-in demand 
     #try to load the model vector
@@ -40,7 +55,7 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", locati
         }
       } else {
         id <- meta[which(meta$Name==demand_name &
-                         meta$Location==location),"ID"]
+                           meta$Location==location),"ID"]
       }
       d <- model$DemandVectors$vectors[[id]]
     } else {
@@ -57,6 +72,48 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", locati
   }
   # Convert demand vector into a matrix
   f <- as.matrix(d)  
+  
+  return(f)
+  
+}
+
+#' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that has external import factors
+#' for a given perspective and demand vector.
+#' Note that for this calculation, perspective is always FINAL
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param f A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
+#' or an actual demand vector with names as one or more model sectors and
+#' numeric values in USD with the same dollar year as model.
+#' @export
+#' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
+calculateResultsWithExternalFactors <- function(model, f){
+  
+}
+
+
+#' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that does not have external import factors
+#' for a given perspective and demand vector.
+#' Note that for this calculation, perspective is always FINAL
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param perspective Perspective of the model, can be "DIRECT" or "FINAL". "DIRECT" perspective
+#' aligns results with the sectors in which they are produced, while "FINAL" perspective aligns
+#' results with the sectors consumed by the final user.
+#' @param f A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
+#' or an actual demand vector with names as one or more model sectors and
+#' numeric values in USD with the same dollar year as model.
+#' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
+#' if FALSE, use complete demand and L matrix.
+#' @export
+#' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
+calculateStandardResults <- function(model, perspective, f, use_domestic_requirements = FALSE ){
+  # Initialize results list
+  result <- list() 
+  # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
+  if (use_domestic_requirements) {
+    L <- model$L_d
+  } else {
+    L <- model$L
+  }
   # Calculate LCI and LCIA in direct or final perspective
   if (perspective=="DIRECT") {
     # Calculate Direct Perspective LCI (a matrix with direct impacts in form of sector x flows)
@@ -75,8 +132,8 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", locati
     result$LCIA_f <- calculateFinalPerspectiveLCIA(model$N, f)
   }
   
-  logging::loginfo("Result calculation complete.")
   return(result)
+  
 }
 
 
@@ -359,3 +416,6 @@ calculateTotalImpactbyTier1Purchases <- function(model, indicator) {
   totalImpactPerPurchase <- model$N[indicator,] * model$A
   return(totalImpactPerPurchase)
 }
+
+
+
