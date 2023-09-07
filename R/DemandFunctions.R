@@ -71,8 +71,6 @@ prepareProductionDemand <- function(model, location) {
 #' @return A named vector with demand
 prepareDomesticProductionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
-    # This calls the same function as non-domestic demand since for 2R models the non-domestic Use table is replaced with 
-    # domestic Use table with trade, meaning the model$U and model$U_d objects are equal.
     y_d_p <- prepare2RDemand(model, location, domestic = TRUE) 
   } else {
     loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
@@ -86,6 +84,8 @@ prepareDomesticProductionDemand <- function(model, location) {
   }
   return(y_d_p)
 }
+
+
 
 #' Prepares a demand vector representing consumption
 #' @param model An EEIO model object with model specs and IO tables loaded
