@@ -307,8 +307,6 @@ buildModelwithImportFactors <- function(model) {
 
 #' Create import direct requirements table based on import use and import y tables
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
-#' @param UseTransactions_m A use table that describes the import portion of production only.
-# #' @param FD_m A final demand TABLE that describes the import portion of final demand only
 #' @param y A final demand VECTOR used for calculating the conventional model results, L*Y
 #' @param y_d A final demand VECTOR used for validating the model results using the A_m calculation.
 #' @return A calculated direct requirements table
