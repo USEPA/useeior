@@ -94,16 +94,15 @@ prepareDemandVectorForStandardResults <- function(model, demand = "Production", 
 calculateResultsWithExternalFactors <- function(model, f = "Production"){
   result <- list() 
   # Standard domestic production demand vector (y_d_p_standard) includes ITA (mu) in its calculation
-  
   # Demand vectors needed for imported matrices are derived from: model$DomesticFDWithITA and model$ImportFinalDemand (which is model$FinalDemand - model$DomesticFDWithITA)
-  
   # y_d derived from model$DomesticFDWithITA should be the same as the y_d_p_standard (this was tested), so we can call that function here
+
     y_d <- prepareDemandVectorForStandardResults(model, f, location = NULL, use_domestic_requirements = TRUE)
   
   # y_m is derived from model$ImportFinalDemand
 #    y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])# CURRENTLY DOES NOT WORK
     
-    # Calculate production demand vector
+    # Calculate y_m production demand vector
     FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", 
                                      "ChangeInventories", "Export", "Import",
                                      "GovernmentDemand"),
