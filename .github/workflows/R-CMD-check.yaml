@@ -39,7 +39,6 @@ jobs:
         config:
           - {os: macOS-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
-          #- {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
 
@@ -127,6 +126,15 @@ jobs:
           devtools::load_all()
           m <- useeior::buildModel("GAEEIOv1.0-s-WAT-12")
           useeior::print2RValidationResults(m)
+        shell: Rscript {0}
+
+      - name: Build and validate models - USEEIOv2.0-s-GHG_IF summary model with import factors
+        if: always()
+        run: |
+          require(devtools)
+          devtools::load_all()
+          m <- useeior::buildModel("USEEIOv2.0-s-GHG_IF")
+          # useeior::printValidationResults(m)
         shell: Rscript {0}
 
       #- name: Show testthat output
