@@ -284,6 +284,7 @@ buildModelwithImportFactors <- function(model) {
     model$A_m <- model$V_n %*% model$U_d_m
   }
   model$M <- model$B %*% model$L
+  model$M_d <- model$B %*% model$L_d # For validation purposes
   model$M_m <- loadExternalImportFactors(model)
   
   # Fill in flows for M_m not found in Import Factors but that exist in model and align order
@@ -364,7 +365,7 @@ calculateAndValidateImportA <- function(model, y = NULL, y_d = NULL){
   # f^(d+m) = model$B %*% model$L_d %*% y_d + model$M %*% A_m %*% model$L_d %*% y_d + model$M %*% y_m (eq 2)
   
   # "Standard" result calculation is model$B %*% model$L %*% y = model$M %*% y
-  cat("\n Calculating results using import A (A_m).\n")
+  cat("\n Calculating results (M matrix) using import A (A_m).\n")
   standard_M <- model$M
   result_Standard <- standard_M %*% y
   M_m <- standard_M #Q^t = M_m = imported M matrix, which for validation purposes is equivalent to the current standard_M
