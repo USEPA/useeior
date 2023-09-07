@@ -6,6 +6,19 @@ devtools::load_all(".")
 modelname <- 'USEEIOv2.0-s-GHG_IF'
 model <- buildModel(modelname)
 
+modelResults <- calculateEEIOModel(model, perspective = "FINAL")
+
+
+standardModelName <- 'USEEIOv2.0-s-GHG'
+standardModel <- buildModel(standardModelName)
+
+standardResults <- calculateEEIOModel(standardModel, perspective = "FINAL")
+# standardDomesticResults <- calculateEEIOModel(standardModel, perspective = "FINAL",use_domestic_requirements = TRUE)
+
+# standardModelDevelopBranch <- buildModel(standardModelName)
+# standardResultsDevelopBranch <- calculateEEIOModel(standardModel, perspective = "FINAL")
+
+
 ```
 
 
@@ -43,6 +56,33 @@ model <- buildModel(modelname)
   # Calculate x as domestic + import components
   y_m <- data.matrix(model$ImportFinalDemand[,c(model$FinalDemandMeta$Code_Loc)])
   y_d <- data.matrix(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)])
+  
+  print("Testing: y = y_m + y_d")
+  all.equal(y,y_m+y_d)
+
+  x_d <- model$L_d %*% y_d
+  x_m <- model$A_m%*%x_d + y_m
+  x_dm <- x_d + x_m
+  
+  
+  # Validate results
+  rel_dif_x <- (x-x_dm)/x_dm
+  toleranceErrors <- which(abs(rel_dif_x) > 0.01)
+  print(paste0("Number of results > 0.01 difference: ", length(toleranceErrors)))
+#  failures <- compare2RVectorTotals(x_dm, x)
+
+
+```
+
+```{r Validate 3: results using diagonalized y_d and y_m rather than a vector}
+  
+  # calculate "standard" x
+  y <- diag(rowSums(model$U[1:73, 72:91])) # Indexes represent final demand columns for all commodities in model$U
+  x <- model$L %*% y 
+  
+  # Calculate x as domestic + import components
+  y_m <- diag(rowSums(model$ImportFinalDemand[,c(model$FinalDemandMeta$Code_Loc)]))
+  y_d <- diag(rowSums(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)]))
   
   print("Testing: y = y_m + y_d")
   all.equal(y,y_m+y_d)
