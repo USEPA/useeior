@@ -4,12 +4,10 @@
 \alias{calculateAndValidateImportA}
 \title{Create import direct requirements table based on import use and import y tables}
 \usage{
-calculateAndValidateImportA(model, UseTransactions_m, y = NULL, y_d = NULL)
+calculateAndValidateImportA(model, y = NULL, y_d = NULL)
 }
 \arguments{
 \item{model, }{An EEIO model object with model specs and crosswalk table loaded}
-
-\item{UseTransactions_m}{A use table that describes the import portion of production only.}
 
 \item{y}{A final demand VECTOR used for calculating the conventional model results, L*Y}
 
