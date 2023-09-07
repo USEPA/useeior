@@ -268,13 +268,12 @@ buildModelwithImportFactors <- function(model) {
   # Re-derive import values in Use and final demand
   # _m denotes import-related structures
   model$UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
-
+  model$U_n_m <- normalizeIOTransactions(model$UseTransactions_m, model$IndustryOutput) #normalized imported Use
+  
   # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
   model$DomesticFDWithITA <- model$DomesticFinalDemand
   model$DomesticFDWithITA[,"F050/US"] <- model$InternationalTradeAdjustment
   model$ImportFinalDemand <- model$FinalDemand - model$DomesticFDWithITA
-  
-  model$U_n_m <- normalizeIOTransactions(model$UseTransactions_m, model$IndustryOutput) #normalized imported Use
   
   if(model$specs$CommodityorIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A_m matrix (imported direct requirements)...")
