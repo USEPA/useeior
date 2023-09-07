@@ -15,13 +15,12 @@
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL, use_domestic_requirements = FALSE) {
-  # Prepare demand vector
-  f <- prepareDemandVectorForResults(model, demand, location, use_domestic_requirements)
 
   if(!is.null(model$specs$ExternalImportFactors)) {
-    result <- calculateResultsWithExternalFactors(model, f)
+    result <- calculateResultsWithExternalFactors(model, demand)
   }else{
     # Standard model results calculation
+    f <- prepareDemandVectorForStandardResults(model, demand, location, use_domestic_requirements)
     result <- calculateStandardResults(model, perspective, f, use_domestic_requirements)
  
   } # End of standard model results calculation
@@ -38,7 +37,13 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", locati
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
-prepareDemandVectorForResults <- function(model, demand = "Production", location = NULL, use_domestic_requirements = FALSE){
+prepareDemandVectorForStandardResults <- function(model, demand = "Production", location = NULL, use_domestic_requirements = FALSE){
+  if (use_domestic_requirements) {
+    L <- model$L_d
+  } else {
+    L <- model$L
+  }
+  
   if (is.character(demand)) {
     #assume this is a model build-in demand 
     #try to load the model vector
@@ -86,7 +91,41 @@ prepareDemandVectorForResults <- function(model, demand = "Production", location
 #' numeric values in USD with the same dollar year as model.
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateResultsWithExternalFactors <- function(model, f){
+calculateResultsWithExternalFactors <- function(model, f = "Production"){
+  result <- list() 
+  # Standard domestic production demand vector (y_d_p_standard) includes ITA (mu) in its calculation
+  
+  # Demand vectors needed for imported matrices are derived from: model$DomesticFDWithITA and model$ImportFinalDemand (which is model$FinalDemand - model$DomesticFDWithITA)
+  
+  # y_d derived from model$DomesticFDWithITA should be the same as the y_d_p_standard (this was tested), so we can call that function here
+    y_d <- prepareDemandVectorForStandardResults(model, f, location = NULL, use_domestic_requirements = TRUE)
+  
+  # y_m is derived from model$ImportFinalDemand
+#    y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])# CURRENTLY DOES NOT WORK
+    
+    # Calculate production demand vector
+    FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", 
+                                     "ChangeInventories", "Export", "Import",
+                                     "GovernmentDemand"),
+                                getVectorOfCodes, ioschema = model$specs$BaseIOSchema,
+                                iolevel = model$specs$BaseIOLevel))
+    FD_columns <- model$FinalDemandMeta$Code_Loc[which(model$FinalDemandMeta$Code %in% FD_columns)] #get the right column names, with location ids
+    y_m <- rowSums(model$ImportFinalDemand[,c(FD_columns)])
+    
+    # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
+    logging::loginfo("Calculating Final Perspective LCI...")
+
+    
+    y_d <- diag(as.vector(y_d))
+    y_m <- diag(as.vector(y_m))
+    
+    result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$M_m %*% model$A_m %*% model$L_d %*% y_d + model$M_m %*% y_m) # parentheses used to denote (domestic) and (import) components
+    result$LCI_f <- t(result$LCI_f)
+    
+    colnames(result$LCI_f) <- rownames(model$M_m)
+    rownames(result$LCI_f) <- colnames(model$M_m)
+    
+    return(result)
   
 }
 
@@ -105,7 +144,7 @@ calculateResultsWithExternalFactors <- function(model, f){
 #' if FALSE, use complete demand and L matrix.
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateStandardResults <- function(model, perspective, f, use_domestic_requirements = FALSE ){
+calculateStandardResults <- function(model, perspective, f = "Production", use_domestic_requirements = FALSE ){
   # Initialize results list
   result <- list() 
   # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
