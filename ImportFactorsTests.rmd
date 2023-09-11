@@ -18,20 +18,37 @@ standardResults <- calculateEEIOModel(standardModel, perspective = "FINAL")
 # standardModelDevelopBranch <- buildModel(standardModelName)
 # standardResultsDevelopBranch <- calculateEEIOModel(standardModel, perspective = "FINAL")
 
+print("Testing: model$U vs. standardModel$U. Note that standard model does not have import factors and is built in the 'standard' approach.")
+all.equal(model$U, standardModel$U)
+
+print("Testing: model$U_d vs. standardModel$U_d:")
+all.equal(model$U_d, standardModel$U_d)
+
+print("Testing: model$V_n vs. standardModel$V_n:")
+all.equal(model$V_n, standardModel$V_n)
+
+print("Testing: model$A_m + model$A_d vs. standardModel$A:")
+all.equal(model$A_m + model$A_d, standardModel$A)
+
 
 ```
 
 
-```{r Validate 1: results using import factors + domestic matrices}
+```{r Validate 1: results using y as a vector}
 
   # calculate "standard" x
   y <- rowSums(model$U[1:73, 72:91]) # Indexes represent final demand columns for all commodities in model$U
+  # y_p <- prepareDemandVectorForStandardResults(standardModel, demand = "Production", 
+  #                                              location = NULL, use_domestic_requirements = FALSE) # all.equal(y_p, as.matrix(y)) == TRUE
   x <- model$L %*% y # if y = I, then x = model$L. I <- diag(nrow(model$A))
+
+  
   
   # Calculate x as domestic + import components
   y_m <- rowSums(model$ImportFinalDemand[,c(model$FinalDemandMeta$Code_Loc)])
   y_d <- rowSums(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)])
-#  y_d <- rowSums(model$U_d[1:73,72:91])
+  y_d_p <- prepareDemandVectorForStandardResults(standardModel, demand = "Production",
+                                               location = NULL, use_domestic_requirements = TRUE) # all.equal(y_d_p, as.matrix(y_d)) == TRUE
   
   x_d <- model$L_d %*% y_d
   x_m <- model$A_m%*%x_d + y_m
@@ -47,34 +64,8 @@ standardResults <- calculateEEIOModel(standardModel, perspective = "FINAL")
 
 ```
 
-```{r Validate 2: results using import factors + domestic matrices using y as a matrix rather than a vector}
-  
-  # calculate "standard" x
-  y <- model$U[1:73, 72:91] # Indexes represent final demand columns for all commodities in model$U
-  x <- model$L %*% y 
-  
-  # Calculate x as domestic + import components
-  y_m <- data.matrix(model$ImportFinalDemand[,c(model$FinalDemandMeta$Code_Loc)])
-  y_d <- data.matrix(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)])
-  
-  print("Testing: y = y_m + y_d")
-  all.equal(y,y_m+y_d)
 
-  x_d <- model$L_d %*% y_d
-  x_m <- model$A_m%*%x_d + y_m
-  x_dm <- x_d + x_m
-  
-  
-  # Validate results
-  rel_dif_x <- (x-x_dm)/x_dm
-  toleranceErrors <- which(abs(rel_dif_x) > 0.01)
-  print(paste0("Number of results > 0.01 difference: ", length(toleranceErrors)))
-#  failures <- compare2RVectorTotals(x_dm, x)
-
-
-```
-
-```{r Validate 3: results using diagonalized y_d and y_m rather than a vector}
+```{r Validate 2: results using diagonalized y_d and y_m rather than a vector, as is done in CalculateEEIOModel}
   
   # calculate "standard" x
   y <- diag(rowSums(model$U[1:73, 72:91])) # Indexes represent final demand columns for all commodities in model$U
@@ -101,6 +92,33 @@ standardResults <- calculateEEIOModel(standardModel, perspective = "FINAL")
 
 ```
 
+
+```{r Validate 3: results using import factors + domestic matrices using y as a matrix rather than a vector}
+  
+  # calculate "standard" x
+  y <- model$U[1:73, 72:91] # Indexes represent final demand columns for all commodities in model$U
+  x <- model$L %*% y 
+  
+  # Calculate x as domestic + import components
+  y_m <- data.matrix(model$ImportFinalDemand[,c(model$FinalDemandMeta$Code_Loc)])
+  y_d <- data.matrix(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)])
+  
+  print("Testing: y = y_m + y_d")
+  all.equal(y,y_m+y_d)
+
+  x_d <- model$L_d %*% y_d
+  x_m <- model$A_m%*%x_d + y_m
+  x_dm <- x_d + x_m
+  
+  
+  # Validate results
+  rel_dif_x <- (x-x_dm)/x_dm
+  toleranceErrors <- which(abs(rel_dif_x) > 0.01)
+  print(paste0("Number of results > 0.01 difference: ", length(toleranceErrors)))
+#  failures <- compare2RVectorTotals(x_dm, x)
+
+
+```
 
 ## Approaches for Building L_m matrix
 
