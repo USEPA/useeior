@@ -92,6 +92,34 @@ all.equal(model$A_m + model$A_d, standardModel$A)
 
 ```
 
+```{r Validate 1.5: results using y as a vector - Consumption}
+
+  # calculate "standard" x
+  y <- prepareDemandVectorForStandardResults(model, demand = "Consumption", 
+                                             location = NULL, use_domestic_requirements = FALSE)
+  x <- model$L %*% y
+
+  
+  
+  # Calculate x as domestic + import components
+  codes <- c(model$FinalDemandMeta$Code_Loc)
+  codes <- codes[-which(codes %in% c('F030/US', 'F040/US', 'F050/US'))]
+  y_m <- rowSums(model$ImportFinalDemand[,codes])
+  y_d <- rowSums(model$DomesticFDWithITA[,codes])
+
+  x_d <- model$L_d %*% y_d
+  x_m <- model$A_m%*%x_d + model$L %*% y_m # Multiply by L to get total activity from imports (assuming imports = domestic)
+  x_dm <- x_d + x_m
+  
+  # Validate results
+  rel_dif_x <- (x-x_dm)/x_dm
+  toleranceErrors <- which(abs(rel_dif_x) > 0.01)
+  print(paste0("Number of results > 0.01 difference: ", length(toleranceErrors)))
+  failures <- compare2RVectorTotals(x_dm, x)
+
+  # model$A_m %*% x_d + (model$L %*% y_m) != (model$L %*% y) - (model$L_d %*% y_d) # What does the difference represent?
+
+```
 
 ```{r Validate 3: results using import factors + domestic matrices using y as a matrix rather than a vector}
   
