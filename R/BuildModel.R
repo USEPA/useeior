@@ -99,6 +99,18 @@ constructEEIOMatrices <- function(model) {
     model$D <- model$C %*% model$B
   }
 
+  # Calculate year over model IO year price ratio
+  logging::loginfo("Calculating Rho matrix (price year ratio)...")
+  model$Rho <- calculateModelIOYearbyYearPriceRatio(model)
+  
+  # Calculate producer over purchaser price ratio.
+  logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
+  model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
+  
+  # Calculate basic over producer price ratio.
+  logging::loginfo("Calculating Tau matrix (basic over producer price ratio)...")
+  model$Tau <- calculateBasicbyProducerPriceRatio(model)
+  
   if(!is.null(model$specs$ExternalImportFactors)) {
     # Alternate model build for implementing Import Factors
     model <- buildModelwithImportFactors(model)
@@ -123,18 +135,6 @@ constructEEIOMatrices <- function(model) {
       model$N_d <- model$C %*% model$M_d
     }
   }
-  
-  # Calculate year over model IO year price ratio
-  logging::loginfo("Calculating Rho matrix (price year ratio)...")
-  model$Rho <- calculateModelIOYearbyYearPriceRatio(model)
-  
-  # Calculate producer over purchaser price ratio.
-  logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
-  model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
-
-  # Calculate basic over producer price ratio.
-  logging::loginfo("Calculating Tau matrix (basic over producer price ratio)...")
-  model$Tau <- calculateBasicbyProducerPriceRatio(model)
 
   #Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
