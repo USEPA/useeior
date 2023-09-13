@@ -26,7 +26,13 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
   # Format IFTable to match model$M
   IFTable['Flow'] <- paste(IFTable$Flowable, IFTable$Context, IFTable$Unit, sep = "/")
 
-  #TODO: Convert from basic to producer price using TAU if possible
+  # Convert from basic to producer price using TAU of CurrencyYear
+  Tau <- model$Tau[, as.character(meta$CurrencyYear)]
+  names(Tau) <- gsub("/.*","",names(Tau))
+  IFTable <- merge(IFTable, as.data.frame(Tau), by.x = 'Sector', by.y = 0, all.y = FALSE)
+  IFTable['FlowAmount'] <- IFTable['FlowAmount'] / IFTable['Tau']
+  IFTable['PriceType'] <- 'Producer'
+  IFTable['CurrencyYear'] <- model$specs$IOYear
   
   if(model$specs$IODataSource =="stateior") {
     #TODO
