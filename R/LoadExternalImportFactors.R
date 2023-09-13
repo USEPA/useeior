@@ -30,7 +30,7 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
   Tau <- model$Tau[, as.character(meta$CurrencyYear)]
   names(Tau) <- gsub("/.*","",names(Tau))
   IFTable <- merge(IFTable, as.data.frame(Tau), by.x = 'Sector', by.y = 0, all.y = FALSE)
-  IFTable['FlowAmount'] <- IFTable['FlowAmount'] / IFTable['Tau']
+  IFTable['FlowAmount'] <- IFTable['FlowAmount'] * IFTable['Tau']
   IFTable['PriceType'] <- 'Producer'
   IFTable['CurrencyYear'] <- model$specs$IOYear
   
