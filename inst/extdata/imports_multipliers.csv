@@ -1,76 +1,76 @@
 Sector,Unit,CurrencyYear,EmissionYear,PriceType,Flowable,Context,FlowUUID,FlowAmount,ReferenceCurrency,BaseIOLevel
-111CA,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.5613995842151427,USD,Summary
-111CA,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.015250485125047578,USD,Summary
-111CA,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.1611050640326464e-05,USD,Summary
+111CA,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.46936117191551235,USD,Summary
+111CA,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.013845015519181752,USD,Summary
+111CA,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.1343482508980062e-05,USD,Summary
 113FF,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.2647823774994388,USD,Summary
 113FF,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0016821294854298652,USD,Summary
 113FF,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.1269722912995367e-05,USD,Summary
-211,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,2.2584820658295492,USD,Summary
-211,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.03328747268675482,USD,Summary
-211,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,6.746999735648209e-06,USD,Summary
-212,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,1.8171307491561859,USD,Summary
-212,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.006742975252484908,USD,Summary
-212,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,4.1694598299087144e-05,USD,Summary
-213,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,2.2447816670206273,USD,Summary
-213,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.07988945814943935,USD,Summary
-213,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.2384639681318858e-05,USD,Summary
-22,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.2834836111430136,USD,Summary
-22,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.002744276520793486,USD,Summary
-22,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,8.974816808149235e-06,USD,Summary
-311FT,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.45521442235854864,USD,Summary
-311FT,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.015644734120739356,USD,Summary
-311FT,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.8670463680182455e-05,USD,Summary
-313TT,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.5085366265004562,USD,Summary
-313TT,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.006382766820133675,USD,Summary
-313TT,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.1114641512296722e-05,USD,Summary
+211,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,1.3997083564136816,USD,Summary
+211,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.03126586159036902,USD,Summary
+211,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,7.497302142431621e-06,USD,Summary
+212,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.685744530382795,USD,Summary
+212,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.007780373477001987,USD,Summary
+212,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.2897342550374624e-05,USD,Summary
+213,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,1.5291512853236862,USD,Summary
+213,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.051295426309872466,USD,Summary
+213,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.2072160046664492e-05,USD,Summary
+22,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,2.3325714005762204,USD,Summary
+22,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.004454491018342398,USD,Summary
+22,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,5.5765830471193664e-05,USD,Summary
+311FT,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.33166273013447517,USD,Summary
+311FT,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0196220163562848,USD,Summary
+311FT,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.4076635382527788e-05,USD,Summary
+313TT,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.5084687398429387,USD,Summary
+313TT,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.006410274240234977,USD,Summary
+313TT,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.1097947624260163e-05,USD,Summary
 315AL,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.6020633956815438,USD,Summary
-315AL,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.005642416230773035,USD,Summary
+315AL,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.005642416230773034,USD,Summary
 315AL,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.1613717966665953e-05,USD,Summary
-321,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.25719348315095214,USD,Summary
-321,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0016591991258946934,USD,Summary
-321,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,8.686011407629435e-06,USD,Summary
-322,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.3326116306472205,USD,Summary
-322,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.002916766217832784,USD,Summary
-322,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,3.209071033031136e-05,USD,Summary
+321,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.5143869663019043,USD,Summary
+321,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.003318398251789387,USD,Summary
+321,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.737202281525887e-05,USD,Summary
+322,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.5841353035168542,USD,Summary
+322,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.004459755812254282,USD,Summary
+322,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,4.956508817025745e-05,USD,Summary
 323,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.5015889795575358,USD,Summary
 323,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0028830010676250553,USD,Summary
 323,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.6457102260888202e-05,USD,Summary
-324,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,1.195426941618379,USD,Summary
-324,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.03587710472308198,USD,Summary
-324,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,9.964773867878051e-06,USD,Summary
-325,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.638643111775103,USD,Summary
-325,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.004583853689800063,USD,Summary
-325,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.5205279451246595e-05,USD,Summary
-326,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.6194948706136262,USD,Summary
-326,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0040045593794842465,USD,Summary
-326,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.5702552060810145e-05,USD,Summary
-327,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,1.5515273328587702,USD,Summary
-327,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0043909483839260025,USD,Summary
-327,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.8085311634606002e-05,USD,Summary
-331,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.36316714518993426,USD,Summary
-331,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0015858665022628446,USD,Summary
-331,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,6.2843823229501655e-06,USD,Summary
-332,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.8790864744665964,USD,Summary
-332,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.004074693993465154,USD,Summary
-332,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.0812511150088588e-05,USD,Summary
-333,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.4161203074013742,USD,Summary
-333,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.002382920301141304,USD,Summary
-333,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,9.248542630311498e-06,USD,Summary
-334,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.4239257341585979,USD,Summary
+324,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,1.0675423718722037,USD,Summary
+324,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0173974630652173,USD,Summary
+324,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,8.968287639725111e-06,USD,Summary
+325,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.792104871462693,USD,Summary
+325,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.00481125170755195,USD,Summary
+325,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.8634399881672136e-05,USD,Summary
+326,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.6286991355663532,USD,Summary
+326,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.004053600205197247,USD,Summary
+326,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.5884913125728133e-05,USD,Summary
+327,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,1.7757568366311471,USD,Summary
+327,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.004919152261392467,USD,Summary
+327,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.638572900619422e-05,USD,Summary
+331,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.45965568893442793,USD,Summary
+331,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0019865980822852108,USD,Summary
+331,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,8.35951895242748e-06,USD,Summary
+332,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.8797865558313831,USD,Summary
+332,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.004081043747542971,USD,Summary
+332,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.0828872800810573e-05,USD,Summary
+333,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.4158599565482612,USD,Summary
+333,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0023828672808909462,USD,Summary
+333,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,9.239291754591812e-06,USD,Summary
+334,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.4239257341585978,USD,Summary
 334,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.002397912774491657,USD,Summary
 334,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,9.71527255422133e-06,USD,Summary
 335,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.5299083758955595,USD,Summary
 335,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0029742450831383225,USD,Summary
 335,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.2235805671458887e-05,USD,Summary
-3361MV,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.4460369879335532,USD,Summary
+3361MV,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.44603698793355306,USD,Summary
 3361MV,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0021354361658929974,USD,Summary
 3361MV,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.006249685547989e-05,USD,Summary
 3364OT,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.3093525561120383,USD,Summary
 3364OT,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0017400302579960347,USD,Summary
-3364OT,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,6.793320056518633e-06,USD,Summary
-337,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.7781418018141844,USD,Summary
-337,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.003368231704820608,USD,Summary
-337,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.0593079605180267e-05,USD,Summary
+3364OT,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,6.793320056518635e-06,USD,Summary
+337,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.7757090027745461,USD,Summary
+337,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0033932081121938185,USD,Summary
+337,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.0512264624963472e-05,USD,Summary
 339,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.4759128120840455,USD,Summary
 339,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0030398178722411988,USD,Summary
 339,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.1143568902343631e-05,USD,Summary
@@ -82,16 +82,16 @@ Sector,Unit,CurrencyYear,EmissionYear,PriceType,Flowable,Context,FlowUUID,FlowAm
 487OS,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.5772555096235905e-06,USD,Summary
 511,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.07953335722515441,USD,Summary
 511,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0006134601013131587,USD,Summary
-511,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.826545751506698e-06,USD,Summary
+511,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.8265457515066985e-06,USD,Summary
 512,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.0,USD,Summary
 512,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0,USD,Summary
 512,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,0.0,USD,Summary
 513,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.14639115646032028,USD,Summary
-513,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0013130765559578553,USD,Summary
+513,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.001313076555957855,USD,Summary
 513,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,4.170065777111074e-06,USD,Summary
-514,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.121186750371057,USD,Summary
-514,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0012218562409480277,USD,Summary
-514,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,4.104580767661098e-06,USD,Summary
+514,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.12186793843144504,USD,Summary
+514,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0011381768806906166,USD,Summary
+514,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,4.187602262647285e-06,USD,Summary
 521CI,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.0,USD,Summary
 521CI,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0,USD,Summary
 521CI,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,0.0,USD,Summary
@@ -99,13 +99,13 @@ Sector,Unit,CurrencyYear,EmissionYear,PriceType,Flowable,Context,FlowUUID,FlowAm
 523,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0011871649334671735,USD,Summary
 523,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.4185521353869875e-06,USD,Summary
 524,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.05128243718105348,USD,Summary
-524,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.001023829547891879,USD,Summary
+524,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0010238295478918788,USD,Summary
 524,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,1.0640003603651764e-06,USD,Summary
 5411,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.10901552818620319,USD,Summary
 5411,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.001973453440681415,USD,Summary
 5411,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,2.6143645436264932e-06,USD,Summary
 5412OP,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.12858042942937947,USD,Summary
-5412OP,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.00221604215328738,USD,Summary
+5412OP,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0022160421532873794,USD,Summary
 5412OP,kg,2021,2019,Basic,Nitrous oxide,emission/air,cfee0524-7ad6-300b-b050-6249135a2492,3.096411302762921e-06,USD,Summary
 5415,kg,2021,2019,Basic,Carbon dioxide,emission/air,b6f010fb-a764-3063-af2d-bcb8309a97b7,0.2501439663485212,USD,Summary
 5415,kg,2021,2019,Basic,Methane,emission/air,aab83476-ec6c-3742-af85-15d320b7ce80,0.0017208252217660999,USD,Summary
