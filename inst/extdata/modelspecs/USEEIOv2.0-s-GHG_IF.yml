@@ -1,7 +1,7 @@
 Model: "USEEIOv2.0-s-GHG_IF"
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
-IOYear: 2012 # Year for IO data
+IOYear: 2019 # Year for IO data
 ModelRegionAcronyms: ["US"]
 ModelType: "EEIO"
 IODataSource: "BEA"
@@ -17,20 +17,22 @@ SatelliteTable:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "useeior/NGHGIAM_GHG_TotalsBySector.csv"
+    StaticFile: "flowsa/FlowBySector/GHG_national_2019_m1_v2.0.0_4a983ce.parquet"
     FileLocation: "DataCommons"
-    DataYears: [2016]
+    DataYears: [2019]
     Locations: ["US"]
-    SectorListSource: "BEA" # or, NAICS
+    SectorListSource: "NAICS"
     SectorListYear: 2012
-    SectorListLevel: "Detail"
+    SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.0.6"
+    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+    ScriptFunctionParameters: null
     DataSources:
-      USEPA_GHG_2018:
+      USEPA_GHG_2021:
         Title: "GHG Inventory"
         Author: "USEPA"
-        DataYear: 2016
-        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2016"
+        DataYear: 2020
+        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2020"
         Primary: TRUE
 
 Indicators:
@@ -64,4 +66,4 @@ ImportFactors:
     FullName: "Rest of World Import Factors"
     Abbreviation: "RoW_IF"
     StaticSource: TRUE
-    StaticFile: "extdata/imports_multipliers.csv"
+    StaticFile: "extdata/imports_multipliers_2019.csv"
