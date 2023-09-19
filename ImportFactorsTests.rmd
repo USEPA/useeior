@@ -9,7 +9,7 @@ model <- buildModel(modelname)
 modelResults <- calculateEEIOModel(model, perspective = "FINAL")
 
 
-standardModelName <- 'USEEIOv2.0-s-GHG'
+standardModelName <- 'USEEIOv2.0-s-GHG_Std'
 standardModel <- buildModel(standardModelName)
 
 standardResults <- calculateEEIOModel(standardModel, perspective = "FINAL")
