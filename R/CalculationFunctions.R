@@ -40,8 +40,12 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", locati
 prepareDemandVectorForStandardResults <- function(model, demand = "Production", location = NULL, use_domestic_requirements = FALSE){
   if (use_domestic_requirements) {
     L <- model$L_d
+    M <- model$M_d
+    N <- model$N_d
   } else {
     L <- model$L
+    M <- model$M
+    N <- model$N
   }
   
   if (is.character(demand)) {
@@ -164,10 +168,10 @@ calculateStandardResults <- function(model, perspective, f = "Production", use_d
   } else if (perspective=="FINAL") {
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Final Perspective LCI...")
-    result$LCI_f <- calculateFinalPerspectiveLCI(model$M, f)
+    result$LCI_f <- calculateFinalPerspectiveLCI(M, f)
     # Calculate Final Perspective LCIA (matrix with total impacts in form of sector x impacts)
     logging::loginfo("Calculating Final Perspective LCIA...")
-    result$LCIA_f <- calculateFinalPerspectiveLCIA(model$N, f)
+    result$LCIA_f <- calculateFinalPerspectiveLCIA(N, f)
   }
   
   return(result)
