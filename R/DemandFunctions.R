@@ -157,6 +157,7 @@ isDemandVectorValid <- function(dv, L){
 #' @param dv, a user provided demand vector. See calculateEEIOModel()
 #' @param L, the L matrix for the given model, used as a reference
 #' @return A named vector with values for all names in L and ordered like L
+#' @export
 formatDemandVector <- function(dv,L) {
   #create a named vector using the first col of L
   d <- c(L[,1])
