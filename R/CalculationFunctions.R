@@ -40,12 +40,8 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", locati
 prepareDemandVectorForStandardResults <- function(model, demand = "Production", location = NULL, use_domestic_requirements = FALSE){
   if (use_domestic_requirements) {
     L <- model$L_d
-    M <- model$M_d
-    N <- model$N_d
   } else {
     L <- model$L
-    M <- model$M
-    N <- model$N
   }
   
   if (is.character(demand)) {
@@ -153,8 +149,12 @@ calculateStandardResults <- function(model, perspective, f = "Production", use_d
   # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
   if (use_domestic_requirements) {
     L <- model$L_d
+    M <- model$M_d
+    N <- model$N_d
   } else {
     L <- model$L
+    M <- model$M
+    N <- model$N
   }
   # Calculate LCI and LCIA in direct or final perspective
   if (perspective=="DIRECT") {
