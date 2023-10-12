@@ -1,0 +1,14 @@
+{
+  "tool": ["useeior"],
+  "name_data": ["Detail_Use_SUT_2017"],
+  "tool_version": ["1.4.0"],
+  "ext": ["json"],
+  "date_created": ["2023-10-12"],
+  "data_meta": {
+    "data_year": [2017],
+    "author": ["US Bureau of Economic Analysis"],
+    "source_url": ["https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip"],
+    "date_last_modified": ["2023-09-25"],
+    "date_accessed": ["2023-10-12"]
+  }
+}

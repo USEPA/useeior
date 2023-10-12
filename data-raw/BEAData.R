@@ -1284,8 +1284,8 @@ cleanSectorNames <- function(df) {
   return(df)
 }
 
-# Get BEA (Detail/Summary/Sector) Code and Name under 2012 schema
-getBEACodeName2012Schema <- function() {
+# Get BEA (Detail/Summary/Sector) Code and Name
+getBEACodeName <- function() {
   # Download data
   url <- getBEAIOTables()[["url"]]
   date_accessed <- getBEAIOTables()[["date_accessed"]]
@@ -1464,7 +1464,7 @@ getBEADetailMarginsBeforeRedef2012Schema <- function(year) {
 }
 
 
-# Download all Supply and Use tables from BEA iTable
+# Download all Supply and Use tables from BEA AllTablesSUP.zip
 getBEASupplyUseTables <- function() {
   # Create the placeholder file
   AllTablesSUP <- "inst/extdata/AllTablesIOSUP.zip"
@@ -1491,8 +1491,8 @@ getBEASupplyUseTables <- function() {
   return(ls)
 }
 
-# Get BEA Detail Supply (2012 schema) table from static Excel
-getBEADetailSupply2012Schema <- function(year) {
+# Get BEA Detail Supply table from static Excel
+getBEADetailSupplySchema <- function(year) {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
@@ -1528,8 +1528,8 @@ getBEADetailSupply2012Schema <- function(year) {
 }
 
 
-# Get BEA Detail Use (under the Supply-Use framework, 2012 schema) table from static Excel
-getBEADetailUseSUT2012Schema <- function(year) {
+# Get BEA Detail Use (under the Supply-Use framework schema) table from static Excel
+getBEADetailUseSUTSchema <- function(year) {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
@@ -1565,8 +1565,8 @@ getBEADetailUseSUT2012Schema <- function(year) {
 }
 
 
-# Get BEA Summary Supply (2012 schema) table from static Excel
-getBEASummarySupply2012Schema <- function() {
+# Get BEA Summary Supply table from static Excel
+getBEASummarySupply <- function() {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
@@ -1580,7 +1580,7 @@ getBEASummarySupply2012Schema <- function() {
   year_range <- file_split[length(file_split) - 1]
   end_year <- sub(".*-", "", year_range)
   # Load data
-  for (year in 2010:end_year) {
+  for (year in 2017:end_year) {
     SummarySupply <- as.data.frame(readxl::read_excel(FileName,
                                                       sheet = as.character(year)))
     # Trim table, assign column names
@@ -1611,7 +1611,7 @@ getBEASummarySupply2012Schema <- function() {
 }
 
 # Get BEA Summary Use (under the Supply-Use framework, 2012 schema) table from static Excel
-getBEASummaryUseSUT2012Schema <- function() {
+getBEASummaryUseSUT <- function() {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
@@ -1625,7 +1625,7 @@ getBEASummaryUseSUT2012Schema <- function() {
   year_range <- file_split[length(file_split) - 1]
   end_year <- sub(".*-", "", year_range)
   # Load data
-  for (year in 2010:end_year) {
+  for (year in 2017:end_year) {
     SummaryUse <- as.data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
     # Trim table, assign column names
@@ -1656,8 +1656,8 @@ getBEASummaryUseSUT2012Schema <- function() {
 }
 
 
-# Get BEA Sector Supply (2012 schema) table from static Excel
-getBEASectorSupply2012Schema <- function() {
+# Get BEA Sector Supply table from static Excel
+getBEASectorSupply <- function() {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
