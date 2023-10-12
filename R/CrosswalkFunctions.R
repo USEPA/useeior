@@ -73,6 +73,7 @@ getNAICS2to6DigitsCodeName <- function (year) {
   # Load 2-6 digits NAICS table
   NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   colnames(NAICS) <- c("NAICS_Code", "NAICS_Name")
+  NAICS <- NAICS[c("NAICS_Code", "NAICS_Name")] # Avoid extra columns
   # Split the NAICS code with dash ("-)
   DashSplit <- do.call("rbind.data.frame", apply(do.call("rbind", strsplit(NAICS$NAICS_Code, "-")),
                                                  1, function(x) seq(x[1], x[2], 1)))
@@ -99,6 +100,7 @@ getNAICS2to6Digits <- function (year) {
   # Load 2-6 digits NAICS table
   NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   colnames(NAICS) <- c("NAICS_Code", "NAICS_Name")
+  NAICS <- NAICS[c("NAICS_Code", "NAICS_Name")] # Avoid extra columns
   NAICS$NAICS_Code <- suppressWarnings(as.integer(NAICS$NAICS_Code))
   NAICS <- NAICS[!is.na(NAICS$NAICS_Code), ]
   # Reshape the table
