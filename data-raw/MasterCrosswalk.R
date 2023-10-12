@@ -1,6 +1,18 @@
 # Extract existing BEA-NAICS mapping from BEA IO table
 extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
-  if (year == 2012) {
+  if (year == 2017) {
+    # Download the IO table
+    FileName <- "inst/extdata/Use_SUT_Framework_2017_DET.xlsx"
+    if(!file.exists(FileName)) {
+      utils::download.file("https://apps.bea.gov/industry/xls/io-annual/Use_SUT_Framework_2017_DET.xlsx",
+                           FileName, mode = "wb")
+    }
+    # Load desired excel file
+    BEAtable <- as.data.frame(readxl::read_excel(FileName, sheet = "NAICS Codes", col_names = FALSE))
+    # Split to BEA and BEAtoNAICS
+    BEA <- BEAtable[-c(1:5), c(1:2, 4:5)]
+    BEAtoNAICS <- BEAtable[-c(1:5), c(4:5, 7)]
+  } else if (year == 2012) {
     # Download the IO table
     FileName <- "inst/extdata/IOUse_Before_Redefinitions_PRO_2007_2012_Detail.xlsx"
     if(!file.exists(FileName)) {
@@ -12,12 +24,14 @@ extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
     # Split to BEA and BEAtoNAICS
     BEA <- BEAtable[-c(1:5), c(1:2, 4:5)]
     BEAtoNAICS <- BEAtable[-c(1:5), c(4:5, 7)]
-  } else { #year = 2007
+  } else if (year == 2007) {
     BEAtable <- as.data.frame(readxl::read_excel("inst/extdata/IOUse_Before_Redefinitions_PRO_2007_Detail.xlsx",
                                                  sheet = "NAICS codes", col_names = FALSE))
     # Split to BEA and BEAtoNAICS
     BEA <- BEAtable[-c(1:4), 1:4]
     BEAtoNAICS <- BEAtable[-c(1:4), c(3:4, 6)]
+  } else {
+    stop('Specify available year for crosswalk')
   }
   
   # Extract BEA (Sector, Summary, Detail) Code and Name
@@ -58,7 +72,7 @@ extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
   BEAtoNAICSlongDash <- unique(BEAtoNAICSlongDash)
   # The NAICS codes are "n.a."
   # The NAICS codes without dash (-)
-  if (year==2012) {
+  if (year>=2012) {
     BEAtoNAICSlongNA <- BEAtoNAICSlong[BEAtoNAICSlong$value == "n.a.", ]
     BEAtoNAICSlongSubset <- BEAtoNAICSlong[!rownames(BEAtoNAICSlong) %in% grep("-", BEAtoNAICSlong$value, value = FALSE) & !BEAtoNAICSlong$value == "n.a.", ]
     BEAtoNAICSlongSubset <- do.call("cbind.data.frame", lapply(BEAtoNAICSlongSubset, gsub, pattern="*", replacement=""))
@@ -255,6 +269,11 @@ getMasterCrosswalk <- function (year) {
   
   return(MasterCrosswalk)
 }
+
+MasterCrosswalk2017 <- getMasterCrosswalk(2017)
+MasterCrosswalk2017 <- MasterCrosswalk2017[, c(paste("BEA_2017", c("Sector", "Summary", "Detail"), "Code", sep = "_"),
+                                               paste("NAICS", c(2017, 2012, 2022), "Code", sep = "_"))]
+usethis::use_data(MasterCrosswalk2017, overwrite = T)
 
 MasterCrosswalk2012 <- getMasterCrosswalk(2012)
 MasterCrosswalk2012 <- MasterCrosswalk2012[, c(paste("BEA_2012", c("Sector", "Summary", "Detail"), "Code", sep = "_"),
