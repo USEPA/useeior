@@ -43,6 +43,7 @@ getNAICStoBEAAllocation <- function (year, model) {
 
 #' Download NAICS file for 2-6 digit NAICS codes if not present.
 #' @param year int, 2017, 2012, or 2007 accepted.
+#' @return FileName str
 downloadNAICS2to6DigitsFile <- function (year) {
   # Download 2-6 digits NAICS table
   if (year == 2017) {
@@ -60,6 +61,7 @@ downloadNAICS2to6DigitsFile <- function (year) {
   if(!file.exists(FileName)) {
     utils::download.file(url, FileName, mode = "wb")
   }
+  return(FileName)
 }
 
 
@@ -67,7 +69,7 @@ downloadNAICS2to6DigitsFile <- function (year) {
 #' @param year int. 2017, 2012, or 2007 accepted.
 #' @return dataframe with columns NAICS_year_Code and NAICS_year_Name.
 getNAICS2to6DigitsCodeName <- function (year) {
-  downloadNAICS2to6DigitsFile(year)
+  FileName <- downloadNAICS2to6DigitsFile(year)
   # Load 2-6 digits NAICS table
   NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   colnames(NAICS) <- c("NAICS_Code", "NAICS_Name")
@@ -93,7 +95,7 @@ getNAICS2to6DigitsCodeName <- function (year) {
 #' @param year int, 2017, 2012 or 2007 accepted.
 #' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6.
 getNAICS2to6Digits <- function (year) {
-  downloadNAICS2to6DigitsFile(year)
+  FileName <- downloadNAICS2to6DigitsFile(year)
   # Load 2-6 digits NAICS table
   NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   colnames(NAICS) <- c("NAICS_Code", "NAICS_Name")
