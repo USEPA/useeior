@@ -1519,7 +1519,7 @@ getBEASupplyUseTables <- function() {
 }
 
 # Get BEA Detail Supply table from static Excel
-getBEADetailSupplySchema <- function(year) {
+getBEADetailSupply <- function(year) {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
@@ -1599,7 +1599,7 @@ getBEASummarySupply <- function() {
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
   files <- getBEASupplyUseTables()[["files"]]
   # Prepare file name
-  file <- files[startsWith(files, "Supply") & endsWith(files, "SUM.xlsx")]
+  file <- files[startsWith(files, "Supply") & endsWith(files, "Summary.xlsx")]
   FileName <- file.path("inst/extdata/AllTablesSUP", file)
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
   # Find latest data year
@@ -1637,14 +1637,14 @@ getBEASummarySupply <- function() {
   }
 }
 
-# Get BEA Summary Use (under the Supply-Use framework, 2012 schema) table from static Excel
+# Get BEA Summary Use under the Supply-Use framework from static Excel
 getBEASummaryUseSUT <- function() {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
   files <- getBEASupplyUseTables()[["files"]]
   # Prepare file name
-  file <- files[startsWith(files, "Use") & endsWith(files, "Sum.xlsx")]
+  file <- files[startsWith(files, "Use") & endsWith(files, "Summary.xlsx")]
   FileName <- file.path("inst/extdata/AllTablesSUP", file)
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
   # Find latest data year
