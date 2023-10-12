@@ -7,7 +7,7 @@
 getNAICS2to6DigitsCodeName(year)
 }
 \arguments{
-\item{year}{int. 2012 or 2007 accepted.}
+\item{year}{int. 2017, 2012, or 2007 accepted.}
 }
 \value{
 dataframe with columns NAICS_year_Code and NAICS_year_Name.

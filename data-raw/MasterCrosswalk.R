@@ -2,7 +2,19 @@ source("data-raw/BEAData.R")
 
 # Extract existing BEA-NAICS mapping from BEA IO table
 extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
-  if (year == 2012) {
+  if (year == 2017) {
+    # Download the IO table
+    FileName <- "inst/extdata/Use_SUT_Framework_2017_DET.xlsx"
+    if(!file.exists(FileName)) {
+      utils::download.file("https://apps.bea.gov/industry/xls/io-annual/Use_SUT_Framework_2017_DET.xlsx",
+                           FileName, mode = "wb")
+    }
+    # Load desired excel file
+    BEAtable <- as.data.frame(readxl::read_excel(FileName, sheet = "NAICS Codes", col_names = FALSE))
+    # Split to BEA and BEAtoNAICS
+    BEA <- BEAtable[-c(1:5), c(1:2, 4:5)]
+    BEAtoNAICS <- BEAtable[-c(1:5), c(4:5, 7)]
+  } else if (year == 2012) {
     # Download the IO table
     FileName <- "inst/extdata/IOUse_Before_Redefinitions_PRO_2007_2012_Detail.xlsx"
     if(!file.exists(FileName)) {
@@ -14,12 +26,14 @@ extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
     # Split to BEA and BEAtoNAICS
     BEA <- BEAtable[-c(1:5), c(1:2, 4:5)]
     BEAtoNAICS <- BEAtable[-c(1:5), c(4:5, 7)]
-  } else { #year = 2007
+  } else if (year == 2007) {
     BEAtable <- as.data.frame(readxl::read_excel("inst/extdata/IOUse_Before_Redefinitions_PRO_2007_Detail.xlsx",
                                                  sheet = "NAICS codes", col_names = FALSE))
     # Split to BEA and BEAtoNAICS
     BEA <- BEAtable[-c(1:4), 1:4]
     BEAtoNAICS <- BEAtable[-c(1:4), c(3:4, 6)]
+  } else {
+    stop('Specify available year for crosswalk')
   }
   
   # Extract BEA (Sector, Summary, Detail) Code and Name
@@ -60,7 +74,7 @@ extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
   BEAtoNAICSlongDash <- unique(BEAtoNAICSlongDash)
   # The NAICS codes are "n.a."
   # The NAICS codes without dash (-)
-  if (year==2012) {
+  if (year>=2012) {
     BEAtoNAICSlongNA <- BEAtoNAICSlong[BEAtoNAICSlong$value == "n.a.", ]
     BEAtoNAICSlongSubset <- BEAtoNAICSlong[!rownames(BEAtoNAICSlong) %in% grep("-", BEAtoNAICSlong$value, value = FALSE) & !BEAtoNAICSlong$value == "n.a.", ]
     BEAtoNAICSlongSubset <- do.call("cbind.data.frame", lapply(BEAtoNAICSlongSubset, gsub, pattern="*", replacement=""))
@@ -234,7 +248,7 @@ getMasterCrosswalk <- function (year) {
   if (year==2007) {
     MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2012to2007to2017all, by = "NAICS_2007_Code", all = TRUE)
     MasterCrosswalk <- MasterCrosswalk[, c(colnames(BEAtoUSEEIOtoNAICS), "NAICS_2012_Code")]
-  } else {
+  } else if (year==2012) {
     MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2012to2007to2017all, by = "NAICS_2012_Code", all = TRUE)
     MasterCrosswalk <- MasterCrosswalk[, c(colnames(BEAtoUSEEIOtoNAICS), "NAICS_2007_Code", "NAICS_2017_Code")]
     # Include 7-, 8-, and 10-digit NAICS (from Census for manufacturing and mining sectors)
@@ -249,6 +263,14 @@ getMasterCrosswalk <- function (year) {
     MasterCrosswalk <- merge(MasterCrosswalk, BEA_Sector_CodeName_Mapping, by = c("BEA_2012_Sector_Code", "BEA_2012_Sector_Name"), all.x = TRUE)
     MasterCrosswalk[, c("BEA_2012_Sector_Code", "BEA_2012_Sector_Name")] <- MasterCrosswalk[, c("BEA_2012_Sector_Code_agg", "BEA_2012_Sector_Name_agg")]
     MasterCrosswalk[, c("BEA_2012_Sector_Code_agg", "BEA_2012_Sector_Name_agg")] <- NULL
+  } else if (year==2017) {
+    MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2012to2007to2017all, by = "NAICS_2017_Code", all = TRUE)
+    MasterCrosswalk <- MasterCrosswalk[, c(colnames(BEAtoUSEEIOtoNAICS), "NAICS_2007_Code", "NAICS_2012_Code")]
+    # Replace Code and Name for BEA_2012_Sector
+    BEA_Sector_CodeName_Mapping <- utils::read.table("inst/extdata/BEA_2017_Sector_CodeName_mapping.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+    MasterCrosswalk <- merge(MasterCrosswalk, BEA_Sector_CodeName_Mapping, by = c("BEA_2017_Sector_Code", "BEA_2017_Sector_Name"), all.x = TRUE)
+    MasterCrosswalk[, c("BEA_2017_Sector_Code", "BEA_2017_Sector_Name")] <- MasterCrosswalk[, c("BEA_2017_Sector_Code_agg", "BEA_2017_Sector_Name_agg")]
+    MasterCrosswalk[, c("BEA_2017_Sector_Code_agg", "BEA_2017_Sector_Name_agg")] <- NULL
   }
   # Order by NAICS and USEEIO code columns
   MasterCrosswalk[MasterCrosswalk==""] <- NA
@@ -257,6 +279,11 @@ getMasterCrosswalk <- function (year) {
   
   return(MasterCrosswalk)
 }
+
+MasterCrosswalk2017 <- getMasterCrosswalk(2017)
+MasterCrosswalk2017 <- MasterCrosswalk2017[, c(paste("BEA_2017", c("Sector", "Summary", "Detail"), "Code", sep = "_"),
+                                               paste("NAICS", c(2017, 2012), "Code", sep = "_"))]
+usethis::use_data(MasterCrosswalk2017, overwrite = T)
 
 MasterCrosswalk2012 <- getMasterCrosswalk(2012)
 MasterCrosswalk2012 <- MasterCrosswalk2012[, c(paste("BEA_2012", c("Sector", "Summary", "Detail"), "Code", sep = "_"),

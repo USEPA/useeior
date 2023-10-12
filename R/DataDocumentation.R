@@ -970,3 +970,24 @@
 #' @format A dataframe with 26 obs. and 22 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
 "Sector_Use_SUT_2020"
+
+#' Detail 2017 Supply (2017 schema)
+#' @format A dataframe with 403 obs. and 414 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Detail_Supply_2017"
+
+#' Detail 2017 Use (under the Supply-Use framework, 2017 schema)
+#' @format A dataframe with 411 obs. and 423 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Detail_Use_SUT_2017"
+
+#' Master Crosswalk table (2017 schema)
+#' @format A dataframe with 4095 obs. and 5 variables:
+#' \describe{
+#'  \item{BEA_2017_Sector_Code}{text code}
+#'  \item{BEA_2017_Summary_Code}{text code}
+#'  \item{BEA_2017_Detail_Code}{text code}
+#'  \item{NAICS_2017_Code}{text code}
+#'  \item{NAICS_2012_Code}{text code}
+#' }
+"MasterCrosswalk2017"
