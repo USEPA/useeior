@@ -1,3 +1,5 @@
+source("data-raw/BEAData.R")
+
 # Extract existing BEA-NAICS mapping from BEA IO table
 extractBEAtoNAICSfromIOTable <- function (year) { # year = 2012 or 2007
   if (year == 2017) {
