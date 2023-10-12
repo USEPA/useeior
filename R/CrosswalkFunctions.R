@@ -41,23 +41,33 @@ getNAICStoBEAAllocation <- function (year, model) {
   return(AllocationTable)
 }
 
-
-#' Get 2-6 digit NAICS codes and names for year specified.
-#' @param year int. 2012 or 2007 accepted.
-#' @return dataframe with columns NAICS_year_Code and NAICS_year_Name.
-getNAICS2to6DigitsCodeName <- function (year) {
+#' Download NAICS file for 2-6 digit NAICS codes if not present.
+#' @param year int, 2017, 2012, or 2007 accepted.
+downloadNAICS2to6DigitsFile <- function (year) {
   # Download 2-6 digits NAICS table
-  if (year == 2012) {
+  if (year == 2017) {
+    FileName <- "inst/extdata/2-digit_2017_Codes.xlsx"
+    url <- "https://www.census.gov/naics/2017NAICS/2-6%20digit_2017_Codes.xlsx"
+  } else if (year == 2012) {
     FileName <- "inst/extdata/2-digit_2012_Codes.xls"
     url <- "https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls"
-  } else {
+  } else if (year == 2007) {
     FileName <- "inst/extdata/naics07.xls"
     url <- "https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls"
+  } else {
+    stop('Specify available year for crosswalk')
   }
   if(!file.exists(FileName)) {
     utils::download.file(url, FileName, mode = "wb")
   }
-  
+}
+
+
+#' Get 2-6 digit NAICS codes and names for year specified.
+#' @param year int. 2017, 2012, or 2007 accepted.
+#' @return dataframe with columns NAICS_year_Code and NAICS_year_Name.
+getNAICS2to6DigitsCodeName <- function (year) {
+  downloadNAICS2to6DigitsFile(year)
   # Load 2-6 digits NAICS table
   NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   colnames(NAICS) <- c("NAICS_Code", "NAICS_Name")
@@ -80,21 +90,10 @@ getNAICS2to6DigitsCodeName <- function (year) {
 }
 
 #' Get 2-6 digit NAICS codes in a crosswalk format for year specified.
-#' @param year int, 2012 or 2007 accepted.
+#' @param year int, 2017, 2012 or 2007 accepted.
 #' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6.
 getNAICS2to6Digits <- function (year) {
-  # Download 2-6 digits NAICS table
-  if (year == 2012) {
-    FileName <- "inst/extdata/2-digit_2012_Codes.xls"
-    url <- "https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls"
-  } else {
-    FileName <- "inst/extdata/naics07.xls"
-    url <- "https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls"
-  }
-  if(!file.exists(FileName)) {
-    utils::download.file(url, FileName, mode = "wb")
-  }
-  
+  downloadNAICS2to6DigitsFile(year)
   # Load 2-6 digits NAICS table
   NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   colnames(NAICS) <- c("NAICS_Code", "NAICS_Name")
