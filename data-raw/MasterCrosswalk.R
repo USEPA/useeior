@@ -248,7 +248,7 @@ getMasterCrosswalk <- function (year) {
   if (year==2007) {
     MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2012to2007to2017all, by = "NAICS_2007_Code", all = TRUE)
     MasterCrosswalk <- MasterCrosswalk[, c(colnames(BEAtoUSEEIOtoNAICS), "NAICS_2012_Code")]
-  } else {
+  } else if (year==2012) {
     MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2012to2007to2017all, by = "NAICS_2012_Code", all = TRUE)
     MasterCrosswalk <- MasterCrosswalk[, c(colnames(BEAtoUSEEIOtoNAICS), "NAICS_2007_Code", "NAICS_2017_Code")]
     # Include 7-, 8-, and 10-digit NAICS (from Census for manufacturing and mining sectors)
@@ -263,6 +263,14 @@ getMasterCrosswalk <- function (year) {
     MasterCrosswalk <- merge(MasterCrosswalk, BEA_Sector_CodeName_Mapping, by = c("BEA_2012_Sector_Code", "BEA_2012_Sector_Name"), all.x = TRUE)
     MasterCrosswalk[, c("BEA_2012_Sector_Code", "BEA_2012_Sector_Name")] <- MasterCrosswalk[, c("BEA_2012_Sector_Code_agg", "BEA_2012_Sector_Name_agg")]
     MasterCrosswalk[, c("BEA_2012_Sector_Code_agg", "BEA_2012_Sector_Name_agg")] <- NULL
+  } else if (year==2017) {
+    MasterCrosswalk <- merge(BEAtoUSEEIOtoNAICS, NAICS2012to2007to2017all, by = "NAICS_2017_Code", all = TRUE)
+    MasterCrosswalk <- MasterCrosswalk[, c(colnames(BEAtoUSEEIOtoNAICS), "NAICS_2007_Code", "NAICS_2012_Code")]
+    # Replace Code and Name for BEA_2012_Sector
+    BEA_Sector_CodeName_Mapping <- utils::read.table("inst/extdata/BEA_2017_Sector_CodeName_mapping.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+    MasterCrosswalk <- merge(MasterCrosswalk, BEA_Sector_CodeName_Mapping, by = c("BEA_2017_Sector_Code", "BEA_2017_Sector_Name"), all.x = TRUE)
+    MasterCrosswalk[, c("BEA_2017_Sector_Code", "BEA_2017_Sector_Name")] <- MasterCrosswalk[, c("BEA_2017_Sector_Code_agg", "BEA_2017_Sector_Name_agg")]
+    MasterCrosswalk[, c("BEA_2017_Sector_Code_agg", "BEA_2017_Sector_Name_agg")] <- NULL
   }
   # Order by NAICS and USEEIO code columns
   MasterCrosswalk[MasterCrosswalk==""] <- NA
@@ -274,7 +282,7 @@ getMasterCrosswalk <- function (year) {
 
 MasterCrosswalk2017 <- getMasterCrosswalk(2017)
 MasterCrosswalk2017 <- MasterCrosswalk2017[, c(paste("BEA_2017", c("Sector", "Summary", "Detail"), "Code", sep = "_"),
-                                               paste("NAICS", c(2017, 2012, 2022), "Code", sep = "_"))]
+                                               paste("NAICS", c(2017, 2012), "Code", sep = "_"))]
 usethis::use_data(MasterCrosswalk2017, overwrite = T)
 
 MasterCrosswalk2012 <- getMasterCrosswalk(2012)
