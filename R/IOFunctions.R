@@ -292,13 +292,16 @@ buildModelwithImportFactors <- function(model) {
 
   model$M_m <- M_m
   
-  # # Check that import values are the same as the original import data 
+  # # Check that import values are the same as the original import data
   # # Note that this check is not meant to be included in the code
   # Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
-  # rownames(Import) <-rownames(UseTransactions_m)
-  # colnames(Import[1:71]) <- colnames(UseTransactions_m[1:71])
-  # temp <- UseTransactions_m - Import[,1:71]
+  # rownames(Import) <-rownames(model$UseTransactions_m)
+  # importColNames <- c(colnames(model$UseTransactions_m), colnames(model$DomesticFDWithITA))
+  # colnames(Import) <- importColNames
+  # temp <- model$UseTransactions_m - Import[,1:71]
   # sum(sum(temp)) == 0 # should be TRUE
+  # #TODO: CHECK all.equal(model$ImportFinalDemand, Import[,72:93]), AND HOW ITA IS GENERATED AT LINE236
+
   calculateAndValidateImportA(model)
 
   return(model)
