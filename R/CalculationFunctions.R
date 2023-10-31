@@ -93,38 +93,39 @@ prepareDemandVectorForStandardResults <- function(model, demand = "Production", 
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateResultsWithExternalFactors <- function(model, f = "Production"){
   result <- list() 
-  # Standard domestic production demand vector (y_d_p_standard) includes ITA (mu) in its calculation
-  # Demand vectors needed for imported matrices are derived from: model$DomesticFDWithITA and model$ImportFinalDemand (which is model$FinalDemand - model$DomesticFDWithITA)
-  # y_d derived from model$DomesticFDWithITA should be the same as the y_d_p_standard (this was tested), so we can call that function here
+  # Standard domestic production demand vector (y_d_p_standard) includes ITA (mu) in its calculation. Since model$DomesticFDWithITA includes mu,
+  # y_d derived from model$DomesticFDWithITA should be the same as the y_d_p_standard. I.e., 
+  # y_d_p <- as.matrix(rowSums(model$DomesticFDWithITA)) is equal to the value from the below function call
 
-    y_d <- prepareDemandVectorForStandardResults(model, f, location = NULL, use_domestic_requirements = TRUE)
+  y_d <- prepareDemandVectorForStandardResults(model, f, location = NULL, use_domestic_requirements = TRUE)
+
+  # Calculate import demand vector y_m. This is derived from model$ImportFinalDemand, 
+  # which is: model$FinalDemand - model$DomesticFDWithITA
+  y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
   
-  # y_m is derived from model$ImportFinalDemand
-#    y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])# CURRENTLY DOES NOT WORK
-    
-    # Calculate y_m production demand vector
-    FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", 
-                                     "ChangeInventories", "Export", "Import",
-                                     "GovernmentDemand"),
-                                getVectorOfCodes, ioschema = model$specs$BaseIOSchema,
-                                iolevel = model$specs$BaseIOLevel))
-    FD_columns <- model$FinalDemandMeta$Code_Loc[which(model$FinalDemandMeta$Code %in% FD_columns)] #get the right column names, with location ids
-    y_m <- rowSums(model$ImportFinalDemand[,c(FD_columns)])
-    
-    # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
-    logging::loginfo("Calculating Final Perspective LCI...")
+  # # Calculate y_m production demand vector
+  # FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", 
+  #                                  "ChangeInventories", "Export",
+  #                                  "GovernmentDemand"),
+  #                             getVectorOfCodes, ioschema = model$specs$BaseIOSchema,
+  #                             iolevel = model$specs$BaseIOLevel))
+  # FD_columns <- model$FinalDemandMeta$Code_Loc[which(model$FinalDemandMeta$Code %in% FD_columns)] #get the right column names, with location ids
+  # y_m <- rowSums(model$ImportFinalDemand[,c(FD_columns)])
+  
+  # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
+  logging::loginfo("Calculating Final Perspective LCI...")
 
-    
-    y_d <- diag(as.vector(y_d))
-    y_m <- diag(as.vector(y_m))
-    
-    result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$M_m %*% model$A_m %*% model$L_d %*% y_d + model$M_m %*% y_m) # parentheses used to denote (domestic) and (import) components
-    result$LCI_f <- t(result$LCI_f)
-    
-    colnames(result$LCI_f) <- rownames(model$M_m)
-    rownames(result$LCI_f) <- colnames(model$M_m)
-    
-    return(result)
+  
+  y_d <- diag(as.vector(y_d))
+  y_m <- diag(as.vector(y_m))
+  
+  result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$M_m %*% model$A_m %*% model$L_d %*% y_d + model$M_m %*% y_m) # parentheses used to denote (domestic) and (import) components
+  result$LCI_f <- t(result$LCI_f)
+  
+  colnames(result$LCI_f) <- rownames(model$M_m)
+  rownames(result$LCI_f) <- colnames(model$M_m)
+  
+  return(result)
   
 }
 
