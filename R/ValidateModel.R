@@ -538,9 +538,9 @@ calculateAndValidateImportA <- function(model, y = NULL, y_d = NULL){
                               getVectorOfCodes, ioschema = model$specs$BaseIOSchema,
                               iolevel = model$specs$BaseIOLevel))
   FD_columns <- model$FinalDemandMeta$Code_Loc[which(model$FinalDemandMeta$Code %in% FD_columns)] #get the right column names, with location ids
-  
+
   # calculate "standard" x
-  y <- rowSums(model$FinalDemand[,c(FD_columns)])
+  y <- rowSums(model$U[c(model$Commodities$Code_Loc),c(FD_columns)])
   x <- model$L %*% y # if y = I, then x = model$L. I <- diag(nrow(model$A))
   
   # Calculate x as domestic + import components
