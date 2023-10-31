@@ -95,11 +95,11 @@ prepareImportedProductionDemand <- function(model, location){
     import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
     y_m_c <- sumforConsumption(model, model$ImportFinalDemand, location)
     y_m_e <- sumDemandCols(model$ImportFinalDemand, export_code)
-    y_m_i <- sumDemandCols(model$ImportFinalDemand, import_code)
+#    y_m_i <- sumDemandCols(model$ImportFinalDemand, import_code)
     y_m_delta <- sumDemandCols(model$ImportFinalDemand, changeinventories_code)
 #    mu <- model$InternationalTradeAdjustment
-    y_m_p <- y_m_c + y_m_e + y_m_delta + y_m_i + model$mu
-#   y_m_p <- y_m_c + y_m_e + y_m_delta + y_m_i + mu
+    mu <- model$mu
+    y_m_p <- y_m_c + y_m_e + y_m_delta + y_m_i + mu
   }
   return(y_m_p)
 }
