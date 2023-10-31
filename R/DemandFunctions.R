@@ -99,7 +99,7 @@ prepareImportedProductionDemand <- function(model, location){
     y_m_delta <- sumDemandCols(model$ImportFinalDemand, changeinventories_code)
 #    mu <- model$InternationalTradeAdjustment
     mu <- model$mu
-    y_m_p <- y_m_c + y_m_e + y_m_delta + y_m_i + mu
+    y_m_p <- y_m_c + y_m_e + y_m_delta + mu
   }
   return(y_m_p)
 }
