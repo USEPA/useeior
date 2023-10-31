@@ -302,8 +302,7 @@ buildModelwithImportFactors <- function(model) {
   # sum(sum(temp)) == 0 # should be TRUE
   # #TODO: CHECK all.equal(model$ImportFinalDemand, Import[,72:93]), AND HOW ITA IS GENERATED AT LINE236
 
-  calculateAndValidateImportA(model)
-
+  # calculateAndValidateImportA(model) #TODO: remove this line when function it calls has been adjusted to work outside of model build (i.e., does not need model objects removed at the end of the model build process)
   return(model)
 }
 
