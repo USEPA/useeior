@@ -295,12 +295,17 @@ buildModelwithImportFactors <- function(model) {
   # # Check that import values are the same as the original import data
   # # Note that this check is not meant to be included in the code
   # Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+  # Import <- Import[,!names(Import) %in% c("T001", "T004")] # Remove t001 and t004 columns.
+  # Import <- Import[c(model$Industries$Code, model$FinalDemandMeta$Code)] # Reorder final demand columns to match final demand meta
   # rownames(Import) <-rownames(model$UseTransactions_m)
   # importColNames <- c(colnames(model$UseTransactions_m), colnames(model$DomesticFDWithITA))
   # colnames(Import) <- importColNames
-  # temp <- model$UseTransactions_m - Import[,1:71]
-  # sum(sum(temp)) == 0 # should be TRUE
-  # #TODO: CHECK all.equal(model$ImportFinalDemand, Import[,72:93]), AND HOW ITA IS GENERATED AT LINE236
+  # 
+  # useCheck <- model$UseTransactions_m - Import[,1:71]
+  # sum(sum(useCheck)) == 0 # should be TRUE as should all.equal(model$UseTransactions_m, Import[,1:71])
+  # 
+  # importCheck <- model$ImportFinalDemand - Import[72:91]
+  # sum(sum(importCheck)) == 0 # should be TRUE as should all.equal(model$ImportFinalDemand, Import[,72:91])
 
   return(model)
 }
