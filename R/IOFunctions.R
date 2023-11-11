@@ -306,7 +306,9 @@ buildModelwithImportFactors <- function(model) {
   # 
   # importCheck <- model$ImportFinalDemand - Import[72:91]
   # sum(sum(importCheck)) == 0 # should be TRUE as should all.equal(model$ImportFinalDemand, Import[,72:91])
-
+  # 
+  # model$ImportMatrix <- Import #Temporary addition for validation checks
+  
   return(model)
 }
 
