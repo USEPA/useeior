@@ -175,16 +175,19 @@ calculateLeontiefInverse <- function(A) {
 #' @return A Domestic Use table with rows as commodity codes and columns as industry and final demand codes
 generateDomesticUse <- function(Use, model) {
   # Load Import matrix
-  if (model$specs$BaseIOLevel != "Sector") {
-    Import <- get(paste(model$specs$BaseIOLevel, "Import",
-                        model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
-  } else {
-    # Load Summary level Import matrix
-    Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
-    # Aggregate Import from Summary to Sector
-    Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
-  }
-  Import <- Import[rownames(Use), colnames(Use)]
+  
+  # if (model$specs$BaseIOLevel != "Sector") {
+  #   Import <- get(paste(model$specs$BaseIOLevel, "Import",
+  #                       model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+  # } else {
+  #   # Load Summary level Import matrix
+  #   Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+  #   # Aggregate Import from Summary to Sector
+  #   Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
+  # }
+  # Import <- Import[rownames(Use), colnames(Use)]
+  
+  Import <- model$ImportMatrix
   # Adjust Import matrix to BAS price if model is in BAS price
   # Note: according to the documentation in BEA Import matrix, import values in
   # the Import matrix are in producer (PRO) values. For PRO models, imports in the
@@ -229,14 +232,17 @@ generateDomesticUse <- function(Use, model) {
 #' @return An international trade adjustment vector with names as commodity codes
 generateInternationalTradeAdjustmentVector <- function(Use, model) {
   # Load Import matrix
-  if (model$specs$BaseIOLevel!="Sector") {
-    Import <- get(paste(model$specs$BaseIOLevel, "Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
-  } else {
-    # Load Summary level Import matrix
-    Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
-    # Aggregate Import from Summary to Sector
-    Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
-  }
+  
+  # if (model$specs$BaseIOLevel!="Sector") {
+  #   Import <- get(paste(model$specs$BaseIOLevel, "Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+  # } else {
+  #   # Load Summary level Import matrix
+  #   Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+  #   # Aggregate Import from Summary to Sector
+  #   Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
+  # }
+  
+  Import <- model$ImportMatrix
   # Define Import code
   ImportCode <- getVectorOfCodes(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Import")
   ImportCode <- ImportCode[startsWith(ImportCode, "F")]
