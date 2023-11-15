@@ -264,7 +264,7 @@ buildModelwithImportFactors <- function(model) {
   # The resulting expression should be equivalent to the x = L*y such that
   # x^(d+m) = x = L*y
   
-  cat("\n Building Import A (A_m) accounting for ITA in Domestic FD.\n")
+  logging::loginfo("Building Import A (A_m) accounting for ITA in Domestic FD.\n")
   # Re-derive import values in Use and final demand
   # _m denotes import-related structures
   model$UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
@@ -284,10 +284,10 @@ buildModelwithImportFactors <- function(model) {
   }
   model$M <- model$B %*% model$L
   model$M_d <- model$B %*% model$L_d # For validation purposes
-  model$M_m <- loadExternalImportFactors(model)
+  M_m <- loadExternalImportFactors(model)
   
   # Fill in flows for M_m not found in Import Factors but that exist in model and align order
-  M_m <- rbind(model$M_m, model$M[setdiff(rownames(model$M), rownames(model$M_m)),])
+  M_m <- rbind(M_m, model$M[setdiff(rownames(model$M), rownames(M_m)),])
   M_m <- M_m[rownames(model$M), ]
 
   model$M_m <- M_m

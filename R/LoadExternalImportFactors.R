@@ -1,8 +1,5 @@
 # Functions for loading external import factors
 
-
-# Functions for loading input-output tables
-
 #' Prepare economic components of an EEIO form USEEIO model.
 #' @param model An EEIO form USEEIO model object with model specs loaded
 #' @param configpaths str vector, paths (including file name) of model configuration file
@@ -10,7 +7,6 @@
 #' @return A list with EEIO form USEEIO model economic components.
 loadExternalImportFactors <- function(model, configpaths = NULL) {
 
-  temp <- 2
   # Read in file with Import factors
   IFSpec <- model$specs$ImportFactors[[1]]
   IFTable <- utils::read.table(system.file(IFSpec$StaticFile, package = "useeior"), 
@@ -50,4 +46,3 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
 
   return(M_m)
 }
-
