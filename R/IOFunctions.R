@@ -272,7 +272,9 @@ buildModelwithImportFactors <- function(model) {
   
   # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
   model$DomesticFDWithITA <- model$DomesticFinalDemand
-  model$DomesticFDWithITA[,"F050/US"] <- model$InternationalTradeAdjustment
+  if(model$specs$IODataSource != "stateior") {
+    model$DomesticFDWithITA[,"F050/US"] <- model$InternationalTradeAdjustment
+  }
   model$ImportFinalDemand <- model$FinalDemand - model$DomesticFDWithITA
   
   if(model$specs$CommodityorIndustryType == "Commodity") {

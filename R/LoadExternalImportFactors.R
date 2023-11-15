@@ -25,13 +25,19 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
   # Convert from basic to producer price using TAU of CurrencyYear
   Tau <- model$Tau[, as.character(meta$CurrencyYear)]
   names(Tau) <- gsub("/.*","",names(Tau))
+  # For state models, keep only unique names
+  Tau <- Tau[unique(names(Tau))]
   IFTable <- merge(IFTable, as.data.frame(Tau), by.x = 'Sector', by.y = 0, all.y = FALSE)
   IFTable['FlowAmount'] <- IFTable['FlowAmount'] * IFTable['Tau']
   IFTable['PriceType'] <- 'Producer'
   IFTable['CurrencyYear'] <- model$specs$IOYear
   
   if(model$specs$IODataSource =="stateior") {
-    #TODO
+    IFTable_SoI <- IFTable
+    IFTable_SoI['Location'] <- model$specs$ModelRegionAcronyms[[1]]
+    IFTable_RoUS <- IFTable
+    IFTable_RoUS['Location'] <- model$specs$ModelRegionAcronyms[[2]]
+    IFTable <- rbind(IFTable_SoI, IFTable_RoUS)
   } else {
     # assumes that if IODataSource is not stateior, it is a one a region model
     IFTable['Location'] <- "US"
