@@ -1,10 +1,11 @@
-Model: "USEEIOv2.0-s-GHG_IF"
+Model: "GAEEIOv2.0-s-GHG-19-IF"
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2019 # Year for IO data
-ModelRegionAcronyms: ["US"]
+ModelRegionAcronyms: ["US-GA", "RoUS"]
 ModelType: "EEIO"
-IODataSource: "BEA"
+IODataSource: "stateior"
+IODataVersion: "0.2.1"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
@@ -17,7 +18,7 @@ SatelliteTable:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/GHG_national_2019_m1_v2.0.0_4a983ce.parquet"
+    StaticFile: "flowsa/FlowBySector/GHG_state_2019_m1_v2.0.0_a8c5929.parquet"
     FileLocation: "DataCommons"
     DataYears: [2019]
     Locations: ["US"]

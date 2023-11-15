@@ -1,4 +1,4 @@
-Model: "USEEIOv2.0-s-GHG-19"
+Model: "USEEIOv2.0-s-GHG-19-IF"
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2019 # Year for IO data
@@ -10,6 +10,7 @@ BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
 ScrapIncluded: FALSE
 DisaggregationSpecs: null
+ExternalImportFactors: TRUE
 
 SatelliteTable:
   GHG:
@@ -60,3 +61,9 @@ DemandVectors:
     DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
 # Additional demand vectors beyond useeior defaults
 
+ImportFactors:
+  RoWRegion:
+    FullName: "Rest of World Import Factors"
+    Abbreviation: "RoW_IF"
+    StaticSource: TRUE
+    StaticFile: "extdata/imports_multipliers_2019.csv"
