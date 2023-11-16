@@ -12,7 +12,7 @@ loadImportMatrix(model, io_codes)
 \item{io_codes}{A list of BEA IO codes.}
 }
 \value{
-Import, a use table import matrix.
+Import, df of use table imports.
 }
 \description{
 Load, format, and save import matrix as a USEEIO model object.

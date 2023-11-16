@@ -188,11 +188,13 @@ loadNationalIOData <- function(model, io_codes) {
   BEA$ImportMatrix <- loadImportMatrix(model, io_codes)
   
   # Generate domestic Use transaction and final demand
-  DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$FinalDemand), model)
+  DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$FinalDemand),
+                                     BEA$ImportMatrix, model)
   BEA$DomesticUseTransactions <- DomesticUse[, io_codes$Industries]
   BEA$DomesticFinalDemand <- DomesticUse[, io_codes$FinalDemandCodes]
   # Generate Import Cost vector
-  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$FinalDemand), model)
+  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(
+    cbind(BEA$UseTransactions, BEA$FinalDemand), BEA$ImportMatrix, model)
   # Modify row and column names to Code_Loc format in all IO tables
   # Use model$Industries
   rownames(BEA$MakeTransactions) <-
@@ -294,7 +296,7 @@ loadBEAtables <- function(specs, io_codes) {
 #' Load, format, and save import matrix as a USEEIO model object.
 #' @param model A model object with model specs loaded.
 #' @param io_codes A list of BEA IO codes.
-#' @return Import, a use table import matrix.
+#' @return Import, df of use table imports.
 loadImportMatrix <- function(model, io_codes) {
   # Load Import matrix
   if (model$specs$BaseIOLevel != "Sector") {

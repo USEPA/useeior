@@ -171,10 +171,10 @@ calculateLeontiefInverse <- function(A) {
 
 #' Generate domestic Use table by adjusting Use table based on Import matrix.
 #' @param Use, dataframe of a Use table
+#' @param Import, dataframe of a Import table
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return A Domestic Use table with rows as commodity codes and columns as industry and final demand codes
-generateDomesticUse <- function(Use, model) {
-  Import <- model$ImportMatrix
+generateDomesticUse <- function(Use, Import, model) {
   # Adjust Import matrix to BAS price if model is in BAS price
   # Note: according to the documentation in BEA Import matrix, import values in
   # the Import matrix are in producer (PRO) values. For PRO models, imports in the
@@ -215,10 +215,10 @@ generateDomesticUse <- function(Use, model) {
 
 #' Generate international trade adjustment vector from Use and Import matrix.
 #' @param Use, dataframe of a Use table
+#' @param Import, dataframe of a Import table
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return An international trade adjustment vector with names as commodity codes
-generateInternationalTradeAdjustmentVector <- function(Use, model) {
-  Import <- model$ImportMatrix
+generateInternationalTradeAdjustmentVector <- function(Use, Import, model) {
   # Define Import code
   ImportCode <- getVectorOfCodes(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Import")
   ImportCode <- ImportCode[startsWith(ImportCode, "F")]
