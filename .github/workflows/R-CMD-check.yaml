@@ -133,7 +133,7 @@ jobs:
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-s-GHG_IF")
+          m <- useeior::buildModel("USEEIOv2.0-s-GHG-19-IF")
           # useeior::printValidationResults(m)
         shell: Rscript {0}
 
