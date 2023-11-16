@@ -103,15 +103,6 @@ calculateResultsWithExternalFactors <- function(model, f = "Production"){
   # which is: model$FinalDemand - model$DomesticFDWithITA
   y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
   
-  # # Calculate y_m production demand vector
-  # FD_columns <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand", 
-  #                                  "ChangeInventories", "Export",
-  #                                  "GovernmentDemand"),
-  #                             getVectorOfCodes, ioschema = model$specs$BaseIOSchema,
-  #                             iolevel = model$specs$BaseIOLevel))
-  # FD_columns <- model$FinalDemandMeta$Code_Loc[which(model$FinalDemandMeta$Code %in% FD_columns)] #get the right column names, with location ids
-  # y_m <- rowSums(model$ImportFinalDemand[,c(FD_columns)])
-  
   # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
   logging::loginfo("Calculating Final Perspective LCI...")
 
