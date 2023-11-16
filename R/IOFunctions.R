@@ -253,11 +253,17 @@ buildModelwithImportFactors <- function(model) {
   model$U_n_m <- normalizeIOTransactions(model$UseTransactions_m, model$IndustryOutput) #normalized imported Use
   
   # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
-  model$DomesticFDWithITA <- model$DomesticFinalDemand
+  model$DomesticFDWithITA <- model$DomesticFinalDemand # TODO: Remove after testing calculation functions without this object
   if(model$specs$IODataSource != "stateior") {
     model$DomesticFDWithITA[,"F050/US"] <- model$InternationalTradeAdjustment
+    
+    FD_col_index <- which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)
+    model$ImportFinalDemand <- model$ImportMatrix[,FD_col_index]
+  }else{
+    # TODO
+    stop("Import demand vector for 2R models not implemented yet.")
   }
-  model$ImportFinalDemand <- model$FinalDemand - model$DomesticFDWithITA
+
   
   if(model$specs$CommodityorIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A_m matrix (imported direct requirements)...")
@@ -267,7 +273,7 @@ buildModelwithImportFactors <- function(model) {
     model$A_m <- model$V_n %*% model$U_d_m
   }
   model$M <- model$B %*% model$L
-  model$M_d <- model$B %*% model$L_d # For validation purposes
+  model$M_d <- model$B %*% model$L_d 
   M_m <- loadExternalImportFactors(model)
   
   # Fill in flows for M_m not found in Import Factors but that exist in model and align order
