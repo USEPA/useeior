@@ -587,3 +587,58 @@ calculateAndValidateImportA <- function(model, y = NULL, y_d = NULL){
   result_failures <- compare2RVectorTotals(result_M, result_Standard)
   
 }
+
+
+#' Validate the results of the model build using the Import Factor approach (i.e., coupled model approach)
+#' @param model, An EEIO model object with model specs and crosswalk table loaded
+#' @param y A final demand VECTOR used for calculating the conventional model results, L*Y
+#' @param y_d A final demand VECTOR used for validating the model results using the A_m calculation.
+#' @return A calculated direct requirements table
+validateImportFactorsApproach <- function(model, y = NULL, y_d = NULL){
+  
+  # Compute standard final demand
+  y <- prepareDemandVectorForStandardResults(model, demand = "Production", location = NULL, use_domestic_requirements = FALSE)
+  # Equivalent to as.matrix(rowSums(model$U[1:numCom, (numInd+1):(numInd+numFD)])). Note that both of these include negative values from F050
+  
+  
+  # Retrieve domestic final demand production vector from model$DemandVectors
+  y_d  <- prepareDemandVectorForStandardResults(model, demand = "Production", location = NULL, use_domestic_requirements = TRUE)
+  # Equivalent to as.matrix(rowSums(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)]))
+  
+  # Calculate Import final demand, y_m
+  y_m <- as.matrix(rowSums(model$ImportMatrix[,FD_col_index]))
+  
+  print("Testing that production final demand vector is equivalent between standard and coupled model approaches. I.e.: y = y_m + y_d")
+  print(all.equal(y, y_d+y_m))
+  
+  
+  # Calculate "Standard" economic throughput (x)
+  x <- model$L %*% y 
+  
+  # Calculate economic throughput using coupled model approach
+  # Revised equation from RW email (2023-11-01):
+  # x_dm <- L_d * Y_d + L*A_m*L_d*Y_d + L*Y_m
+  
+  x_dm <- (model$L_d %*% y_d) + (model$L %*% model$A_m %*% model$L_d %*% y_d + model$L %*% y_m)
+  
+  print("Testing that economic throughput is equivalement between standard and coupled model approaches when using production final demand vector. 
+        I.e.,: x = x_dm")
+  print(all.equal(x, x_dm))
+  
+  
+  # Calculate "Standard" environmental impacts
+  LCI <- model$M %*% y # Equivalent to model$B %*% model$L %*% y,
+  
+  # Calculate env. impacts using coupled model approach
+  # Revised equation from RW email (2023-11-01):
+  # LCI <- (s_d * L_d * Y_d) + (s*L*A_m*L_d*Y_d + s*L*Y_m). I.e., s in RW email is analogous to model$B
+  # For validation, model$M = model$M_m, whereas in normally we'd be using model$M_m instead of model$M
+  
+  LCI_dm <- (model$M_d %*% y_d) + (model$M %*% model$A_m %*% model$L_d %*% y_d + model$M %*% y_m)
+  
+  print("Testing that environmental results are equivalemnt between standard and coupled model approaches (i.e., LCI = LCI_dm) when:
+        1) using production final demand vector; 2) assuming model$M = model$M_m ")
+  print(all.equal(LCI, LCI_dm))
+  
+  
+}
