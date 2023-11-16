@@ -88,18 +88,19 @@ prepareDomesticProductionDemand <- function(model, location) {
 prepareImportedProductionDemand <- function(model, location){
   if (model$specs$IODataSource == "stateior") {
     # y_d_p <- prepare2RDemand(model, location, domestic = TRUE) #TODO
+    stop("Import production demand not yet implemented for 2R models.")
   } else {
+    # Note that model$mu (i.e., ITA) is not included in import production demand because it is included in Domestic Production Demand
     loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
     export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
     changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
     import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
     y_m_c <- sumforConsumption(model, model$ImportFinalDemand, location)
     y_m_e <- sumDemandCols(model$ImportFinalDemand, export_code)
-#    y_m_i <- sumDemandCols(model$ImportFinalDemand, import_code)
+    y_m_i <- sumDemandCols(model$ImportFinalDemand, import_code)
     y_m_delta <- sumDemandCols(model$ImportFinalDemand, changeinventories_code)
-#    mu <- model$InternationalTradeAdjustment
-    mu <- model$mu
-    y_m_p <- y_m_c + y_m_e + y_m_delta + mu
+
+    y_m_p <- y_m_c + y_m_e + y_m_i + y_m_delta 
   }
   return(y_m_p)
 }
