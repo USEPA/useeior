@@ -1,11 +1,9 @@
 # Functions for loading external import factors
 
-#' Prepare economic components of an EEIO form USEEIO model.
+#' Load and prepare import coefficients
 #' @param model An EEIO form USEEIO model object with model specs loaded
-#' @param configpaths str vector, paths (including file name) of model configuration file
-#' If NULL, built-in config files are used.
-#' @return A list with EEIO form USEEIO model economic components.
-loadExternalImportFactors <- function(model, configpaths = NULL) {
+#' @return M_m, matrix of import coefficients (flow x sector).
+loadExternalImportFactors <- function(model) {
 
   # Read in file with Import factors
   IFSpec <- model$specs$ImportFactors[[1]]

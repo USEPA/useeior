@@ -186,7 +186,6 @@ loadNationalIOData <- function(model, io_codes) {
   io_codes$FinalDemandCodes <- colnames(BEA$FinalDemand)
   
   BEA$ImportMatrix <- loadImportMatrix(model, io_codes)
-  model$ImportMatrix <- BEA$ImportMatrix
   
   # Generate domestic Use transaction and final demand
   DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$FinalDemand), model)
@@ -295,7 +294,7 @@ loadBEAtables <- function(specs, io_codes) {
 #' Load, format, and save import matrix as a USEEIO model object.
 #' @param model A model object with model specs loaded.
 #' @param io_codes A list of BEA IO codes.
-#' @return A USEEIO model with import matrix object.
+#' @return Import, a use table import matrix.
 loadImportMatrix <- function(model, io_codes) {
   # Load Import matrix
   if (model$specs$BaseIOLevel != "Sector") {

@@ -2,19 +2,16 @@
 % Please edit documentation in R/LoadExternalImportFactors.R
 \name{loadExternalImportFactors}
 \alias{loadExternalImportFactors}
-\title{Prepare economic components of an EEIO form USEEIO model.}
+\title{Load and prepare import coefficients}
 \usage{
-loadExternalImportFactors(model, configpaths = NULL)
+loadExternalImportFactors(model)
 }
 \arguments{
 \item{model}{An EEIO form USEEIO model object with model specs loaded}
-
-\item{configpaths}{str vector, paths (including file name) of model configuration file
-If NULL, built-in config files are used.}
 }
 \value{
-A list with EEIO form USEEIO model economic components.
+M_m, matrix of import coefficients (flow x sector).
 }
 \description{
-Prepare economic components of an EEIO form USEEIO model.
+Load and prepare import coefficients
 }
