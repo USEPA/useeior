@@ -556,16 +556,16 @@ validateImportFactorsApproach <- function(model, y = NULL, y_d = NULL){
   cat("I.e.,: x = x_dm.\n")
   print(all.equal(x, x_dm))
   
-  
   # Calculate "Standard" environmental impacts
-  LCI <- model$M %*% y # Equivalent to model$B %*% model$L %*% y,
+  M <- model$B %*% model$L
+  LCI <- M %*% y # Equivalent to model$M %*% y,
   
   # Calculate env. impacts using coupled model approach
   # Revised equation from RW email (2023-11-01):
   # LCI <- (s_d * L_d * Y_d) + (s*L*A_m*L_d*Y_d + s*L*Y_m). I.e., s in RW email is analogous to model$B
   # For validation, model$M = model$M_m, whereas in normally we'd be using model$M_m instead of model$M
   
-  LCI_dm <- (model$M_d %*% y_d) + (model$M %*% model$A_m %*% model$L_d %*% y_d + model$M %*% y_m)
+  LCI_dm <- (model$M_d %*% y_d) + (M %*% model$A_m %*% model$L_d %*% y_d + M %*% y_m)
   
   cat("Testing that environmental results are equivalemnt between standard and coupled model approaches (i.e., LCI = LCI_dm) when:\n")
   cat("1) using production final demand vector; 2) assuming model$M = model$M_m.\n")

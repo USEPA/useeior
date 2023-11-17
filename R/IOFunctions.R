@@ -272,13 +272,14 @@ buildModelwithImportFactors <- function(model) {
     logging::loginfo("Building industry-by-industry A_m matrix (imported direct requirements)...")
     model$A_m <- model$V_n %*% model$U_d_m
   }
-  model$M <- model$B %*% model$L
+  
+  logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
   model$M_d <- model$B %*% model$L_d 
   M_m <- loadExternalImportFactors(model)
   
   # Fill in flows for M_m not found in Import Factors but that exist in model and align order
-  M_m <- rbind(M_m, model$M[setdiff(rownames(model$M), rownames(M_m)),])
-  M_m <- M_m[rownames(model$M), ]
+  M_m <- rbind(M_m, model$M_d[setdiff(rownames(model$M_d), rownames(M_m)),])
+  M_m <- M_m[rownames(model$M_d), ]
 
   model$M_m <- M_m
   
