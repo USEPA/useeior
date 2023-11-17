@@ -525,24 +525,28 @@ compareOutputfromMakeandUse <- function(model, output_type = "Commodity") {
 
 #' Validate the results of the model build using the Import Factor approach (i.e., coupled model approach)
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
-#' @param y A final demand VECTOR used for calculating the conventional model results, L*Y
-#' @param y_d A final demand VECTOR used for validating the model results using the A_m calculation.
+#' @param  A demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.
 #' @return A calculated direct requirements table
-validateImportFactorsApproach <- function(model, y = NULL, y_d = NULL){
+validateImportFactorsApproach <- function(model, demand = "Consumption"){
   
   # Compute standard final demand
-  y <- prepareDemandVectorForStandardResults(model, demand = "Production", location = NULL, use_domestic_requirements = FALSE)
+  y <- prepareDemandVectorForStandardResults(model, demand, location = NULL, use_domestic_requirements = FALSE)
   # Equivalent to as.matrix(rowSums(model$U[1:numCom, (numInd+1):(numInd+numFD)])). Note that both of these include negative values from F050
   
   
   # Retrieve domestic final demand production vector from model$DemandVectors
-  y_d  <- prepareDemandVectorForStandardResults(model, demand = "Production", location = NULL, use_domestic_requirements = TRUE)
+  y_d  <- prepareDemandVectorForStandardResults(model, demand, location = NULL, use_domestic_requirements = TRUE)
   # Equivalent to as.matrix(rowSums(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)]))
   
-  # Calculate Import final demand, y_m
-  y_m <- as.matrix(prepareImportedProductionDemand(model, location=model$specs$ModelRegionAcronyms[1]))
+  # Calculate import demand vector y_m. 
+  if(demand == "Production"){
+    # This option left in for validation purposes.
+    y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
+  } else if(demand == "Consumption"){
+    y_m <- prepareImportConsumptionDemand(model, location = model$specs$ModelRegionAcronyms[1])
+  }
   
-  cat("Testing that production final demand vector is equivalent between standard and coupled model approaches. I.e.: y = y_m + y_d.\n")
+  cat("\nTesting that final demand vector is equivalent between standard and coupled model approaches. I.e.: y = y_m + y_d.\n")
   print(all.equal(y, y_d+y_m))
 
   # Calculate "Standard" economic throughput (x)
@@ -554,7 +558,7 @@ validateImportFactorsApproach <- function(model, y = NULL, y_d = NULL){
   
   x_dm <- (model$L_d %*% y_d) + (model$L %*% model$A_m %*% model$L_d %*% y_d + model$L %*% y_m)
   
-  cat("Testing that economic throughput is equivalement between standard and coupled model approaches when using production final demand vector.\n") 
+  cat("\nTesting that economic throughput is equivalement between standard and coupled model approaches for the given final demand vector.\n") 
   cat("I.e.,: x = x_dm.\n")
   print(all.equal(x, x_dm))
   
@@ -569,8 +573,8 @@ validateImportFactorsApproach <- function(model, y = NULL, y_d = NULL){
   
   LCI_dm <- (model$M_d %*% y_d) + (M %*% model$A_m %*% model$L_d %*% y_d + M %*% y_m)
   
-  cat("Testing that environmental results are equivalemnt between standard and coupled model approaches (i.e., LCI = LCI_dm) when:\n")
-  cat("1) using production final demand vector; 2) assuming model$M = model$M_m.\n")
+  cat("\nTesting that environmental results are equivalent between standard and coupled model approaches (i.e., LCI = LCI_dm) when\n")
+  cat("assuming model$M = model$M_m.\n")
   print(all.equal(LCI, LCI_dm))
   
   
