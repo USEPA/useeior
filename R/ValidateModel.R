@@ -472,7 +472,10 @@ validate2RegionLagainstOutput <- function(model, state=NULL) {
   #----------------- END OF BUILD A, L MATRICES
   logging::loginfo("Calculating y (Final Demand totals) of SoI and RoUS ...")
   # Calculate Final Demand (y)
-  FD_columns  <- getFinalDemandCodes("Summary")
+  FD_columns  <- unlist(sapply(list("HouseholdDemand", "InvestmentDemand",
+                                    "ChangeInventories", "Export", "Import",
+                                    "GovernmentDemand"),
+                               getVectorOfCodes, iolevel = "Summary"))
   ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
   SoI2SoI_y   <- rowSums(ls[["SoI2SoI"]][, c(FD_columns, ita_column, "ExportResidual")])
   SoI2RoUS_y  <- rowSums(ls[["SoI2RoUS"]][, c(FD_columns, ita_column)])
