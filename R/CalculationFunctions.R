@@ -15,15 +15,13 @@
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL, use_domestic_requirements = FALSE) {
-
-  if(!is.null(model$specs$ExternalImportFactors)) {
+  if (!is.null(model$specs$ExternalImportFactors)) {
     result <- calculateResultsWithExternalFactors(model, demand)
-  }else{
+  } else {
     # Standard model results calculation
     f <- prepareDemandVectorForStandardResults(model, demand, location, use_domestic_requirements)
     result <- calculateStandardResults(model, perspective, f, use_domestic_requirements)
- 
-  } # End of standard model results calculation
+  }
   
   logging::loginfo("Result calculation complete.")
   return(result)
@@ -37,13 +35,7 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", locati
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
-prepareDemandVectorForStandardResults <- function(model, demand = "Production", location = NULL, use_domestic_requirements = FALSE){
-  if (use_domestic_requirements) {
-    L <- model$L_d
-  } else {
-    L <- model$L
-  }
-  
+prepareDemandVectorForStandardResults <- function(model, demand = "Production", location = NULL, use_domestic_requirements = FALSE) {
   if (is.character(demand)) {
     #assume this is a model build-in demand 
     #try to load the model vector
@@ -53,14 +45,14 @@ prepareDemandVectorForStandardResults <- function(model, demand = "Production", 
                             paste0("Domestic", demand),
                             paste0("Complete", demand))
       # Get vector name (ID) from the meta table
-      if(is.null(location)) {
+      if (is.null(location)) {
         id <- meta[which(meta$Name==demand_name),"ID"]
-        if(length(id)>1) {
+        if (length(id)>1) {
           stop("Unique demand vector not found, consider passing location")
         }
       } else {
         id <- meta[which(meta$Name==demand_name &
-                           meta$Location==location),"ID"]
+                         meta$Location==location),"ID"]
       }
       d <- model$DemandVectors$vectors[[id]]
     } else {
@@ -69,8 +61,8 @@ prepareDemandVectorForStandardResults <- function(model, demand = "Production", 
   } else {
     # Assume this is a user-defined demand vector
     #! Need to check that the given demand 
-    if (isDemandVectorValid(demand,L)) {
-      d <- formatDemandVector(demand,L)
+    if (isDemandVectorValid(demand, model$L)) {
+      d <- formatDemandVector(demand, model$L)
     } else {
       stop("Format of the demand vector is invalid. Cannot calculate result.")
     }
@@ -83,21 +75,20 @@ prepareDemandVectorForStandardResults <- function(model, demand = "Production", 
 }
 
 #' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that has external import factors
-#' for a given perspective and demand vector.
+#' for a given demand vector.
 #' Note that for this calculation, perspective is always FINAL
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param f A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
+#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
 #' or an actual demand vector with names as one or more model sectors and
 #' numeric values in USD with the same dollar year as model.
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateResultsWithExternalFactors <- function(model, f = "Production"){
-  result <- list() 
+calculateResultsWithExternalFactors <- function(model, demand = "Production"){
+  result <- list()
   # Standard domestic production demand vector (y_d_p_standard) includes ITA (mu) in its calculation. Since model$DomesticFDWithITA includes mu,
   # y_d derived from model$DomesticFDWithITA should be the same as the y_d_p_standard. I.e., 
   # y_d_p <- as.matrix(rowSums(model$DomesticFDWithITA)) is equal to the value from the below function call
-
-  y_d <- prepareDemandVectorForStandardResults(model, f, location = NULL, use_domestic_requirements = TRUE)
+  y_d <- prepareDemandVectorForStandardResults(model, demand, location = NULL, use_domestic_requirements = TRUE)
 
   # Calculate import demand vector y_m. This is derived from model$ImportFinalDemand, 
   # which is: model$FinalDemand - model$DomesticFDWithITA
@@ -106,11 +97,11 @@ calculateResultsWithExternalFactors <- function(model, f = "Production"){
   # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
   logging::loginfo("Calculating Final Perspective LCI...")
 
-  
   y_d <- diag(as.vector(y_d))
   y_m <- diag(as.vector(y_m))
   
-  result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$M_m %*% model$A_m %*% model$L_d %*% y_d + model$M_m %*% y_m) # parentheses used to denote (domestic) and (import) components
+  # parentheses used to denote (domestic) and (import) components
+  result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$M_m %*% model$A_m %*% model$L_d %*% y_d + model$M_m %*% y_m)
   result$LCI_f <- t(result$LCI_f)
   
   colnames(result$LCI_f) <- rownames(model$M_m)
@@ -135,7 +126,7 @@ calculateResultsWithExternalFactors <- function(model, f = "Production"){
 #' if FALSE, use complete demand and L matrix.
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateStandardResults <- function(model, perspective, f = "Production", use_domestic_requirements = FALSE ){
+calculateStandardResults <- function(model, perspective, f = "Production", use_domestic_requirements = FALSE) {
   # Initialize results list
   result <- list() 
   # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
@@ -167,7 +158,6 @@ calculateStandardResults <- function(model, perspective, f = "Production", use_d
   }
   
   return(result)
-  
 }
 
 
@@ -450,6 +440,3 @@ calculateTotalImpactbyTier1Purchases <- function(model, indicator) {
   totalImpactPerPurchase <- model$N[indicator,] * model$A
   return(totalImpactPerPurchase)
 }
-
-
-
