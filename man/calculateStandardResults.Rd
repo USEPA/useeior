@@ -3,8 +3,7 @@
 \name{calculateStandardResults}
 \alias{calculateStandardResults}
 \title{Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that does not have external import factors
-for a given perspective and demand vector.
-Note that for this calculation, perspective is always FINAL}
+for a given perspective and demand vector.}
 \usage{
 calculateStandardResults(
   model,
@@ -33,5 +32,4 @@ A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 \description{
 Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that does not have external import factors
 for a given perspective and demand vector.
-Note that for this calculation, perspective is always FINAL
 }

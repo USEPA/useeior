@@ -3,15 +3,15 @@
 \name{calculateResultsWithExternalFactors}
 \alias{calculateResultsWithExternalFactors}
 \title{Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that has external import factors
-for a given perspective and demand vector.
+for a given demand vector.
 Note that for this calculation, perspective is always FINAL}
 \usage{
-calculateResultsWithExternalFactors(model, f = "Production")
+calculateResultsWithExternalFactors(model, demand = "Production")
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{f}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
+\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
 or an actual demand vector with names as one or more model sectors and
 numeric values in USD with the same dollar year as model.}
 }
@@ -20,6 +20,6 @@ A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 }
 \description{
 Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that has external import factors
-for a given perspective and demand vector.
+for a given demand vector.
 Note that for this calculation, perspective is always FINAL
 }
