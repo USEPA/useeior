@@ -109,12 +109,18 @@ calculateResultsWithExternalFactors <- function(model, demand = "Production"){
   
   # parentheses used to denote (domestic) and (import) components
   result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$M_m %*% model$A_m %*% model$L_d %*% y_d + model$M_m %*% y_m)
+  result$LCIA_f <- model$C %*% result$LCI_f
+  
   result$LCI_f <- t(result$LCI_f)
+  result$LCIA_f <- t(result$LCIA_f)
   
   colnames(result$LCI_f) <- rownames(model$M_m)
   rownames(result$LCI_f) <- colnames(model$M_m)
   
-  # TODO add LCIA_f
+  colnames(result$LCIA_f) <- rownames(model$N_m)
+  rownames(result$LCIA_f) <- colnames(model$N_m)
+  
+
   
   return(result)
   
