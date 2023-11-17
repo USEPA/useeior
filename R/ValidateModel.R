@@ -566,16 +566,36 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   M <- model$B %*% model$L
   LCI <- M %*% y # Equivalent to model$M %*% y,
   
-  # Calculate env. impacts using coupled model approach
+  # Calculate LCI using coupled model approach
   # Revised equation from RW email (2023-11-01):
   # LCI <- (s_d * L_d * Y_d) + (s*L*A_m*L_d*Y_d + s*L*Y_m). I.e., s in RW email is analogous to model$B
   # For validation, model$M = model$M_m, whereas in normally we'd be using model$M_m instead of model$M
   
   LCI_dm <- (model$M_d %*% y_d) + (M %*% model$A_m %*% model$L_d %*% y_d + M %*% y_m)
   
-  cat("\nTesting that environmental results are equivalent between standard and coupled model approaches (i.e., LCI = LCI_dm) when\n")
+  cat("\nTesting that LCI results are equivalent between standard and coupled model approaches (i.e., LCI = LCI_dm) when\n")
   cat("assuming model$M = model$M_m.\n")
   print(all.equal(LCI, LCI_dm))
+  
+  # Calculate LCIA using standard approach
+  LCIA <- t(model$C %*% M %*% diag(as.vector(y))) #same as result_std_consumption$LCIA_f, above
+  colnames(LCIA) <- rownames(model$N_m)
+  rownames(LCIA) <- colnames(model$N_m)
+  
+  # Calculate LCIA using coupled model approach
+  y_d <- diag(as.vector(y_d))
+  y_m <- diag(as.vector(y_m))
+  
+  LCI_dm <- (model$M_d %*% y_d) + (M %*% model$A_m %*% model$L_d %*% y_d + M %*% y_m)
+  
+  LCIA_dm <- t(model$C %*% (LCI_dm))
+  colnames(LCIA_dm) <- rownames(model$N_m)
+  rownames(LCIA_dm) <- colnames(model$N_m)
+  
+  cat("\nTesting that LCIA results are equivalent between standard and coupled model approaches (i.e., LCIA = LCIA_dm) when\n")
+  cat("assuming model$M = model$M_m.\n")
+  all.equal(LCIA_dm, LCIA)
+  
   
   
 }
