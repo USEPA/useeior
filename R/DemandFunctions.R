@@ -118,6 +118,21 @@ prepareConsumptionDemand <- function(model, location) {
   return(y_c)
 }
 
+#' Prepares a demand vector representing Import consumption
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param location, str of location code for demand vector
+#' @return a named vector with demand
+prepareImportConsumptionDemand <- function(model, location) {
+  if (model$specs$IODataSource == "stateior") {
+    #y_c <- prepare2RDemand(model, location, domestic = FALSE, demand_type = "Consumption")
+    stop("Consumption vector for import final demand not yet implemented.")
+  } else {
+    y_c <- sumforConsumption(model, model$ImportFinalDemand, location)
+  }
+  return(as.matrix(y_c))
+}
+
+
 #' Prepares a demand vector representing domestic consumption
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param location, str of location code for demand vector
