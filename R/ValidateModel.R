@@ -537,12 +537,11 @@ validateImportFactorsApproach <- function(model, y = NULL, y_d = NULL){
   # Equivalent to as.matrix(rowSums(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)]))
   
   # Calculate Import final demand, y_m
-  y_m <- as.matrix(rowSums(model$ImportMatrix[,FD_col_index]))
+  y_m <- as.matrix(prepareImportedProductionDemand(model, location=model$specs$ModelRegionAcronyms[1]))
   
   cat("Testing that production final demand vector is equivalent between standard and coupled model approaches. I.e.: y = y_m + y_d.\n")
   print(all.equal(y, y_d+y_m))
-  
-  
+
   # Calculate "Standard" economic throughput (x)
   x <- model$L %*% y 
   
