@@ -126,17 +126,22 @@ constructEEIOMatrices <- function(model) {
     logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
     model$M_d <- model$B %*% model$L_d
     colnames(model$M_d) <- colnames(model$M)
-    
-    if(!is.null(model$Indicators)) {
-      # Calculate total impacts per dollar (N), impact category x sector
+  }  
+  if(!is.null(model$Indicators)) {
+    # Calculate total impacts per dollar (N), impact category x sector
+    if(!is.null(model$M)) {
       logging::loginfo("Calculating N matrix (total environmental impacts per dollar)...")
       model$N <- model$C %*% model$M
-      logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity)...")
-      model$N_d <- model$C %*% model$M_d
+    }
+    logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity)...")
+    model$N_d <- model$C %*% model$M_d
+    if(!is.null(model$M_m)) {
+      logging::loginfo("Calculating N_m matrix (total environmental impacts per dollar from imported activity)...")
+      model$N_m <- model$C %*% model$M_m
     }
   }
 
-  #Clean up model elements not written out or used in further functions to reduce clutter
+  # Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
                      "InternationalTradeAdjustment", "CommodityOutput", "IndustryOutput",
