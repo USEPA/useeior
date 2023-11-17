@@ -145,7 +145,12 @@ constructEEIOMatrices <- function(model) {
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
                      "InternationalTradeAdjustment", "CommodityOutput", "IndustryOutput",
-                     "U_n", "U_d_n")
+                     "U_n", "U_d_n") 
+  # Drop U_n_m, UseTransactions_m for models with external import factors
+  if(!is.null(model$specs$ExternalImportFactors)){
+    mat_to_remove <- c(mat_to_remove, "U_n_m", "UseTransactions_m")
+  }
+  
   if (model$specs$CommodityorIndustryType=="Industry") {
     mat_to_remove <- c(mat_to_remove,
                        c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity",

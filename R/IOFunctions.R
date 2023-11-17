@@ -238,11 +238,11 @@ generateInternationalTradeAdjustmentVector <- function(Use, Import, model) {
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return A model object with explicit import components.
 buildModelwithImportFactors <- function(model) {
-  # Deriving the economic component of the Swedish equation for import factors: f^(d+m) = S^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
-  # S and Q are the environmental intensity matrices, so getting rid of those components we would have the following (where x is the economic component of f)
-  # x^(d+m) = L^d*y^d + A^m*L^d*y^d + y^m + f^h
+  # Deriving the economic component of the Swedish equation for import factors: f^(d+m) = s^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
+  # s^d are the domestic direct environmental coefficients, and Q are the environmental import multipliers, s_m*L_m. Dropping s_d and s_m we get
+  # x^(d+m) = s^d*L^d*y^d + L^m*A^m*L^d*y^d + L^m*y^m + f^h
   # Since f^h is not currently part of the useeior model calculations, we drop it:
-  # x^(d+m) = L^d*y^d + A^m*L^d*y^d + y^m 
+  # x^(d+m) = L^d*y^d + L^m*A^m*L^d*y^d + L^m*y^m 
   # The resulting expression should be equivalent to the x = L*y such that
   # x^(d+m) = x = L*y
   
@@ -253,10 +253,8 @@ buildModelwithImportFactors <- function(model) {
   model$U_n_m <- normalizeIOTransactions(model$UseTransactions_m, model$IndustryOutput) #normalized imported Use
   
   # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
-  model$DomesticFDWithITA <- model$DomesticFinalDemand # TODO: Remove after testing calculation functions without this object
+
   if(model$specs$IODataSource != "stateior") {
-    model$DomesticFDWithITA[,"F050/US"] <- model$InternationalTradeAdjustment
-    
     FD_col_index <- which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)
     model$ImportFinalDemand <- model$ImportMatrix[,FD_col_index]
   }else{
@@ -284,23 +282,6 @@ buildModelwithImportFactors <- function(model) {
   M_m <- M_m[rownames(model$M_d), ]
 
   model$M_m <- M_m
-  
-  # # Check that import values are the same as the original import data
-  # # Note that this check is not meant to be included in the code
-  # Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
-  # Import <- Import[,!names(Import) %in% c("T001", "T004")] # Remove t001 and t004 columns.
-  # Import <- Import[c(model$Industries$Code, model$FinalDemandMeta$Code)] # Reorder final demand columns to match final demand meta
-  # rownames(Import) <-rownames(model$UseTransactions_m)
-  # importColNames <- c(colnames(model$UseTransactions_m), colnames(model$DomesticFDWithITA))
-  # colnames(Import) <- importColNames
-  # 
-  # useCheck <- model$UseTransactions_m - Import[,1:71]
-  # sum(sum(useCheck)) == 0 # should be TRUE as should all.equal(model$UseTransactions_m, Import[,1:71])
-  # 
-  # importCheck <- model$ImportFinalDemand - Import[72:91]
-  # sum(sum(importCheck)) == 0 # should be TRUE as should all.equal(model$ImportFinalDemand, Import[,72:91])
-  # 
-  # model$ImportMatrix <- Import #Temporary addition for validation checks
   
   return(model)
 }
