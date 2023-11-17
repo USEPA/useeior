@@ -275,6 +275,8 @@ buildModelwithImportFactors <- function(model) {
   
   logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
   model$M_d <- model$B %*% model$L_d 
+  
+  logging::loginfo("Calculating M_m matrix (total emissions and resource use per dollar from imported activity)...")
   M_m <- loadExternalImportFactors(model)
   
   # Fill in flows for M_m not found in Import Factors but that exist in model and align order

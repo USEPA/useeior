@@ -107,6 +107,8 @@ calculateResultsWithExternalFactors <- function(model, demand = "Production"){
   colnames(result$LCI_f) <- rownames(model$M_m)
   rownames(result$LCI_f) <- colnames(model$M_m)
   
+  # TODO add LCIA_f
+  
   return(result)
   
 }
@@ -114,7 +116,6 @@ calculateResultsWithExternalFactors <- function(model, demand = "Production"){
 
 #' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that does not have external import factors
 #' for a given perspective and demand vector.
-#' Note that for this calculation, perspective is always FINAL
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param perspective Perspective of the model, can be "DIRECT" or "FINAL". "DIRECT" perspective
 #' aligns results with the sectors in which they are produced, while "FINAL" perspective aligns
