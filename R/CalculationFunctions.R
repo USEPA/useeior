@@ -90,9 +90,13 @@ calculateResultsWithExternalFactors <- function(model, demand = "Production"){
   # y_d_p <- as.matrix(rowSums(model$DomesticFDWithITA)) is equal to the value from the below function call
   y_d <- prepareDemandVectorForStandardResults(model, demand, location = NULL, use_domestic_requirements = TRUE)
 
-  # Calculate import demand vector y_m. This is derived from model$ImportFinalDemand, 
-  # which is: model$FinalDemand - model$DomesticFDWithITA
-  y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
+  # Calculate import demand vector y_m. 
+  if(demand == "Production"){
+    y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
+  } else if(demand == "Consumption"){
+    y_m <- prepareImportConsumptionDemand(model, location = model$specs$ModelRegionAcronyms[1])
+  }
+
   
   # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
   logging::loginfo("Calculating Final Perspective LCI...")
