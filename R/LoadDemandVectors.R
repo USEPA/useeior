@@ -7,6 +7,15 @@ loadDemandVectors <- function(model) {
   model$DemandVectors$vectors <- list()
   meta <- loadDefaultDemandVectorMeta(model)
   
+  # if(model$specs$ExternalImportFactors == TRUE){
+  #   ImportDemand <- list()
+  #   ImportDemand["Type"] <- "Production"
+  #   ImportDemand["System"] <- "Import"
+  #   
+  #   model$specs$DemandVectors$ImportDemandVectors <- ImportDemand
+  #   # Fails at the following line below: meta <- rbind(meta,data.frame(i, stringsAsFactors = FALSE) )
+  # }
+  # 
   specs <- model$specs$DemandVectors
   for (v in setdiff(names(specs), "DefaultDemand")) {
     # Populate metadata
