@@ -6,14 +6,12 @@
 for a given demand vector.
 Note that for this calculation, perspective is always FINAL}
 \usage{
-calculateResultsWithExternalFactors(model, demand = "Production")
+calculateResultsWithExternalFactors(model, demand = "Consumption")
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
-or an actual demand vector with names as one or more model sectors and
-numeric values in USD with the same dollar year as model.}
+\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",}
 }
 \value{
 A list with LCI and LCIA results (in data.frame format) of the EEIO model.

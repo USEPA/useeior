@@ -85,7 +85,11 @@ prepareDomesticProductionDemand <- function(model, location) {
   return(y_d_p)
 }
 
-prepareImportedProductionDemand <- function(model, location){
+#' Prepares a demand vector representing Import production
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param location, str of location code for demand vector
+#' @return A named vector with demand
+prepareImportProductionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
     # y_d_p <- prepare2RDemand(model, location, domestic = TRUE) #TODO
     stop("Import production demand not yet implemented for 2R models.")
@@ -129,7 +133,7 @@ prepareImportConsumptionDemand <- function(model, location) {
   } else {
     y_c <- sumforConsumption(model, model$ImportFinalDemand, location)
   }
-  return(as.matrix(y_c))
+  return(y_c)
 }
 
 

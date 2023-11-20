@@ -525,7 +525,7 @@ compareOutputfromMakeandUse <- function(model, output_type = "Commodity") {
 
 #' Validate the results of the model build using the Import Factor approach (i.e., coupled model approach)
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
-#' @param  A demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.
+#' @param demand, A demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.
 #' @return A calculated direct requirements table
 validateImportFactorsApproach <- function(model, demand = "Consumption"){
   
@@ -538,14 +538,9 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   y_d  <- prepareDemandVectorForStandardResults(model, demand, location = NULL, use_domestic_requirements = TRUE)
   # Equivalent to as.matrix(rowSums(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)]))
   
-  # Calculate import demand vector y_m. 
-  if(demand == "Production"){
-    # This option left in for validation purposes.
-    y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
-  } else if(demand == "Consumption"){
-    y_m <- prepareImportConsumptionDemand(model, location = model$specs$ModelRegionAcronyms[1])
-  }
-  
+  # Calculate import demand vector y_m.
+  y_m <- prepareDemandVectorForImportResults(model, demand, location = "US")
+
   cat("\nTesting that final demand vector is equivalent between standard and coupled model approaches. I.e.: y = y_m + y_d.\n")
   print(all.equal(y, y_d+y_m))
 
@@ -595,7 +590,5 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   cat("\nTesting that LCIA results are equivalent between standard and coupled model approaches (i.e., LCIA = LCIA_dm) when\n")
   cat("assuming model$M = model$M_m.\n")
   all.equal(LCIA_dm, LCIA)
-  
-  
   
 }

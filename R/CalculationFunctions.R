@@ -74,33 +74,38 @@ prepareDemandVectorForStandardResults <- function(model, demand = "Production", 
   
 }
 
+
+#' Prepare demand vector for EEIO model results calculations
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
+#' @param location, str optional location code for demand vector, required for two-region models
+prepareDemandVectorForImportResults <- function(model, demand = "Production", location = NULL) {
+  # Calculate import demand vector y_m. 
+  if(demand == "Production"){
+    # This option left in for validation purposes.
+    logging::loginfo("Warning: Production demand vector not recommended for estimating results for models with external Import Factors. ")
+    y_m <- prepareImportProductionDemand(model, location = location)
+  } else if(demand == "Consumption"){
+    y_m <- prepareImportConsumptionDemand(model, location = location)
+  }
+
+  return(as.matrix(y_m))
+
+}
+
+  
 #' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that has external import factors
 #' for a given demand vector.
 #' Note that for this calculation, perspective is always FINAL
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
-#' or an actual demand vector with names as one or more model sectors and
-#' numeric values in USD with the same dollar year as model.
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateResultsWithExternalFactors <- function(model, demand = "Production"){
+calculateResultsWithExternalFactors <- function(model, demand = "Consumption") {
   result <- list()
-  # Standard domestic production demand vector (y_d_p_standard) includes ITA (mu) in its calculation. Since model$DomesticFDWithITA includes mu,
-  # y_d derived from model$DomesticFDWithITA should be the same as the y_d_p_standard. I.e., 
-  # y_d_p <- as.matrix(rowSums(model$DomesticFDWithITA)) is equal to the value from the below function call
   y_d <- prepareDemandVectorForStandardResults(model, demand, location = NULL, use_domestic_requirements = TRUE)
+  y_m <- prepareDemandVectorForImportResults(model, demand, location = "US")
 
-  # Calculate import demand vector y_m. 
-  if(demand == "Production"){
-    # This option left in for validation purposes.
-    logging::loginfo("Warning: Production demand vector not recommended for estimating results for models with external Import Factors. ")
-    
-    y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
-  } else if(demand == "Consumption"){
-    y_m <- prepareImportConsumptionDemand(model, location = model$specs$ModelRegionAcronyms[1])
-  }
-
-  
   # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
   logging::loginfo("Calculating Final Perspective LCI...")
 
@@ -119,9 +124,7 @@ calculateResultsWithExternalFactors <- function(model, demand = "Production"){
   
   colnames(result$LCIA_f) <- rownames(model$N_m)
   rownames(result$LCIA_f) <- colnames(model$N_m)
-  
 
-  
   return(result)
   
 }
