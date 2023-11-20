@@ -541,7 +541,7 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   # Calculate import demand vector y_m. 
   if(demand == "Production"){
     # This option left in for validation purposes.
-    y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
+    y_m <- prepareImportProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
   } else if(demand == "Consumption"){
     y_m <- prepareImportConsumptionDemand(model, location = model$specs$ModelRegionAcronyms[1])
   }

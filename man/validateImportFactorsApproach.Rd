@@ -4,14 +4,12 @@
 \alias{validateImportFactorsApproach}
 \title{Validate the results of the model build using the Import Factor approach (i.e., coupled model approach)}
 \usage{
-validateImportFactorsApproach(model, y = NULL, y_d = NULL)
+validateImportFactorsApproach(model, demand = "Consumption")
 }
 \arguments{
 \item{model, }{An EEIO model object with model specs and crosswalk table loaded}
 
-\item{y}{A final demand VECTOR used for calculating the conventional model results, L*Y}
-
-\item{y_d}{A final demand VECTOR used for validating the model results using the A_m calculation.}
+\item{A}{demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.}
 }
 \value{
 A calculated direct requirements table

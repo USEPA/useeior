@@ -95,7 +95,7 @@ calculateResultsWithExternalFactors <- function(model, demand = "Production"){
     # This option left in for validation purposes.
     logging::loginfo("Warning: Production demand vector not recommended for estimating results for models with external Import Factors. ")
     
-    y_m <- prepareImportedProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
+    y_m <- prepareImportProductionDemand(model, location = model$specs$ModelRegionAcronyms[1])
   } else if(demand == "Consumption"){
     y_m <- prepareImportConsumptionDemand(model, location = model$specs$ModelRegionAcronyms[1])
   }
