@@ -9,7 +9,7 @@ validateImportFactorsApproach(model, demand = "Consumption")
 \arguments{
 \item{model, }{An EEIO model object with model specs and crosswalk table loaded}
 
-\item{A}{demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.}
+\item{demand, }{A demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.}
 }
 \value{
 A calculated direct requirements table
