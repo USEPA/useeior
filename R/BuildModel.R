@@ -137,7 +137,7 @@ constructEEIOMatrices <- function(model) {
     model$N_d <- model$C %*% model$M_d
     if(!is.null(model$M_m)) {
       logging::loginfo("Calculating N_m matrix (total environmental impacts per dollar from imported activity)...")
-      model$N_m <- model$C %*% model$M_m
+      model$N_m <- model$C %*% model$M_m # I don't think this is correct. See ImportFactorsTests.rmd, "Calculate the N matrix for the standard model using coupled model approach" chunk.
     }
   }
 
