@@ -238,7 +238,8 @@ generateInternationalTradeAdjustmentVector <- function(Use, Import, model) {
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return A model object with explicit import components.
 buildModelwithImportFactors <- function(model) {
-  # Deriving the economic component of the Swedish equation for import factors: f^(d+m) = s^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
+  # Deriving the economic component of the Swedish equation (see Palm et al. 2019) for import factors: 
+  # f^(d+m) = s^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
   # s^d are the domestic direct environmental coefficients, and Q are the environmental import multipliers, s_m*L_m. Dropping s_d and s_m we get
   # x^(d+m) = s^d*L^d*y^d + L^m*A^m*L^d*y^d + L^m*y^m + f^h
   # Since f^h is not currently part of the useeior model calculations, we drop it:
