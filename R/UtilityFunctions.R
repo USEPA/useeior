@@ -452,9 +452,12 @@ formatLocationforStateModels <- function(location) {
 #' @param filename str filename of model spec 
 getInputFilePath <- function(configpaths, folderPath="extdata", filename){
   if(!is.null(configpaths)) {
-    filepath <- file.path(dirname(configpaths)[1], filename)
-    if(file.exists(filepath)) {
-      return(filepath)
+    for (dir in dirname(configpaths)) {
+      filepath <- file.path(dir, filename)
+      # print(filepath)
+      if (file.exists(filepath)) {
+        return(filepath)
+      }
     }
   }
   filepath <- system.file(folderPath, filename, package = "useeior")
