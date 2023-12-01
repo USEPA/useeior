@@ -185,7 +185,7 @@ loadDataCommonsfile <- function(static_file) {
   file_name <- sub(pat, "\\2", method_name)
   
   # url for data commons
-  debug_url <- paste0("https://edap-ord-data-commons.s3.amazonaws.com/", subdirectory)
+  debug_url <- paste0("https://dmap-data-commons-ord.s3.amazonaws.com/", subdirectory)
   
   directory <- paste0(rappdirs::user_data_dir(), "/", subdirectory)
   
