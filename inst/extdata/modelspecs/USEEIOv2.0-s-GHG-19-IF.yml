@@ -66,4 +66,4 @@ ImportFactors:
     FullName: "Rest of World Import Factors"
     Abbreviation: "RoW_IF"
     StaticSource: TRUE
-    StaticFile: "extdata/imports_multipliers_2019.csv"
+    StaticFile: "imports_multipliers_2019.csv"
