@@ -236,8 +236,10 @@ generateInternationalTradeAdjustmentVector <- function(Use, Import, model) {
 
 #' Create import Use table and validate domestic+import against full use model .
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @return A model object with explicit import components.
-buildModelwithImportFactors <- function(model) {
+buildModelwithImportFactors <- function(model, configpaths = NULL) {
   # Deriving the economic component of the Swedish equation (see Palm et al. 2019) for import factors: 
   # f^(d+m) = s^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
   # s^d are the domestic direct environmental coefficients, and Q are the environmental import multipliers, s_m*L_m. Dropping s_d and s_m we get
@@ -276,7 +278,7 @@ buildModelwithImportFactors <- function(model) {
   model$M_d <- model$B %*% model$L_d 
   
   logging::loginfo("Calculating M_m matrix (total emissions and resource use per dollar from imported activity)...")
-  M_m <- loadExternalImportFactors(model)
+  M_m <- loadExternalImportFactors(model, configpaths)
   
   # Fill in flows for M_m not found in Import Factors but that exist in model and align order
   M_m <- rbind(M_m, model$M_d[setdiff(rownames(model$M_d), rownames(M_m)),])

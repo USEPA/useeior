@@ -10,15 +10,17 @@ buildModel <- function(modelname, configpaths = NULL) {
   model <- loadandbuildSatelliteTables(model)
   model <- loadandbuildIndicators(model)
   model <- loadDemandVectors(model)
-  model <- constructEEIOMatrices(model)
+  model <- constructEEIOMatrices(model, configpaths)
   return(model)
 }
 
 #' Construct EEIO matrices based on loaded IO tables, built satellite tables,
 #' and indicator tables.
 #' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @return A list with EEIO matrices.
-constructEEIOMatrices <- function(model) {
+constructEEIOMatrices <- function(model, configpaths = NULL) {
   # Combine data into a single totals by sector df
   model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
   # Set common year for flow when more than one year exists
@@ -113,7 +115,7 @@ constructEEIOMatrices <- function(model) {
   
   if(!is.null(model$specs$ExternalImportFactors)) {
     # Alternate model build for implementing Import Factors
-    model <- buildModelwithImportFactors(model)
+    model <- buildModelwithImportFactors(model, configpaths)
   } else {
     # Standard model build procedure
   

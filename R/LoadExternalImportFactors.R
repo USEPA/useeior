@@ -2,13 +2,16 @@
 
 #' Load and prepare import coefficients
 #' @param model An EEIO form USEEIO model object with model specs loaded
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @return M_m, matrix of import coefficients (flow x sector).
-loadExternalImportFactors <- function(model) {
+loadExternalImportFactors <- function(model, configpaths = NULL) {
 
   # Read in file with Import factors
   IFSpec <- model$specs$ImportFactors[[1]]
-  IFTable <- utils::read.table(system.file(IFSpec$StaticFile, package = "useeior"), 
-                               sep = ",", header = TRUE, stringsAsFactors = FALSE)
+  filename <- getInputFilePath(configpaths, folderPath = "extdata", filename = IFSpec$StaticFile)
+  IFTable <- utils::read.table(filename, sep = ",", header = TRUE,
+                               stringsAsFactors = FALSE)
   
   # Store meta data
   meta <- data.frame(matrix(nrow = 0, ncol = 5))

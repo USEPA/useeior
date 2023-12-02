@@ -5,10 +5,13 @@
 \title{Construct EEIO matrices based on loaded IO tables, built satellite tables,
 and indicator tables.}
 \usage{
-constructEEIOMatrices(model)
+constructEEIOMatrices(model, configpaths = NULL)
 }
 \arguments{
 \item{model}{An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded}
+
+\item{configpaths}{str vector, paths (including file name) of model configuration file
+and optional agg/disagg configuration file(s). If NULL, built-in config files are used.}
 }
 \value{
 A list with EEIO matrices.
