@@ -22,9 +22,10 @@ Model specifications are assigned in a yml file based on the parameters shown be
 | DemandVectors | list |  | The [demand vector specifications](#Demand-Vector-Specifications) |
 
 ## Model Types
-- EEIO: (default) Environmentally Extended Input Output
-- EEIO-IH: Integrated hybrid model
-
+- `EEIO`: (default) Environmentally Extended Input Output
+- `EEIO-IH`: Integrated Hybrid model
+- `MUIO`: Mixed Unit Input-Output
+- `WIO`: Waste Input-Output
 
 ## Satellite Table Specifications
 | Item | Type | Required? | Description |
