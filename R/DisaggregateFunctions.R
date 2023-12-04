@@ -230,7 +230,7 @@ prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
   
   # Update NAICSSectorCW
   d2$NAICSSectorCW$USEEIO_Code <- gsub("/US", paste0("/",region), d2$NAICSSectorCW$USEEIO_Code)
-  d2$DisaggregatedSectorCodes <- lapply(d2$DisaggregatedSectorCodes, function(x) gsub("/US", paste0("/",region), x))
+  d2$NewSectorCodes <- lapply(d2$NewSectorCodes, function(x) gsub("/US", paste0("/",region), x))
 
   # Duplicate national allocations
   cols <- c("IndustryCode","CommodityCode")
@@ -238,8 +238,8 @@ prepareTwoRegionDisaggregation <- function(disagg, region, regions) {
   d2$UseFileDF[cols] <- lapply(d2$UseFileDF[cols], function(x) gsub("/US", paste0("/",region), x))  
 
   # For Use table, adjust use table intersections for sequential disaggregation
-  rep <- subset(d2$UseFileDF, CommodityCode %in% d2$DisaggregatedSectorCodes &
-                              IndustryCode %in% d2$DisaggregatedSectorCodes)
+  rep <- subset(d2$UseFileDF, CommodityCode %in% d2$NewSectorCodes &
+                              IndustryCode %in% d2$NewSectorCodes)
   
   rep1 <- rep
   rep2 <- rep
@@ -391,12 +391,12 @@ disaggregateTaxLessSubsidies <- function(model, disagg) {
   original <- model$TaxLessSubsidies
   originalIndex <-  grep(disagg$OriginalSectorCode, model$TaxLessSubsidies$Code_Loc)
   originalRow <- model$TaxLessSubsidies[originalIndex,]
-  disaggTLS <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]
+  disaggTLS <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$NewSectorCodes)),,drop=FALSE]
   disaggRatios <- unname(disaggregatedRatios(model, disagg, model$specs$CommodityorIndustryType))
   
-  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1]))
-  disaggTLS$Code_Loc <- unlist(disagg$DisaggregatedSectorCodes)
-  disaggTLS$Name <- unlist(disagg$DisaggregatedSectorNames)
+  codeLength <- nchar(gsub("/.*", "", disagg$NewSectorCodes[1]))
+  disaggTLS$Code_Loc <- unlist(disagg$NewSectorCodes)
+  disaggTLS$Name <- unlist(disagg$NewSectorNames)
   
   #code below multiplies the values in the relevant columns of the TLS dataframe by the disaggRatios
   disaggTLS$BasicValue <- disaggTLS$BasicValue * disaggRatios
@@ -621,7 +621,7 @@ disaggregateSatelliteTable <- function (disagg, tbs, sat_spec) {
         if (!identical(sort(included_sectors),sort(unlist(gsub("/.*","",disagg$NewSectorCodes))))) {
           logging::logwarn("Satellite table does not include all disaggregated sectors")
           # Drop sectors that are not part of this disaggregation
-          new_sector_totals <- subset(new_sector_totals, Sector %in% gsub("/.*","",disagg$DisaggregatedSectorCodes))
+          new_sector_totals <- subset(new_sector_totals, Sector %in% gsub("/.*","",disagg$NewSectorCodes))
         }
         # Append to the main dataframe
         sattable <- rbind(sattable,new_sector_totals)
