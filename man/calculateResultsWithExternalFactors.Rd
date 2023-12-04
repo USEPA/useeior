@@ -6,12 +6,18 @@
 for a given demand vector.
 Note that for this calculation, perspective is always FINAL}
 \usage{
-calculateResultsWithExternalFactors(model, demand = "Consumption")
+calculateResultsWithExternalFactors(
+  model,
+  demand = "Consumption",
+  use_domestic_requirements = FALSE
+)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",}
+\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption"}
+
+\item{use_domestic_requirements}{bool, if TRUE, return only domestic portion of results}
 }
 \value{
 A list with LCI and LCIA results (in data.frame format) of the EEIO model.

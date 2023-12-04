@@ -16,7 +16,7 @@
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL, use_domestic_requirements = FALSE) {
   if (!is.null(model$specs$ExternalImportFactors)) {
-    result <- calculateResultsWithExternalFactors(model, demand)
+    result <- calculateResultsWithExternalFactors(model, demand, use_domestic_requirements = use_domestic_requirements)
   } else {
     # Standard model results calculation
     f <- prepareDemandVectorForStandardResults(model, demand, location, use_domestic_requirements)
@@ -98,10 +98,11 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 #' for a given demand vector.
 #' Note that for this calculation, perspective is always FINAL
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
+#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption"
+#' @param use_domestic_requirements bool, if TRUE, return only domestic portion of results
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateResultsWithExternalFactors <- function(model, demand = "Consumption") {
+calculateResultsWithExternalFactors <- function(model, demand = "Consumption", use_domestic_requirements = FALSE) {
   result <- list()
   y_d <- prepareDemandVectorForStandardResults(model, demand, location = NULL, use_domestic_requirements = TRUE)
   y_m <- prepareDemandVectorForImportResults(model, demand, location = "US")
@@ -113,7 +114,11 @@ calculateResultsWithExternalFactors <- function(model, demand = "Consumption") {
   y_m <- diag(as.vector(y_m))
   
   # parentheses used to denote (domestic) and (import) components
-  result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$M_m %*% model$A_m %*% model$L_d %*% y_d + model$M_m %*% y_m)
+  if (use_domestic_requirements) {
+    result$LCI_f <- (model$B %*% model$L_d %*% y_d)
+  } else {
+    result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$M_m %*% model$A_m %*% model$L_d %*% y_d + model$M_m %*% y_m)
+  }
   result$LCIA_f <- model$C %*% result$LCI_f
   
   result$LCI_f <- t(result$LCI_f)
