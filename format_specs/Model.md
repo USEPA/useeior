@@ -24,6 +24,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | MultiYearIndustryOutput | data.frame | supporting data | Multi-year industry output in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityOutput | data.frame | supporting data | Multi-year commodity output  in [sector-by-year format](#sector-by-year) |
 | Margins | data.frame | supporting data | [The final consumer margins table](#margins) |
+| TaxLessSubsidies | data.frame | supporting data | [Total product supply in basic price and tax less subsidies](#taxlesssubsidies) |
 | MultiYearIndustryCPI | data.frame | supporting data | Multi-year industry CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityCPI | data.frame |   supporting data | Multi-year commodity CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
 | AggregationSpecs | list | metadata | Specifications for one or more aggregations
@@ -55,6 +56,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | N_d | matrix | result matrix | [The total impact (from domestic activity) matrix](#N) |
 | Rho | matrix | component matrix | [The CPI<sup>1</sup> price year ratio matrix for a given model](#Rho)|
 | Phi | matrix | component matrix | [The producer-to-purchaser price ratio matrix for a given model](#Phi)|
+| Tau | matrix | component matrix | [The basic-to-producer price ratio matrix for a given model](#Tau)|
 
 <sup>1</sup> Chain-type Price Index
 
@@ -113,6 +115,18 @@ A [sector meta table](#sector-meta) with an additional group field.
 | Name | str | Sector name |
 | Code_Loc | str | Code plus location (e.g. `1111A0/US`) |
 | PurchasersValue | numeric | Purchaser's value (sum of ProducersValue, Transportation, Wholesale, and Retail) |
+
+### TaxLessSubsidies
+
+| Item | Type | Description |
+| --- | --- | --------- |
+| BasicValue | numeric | Basic value |
+| MDTY | numeric | Import duties |
+| TOP | numeric | Taxes on production |
+| SUB | numeric | Subsidies  |
+| ProducerValue | numeric | Producer's value |
+| Name | str | Sector name |
+| Code_Loc | str | Code plus location (e.g. `1111A0/US`) |
 
 ### SatelliteTables
 The SatelliteTables object contains a totals_by_sector list and a flows dataframe.
@@ -324,6 +338,18 @@ flows |       |
       +-------+
 flows |       |
       |   Phi |
+      +-------+
+```
+
+#### Tau
+
+`Tau` is also a `sector x year` matrix and contains in each column `y` basic-to-producer price ratios. Tau ratios are year-specific ratios in the form of value in basic price/value in producer price.
+
+```
+        years
+      +-------+
+flows |       |
+      |   Tau |
       +-------+
 ```
 

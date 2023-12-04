@@ -15,8 +15,8 @@ Model specifications are assigned in a yml file based on the parameters shown be
 | BasewithRedefinitions | bool | Y | Whether the model is based with redefinitions (TRUE or FALSE) |
 | CommodityorIndustryType | str | Y | Define if this is a commodity x commodity (`Commodity`) or industry x industry (`Industry`) model |
 | ScrapIncluded | bool | Y | Whether the model includes scrap (TRUE or FALSE) |
-| DisaggregationSpecs | str | N | The [disaggregation specifications](https://github.com/USEPA/useeior/blob/hybridization/format_specs/ModelCustomization.md#disaggregation) |
-| HybridizationSpecs | str | N | The [hybridization specifications](https://github.com/USEPA/useeior/blob/hybridization/format_specs/ModelCustomization.md#hybridization-file-specification) |
+| DisaggregationSpecs | str | N | The [disaggregation specifications](ModelCustomization.md#disaggregation) |
+| HybridizationSpecs | str | N | The [hybridization specifications](ModelCustomization.md#hybridization-file-specification) |
 | SatelliteTable | list |  | The [satellite table specifications](#Satellite-Table-Specifications) |
 | Indicators | list |  | The [indicator specifications](#Indicator-Specifications) |
 | DemandVectors | list |  | The [demand vector specifications](#Demand-Vector-Specifications) |

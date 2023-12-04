@@ -37,7 +37,7 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
     A_proc <- rbind(A_proc, missingRows)
     A_proc <- as.matrix(A_proc)
   }
-  
+
   A_merged <- merge(A_proc, A, by="row.names", all=TRUE)
   A_merged[is.na(A_merged)] <- 0
   
@@ -179,9 +179,9 @@ getHybridizationFiles <- function (model, configpaths = NULL){
     # Load Tech file
     filename <- getInputFilePath(configpaths, "extdata/hybridizationspecs", spec$TechFile)
     model$HybridizationSpecs$TechFileDF <- utils::read.csv(filename,
-                                                          sep = ",", header = TRUE,
-                                                          stringsAsFactors = FALSE,
-                                                          check.names = FALSE)
+                                                           sep = ",", header = TRUE,
+                                                           stringsAsFactors = FALSE,
+                                                           check.names = FALSE)
 
     # Load Env file
     filename <- getInputFilePath(configpaths, "extdata/hybridizationspecs", spec$EnvFile)
@@ -189,6 +189,6 @@ getHybridizationFiles <- function (model, configpaths = NULL){
                                                           sep = ",", header = TRUE,
                                                           stringsAsFactors = FALSE,
                                                           check.names = FALSE,
-                                                          encoding='UTF-8')
+                                                          encoding = 'UTF-8')
   return(model)
 }

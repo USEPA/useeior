@@ -56,6 +56,7 @@ disaggregateModel <- function (model){
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
     model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
+    model$TaxLessSubsidies <- disaggregateTaxLessSubsidies(model, disagg)
     
     # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
     if (model$specs$CommodityorIndustryType=="Industry") {
@@ -99,7 +100,6 @@ getDisaggregationSpecs <- function (model, configpaths = NULL){
 #' If NULL, built-in config files are used.
 #' @return A model object with the correct disaggregation specs.
 disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggregation"){
-  
 
   if(setupType == "Disaggregation") {
     folderPath <- "extdata/disaggspecs"
@@ -311,8 +311,6 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
     originalInternationalTradeAdjustment <- model$InternationalTradeAdjustmentbyCommodity
   }
   originalNameList <- names(originalInternationalTradeAdjustment) # Get names from named vector
-#  codeLength <- nchar(gsub("/.*", "", disagg$OriginalSectorCode)) # Calculate code length (needed for summary vs. detail level code lengths)
-#  originalIndex <- which(originalNameList == substr(disagg$OriginalSectorCode, 1, codeLength)) # Get row index of the original aggregate sector in the object
   originalIndex <- which(originalNameList == disagg$OriginalSectorCode) # Get row index of the original aggregate sector in the object
   
   originalRow <- originalInternationalTradeAdjustment[originalIndex] # Copy row containing the Margins information for the original aggregate sector
@@ -349,9 +347,10 @@ disaggregateMargins <- function(model, disagg) {
   originalMargins <- model$Margins
   originalIndex <-  grep(disagg$OriginalSectorCode, model$Margins$Code_Loc)#get row index of the original aggregate sector in the model$Margins object
   originalRow <- model$Margins[originalIndex,]#copy row containing the Margins information for the original aggregate sector
+
   disaggMargins <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$NewSectorCodes)),,drop=FALSE]#replicate the original a number of times equal to the number of disaggregate sectors
-  disaggRatios <- unname(disaggregatedRatios(model, disagg, "Commodity"))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
-  
+  disaggRatios <- unname(disaggregatedRatios(model, disagg, model$specs$CommodityorIndustryType))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
+
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
   codeLength <- nchar(gsub("/.*", "", disagg$NewSectorCodes[1]))
 
@@ -373,9 +372,45 @@ disaggregateMargins <- function(model, disagg) {
   
   #update rownames so that the row names of the disaggregated sectors do not contain decimals (e.g., 351.1)
   rownames(newMargins) <- NULL
-  newMargins <- newMargins[match(newMargins$SectorCode, model$Commodities$Code), ]
+  if(model$specs$CommodityorIndustryType == "Industry") {
+    names <- model$Industries$Code
+  } else {
+    names <- model$Commodities$Code
+  }
+  newMargins <- newMargins[match(newMargins$SectorCode, names), ]
   
   return(newMargins)
+}
+
+
+#' Disaggregate TaxLessSubsidies dataframe in the main model object
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param disagg Specifications for disaggregating the current Table
+#' @return newTLS A dataframe which contain the TaxLessSubsidies including the disaggregated sectors
+disaggregateTaxLessSubsidies <- function(model, disagg) {
+  original <- model$TaxLessSubsidies
+  originalIndex <-  grep(disagg$OriginalSectorCode, model$TaxLessSubsidies$Code_Loc)
+  originalRow <- model$TaxLessSubsidies[originalIndex,]
+  disaggTLS <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]
+  disaggRatios <- unname(disaggregatedRatios(model, disagg, model$specs$CommodityorIndustryType))
+  
+  codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1]))
+  disaggTLS$Code_Loc <- unlist(disagg$DisaggregatedSectorCodes)
+  disaggTLS$Name <- unlist(disagg$DisaggregatedSectorNames)
+  
+  #code below multiplies the values in the relevant columns of the TLS dataframe by the disaggRatios
+  disaggTLS$BasicValue <- disaggTLS$BasicValue * disaggRatios
+  disaggTLS$MDTY <- disaggTLS$MDTY * disaggRatios
+  disaggTLS$TOP <- disaggTLS$TOP * disaggRatios
+  disaggTLS$SUB <- disaggTLS$SUB * disaggRatios
+  disaggTLS$ProducerValue <- disaggTLS$ProducerValue * disaggRatios
+
+  #bind the new values to the original table
+  newTLS <- rbind(original[1:originalIndex-1,], disaggTLS, original[-(1:originalIndex),])
+  
+  rownames(newTLS) <- NULL
+
+  return(newTLS)
 }
 
 #' Calculate ratios of throughputs from the disaggregated sectors

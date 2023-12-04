@@ -85,62 +85,74 @@
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Summary_Make_2020_BeforeRedef"
 
+#' Summary 2021 Make Before Redefinition (2012 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Make_2021_BeforeRedef"
+
 #' Summary 2010 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2010_PRO_BeforeRedef"
 
 #' Summary 2011 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2011_PRO_BeforeRedef"
 
 #' Summary 2012 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2012_PRO_BeforeRedef"
 
 #' Summary 2013 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2013_PRO_BeforeRedef"
 
 #' Summary 2014 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2014_PRO_BeforeRedef"
 
 #' Summary 2015 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2015_PRO_BeforeRedef"
 
 #' Summary 2016 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2016_PRO_BeforeRedef"
 
 #' Summary 2017 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2017_PRO_BeforeRedef"
 
 #' Summary 2018 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2018_PRO_BeforeRedef"
 
 #' Summary 2019 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Summary_Use_2019_PRO_BeforeRedef"
 
 #' Summary 2020 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Summary_Use_2020_PRO_BeforeRedef"
+
+#' Summary 2021 Use Producer's Value Before Redefinition (2012 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Use_2021_PRO_BeforeRedef"
 
 #' Summary 2012 Use Purchaser's Value Before Redefinition (2012 schema)
 #' @format A dataframe with 80 obs. and 98 variables
@@ -204,62 +216,74 @@
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Summary_Make_2020_AfterRedef"
 
+#' Summary 2022 Make After Redefinition (2012 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Make_2021_AfterRedef"
+
 #' Summary 2010 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2010_PRO_AfterRedef"
 
 #' Summary 2011 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2011_PRO_AfterRedef"
 
 #' Summary 2012 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2012_PRO_AfterRedef"
 
 #' Summary 2013 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2013_PRO_AfterRedef"
 
 #' Summary 2014 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2014_PRO_AfterRedef"
 
 #' Summary 2015 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2015_PRO_AfterRedef"
 
 #' Summary 2016 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2016_PRO_AfterRedef"
 
 #' Summary 2017 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2017_PRO_AfterRedef"
 
 #' Summary 2018 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Summary_Use_2018_PRO_AfterRedef"
 
 #' Summary 2019 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Summary_Use_2019_PRO_AfterRedef"
 
 #' Summary 2020 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 83 obs. and 98 variables
+#' @format A dataframe with 79 obs. and 94 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Summary_Use_2020_PRO_AfterRedef"
+
+#' Summary 2021 Use Producer's Value After Redefinition (2012 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Summary_Use_2021_PRO_AfterRedef"
 
 #' Sector 2010 Make Before Redefinition (2012 schema)
 #' @format A dataframe with 16 obs. and 18 variables
@@ -318,65 +342,77 @@
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Sector_Make_2020_BeforeRedef"
 
+#' Sector 2021 Make Before Redefinition (2012 schema)
+#' @format A dataframe with 16 obs. and 18 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Make_2021_BeforeRedef"
+
 #' Sector 2010 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2010_PRO_BeforeRedef"
 
 #' Sector 2011 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2011_PRO_BeforeRedef"
 
 #' Sector 2012 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2012_PRO_BeforeRedef"
 
 #' Sector 2013 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2013_PRO_BeforeRedef"
 
 #' Sector 2014 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2014_PRO_BeforeRedef"
 
 #' Sector 2015 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2015_PRO_BeforeRedef"
 
 #' Sector 2016 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2016_PRO_BeforeRedef"
 
 #' Sector 2017 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2017_PRO_BeforeRedef"
 
 #' Sector 2018 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2018_PRO_BeforeRedef"
 
 #' Sector 2019 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Sector_Use_2019_PRO_BeforeRedef"
 
 #' Sector 2020 Use Producer's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Sector_Use_2020_PRO_BeforeRedef"
 
+#' Sector 2021 Use Producer's Value Before Redefinition (2012 schema)
+#' @format A dataframe with 23 obs. and 24 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Use_2021_PRO_BeforeRedef"
+
 #' Sector 2012 Use Purchaser's Value Before Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2012_PUR_BeforeRedef"
 
@@ -437,62 +473,74 @@
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Sector_Make_2020_AfterRedef"
 
+#' Sector 2021 Make After Redefinition (2012 schema)
+#' @format A dataframe with 16 obs. and 18 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Make_2021_AfterRedef"
+
 #' Sector 2010 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2010_PRO_AfterRedef"
 
 #' Sector 2011 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2011_PRO_AfterRedef"
 
 #' Sector 2012 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2012_PRO_AfterRedef"
 
 #' Sector 2013 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2013_PRO_AfterRedef"
 
 #' Sector 2014 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2014_PRO_AfterRedef"
 
 #' Sector 2015 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2015_PRO_AfterRedef"
 
 #' Sector 2016 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2016_PRO_AfterRedef"
 
 #' Sector 2017 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2017_PRO_AfterRedef"
 
 #' Sector 2018 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://edap-ord-data-commons.s3.amazonaws.com/useeior/AllTablesIO.zip}
 "Sector_Use_2018_PRO_AfterRedef"
 
 #' Sector 2019 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Sector_Use_2019_PRO_AfterRedef"
 
 #' Sector 2020 Use Producer's Value After Redefinition (2012 schema)
-#' @format A dataframe with 27 obs. and 28 variables
+#' @format A dataframe with 23 obs. and 24 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Sector_Use_2020_PRO_AfterRedef"
+
+#' Sector 2021 Use Producer's Value After Redefinition (2012 schema)
+#' @format A dataframe with 23 obs. and 24 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+#' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
+"Sector_Use_2021_PRO_AfterRedef"
 
 #' Detail 2012 Import Before Redefinition (2012 schema)
 #' @format A dataframe with 405 obs. and 427 variables
@@ -692,3 +740,233 @@
 #'  \item{NAICS_2007_Code}{text code}
 #' }
 "MasterCrosswalk2007"
+
+#' Detail 2012 Supply (2012 schema)
+#' @format A dataframe with 406 obs. and 417 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Detail_Supply_2012"
+
+#' Detail 2012 Use (under the Supply-Use framework, 2012 schema)
+#' @format A dataframe with 414 obs. and 426 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Detail_Use_SUT_2012"
+
+#' Summary 2010 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2010"
+
+#' Summary 2011 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2011"
+
+#' Summary 2012 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2012"
+
+#' Summary 2013 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2013"
+
+#' Summary 2014 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2014"
+
+#' Summary 2015 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2015"
+
+#' Summary 2016 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2016"
+
+#' Summary 2017 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2017"
+
+#' Summary 2018 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2018"
+
+#' Summary 2019 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2019"
+
+#' Summary 2020 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2020"
+
+#' Summary 2010 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2010"
+
+#' Summary 2011 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2011"
+
+#' Summary 2012 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2012"
+
+#' Summary 2013 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2013"
+
+#' Summary 2014 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2014"
+
+#' Summary 2015 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2015"
+
+#' Summary 2016 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2016"
+
+#' Summary 2017 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2017"
+
+#' Summary 2018 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2018"
+
+#' Summary 2019 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2019"
+
+#' Summary 2020 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2020"
+
+#' Sector 2010 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2010"
+
+#' Sector 2011 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2011"
+
+#' Sector 2012 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2012"
+
+#' Sector 2013 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2013"
+
+#' Sector 2014 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2014"
+
+#' Sector 2015 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2015"
+
+#' Sector 2016 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2016"
+
+#' Sector 2017 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2017"
+
+#' Sector 2018 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2018"
+
+#' Sector 2019 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2019"
+
+#' Sector 2020 Supply (2012 schema)
+#' @format A dataframe with 18 obs. and 27 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Supply_2020"
+
+#' Sector 2010 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2010"
+
+#' Sector 2011 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2011"
+
+#' Sector 2012 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2012"
+
+#' Sector 2013 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2013"
+
+#' Sector 2014 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2014"
+
+#' Sector 2015 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2015"
+
+#' Sector 2016 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2016"
+
+#' Sector 2017 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2017"
+
+#' Sector 2018 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2018"
+
+#' Sector 2019 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2019"
+
+#' Sector 2020 Use (2012 schema)
+#' @format A dataframe with 26 obs. and 22 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Sector_Use_SUT_2020"

@@ -3,29 +3,6 @@
 name: Save BEA Data
 
 on:
-  # push:
-  #   branches:
-  #     - 'updateIO'
-  #   paths-ignore:
-  #     - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
-  #     - '**.bib'
-  #     - '**.ya?ml'  # captures both .yml and .yaml
-  #     - '**.png'
-  #     # - '**.Rmd'
-  #     - 'LICENSE'
-  #     - '.gitignore'
-  #     - '.gitattributes'
-  # pull_request:
-  #   branches: [master, dev]
-  #   paths-ignore:
-  #     - '**.md'  # prevent md files (e.g., README.md) in any repo dir from trigering workflow
-  #     - '**.bib'
-  #     - '**.ya?ml'  # captures both .yml and .yaml
-  #     - '**.png'
-  #     # - '**.Rmd'
-  #     - 'LICENSE'
-  #     - '.gitignore'
-  #     - '.gitattributes'
   workflow_dispatch:  # allow manual trigger
 
 jobs:
@@ -45,15 +22,13 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: updateIO
-      # - run: git checkout HEAD^
 
-      - uses: r-lib/actions/setup-pandoc@v1
+      - uses: r-lib/actions/setup-pandoc@v2
 
-      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
@@ -61,14 +36,14 @@ jobs:
 
       - uses: r-lib/actions/setup-renv@v2
       
-      - uses: r-lib/actions/setup-r-dependencies@v1
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: devtools
         
       - name: Download and save BEA data
         run: |
           devtools::load_all()
-          source("data-raw/BEAData.R")
+          source("data-raw/BEAData_Detail.R")
         shell: Rscript {0}
         
       - name: Commit updated BEA IO data
@@ -77,4 +52,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/*.rda inst/extdata/metadata/*.json
           git commit -m "Update BEA data"
-          git push origin updateIO
+          git push
