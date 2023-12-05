@@ -12,7 +12,7 @@ prepareWIODFfromFBS(fbs, spec, model)
 \item{spec}{WIO model spec}
 }
 \value{
-list of two dataframes: UseTableDF and MakeTableDF
+model with list of two dataframes: UseTableDF and MakeTableDF
 }
 \description{
 Prepare make and use input files from FlowBySector file.
