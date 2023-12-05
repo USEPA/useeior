@@ -354,6 +354,7 @@ disaggregateTotalToDirectAndTier1 <- function(model, impact, opt_impact="indicat
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param impact str, a model indicator (e.g., "Greenhouse Gases") row index of N, 
 #'                    or elementary flow (e.g., "Methane/emission/air/kg") index of M
+#' @param opt_impact str {'indicator', 'elemflow'}, string code to specify impact type
 #' @return A sector by sector, impact-per-tier-1-purchase matrix.
 calculateTotalImpactbyTier1Purchases <- function(model, impact, opt_impact='indicator') {
   mtx_total <- c("indicator"="N", "elemflow"="M")[opt_impact]

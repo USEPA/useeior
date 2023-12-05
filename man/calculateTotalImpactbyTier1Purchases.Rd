@@ -13,6 +13,8 @@ calculateTotalImpactbyTier1Purchases(model, impact, opt_impact = "indicator")
 
 \item{impact}{str, a model indicator (e.g., "Greenhouse Gases") row index of N, 
 or elementary flow (e.g., "Methane/emission/air/kg") index of M}
+
+\item{opt_impact}{str {'indicator', 'elemflow'}, string code to specify impact type}
 }
 \value{
 A sector by sector, impact-per-tier-1-purchase matrix.
