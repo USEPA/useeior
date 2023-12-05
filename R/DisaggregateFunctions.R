@@ -99,7 +99,7 @@ getDisaggregationSpecs <- function (model, configpaths = NULL, pkg = "useeior"){
 #' Setup the configuration specs based on the input files
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
-#' @param stepType String that indicates whether this function is called to setup Disaggregation or WIO specs
+#' @param setupType String that indicates whether this function is called to setup Disaggregation or WIO specs
 #' If NULL, built-in config files are used.
 #' @return A model object with the correct disaggregation specs.
 disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggregation"){

@@ -38,6 +38,7 @@ getWIOFiles <- function (model, configpaths = NULL){
 #' Prepare make and use input files from FlowBySector file.
 #' @param fbs FlowBySector dataframe.
 #' @param spec WIO model spec
+#' @param model An EEIO model object with model specs and IO tables loaded
 #' @return model with list of two dataframes: UseTableDF and MakeTableDF
 prepareWIODFfromFBS <- function(fbs, spec, model) {
   sectorlist <- spec$NAICSSectorCW$USEEIO_Code[spec$NAICSSectorCW$Type != "Flowable"]
@@ -440,6 +441,7 @@ includeFullUseWIO <- function (model, WIO){
 
 #' Include the WIO elements of the Make table in the correct configuration
 #' @param model An EEIO model object with model specs and IO tables loaded
+#' @param WIO A list with WIO specifications and data
 #' @return A model with the MakeTransactions matrix modified with WIO specs.
 includeMakeWIO <- function (model, WIO){
   

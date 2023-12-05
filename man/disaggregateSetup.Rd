@@ -11,7 +11,7 @@ disaggregateSetup(model, configpaths = NULL, setupType = "Disaggregation")
 
 \item{configpaths}{str vector, paths (including file name) of disagg configuration file(s).}
 
-\item{stepType}{String that indicates whether this function is called to setup Disaggregation or WIO specs
+\item{setupType}{String that indicates whether this function is called to setup Disaggregation or WIO specs
 If NULL, built-in config files are used.}
 }
 \value{
