@@ -49,6 +49,9 @@ getFlowbySectorCollapsed <- function(sat_spec) {
 prepareFlowBySectorCollapsed <- function(fbsc, satellite=TRUE) {
   # Replace Python type None with NA
   fbsc <- replaceNonewithNA(fbsc)
+  # add columns if not present
+  cols <- c('FlowUUID')
+  fbsc[cols[!(cols %in% colnames(fbsc))]] <- ""
   # Ensure correct type, parquet can come in as vctrs_unspecified
   fbsc[c("Context", "FlowUUID")] <- sapply(fbsc[c("Context", "FlowUUID")], function(x) as.character(x))
   # If context is NA replace with blank
