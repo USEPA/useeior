@@ -46,8 +46,15 @@ constructEEIOMatrices <- function(model) {
   colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
-  model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
-  model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
+  
+ if (model$specs$IODataSource=="stateior") {
+    model$U_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = FALSE)
+    model$U_d_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = TRUE)
+  } else {
+    model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
+    model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse  
+  }
+
   model$q <- model$CommodityOutput
   model$x <- model$IndustryOutput
   model$mu <- model$InternationalTradeAdjustment
@@ -225,6 +232,57 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
   # Filter and resort model C flows and make it into a matrix
   C <- as.matrix(C[, B_flows])
   return(C)
+}
+
+#' Build two-region models for all 50 states based on a single config reference file.
+#' @param modelname Name of the model from a config file.
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @param validate bool, if TRUE print validation results for each model
+#' @param year int, indicating for which year to run the models
+#' @return A list of EEIO models for each state with complete components and attributes
+#' @export
+buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE, year = NULL) {
+  model_ls <- list()
+  q_comparison_failures_ls <- list()
+  basemodel <- initializeModel(modelname, configpaths)
+  
+  if(!is.null(year)){
+    basemodel$specs$IOYear <- year
+  }
+  
+  for (s in state.abb){
+    model <- basemodel
+    state <- paste("US", s, sep="-")
+    model$specs$ModelRegionAcronyms[1] <- state
+    cat("\n")
+    logging::loginfo(paste0("Building two-region model for ",
+                            paste(state, model$specs$ModelRegionAcronyms[2], sep="/"),
+                            "..."))
+    cat("\n")
+    
+    model_ls[[state]] <- tryCatch(
+      {
+        model <- loadIOData(model, configpaths)
+        model <- loadandbuildSatelliteTables(model)
+        model <- loadandbuildIndicators(model)
+        model <- loadDemandVectors(model)
+        model <- constructEEIOMatrices(model)
+        if (validate) {
+          print2RValidationResults(model)
+        }
+        model_ls[[state]] <- model
+      },
+      error=function(e)
+      {
+        message(paste0("Error for ", state, " model."))
+        return(NA)
+      }
+    )# end of try catch
+    
+    
+  }
+  return(model_ls)
 }
 
 #' Build an EIO model with economic components only.

@@ -11,51 +11,53 @@ disaggregateModel <- function (model){
     model$Commodities <- disaggregateSectorDFs(model, disagg, "Commodity")
     model$Industries <- disaggregateSectorDFs(model, disagg, "Industry")
 
-    #Disaggregating main model components
-    model$UseTransactions <- disaggregateUseTable(model, disagg)
-    model$MakeTransactions <- disaggregateMakeTable(model, disagg)
-    model$UseValueAdded <- disaggregateVA(model, disagg)
-    model$DomesticUseTransactions <- disaggregateUseTable(model, disagg, domestic = TRUE)
-    
-    if(model$specs$CommodityorIndustryType=="Commodity") {
-      model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
-      model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
-    } else {
-      model$FinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
-      model$DomesticFinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
-      model$InternationalTradeAdjustmentbyCommodity <- disaggregateInternationalTradeAdjustment(model, disagg, NULL, adjustmentByCommodity = TRUE)
-    }
-    
-    #Balancing model
-    if(disagg$DisaggregationType == "Userdefined"){
-      model <- balanceDisagg(model, disagg)
-    }
-
-    #Recalculate model$CommodityOutput and model$IndustryOutput objects. This if else has to be separate from the one above because 
-    #the calculateIndustryCommodityOutput function is used prior to the creation of model$FinalDemandbyCommodity object, 
-    #and we can't recalculate the commodity and industry totals before balancing. 
-    if(model$specs$CommodityorIndustryType=="Commodity") {
-      model <- calculateIndustryCommodityOutput(model)
+    if(model$specs$IODataSource != "stateior"){
+      #Disaggregating main model components
+      model$UseTransactions <- disaggregateUseTable(model, disagg)
+      model$MakeTransactions <- disaggregateMakeTable(model, disagg)
+      model$UseValueAdded <- disaggregateVA(model, disagg)
+      model$DomesticUseTransactions <- disaggregateUseTable(model, disagg, domestic = TRUE)
       
-    } else{
-      model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
-      model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemandbyCommodity)
+      if(model$specs$CommodityorIndustryType=="Commodity") {
+        model$FinalDemand <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+        model$DomesticFinalDemand <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+      } else {
+        model$FinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = FALSE)
+        model$DomesticFinalDemandbyCommodity <- disaggregateFinalDemand(model, disagg, domestic = TRUE)
+        model$InternationalTradeAdjustmentbyCommodity <- disaggregateInternationalTradeAdjustment(model, disagg, NULL, adjustmentByCommodity = TRUE)
+      }
+      
+      #Balancing model
+      if(disagg$DisaggregationType == "Userdefined"){
+        model <- balanceDisagg(model, disagg)
+      }
+  
+      #Recalculate model$CommodityOutput and model$IndustryOutput objects. This if else has to be separate from the one above because 
+      #the calculateIndustryCommodityOutput function is used prior to the creation of model$FinalDemandbyCommodity object, 
+      #and we can't recalculate the commodity and industry totals before balancing. 
+      if(model$specs$CommodityorIndustryType=="Commodity") {
+        model <- calculateIndustryCommodityOutput(model)
+        
+      } else{
+        model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+        model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemandbyCommodity)
+      }
+      
+      #Disaggregating MultiyearIndustryOutput and MultiYearCommodityOutput 
+      model$MultiYearCommodityOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
+      model$MultiYearIndustryOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Industry")
+  
+      #Disaggregating CPI model objects. Assumption is that the disaggregated sectors have the same CPI values as the original sector. 
+      model$MultiYearCommodityCPI <- disaggregateCols(model$MultiYearCommodityCPI, disagg, duplicate = TRUE)
+      model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
+      
+      model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
     }
-    
-    #Disaggregating MultiyearIndustryOutput and MultiYearCommodityOutput 
-    model$MultiYearCommodityOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Commodity")
-    model$MultiYearIndustryOutput <- disaggregateMultiYearOutput(model, disagg, output_type = "Industry")
-
-    #Disaggregating CPI model objects. Assumption is that the disaggregated sectors have the same CPI values as the original sector. 
-    model$MultiYearCommodityCPI <- disaggregateCols(model$MultiYearCommodityCPI, disagg, duplicate = TRUE)
-    model$MultiYearIndustryCPI <- disaggregateCols(model$MultiYearIndustryCPI, disagg, duplicate = TRUE)
-
     #Disaggregating Crosswalk
     model$crosswalk <- disaggregateMasterCrosswalk(model, disagg)
     
     #Disaggregate Margins
     model$Margins <- disaggregateMargins(model, disagg)
-    model$InternationalTradeAdjustment <- disaggregateInternationalTradeAdjustment(model, disagg)
     model$TaxLessSubsidies <- disaggregateTaxLessSubsidies(model, disagg)
     
     # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
@@ -75,13 +77,14 @@ disaggregateModel <- function (model){
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of disagg configuration file(s).
 #' If NULL, built-in config files are used.
+#' @param pkg str, indicate package for access to config, either "useeior" or "stateior"
 #' @return A model with the specified aggregation and disaggregation specs.
-getDisaggregationSpecs <- function (model, configpaths = NULL){
+getDisaggregationSpecs <- function (model, configpaths = NULL, pkg = "useeior"){
 
   model$DisaggregationSpecs <- vector(mode='list')
   for (configFile in model$specs$DisaggregationSpecs){
     logging::loginfo(paste0("Loading disaggregation specification file for ", configFile, "..."))
-    config <- getConfiguration(configFile, "disagg", configpaths)
+    config <- getConfiguration(configFile, "disagg", configpaths, pkg=pkg)
 
     if('Disaggregation' %in% names(config)){
       model$DisaggregationSpecs <- append(model$DisaggregationSpecs, config$Disaggregation)
@@ -116,7 +119,11 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
   }
   
   for (spec in specs){  
-    filename <- getInputFilePath(configpaths, folderPath, spec$SectorFile)
+    if(is.null(spec$package)){
+      spec$package = "useeior"
+    }
+    filename <- getInputFilePath(configpaths, folderPath, spec$SectorFile,
+                                 package = spec$package)
     spec$NAICSSectorCW <- utils::read.table(filename,
                                             sep = ",", header = TRUE,
                                             stringsAsFactors = FALSE,
@@ -140,7 +147,8 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
     
     # Load Make table disaggregation file
     if(!is.null(spec$MakeFile)){
-      filename <- getInputFilePath(configpaths, folderPath, spec$MakeFile)
+      filename <- getInputFilePath(configpaths, folderPath, spec$MakeFile,
+                                   package = spec$package)
       spec$MakeFileDF <- utils::read.table(filename,
                                            sep = ",", header = TRUE,
                                            stringsAsFactors = FALSE,
@@ -149,7 +157,8 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
     
     # Load Use table disaggregation file
     if(!is.null(spec$UseFile)){
-      filename <- getInputFilePath(configpaths, folderPath, spec$UseFile)
+      filename <- getInputFilePath(configpaths, folderPath, spec$UseFile,
+                                   package = spec$package)
       spec$UseFileDF <- utils::read.table(filename,
                                           sep = ",", header = TRUE,
                                           stringsAsFactors = FALSE,
@@ -158,7 +167,8 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
     
     # Load Environment flows table
     if(!is.null(spec$EnvFile)){
-      filename <- getInputFilePath(configpaths, folderPath, spec$EnvFile)
+      filename <- getInputFilePath(configpaths, folderPath, spec$EnvFile,
+                                   package = spec$package)
       spec$EnvFileDF <- utils::read.table(filename,
                                           sep = ",", header = TRUE,
                                           stringsAsFactors = FALSE,
@@ -345,7 +355,7 @@ disaggregateInternationalTradeAdjustment <- function(model, disagg, ratios = NUL
 #' @return newMargins A dataframe which contain the margins for the disaggregated sectors
 disaggregateMargins <- function(model, disagg) {
   originalMargins <- model$Margins
-  originalIndex <-  grep(disagg$OriginalSectorCode, model$Margins$Code_Loc)#get row index of the original aggregate sector in the model$Margins object
+  originalIndex <-  grep(paste0("^", disagg$OriginalSectorCode), model$Margins$Code_Loc)#get row index of the original aggregate sector in the model$Margins object
   originalRow <- model$Margins[originalIndex,]#copy row containing the Margins information for the original aggregate sector
 
   disaggMargins <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$NewSectorCodes)),,drop=FALSE]#replicate the original a number of times equal to the number of disaggregate sectors
@@ -499,7 +509,7 @@ disaggregateSectorDFs <- function(model, disagg, list_type) {
     #assume industry if not specified
     originalList <- model$Industries
   }
-  originalIndex <- grep(disagg$OriginalSectorCode, originalList$Code_Loc)
+  originalIndex <- grep(paste0("^",disagg$OriginalSectorCode), originalList$Code_Loc)
   newSectors <- data.frame(matrix(ncol = ncol(originalList), nrow = length(disagg$NewSectorCodes)))
   names(newSectors) <- names(originalList) #rename columns for the df
 

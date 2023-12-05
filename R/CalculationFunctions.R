@@ -3,21 +3,28 @@
 #' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model
 #' for a given perspective and demand vector.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param perspective Perspective of the model, can be "DIRECT", "INTERMEDIATE", or "FINAL".
-#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production",
+#' @param perspective Perspective of the model, can be "DIRECT" or "FINAL". "DIRECT" perspective
+#' aligns results with the sectors in which they are produced, while "FINAL" perspective aligns
+#' results with the sectors consumed by the final user.
+#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
 #' or an actual demand vector with names as one or more model sectors and
 #' numeric values in USD with the same dollar year as model.
+#' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateEEIOModel <- function(model, perspective, demand = "Production", use_domestic_requirements = FALSE) {
+calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL, use_domestic_requirements = FALSE) {
   result <- list()
   # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
   if (use_domestic_requirements) {
     L <- model$L_d
+    M <- model$M_d
+    N <- model$N_d
   } else {
     L <- model$L
+    M <- model$M
+    N <- model$N
   }
   
   # Prepare demand vector
@@ -30,7 +37,15 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
                             paste0("Domestic", demand),
                             paste0("Complete", demand))
       # Get vector name (ID) from the meta table
-      id <- meta[which(meta$Name==demand_name),"ID"]
+      if(is.null(location)) {
+        id <- meta[which(meta$Name==demand_name),"ID"]
+        if(length(id)>1) {
+          stop("Unique demand vector not found, consider passing location")
+        }
+      } else {
+        id <- meta[which(meta$Name==demand_name &
+                         meta$Location==location),"ID"]
+      }
       d <- model$DemandVectors$vectors[[id]]
     } else {
       stop(paste0("'", demand, "' is not a valid demand vector name in model."))
@@ -58,10 +73,10 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", use_do
   } else if (perspective=="FINAL") {
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Final Perspective LCI...")
-    result$LCI_f <- calculateFinalPerspectiveLCI(model$M, f)
+    result$LCI_f <- calculateFinalPerspectiveLCI(M, f)
     # Calculate Final Perspective LCIA (matrix with total impacts in form of sector x impacts)
     logging::loginfo("Calculating Final Perspective LCIA...")
-    result$LCIA_f <- calculateFinalPerspectiveLCIA(model$N, f)
+    result$LCIA_f <- calculateFinalPerspectiveLCIA(N, f)
   }
   
   logging::loginfo("Result calculation complete.")
