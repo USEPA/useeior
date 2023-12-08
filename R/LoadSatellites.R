@@ -118,7 +118,6 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
     f <- loadDataCommonsfile(sat_spec$StaticFile)
     totals_by_sector <- utils::read.table(f, sep = ",", header = TRUE, stringsAsFactors = FALSE,
                                           fileEncoding = 'UTF-8-BOM')
-    totals_by_sector[is.na(totals_by_sector)] <- ""
   }
   return(totals_by_sector)
 }
@@ -138,8 +137,9 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
       tbs <- disaggregateSatelliteTable(disagg, tbs, sat_spec)
     }
   }
-  # Change Location if model is a state model
-  if (all(model$specs$ModelRegionAcronyms!="US", model$specs$IODataSource=="stateior")) {
+  # Change Location if model is a state model and not already using acronyms
+  if (all(model$specs$ModelRegionAcronyms!="US", model$specs$IODataSource=="stateior",
+          all(!unique(tbs$Location) %in% model$specs$ModelRegionAcronyms))) {
     # Format location in tbs
     tbs$Location <- formatLocationforStateModels(tbs$Location)
   }

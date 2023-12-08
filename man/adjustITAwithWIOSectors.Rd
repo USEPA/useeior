@@ -4,10 +4,12 @@
 \alias{adjustITAwithWIOSectors}
 \title{Adjust InternationalTradeAdjustment to the correct dimensions based on WIO sectors}
 \usage{
-adjustITAwithWIOSectors(model)
+adjustITAwithWIOSectors(model, WIO)
 }
 \arguments{
 \item{model}{An EEIO model object with model specs and IO tables loaded}
+
+\item{WIO}{A list with WIO specifications and data}
 }
 \value{
 A model object with a modified international trade adjustment object based on WIO sectors

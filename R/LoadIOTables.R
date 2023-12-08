@@ -12,6 +12,7 @@ loadIOData <- function(model, configpaths = NULL) {
   model <- loadIOmeta(model)
   # Define IO table names
   io_table_names <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
+                      "DomesticUseTransactionswithTrade", "UseTransactionswithTrade",
                       "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
                       "InternationalTradeAdjustment")
   # Load IO data
@@ -40,11 +41,20 @@ loadIOData <- function(model, configpaths = NULL) {
   # Add Margins table
   model$Margins <- getMarginsTable(model)
   
+  # Add TaxLessSubsidies table
+  model$TaxLessSubsidies <- generateTaxLessSubsidiesTable(model)
+  
   # Add Chain Price Index (CPI) to model
   model$MultiYearIndustryCPI <- loadChainPriceIndexTable(model$specs)[model$Industries$Code, ]
   rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
+  
+  ## if Disaggregated two-region model, adjust CPI data frame
+  if(model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
+    model$MultiYearIndustryCPI <- disaggregateCPI(model$MultiYearIndustryCPI, model)
+  }
+
   # Transform industry CPI to commodity CPI
-  model$MultiYearCommodityCPI <- as.data.frame(model$Commodities, row.names = model$Commodities$Code_Loc)[, FALSE]
+  model$MultiYearCommodityCPI <- as.data.frame(model$CommodityOutput, row.names = names(model$CommodityOutput))[, FALSE]
   for (year_col in colnames(model$MultiYearIndustryCPI)) {
     model$MultiYearCommodityCPI[, year_col] <- transformIndustryCPItoCommodityCPIforYear(as.numeric(year_col), model)
   }
@@ -57,7 +67,8 @@ loadIOData <- function(model, configpaths = NULL) {
   
   # Check for disaggregation
   if(!is.null(model$specs$DisaggregationSpecs)){
-    model <- getDisaggregationSpecs(model, configpaths)
+    pkg <- ifelse(model$specs$IODataSource=="stateior", "stateior", "useeior")
+    model <- getDisaggregationSpecs(model, configpaths, pkg)
     model <- disaggregateModel(model)
   }
   
@@ -152,7 +163,11 @@ loadIOcodes <- function(specs) {
                                                      iolevel = specs$BaseIOLevel)
   codes <- c("ValueAdded", "HouseholdDemand", "InvestmentDemand",
              "ChangeInventories", "Export", "Import", "GovernmentDemand",
-             "Scrap", "Transportation", "Wholesale", "Retail")
+             "Scrap", "Transportation", "Wholesale", "Retail",
+             "InternationalTradeAdjustment")
+  if (specs$BasePriceType == "BAS") {
+    codes <- c(codes, "TaxLessSubsidies")
+  }
   io_codes[paste0(codes, "Codes")] <- lapply(codes, FUN = getVectorOfCodes,
                                              ioschema = specs$BaseIOSchema,
                                              iolevel = specs$BaseIOLevel)
@@ -163,7 +178,6 @@ loadIOcodes <- function(specs) {
                                                         "GovernmentDemand"),
                                                       "Codes")],
                                       use.names = FALSE)
-  io_codes$InternationalTradeAdjustmentCodes <- gsub("F050", "F051", io_codes$ImportCodes)
   return(io_codes)
 }
 
@@ -174,6 +188,13 @@ loadIOcodes <- function(specs) {
 loadNationalIOData <- function(model, io_codes) {
   # Load BEA IO and gross output tables
   BEA <- loadBEAtables(model$specs, io_codes)
+  
+  # Update io_codes - make them consistent with table row and column names
+  io_codes$ValueAddedCodes <- rownames(BEA$UseValueAdded)
+  io_codes$ImportCodes <- io_codes$ImportCodes[startsWith(io_codes$ImportCodes,
+                                                          "F")]
+  io_codes$FinalDemandCodes <- colnames(BEA$FinalDemand)
+  
   # Generate domestic Use transaction and final demand
   DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$FinalDemand), model)
   BEA$DomesticUseTransactions <- DomesticUse[, io_codes$Industries]
@@ -182,16 +203,22 @@ loadNationalIOData <- function(model, io_codes) {
   BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$FinalDemand), model)
   # Modify row and column names to Code_Loc format in all IO tables
   # Use model$Industries
-  rownames(BEA$MakeTransactions) <- colnames(BEA$UseTransactions) <-
-    colnames(BEA$DomesticUseTransactions) <- colnames(BEA$UseValueAdded) <-
+  rownames(BEA$MakeTransactions) <-
+    colnames(BEA$UseTransactions) <-
+    colnames(BEA$DomesticUseTransactions) <-
+    colnames(BEA$UseValueAdded) <-
     model$Industries$Code_Loc
   # Use model$Commodities
-  colnames(BEA$MakeTransactions) <- rownames(BEA$UseTransactions) <-
-    rownames(BEA$DomesticUseTransactions) <- rownames(BEA$FinalDemand) <-
-    rownames(BEA$DomesticFinalDemand) <- names(BEA$InternationalTradeAdjustment) <-
+  colnames(BEA$MakeTransactions) <-
+    rownames(BEA$UseTransactions) <-
+    rownames(BEA$DomesticUseTransactions) <-
+    rownames(BEA$FinalDemand) <-
+    rownames(BEA$DomesticFinalDemand) <-
+    names(BEA$InternationalTradeAdjustment) <-
     model$Commodities$Code_Loc
   # Use model$FinalDemandMeta
-  colnames(BEA$FinalDemand) <- colnames(BEA$DomesticFinalDemand) <-
+  colnames(BEA$FinalDemand) <-
+    colnames(BEA$DomesticFinalDemand) <-
     model$FinalDemandMeta$Code_Loc
   # Use model$ValueAddedMeta
   rownames(BEA$UseValueAdded) <- model$ValueAddedMeta$Code_Loc
@@ -204,20 +231,61 @@ loadNationalIOData <- function(model, io_codes) {
 #' @return A list with BEA IO tables
 loadBEAtables <- function(specs, io_codes) {
   BEA <- list()
-  # Load pre-saved Make and Use tables
-  Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
-  BEA$Make <- get(paste(specs$BaseIOLevel, "Make", specs$IOYear, Redef, sep = "_"))
-  BEA$Use <-  get(paste(specs$BaseIOLevel, "Use", specs$IOYear, specs$BasePriceType, Redef, sep = "_"))
-  
-  # Separate Make and Use tables into specific IO tables (all values in $)
-  BEA$MakeTransactions <- BEA$Make[io_codes$Industries, io_codes$Commodities] * 1E6
+  if (specs$BasePriceType != "BAS") {
+    # Load pre-saved Make and Use tables
+    Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
+    BEA$Make <- get(paste(specs$BaseIOLevel, "Make", specs$IOYear, Redef, sep = "_"))
+    BEA$Use <-  get(paste(specs$BaseIOLevel, "Use", specs$IOYear, specs$BasePriceType, Redef, sep = "_"))
+    # Separate Make table into specific IO tables (all values in $)
+    BEA$MakeTransactions <- BEA$Make[io_codes$Industries, io_codes$Commodities] * 1E6
+    # Separate Use table into specific IO tables (all values in $)
+    # Final Demand
+    BEA$FinalDemand <- BEA$Use[io_codes$Commodities,
+                               intersect(colnames(BEA$Use),
+                                         io_codes$FinalDemandCodes)] * 1E6
+    # Value Added
+    BEA$UseValueAdded <- BEA$Use[intersect(rownames(BEA$Use), io_codes$ValueAddedCodes),
+                                 io_codes$Industries] * 1E6
+  } else if (specs$BasePriceType == "BAS") {
+    # Load pre-saved Supply and Use tables
+    BEA$Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
+    UseSUT_PUR <- get(paste(specs$BaseIOLevel, "Use_SUT", specs$IOYear, sep = "_"))
+    BEA$Use <- convertUsefromPURtoBAS(UseSUT_PUR, specs, io_codes)
+    # Separate Supply table into specific IO tables (all values in $)
+    # Transpose Supply table to conform the structure of Make table
+    BEA$MakeTransactions <- as.data.frame(t(BEA$Supply[io_codes$Commodities,
+                                                       io_codes$Industries])) * 1E6
+    # Separate Use table into specific IO tables (all values in $)
+    # Final Demand
+    # Note: import columns (MCIF and MADJ in BAS from Supply) is summed first,
+    # converted to negative, then appended to Use in BAS
+    SupplyImport_cols <- intersect(colnames(BEA$Supply), io_codes$FinalDemandCodes)
+    UseImport_col <- setdiff(io_codes$ImportCodes, SupplyImport_cols)
+    BEA$FinalDemand <- cbind(BEA$Use[io_codes$Commodities,
+                               intersect(colnames(BEA$Use), io_codes$FinalDemandCodes)],
+                             rowSums(BEA$Supply[io_codes$Commodities, SupplyImport_cols]) * -1) * 1E6
+    colnames(BEA$FinalDemand)[ncol(BEA$FinalDemand)] <- UseImport_col
+    BEA$FinalDemand <- BEA$FinalDemand[, setdiff(io_codes$FinalDemandCodes,
+                                                 SupplyImport_cols)]
+    # Value Added
+    # Note: VA in BAS == V001(00) + V003(00) + T00OTOP, so T00OTOP is preserved
+    # and renamed to V002(00) in BEA$ValueAdded
+    VA_rows <- io_codes$ValueAddedCodes[startsWith(io_codes$ValueAddedCodes, "V")]
+    UseSUT_VA_rows <- intersect(rownames(BEA$Use), io_codes$ValueAddedCodes)
+    UseBAS_VA2_row <- io_codes$ValueAddedCodes[endsWith(io_codes$ValueAddedCodes, "OTOP")]
+    VA2_row <- setdiff(io_codes$ValueAddedCodes, UseSUT_VA_rows)
+    BEA$UseValueAdded <- BEA$Use[c(intersect(VA_rows, UseSUT_VA_rows),
+                                   UseBAS_VA2_row),
+                                 io_codes$Industries] * 1E6
+    rownames(BEA$UseValueAdded)[3] <- VA2_row
+    BEA$UseValueAdded <- BEA$UseValueAdded[order(rownames(BEA$UseValueAdded)), ]
+  }
   BEA$MakeIndustryOutput <- as.data.frame(rowSums(BEA$MakeTransactions))
+  # Separate Use table into specific IO tables (all values in $)
   BEA$UseTransactions <- BEA$Use[io_codes$Commodities, io_codes$Industries] * 1E6
-  BEA$FinalDemand <- BEA$Use[io_codes$Commodities, io_codes$FinalDemandCodes] * 1E6
-  BEA$UseValueAdded <- BEA$Use[io_codes$ValueAddedCodes, io_codes$Industries] * 1E6
   BEA$UseCommodityOutput <- as.data.frame(rowSums(cbind(BEA$UseTransactions, BEA$FinalDemand)))
   # Replace NA with 0 in IO tables
-  if(specs$BaseIOSchema==2007) {
+  if (specs$BaseIOSchema == 2007) {
     BEA$MakeTransactions[is.na(BEA$MakeTransactions)] <- 0
     BEA$UseTransactions[is.na(BEA$UseTransactions)] <- 0
     BEA$FinalDemand[is.na(BEA$FinalDemand)] <- 0
@@ -233,8 +301,10 @@ loadTwoRegionStateIOtables <- function(model) {
   # Load IO tables from stateior
   StateIO$MakeTransactions <- getTwoRegionIOData(model, "Make")
   StateIO$UseTransactions <- getTwoRegionIOData(model, "UseTransactions")
+  StateIO$UseTransactionswithTrade <- getTwoRegionIOData(model, "UseTransactionswithTrade")
   StateIO$FinalDemand <- getTwoRegionIOData(model, "FinalDemand")
   StateIO$DomesticUseTransactions <- getTwoRegionIOData(model, "DomesticUseTransactions")
+  StateIO$DomesticUseTransactionswithTrade <- getTwoRegionIOData(model, "DomesticUseTransactionswithTrade")
   StateIO$DomesticFinalDemand <- getTwoRegionIOData(model, "DomesticFinalDemand")
   StateIO$UseValueAdded <- getTwoRegionIOData(model, "ValueAdded")
   StateIO$InternationalTradeAdjustment <- getTwoRegionIOData(model, "InternationalTradeAdjustment")
@@ -269,7 +339,7 @@ loadCommodityandIndustryOutput <- function(model) {
     model$IndustryOutput <- getTwoRegionIOData(model, "IndustryOutput")
     model$CommodityOutput <- getTwoRegionIOData(model, "CommodityOutput")
     # Load multi-year industry and commodity output
-    years <- as.character(2012:2017)
+    years <- as.character(2012:2020)
     tmpmodel <- model
     model$MultiYearIndustryOutput <- as.data.frame(model$IndustryOutput)[, FALSE]
     model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
@@ -288,5 +358,8 @@ loadCommodityandIndustryOutput <- function(model) {
 calculateIndustryCommodityOutput <- function(model) {
   model$IndustryOutput <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
   model$CommodityOutput <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
+  if (model$specs$BasePriceType == "BAS") {
+    model$IndustryOutput <- rowSums(model$MakeTransactions)
+  }
   return(model)
 }

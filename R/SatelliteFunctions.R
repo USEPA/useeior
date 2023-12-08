@@ -136,7 +136,7 @@ aggregateSatelliteTable <- function(sattable, from_level, model) {
 #' @return aggregated totals by sector
 collapseTBS <- function(tbs, model) {
   # Add in BEA industry names
-  sectornames <- model$Industries[, c("Code", "Name")]
+  sectornames <- unique(model$Industries[, c("Code", "Name")])
   colnames(sectornames) <- c("Sector", "SectorName")
   # Add F01000 or F010 to sectornames
   if (model$specs$BaseIOLevel=="Detail") {
@@ -168,7 +168,7 @@ collapseTBS <- function(tbs, model) {
     GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
     TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
     DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
-    MetaSources = dplyr::nth(MetaSources, which.max(nchar(MetaSources))),
+    MetaSources = paste(sort(unique(MetaSources)), collapse = ' '),
     .groups = 'drop'
   )
   colnames(tbs_agg)[colnames(tbs_agg)=="FlowAmountAgg"] <- "FlowAmount"
@@ -204,16 +204,21 @@ getValueAddedTotalsbySector <- function(model) {
   df[, c("Row.names", "Code_Loc")] <- NULL
   # Convert to standard totals_by_sector format
   df <- reshape2::melt(df, id.vars = "Name")
-  colnames(df) <- c("Flowable", "Sector", "FlowAmount")
+  colnames(df) <- c("Flowable", "Code_Loc", "FlowAmount")
+  df <- merge(df, model$Industries[, c("Code_Loc", "Name")],
+              by.x = "Code_Loc", by.y = "Code_Loc", all.x = TRUE)
+  colnames(df)[colnames(df) == "Name"] ="SectorName"
   # Add columns to convert to standard totals_by_sector format
-  df[, "Sector"] <- gsub("/.*", "", df$Sector)
-  df <- merge(df, model$Industries[, c("Code", "Name")],
-              by.x = "Sector", by.y = "Code", all.x = TRUE)
+  if (length(model$specs$ModelRegionAcronyms) == 1) {
+    df[, "Sector"] <- gsub("/.*", "", df$Code_Loc)
+    df[, "Location"] <- model$specs$SatelliteTable$VADD$Locations    
+  } else {
+    df[, c("Sector", "Location")] <- do.call(rbind, strsplit(as.character(df$Code_Loc),'/'))
+  }
   df[, "Context"] <- "Economic"
   df[, "Unit"] <- "USD"
-  df[, "Year"] <- model$specs$SatelliteTable$VADD$SectorListYear
+  df[, "Year"] <- model$specs$SatelliteTable$VADD$DataYears
   df[, "MetaSources"] <- model$specs$SatelliteTable$VADD$SectorListSource
-  df[, "Location"] <- model$specs$SatelliteTable$VADD$Locations
   df[, c("DataReliability", "TemporalCorrelation", "GeographicalCorrelation",
          "TechnologicalCorrelation", "DataCollection")] <- 1
   rownames(df) <- NULL

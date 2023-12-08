@@ -33,6 +33,10 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     rownames(matrix) <- Y_title
     matrix <- as.data.frame(reshape2::melt(matrix))
     colnames(matrix) <- c("CoefficientName", "Sector", "Value")
+    # For two-region models assign model name based on region here
+    if (length(model$specs$ModelRegionAcronyms) > 1) {
+      matrix$modelname <- sapply(strsplit(as.character(matrix$Sector),"/"), "[", 2)
+    }
     matrix$Sector <- toupper(gsub("/.*", "", matrix$Sector))
     # Convert matrix to df
     df_model <- data.frame()
@@ -44,9 +48,14 @@ plotMatrixCoefficient <- function(model_list, matrix_name, coefficient_name, sec
     } else {
       SectorName <- model$Industries[, c("Code", "Name")]
     }
+    # Remove duplicate sector names for two-region models
+    SectorName <- SectorName[!duplicated(SectorName), ]
     colnames(SectorName) <- c("Sector", "SectorName")
     df_model <- merge(df_model, SectorName, by = "Sector")
-    df_model$modelname <- modelname
+    # Bypass this step for two-region models as modelname assigned above
+    if (!('modelname' %in% colnames(df_model))) {
+      df_model$modelname <- modelname
+    }
     # Remove certain sectors
     df_model <- df_model[!df_model$Sector%in%sector_to_remove, ]
     df_model <- df_model[order(df_model$GroupName), ]
@@ -220,27 +229,34 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
 #' SMM tool like heatmap showing ranking of sectors
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param matrix A matrix from model result
-#' @param indicators A vector of indicators to plot
+#' @param indicators A vector of indicators to plot, use Codes if use_codes = TRUE, otherwise use Names 
 #' @param sector_to_remove Code of one or more BEA sectors that will be removed from the plot. Can be "".
 #' @param N_sector A numeric value indicating number of sectors to show in the ranking
 #' @param x_title A string specifying desired title on the x-axis, default is NULL, the title will be "modelname indicators"
+#' @param use_codes bool, indicate if figure should use indicator Code (TRUE) or Name (FALSE)
 #' @export
-heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_sector, x_title = NULL) {
+heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_sector, x_title = NULL,
+                                 use_codes = TRUE) {
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
   mapping$GroupName <- mapping$SectorName
+  if (length(model$specs$ModelRegionAcronyms) > 1) {
+    # For two-region models, aggregate locations
+    rownames(matrix) <- gsub("/.*", "", rownames(matrix))
+    matrix <- t(sapply(by(matrix, rownames(matrix), colSums), identity))
+  }
   # Prepare data frame for plot
   df <- as.data.frame(prop.table(matrix, margin = 2))
-  if (model$specs$Model=="USEEIOv2.0") {
+  if (use_codes) {
     colnames(df) <- model$Indicators$meta[order(match(model$Indicators$meta$Name, colnames(df))), "Code"]
   }
   df$Sector <- toupper(gsub("/.*", "", rownames(df)))
   df <- merge(df, mapping[, c(paste0(model$specs$BaseIOLevel, "Code"), "color", "GroupName")],
               by.x = "Sector", by.y = paste0(model$specs$BaseIOLevel, "Code"), all.x = TRUE)
   if (model$specs$CommodityorIndustryType=="Commodity") {
-    SectorName <- model$Commodities[, c("Code", "Name")]
+    SectorName <- unique(model$Commodities[, c("Code", "Name")])
   } else {
-    SectorName <- model$Industries[, c("Code", "Name")]
+    SectorName <- unique(model$Industries[, c("Code", "Name")])
   }
   colnames(SectorName) <- c("Sector", "SectorName")
   df <- merge(df, SectorName, by = "Sector")

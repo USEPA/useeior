@@ -2,7 +2,7 @@
 % Please edit documentation in R/WIOFunctions.R
 \name{includeWIOSectorDFs}
 \alias{includeWIOSectorDFs}
-\title{Include the WIO elements of the Use table in the correct configuration}
+\title{Include the WIO elements in the model$Commodity and model$Industry objects}
 \usage{
 includeWIOSectorDFs(model, WIO)
 }
@@ -12,8 +12,8 @@ includeWIOSectorDFs(model, WIO)
 \item{WIO}{A list with WIO specifications and data}
 }
 \value{
-A model object which contain the model$Commodity or model$Industry objects with WIO sectors
+A model object which contain the model$Commodity and model$Industry objects with WIO sectors
 }
 \description{
-Include the WIO elements of the Use table in the correct configuration
+Include the WIO elements in the model$Commodity and model$Industry objects
 }

@@ -56,10 +56,16 @@ compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) 
 calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) {
   if (use_domestic) {
     f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[1]]
+    if (model$specs$IODataSource=="stateior") {
+      f <- (f + model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[2]])
+    }
     y <- as.matrix(formatDemandVector(f, model$L_d))
     c <- getScalingVector(model$L_d, y)
   } else {
     f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[1]]
+    if (model$specs$IODataSource=="stateior") {
+      f <- (f + model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[2]])
+    }
     y <- as.matrix(formatDemandVector(f, model$L))
     c <- getScalingVector(model$L, y)
   }
@@ -108,10 +114,13 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 #' @export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   q <- removeHybridProcesses(model, model$q)
+  demand <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors),"Production_Domestic")][[1]]
+  if (model$specs$IODataSource=="stateior") {
+    demand <- (demand + model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Domestic")][[2]])
+  }
   x <- rowSums(model$U_d[removeHybridProcesses(model, model$Commodities$Code_Loc),
                          removeHybridProcesses(model, model$Industries$Code_Loc)]) +
-    removeHybridProcesses(model, model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors),
-                                                                      "Production_Domestic")][[1]])
+       removeHybridProcesses(model, demand)
   # Row names should be identical
   if (!identical(names(q), names(x))) {
     stop("Sectors not aligned in model ouput variable and calculation result")
@@ -314,13 +323,13 @@ printValidationResults <- function(model) {
   print(paste("Number of flow totals by commodity failing:",q_x_val$N_Fail))
   print(paste("Sectors with flow totals failing:", paste(unique(q_x_val$Failure$rownames), collapse = ", ")))
   
-if (model$specs$CommodityorIndustryType=="Commodity") {
-  print("Validate that commodity output equals to domestic use plus production demand")
-  q_val <- compareCommodityOutputandDomesticUseplusProductionDemand(model, tolerance = 0.01)
-  print(paste("Number of flow totals by commodity passing:",q_val$N_Pass))
-  print(paste("Number of flow totals by commodity failing:",q_val$N_Fail))
-  print(paste("Sectors with flow totals failing:", paste(unique(q_val$Failure$rownames), collapse = ", ")))
-}
+  if (model$specs$CommodityorIndustryType=="Commodity") {
+    print("Validate that commodity output equals to domestic use plus production demand")
+    q_val <- compareCommodityOutputandDomesticUseplusProductionDemand(model, tolerance = 0.01)
+    print(paste("Number of flow totals by commodity passing:",q_val$N_Pass))
+    print(paste("Number of flow totals by commodity failing:",q_val$N_Fail))
+    print(paste("Sectors with flow totals failing:", paste(unique(q_val$Failure$rownames), collapse = ", ")))
+  }
 }
 
 #' Removes hybrid processes form a model object for successful validation
@@ -345,3 +354,24 @@ removeHybridProcesses <- function(model, object) {
   return(object)
 }
 
+#' Compare commodity or industry output calculated from Make and Use tables.
+#' @param model A model list object with model specs and IO tables listed
+#' @param output_type A string indicating commodity or industry output.
+#' @return A vector of relative difference between commodity or industry output
+#' calculated from Supply and Use tables.
+compareOutputfromMakeandUse <- function(model, output_type = "Commodity") {
+  # Calculate output
+  if (output_type == "Commodity") {
+    # commodity output
+    output_make <- colSums(model$MakeTransactions)
+    output_use <- rowSums(model$UseTransactions) + rowSums(model$FinalDemand)
+  } else {
+    # industry output
+    output_make <- rowSums(model$MakeTransactions)
+    output_use <- colSums(model$UseTransactions) + colSums(model$UseValueAdded)
+  }
+  # Compare output
+  rel_diff <- (output_make - output_use) / output_use
+  rel_diff[is.nan(rel_diff)] <- 0
+  return(rel_diff)
+}

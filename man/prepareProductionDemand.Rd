@@ -7,10 +7,12 @@ Formula for production vector: y_p <- y_c + y_e + y_m + y_delta
 where y_c = consumption, y_e = exports, y_m = imports, y_delta = change in inventories
 y_m values are generally negative in the BEA data and thus are added (whereas when positive they are subtracted)}
 \usage{
-prepareProductionDemand(model)
+prepareProductionDemand(model, location)
 }
 \arguments{
 \item{model}{An EEIO model object with model specs and IO tables loaded}
+
+\item{location, }{str of location code for demand vector}
 }
 \value{
 A named vector with demand

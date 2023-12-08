@@ -1,4 +1,4 @@
-# Download all IO tables from BEA iTable
+# Download all IO tables under Make-Use framework from BEA iTable
 getBEAIOTables <- function() {
   # Create the placeholder file
   AllTablesIO <- "inst/extdata/AllTablesIO.zip"
@@ -61,8 +61,6 @@ getBEADetailMakeBeforeRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Make (Before Redef, 2012 schema)
-getBEADetailMakeBeforeRedef2012Schema(2012)
 
 # Get BEA Detail Use (PRO, Before Redef, 2012 schema) table from static Excel
 getBEADetailUsePROBeforeRedef2012Schema <- function(year) {
@@ -99,8 +97,6 @@ getBEADetailUsePROBeforeRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Use (PRO, Before Redef, 2012 schema)
-getBEADetailUsePROBeforeRedef2012Schema(2012)
 
 # Get BEA Detail Use (PUR, Before Redef, 2012 schema) 2012 table from static Excel
 getBEADetailUsePURBeforeRedef2012Schema <- function(year) {
@@ -137,8 +133,6 @@ getBEADetailUsePURBeforeRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Use (PUR, Before Redef, 2012 schema)
-getBEADetailUsePURBeforeRedef2012Schema(2012)
 
 # Get BEA Detail Make (After Redef, 2012 schema) table from static Excel
 getBEADetailMakeAfterRedef2012Schema <- function(year) {
@@ -175,8 +169,6 @@ getBEADetailMakeAfterRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Make (After Redef, 2012 schema)
-getBEADetailMakeAfterRedef2012Schema(2012)
 
 # Get BEA Detail Use (PRO, After Redef, 2012 schema) table from static Excel
 getBEADetailUsePROAfterRedef2012Schema <- function(year) {
@@ -213,8 +205,6 @@ getBEADetailUsePROAfterRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Use (PRO, After Redef, 2012 schema)
-getBEADetailUsePROAfterRedef2012Schema(2012)
 
 # Get BEA Detail Use (PUR, After Redef, 2012 schema) table from static Excel
 getBEADetailUsePURAfterRedef2012Schema <- function(year) {
@@ -251,8 +241,6 @@ getBEADetailUsePURAfterRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Detail Use (PUR, After Redef, 2012 schema)
-getBEADetailUsePURAfterRedef2012Schema(2012)
 
 # Get BEA Summary Make (Before Redef, 2012 schema) table from static Excel
 getBEASummaryMakeBeforeRedef2012Schema <- function() {
@@ -299,8 +287,6 @@ getBEASummaryMakeBeforeRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Summary Make (Before Redef, 2012 schema)
-getBEASummaryMakeBeforeRedef2012Schema()
 
 # Get BEA Summary Use (PRO, Before Redef, 2012 schema) table from static Excel
 getBEASummaryUsePROBeforeRedef2012Schema <- function() {
@@ -347,8 +333,6 @@ getBEASummaryUsePROBeforeRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Summary Use (PRO, Before Redef, 2012 schema)
-getBEASummaryUsePROBeforeRedef2012Schema()
 
 # Get BEA Summary Use (PUR, Before Redef, 2012 schema) table from static Excel
 getBEASummaryUsePURBeforeRedef2012Schema <- function(year) {
@@ -389,8 +373,6 @@ getBEASummaryUsePURBeforeRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Summary Use (PUR, Before Redef, 2012 schema)
-getBEASummaryUsePURBeforeRedef2012Schema(2012)
 
 # Get BEA Summary Make (After Redef, 2012 schema) table from static Excel
 getBEASummaryMakeAfterRedef2012Schema <- function() {
@@ -437,8 +419,6 @@ getBEASummaryMakeAfterRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Summary Make (After Redef, 2012 schema)
-getBEASummaryMakeAfterRedef2012Schema()
 
 # Get BEA Summary Use (PRO, After Redef, 2012 schema) table from static Excel
 getBEASummaryUsePROAfterRedef2012Schema <- function() {
@@ -485,8 +465,6 @@ getBEASummaryUsePROAfterRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Summary Use (PRO, After Redef, 2012 schema)
-getBEASummaryUsePROAfterRedef2012Schema()
 
 # Get BEA Sector Make (Before Redef, 2012 schema) table from static Excel
 getBEASectorMakeBeforeRedef2012Schema <- function() {
@@ -533,8 +511,6 @@ getBEASectorMakeBeforeRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Sector Make (Before Redef, 2012 schema)
-getBEASectorMakeBeforeRedef2012Schema()
 
 # Get BEA Sector Use (PRO, Before Redef, 2012 schema) table from static Excel
 getBEASectorUsePROBeforeRedef2012Schema <- function() {
@@ -580,8 +556,6 @@ getBEASectorUsePROBeforeRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Sector Use (PRO, Before Redef, 2012 schema)
-getBEASectorUsePROBeforeRedef2012Schema()
 
 # Get BEA Sector Use (PUR, Before Redef, 2012 schema) table from static Excel
 getBEASectorUsePURBeforeRedef2012Schema <- function(year) {
@@ -622,8 +596,6 @@ getBEASectorUsePURBeforeRedef2012Schema <- function(year) {
                       date_last_modified = date_last_modified,
                       date_accessed = date_accessed)
 }
-# Download, save and document 2012 BEA Sector Use (PUR, Before Redef, 2012 schema)
-getBEASectorUsePURBeforeRedef2012Schema(2012)
 
 # Get BEA Sector Make (After Redef, 2012 schema) table from static Excel
 getBEASectorMakeAfterRedef2012Schema <- function() {
@@ -670,8 +642,6 @@ getBEASectorMakeAfterRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2020 BEA Sector Make (After Redef, 2012 schema)
-getBEASectorMakeAfterRedef2012Schema()
 
 # Get BEA Sector Use (PRO, After Redef, 2012 schema) table from static Excel
 getBEASectorUsePROAfterRedef2012Schema <- function() {
@@ -717,8 +687,6 @@ getBEASectorUsePROAfterRedef2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document 2010-2018 BEA Sector Use (PRO, After Redef, 2012 schema)
-getBEASectorUsePROAfterRedef2012Schema()
 
 # Get BEA Detail Import (Before Redef, 2012 schema) from static Excel
 getBEADetailImportBeforeRedef2012Schema <- function(year) {
@@ -757,8 +725,6 @@ getBEADetailImportBeforeRedef2012Schema <- function(year) {
                       date_last_modified = "unknown",
                       date_accessed = as.character(as.Date(file.mtime(FileName))))
 }
-# Download, save and document 2012 BEA Detail Import matrix
-getBEADetailImportBeforeRedef2012Schema(2012)
 
 # Get BEA Summary Import (Before Redef, 2012 schema) from static Excel
 getBEASummaryImportBeforeRedef2012Schema <- function() {
@@ -803,9 +769,6 @@ getBEASummaryImportBeforeRedef2012Schema <- function() {
                         date_accessed = as.character(as.Date(file.mtime(FileName))))
   }
 }
-# Download, save and document 2010-2020 BEA Summary Import matrix
-getBEASummaryImportBeforeRedef2012Schema()
-
 
 # Download all GDP tables from BEA
 getBEAUnderlyingTables <- function() {
@@ -931,7 +894,7 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
   FileName <- file.path("inst/extdata/UGdpByInd",
                         files[startsWith(files, "GrossOutput")])
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  
+
   ### Detail ###
   DetailGrossOutput <- getBEADetailGrossOutput2012Schema()
   # Determine year range
@@ -953,7 +916,7 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
   # Assign sector code to row names
   rownames(DetailGrossOutputIO) <- DetailGrossOutputIO[, 1]
   DetailGrossOutputIO[, 1] <- NULL
-  
+
   ### Summary ###
   SummaryGrossOutput <- getBEASummaryGrossOutput2012Schema()
   # Map BEA Summary industry code to IO code
@@ -969,7 +932,7 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
   # Assign sector code to row names
   rownames(SummaryGrossOutputIO) <- SummaryGrossOutputIO[, 1]
   SummaryGrossOutputIO[, 1] <- NULL
-  
+
   ### Sector ###
   SectorGrossOutput <- getBEASectorGrossOutput2012Schema()
   # Map BEA Sector industry code to IO code
@@ -984,7 +947,7 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
   # Assign sector code to row names
   rownames(SectorGrossOutputIO) <- SectorGrossOutputIO[, 1]
   SectorGrossOutputIO[, 1] <- NULL
-  
+
   ### Save and Document data
   ls <- list("Detail_GrossOutput_IO" = DetailGrossOutputIO,
              "Summary_GrossOutput_IO" = SummaryGrossOutputIO,
@@ -1002,8 +965,6 @@ mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Detail, Summary, and Sector Gross Output tables
-mapBEAGrossOutputtoIOIndustry2012Schema()
 
 # Get Detail BEA Chain-Type Price Indexes (CPI) (2012 schema) since 2002
 getBEADetailCPI2012Schema <- function() {
@@ -1099,7 +1060,7 @@ mapBEACPItoIOIndustry2012Schema <- function() {
   FileName <- file.path("inst/extdata/UGdpByInd",
                         files[startsWith(files, "GrossOutput")])
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  
+
   ### Detail ###
   DetailCPI <- getBEADetailCPI2012Schema()
   DetailCPI$Gross_Output_Detail_Industry <- sub("’", "'",
@@ -1137,7 +1098,7 @@ mapBEACPItoIOIndustry2012Schema <- function() {
   # Assign sector code to row names
   rownames(DetailCPIIO) <- DetailCPIIO[, 1]
   DetailCPIIO[, 1] <- NULL
-  
+
   ### Summary ###
   SummaryCPI <- getBEASummaryCPI2012Schema()
   # Map BEA Summary industry code to IO code
@@ -1152,7 +1113,7 @@ mapBEACPItoIOIndustry2012Schema <- function() {
   # Assign sector code to row names
   rownames(SummaryCPIIO) <- SummaryCPIIO[, 1]
   SummaryCPIIO[, 1] <- NULL
-  
+
   ### Sector ###
   SectorCPI <- getBEASectorCPI2012Schema()
   # Map BEA Sector industry code to IO code
@@ -1167,7 +1128,7 @@ mapBEACPItoIOIndustry2012Schema <- function() {
   # Assign sector code to row names
   rownames(SectorCPIIO) <- SectorCPIIO[, 1]
   SectorCPIIO[, 1] <- NULL
-  
+
   ### Save and Document data
   ls <- list("Detail_CPI_IO" = DetailCPIIO,
              "Summary_CPI_IO" = SummaryCPIIO,
@@ -1185,8 +1146,6 @@ mapBEACPItoIOIndustry2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Detail, Summary, and Sector CPI tables since 2002
-mapBEACPItoIOIndustry2012Schema()
 
 #' Get Summary BEA Value Added (2012 schema) since 2007
 getBEASummaryValueAdded2012Schema <- function() {
@@ -1254,7 +1213,7 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function() {
   FileName <- file.path("inst/extdata/UGdpByInd",
                         files[startsWith(files, "ValueAdded")])
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  
+
   ### Summary ###
   SummaryValueAdded <- getBEASummaryValueAdded2012Schema()
   # Determine year range
@@ -1271,7 +1230,7 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function() {
   # Assign sector code to row names
   rownames(SummaryValueAddedIO) <- SummaryValueAddedIO[, 1]
   SummaryValueAddedIO[, 1] <- NULL
-  
+
   ### Sector ###
   SectorValueAdded <- getBEASectorValueAdded2012Schema()
   # Map BEA Sector industry code to IO code
@@ -1286,7 +1245,7 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function() {
   # Assign sector code to row names
   rownames(SectorValueAddedIO) <- SectorValueAddedIO[, 1]
   SectorValueAddedIO[, 1] <- NULL
-  
+
   ### Save and Document data
   ls <- list("Summary_ValueAdded_IO" = SummaryValueAddedIO,
              "Sector_ValueAdded_IO" = SectorValueAddedIO)
@@ -1303,8 +1262,6 @@ mapBEAValueAddedtoIOIndustry2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Summary and Sector Value Added tables since 2002
-mapBEAValueAddedtoIOIndustry2012Schema()
 
 #'Applies string functions to clean BEA codes in a df
 #'@param df, a sector dataframe with codes in col 1
@@ -1368,7 +1325,7 @@ getBEACodeName2012Schema <- function() {
   colnames(BEADetailFinalDemandCodeName) <- c("BEA_2012_Detail_FinalDemand_Code",
                                               "BEA_2012_Detail_FinalDemand_Name")
   rownames(BEADetailFinalDemandCodeName) <- NULL
-  
+
   ### Summary ###
   # Load data
   FileName <- file.path("inst/extdata/AllTablesIO",
@@ -1404,7 +1361,7 @@ getBEACodeName2012Schema <- function() {
   colnames(BEASummaryFinalDemandCodeName) <- c("BEA_2012_Summary_FinalDemand_Code",
                                                "BEA_2012_Summary_FinalDemand_Name")
   rownames(BEASummaryFinalDemandCodeName) <- NULL
-  
+
   ### Sector ###
   # Load data
   FileName <- file.path("inst/extdata/AllTablesIO",
@@ -1440,7 +1397,7 @@ getBEACodeName2012Schema <- function() {
   colnames(BEASectorFinalDemandCodeName) <- c("BEA_2012_Sector_FinalDemand_Code",
                                               "BEA_2012_Sector_FinalDemand_Name")
   rownames(BEASectorFinalDemandCodeName) <- NULL
-  
+
   ### Put the data.frames in a list
   BEACodeNameList <- list("Detail_IndustryCodeName_2012"     = BEADetailIndustryCodeName,
                           "Detail_CommodityCodeName_2012"    = BEADetailCommodityCodeName,
@@ -1470,8 +1427,6 @@ getBEACodeName2012Schema <- function() {
                         date_accessed = date_accessed)
   }
 }
-# Download, save and document BEA Detail, Summary, and Sector Code and Name (2012 schema)
-getBEACodeName2012Schema()
 
 # Get Detail Margins (Before Redefinition, 2012 schema) table from BEA static URL
 getBEADetailMarginsBeforeRedef2012Schema <- function(year) {
@@ -1507,5 +1462,292 @@ getBEADetailMarginsBeforeRedef2012Schema <- function(year) {
                       date_last_modified = "2022-03-04", # page last modified
                       date_accessed = as.character(as.Date(file.mtime(FileName))))
 }
-# Download, save and document 2012 BEA Detail Margins table
-getBEADetailMarginsBeforeRedef2012Schema(2012)
+
+
+# Download all Supply and Use tables from BEA iTable
+getBEASupplyUseTables <- function() {
+  # Create the placeholder file
+  AllTablesSUP <- "inst/extdata/AllTablesIOSUP.zip"
+  # Download all BEA IO tables into the placeholder file
+  url <- "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip"
+  if (!file.exists(AllTablesSUP)) {
+    utils::download.file(url, AllTablesSUP, mode = "wb")
+  }
+  # Get the name of all files in the zip archive
+  files <- unzip(AllTablesSUP, list = TRUE)
+  fname <- files[files$Length > 0, ]$Name
+  if (all(fname == basename(fname))) {
+    exdir <- "inst/extdata/AllTablesSUP"
+  } else {
+    exdir <- "inst/extdata/"
+  }
+  # Unzip the file to the designated directory
+  unzip(AllTablesSUP, files = fname, exdir = exdir,
+        overwrite = TRUE, setTimes = TRUE)
+  # Create output
+  ls <- list("url" = url,
+             "date_accessed" = as.character(as.Date(file.mtime(AllTablesSUP))),
+             "files" = basename(fname))
+  return(ls)
+}
+
+# Get BEA Detail Supply (2012 schema) table from static Excel
+getBEADetailSupply2012Schema <- function(year) {
+  # Download data
+  url <- getBEASupplyUseTables()[["url"]]
+  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
+  files <- getBEASupplyUseTables()[["files"]]
+  # Load data
+  FileName <- file.path("inst/extdata/AllTablesSUP",
+                        files[startsWith(files, "Supply") &
+                                endsWith(files, "DET.xlsx")])
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  DetailSupply <- as.data.frame(readxl::read_excel(FileName,
+                                                   sheet = as.character(year)))
+  # Assign row and column names
+  DetailSupply <- DetailSupply[!is.na(DetailSupply[, 2]), ]
+  colnames(DetailSupply) <- DetailSupply[1, ]
+  rownames(DetailSupply) <- DetailSupply$Code
+  # Trim table, convert all values to numeric, assign row names
+  DetailSupply <- as.data.frame(lapply(DetailSupply[-1, -c(1:2)], as.numeric),
+                                check.names = FALSE,
+                                row.names = DetailSupply[-1, 1])
+  # Replace NA with zero
+  DetailSupply[is.na(DetailSupply)] <- 0
+  # Write data to .rda
+  writeDatatoRDA(data = DetailSupply,
+                 data_name = paste0("Detail_Supply_", year))
+  # Write metadata to JSON
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Detail_Supply_", year),
+                      year = year,
+                      source = "US Bureau of Economic Analysis",
+                      url = url,
+                      date_last_modified = date_last_modified,
+                      date_accessed = date_accessed)
+}
+
+
+# Get BEA Detail Use (under the Supply-Use framework, 2012 schema) table from static Excel
+getBEADetailUseSUT2012Schema <- function(year) {
+  # Download data
+  url <- getBEASupplyUseTables()[["url"]]
+  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
+  files <- getBEASupplyUseTables()[["files"]]
+  # Load data
+  FileName <- file.path("inst/extdata/AllTablesSUP",
+                        files[startsWith(files, "Use") &
+                                endsWith(files, "DET.xlsx")])
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  DetailUse <- as.data.frame(readxl::read_excel(FileName,
+                                                   sheet = as.character(year)))
+  # Assign row and column names
+  DetailUse <- DetailUse[!is.na(DetailUse[, 2]), ]
+  colnames(DetailUse) <- DetailUse[1, ]
+  rownames(DetailUse) <- DetailUse$Code
+  # Trim table, convert all values to numeric, assign row names
+  DetailUse <- as.data.frame(lapply(DetailUse[-1, -c(1:2)], as.numeric),
+                                check.names = FALSE,
+                                row.names = DetailUse[-1, 1])
+  # Replace NA with zero
+  DetailUse[is.na(DetailUse)] <- 0
+  # Write data to .rda
+  writeDatatoRDA(data = DetailUse,
+                 data_name = paste0("Detail_Use_SUT_", year))
+  # Write metadata to JSON
+  writeMetadatatoJSON(package = "useeior",
+                      name = paste0("Detail_Use_SUT_", year),
+                      year = year,
+                      source = "US Bureau of Economic Analysis",
+                      url = url,
+                      date_last_modified = date_last_modified,
+                      date_accessed = date_accessed)
+}
+
+
+# Get BEA Summary Supply (2012 schema) table from static Excel
+getBEASummarySupply2012Schema <- function() {
+  # Download data
+  url <- getBEASupplyUseTables()[["url"]]
+  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
+  files <- getBEASupplyUseTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "Supply") & endsWith(files, "SUM.xlsx")]
+  FileName <- file.path("inst/extdata/AllTablesSUP", file)
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  # Find latest data year
+  file_split <- unlist(stringr::str_split(file, pattern = "_"))
+  year_range <- file_split[length(file_split) - 1]
+  end_year <- sub(".*-", "", year_range)
+  # Load data
+  for (year in 2010:end_year) {
+    SummarySupply <- as.data.frame(readxl::read_excel(FileName,
+                                                      sheet = as.character(year)))
+    # Trim table, assign column names
+    SummarySupply <- SummarySupply[!is.na(SummarySupply[, 2]), ]
+    colnames(SummarySupply) <- SummarySupply[1, ]
+    colname_check <- is.na(colnames(SummarySupply))
+    colnames(SummarySupply)[colname_check] <- SummarySupply[2, colname_check]
+    # Fill NA in code column with corresponding name
+    SummarySupply[is.na(SummarySupply[, 1]), 1] <- SummarySupply[is.na(SummarySupply[, 1]), 2]
+    # Convert all values to numeric, assign row names
+    SummarySupply <- as.data.frame(lapply(SummarySupply[-c(1:2), -c(1:2)], as.numeric),
+                                   check.names = FALSE,
+                                   row.names = SummarySupply[-c(1:2), 1])
+    # Replace NA with zero
+    SummarySupply[is.na(SummarySupply)] <- 0
+    # Write data to .rda
+    writeDatatoRDA(data = SummarySupply,
+                   data_name = paste0("Summary_Supply_", year))
+    # Write metadata to JSON
+    writeMetadatatoJSON(package = "useeior",
+                        name = paste0("Summary_Supply_", year),
+                        year = year,
+                        source = "US Bureau of Economic Analysis",
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
+  }
+}
+
+# Get BEA Summary Use (under the Supply-Use framework, 2012 schema) table from static Excel
+getBEASummaryUseSUT2012Schema <- function() {
+  # Download data
+  url <- getBEASupplyUseTables()[["url"]]
+  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
+  files <- getBEASupplyUseTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "Use") & endsWith(files, "Sum.xlsx")]
+  FileName <- file.path("inst/extdata/AllTablesSUP", file)
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  # Find latest data year
+  file_split <- unlist(stringr::str_split(file, pattern = "_"))
+  year_range <- file_split[length(file_split) - 1]
+  end_year <- sub(".*-", "", year_range)
+  # Load data
+  for (year in 2010:end_year) {
+    SummaryUse <- as.data.frame(readxl::read_excel(FileName,
+                                                   sheet = as.character(year)))
+    # Trim table, assign column names
+    SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
+    colnames(SummaryUse) <- SummaryUse[1, ]
+    colname_check <- is.na(colnames(SummaryUse))
+    colnames(SummaryUse)[colname_check] <- SummaryUse[2, colname_check]
+    # Fill NA in code column with corresponding name
+    SummaryUse[is.na(SummaryUse[, 1]), 1] <- SummaryUse[is.na(SummaryUse[, 1]), 2]
+    # Convert all values to numeric, assign row names
+    SummaryUse <- as.data.frame(lapply(SummaryUse[-c(1:2), -c(1:2)], as.numeric),
+                                check.names = FALSE,
+                                row.names = SummaryUse[-c(1:2), 1])
+    # Replace NA with zero
+    SummaryUse[is.na(SummaryUse)] <- 0
+    # Write data to .rda
+    writeDatatoRDA(data = SummaryUse,
+                   data_name = paste0("Summary_Use_SUT_", year))
+    # Write metadata to JSON
+    writeMetadatatoJSON(package = "useeior",
+                        name = paste0("Summary_Use_SUT_", year),
+                        year = year,
+                        source = "US Bureau of Economic Analysis",
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
+  }
+}
+
+
+# Get BEA Sector Supply (2012 schema) table from static Excel
+getBEASectorSupply2012Schema <- function() {
+  # Download data
+  url <- getBEASupplyUseTables()[["url"]]
+  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
+  files <- getBEASupplyUseTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "Supply") & endsWith(files, "SEC.xlsx")]
+  FileName <- file.path("inst/extdata/AllTablesSUP", file)
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  # Find latest data year
+  file_split <- unlist(stringr::str_split(file, pattern = "_"))
+  year_range <- file_split[length(file_split) - 1]
+  end_year <- sub(".*-", "", year_range)
+  # Load data
+  for (year in 2010:end_year) {
+    SectorSupply <- as.data.frame(readxl::read_excel(FileName,
+                                                     sheet = as.character(year)))
+    # Trim table, assign column names
+    SectorSupply <- SectorSupply[!is.na(SectorSupply[, 2]), ]
+    colnames(SectorSupply) <- SectorSupply[1, ]
+    colname_check <- is.na(colnames(SectorSupply))
+    colnames(SectorSupply)[colname_check] <- SectorSupply[2, colname_check]
+    # Assign T017 to Total industry supply if not provided
+    if (is.na(SectorSupply[SectorSupply$`Commodities/Industries` == "Total industry supply", 1])) {
+      SectorSupply[SectorSupply$`Commodities/Industries` == "Total industry supply", 1] <- "T017"
+    }
+    # Fill NA in code column with corresponding name
+    SectorSupply[is.na(SectorSupply[, 1]), 1] <- SectorSupply[is.na(SectorSupply[, 1]), 2]
+    # Convert all values to numeric, assign row names
+    SectorSupply <- as.data.frame(lapply(SectorSupply[-c(1:2), -c(1:2)], as.numeric),
+                                  check.names = FALSE,
+                                  row.names = SectorSupply[-c(1:2), 1])
+    # Replace NA with zero
+    SectorSupply[is.na(SectorSupply)] <- 0
+    # Write data to .rda
+    writeDatatoRDA(data = SectorSupply,
+                   data_name = paste0("Sector_Supply_", year))
+    # Write metadata to JSON
+    writeMetadatatoJSON(package = "useeior",
+                        name = paste0("Sector_Supply_", year),
+                        year = year,
+                        source = "US Bureau of Economic Analysis",
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
+  }
+}
+
+
+# Get BEA Sector Use (under the Supply-Use framework, 2012 schema) table from static Excel
+getBEASectorUseSUT2012Schema <- function() {
+  # Download data
+  url <- getBEASupplyUseTables()[["url"]]
+  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
+  files <- getBEASupplyUseTables()[["files"]]
+  # Prepare file name
+  file <- files[startsWith(files, "Use") & endsWith(files, "SECT.xlsx")]
+  FileName <- file.path("inst/extdata/AllTablesSUP", file)
+  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+  # Find latest data year
+  file_split <- unlist(stringr::str_split(file, pattern = "_"))
+  year_range <- file_split[length(file_split) - 1]
+  end_year <- sub(".*-", "", year_range)
+  # Load data
+  for (year in 2010:end_year) {
+    SectorUse <- as.data.frame(readxl::read_excel(FileName,
+                                                  sheet = as.character(year)))
+    # Trim table, assign column names
+    SectorUse <- SectorUse[!is.na(SectorUse[, 2]), ]
+    colnames(SectorUse) <- SectorUse[1, ]
+    colname_check <- is.na(colnames(SectorUse))
+    colnames(SectorUse)[colname_check] <- SectorUse[2, colname_check]
+    # Fill NA in code column with corresponding name
+    SectorUse[is.na(SectorUse[, 1]), 1] <- SectorUse[is.na(SectorUse[, 1]), 2]
+    # Convert all values to numeric, assign row names
+    SectorUse <- as.data.frame(lapply(SectorUse[-c(1:2), -c(1:2)], as.numeric),
+                               check.names = FALSE,
+                               row.names = SectorUse[-c(1:2), 1])
+    # Replace NA with zero
+    SectorUse[is.na(SectorUse)] <- 0
+    # Write data to .rda
+    writeDatatoRDA(data = SectorUse,
+                   data_name = paste0("Sector_Use_SUT_", year))
+    # Write metadata to JSON
+    writeMetadatatoJSON(package = "useeior",
+                        name = paste0("Sector_Use_SUT_", year),
+                        year = year,
+                        source = "US Bureau of Economic Analysis",
+                        url = url,
+                        date_last_modified = date_last_modified,
+                        date_accessed = date_accessed)
+  }
+}
+

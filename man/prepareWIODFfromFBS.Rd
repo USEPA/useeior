@@ -10,9 +10,11 @@ prepareWIODFfromFBS(fbs, spec, model)
 \item{fbs}{FlowBySector dataframe.}
 
 \item{spec}{WIO model spec}
+
+\item{model}{An EEIO model object with model specs and IO tables loaded}
 }
 \value{
-list of two dataframes: UseTableDF and MakeTableDF
+model with list of two dataframes: UseTableDF and MakeTableDF
 }
 \description{
 Prepare make and use input files from FlowBySector file.

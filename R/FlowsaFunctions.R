@@ -43,14 +43,15 @@ getFlowbySectorCollapsed <- function(sat_spec) {
 
 
 #' Adjusts flowbysector data from flowsa
-#' Currently only works for national totals (location="00000") and
-#' assumes that sector schema is NAICS_2012_Code
 #' @param fbsc A FlowBySector collapsed df from flowsa
 #' @param satellite bool, set to TRUE when used for env satellite tables
 #' @return A data frame of sector by region totals
 prepareFlowBySectorCollapsed <- function(fbsc, satellite=TRUE) {
   # Replace Python type None with NA
   fbsc <- replaceNonewithNA(fbsc)
+  # add columns if not present
+  cols <- c('FlowUUID')
+  fbsc[cols[!(cols %in% colnames(fbsc))]] <- ""
   # Ensure correct type, parquet can come in as vctrs_unspecified
   fbsc[c("Context", "FlowUUID")] <- sapply(fbsc[c("Context", "FlowUUID")], function(x) as.character(x))
   # If context is NA replace with blank
@@ -63,8 +64,14 @@ prepareFlowBySectorCollapsed <- function(fbsc, satellite=TRUE) {
   }
   # Map location codes to names
   fbsc$Location <- mapLocationCodestoNames(fbsc$Location, unique(fbsc$LocationSystem))
+  # Get standard sat table fields
+  fields <- getStandardSatelliteTableFormat()
+  if (!"Sector" %in% colnames(fbsc)) {
+    # keep SPB and SCB when not a FBS collapsed
+    fields <- append(fields, c("SectorProducedBy", "SectorConsumedBy"), 3)
+  }
   # Remove unused data
-  fbsc[, c("Class", "FlowType", "LocationSystem", "MeasureofSpread", "Spread")] <- NULL
+  fbsc <- fbsc[which(colnames(fbsc) %in% fields)]
   return(fbsc)
 }
 
