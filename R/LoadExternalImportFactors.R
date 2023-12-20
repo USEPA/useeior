@@ -9,7 +9,13 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
 
   # Read in file with Import factors
   IFSpec <- model$specs$ImportFactors[[1]]
-  filename <- getInputFilePath(configpaths, folderPath = "extdata", filename = IFSpec$StaticFile)
+  if(is.null(IFSpec$FileLocation)){
+    filename <- getInputFilePath(configpaths, folderPath = "extdata", filename = IFSpec$StaticFile)
+  } else if(IFSpec$FileLocation == "DataCommons") {
+    filename <- loadDataCommonsfile(IFSpec$StaticFile)    
+  } else if(IFSpec$FileLocation == "useeior") {
+    filename <- getInputFilePath(configpaths, folderPath = "extdata", filename = IFSpec$StaticFile)
+  }
   IFTable <- utils::read.table(filename, sep = ",", header = TRUE,
                                stringsAsFactors = FALSE)
   

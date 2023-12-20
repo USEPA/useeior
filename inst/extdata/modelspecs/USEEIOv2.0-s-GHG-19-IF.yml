@@ -67,3 +67,4 @@ ImportFactors:
     Abbreviation: "RoW_IF"
     StaticSource: TRUE
     StaticFile: "imports_multipliers_2019.csv"
+    FileLocation: "useeior"
