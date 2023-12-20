@@ -13,7 +13,7 @@ getMUIOSectors(model, configpaths = NULL)
 If NULL, built-in config files are used.}
 }
 \value{
-A model with the specified WIO specs.
+A model with the specified MUIO specs.
 }
 \description{
 Obtain specs that indicate which sectors need to

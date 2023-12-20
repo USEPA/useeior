@@ -496,7 +496,6 @@ reorderModelSectors <- function (model, comOrder, indOrder){
   model$MultiYearIndustryOutput[,multiYearIndOutputIndex] <- model$IndustryOutput
   
   return(model)
-  
 }
 
 #' Remove sectors from the model objects according to the provided indexes
@@ -523,8 +522,6 @@ removeModelSectors <- function (model, comIndexes, indIndexes){
   model$CommodityOutput <- model$CommodityOutput[-(comIndexes)]
   model$IndustryOutput <- model$IndustryOutput[-(indIndexes)]
   model$Margins <- model$Margins[-(comIndexes),]
-  
-  
+
   return(model)
-  
 }

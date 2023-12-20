@@ -13,7 +13,7 @@ convertSectorsToPhysical(model, configpaths = NULL)
 If NULL, built-in config files are used.}
 }
 \value{
-A model with the specified WIO specs.
+A model with the specified MUIO specs.
 }
 \description{
 Convert MUIO sectors to physical units

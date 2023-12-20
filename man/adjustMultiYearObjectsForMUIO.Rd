@@ -2,7 +2,7 @@
 % Please edit documentation in R/MUIOFunctions.R
 \name{adjustMultiYearObjectsForMUIO}
 \alias{adjustMultiYearObjectsForMUIO}
-\title{Adjust MultiYearObjects in WIO models such that they have the same dimensions as the other model objects}
+\title{Adjust MultiYearObjects in MUIO models such that they have the same dimensions as the other model objects}
 \usage{
 adjustMultiYearObjectsForMUIO(
   model,
@@ -27,5 +27,5 @@ adjustMultiYearObjectsForMUIO(
 A model with the multiyear objects adjusted for the MUIO industries/commodities.
 }
 \description{
-Adjust MultiYearObjects in WIO models such that they have the same dimensions as the other model objects
+Adjust MultiYearObjects in MUIO models such that they have the same dimensions as the other model objects
 }

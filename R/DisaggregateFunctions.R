@@ -208,12 +208,11 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
         specs[spec$OriginalSectorCode] <- NULL
       }
     } else {
-    # Need to assign these DFs back to the modelspecs
-    specs[[spec$OriginalSectorCode]] <- spec
+      # Need to assign these DFs back to the modelspecs
+      specs[[spec$OriginalSectorCode]] <- spec
     }
   }
-  
-  
+
   if(setupType == "Disaggregation"){
     model$DisaggregationSpecs <- specs
   } else if(setupType == "WIO") {
@@ -359,16 +358,23 @@ disaggregateMargins <- function(model, disagg) {
   originalRow <- model$Margins[originalIndex,]#copy row containing the Margins information for the original aggregate sector
 
   disaggMargins <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$NewSectorCodes)),,drop=FALSE]#replicate the original a number of times equal to the number of disaggregate sectors
-  disaggRatios <- unname(disaggregatedRatios(model, disagg, model$specs$CommodityorIndustryType))#ratios needed to calculate the margins for the disaggregated sectors. Need to unname for compatibility with Rho matrix later in the model build process.
+  #ratios needed to calculate the margins for the disaggregated sectors.
+  # Need to unname for compatibility with Rho matrix later in the model build process.
+  disaggRatios <- unname(disaggregatedRatios(model, disagg, model$specs$CommodityorIndustryType))
 
   #variable to determine length of Code substring, i.e., code length minus geographic identifier and separator character (e.g. "/US")
   codeLength <- nchar(gsub("/.*", "", disagg$NewSectorCodes[1]))
 
   #  codeLength <- nchar(gsub("/.*", "", disagg$NewSectorCodes)) # Possible fix for removing an extra / when new sector codes don't have same codeLength, along with similar change in disaggregateSectorDFs
 
-  disaggMargins$Code_Loc <- unlist(disagg$NewSectorCodes)#replace Code_Loc values from aggregate sector with Code_Loc values for disaggregated sectors. Need to unlist for compatibility with Rho matrix later in the model build process.
-  disaggMargins$SectorCode <- substr(disagg$NewSectorCodes,1,codeLength) #replace SectorCode values from aggregate sector with Code_Loc values for disaggregated sectors, except for the geographic identifer
-  disaggMargins$Name <- unlist(disagg$NewSectorNames)#replace Name values from aggregate sector with Name values for disaggregated sectors.  Need to unlist for compatibility with other functions later in the model build process.
+  #replace Code_Loc values from aggregate sector with Code_Loc values for disaggregated sectors.
+  # Need to unlist for compatibility with Rho matrix later in the model build process.
+  disaggMargins$Code_Loc <- unlist(disagg$NewSectorCodes)
+  # replace SectorCode values from aggregate sector with Code_Loc values for disaggregated sectors, except for the geographic identifer
+  disaggMargins$SectorCode <- substr(disagg$NewSectorCodes,1,codeLength)
+  #replace Name values from aggregate sector with Name values for disaggregated sectors.
+  # Need to unlist for compatibility with other functions later in the model build process.
+  disaggMargins$Name <- unlist(disagg$NewSectorNames)
   
   #code below mutlplies the values in the relavant columns of the Margins dataframe by the disaggRatios
   disaggMargins$ProducersValue <- disaggMargins$ProducersValue * disaggRatios

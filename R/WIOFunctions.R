@@ -29,9 +29,7 @@ getWIOSpecs <- function (model, configpaths = NULL){
 #' If NULL, built-in config files are used.
 #' @return A model object with the correct WIO specs.
 getWIOFiles <- function (model, configpaths = NULL){ 
-  
   model <- disaggregateSetup(model, configpaths, "WIO")
-
   return(model)
 }
 
@@ -117,7 +115,8 @@ prepareWIODFfromFBS <- function(fbs, spec, model) {
                      data = use, FUN = sum)
     
   } else {
-    # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors/ there are no waste treatment sectors. 
+    # For the case where we dont want to add Waste Treatment Sectors from the FBS
+    # but rather from the BEA sectors/ there are no waste treatment sectors. 
     use <- use1
     # Add loc to all sectors
     use[code_cols] <- lapply(use[code_cols], function(x) paste0(x,"/",use$Location))
@@ -131,7 +130,8 @@ prepareWIODFfromFBS <- function(fbs, spec, model) {
     use2 <- rbind(use2, transformBEASectorToDFInput(model, spec, "FD"))
     use2 <- rbind(use2, transformBEASectorToDFInput(model, spec, "VA"))
     
-    duplicateRows <- which(duplicated(use2[,-(4:5)]) == "TRUE")# find duplicate rows (without comparing columns 4 & 5, Notes & WIO section)
+    # find duplicate rows (without comparing columns 4 & 5, Notes & WIO section)
+    duplicateRows <- which(duplicated(use2[,-(4:5)]) == "TRUE")
     use2 <- use2[-(duplicateRows),]
     
     use <- rbind(use, use2) # bind Waste Gen and Waste Treatment sections of the Use DF
@@ -163,11 +163,11 @@ prepareWIODFfromFBS <- function(fbs, spec, model) {
   make_agg2$WIOSection <- 'Waste Treatment Commodities' 
   
 
-  if(is.null(spec$BEASectorsAsTreatmentSectors)){
+  if (is.null(spec$BEASectorsAsTreatmentSectors)) {
     make_agg <- rbind(make_agg, make_agg2)
     make_agg[code_cols] <- lapply(make_agg[code_cols], function(x) paste0(x,"/",make_agg$Location))
     make_agg <- make_agg[,cols]
-  } else{
+  }  else {
     # For the case where we dont want to add Waste Treatment Sectors from the FBS but rather from the BEA sectors
     make_agg[code_cols] <- lapply(make_agg[code_cols], function(x) paste0(x,"/",make_agg$Location))
     make_agg <- make_agg[,cols]
@@ -178,7 +178,8 @@ prepareWIODFfromFBS <- function(fbs, spec, model) {
     make_agg2 <- transformBEASectorToDFInput(model, spec, "MakeRows")
     make_agg2 <- rbind(make_agg2, transformBEASectorToDFInput(model, spec, "MakeCols"))
     
-    duplicateRows <- which(duplicated(make_agg2[,-(4:5)]) == "TRUE")# find duplicate rows (without comparing columns 4 & 5, Notes & WIO section)
+    # find duplicate rows (without comparing columns 4 & 5, Notes & WIO section)
+    duplicateRows <- which(duplicated(make_agg2[,-(4:5)]) == "TRUE")
     make_agg2 <- make_agg2[-(duplicateRows),]
     
     make_agg <- rbind(make_agg, make_agg2) # bind Waste Gen and Waste Treatment sections of the Use DF
@@ -190,7 +191,6 @@ prepareWIODFfromFBS <- function(fbs, spec, model) {
     comIndexes <- which(model$Commodities$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentCommodities)
     indIndexes <- which(model$Industries$Code_Loc %in% spec$BEASectorsAsTreatmentSectors$WasteTreatmentIndustries)
     model <- removeModelSectors(model, comIndexes, indIndexes)
-    
 
   }
   
@@ -324,7 +324,8 @@ includeWIOSectorDFs <- function (model, WIO){
   WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
   WIOUseColumns <- do.call("rbind", list(model$WasteTreatmentIndustries, model$WasteGenTreat, model$RecyclingTreat))
   
-  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
+  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector
+  # more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
   WIOUseRows <- WIOUseRows[which(WIOUseRows$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
   WIOUseColumns <- WIOUseColumns[which(WIOUseColumns$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
   
@@ -497,7 +498,8 @@ adjustITAwithWIOSectors <- function (model, WIO){
   # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
   WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
   
-  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
+  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector
+  # more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
   WIOUseRows <- WIOUseRows[which(WIOUseRows$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
   
   WIOITA <- double(dim(WIOUseRows)[1])
@@ -517,7 +519,8 @@ adjustMarginswithWIOSectors <- function (model, WIO){
   # Get list of all WIO commodities and industries in a structural sense (i.e., WIO rows and columns for Make/Use)
   WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
   
-  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
+  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector
+  # more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
   WIOUseRows <- WIOUseRows[which(WIOUseRows$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
   
   # Create DF to house margin values for WIO sectors
@@ -563,25 +566,23 @@ checkWIOBalance <- function (model, sectorType = "Waste"){
   }
 
   if(dim(useGen)[1] != 0 & dim(makeTreatment)[1] != 0){
-
-    
     genSum <- sum(useGen) + sum(FDGen)
     treatSum <- sum(makeTreatment)
     
-    # if the ratio of the sum of generation over the sum of treatment is greater than 1% then the generation and treatment is not balanced and we need to stop execution
+    # if the ratio of the sum of generation over the sum of treatment is greater than 1%
+    # then the generation and treatment is not balanced and we need to stop execution
     if(abs(1 - genSum/treatSum) > 0.01){
       stop(paste0(sectorType, " not balanced"))
     }else{
       logging::loginfo(paste0(sectorType, " adequately balanced within 1%."))
     }
-  } else if(dim(useGen)[1] != 0 | dim(makeTreatment)[1] != 0) { # for the case where some, but not all, WIO sectors are properly defined 
+  } else if(dim(useGen)[1] != 0 | dim(makeTreatment)[1] != 0) {
+    # for the case where some, but not all, WIO sectors are properly defined
     stop(paste0(sectorType, " sector(s) missing from table."))
   }
-  
-  
 }
 
-#' Take an exisiting USEEIO sector and transform it into a dataframe formated as a WIO-style input file
+#' Take an existing USEEIO sector and transform it into a dataframe formatted as a WIO-style input file
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param spec A model object contain the WIO specifications
 #' @param vectorToTransform A string indicating which table and vector to use, e.g., UseRows, MakeCols, etc.
@@ -602,18 +603,23 @@ transformBEASectorToDFInput <- function (model, spec, vectorToTransform){
       useRows <- as.data.frame(t(model$FinalDemand[comIndeces, , drop = FALSE])) # Get relevant use rows
       note <- "FD"
     }
-
-    commoditiesAsDFCols <- as.data.frame(t(replicate(dim(useRows)[1], colnames(useRows)))) # Create dataframe with a number of rows equal to the number of total commodities in the model,
+    
+    # Create dataframe with a number of rows equal to the number of total commodities in the model,
     # and the values equal to the column names of the relevant commodities
+    commoditiesAsDFCols <- as.data.frame(t(replicate(dim(useRows)[1], colnames(useRows))))
 
-    outputDF <- do.call("data.frame", lapply(1:ncol(useRows), function(j) cbind(ts(commoditiesAsDFCols[,j]), ts(useRows[,j])))) # cbind useRows and commoditiesAsDFCols DFs in an alternating manner
-    names(outputDF) <- make.names(rep(c("CommodityCode","Amount"), dim(useRows)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
-    outputDF <- data.frame(CommodityCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
-    outputDF$Amount <- as.numeric(as.character(outputDF$Amount)) #transform amount back into a numeric column
+    # cbind useRows and commoditiesAsDFCols DFs in an alternating manner
+    outputDF <- do.call("data.frame", lapply(1:ncol(useRows), function(j) cbind(ts(commoditiesAsDFCols[,j]), ts(useRows[,j]))))
+    # name every 2 columns as "CommodityCode" and "Amount"
+    names(outputDF) <- make.names(rep(c("CommodityCode","Amount"), dim(useRows)[2]), unique = FALSE)
+    # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+    outputDF <- data.frame(CommodityCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)]))
+    outputDF$Amount <- as.numeric(as.character(outputDF$Amount))
 
-    industriesAsDFCols <- data.frame(rep(rownames(useRows), dim(useRows)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    # create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    industriesAsDFCols <- data.frame(rep(rownames(useRows), dim(useRows)[2]))
     colnames(industriesAsDFCols) <- c("IndustryCode")
-    outputDF <- cbind(industriesAsDFCols, outputDF) # add industryCode column as the first column in a UseDF
+    outputDF <- cbind(industriesAsDFCols, outputDF)
 
     rownames(outputDF) <- 1:nrow(outputDF)
 
@@ -630,20 +636,24 @@ transformBEASectorToDFInput <- function (model, spec, vectorToTransform){
       note <- "VA"
     }
 
-    industriesAsDFCols <- as.data.frame(t(replicate(dim(useCols)[1], colnames(useCols)))) # Create dataframe with a number of rows equal to the number of total commodities in the model,
+    # Create dataframe with a number of rows equal to the number of total commodities in the model,
     # and the values equal to the column names of the relevant commodities
+    industriesAsDFCols <- as.data.frame(t(replicate(dim(useCols)[1], colnames(useCols))))
 
-    outputDF <- do.call("data.frame", lapply(1:ncol(useCols), function(j) cbind(ts(industriesAsDFCols[,j]), ts(useCols[,j])))) # cbind useCols and industriesAsDFCols DFs in an alternating manner
-    names(outputDF) <- make.names(rep(c("IndustryCode","Amount"), dim(useCols)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
-    outputDF <- data.frame(IndustryCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+    # cbind useCols and industriesAsDFCols DFs in an alternating manner
+    outputDF <- do.call("data.frame", lapply(1:ncol(useCols), function(j) cbind(ts(industriesAsDFCols[,j]), ts(useCols[,j]))))
+    # name every 2 columns as "CommodityCode" and "Amount"
+    names(outputDF) <- make.names(rep(c("IndustryCode","Amount"), dim(useCols)[2]), unique = FALSE)
+    # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+    outputDF <- data.frame(IndustryCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)]))
     outputDF$Amount <- as.numeric(as.character(outputDF$Amount)) #transform amount back into a numeric column
 
-    commoditiesAsDFCols <- data.frame(rep(rownames(useCols), dim(useCols)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    # create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    commoditiesAsDFCols <- data.frame(rep(rownames(useCols), dim(useCols)[2]))
     colnames(commoditiesAsDFCols) <- c("CommodityCode")
-    outputDF <- cbind(outputDF$IndustryCode,commoditiesAsDFCols, outputDF$Amount) # add commodity column as the second column in a DF
+    outputDF <- cbind(outputDF$IndustryCode,commoditiesAsDFCols, outputDF$Amount)
 
     colnames(outputDF) <- c("IndustryCode","CommodityCode","Amount")
-
     rownames(outputDF) <- 1:nrow(outputDF)
     
     WIOSection <- "Waste Treatment Industries"
@@ -651,17 +661,22 @@ transformBEASectorToDFInput <- function (model, spec, vectorToTransform){
   }else if(vectorToTransform == "MakeRows"){
     # Create a  Dataframe from the relevant sectors
     makeRows <- as.data.frame(t(model$MakeTransactions[indIndeces, , drop = FALSE])) # Get relevant use rows
-    industriesAsDFCols <- as.data.frame(t(replicate(dim(makeRows)[1], colnames(makeRows)))) # Create dataframe with a number of rows equal to the number of total commodities in the model,
+    # Create dataframe with a number of rows equal to the number of total commodities in the model,
     # and the values equal to the column names of the relevant commodities
+    industriesAsDFCols <- as.data.frame(t(replicate(dim(makeRows)[1], colnames(makeRows))))
+
+    # cbind makeRows and industriesAsDFCols DFs in an alternating manner
+    outputDF <- do.call("data.frame", lapply(1:ncol(makeRows), function(j) cbind(ts(industriesAsDFCols[,j]), ts(makeRows[,j]))))
+    # name every 2 columns as "CommodityCode" and "Amount"
+    names(outputDF) <- make.names(rep(c("Industry","Amount"), dim(makeRows)[2]), unique = FALSE)
+    # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+    outputDF <- data.frame(IndustryCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)]))
+    outputDF$Amount <- as.numeric(as.character(outputDF$Amount))
     
-    outputDF <- do.call("data.frame", lapply(1:ncol(makeRows), function(j) cbind(ts(industriesAsDFCols[,j]), ts(makeRows[,j])))) # cbind makeRows and industriesAsDFCols DFs in an alternating manner
-    names(outputDF) <- make.names(rep(c("Industry","Amount"), dim(makeRows)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
-    outputDF <- data.frame(IndustryCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
-    outputDF$Amount <- as.numeric(as.character(outputDF$Amount)) #transform amount back into a numeric column
-    
-    commoditiesAsDFCols <- data.frame(rep(rownames(makeRows), dim(makeRows)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    # create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    commoditiesAsDFCols <- data.frame(rep(rownames(makeRows), dim(makeRows)[2]))
     colnames(commoditiesAsDFCols) <- c("CommodityCode")
-    outputDF <- cbind(outputDF$IndustryCode,commoditiesAsDFCols, outputDF$Amount) # add commodity column as the second column in a DF
+    outputDF <- cbind(outputDF$IndustryCode, commoditiesAsDFCols, outputDF$Amount)
     
     colnames(outputDF) <- c("IndustryCode","CommodityCode","Amount")
     
@@ -673,17 +688,22 @@ transformBEASectorToDFInput <- function (model, spec, vectorToTransform){
   }else if(vectorToTransform == "MakeCols"){
     # Create a  Dataframe from the relevant sectors
     makeCols <- as.data.frame(model$MakeTransactions[,comIndeces , drop = FALSE]) # Get relevant use rows
-    commoditiesAsDFCols <- as.data.frame(t(replicate(dim(makeCols)[1], colnames(makeCols)))) # Create dataframe with a number of rows equal to the number of total commodities in the model,
+    # Create dataframe with a number of rows equal to the number of total commodities in the model,
     # and the values equal to the column names of the relevant commodities
-    
-    outputDF <- do.call("data.frame", lapply(1:ncol(makeCols), function(j) cbind(ts(commoditiesAsDFCols[,j]), ts(makeCols[,j])))) # cbind makeCols and commoditiesAsDFCols DFs in an alternating manner
-    names(outputDF) <- make.names(rep(c("Commodity","Amount"), dim(makeCols)[2]), unique = FALSE) # name every 2 columns as "CommodityCode" and "Amount"
-    outputDF <- data.frame(CommodityCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)])) # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
-    outputDF$Amount <- as.numeric(as.character(outputDF$Amount)) #transform amount back into a numeric column
-    
-    industriesAsDFCols <- data.frame(rep(rownames(makeCols), dim(makeCols)[2]))# create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    commoditiesAsDFCols <- as.data.frame(t(replicate(dim(makeCols)[1], colnames(makeCols))))
+
+    # cbind makeCols and commoditiesAsDFCols DFs in an alternating manner
+    outputDF <- do.call("data.frame", lapply(1:ncol(makeCols), function(j) cbind(ts(commoditiesAsDFCols[,j]), ts(makeCols[,j]))))
+    # name every 2 columns as "CommodityCode" and "Amount"
+    names(outputDF) <- make.names(rep(c("Commodity","Amount"), dim(makeCols)[2]), unique = FALSE)
+    # "append" every 2 columns starting from column 3 to the bottom of columns 1 and 2
+    outputDF <- data.frame(CommodityCode=unlist(outputDF[c(TRUE, FALSE)]), Amount=unlist(outputDF[c(FALSE, TRUE)]))
+    outputDF$Amount <- as.numeric(as.character(outputDF$Amount))
+
+    # create a column dataframe containing the industry codes relevant to the use rows for the selected commodities
+    industriesAsDFCols <- data.frame(rep(rownames(makeCols), dim(makeCols)[2]))
     colnames(industriesAsDFCols) <- c("IndustryCode")
-    outputDF <- cbind(industriesAsDFCols, outputDF) # add industryCode column as the first column in a UseDF
+    outputDF <- cbind(industriesAsDFCols, outputDF)
     
     rownames(outputDF) <- 1:nrow(outputDF)
     note <- "MakeCols"
@@ -797,7 +817,8 @@ adjustMultiYearObjectsForWIO <- function(model, WIO){
   WIOUseRows <- do.call("rbind",list(model$WasteTreatmentCommodities, model$WasteGenMass, model$RecyclingnMass))
   WIOUseColumns <- do.call("rbind", list(model$WasteTreatmentIndustries, model$WasteGenTreat, model$RecyclingTreat))
   
-  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
+  # Add only the sectors that are present in the currenct WIO object to avoid adding the same sector
+  # more than once when dealing with multiple WIO sectors (e.g. concrete and food waste)
   WIOUseRows <- WIOUseRows[which(WIOUseRows$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
   WIOUseColumns <- WIOUseColumns[which(WIOUseColumns$Code %in% WIO$NAICSSectorCW$USEEIO_Code),]
   
@@ -848,7 +869,8 @@ adjustMultiYearObjectsForWIO <- function(model, WIO){
   return(model)
 }
 
-#' Adjust WIO sectors such that they are in the correct order. Should only be needed in the case that there is more than 1 WIOSpec.
+#' Adjust WIO sectors such that they are in the correct order. Should only be needed in
+#' the case that there is more than 1 WIOSpec.
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @return  A model object with the WIO sectors in the correct order
 reorderWIOSectors <- function(model){
@@ -875,5 +897,4 @@ reorderWIOSectors <- function(model){
   model <- reorderModelSectors(model, comOrder, indOrder)
   
   return(model)
-  
 }

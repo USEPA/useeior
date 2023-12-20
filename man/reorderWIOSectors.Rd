@@ -2,7 +2,8 @@
 % Please edit documentation in R/WIOFunctions.R
 \name{reorderWIOSectors}
 \alias{reorderWIOSectors}
-\title{Adjust WIO sectors such that they are in the correct order. Should only be needed in the case that there is more than 1 WIOSpec.}
+\title{Adjust WIO sectors such that they are in the correct order. Should only be needed in
+the case that there is more than 1 WIOSpec.}
 \usage{
 reorderWIOSectors(model)
 }
@@ -13,5 +14,6 @@ reorderWIOSectors(model)
 A model object with the WIO sectors in the correct order
 }
 \description{
-Adjust WIO sectors such that they are in the correct order. Should only be needed in the case that there is more than 1 WIOSpec.
+Adjust WIO sectors such that they are in the correct order. Should only be needed in
+the case that there is more than 1 WIOSpec.
 }

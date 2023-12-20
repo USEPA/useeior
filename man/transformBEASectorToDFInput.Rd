@@ -2,7 +2,7 @@
 % Please edit documentation in R/WIOFunctions.R
 \name{transformBEASectorToDFInput}
 \alias{transformBEASectorToDFInput}
-\title{Take an exisiting USEEIO sector and transform it into a dataframe formated as a WIO-style input file}
+\title{Take an existing USEEIO sector and transform it into a dataframe formatted as a WIO-style input file}
 \usage{
 transformBEASectorToDFInput(model, spec, vectorToTransform)
 }
@@ -17,5 +17,5 @@ transformBEASectorToDFInput(model, spec, vectorToTransform)
 A model with the UseTransactions matrix modified with WIO specs.
 }
 \description{
-Take an exisiting USEEIO sector and transform it into a dataframe formated as a WIO-style input file
+Take an existing USEEIO sector and transform it into a dataframe formatted as a WIO-style input file
 }

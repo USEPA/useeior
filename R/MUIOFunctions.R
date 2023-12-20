@@ -2,13 +2,11 @@
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of configuration file(s).
 #' If NULL, built-in config files are used.
-#' @return A model with the specified WIO specs.
+#' @return A model with the specified MUIO specs.
 getMUIOSectors <- function (model, configpaths = NULL){
   
   MUIOSectors <- data.frame()
-  if(is.null(model$DisaggregationSpecs))
-  {
-
+  if (is.null(model$DisaggregationSpecs)) {
     model$MUIOSpecs <- vector(mode='list')
     for (configFile in model$specs$MUIOSpecs){
       logging::loginfo(paste0("Loading MUIO specification file for ", configFile, "..."))
@@ -18,14 +16,13 @@ getMUIOSectors <- function (model, configpaths = NULL){
         model$MUIOSpecs <- append(model$MUIOSpecs, config$MUIO)
       }
     }
-    
     model <- disaggregateSetup(model, configpaths, "MUIO")
     
     for(muio in model$MUIOSpecs){
       MUIOSectors <- rbind(MUIOSectors, subset(muio$NAICSSectorCW, muio$NAICSSectorCW$SectorType == "MUIO"))
     }
     
-  } else{
+  } else {
     for(disagg in model$DisaggregationSpecs){
       MUIOSectors <- rbind(MUIOSectors, subset(disagg$NAICSSectorCW, disagg$NAICSSectorCW$SectorType == "MUIO"))
     }
@@ -66,7 +63,7 @@ reorderPhysicalSectors <- function (model, physComIndeces, physIndIndeces, econC
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param configpaths str vector, paths (including file name) of configuration file(s).
 #' If NULL, built-in config files are used.
-#' @return A model with the specified WIO specs.
+#' @return A model with the specified MUIO specs.
 convertSectorsToPhysical <- function (model, configpaths = NULL){
   
   logging::loginfo("Converting select sectors to physical units...")
@@ -103,11 +100,6 @@ convertSectorsToPhysical <- function (model, configpaths = NULL){
     model$MakeTransactions[physIndIndeces, physComIndeces] <- diag(physSum)
   }
   
-
-
-#  model$MakeTransactions[physIndIndeces, physComIndeces] <- diag(rowSums(model$UseTransactions[physComIndeces,]) 
-#                                                                 + rowSums(model$FinalDemand[physComIndeces,]))
-  
   # Calculate new industry and commodity totals 
   # TODO: Replace this with a call to calculateWIOOutputs? Rename that function?
   model$IndustryOutput <- rowSums(model$MakeTransactions)
@@ -127,7 +119,7 @@ convertSectorsToPhysical <- function (model, configpaths = NULL){
   
 }
 
-#' Adjust MultiYearObjects in WIO models such that they have the same dimensions as the other model objects
+#' Adjust MultiYearObjects in MUIO models such that they have the same dimensions as the other model objects
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param physComIndeces Indeces that specify the location of the physical MUIO commodities in the commodity lists
 #' @param physIndIndeces Indeces that specify the location of the physical MUIO industries in the industry lists
@@ -152,8 +144,6 @@ adjustMultiYearObjectsForMUIO <- function(model, physComIndeces, physIndIndeces,
   
   model$MultiYearCommodityCPI[physComIndeces,] <- rep(100, ncol(model$MultiYearCommodityCPI))
   model$MultiYearCommodityCPI[econComIndeces,] <- rep(100, ncol(model$MultiYearCommodityCPI))
-  
 
-  
   return(model)
 }
