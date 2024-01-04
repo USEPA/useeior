@@ -131,7 +131,7 @@ prepareConsumptionDemand <- function(model, location) {
 prepareImportConsumptionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
     #y_c <- prepare2RDemand(model, location, domestic = FALSE, demand_type = "Consumption")
-    stop("Consumption vector for import final demand not yet implemented.")
+    stop("Import consumption demand not yet implemented for 2R models.")
   } else {
     # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
     ImportFinalDemand <- model$ImportMatrix[, which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)]
