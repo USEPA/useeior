@@ -99,10 +99,12 @@ prepareImportProductionDemand <- function(model, location) {
     export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
     changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
     import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
-    y_m_c <- sumforConsumption(model, model$ImportFinalDemand, location)
-    y_m_e <- sumDemandCols(model$ImportFinalDemand, export_code)
-    y_m_i <- sumDemandCols(model$ImportFinalDemand, import_code)
-    y_m_delta <- sumDemandCols(model$ImportFinalDemand, changeinventories_code)
+    # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
+    ImportFinalDemand <- model$ImportMatrix[, which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)]
+    y_m_c <- sumforConsumption(model, ImportFinalDemand, location)
+    y_m_e <- sumDemandCols(ImportFinalDemand, export_code)
+    y_m_i <- sumDemandCols(ImportFinalDemand, import_code)
+    y_m_delta <- sumDemandCols(ImportFinalDemand, changeinventories_code)
 
     y_m_p <- y_m_c + y_m_e + y_m_i + y_m_delta 
   }
@@ -131,7 +133,9 @@ prepareImportConsumptionDemand <- function(model, location) {
     #y_c <- prepare2RDemand(model, location, domestic = FALSE, demand_type = "Consumption")
     stop("Consumption vector for import final demand not yet implemented.")
   } else {
-    y_c <- sumforConsumption(model, model$ImportFinalDemand, location)
+    # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
+    ImportFinalDemand <- model$ImportMatrix[, which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)]
+    y_c <- sumforConsumption(model, ImportFinalDemand, location)
   }
   return(y_c)
 }

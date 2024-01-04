@@ -255,17 +255,6 @@ buildModelwithImportFactors <- function(model, configpaths = NULL) {
   model$UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
   model$U_n_m <- normalizeIOTransactions(model$UseTransactions_m, model$IndustryOutput) #normalized imported Use
   
-  # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
-
-  if(model$specs$IODataSource != "stateior") {
-    FD_col_index <- which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)
-    model$ImportFinalDemand <- model$ImportMatrix[,FD_col_index]
-  }else{
-    # TODO
-    stop("Import demand vector for 2R models not implemented yet.")
-  }
-
-  
   if(model$specs$CommodityorIndustryType == "Commodity") {
     logging::loginfo("Building commodity-by-commodity A_m matrix (imported direct requirements)...")
     model$A_m <- model$U_n_m %*% model$V_n
