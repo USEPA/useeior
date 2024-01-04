@@ -81,6 +81,9 @@ prepareDemandVectorForStandardResults <- function(model, demand = "Production", 
 #' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
 #' @param location, str optional location code for demand vector, required for two-region models
 prepareDemandVectorForImportResults <- function(model, demand = "Production", location = NULL) {
+  if(is.null(location)) {
+    location <- "US"
+  }
   # Calculate import demand vector y_m. 
   if(demand == "Production"){
     # This option left in for validation purposes.
@@ -107,7 +110,7 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 calculateResultsWithExternalFactors <- function(model, demand = "Consumption", location = NULL, use_domestic_requirements = FALSE) {
   result <- list()
   y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
-  y_m <- prepareDemandVectorForImportResults(model, demand, location = "US")
+  y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
 
   # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
   logging::loginfo("Calculating Final Perspective LCI...")
