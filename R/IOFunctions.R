@@ -277,14 +277,14 @@ buildModelwithImportFactors <- function(model, configpaths = NULL) {
   logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
   model$M_d <- model$B %*% model$L_d 
   
-  logging::loginfo("Calculating M_m matrix (total emissions and resource use per dollar from imported activity)...")
-  M_m <- loadExternalImportFactors(model, configpaths)
+  logging::loginfo("Calculating Q_t matrix (total emissions and resource use per dollar from imported activity)...")
+  Q_t <- loadExternalImportFactors(model, configpaths)
   
-  # Fill in flows for M_m not found in Import Factors but that exist in model and align order
-  M_m <- rbind(M_m, model$M_d[setdiff(rownames(model$M_d), rownames(M_m)),])
-  M_m <- M_m[rownames(model$M_d), ]
+  # Fill in flows for Q_t not found in Import Factors but that exist in model and align order
+  Q_t <- rbind(Q_t, model$M_d[setdiff(rownames(model$M_d), rownames(Q_t)),])
+  Q_t <- Q_t[rownames(model$M_d), ]
 
-  model$M_m <- M_m
+  model$Q_t <- Q_t
   
   return(model)
 }

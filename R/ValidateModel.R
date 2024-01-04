@@ -564,12 +564,12 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   # Calculate LCI using coupled model approach
   # Revised equation from RW email (2023-11-01):
   # LCI <- (s_d * L_d * Y_d) + (s*L*A_m*L_d*Y_d + s*L*Y_m). I.e., s in RW email is analogous to model$B
-  # For validation, model$M = model$M_m, whereas in normally we'd be using model$M_m instead of model$M
+  # For validation, model$M = model$Q_t, whereas in normally we'd be using model$Q_t instead of model$M
   
   LCI_dm <- (model$M_d %*% y_d) + (M %*% model$A_m %*% model$L_d %*% y_d + M %*% y_m)
   
   cat("\nTesting that LCI results are equivalent between standard and coupled model approaches (i.e., LCI = LCI_dm) when\n")
-  cat("assuming model$M = model$M_m.\n")
+  cat("assuming model$M = model$Q_t.\n")
   print(all.equal(LCI, LCI_dm))
   
   # Calculate LCIA using standard approach
@@ -588,7 +588,7 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   rownames(LCIA_dm) <- colnames(model$N_m)
   
   cat("\nTesting that LCIA results are equivalent between standard and coupled model approaches (i.e., LCIA = LCIA_dm) when\n")
-  cat("assuming model$M = model$M_m.\n")
+  cat("assuming model$M = model$Q_t.\n")
   all.equal(LCIA_dm, LCIA)
   
 }

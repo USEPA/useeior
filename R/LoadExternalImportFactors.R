@@ -4,7 +4,7 @@
 #' @param model An EEIO form USEEIO model object with model specs loaded
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
-#' @return M_m, matrix of import coefficients (flow x sector).
+#' @return Q_t, matrix of import coefficients (flow x sector).
 loadExternalImportFactors <- function(model, configpaths = NULL) {
 
   # Read in file with Import factors
@@ -50,12 +50,12 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
     IFTable['Location'] <- "US"
   }
   
-  M_m <- standardizeandcastSatelliteTable(IFTable, model)
+  Q_t <- standardizeandcastSatelliteTable(IFTable, model)
   # standardizeandcast prepares df for industries, convert to commodities
-  M_m[, setdiff(model$Commodities$Code_Loc, colnames(M_m))] <- 0
+  Q_t[, setdiff(model$Commodities$Code_Loc, colnames(Q_t))] <- 0
   # Adjust column order to be the same with V_n rownames
-  M_m <- M_m[, model$Commodities$Code_Loc]
-  M_m <- as.matrix(M_m)
+  Q_t <- Q_t[, model$Commodities$Code_Loc]
+  Q_t <- as.matrix(Q_t)
 
-  return(M_m)
+  return(Q_t)
 }
