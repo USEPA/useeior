@@ -9,6 +9,7 @@ Note that for this calculation, perspective is always FINAL}
 calculateResultsWithExternalFactors(
   model,
   demand = "Consumption",
+  location = NULL,
   use_domestic_requirements = FALSE
 )
 }
@@ -16,6 +17,8 @@ calculateResultsWithExternalFactors(
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
 \item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption"}
+
+\item{location, }{str optional location code for demand vector, required for two-region models}
 
 \item{use_domestic_requirements}{bool, if TRUE, return only domestic portion of results}
 }

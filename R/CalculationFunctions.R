@@ -16,7 +16,8 @@
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL, use_domestic_requirements = FALSE) {
   if (!is.null(model$specs$ExternalImportFactors)) {
-    result <- calculateResultsWithExternalFactors(model, demand, use_domestic_requirements = use_domestic_requirements)
+    result <- calculateResultsWithExternalFactors(model, demand, location = location,
+                                                  use_domestic_requirements = use_domestic_requirements)
   } else {
     # Standard model results calculation
     f <- prepareDemandVectorForStandardResults(model, demand, location, use_domestic_requirements)
@@ -99,12 +100,13 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 #' Note that for this calculation, perspective is always FINAL
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption"
+#' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements bool, if TRUE, return only domestic portion of results
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateResultsWithExternalFactors <- function(model, demand = "Consumption", use_domestic_requirements = FALSE) {
+calculateResultsWithExternalFactors <- function(model, demand = "Consumption", location = NULL, use_domestic_requirements = FALSE) {
   result <- list()
-  y_d <- prepareDemandVectorForStandardResults(model, demand, location = NULL, use_domestic_requirements = TRUE)
+  y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
   y_m <- prepareDemandVectorForImportResults(model, demand, location = "US")
 
   # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
