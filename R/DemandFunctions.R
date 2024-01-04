@@ -91,8 +91,8 @@ prepareDomesticProductionDemand <- function(model, location) {
 #' @return A named vector with demand
 prepareImportProductionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
-    # y_d_p <- prepare2RDemand(model, location, domestic = TRUE) #TODO
-    stop("Import production demand not yet implemented for 2R models.")
+    y_d_p <- prepare2RDemand(model, location, domestic = FALSE)
+    # stop("Import production demand not yet implemented for 2R models.")
   } else {
     # Note that model$mu (i.e., ITA) is not included in import production demand because it is included in Domestic Production Demand
     loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
@@ -130,8 +130,8 @@ prepareConsumptionDemand <- function(model, location) {
 #' @return a named vector with demand
 prepareImportConsumptionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
-    #y_c <- prepare2RDemand(model, location, domestic = FALSE, demand_type = "Consumption")
-    stop("Import consumption demand not yet implemented for 2R models.")
+    y_c <- prepare2RDemand(model, location, domestic = FALSE, demand_type = "Consumption")
+    # stop("Import consumption demand not yet implemented for 2R models.")
   } else {
     # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
     ImportFinalDemand <- model$ImportMatrix[, which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)]
