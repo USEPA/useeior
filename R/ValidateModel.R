@@ -528,18 +528,22 @@ compareOutputfromMakeandUse <- function(model, output_type = "Commodity") {
 #' @param demand, A demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.
 #' @return A calculated direct requirements table
 validateImportFactorsApproach <- function(model, demand = "Consumption"){
-  
+  if(model$specs$IODataSource == "stateior"){
+    location <- model$specs$ModelRegionAcronyms[[1]]
+  } else {
+    location <- NULL
+  }
   # Compute standard final demand
-  y <- prepareDemandVectorForStandardResults(model, demand, location = NULL, use_domestic_requirements = FALSE)
+  y <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = FALSE)
   # Equivalent to as.matrix(rowSums(model$U[1:numCom, (numInd+1):(numInd+numFD)])). Note that both of these include negative values from F050
   
   
   # Retrieve domestic final demand production vector from model$DemandVectors
-  y_d  <- prepareDemandVectorForStandardResults(model, demand, location = NULL, use_domestic_requirements = TRUE)
+  y_d  <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
   # Equivalent to as.matrix(rowSums(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)]))
   
   # Calculate import demand vector y_m.
-  y_m <- prepareDemandVectorForImportResults(model, demand, location = "US")
+  y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
 
   cat("\nTesting that final demand vector is equivalent between standard and coupled model approaches. I.e.: y = y_m + y_d.\n")
   print(all.equal(y, y_d+y_m))
