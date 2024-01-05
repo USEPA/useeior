@@ -564,7 +564,7 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   # Calculate LCI using coupled model approach
   # Revised equation from RW email (2023-11-01):
   # LCI <- (s_d * L_d * Y_d) + (s*L*A_m*L_d*Y_d + s*L*Y_m). I.e., s in RW email is analogous to model$B
-  # For validation, model$M = model$Q_t, whereas in normally we'd be using model$Q_t instead of model$M
+  # For validation, we use M as a stand-in for import emissions , whereas in normally we'd be using model$Q_t
   
   LCI_dm <- (model$M_d %*% y_d) + (M %*% model$A_m %*% model$L_d %*% y_d + M %*% y_m)
   
