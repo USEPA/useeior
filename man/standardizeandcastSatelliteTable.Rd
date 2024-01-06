@@ -4,12 +4,14 @@
 \alias{standardizeandcastSatelliteTable}
 \title{Converts flows table into flows x sector matrix-like format}
 \usage{
-standardizeandcastSatelliteTable(df, model)
+standardizeandcastSatelliteTable(df, model, final_demand = FALSE)
 }
 \arguments{
 \item{df}{a dataframe of flowables, contexts, units, sectors and locations}
 
 \item{model}{An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded}
+
+\item{final_demand, }{bool, generate matrix based on final demand columns}
 }
 \value{
 A matrix-like dataframe of flows x sector
