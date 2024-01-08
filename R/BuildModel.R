@@ -232,7 +232,8 @@ standardizeandcastSatelliteTable <- function(df, model, final_demand = FALSE) {
   rownames(df_cast) <- df_cast$Flow
   df_cast$Flow <- NULL
   if(final_demand) {
-    df_cast <- df_cast[, names(df_cast) %in% model$FinalDemandMeta$Code_Loc, drop=FALSE]
+    codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
+    df_cast <- df_cast[, codes, drop=FALSE]
   } else {
     # Complete sector list according to model$Industries
     df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 0
