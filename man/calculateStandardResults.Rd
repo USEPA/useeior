@@ -8,8 +8,9 @@ for a given perspective and demand vector.}
 calculateStandardResults(
   model,
   perspective,
-  f = "Production",
+  f,
   use_domestic_requirements = FALSE,
+  location = NULL,
   household_emissions = FALSE
 )
 }
@@ -20,12 +21,13 @@ calculateStandardResults(
 aligns results with the sectors in which they are produced, while "FINAL" perspective aligns
 results with the sectors consumed by the final user.}
 
-\item{f}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
-or an actual demand vector with names as one or more model sectors and
+\item{f}{A demand vector with names as one or more model sectors and
 numeric values in USD with the same dollar year as model.}
 
 \item{use_domestic_requirements}{A logical value: if TRUE, use domestic demand and L_d matrix;
 if FALSE, use complete demand and L matrix.}
+
+\item{location, }{str optional location code for demand vector, required for two-region models}
 
 \item{household_emissions, }{bool, if TRUE, include calculation of emissions from households}
 }
