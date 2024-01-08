@@ -9,7 +9,8 @@ Note that for this calculation, perspective is always FINAL}
 calculateResultsWithExternalFactors(
   model,
   demand = "Consumption",
-  use_domestic_requirements = FALSE
+  use_domestic_requirements = FALSE,
+  household_emissions = FALSE
 )
 }
 \arguments{
@@ -18,6 +19,8 @@ calculateResultsWithExternalFactors(
 \item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption"}
 
 \item{use_domestic_requirements}{bool, if TRUE, return only domestic portion of results}
+
+\item{household_emissions, }{bool, if TRUE, include calculation of emissions from households}
 }
 \value{
 A list with LCI and LCIA results (in data.frame format) of the EEIO model.
