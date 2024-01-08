@@ -189,8 +189,7 @@ createBfromFlowDataandOutput <- function(model) {
 #' @return A dataframe of Coefficients-by-Sector (CbS) table
 generateCbSfromTbSandModel <- function(model) {
   CbS <- data.frame()
-  hh_codes <- subset(model$FinalDemandMeta, Group == "Household", select="Code")
-  hh_codes <- hh_codes[,"Code"]
+  hh_codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code"]
     #Loop through model regions to get regional output
     for (r in model$specs$ModelRegionAcronyms) {
       tbs_r <- model$TbS[model$TbS$Location==r, ]

@@ -165,6 +165,7 @@ calculateStandardResults <- function(model, perspective, f = "Production",
     M <- model$M
     N <- model$N
   }
+  codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
   # Calculate LCI and LCIA in direct or final perspective
   if (perspective=="DIRECT") {
     # Calculate Direct Perspective LCI (a matrix with direct impacts in form of sector x flows)
@@ -175,9 +176,8 @@ calculateStandardResults <- function(model, perspective, f = "Production",
     logging::loginfo("Calculating Direct Perspective LCIA...")
     result$LCIA_d <- calculateDirectPerspectiveLCIA(model$D, s)
     if(household_emissions) {
-      result$LCI_d <- rbind(result$LCI_d, t(model$B_h * sum(model$U[, "F010/US"])))
-      result$LCIA_d <- rbind(result$LCIA_d, t((model$C %*% model$B_h) * sum(model$U[, "F010/US"])))
-      # TODO ^^ update with dynamic demand codes
+      result$LCI_d <- rbind(result$LCI_d, t(model$B_h) * colSums(model$U[, codes]))
+      result$LCIA_d <- rbind(result$LCIA_d, t(model$C %*% model$B_h) * colSums(model$U[, codes]))
     }
   } else if (perspective=="FINAL") {
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
@@ -187,9 +187,8 @@ calculateStandardResults <- function(model, perspective, f = "Production",
     logging::loginfo("Calculating Final Perspective LCIA...")
     result$LCIA_f <- calculateFinalPerspectiveLCIA(N, f)
     if(household_emissions) {
-      result$LCI_f <- rbind(result$LCI_f, t(model$B_h * sum(model$U[, "F010/US"])))
-      result$LCIA_f <- rbind(result$LCIA_f, t((model$C %*% model$B_h) * sum(model$U[, "F010/US"])))
-      # TODO ^^ update with dynamic demand codes
+      result$LCI_f <- rbind(result$LCI_f, t(model$B_h) * colSums(model$U[, codes]))
+      result$LCIA_f <- rbind(result$LCIA_f, t(model$C %*% model$B_h) * colSums(model$U[, codes]))
     }
   }
   
