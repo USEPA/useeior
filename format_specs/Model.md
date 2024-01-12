@@ -35,7 +35,6 @@ Items are listed in the order in which they appear in a built Model object in R.
 | DemandVectors | list | component data | [Demand vectors](#demandvectors) |
 | TbS | data.frame | component data | [The total Flow-by-Sector table across all satellite tables](#satellitetables) contains the direct emissions and resource use by industry |
 | CbS | data.frame | component data | [The total Coefficient-by-Sector table across all satellite tables](#satellitetables) contains the direct emissions and resource use by industry per dollar output |
-| ImportFinalDemand | data.frame | component data | Commodity-by-final demand matrix containing the value of imported goods and services consumed in the U.S.|
 | V | matrix | component matrix |[The Make matrix](#V) |
 | C_m | matrix | component matrix | [The Commodity Mix matrix ](#V)|
 | V_n | matrix | component matrix | [The Market Shares matrix](#V) |
