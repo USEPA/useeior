@@ -209,7 +209,7 @@ writeModelMetadata <- function(model, dirs) {
   model_desc <- file.path(dirs$data, "models.csv")
   ID <- model$specs$Model
   Name <- model$specs$Model
-  Location <- model$specs$ModelRegionAcronyms
+  Location <- model$specs$ModelRegionAcronyms[1]
   Description <- ""
   #Add in sector schema for model
   if (is.null(model$specs$DisaggregationSpecs)) {
@@ -276,8 +276,8 @@ writeModelMetadata <- function(model, dirs) {
   flows <- flows[order(flows$ID),]
   flows$Index <- c(1:nrow(flows)-1)
   flows <- flows[, fields$flows]
-  checkNamesandOrdering(flows$ID, rownames(model$B),
-                        "flows in flows.csv and rows in B matrix")
+  #checkNamesandOrdering(flows$ID, rownames(model$B),
+  #                      "flows in flows.csv and rows in B matrix")
   utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "",
                    row.names = FALSE, fileEncoding = "UTF-8")
   

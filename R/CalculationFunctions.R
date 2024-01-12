@@ -122,15 +122,15 @@ calculateResultsWithExternalFactors <- function(model, demand = "Consumption", l
   if (use_domestic_requirements) {
     result$LCI_f <- (model$B %*% model$L_d %*% y_d)
   } else {
-    result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$M_m %*% model$A_m %*% model$L_d %*% y_d + model$M_m %*% y_m)
+    result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m)
   }
   result$LCIA_f <- model$C %*% result$LCI_f
   
   result$LCI_f <- t(result$LCI_f)
   result$LCIA_f <- t(result$LCIA_f)
   
-  colnames(result$LCI_f) <- rownames(model$M_m)
-  rownames(result$LCI_f) <- colnames(model$M_m)
+  colnames(result$LCI_f) <- rownames(model$Q_t)
+  rownames(result$LCI_f) <- colnames(model$Q_t)
   
   colnames(result$LCIA_f) <- rownames(model$N_m)
   rownames(result$LCIA_f) <- colnames(model$N_m)
