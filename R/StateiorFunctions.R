@@ -152,7 +152,7 @@ prepare2RDemand <- function(model, location, domestic, demand_type = "Production
                                      "GovernmentDemand"),
                                 getVectorOfCodes, ioschema = model$specs$BaseIOSchema,
                                 iolevel = iolevel))
-    FD_columns <- FD_columns[FD_columns %in% gsub("/.*", "", colnames(model$FinalDemand))]
+    FD_columns <- FD_columns[FD_columns %in% gsub("/.*", "", model$FinalDemandMeta$Code_Loc)]
     # Calculate production demand for both regions
     ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
     if(location == state_abb[1]) {
