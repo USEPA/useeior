@@ -51,7 +51,9 @@ Items are listed in the order in which they appear in a built Model object in R.
 | B | matrix | component matrix | [The direct emissions and resource use matrix](#B) |
 | C | matrix | component matrix | [The characterization factor matrix](#C) |
 | D | matrix | result matrix | [The direct impact matrix](#D) |
+| M | matrix | result matrix | [The total emissions and resource use matrix](#M) |
 | M_d | matrix |  result matrix | [The total emissions and resource use (from and by domestic activity) matrix](#M) |
+| N | matrix | result matrix | [The total impact matrix](#N) |
 | N_d | matrix | result matrix | [The total impact (from domestic activity) matrix](#N) |
 | Rho | matrix | component matrix | [The CPI<sup>1</sup> price year ratio matrix for a given model](#Rho)|
 | Phi | matrix | component matrix | [The producer-to-purchaser price ratio matrix for a given model](#Phi)|
