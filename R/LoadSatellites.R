@@ -114,10 +114,20 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
       }
     }
     totals_by_sector <- do.call(eval(totalsgenfunction), list(params))
-  } else {
+  } else if (sat_spec$FileLocation == "DataCommons") {
     f <- loadDataCommonsfile(sat_spec$StaticFile)
     totals_by_sector <- utils::read.table(f, sep = ",", header = TRUE, stringsAsFactors = FALSE,
                                           fileEncoding = 'UTF-8-BOM')
+  } else {
+    totals_by_sector <- utils::read.table(sat_spec$StaticFile, sep = ",",
+                                          header = TRUE, stringsAsFactors = FALSE,
+                                          fileEncoding = 'UTF-8-BOM')    
+  }
+  # Ensure context is not NA
+  for (i in c('Context')) {
+    if (all(is.na(totals_by_sector[, i]))) {
+      totals_by_sector[ , i] <- ""
+    }
   }
   return(totals_by_sector)
 }
