@@ -1,4 +1,4 @@
-Model: "GAEEIOv2.0-s-GHG-19-IF"
+Model: "GAEEIOv1.0-s-GHG-19-IF"
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2019 # Year for IO data
@@ -68,3 +68,4 @@ ImportFactors:
     Abbreviation: "RoW_IF"
     StaticSource: TRUE
     StaticFile: "imports_multipliers_2019.csv"
+    FileLocation: "useeior"

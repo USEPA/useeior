@@ -91,18 +91,20 @@ prepareDomesticProductionDemand <- function(model, location) {
 #' @return A named vector with demand
 prepareImportProductionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
-    # y_d_p <- prepare2RDemand(model, location, domestic = TRUE) #TODO
-    stop("Import production demand not yet implemented for 2R models.")
+    y_m_p <- prepare2RDemand(model, location, domestic = FALSE)
+    # stop("Import production demand not yet implemented for 2R models.")
   } else {
     # Note that model$mu (i.e., ITA) is not included in import production demand because it is included in Domestic Production Demand
     loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
     export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
     changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
     import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
-    y_m_c <- sumforConsumption(model, model$ImportFinalDemand, location)
-    y_m_e <- sumDemandCols(model$ImportFinalDemand, export_code)
-    y_m_i <- sumDemandCols(model$ImportFinalDemand, import_code)
-    y_m_delta <- sumDemandCols(model$ImportFinalDemand, changeinventories_code)
+    # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
+    ImportFinalDemand <- model$ImportMatrix[, which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)]
+    y_m_c <- sumforConsumption(model, ImportFinalDemand, location)
+    y_m_e <- sumDemandCols(ImportFinalDemand, export_code)
+    y_m_i <- sumDemandCols(ImportFinalDemand, import_code)
+    y_m_delta <- sumDemandCols(ImportFinalDemand, changeinventories_code)
 
     y_m_p <- y_m_c + y_m_e + y_m_i + y_m_delta 
   }
@@ -128,10 +130,16 @@ prepareConsumptionDemand <- function(model, location) {
 #' @return a named vector with demand
 prepareImportConsumptionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
-    #y_c <- prepare2RDemand(model, location, domestic = FALSE, demand_type = "Consumption")
-    stop("Consumption vector for import final demand not yet implemented.")
+    # y_c <- prepare2RDemand(model, location, domestic = FALSE, demand_type = "Consumption")
+    ImportMatrix <- model$U - model$U_d
+    ImportMatrix <- head(ImportMatrix, -6) # drop value add rows; TODO update this
+    ImportFinalDemand <- ImportMatrix[, which(colnames(ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)]
+    y_c <- sumforConsumption(model, ImportFinalDemand, location)
+    # stop("Import consumption demand not yet implemented for 2R models.")
   } else {
-    y_c <- sumforConsumption(model, model$ImportFinalDemand, location)
+    # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
+    ImportFinalDemand <- model$ImportMatrix[, which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)]
+    y_c <- sumforConsumption(model, ImportFinalDemand, location)
   }
   return(y_c)
 }
