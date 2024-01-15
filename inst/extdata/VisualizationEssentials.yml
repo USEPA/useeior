@@ -45,6 +45,10 @@ BEASectorLevel:
   - "#B2DF8A": # light green
     - "Government"
     - "G"
+  - "#808080": # gray
+    - "Households"
+    - "F010"
+
 
 Indicators:
   ColorLabelMapping:

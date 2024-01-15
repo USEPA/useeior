@@ -11,7 +11,8 @@ generateFlowtoDollarCoefficient(
   location_acronym,
   IsRoUS = FALSE,
   model,
-  output_type = "Industry"
+  output_type = "Industry",
+  final_demand = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ generateFlowtoDollarCoefficient(
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
 \item{output_type}{Type of the output, e.g. "Commodity" or "Industry"}
+
+\item{final_demand, }{bool, generate coefficients using final demand vector}
 }
 \value{
 A dataframe contains intensity coefficient (kg/$).

@@ -10,7 +10,8 @@ calculateResultsWithExternalFactors(
   model,
   demand = "Consumption",
   location = NULL,
-  use_domestic_requirements = FALSE
+  use_domestic_requirements = FALSE,
+  household_emissions = FALSE
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ calculateResultsWithExternalFactors(
 \item{location, }{str optional location code for demand vector, required for two-region models}
 
 \item{use_domestic_requirements}{bool, if TRUE, return only domestic portion of results}
+
+\item{household_emissions, }{bool, if TRUE, include calculation of emissions from households}
 }
 \value{
 A list with LCI and LCIA results (in data.frame format) of the EEIO model.

@@ -10,7 +10,8 @@ calculateEEIOModel(
   perspective,
   demand = "Production",
   location = NULL,
-  use_domestic_requirements = FALSE
+  use_domestic_requirements = FALSE,
+  household_emissions = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ numeric values in USD with the same dollar year as model.}
 
 \item{use_domestic_requirements}{A logical value: if TRUE, use domestic demand and L_d matrix;
 if FALSE, use complete demand and L matrix.}
+
+\item{household_emissions, }{bool, if TRUE, include calculation of emissions from households}
 }
 \value{
 A list with LCI and LCIA results (in data.frame format) of the EEIO model.

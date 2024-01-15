@@ -88,6 +88,7 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
   model$B <- createBfromFlowDataandOutput(model)
+  model$B_h <- as.matrix(standardizeandcastSatelliteTable(model$CbS, model, final_demand=TRUE))
   if(model$specs$ModelType == "EEIO-IH"){
     model$B <- hybridizeBMatrix(model)
   }
@@ -184,7 +185,7 @@ createBfromFlowDataandOutput <- function(model) {
 #' @return A dataframe of Coefficients-by-Sector (CbS) table
 generateCbSfromTbSandModel <- function(model) {
   CbS <- data.frame()
-    
+  hh_codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code"]
     #Loop through model regions to get regional output
     for (r in model$specs$ModelRegionAcronyms) {
       tbs_r <- model$TbS[model$TbS$Location==r, ]
@@ -200,7 +201,12 @@ generateCbSfromTbSandModel <- function(model) {
         cbs_r_y <- generateFlowtoDollarCoefficient(tbs_r[tbs_r$Year==year, ], year,
                                                    model$specs$IOYear, r, IsRoUS = IsRoUS,
                                                    model, output_type = "Industry")
-        cbs_r <- rbind(cbs_r,cbs_r_y)
+        # Split out Household emissions and generate coefficients from final demand
+        cbs_h_r_y <- generateFlowtoDollarCoefficient(tbs_r[tbs_r$Year==year & tbs_r$Sector %in% hh_codes, ],
+                                                     year, model$specs$IOYear, r, IsRoUS = IsRoUS,
+                                                     model, output_type = "Industry",
+                                                     final_demand = TRUE)
+        cbs_r <- rbind(cbs_r,cbs_r_y,cbs_h_r_y)
       }
       CbS <- rbind(CbS,cbs_r)
     }
@@ -210,8 +216,9 @@ generateCbSfromTbSandModel <- function(model) {
 #' Converts flows table into flows x sector matrix-like format
 #' @param df a dataframe of flowables, contexts, units, sectors and locations
 #' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
+#' @param final_demand, bool, generate matrix based on final demand columns
 #' @return A matrix-like dataframe of flows x sector 
-standardizeandcastSatelliteTable <- function(df,model) {
+standardizeandcastSatelliteTable <- function(df, model, final_demand = FALSE) {
   # Add fields for sector as combinations of existing fields
   df[, "Sector"] <- apply(df[, c("Sector", "Location")],
                           1, FUN = joinStringswithSlashes)
@@ -220,10 +227,15 @@ standardizeandcastSatelliteTable <- function(df,model) {
   # Move Flow to rowname so matrix is all numbers
   rownames(df_cast) <- df_cast$Flow
   df_cast$Flow <- NULL
-  # Complete sector list according to model$Industries
-  df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 0
-  # Adjust column order to be the same with V_n rownames
-  df_cast <- df_cast[, model$Industries$Code_Loc]
+  if(final_demand) {
+    codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
+    df_cast <- df_cast[, codes, drop=FALSE]
+  } else {
+    # Complete sector list according to model$Industries
+    df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 0
+    # Adjust column order to be the same with V_n rownames
+    df_cast <- df_cast[, model$Industries$Code_Loc]    
+  }
   return(df_cast)
 }
 

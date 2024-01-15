@@ -12,16 +12,19 @@
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
+#' @param household_emissions, bool, if TRUE, include calculation of emissions from households
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL, use_domestic_requirements = FALSE) {
+calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL,
+                               use_domestic_requirements = FALSE, household_emissions = FALSE) {
   if (!is.null(model$specs$ExternalImportFactors)) {
     result <- calculateResultsWithExternalFactors(model, demand, location = location,
-                                                  use_domestic_requirements = use_domestic_requirements)
+                                                  use_domestic_requirements = use_domestic_requirements,
+                                                  household_emissions = household_emissions)
   } else {
     # Standard model results calculation
     f <- prepareDemandVectorForStandardResults(model, demand, location, use_domestic_requirements)
-    result <- calculateStandardResults(model, perspective, f, use_domestic_requirements)
+    result <- calculateStandardResults(model, perspective, f, use_domestic_requirements, location, household_emissions)
   }
   
   logging::loginfo("Result calculation complete.")
@@ -105,9 +108,11 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 #' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption"
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements bool, if TRUE, return only domestic portion of results
+#' @param household_emissions, bool, if TRUE, include calculation of emissions from households
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateResultsWithExternalFactors <- function(model, demand = "Consumption", location = NULL, use_domestic_requirements = FALSE) {
+calculateResultsWithExternalFactors <- function(model, demand = "Consumption", location = NULL,
+                                                use_domestic_requirements = FALSE, household_emissions = FALSE) {
   result <- list()
   y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
   y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
@@ -125,18 +130,28 @@ calculateResultsWithExternalFactors <- function(model, demand = "Consumption", l
     result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m)
   }
   result$LCIA_f <- model$C %*% result$LCI_f
-  
   result$LCI_f <- t(result$LCI_f)
   result$LCIA_f <- t(result$LCIA_f)
   
   colnames(result$LCI_f) <- rownames(model$Q_t)
   rownames(result$LCI_f) <- colnames(model$Q_t)
-  
   colnames(result$LCIA_f) <- rownames(model$N_m)
   rownames(result$LCIA_f) <- colnames(model$N_m)
 
+  if (household_emissions) {
+    codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
+    ## TODO integrate for two region:
+    # if (!is.null(location)) {
+    #   codes <- codes[grepl(location, codes)]
+    # }
+    hh = t(as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
+    hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
+    rownames(hh) <- codes
+    rownames(hh_lcia) <- codes
+    result$LCI_f <- rbind(result$LCI_f, hh)
+    result$LCIA_f <- rbind(result$LCIA_f, hh_lcia)
+  }
   return(result)
-  
 }
 
 
@@ -146,14 +161,16 @@ calculateResultsWithExternalFactors <- function(model, demand = "Consumption", l
 #' @param perspective Perspective of the model, can be "DIRECT" or "FINAL". "DIRECT" perspective
 #' aligns results with the sectors in which they are produced, while "FINAL" perspective aligns
 #' results with the sectors consumed by the final user.
-#' @param f A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
-#' or an actual demand vector with names as one or more model sectors and
+#' @param f A demand vector with names as one or more model sectors and
 #' numeric values in USD with the same dollar year as model.
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
+#' @param location, str optional location code for demand vector, required for two-region models
+#' @param household_emissions, bool, if TRUE, include calculation of emissions from households
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateStandardResults <- function(model, perspective, f = "Production", use_domestic_requirements = FALSE) {
+calculateStandardResults <- function(model, perspective, f, use_domestic_requirements = FALSE,
+                                     location = NULL, household_emissions = FALSE) {
   # Initialize results list
   result <- list() 
   # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
@@ -166,6 +183,14 @@ calculateStandardResults <- function(model, perspective, f = "Production", use_d
     M <- model$M
     N <- model$N
   }
+  codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
+  if (!is.null(location)) {
+    codes <- codes[grepl(location, codes)]
+  }
+  hh = t(as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
+  hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
+  rownames(hh) <- codes
+  rownames(hh_lcia) <- codes
   # Calculate LCI and LCIA in direct or final perspective
   if (perspective=="DIRECT") {
     # Calculate Direct Perspective LCI (a matrix with direct impacts in form of sector x flows)
@@ -175,6 +200,10 @@ calculateStandardResults <- function(model, perspective, f = "Production", use_d
     # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Direct Perspective LCIA...")
     result$LCIA_d <- calculateDirectPerspectiveLCIA(model$D, s)
+    if(household_emissions) {
+      result$LCI_d <- rbind(result$LCI_d, hh)
+      result$LCIA_d <- rbind(result$LCIA_d, hh_lcia)
+    }
   } else if (perspective=="FINAL") {
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Final Perspective LCI...")
@@ -182,6 +211,10 @@ calculateStandardResults <- function(model, perspective, f = "Production", use_d
     # Calculate Final Perspective LCIA (matrix with total impacts in form of sector x impacts)
     logging::loginfo("Calculating Final Perspective LCIA...")
     result$LCIA_f <- calculateFinalPerspectiveLCIA(N, f)
+    if(household_emissions) {
+      result$LCI_f <- rbind(result$LCI_f, hh)
+      result$LCIA_f <- rbind(result$LCIA_f, hh_lcia)
+    }
   }
   
   return(result)

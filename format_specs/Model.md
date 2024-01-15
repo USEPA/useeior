@@ -49,6 +49,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | L | matrix | component matrix | [The Leontief inverse matrix](#L) |
 | L_d | matrix | component matrix | [The domestic Leontief inverse matrix](#L) |
 | B | matrix | component matrix | [The direct emissions and resource use matrix](#B) |
+| B_h | matrix | component matrix | [The direct emissions and resource use matrix for final demand](#B) |
 | C | matrix | component matrix | [The characterization factor matrix](#C) |
 | D | matrix | result matrix | [The direct impact matrix](#D) |
 | M | matrix | result matrix | [The total emissions and resource use matrix](#M) |
