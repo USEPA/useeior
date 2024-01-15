@@ -24,6 +24,10 @@ getConfiguration <- function(configname, configtype, configpaths = NULL, pkg="us
     }
   }
   config <- configr::read.config(configpath)
+  if (typeof(config) == "logical" && config == FALSE) {
+    logging::logwarn(paste0("Configuration not found for ", configname))
+    return(NULL)
+  }
   return(config)
 }
 
