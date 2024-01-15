@@ -135,15 +135,14 @@ calculateResultsWithExternalFactors <- function(model, demand = "Consumption", l
   
   colnames(result$LCI_f) <- rownames(model$Q_t)
   rownames(result$LCI_f) <- colnames(model$Q_t)
-  colnames(result$LCIA_f) <- rownames(model$N_m)
-  rownames(result$LCIA_f) <- colnames(model$N_m)
+  colnames(result$LCIA_f) <- rownames(model$D)
+  rownames(result$LCIA_f) <- colnames(model$D)
 
   if (household_emissions) {
     codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
-    ## TODO integrate for two region:
-    # if (!is.null(location)) {
-    #   codes <- codes[grepl(location, codes)]
-    # }
+    if (!is.null(location)) {
+      codes <- codes[grepl(location, codes)]
+    }
     hh = t(as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
     hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
     rownames(hh) <- codes
