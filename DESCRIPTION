@@ -34,7 +34,8 @@ Imports:
     stringr (>= 1.4),
     tibble (>= 2.1.3),
     utils (>= 3.6.1),
-    writexl (>= 1.2)
+    writexl (>= 1.2),
+    data.tree (>=1.1.0)
 Depends:
   R (>= 3.6)
 License: file LICENSE
