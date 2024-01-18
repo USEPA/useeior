@@ -92,7 +92,7 @@ prepareDomesticProductionDemand <- function(model, location) {
 prepareImportProductionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
     y_m_p <- prepare2RDemand(model, location, domestic = FALSE)
-    # stop("Import production demand not yet implemented for 2R models.")
+     stop("Import production demand not yet implemented for 2R models.")
   } else {
     # Note that model$mu (i.e., ITA) is not included in import production demand because it is included in Domestic Production Demand
     loc <- grepl(location, model$FinalDemandMeta$Code_Loc)

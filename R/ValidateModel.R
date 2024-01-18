@@ -383,6 +383,9 @@ compareOutputfromMakeandUse <- function(model, output_type = "Commodity") {
 #' @return A calculated direct requirements table
 validateImportFactorsApproach <- function(model, demand = "Consumption"){
   if(model$specs$IODataSource == "stateior"){
+    if(demand != "Consumption"){
+      stop("Validation for 2-region models is only available for Consumption demand vector.")
+    }
     location <- model$specs$ModelRegionAcronyms[[1]]
   } else {
     location <- NULL
