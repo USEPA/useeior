@@ -6,22 +6,22 @@
     "creators": [
         {
             "affiliation": "Eastern Research Group", 
-            "name": "Ben Young"
+            "name": "Ben Young",
             "orcid": "https://orcid.org/0000-0001-6276-8670"
         }, 
         {
             "affiliation": "Eastern Research Group", 
-            "name": "Jorge Vendries"
+            "name": "Jorge Vendries",
             "orcid": "https://orcid.org/0000-0002-8452-229X"
         },
-		    {
+	{
             "affiliation": "General Dynamics Information Technology, Inc.", 
-            "name": "Mo Li"
+            "name": "Mo Li",
             "orcid": "https://orcid.org/0000-0002-3672-1622"
         },
         {
             "affiliation": "US Environmental Protection Agency", 
-            "name": "Wesley Ingwersen"
+            "name": "Wesley Ingwersen",
             "orcid": "https://orcid.org/0000-0002-9614-701X"
         }
     ], 
