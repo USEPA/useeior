@@ -5,9 +5,9 @@ Version: 1.4.0
 Date: 2024-1-19
 Authors@R: c(
   person("Ben","Young", email="ben.young@erg.com", role="aut"),
-  person("Jorge","Vendries", email="jvendries@gmail.com", role="aut")),  
+  person("Jorge","Vendries", email="jvendries@gmail.com", role="aut"),
   person("Mo","Li", email="mo.li@gdit.com", role="aut"),
-  person("Wesley","Ingwersen", email="ingwersen.wesley@epa.gov", role= c("aut", "cre")),
+  person("Wesley","Ingwersen", email="ingwersen.wesley@epa.gov", role= c("aut", "cre")))
 Description: The United States Environmentally-Extended Input-Output model
   is a model used to estimate potential environmental and economic impacts
   associated with the production and consumption of goods and services in the US.
