@@ -7,11 +7,11 @@ Model specifications are assigned in a yml file based on the parameters shown be
 | BaseIOSchema | int | Y | The base IO schema (e.g. 2012) |
 | BaseIOLevel | str | Y | The base IO level of detail (e.g. `Detail`) |
 | IOYear | int | Y | The base IO year |
-| PrimaryRegionAcronym | str | Y | The primary region acronym |
 | ModelRegionAcronyms | list | Y | The model region acronyms |
 | ModelType | str | Y | The [model type](#Model-Types) (e.g. `EEIO`) |
-| ModelSource | str | Y | The model source |
-| BasePriceType | str | Y | The model base price type (producer or purchaser) |
+| IODataSource | str | Y | The model source (e.g. `BEA` or `stateior`) |
+| IODataVersion | str | N | Required if IODataSource is `stateior`, [stateior model version number](https://github.com/USEPA/stateior/wiki/Planned-Package-Releases) |
+| BasePriceType | str | Y | The model base price type (`PRO`: producer or `PUR`: purchaser) |
 | BasewithRedefinitions | bool | Y | Whether the model is based with redefinitions (TRUE or FALSE) |
 | CommodityorIndustryType | str | Y | Define if this is a commodity x commodity (`Commodity`) or industry x industry (`Industry`) model |
 | ScrapIncluded | bool | Y | Whether the model includes scrap (TRUE or FALSE) |

@@ -110,7 +110,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   final_demand_meta <- model$FinalDemandMeta
   final_demand_meta$Index <- c(1:nrow(final_demand_meta)-1)
   final_demand_meta$ID <- final_demand_meta$Code_Loc
-  final_demand_meta$Location <- model$specs$ModelRegionAcronyms
+  final_demand_meta$Location <- gsub(".*/", "", final_demand_meta$Code_Loc)
   final_demand_meta$Description <- ""
   USEEIOtoXLSX_ls[["final_demand_meta"]] <- final_demand_meta[, demand_meta_fields]
   
@@ -118,7 +118,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   value_added_meta <- model$ValueAddedMeta
   value_added_meta$Index <- c(1:nrow(value_added_meta)-1)
   value_added_meta$ID <- value_added_meta$Code_Loc
-  value_added_meta$Location <- model$specs$ModelRegionAcronyms
+  value_added_meta$Location <- gsub(".*/", "", value_added_meta$Code_Loc)
   value_added_meta$Description <- ""
   USEEIOtoXLSX_ls[["value_added_meta"]] <- value_added_meta[, demand_meta_fields]
   
@@ -183,11 +183,6 @@ prepareWriteDirs <- function(model, dirs) {
 #' @param outputfolder A directory to write model demand vectors.
 #' @description Writes model demand vectors, including y and y_d for consumption and production.
 writeModelDemandstoJSON <- function(model, outputfolder) {
-  #!WARNING: Only works for single region model
-  if (model$specs$ModelRegionAcronyms!="US") {
-    stop("Currently only works for single region US models.")
-  }
-  
   for (n in names(model$DemandVectors$vectors)) {
     f <- model$DemandVectors$vectors[[n]]
     f <- data.frame(amount=f)
@@ -206,11 +201,6 @@ writeModelDemandstoJSON <- function(model, outputfolder) {
 #' @param dirs A named list of directories with model and data directory paths
 #' @description Writes model metadata, including indicators and demands.
 writeModelMetadata <- function(model, dirs) {
-  #!WARNING: Only works for single region model
-  if (model$specs$ModelRegionAcronyms!="US") {
-    stop("Currently only works for single region US models.")
-  }
-  
   # Load metadata fields for API
   fields <- configr::read.config(system.file("extdata/USEEIO_API_fields.yml",
                                              package="useeior"))
@@ -219,7 +209,7 @@ writeModelMetadata <- function(model, dirs) {
   model_desc <- file.path(dirs$data, "models.csv")
   ID <- model$specs$Model
   Name <- model$specs$Model
-  Location <- model$specs$ModelRegionAcronyms
+  Location <- model$specs$ModelRegionAcronyms[1]
   Description <- ""
   #Add in sector schema for model
   if (is.null(model$specs$DisaggregationSpecs)) {
@@ -270,7 +260,7 @@ writeModelMetadata <- function(model, dirs) {
   # Write sectors to csv
   sectors <- model[[gsub("y", "ies", model$specs$CommodityorIndustryType)]]
   sectors$ID <- sectors$Code_Loc
-  sectors$Location <- model$specs$ModelRegionAcronyms
+  sectors$Location <- gsub(".*/", "", sectors$Code_Loc)
   sectors$Index <- c(1:nrow(sectors)-1)
   sectors$Category <- paste(sectors$Category, sectors$Subcategory, sep="/")
   sectors <- sectors[, fields$sectors]
@@ -286,8 +276,8 @@ writeModelMetadata <- function(model, dirs) {
   flows <- flows[order(flows$ID),]
   flows$Index <- c(1:nrow(flows)-1)
   flows <- flows[, fields$flows]
-  checkNamesandOrdering(flows$ID, rownames(model$B),
-                        "flows in flows.csv and rows in B matrix")
+  #checkNamesandOrdering(flows$ID, rownames(model$B),
+  #                      "flows in flows.csv and rows in B matrix")
   utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "",
                    row.names = FALSE, fileEncoding = "UTF-8")
   

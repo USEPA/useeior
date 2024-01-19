@@ -4,13 +4,15 @@
 \alias{getDisaggregationSpecs}
 \title{Obtain aggregation and disaggregation specs from input files}
 \usage{
-getDisaggregationSpecs(model, configpaths = NULL)
+getDisaggregationSpecs(model, configpaths = NULL, pkg = "useeior")
 }
 \arguments{
 \item{model}{An EEIO model object with model specs and IO tables loaded}
 
 \item{configpaths}{str vector, paths (including file name) of disagg configuration file(s).
 If NULL, built-in config files are used.}
+
+\item{pkg}{str, indicate package for access to config, either "useeior" or "stateior"}
 }
 \value{
 A model with the specified aggregation and disaggregation specs.
