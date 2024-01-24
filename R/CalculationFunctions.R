@@ -121,7 +121,16 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
   y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
  
+  # Calculate household emissions which are the same for direct and final perspectives
+  codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
+  if (!is.null(location)) {
+    codes <- codes[grepl(location, codes)]
+  }
+  hh = t(as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
+  hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
+  rownames(hh) <- codes
   
+  # Calculate Final perspective results
   if(perspective == "FINAL"){
 
     y_d <- diag(as.vector(y_d))
@@ -147,20 +156,13 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     colnames(result$LCIA_f) <- rownames(model$D)
     rownames(result$LCIA_f) <- colnames(model$D)
     
-    if (household_emissions) {
-      codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
-      if (!is.null(location)) {
-        codes <- codes[grepl(location, codes)]
-      }
-      hh = t(as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
-      hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
-      rownames(hh) <- codes
-      rownames(hh_lcia) <- codes
+    # Add household emissions to results if applicable
+    if(household_emissions) {
       result$LCI_f <- rbind(result$LCI_f, hh)
       result$LCIA_f <- rbind(result$LCIA_f, hh_lcia)
     }
     
-  } else{
+  } else{ # Calculate direct perspective results.
     
     # Direct perspective implemented using the following formula:
     # LCI_d = B * L_d * diag(y_d) + Q^t * diag(y_m).
@@ -189,9 +191,12 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     colnames(result$LCIA_d) <- rownames(model$D)
     rownames(result$LCIA_d) <- colnames(model$D)
     
+    # Add household emissions to results if applicable
+    if(household_emissions) {
+      result$LCI_d <- rbind(result$LCI_d, hh)
+      result$LCIA_d <- rbind(result$LCIA_d, hh_lcia)
+    }
   }
-
-  
   
   return(result)
 }
