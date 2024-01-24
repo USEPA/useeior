@@ -18,7 +18,7 @@
 calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL,
                                use_domestic_requirements = FALSE, household_emissions = FALSE) {
   if (!is.null(model$specs$ExternalImportFactors)) {
-    result <- calculateResultsWithExternalFactors(model, demand, location = location,
+    result <- calculateResultsWithExternalFactors(model, perspective, demand, location = location,
                                                   use_domestic_requirements = use_domestic_requirements,
                                                   household_emissions = household_emissions)
   } else {
@@ -105,51 +105,64 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 #' for a given demand vector.
 #' Note that for this calculation, perspective is always FINAL
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param perspective Perspective of the model, can be "DIRECT" or "FINAL". "DIRECT" perspective
+#' aligns results with the sectors in which they are produced, while "FINAL" perspective aligns
+#' results with the sectors consumed by the final user.
 #' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption"
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements bool, if TRUE, return only domestic portion of results
 #' @param household_emissions, bool, if TRUE, include calculation of emissions from households
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateResultsWithExternalFactors <- function(model, demand = "Consumption", location = NULL,
+calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", demand = "Consumption", location = NULL,
                                                 use_domestic_requirements = FALSE, household_emissions = FALSE) {
   result <- list()
-  y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
-  y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
 
-  # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
-  logging::loginfo("Calculating Final Perspective LCI...")
-
-  y_d <- diag(as.vector(y_d))
-  y_m <- diag(as.vector(y_m))
-  
-  # parentheses used to denote (domestic) and (import) components
-  if (use_domestic_requirements) {
-    result$LCI_f <- (model$B %*% model$L_d %*% y_d)
-  } else {
-    result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m)
-  }
-  result$LCIA_f <- model$C %*% result$LCI_f
-  result$LCI_f <- t(result$LCI_f)
-  result$LCIA_f <- t(result$LCIA_f)
-  
-  colnames(result$LCI_f) <- rownames(model$Q_t)
-  rownames(result$LCI_f) <- colnames(model$Q_t)
-  colnames(result$LCIA_f) <- rownames(model$D)
-  rownames(result$LCIA_f) <- colnames(model$D)
-
-  if (household_emissions) {
-    codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
-    if (!is.null(location)) {
-      codes <- codes[grepl(location, codes)]
+  if(perspective = "FINAL"){
+    y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
+    y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
+    
+    # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
+    logging::loginfo("Calculating Final Perspective LCI...")
+    
+    y_d <- diag(as.vector(y_d))
+    y_m <- diag(as.vector(y_m))
+    
+    # parentheses used to denote (domestic) and (import) components
+    if (use_domestic_requirements) {
+      result$LCI_f <- (model$B %*% model$L_d %*% y_d)
+    } else {
+      result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m)
     }
-    hh = t(as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
-    hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
-    rownames(hh) <- codes
-    rownames(hh_lcia) <- codes
-    result$LCI_f <- rbind(result$LCI_f, hh)
-    result$LCIA_f <- rbind(result$LCIA_f, hh_lcia)
+    result$LCIA_f <- model$C %*% result$LCI_f
+    result$LCI_f <- t(result$LCI_f)
+    result$LCIA_f <- t(result$LCIA_f)
+    
+    colnames(result$LCI_f) <- rownames(model$Q_t)
+    rownames(result$LCI_f) <- colnames(model$Q_t)
+    colnames(result$LCIA_f) <- rownames(model$D)
+    rownames(result$LCIA_f) <- colnames(model$D)
+    
+    if (household_emissions) {
+      codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
+      if (!is.null(location)) {
+        codes <- codes[grepl(location, codes)]
+      }
+      hh = t(as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
+      hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
+      rownames(hh) <- codes
+      rownames(hh_lcia) <- codes
+      result$LCI_f <- rbind(result$LCI_f, hh)
+      result$LCIA_f <- rbind(result$LCIA_f, hh_lcia)
+    }
+    
+  } else{
+    # If perspective is not FINAL, DIRECT is the default.
+    
   }
+
+  
+  
   return(result)
 }
 
