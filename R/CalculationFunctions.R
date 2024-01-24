@@ -170,7 +170,7 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     
     # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Direct Perspective LCI with external import factors...")
-    s <- getScalingVector(model$L_d, y_d)
+    s <- getScalingVector(model$L_d, (y_d+y_m))
     
     if (use_domestic_requirements) {
       result$LCI_d <- calculateDirectPerspectiveLCI(model$B, s)
