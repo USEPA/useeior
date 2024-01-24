@@ -118,22 +118,26 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
                                                 use_domestic_requirements = FALSE, household_emissions = FALSE) {
   result <- list()
 
-  if(perspective = "FINAL"){
-    y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
-    y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
-    
-    # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
-    logging::loginfo("Calculating Final Perspective LCI...")
-    
+  y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
+  y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
+ 
+  
+  if(perspective == "FINAL"){
+
     y_d <- diag(as.vector(y_d))
     y_m <- diag(as.vector(y_m))
     
+    # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
+    logging::loginfo("Calculating Final Perspective LCI with external import factors...")
+
     # parentheses used to denote (domestic) and (import) components
     if (use_domestic_requirements) {
       result$LCI_f <- (model$B %*% model$L_d %*% y_d)
     } else {
       result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m)
     }
+    # Calculate Final Perspective LCIA (matrix with direct impacts in form of sector x impacts)
+    logging::loginfo("Calculating Final Perspective LCIA with external import factors...")
     result$LCIA_f <- model$C %*% result$LCI_f
     result$LCI_f <- t(result$LCI_f)
     result$LCIA_f <- t(result$LCIA_f)
@@ -157,7 +161,33 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     }
     
   } else{
-    # If perspective is not FINAL, DIRECT is the default.
+    
+    # Direct perspective implemented using the following formula:
+    # LCI_d = B * L_d * diag(y_d) + Q^t * diag(y_m).
+    # See discussion in the following link: https://github.com/USEPA/USEEIO_team/discussions/79#discussioncomment-8236172
+    
+    # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
+    logging::loginfo("Calculating Direct Perspective LCI with external import factors...")
+    s <- getScalingVector(model$L_d, y_d)
+    
+    if (use_domestic_requirements) {
+      result$LCI_d <- calculateDirectPerspectiveLCI(model$B, s)
+    } else {
+      domesticComponent <- calculateDirectPerspectiveLCI(model$B, s)
+      importComponent <- t(model$Q_t %*% diag(as.vector(y_m)))
+      rownames(importComponent) <- rownames(domesticComponent)
+      result$LCI_d <-  domesticComponent + importComponent
+    }
+
+    # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
+    logging::loginfo("Calculating Direct Perspective LCIA with external import factors...")
+    result$LCIA_d <- model$C %*% t(result$LCI_d)
+    result$LCIA_d <- t(result$LCIA_d)
+
+    colnames(result$LCI_d) <- rownames(model$Q_t)
+    rownames(result$LCI_d) <- colnames(model$Q_t)
+    colnames(result$LCIA_d) <- rownames(model$D)
+    rownames(result$LCIA_d) <- colnames(model$D)
     
   }
 
