@@ -100,7 +100,6 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 
 }
 
-  
 #' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that has external import factors
 #' for a given demand vector.
 #' Note that for this calculation, perspective is always FINAL
@@ -117,10 +116,10 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", demand = "Consumption", location = NULL,
                                                 use_domestic_requirements = FALSE, household_emissions = FALSE) {
   result <- list()
-
+  
   y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
   y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
- 
+  
   # Calculate household emissions which are the same for direct and final perspectives
   codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
   if (!is.null(location)) {
@@ -132,13 +131,13 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   
   # Calculate Final perspective results
   if(perspective == "FINAL"){
-
+    
     y_d <- diag(as.vector(y_d))
     y_m <- diag(as.vector(y_m))
     
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Final Perspective LCI with external import factors...")
-
+    
     # parentheses used to denote (domestic) and (import) components
     if (use_domestic_requirements) {
       result$LCI_f <- (model$B %*% model$L_d %*% y_d)
@@ -165,32 +164,42 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   } else{ # Calculate direct perspective results.
     
     # Direct perspective implemented using the following formula:
-    # LCI_d = B * L_d * diag(y_d) + Q^t * diag(y_m).
-    # See discussion in the following link: https://github.com/USEPA/USEEIO_team/discussions/79#discussioncomment-8236172
-    
+    # LCI_d =
     # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Direct Perspective LCI with external import factors...")
-    s <- getScalingVector(model$L_d, (y_d+y_m))
+    s <- getScalingVector(model$L_d, y_d)
+    domesticLCI_d <- calculateDirectPerspectiveLCI(model$B, s)
     
     if (use_domestic_requirements) {
-      result$LCI_d <- calculateDirectPerspectiveLCI(model$B, s)
+      result$LCI_d <- domesticLCI_d
     } else {
-      domesticComponent <- calculateDirectPerspectiveLCI(model$B, s)
-      importComponent <- t(model$Q_t %*% diag(as.vector(y_m)))
-      rownames(importComponent) <- rownames(domesticComponent)
-      result$LCI_d <-  domesticComponent + importComponent
-    }
-
+      y_d <- diag(as.vector(y_d))
+      y_m <- diag(as.vector(y_m))
+      
+      totalLCI <- (model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m) # same equation as final perspective
+      totalLCI <- t(totalLCI)
+      rownames(totalLCI) <- colnames(model$Q_t)
+      # Taking the overall difference between domestic and total LCI, not by commodity, to be the totals for the imports.
+      importedLCI <- colSums(totalLCI) - colSums(domesticLCI_d)
+      # Using Q_t * y_m to estimate proportions for each commodity
+      import_allocations <- t(model$Q_t %*% y_m)
+      import_allocations <- sweep(import_allocations, 2, colSums(import_allocations), "/")
+      # Multiply proportions by import totals to get solution.
+      importedLCI_d <- import_allocations %*% diag(importedLCI)
+      
+      result$LCI_d <- domesticLCI_d + importedLCI_d
+      colnames(result$LCI_d) <- rownames(model$Q_t)
+      rownames(result$LCI_d) <- colnames(model$Q_t)
+   }
+    
     # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Direct Perspective LCIA with external import factors...")
     result$LCIA_d <- model$C %*% t(result$LCI_d)
     result$LCIA_d <- t(result$LCIA_d)
-
-    colnames(result$LCI_d) <- rownames(model$Q_t)
-    rownames(result$LCI_d) <- colnames(model$Q_t)
+    
     colnames(result$LCIA_d) <- rownames(model$D)
     rownames(result$LCIA_d) <- colnames(model$D)
-    
+
     # Add household emissions to results if applicable
     if(household_emissions) {
       result$LCI_d <- rbind(result$LCI_d, hh)
@@ -199,7 +208,9 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   }
   
   return(result)
+  
 }
+
 
 
 #' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that does not have external import factors
