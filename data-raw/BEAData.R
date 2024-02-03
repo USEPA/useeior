@@ -688,10 +688,10 @@ getBEASectorUsePROAfterRedef2012Schema <- function() {
   }
 }
 
-# Get BEA Detail Import (Before Redef, 2012 schema) from static Excel
-getBEADetailImportBeforeRedef2012Schema <- function(year) {
+# Get BEA Detail Import (Before Redef schema) from static Excel
+getBEADetailImportBeforeRedef <- function(year) {
   # Download data
-  file <- "ImportMatrices_Before_Redefinitions_DET_2007_2012.xlsx"
+  file <- paste0("ImportMatrices_Before_Redefinitions_DET_",year,".xlsx")
   url <- file.path("https://apps.bea.gov/industry/xls/io-annual", file)
   FileName <- file.path("inst/extdata/", file)
   if (!file.exists(FileName)) {

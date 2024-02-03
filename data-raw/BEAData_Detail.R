@@ -1,6 +1,7 @@
 source("data-raw/BEAData.R")
+source("R/UtilityFunctions.R")
 
-schema_year <- 2012
+schema_year <- 2017
 
 # Download, save and document 2012 BEA Detail Make (Before Redef, 2012 schema)
 getBEADetailMakeBeforeRedef2012Schema(schema_year)
@@ -20,15 +21,14 @@ getBEADetailUsePROAfterRedef2012Schema(schema_year)
 # Download, save and document 2012 BEA Detail Use (PUR, After Redef, 2012 schema)
 getBEADetailUsePURAfterRedef2012Schema(schema_year)
 
-
 # Download, save and document 2012 BEA Summary Use (PUR, Before Redef, 2012 schema)
 getBEASummaryUsePURBeforeRedef2012Schema(schema_year)
 
 # Download, save and document 2012 BEA Sector Use (PUR, Before Redef, 2012 schema)
 getBEASectorUsePURBeforeRedef2012Schema(schema_year)
 
-# Download, save and document 2012 BEA Detail Import matrix
-getBEADetailImportBeforeRedef2012Schema(schema_year)
+# Download, save and document BEA Detail Import matrix
+getBEADetailImportBeforeRedef(schema_year)
 
 # Download, save and document BEA Detail, Summary, and Sector Code and Name (2012 schema)
 getBEACodeName2012Schema()
