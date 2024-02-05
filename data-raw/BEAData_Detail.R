@@ -3,43 +3,44 @@ source("R/UtilityFunctions.R")
 
 schema_year <- 2017
 
+
 # Download, save and document 2012 BEA Detail Make (Before Redef, 2012 schema)
-getBEADetailMakeBeforeRedef2012Schema(schema_year)
+#getBEADetailMakeBeforeRedef2012Schema(schema_year)
 
 # Download, save and document 2012 BEA Detail Use (PRO, Before Redef, 2012 schema)
-getBEADetailUsePROBeforeRedef2012Schema(schema_year)
+#getBEADetailUsePROBeforeRedef2012Schema(schema_year)
 
 # Download, save and document 2012 BEA Detail Use (PUR, Before Redef, 2012 schema)
-getBEADetailUsePURBeforeRedef2012Schema(schema_year)
+#getBEADetailUsePURBeforeRedef2012Schema(schema_year)
 
 # Download, save and document 2012 BEA Detail Make (After Redef, 2012 schema)
-getBEADetailMakeAfterRedef2012Schema(schema_year)
+#getBEADetailMakeAfterRedef2012Schema(schema_year)
 
 # Download, save and document 2012 BEA Detail Use (PRO, After Redef, 2012 schema)
-getBEADetailUsePROAfterRedef2012Schema(schema_year)
+#getBEADetailUsePROAfterRedef2012Schema(schema_year)
 
 # Download, save and document 2012 BEA Detail Use (PUR, After Redef, 2012 schema)
-getBEADetailUsePURAfterRedef2012Schema(schema_year)
+#getBEADetailUsePURAfterRedef2012Schema(schema_year)
 
 # Download, save and document 2012 BEA Summary Use (PUR, Before Redef, 2012 schema)
-getBEASummaryUsePURBeforeRedef2012Schema(schema_year)
+#getBEASummaryUsePURBeforeRedef2012Schema(schema_year)
 
 # Download, save and document 2012 BEA Sector Use (PUR, Before Redef, 2012 schema)
-getBEASectorUsePURBeforeRedef2012Schema(schema_year)
+#getBEASectorUsePURBeforeRedef2012Schema(schema_year)
 
 # Download, save and document BEA Detail Import matrix
 getBEADetailImportBeforeRedef(schema_year)
 
 # Download, save and document BEA Detail, Summary, and Sector Code and Name (2012 schema)
-getBEACodeName2012Schema()
+#getBEACodeName2012Schema()
 
 # Download, save and document 2012 BEA Detail Margins table
-getBEADetailMarginsBeforeRedef2012Schema(schema_year)
+#getBEADetailMarginsBeforeRedef2012Schema(schema_year)
 
 ## Supply and Use Tables
-# Download, save and document 2012 BEA Detail Supply (2012 schema)
-getBEADetailSupply2012Schema(schema_year)
+# Download, save and document BEA Detail Supply
+getBEADetailSupply(schema_year)
 
-# Download, save and document 2012 BEA Detail Supply (2012 schema)
-getBEADetailUseSUT2012Schema(schema_year)
+# Download, save and document 2012 BEA Detail Use (2012 schema)
+getBEADetailUseSUT(schema_year)
 
