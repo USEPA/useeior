@@ -806,6 +806,16 @@
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
 "Summary_Supply_2020"
 
+#' Summary 2021 Supply (2017 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2021"
+
+#' Summary 2022 Supply (2017 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2022"
+
 #' Summary 2010 Use (2012 schema)
 #' @format A dataframe with 82 obs. and 92 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
@@ -860,6 +870,16 @@
 #' @format A dataframe with 82 obs. and 92 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
 "Summary_Use_SUT_2020"
+
+#' Summary 2021 Use (2017 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2021"
+
+#' Summary 2022 Use (2017 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2022"
 
 #' Sector 2010 Supply (2012 schema)
 #' @format A dataframe with 18 obs. and 27 variables
@@ -991,3 +1011,21 @@
 #'  \item{NAICS_2012_Code}{text code}
 #' }
 "MasterCrosswalk2017"
+
+#' Master Crosswalk table (2017 schema)
+#' @format A dataframe with 4095 obs. and 12 variables:
+#' \describe{
+#'  \item{BEA_2017_Sector_Code}{text code}
+#'  \item{BEA_2017_Sector_Name}{text code}
+#'  \item{BEA_2017_Summary_Code}{text code}
+#'  \item{BEA_2017_Summary_Name}{text code}
+#'  \item{BEA_2017_Detail_Code}{text code}
+#'  \item{BEA_2017_Detail_Name}{text code}
+#'  \item{USEEIO_Code}{text code}
+#'  \item{USEEIO_Name}{text code}
+#'  \item{NAICS_2017_Code}{text code}
+#'  \item{NAICS_2017_Name}{text code}
+#'  \item{NAICS_2012_Code}{text code}
+#'  \item}NAICS_2007_Code}{text code}
+#' }
+"MasterCrosswalk"
