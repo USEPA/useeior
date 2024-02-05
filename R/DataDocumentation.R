@@ -1026,6 +1026,6 @@
 #'  \item{NAICS_2017_Code}{text code}
 #'  \item{NAICS_2017_Name}{text code}
 #'  \item{NAICS_2012_Code}{text code}
-#'  \item}NAICS_2007_Code}{text code}
+#'  \item{NAICS_2007_Code}{text code}
 #' }
 "MasterCrosswalk"
