@@ -1,9 +1,16 @@
-# Download all IO tables under Make-Use framework from BEA iTable
+url_ls <- c(IO = "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesIO.zip",
+            imports = "https://apps.bea.gov/industry/xls/io-annual",
+            GDP = "https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip"
+            )
+
+# Download and unzip all IO tables under Make-Use framework from BEA iTable
 getBEAIOTables <- function() {
+  dir <- file.path(rappdirs::user_data_dir(), "USEEIO-input")
+  dir.create(dir, showWarnings = FALSE)
   # Create the placeholder file
-  AllTablesIO <- "inst/extdata/AllTablesIO.zip"
+  AllTablesIO <- paste0(dir, "/", "AllTablesIO.zip")
   # Download all BEA IO tables into the placeholder file
-  url <- "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesIO.zip"
+  url <- url_ls["IO"]
   if (!file.exists(AllTablesIO)) {
     utils::download.file(url, AllTablesIO, mode = "wb")
   }
@@ -11,9 +18,9 @@ getBEAIOTables <- function() {
   files <- unzip(AllTablesIO, list = TRUE)
   fname <- files[files$Length > 0, ]$Name
   if (all(fname == basename(fname))) {
-    exdir <- "inst/extdata/AllTablesIO"
+    exdir <- paste0(dir, "/", "AllTableIO")
   } else {
-    exdir <- "inst/extdata/"
+    exdir <- dir
   }
   # Unzip the file to the designated directory
   unzip(AllTablesIO, files = fname, exdir = exdir,
@@ -25,221 +32,117 @@ getBEAIOTables <- function() {
   return(ls)
 }
 
-
-# Get BEA Detail Make (Before Redef, 2012 schema) table from static Excel
-getBEADetailMakeBeforeRedef2012Schema <- function(year) {
+#' Extract table from BEA data 
+#' @param year, str IOschema year
+#' @param filename, str e.g. "IOUse_Before_Redefinitions_PRO"
+#' @param ioschema, str e.g. "Detail"
+unpackFile <- function(year, filename, ioschema) {
   # Download data
   url <- getBEAIOTables()[["url"]]
   date_accessed <- getBEAIOTables()[["date_accessed"]]
   files <- getBEAIOTables()[["files"]]
   # Load data
-  FileName <- file.path("inst/extdata/AllTablesIO",
-                        files[startsWith(files, "IOMake_Before_Redefinitions") &
-                                endsWith(files, "Detail.xlsx")])
+  FileName <- file.path(rappdirs::user_data_dir(), "USEEIO-input", "AllTableIO",
+                        files[startsWith(files, filename) &
+                                endsWith(files, paste0(ioschema, ".xlsx"))])
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  DetailMake <- as.data.frame(readxl::read_excel(FileName,
-                                                 sheet = as.character(year)))
-  # Assign row and column names
-  DetailMake <- DetailMake[!is.na(DetailMake[, 2]), ]
-  colnames(DetailMake) <- DetailMake[1, ]
-  rownames(DetailMake) <- DetailMake$Code
-  # Trim table, convert all values to numeric, assign row names
-  DetailMake <- as.data.frame(lapply(DetailMake[-1, -c(1:2)], as.numeric),
-                              check.names = FALSE,
-                              row.names = DetailMake[-1, 1])
-  # Replace NA with zero
-  DetailMake[is.na(DetailMake)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = DetailMake,
-                 data_name = paste0("Detail_Make_", year, "_BeforeRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Detail_Make_", year, "_BeforeRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = date_last_modified,
-                      date_accessed = date_accessed)
+  df <- as.data.frame(readxl::read_excel(FileName,
+                                         sheet = as.character(year)))
+  # return multiple items to access later
+  ls <- list("df" = df,
+             "url" = url,
+             "date_accessed" = date_accessed,
+             "date_last_modified" = date_last_modified)
+  return(ls)
 }
 
-# Get BEA Detail Use (PRO, Before Redef, 2012 schema) table from static Excel
-getBEADetailUsePROBeforeRedef2012Schema <- function(year) {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Load data
-  FileName <- file.path("inst/extdata/AllTablesIO",
-                        files[startsWith(files, "IOUse_Before_Redefinitions_PRO") &
-                                endsWith(files, "Detail.xlsx")])
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  DetailUse <- as.data.frame(readxl::read_excel(FileName,
-                                                sheet = as.character(year)))
+#' Process dataframe to remove spaces and assign col/row names
+#' @param df, dataframe of matrix (i.e., make or use table)
+processMatrix <- function(df) {
   # Assign row and column names
-  DetailUse <- DetailUse[!is.na(DetailUse[, 2]), ]
-  colnames(DetailUse) <- DetailUse[1, ]
-  rownames(DetailUse) <- DetailUse$Code
+  df <- df[!is.na(df[, 2]), ]
+  colnames(df) <- df[1, ]
+  rownames(df) <- df$Code
   # Trim table, convert all values to numeric, assign row names
-  DetailUse <- as.data.frame(lapply(DetailUse[-1, -c(1:2)], as.numeric),
-                             check.names = FALSE,
-                             row.names = DetailUse[-1, 1])
+  df <- as.data.frame(lapply(df[-1, -c(1:2)], as.numeric),
+                      check.names = FALSE,
+                      row.names = df[-1, 1])
   # Replace NA with zero
-  DetailUse[is.na(DetailUse)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = DetailUse,
-                 data_name = paste0("Detail_Use_", year, "_PRO_BeforeRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Detail_Use_", year, "_PRO_BeforeRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = date_last_modified,
-                      date_accessed = date_accessed)
+  df[is.na(df)] <- 0
+  return(df)
 }
 
-# Get BEA Detail Use (PUR, Before Redef, 2012 schema) 2012 table from static Excel
-getBEADetailUsePURBeforeRedef2012Schema <- function(year) {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Load data
-  FileName <- file.path("inst/extdata/AllTablesIO",
-                        files[startsWith(files, "IOUse_Before_Redefinitions_PUR") &
-                                endsWith(files, "Detail.xlsx")])
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  DetailUse <- as.data.frame(readxl::read_excel(FileName,
-                                                sheet = as.character(year)))
-  # Assign row and column names
-  DetailUse <- DetailUse[!is.na(DetailUse[, 2]), ]
-  colnames(DetailUse) <- DetailUse[1, ]
-  rownames(DetailUse) <- DetailUse$Code
-  # Trim table, convert all values to numeric, assign row names
-  DetailUse <- as.data.frame(lapply(DetailUse[-1, -c(1:2)], as.numeric),
-                             check.names = FALSE,
-                             row.names = DetailUse[-1, 1])
-  # Replace NA with zero
-  DetailUse[is.na(DetailUse)] <- 0
+#' Write RDA and json metadata files
+#' @param df, dataframe of matrix (i.e., make or use table)
+#' @param year, str IO data year
+#' @param name, str
+#' @param ls, list of metadata items
+writeFile <- function(df, year, name, ls) {
   # Write data to .rda
-  writeDatatoRDA(data = DetailUse,
-                 data_name = paste0("Detail_Use_", year, "_PUR_BeforeRedef"))
+  writeDatatoRDA(data = df,
+                 data_name = name)
   # Write metadata to JSON
   writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Detail_Use_", year, "_PUR_BeforeRedef"),
+                      name = name,
                       year = year,
                       source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = date_last_modified,
-                      date_accessed = date_accessed)
+                      url = ls[["url"]],
+                      date_last_modified = ls[["date_last_modified"]],
+                      date_accessed = ls[["date_accessed"]])  
 }
 
-# Get BEA Detail Make (After Redef, 2012 schema) table from static Excel
-getBEADetailMakeAfterRedef2012Schema <- function(year) {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Load data
-  FileName <- file.path("inst/extdata/AllTablesIO",
-                        files[startsWith(files, "IOMake_After_Redefinitions") &
-                                endsWith(files, "Detail.xlsx")])
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  DetailMake <- as.data.frame(readxl::read_excel(FileName,
-                                                 sheet = as.character(year)))
-  # Assign row and column names
-  DetailMake <- DetailMake[!is.na(DetailMake[, 2]), ]
-  colnames(DetailMake) <- DetailMake[1, ]
-  rownames(DetailMake) <- DetailMake$Code
-  # Trim table, convert all values to numeric, assign row names
-  DetailMake <- as.data.frame(lapply(DetailMake[-1, -c(1:2)], as.numeric),
-                              check.names = FALSE,
-                              row.names = DetailMake[-1, 1])
-  # Replace NA with zero
-  DetailMake[is.na(DetailMake)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = DetailMake,
-                 data_name = paste0("Detail_Make_", year, "_AfterRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Detail_Make_", year, "_AfterRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = date_last_modified,
-                      date_accessed = date_accessed)
+# Get BEA Detail Make (Before Redef) table from static Excel
+getBEADetailMakeBeforeRedef <- function(year) {
+  ls <- unpackFile(year, filename="IOMake_Before_Redefinitions", ioschema="Detail")
+  DetailMake <- data.frame(ls["df"])
+  DetailMake <- processMatrix(DetailMake)
+  writeFile(df = DetailMake, year = year,
+            name = paste0("Detail_Make_", year, "_BeforeRedef"), ls = ls)
 }
 
-# Get BEA Detail Use (PRO, After Redef, 2012 schema) table from static Excel
-getBEADetailUsePROAfterRedef2012Schema <- function(year) {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Load data
-  FileName <- file.path("inst/extdata/AllTablesIO",
-                        files[startsWith(files, "IOUse_After_Redefinitions_PRO") &
-                                endsWith(files, "Detail.xlsx")])
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  DetailUse <- as.data.frame(readxl::read_excel(FileName,
-                                                sheet = as.character(year)))
-  # Assign row and column names
-  DetailUse <- DetailUse[!is.na(DetailUse[, 2]), ]
-  colnames(DetailUse) <- DetailUse[1, ]
-  rownames(DetailUse) <- DetailUse$Code
-  # Trim table, convert all values to numeric, assign row names
-  DetailUse <- as.data.frame(lapply(DetailUse[-1, -c(1:2)], as.numeric),
-                             check.names = FALSE,
-                             row.names = DetailUse[-1, 1])
-  # Replace NA with zero
-  DetailUse[is.na(DetailUse)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = DetailUse,
-                 data_name = paste0("Detail_Use_", year, "_PRO_AfterRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Detail_Use_", year, "_PRO_AfterRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = date_last_modified,
-                      date_accessed = date_accessed)
+# Get BEA Detail Use (PRO, Before Redef) table from static Excel
+getBEADetailUsePROBeforeRedef <- function(year) {
+  ls <- unpackFile(year, filename="IOUse_Before_Redefinitions_PRO", ioschema="Detail")
+  DetailUse <- data.frame(ls["df"])
+  DetailUse <- processMatrix(DetailUse)
+  writeFile(df = DetailUse, year = year,
+            name = paste0("Detail_Use_", year, "_PRO_BeforeRedef"), ls = ls)
 }
 
-# Get BEA Detail Use (PUR, After Redef, 2012 schema) table from static Excel
-getBEADetailUsePURAfterRedef2012Schema <- function(year) {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Load data
-  FileName <- file.path("inst/extdata/AllTablesIO",
-                        files[startsWith(files, "IOUse_After_Redefinitions_PUR") &
-                                endsWith(files, "Detail.xlsx")])
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  DetailUse <- data.frame(readxl::read_excel(FileName,
-                                             sheet = as.character(year)))
-  # Assign row and column names
-  DetailUse <- DetailUse[!is.na(DetailUse[, 2]), ]
-  colnames(DetailUse) <- DetailUse[1, ]
-  rownames(DetailUse) <- DetailUse$Code
-  # Trim table, convert all values to numeric, assign row names
-  DetailUse <- as.data.frame(lapply(DetailUse[-1, -c(1:2)], as.numeric),
-                             check.names = FALSE,
-                             row.names = DetailUse[-1, 1])
-  # Replace NA with zero
-  DetailUse[is.na(DetailUse)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = DetailUse,
-                 data_name = paste0("Detail_Use_", year, "_PUR_AfterRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Detail_Use_", year, "_PUR_AfterRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = date_last_modified,
-                      date_accessed = date_accessed)
+# Get BEA Detail Use (PUR, Before Redef) table from static Excel
+getBEADetailUsePURBeforeRedef <- function(year) {
+  ls <- unpackFile(year, filename="IOUse_Before_Redefinitions_PUR", ioschema="Detail")
+  DetailUse <- data.frame(ls["df"])
+  DetailUse <- processMatrix(DetailUse)
+  writeFile(df = DetailUse, year = year,
+            name = paste0("Detail_Use_", year, "_PUR_BeforeRedef"), ls = ls)
+}
+
+# Get BEA Detail Make (After Redef) table from static Excel
+getBEADetailMakeAfterRedef <- function(year) {
+  ls <- unpackFile(year, filename="IOMake_After_Redefinitions", ioschema="Detail")
+  DetailMake <- data.frame(ls["df"])
+  DetailMake <- processMatrix(DetailMake)
+  writeFile(df = DetailMake, year = year,
+            name = paste0("Detail_Make_", year, "_AfterRedef"), ls = ls)
+}
+
+# Get BEA Detail Use (PRO, After Redef) table from static Excel
+getBEADetailUsePROAfterRedef <- function(year) {
+  ls <- unpackFile(year, filename="IOUse_After_Redefinitions_PRO", ioschema="Detail")
+  DetailUse <- data.frame(ls["df"])
+  DetailUse <- processMatrix(DetailUse)
+  writeFile(df = DetailUse, year = year,
+            name = paste0("Detail_Use_", year, "_PRO_AfterRedef"), ls = ls)
+}
+
+# Get BEA Detail Use (PUR, After Redef) table from static Excel
+getBEADetailUsePURAfterRedef <- function(year) {
+  ls <- unpackFile(year, filename="IOUse_After_Redefinitions_PUR", ioschema="Detail")
+  DetailUse <- data.frame(ls["df"])
+  DetailUse <- processMatrix(DetailUse)
+  writeFile(df = DetailUse, year = year,
+            name = paste0("Detail_Use_", year, "_PUR_AfterRedef"), ls = ls)
 }
 
 # Get BEA Summary Make (Before Redef, 2012 schema) table from static Excel
@@ -692,7 +595,7 @@ getBEASectorUsePROAfterRedef2012Schema <- function() {
 getBEADetailImportBeforeRedef <- function(year) {
   # Download data
   file <- paste0("ImportMatrices_Before_Redefinitions_DET_",year,".xlsx")
-  url <- file.path("https://apps.bea.gov/industry/xls/io-annual", file)
+  url <- file.path(url_ls["imports"], file)
   FileName <- file.path("inst/extdata/", file)
   if (!file.exists(FileName)) {
     utils::download.file(url, FileName, mode = "wb")
@@ -730,7 +633,7 @@ getBEADetailImportBeforeRedef <- function(year) {
 getBEASummaryImportBeforeRedef2012Schema <- function() {
   # Download data
   file <- "ImportMatrices_Before_Redefinitions_SUM_1997-2020.xlsx"
-  url <- file.path("https://apps.bea.gov/industry/xls/io-annual", file)
+  url <- file.path(url_ls["imports"], file)
   FileName <- file.path("inst/extdata/", file)
   if (!file.exists(FileName)) {
     utils::download.file(url, FileName, mode = "wb")
@@ -775,7 +678,7 @@ getBEAUnderlyingTables <- function() {
   # Create the placeholder file
   UnderlyingTables <- "inst/extdata/UGdpByInd.zip"
   # Download all BEA IO tables into the placeholder file
-  url <- "https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip"
+  url <- url_ls["GDP"]
   if (!file.exists(UnderlyingTables)) {
     utils::download.file(url, UnderlyingTables, mode = "wb")
   }
