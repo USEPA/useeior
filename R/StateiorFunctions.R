@@ -84,8 +84,7 @@ generate2RDirectRequirementsfromUseWithTrade <- function(model, domestic){
   state_abb <- sub(".*-","",model$specs$ModelRegionAcronyms[1]) ## Extract characters after -
   
   # Define industries and commodities
-  industries <- getVectorOfCodes(ioschema, iolevel, "Industry")
-  commodities <- getVectorOfCodes(ioschema, iolevel, "Commodity")
+  industries <- unique(model$Industries$Code)
   ita_column <- ifelse(iolevel == "Detail", "F05100", "F051")
   
   if(domestic) {
