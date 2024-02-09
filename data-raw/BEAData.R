@@ -1,12 +1,14 @@
 url_ls <- c(IO = "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesIO.zip",
             imports = "https://apps.bea.gov/industry/xls/io-annual",
-            GDP = "https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip"
+            GDP = "https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip",
+            SUP = "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip"
             )
+
+dir <- file.path(rappdirs::user_data_dir(), "USEEIO-input")
+dir.create(dir, showWarnings = FALSE)
 
 # Download and unzip all IO tables under Make-Use framework from BEA iTable
 getBEAIOTables <- function() {
-  dir <- file.path(rappdirs::user_data_dir(), "USEEIO-input")
-  dir.create(dir, showWarnings = FALSE)
   # Create the placeholder file
   AllTablesIO <- paste0(dir, "/", "AllTablesIO.zip")
   # Download all BEA IO tables into the placeholder file
@@ -31,6 +33,35 @@ getBEAIOTables <- function() {
              "files" = basename(fname))
   return(ls)
 }
+
+
+# Download and unzip all Supply and Use tables from BEA AllTablesSUP.zip
+getBEASupplyUseTables <- function() {
+  # Create the placeholder file
+  AllTablesSUP <- paste0(dir, "/", "AllTablesIOSUP.zip")
+  # Download all BEA IO tables into the placeholder file
+  url <- url_ls["SUP"]
+  if (!file.exists(AllTablesSUP)) {
+    utils::download.file(url, AllTablesSUP, mode = "wb")
+  }
+  # Get the name of all files in the zip archive
+  files <- unzip(AllTablesSUP, list = TRUE)
+  fname <- files[files$Length > 0, ]$Name
+  if (all(fname == basename(fname))) {
+    exdir <- paste0(dir, "/", "AllTablesSUP")
+  } else {
+    exdir <- dir
+  }
+  # Unzip the file to the designated directory
+  unzip(AllTablesSUP, files = fname, exdir = exdir,
+        overwrite = TRUE, setTimes = TRUE)
+  # Create output
+  ls <- list("url" = url,
+             "date_accessed" = as.character(as.Date(file.mtime(AllTablesSUP))),
+             "files" = basename(fname))
+  return(ls)
+}
+
 
 #' Extract table from BEA data 
 #' @param year, str IOschema year
@@ -145,25 +176,13 @@ getBEADetailUsePURAfterRedef <- function(year) {
             name = paste0("Detail_Use_", year, "_PUR_AfterRedef"), ls = ls)
 }
 
-# Get BEA Summary Make (Before Redef, 2012 schema) table from static Excel
-getBEASummaryMakeBeforeRedef2012Schema <- function() {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "IOMake_Before_Redefinitions") &
-                  endsWith(files, "Summary.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesIO", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
-  # Load data
-  for (year in 2010:end_year) {
-    SummaryMake <- data.frame(readxl::read_excel(FileName,
-                                                 sheet = as.character(year)))
+# Get BEA Summary Make (Before Redef) table from static Excel
+getBEASummaryMakeBeforeRedef <- function(year) {
+  # TODO update w/ 2012 schema
+  end_year <- 2022
+  for (y in 2017:end_year) {
+    ls <- unpackFile(y, filename="IOMake_Before_Redefinitions", ioschema="Summary")
+    SummaryMake <- data.frame(ls["df"])
     # Trim table, assign column names
     SummaryMake <- SummaryMake[!is.na(SummaryMake[, 2]), ]
     colnames(SummaryMake) <- SummaryMake[1, ]
@@ -177,39 +196,18 @@ getBEASummaryMakeBeforeRedef2012Schema <- function() {
                                  row.names = SummaryMake[-c(1:2), 1])
     # Replace NA with zero
     SummaryMake[is.na(SummaryMake)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SummaryMake,
-                   data_name = paste0("Summary_Make_", year, "_BeforeRedef"))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Summary_Make_", year, "_BeforeRedef"),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
+    writeFile(df = SummaryMake, year = y,
+              name = paste0("Summary_Make_", y, "_BeforeRedef"), ls = ls)
   }
 }
 
-# Get BEA Summary Use (PRO, Before Redef, 2012 schema) table from static Excel
-getBEASummaryUsePROBeforeRedef2012Schema <- function() {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "IOUse_Before_Redefinitions_PRO") &
-                  endsWith(files, "Summary.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesIO", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
-  # Load data
-  for (year in 2010:end_year) {
-    SummaryUse <- as.data.frame(readxl::read_excel(FileName,
-                                                   sheet = as.character(year)))
+# Get BEA Summary Use (PRO, Before Redef) table from static Excel
+getBEASummaryUsePROBeforeRedef <- function() {
+  # TODO update w/ 2012 schema
+  end_year <- 2022
+  for (y in 2017:end_year) {
+    ls <- unpackFile(y, filename="IOUse_Before_Redefinitions_PRO", ioschema="Summary")
+    SummaryUse <- data.frame(ls["df"])
     # Trim table, assign column names
     SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
     colnames(SummaryUse) <- SummaryUse[1, ]
@@ -223,17 +221,8 @@ getBEASummaryUsePROBeforeRedef2012Schema <- function() {
                                 row.names = SummaryUse[-c(1:2), 1])
     # Replace NA with zero
     SummaryUse[is.na(SummaryUse)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SummaryUse,
-                   data_name = paste0("Summary_Use_", year, "_PRO_BeforeRedef"))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Summary_Use_", year, "_PRO_BeforeRedef"),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
+    writeFile(df = SummaryUse, year = y,
+              name = paste0("Summary_Use_", y, "_PRO_BeforeRedef"), ls = ls)
   }
 }
 
@@ -277,25 +266,13 @@ getBEASummaryUsePURBeforeRedef2012Schema <- function(year) {
                       date_accessed = date_accessed)
 }
 
-# Get BEA Summary Make (After Redef, 2012 schema) table from static Excel
-getBEASummaryMakeAfterRedef2012Schema <- function() {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "IOMake_After_Redefinitions") &
-                  endsWith(files, "Summary.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesIO", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
-  # Load data
-  for (year in 2010:end_year) {
-    SummaryMake <- data.frame(readxl::read_excel(FileName,
-                                                 sheet = as.character(year)))
+# Get BEA Summary Make (After Redef) table from static Excel
+getBEASummaryMakeAfterRedef <- function() {
+  # TODO update w/ 2012 schema
+  end_year <- 2022
+  for (y in 2017:end_year) {
+    ls <- unpackFile(y, filename="IOMake_After_Redefinitions", ioschema="Summary")
+    SummaryMake <- data.frame(ls["df"])
     # Trim table, assign column names
     SummaryMake <- SummaryMake[!is.na(SummaryMake[, 2]), ]
     colnames(SummaryMake) <- SummaryMake[1, ]
@@ -309,39 +286,18 @@ getBEASummaryMakeAfterRedef2012Schema <- function() {
                                  row.names = SummaryMake[-c(1:2), 1])
     # Replace NA with zero
     SummaryMake[is.na(SummaryMake)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SummaryMake,
-                   data_name = paste0("Summary_Make_", year, "_AfterRedef"))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Summary_Make_", year, "_AfterRedef"),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
+    writeFile(df = SummaryMake, year = y,
+              name = paste0("Summary_Make_", y, "_AfterRedef"), ls = ls)
   }
 }
 
-# Get BEA Summary Use (PRO, After Redef, 2012 schema) table from static Excel
-getBEASummaryUsePROAfterRedef2012Schema <- function() {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "IOUse_After_Redefinitions_PRO") &
-                  endsWith(files, "Summary.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesIO", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
-  # Load data
-  for (year in 2010:end_year) {
-    SummaryUse <- as.data.frame(readxl::read_excel(FileName,
-                                                   sheet = as.character(year)))
+# Get BEA Summary Use (PRO, After Redef) table from static Excel
+getBEASummaryUsePROAfterRedef <- function(year) {
+  # TODO update w/ 2012 schema
+  end_year <- 2022
+  for (y in 2017:end_year) {
+    ls <- unpackFile(y, filename="IOUse_After_Redefinitions_PRO", ioschema="Summary")
+    SummaryUse <- data.frame(ls["df"])
     # Trim table, assign column names
     SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
     colnames(SummaryUse) <- SummaryUse[1, ]
@@ -355,17 +311,8 @@ getBEASummaryUsePROAfterRedef2012Schema <- function() {
                                 row.names = SummaryUse[-c(1:2), 1])
     # Replace NA with zero
     SummaryUse[is.na(SummaryUse)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SummaryUse,
-                   data_name = paste0("Summary_Use_", year, "_PRO_AfterRedef"))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Summary_Use_", year, "_PRO_AfterRedef"),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
+    writeFile(df = SummaryUse, year = y,
+              name = paste0("Summary_Use_", y, "_PRO_AfterRedef"), ls = ls)
   }
 }
 
@@ -1393,33 +1340,6 @@ getBEADetailMarginsBeforeRedef2012Schema <- function(year) {
                       date_accessed = as.character(as.Date(file.mtime(FileName))))
 }
 
-
-# Download all Supply and Use tables from BEA AllTablesSUP.zip
-getBEASupplyUseTables <- function() {
-  # Create the placeholder file
-  AllTablesSUP <- "inst/extdata/AllTablesIOSUP.zip"
-  # Download all BEA IO tables into the placeholder file
-  url <- "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip"
-  if (!file.exists(AllTablesSUP)) {
-    utils::download.file(url, AllTablesSUP, mode = "wb")
-  }
-  # Get the name of all files in the zip archive
-  files <- unzip(AllTablesSUP, list = TRUE)
-  fname <- files[files$Length > 0, ]$Name
-  if (all(fname == basename(fname))) {
-    exdir <- "inst/extdata/AllTablesSUP"
-  } else {
-    exdir <- "inst/extdata/"
-  }
-  # Unzip the file to the designated directory
-  unzip(AllTablesSUP, files = fname, exdir = exdir,
-        overwrite = TRUE, setTimes = TRUE)
-  # Create output
-  ls <- list("url" = url,
-             "date_accessed" = as.character(as.Date(file.mtime(AllTablesSUP))),
-             "files" = basename(fname))
-  return(ls)
-}
 
 # Get BEA Detail Supply table from static Excel
 getBEADetailSupply <- function(year) {
