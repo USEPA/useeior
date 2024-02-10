@@ -336,7 +336,8 @@ getBEASummaryUsePROAfterRedef <- function(year) {
     # Replace NA with zero
     SummaryUse[is.na(SummaryUse)] <- 0
     writeFile(df = SummaryUse, year = y,
-              name = paste0("Summary_Use_", y, "_PRO_AfterRedef"), ls = ls)
+              name = paste0("Summary_Use_", y, "_PRO_AfterRedef"), ls = ls,
+              schema_year = year)
   }
 }
 
@@ -565,9 +566,9 @@ getBEASectorUsePROAfterRedef2012Schema <- function() {
 # Get BEA Detail Import (Before Redef schema) from static Excel
 getBEADetailImportBeforeRedef <- function(year) {
   # Download data
-  file <- paste0("ImportMatrices_Before_Redefinitions_DET_",year,".xlsx")
+  file <- paste0("ImportMatrices_Before_Redefinitions_DET_", year, ".xlsx")
   url <- file.path(url_ls["imports"], file)
-  FileName <- file.path("inst/extdata/", file)
+  FileName <- file.path(dir, "/", file)
   if (!file.exists(FileName)) {
     utils::download.file(url, FileName, mode = "wb")
   }
@@ -587,17 +588,12 @@ getBEADetailImportBeforeRedef <- function(year) {
                                 row.names = DetailImport[-1, 1])
   # Replace NA with zero
   DetailImport[is.na(DetailImport)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = DetailImport,
-                 data_name = paste0("Detail_Import_", year, "_BeforeRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Detail_Import_", year, "_BeforeRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = "unknown",
-                      date_accessed = as.character(as.Date(file.mtime(FileName))))
+  ls <- list("url" = url,
+             "date_accessed" = as.character(as.Date(file.mtime(FileName))),
+             "date_last_modified" = "unknown")
+  writeFile(df = DetailImport, year = year,
+            name = paste0("Detail_Import_", year, "_BeforeRedef"), ls = ls,
+            schema_year = year)
 }
 
 # Get BEA Summary Import (Before Redef, 2012 schema) from static Excel
