@@ -62,6 +62,32 @@ getBEASupplyUseTables <- function() {
   return(ls)
 }
 
+# Download and unzip all GDP tables from BEA
+getBEAUnderlyingTables <- function() {
+  # Create the placeholder file
+  UnderlyingTables <- paste0(dir, "/", "UGdpByInd.zip")
+  # Download all BEA IO tables into the placeholder file
+  url <- url_ls["GDP"]
+  if (!file.exists(UnderlyingTables)) {
+    utils::download.file(url, UnderlyingTables, mode = "wb")
+  }
+  # Get the name of all files in the zip archive
+  files <- unzip(UnderlyingTables, list = TRUE)
+  fname <- files[files$Length > 0, ]$Name
+  if (all(fname == basename(fname))) {
+    exdir <- paste0(dir, "/", "UGdpByInd")
+  } else {
+    exdir <- dir
+  }
+  # Unzip the file to the designated directory
+  unzip(UnderlyingTables, files = fname, exdir = exdir,
+        overwrite = TRUE, setTimes = TRUE)
+  # Create output
+  ls <- list("url" = url,
+             "date_accessed" = as.character(as.Date(file.mtime(UnderlyingTables))),
+             "files" = basename(fname))
+  return(ls)
+}
 
 #' Extract table from BEA data 
 #' @param year, str IOschema year
@@ -620,32 +646,6 @@ getBEASummaryImportBeforeRedef2012Schema <- function() {
   }
 }
 
-# Download all GDP tables from BEA
-getBEAUnderlyingTables <- function() {
-  # Create the placeholder file
-  UnderlyingTables <- "inst/extdata/UGdpByInd.zip"
-  # Download all BEA IO tables into the placeholder file
-  url <- url_ls["GDP"]
-  if (!file.exists(UnderlyingTables)) {
-    utils::download.file(url, UnderlyingTables, mode = "wb")
-  }
-  # Get the name of all files in the zip archive
-  files <- unzip(UnderlyingTables, list = TRUE)
-  fname <- files[files$Length > 0, ]$Name
-  if (all(fname == basename(fname))) {
-    exdir <- "inst/extdata/UGdpByInd"
-  } else {
-    exdir <- "inst/extdata/"
-  }
-  # Unzip the file to the designated directory
-  unzip(UnderlyingTables, files = fname, exdir = exdir,
-        overwrite = TRUE, setTimes = TRUE)
-  # Create output
-  ls <- list("url" = url,
-             "date_accessed" = as.character(as.Date(file.mtime(UnderlyingTables))),
-             "files" = basename(fname))
-  return(ls)
-}
 
 # Get Detail BEA Gross Output (2012 schema) since 2002
 getBEADetailGrossOutput2012Schema <- function() {
