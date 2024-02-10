@@ -252,20 +252,11 @@ getBEASummaryUsePROBeforeRedef <- function() {
   }
 }
 
-# Get BEA Summary Use (PUR, Before Redef, 2012 schema) table from static Excel
-getBEASummaryUsePURBeforeRedef2012Schema <- function(year) {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "IOUse_Before_Redefinitions_PUR") &
-                  endsWith(files, "Summary.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesIO", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Load data
-  SummaryUse <- as.data.frame(readxl::read_excel(FileName,
-                                                 sheet = as.character(year)))
+# Get BEA Summary Use (PUR, Before Redef) table from static Excel
+getBEASummaryUsePURBeforeRedef <- function(year) {
+  # TODO update w/ 2012 schema
+  ls <- unpackFile(year, filename="IOUse_Before_Redefinitions_PUR", ioschema="Summary")
+  SummaryUse <- data.frame(ls["df"])
   # Trim table, assign column names
   SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
   colnames(SummaryUse) <- SummaryUse[1, ]
@@ -279,17 +270,8 @@ getBEASummaryUsePURBeforeRedef2012Schema <- function(year) {
                               row.names = SummaryUse[-c(1:2), 1])
   # Replace NA with zero
   SummaryUse[is.na(SummaryUse)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = SummaryUse,
-                 data_name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = date_last_modified,
-                      date_accessed = date_accessed)
+  writeFile(df = DetailUse, year = year,
+            name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"), ls = ls)
 }
 
 # Get BEA Summary Make (After Redef) table from static Excel
