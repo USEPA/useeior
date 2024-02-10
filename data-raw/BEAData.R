@@ -1148,7 +1148,6 @@ getBEACodeName <- function(schema_year) {
   # FileName <- file.path(dir, "AllTablesSUP",
   #                       files[startsWith(files, paste0("Use_SUT_Framework_",schema_year,"_DET.xlsx"))])  
 
-  schema_year <- as.character(schema_year)
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
 
   ### Detail ###
@@ -1339,7 +1338,7 @@ getBEADetailSupply <- function(year) {
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
   files <- getBEASupplyUseTables()[["files"]]
   # Load data
-  FileName <- file.path("inst/extdata/AllTablesSUP",
+  FileName <- file.path(dir, "AllTablesSUP",
                         files[startsWith(files, "Supply") &
                                 endsWith(files, "DET.xlsx")])
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
@@ -1370,13 +1369,13 @@ getBEADetailSupply <- function(year) {
 
 
 # Get BEA Detail Use (under the Supply-Use framework schema) table from static Excel
-getBEADetailUseSUTSchema <- function(year) {
+getBEADetailUseSUT <- function(year) {
   # Download data
   url <- getBEASupplyUseTables()[["url"]]
   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
   files <- getBEASupplyUseTables()[["files"]]
   # Load data
-  FileName <- file.path("inst/extdata/AllTablesSUP",
+  FileName <- file.path(dir, "AllTablesSUP",
                         files[startsWith(files, "Use") &
                                 endsWith(files, "DET.xlsx")])
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
