@@ -134,7 +134,12 @@ processMatrix <- function(df) {
 #' @param year, str IO data year
 #' @param name, str
 #' @param ls, list of metadata items
-writeFile <- function(df, year, name, ls) {
+#' @param scehma_year str of schema year (e.g., 2012 or 2017)
+writeFile <- function(df, year, name, ls, schema_year) {
+  # append version and schema to filename e.g., _17sch.01
+  # latest_version <- "01"
+  # name <- paste0(name, "_", substring(schema_year, 3, 4), "sch.", latest_version)
+  name <- paste0(name, "_", substring(schema_year, 3, 4), "sch")
   # Write data to .rda
   writeDatatoRDA(data = df,
                  data_name = name)
@@ -154,7 +159,8 @@ getBEADetailMakeBeforeRedef <- function(year) {
   DetailMake <- data.frame(ls["df"])
   DetailMake <- processMatrix(DetailMake)
   writeFile(df = DetailMake, year = year,
-            name = paste0("Detail_Make_", year, "_BeforeRedef"), ls = ls)
+            name = paste0("Detail_Make_", year, "_BeforeRedef"), ls = ls,
+            schema_year = year)
 }
 
 # Get BEA Detail Use (PRO, Before Redef) table from static Excel
@@ -163,7 +169,8 @@ getBEADetailUsePROBeforeRedef <- function(year) {
   DetailUse <- data.frame(ls["df"])
   DetailUse <- processMatrix(DetailUse)
   writeFile(df = DetailUse, year = year,
-            name = paste0("Detail_Use_", year, "_PRO_BeforeRedef"), ls = ls)
+            name = paste0("Detail_Use_", year, "_PRO_BeforeRedef"), ls = ls,
+            schema_year = year)
 }
 
 # Get BEA Detail Use (PUR, Before Redef) table from static Excel
@@ -172,7 +179,8 @@ getBEADetailUsePURBeforeRedef <- function(year) {
   DetailUse <- data.frame(ls["df"])
   DetailUse <- processMatrix(DetailUse)
   writeFile(df = DetailUse, year = year,
-            name = paste0("Detail_Use_", year, "_PUR_BeforeRedef"), ls = ls)
+            name = paste0("Detail_Use_", year, "_PUR_BeforeRedef"), ls = ls,
+            schema_year = year)
 }
 
 # Get BEA Detail Make (After Redef) table from static Excel
@@ -181,7 +189,8 @@ getBEADetailMakeAfterRedef <- function(year) {
   DetailMake <- data.frame(ls["df"])
   DetailMake <- processMatrix(DetailMake)
   writeFile(df = DetailMake, year = year,
-            name = paste0("Detail_Make_", year, "_AfterRedef"), ls = ls)
+            name = paste0("Detail_Make_", year, "_AfterRedef"), ls = ls,
+            schema_year = year)
 }
 
 # Get BEA Detail Use (PRO, After Redef) table from static Excel
@@ -190,7 +199,8 @@ getBEADetailUsePROAfterRedef <- function(year) {
   DetailUse <- data.frame(ls["df"])
   DetailUse <- processMatrix(DetailUse)
   writeFile(df = DetailUse, year = year,
-            name = paste0("Detail_Use_", year, "_PRO_AfterRedef"), ls = ls)
+            name = paste0("Detail_Use_", year, "_PRO_AfterRedef"), ls = ls,
+            schema_year = year)
 }
 
 # Get BEA Detail Use (PUR, After Redef) table from static Excel
@@ -199,7 +209,8 @@ getBEADetailUsePURAfterRedef <- function(year) {
   DetailUse <- data.frame(ls["df"])
   DetailUse <- processMatrix(DetailUse)
   writeFile(df = DetailUse, year = year,
-            name = paste0("Detail_Use_", year, "_PUR_AfterRedef"), ls = ls)
+            name = paste0("Detail_Use_", year, "_PUR_AfterRedef"), ls = ls,
+            schema_year = year)
 }
 
 # Get BEA Summary Make (Before Redef) table from static Excel
@@ -223,7 +234,8 @@ getBEASummaryMakeBeforeRedef <- function(year) {
     # Replace NA with zero
     SummaryMake[is.na(SummaryMake)] <- 0
     writeFile(df = SummaryMake, year = y,
-              name = paste0("Summary_Make_", y, "_BeforeRedef"), ls = ls)
+              name = paste0("Summary_Make_", y, "_BeforeRedef"), ls = ls,
+              schema_year = year)
   }
 }
 
@@ -248,7 +260,8 @@ getBEASummaryUsePROBeforeRedef <- function() {
     # Replace NA with zero
     SummaryUse[is.na(SummaryUse)] <- 0
     writeFile(df = SummaryUse, year = y,
-              name = paste0("Summary_Use_", y, "_PRO_BeforeRedef"), ls = ls)
+              name = paste0("Summary_Use_", y, "_PRO_BeforeRedef"), ls = ls,
+              schema_year = year)
   }
 }
 
@@ -271,7 +284,8 @@ getBEASummaryUsePURBeforeRedef <- function(year) {
   # Replace NA with zero
   SummaryUse[is.na(SummaryUse)] <- 0
   writeFile(df = DetailUse, year = year,
-            name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"), ls = ls)
+            name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"), ls = ls,
+            schema_year = year)
 }
 
 # Get BEA Summary Make (After Redef) table from static Excel
@@ -295,7 +309,8 @@ getBEASummaryMakeAfterRedef <- function() {
     # Replace NA with zero
     SummaryMake[is.na(SummaryMake)] <- 0
     writeFile(df = SummaryMake, year = y,
-              name = paste0("Summary_Make_", y, "_AfterRedef"), ls = ls)
+              name = paste0("Summary_Make_", y, "_AfterRedef"), ls = ls,
+              schema_year = year)
   }
 }
 
