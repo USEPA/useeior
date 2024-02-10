@@ -284,7 +284,7 @@ getBEASummaryUsePURBeforeRedef <- function(year) {
                               row.names = SummaryUse[-c(1:2), 1])
   # Replace NA with zero
   SummaryUse[is.na(SummaryUse)] <- 0
-  writeFile(df = DetailUse, year = year,
+  writeFile(df = SummaryUse, year = year,
             name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"), ls = ls,
             schema_year = year)
 }
