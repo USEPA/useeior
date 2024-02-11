@@ -1350,17 +1350,12 @@ getBEADetailSupply <- function(year) {
                                 row.names = DetailSupply[-1, 1])
   # Replace NA with zero
   DetailSupply[is.na(DetailSupply)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = DetailSupply,
-                 data_name = paste0("Detail_Supply_", year))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Detail_Supply_", year),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = date_last_modified,
-                      date_accessed = date_accessed)
+  ls <- list("url" = url,
+             "date_accessed" = as.character(as.Date(file.mtime(FileName))),
+             "date_last_modified" = "2024-02-01") # page last modified 
+  writeFile(df = DetailSupply, year = year,
+            name = paste0("Detail_Supply_", year), ls = ls,
+            schema_year = year)
 }
 
 
@@ -1387,17 +1382,12 @@ getBEADetailUseSUT <- function(year) {
                                 row.names = DetailUse[-1, 1])
   # Replace NA with zero
   DetailUse[is.na(DetailUse)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = DetailUse,
-                 data_name = paste0("Detail_Use_SUT_", year))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Detail_Use_SUT_", year),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = date_last_modified,
-                      date_accessed = date_accessed)
+  ls <- list("url" = url,
+             "date_accessed" = as.character(as.Date(file.mtime(FileName))),
+             "date_last_modified" = "2024-02-01") # page last modified 
+  writeFile(df = DetailUse, year = year,
+            name = paste0("Detail_Use_SUT_", year), ls = ls,
+            schema_year = year)
 }
 
 
