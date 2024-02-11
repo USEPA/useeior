@@ -1,7 +1,8 @@
 url_ls <- c(IO = "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesIO.zip",
             imports = "https://apps.bea.gov/industry/xls/io-annual",
             GDP = "https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip",
-            SUP = "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip"
+            SUP = "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesSUP.zip",
+            margins = "https://apps.bea.gov/industry/xls/underlying-estimates"
             )
 
 dir <- file.path(rappdirs::user_data_dir(), "USEEIO-input")
@@ -1295,12 +1296,12 @@ getBEACodeName <- function(schema_year) {
   }
 }
 
-# Get Detail Margins (Before Redefinition, 2012 schema) table from BEA static URL
-getBEADetailMarginsBeforeRedef2012Schema <- function(year) {
+# Get Detail Margins (Before Redefinition) table from BEA static URL
+getBEADetailMarginsBeforeRedef <- function(year) {
   # Download data
-  file <- "Margins_Before_Redefinitions_2007_2012_DET.xlsx"
-  url <- file.path("https://apps.bea.gov/industry/xls/underlying-estimates", file)
-  FileName <- file.path("inst/extdata", file)
+  file <- "Margins_Before_Redefinitions_2017_DET.xlsx"
+  url <- file.path(url_ls["margins"], file)
+  FileName <- file.path(dir, file)
   if (!file.exists(FileName)) {
     utils::download.file(url, FileName, mode = "wb")
   }
@@ -1317,17 +1318,12 @@ getBEADetailMarginsBeforeRedef2012Schema <- function(year) {
   Margins[, 5:ncol(Margins)] <- as.data.frame(lapply(Margins[, 5:ncol(Margins)],
                                                      as.numeric),
                                               check.names = FALSE)
-  # Write data to .rda
-  writeDatatoRDA(data = Margins,
-                 data_name = paste0("Detail_Margins_", year, "_BeforeRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Detail_Margins_", year, "_BeforeRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = "2022-03-04", # page last modified
-                      date_accessed = as.character(as.Date(file.mtime(FileName))))
+  ls <- list("url" = url,
+             "date_accessed" = as.character(as.Date(file.mtime(FileName))),
+             "date_last_modified" = "2024-02-01") # page last modified 
+  writeFile(df = Margins, year = year,
+            name = paste0("Detail_Margins_", year, "_BeforeRedef"), ls = ls,
+            schema_year = year)
 }
 
 
