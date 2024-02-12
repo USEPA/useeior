@@ -241,19 +241,7 @@ getBEASummaryMakeBeforeRedef <- function(year) {
   for (y in 2017:end_year) {
     ls <- unpackFile(y, filename="IOMake_Before_Redefinitions", ioschema="Summary")
     SummaryMake <- data.frame(ls["df"])
-    # Trim table, assign column names
-    SummaryMake <- SummaryMake[!is.na(SummaryMake[, 2]), ]
-    colnames(SummaryMake) <- SummaryMake[1, ]
-    colname_check <- is.na(colnames(SummaryMake))
-    colnames(SummaryMake)[colname_check] <- SummaryMake[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SummaryMake[is.na(SummaryMake[, 1]), 1] <- SummaryMake[is.na(SummaryMake[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SummaryMake <- as.data.frame(lapply(SummaryMake[-c(1:2), -c(1:2)], as.numeric),
-                                 check.names = FALSE,
-                                 row.names = SummaryMake[-c(1:2), 1])
-    # Replace NA with zero
-    SummaryMake[is.na(SummaryMake)] <- 0
+    SummaryMake <- processSummaryMatrix(SummaryMake)
     writeFile(df = SummaryMake, year = y,
               name = paste0("Summary_Make_", y, "_BeforeRedef"), ls = ls,
               schema_year = year)
@@ -261,7 +249,7 @@ getBEASummaryMakeBeforeRedef <- function(year) {
 }
 
 # Get BEA Summary Use (PRO, Before Redef) table from static Excel
-getBEASummaryUsePROBeforeRedef <- function() {
+getBEASummaryUsePROBeforeRedef <- function(year) {
   # TODO update w/ 2012 schema
   end_year <- 2022
   for (y in 2017:end_year) {
@@ -286,7 +274,7 @@ getBEASummaryUsePURBeforeRedef <- function(year) {
 }
 
 # Get BEA Summary Make (After Redef) table from static Excel
-getBEASummaryMakeAfterRedef <- function() {
+getBEASummaryMakeAfterRedef <- function(year) {
   # TODO update w/ 2012 schema
   end_year <- 2022
   for (y in 2017:end_year) {
@@ -556,46 +544,38 @@ getBEADetailImportBeforeRedef <- function(year) {
             schema_year = year)
 }
 
-# Get BEA Summary Import (Before Redef, 2012 schema) from static Excel
-getBEASummaryImportBeforeRedef2012Schema <- function() {
+# Get BEA Summary Import (Before Redef) from static Excel
+getBEASummaryImportBeforeRedef <- function(year) {
   # Download data
-  file <- "ImportMatrices_Before_Redefinitions_SUM_1997-2020.xlsx"
+  file <- "ImportMatrices_Before_Redefinitions_SUM_2017-2022.xlsx"
   url <- file.path(url_ls["imports"], file)
-  FileName <- file.path("inst/extdata/", file)
+  FileName <- file.path(dir, file)
   if (!file.exists(FileName)) {
     utils::download.file(url, FileName, mode = "wb")
   }
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- sub(".xlsx", "", file_split[length(file_split)])
-  end_year <- sub(".*-", "", year_range)
+  end_year <- 2022
   # Load data
-  for (year in 2010:end_year) {
+  for (y in 2017:end_year) {
     SummaryImport <- data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
     SummaryImport <- processSummaryMatrix(SummaryImport)
-    # Write data to .rda
-    writeDatatoRDA(data = SummaryImport,
-                   data_name = paste0("Summary_Import_", year, "_BeforeRedef"))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Summary_Import_", year, "_BeforeRedef"),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = "2022-02-11", # obtained from notes on BEA webpage about "BEA's use tables were updated on Feb.11, 2022."
-                        date_accessed = as.character(as.Date(file.mtime(FileName))))
+    ls <- list("url" = url,
+               "date_accessed" = as.character(as.Date(file.mtime(FileName))),
+               "date_last_modified" = "2024-02-01") # page last modified
+    writeFile(df = SummaryImport, year = y,
+              name = paste0("Summary_Import_", y, "_BeforeRedef"), ls = ls,
+              schema_year = year)
   }
 }
 
 
-# Get Detail BEA Gross Output (2012 schema) since 2002
-getBEADetailGrossOutput2012Schema <- function() {
+# Get Detail BEA Gross Output
+getBEADetailGrossOutput <- function() {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
   # Prepare file name
   file <- files[startsWith(files, "GrossOutput")]
-  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  FileName <- file.path(dir, "UGdpByInd", file)
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
@@ -1274,21 +1254,14 @@ getBEADetailMarginsBeforeRedef <- function(year) {
 
 # Get BEA Detail Supply table from static Excel
 getBEADetailSupply <- function(year) {
-  # Download data
-  url <- getBEASupplyUseTables()[["url"]]
-  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
-  files <- getBEASupplyUseTables()[["files"]]
-  # Load data
+  ls <- getBEASupplyUseTables()
   FileName <- file.path(dir, "AllTablesSUP",
-                        files[startsWith(files, "Supply") &
-                                endsWith(files, "DET.xlsx")])
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+                        ls[["files"]][startsWith(ls[["files"]], "Supply") &
+                                      endsWith(ls[["files"]], "DET.xlsx")])
+  ls["date_last_modified"] <- "2024-02-01" # page last modified 
   DetailSupply <- as.data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
   DetailSupply <- processDetailMatrix(DetailSupply)
-  ls <- list("url" = url,
-             "date_accessed" = as.character(as.Date(file.mtime(FileName))),
-             "date_last_modified" = "2024-02-01") # page last modified 
   writeFile(df = DetailSupply, year = year,
             name = paste0("Detail_Supply_", year), ls = ls,
             schema_year = year)
@@ -1297,21 +1270,14 @@ getBEADetailSupply <- function(year) {
 
 # Get BEA Detail Use (under the Supply-Use framework schema) table from static Excel
 getBEADetailUseSUT <- function(year) {
-  # Download data
-  url <- getBEASupplyUseTables()[["url"]]
-  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
-  files <- getBEASupplyUseTables()[["files"]]
-  # Load data
+  ls <- getBEASupplyUseTables()
   FileName <- file.path(dir, "AllTablesSUP",
-                        files[startsWith(files, "Use") &
-                                endsWith(files, "DET.xlsx")])
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+                        ls[["files"]][startsWith(ls[["files"]], "Use") &
+                                        endsWith(ls[["files"]], "DET.xlsx")])
+  ls["date_last_modified"] = "2024-02-01" # page last modified 
   DetailUse <- as.data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
   DetailUse <- processDetailMatrix(DetailUse)
-  ls <- list("url" = url,
-             "date_accessed" = as.character(as.Date(file.mtime(FileName))),
-             "date_last_modified" = "2024-02-01") # page last modified 
   writeFile(df = DetailUse, year = year,
             name = paste0("Detail_Use_SUT_", year), ls = ls,
             schema_year = year)
@@ -1319,92 +1285,39 @@ getBEADetailUseSUT <- function(year) {
 
 
 # Get BEA Summary Supply table from static Excel
-getBEASummarySupply <- function() {
-  # Download data
-  url <- getBEASupplyUseTables()[["url"]]
-  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
-  files <- getBEASupplyUseTables()[["files"]]
+getBEASummarySupply <- function(year) {
+  ls <- getBEASupplyUseTables()
   # Prepare file name
-  file <- files[startsWith(files, "Supply") & endsWith(files, "Summary.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesSUP", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
+  file <- ls[["files"]][startsWith(ls[["files"]], "Supply") & 
+                          endsWith(ls[["files"]], "Summary.xlsx")]
+  FileName <- file.path(dir, "AllTablesSUP", file)
+  end_year <- 2022
   # Load data
-  for (year in 2017:end_year) {
+  for (y in 2017:end_year) {
     SummarySupply <- as.data.frame(readxl::read_excel(FileName,
-                                                      sheet = as.character(year)))
-    # Trim table, assign column names
-    SummarySupply <- SummarySupply[!is.na(SummarySupply[, 2]), ]
-    colnames(SummarySupply) <- SummarySupply[1, ]
-    colname_check <- is.na(colnames(SummarySupply))
-    colnames(SummarySupply)[colname_check] <- SummarySupply[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SummarySupply[is.na(SummarySupply[, 1]), 1] <- SummarySupply[is.na(SummarySupply[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SummarySupply <- as.data.frame(lapply(SummarySupply[-c(1:2), -c(1:2)], as.numeric),
-                                   check.names = FALSE,
-                                   row.names = SummarySupply[-c(1:2), 1])
-    # Replace NA with zero
-    SummarySupply[is.na(SummarySupply)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SummarySupply,
-                   data_name = paste0("Summary_Supply_", year))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Summary_Supply_", year),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
+                                                      sheet = as.character(y)))
+    SummarySupply <- processSummaryMatrix(SummarySupply)
+    writeFile(df = SummarySupply, year = y,
+              name = paste0("Summary_Supply_", y), ls = ls,
+              schema_year = year)
   }
 }
 
 # Get BEA Summary Use under the Supply-Use framework from static Excel
-getBEASummaryUseSUT <- function() {
-  # Download data
-  url <- getBEASupplyUseTables()[["url"]]
-  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
-  files <- getBEASupplyUseTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "Use") & endsWith(files, "Summary.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesSUP", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
+getBEASummaryUseSUT <- function(year) {
+  ls <- getBEASupplyUseTables()
+  file <- ls[["files"]][startsWith(ls[["files"]], "Use") &
+                          endsWith(ls[["files"]], "Summary.xlsx")]
+  FileName <- file.path(dir, "AllTablesSUP", file)
+  end_year <- 2022
   # Load data
-  for (year in 2017:end_year) {
+  for (y in 2017:end_year) {
     SummaryUse <- as.data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
-    # Trim table, assign column names
-    SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
-    colnames(SummaryUse) <- SummaryUse[1, ]
-    colname_check <- is.na(colnames(SummaryUse))
-    colnames(SummaryUse)[colname_check] <- SummaryUse[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SummaryUse[is.na(SummaryUse[, 1]), 1] <- SummaryUse[is.na(SummaryUse[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SummaryUse <- as.data.frame(lapply(SummaryUse[-c(1:2), -c(1:2)], as.numeric),
-                                check.names = FALSE,
-                                row.names = SummaryUse[-c(1:2), 1])
-    # Replace NA with zero
-    SummaryUse[is.na(SummaryUse)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SummaryUse,
-                   data_name = paste0("Summary_Use_SUT_", year))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Summary_Use_SUT_", year),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
+    SummaryUse <- processSummaryMatrix(SummaryUse)
+    writeFile(df = SummaryUse, year = y,
+              name = paste0("Summary_Use_SUT_", y), ls = ls,
+              schema_year = year)
   }
 }
 
