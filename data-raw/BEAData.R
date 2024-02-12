@@ -593,19 +593,16 @@ getBEADetailGrossOutput <- function() {
   DetailGrossOutput <- cbind.data.frame(Gross_Output_Detail_Industry,
                              lapply(DetailGrossOutput[-1, -c(1:3)],
                                                   as.numeric))
-  # Keep columns since 2002
-  col_2002 <- which(colnames(DetailGrossOutput) == "2002")
-  DetailGrossOutput <- DetailGrossOutput[, c(1, col_2002:ncol(DetailGrossOutput))]
   return(DetailGrossOutput)
 }
 
-# Get Summary BEA Gross Output (2012 schema) since 2002
-getBEASummaryGrossOutput2012Schema <- function() {
+# Get Summary BEA Gross Output since 2002
+getBEASummaryGrossOutput <- function() {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
   # Prepare file name
   file <- files[startsWith(files, "GrossOutput")]
-  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  FileName <- file.path(dir, "UGdpByInd", file)
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
@@ -622,19 +619,16 @@ getBEASummaryGrossOutput2012Schema <- function() {
   SummaryGrossOutput <- cbind.data.frame(Gross_Output_Industry,
                                          lapply(SummaryGrossOutput[-1, -c(1:3)],
                                                 as.numeric))
-  # Keep columns since 2002
-  col_2002 <- which(colnames(SummaryGrossOutput) == "2002")
-  SummaryGrossOutput <- SummaryGrossOutput[, c(1, col_2002:ncol(SummaryGrossOutput))]
   return(SummaryGrossOutput)
 }
 
-# Get Sector BEA Gross Output (2012 schema) since 2002
-getBEASectorGrossOutput2012Schema <- function() {
+# Get Sector BEA Gross Output
+getBEASectorGrossOutput <- function() {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
   # Prepare file name
   file <- files[startsWith(files, "GrossOutput")]
-  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  FileName <- file.path(dir, "UGdpByInd", file)
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
@@ -651,90 +645,81 @@ getBEASectorGrossOutput2012Schema <- function() {
   SectorGrossOutput <- cbind.data.frame(Gross_Output_Industry,
                                         lapply(SectorGrossOutput[-1, -c(1:3)],
                                                as.numeric))
-  # Keep columns since 2002
-  col_2002 <- which(colnames(SectorGrossOutput) == "2002")
-  SectorGrossOutput <- SectorGrossOutput[, c(1, col_2002:ncol(SectorGrossOutput))]
   return(SectorGrossOutput)
 }
 
-# Map gross output ($) from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
-mapBEAGrossOutputtoIOIndustry2012Schema <- function() {
-  # Download data
-  url <- getBEAUnderlyingTables()[["url"]]
-  date_accessed <- getBEAUnderlyingTables()[["date_accessed"]]
-  files <- getBEAUnderlyingTables()[["files"]]
-  FileName <- file.path("inst/extdata/UGdpByInd",
-                        files[startsWith(files, "GrossOutput")])
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-
+# Map gross output ($) from GDP industries to IO industries at Detail, Summary, and Sector IO levels.
+mapBEAGrossOutputtoIOIndustry <- function(year) {
+  ls <- getBEAUnderlyingTables()
+  FileName <- file.path(dir, "UGdpByInd",
+                        files[startsWith(ls[["files"]], "GrossOutput")])
   ### Detail ###
-  DetailGrossOutput <- getBEADetailGrossOutput2012Schema()
+  DetailGrossOutput <- getBEADetailGrossOutput()
   # Determine year range
   year_range <- colnames(DetailGrossOutput)[2:ncol(DetailGrossOutput)]
   # Map BEA Detail industry code to IO code
   Detail_mapping <- utils::read.table(system.file("extdata",
-                                                  "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv",
+                                                  paste0("Crosswalk_DetailGDPIndustrytoIO", 2012, "schema.csv"),
                                                   package = "useeior"),
                                       sep = ",", header = TRUE,
                                       stringsAsFactors = FALSE,
                                       quote = "\"")
+  colnames(Detail_mapping) <- c("Gross_Output_Detail_Industry", "BEA_Detail_Code")
+  ## TODO update file for 2017 ^^
   DetailGrossOutputIO <- merge(Detail_mapping, DetailGrossOutput,
                                by = "Gross_Output_Detail_Industry",
                                all.y = TRUE)
   # Aggregate by BEA Detail industry code
   DetailGrossOutputIO <- stats::aggregate(DetailGrossOutputIO[, year_range],
-                                          by = list(DetailGrossOutputIO$BEA_2012_Detail_Code),
+                                          by = list(DetailGrossOutputIO$BEA_Detail_Code),
                                           sum)
   # Assign sector code to row names
   rownames(DetailGrossOutputIO) <- DetailGrossOutputIO[, 1]
   DetailGrossOutputIO[, 1] <- NULL
 
   ### Summary ###
-  SummaryGrossOutput <- getBEASummaryGrossOutput2012Schema()
+  SummaryGrossOutput <- getBEASummaryGrossOutput()
   # Map BEA Summary industry code to IO code
   Summary_mapping <- utils::read.table(system.file("extdata",
-                                                   "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv",
+                                                   paste0("Crosswalk_SummaryGDPIndustrytoIO", 2012, "Schema.csv"),
                                                    package = "useeior"),
                                        sep = ",", header = TRUE,
                                        stringsAsFactors = FALSE)
+  colnames(Summary_mapping) <- c("Gross_Output_Industry", "BEA_Summary_Code")
+  ## TODO update file for 2017 ^^
   SummaryGrossOutputIO <- cbind(Summary_mapping, SummaryGrossOutput)
   # Keep Summary rows
-  SummaryGrossOutputIO <- SummaryGrossOutputIO[!SummaryGrossOutputIO$BEA_2012_Summary_Code == "",
-                                               c("BEA_2012_Summary_Code", year_range)]
+  SummaryGrossOutputIO <- SummaryGrossOutputIO[!SummaryGrossOutputIO$BEA_Summary_Code == "",
+                                               c("BEA_Summary_Code", year_range)]
   # Assign sector code to row names
   rownames(SummaryGrossOutputIO) <- SummaryGrossOutputIO[, 1]
   SummaryGrossOutputIO[, 1] <- NULL
 
   ### Sector ###
-  SectorGrossOutput <- getBEASectorGrossOutput2012Schema()
+  SectorGrossOutput <- getBEASectorGrossOutput()
   # Map BEA Sector industry code to IO code
   Sector_mapping <- utils::read.table(system.file("extdata",
-                                                  "Crosswalk_SectorGDPIndustrytoIO2012Schema.csv",
+                                                  paste0("Crosswalk_SectorGDPIndustrytoIO", 2012, "Schema.csv"),
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
+  colnames(Sector_mapping) <- c("Gross_Output_Industry", "BEA_Sector_Code")
+  ## TODO update file for 2017 ^^
   SectorGrossOutputIO <- cbind(Sector_mapping, SectorGrossOutput)
   # Keep Summary rows
-  SectorGrossOutputIO <- SectorGrossOutputIO[!SectorGrossOutputIO$BEA_2012_Sector_Code == "",
-                                             c("BEA_2012_Sector_Code", year_range)]
+  SectorGrossOutputIO <- SectorGrossOutputIO[!SectorGrossOutputIO$BEA_Sector_Code == "",
+                                             c("BEA_Sector_Code", year_range)]
   # Assign sector code to row names
   rownames(SectorGrossOutputIO) <- SectorGrossOutputIO[, 1]
   SectorGrossOutputIO[, 1] <- NULL
 
   ### Save and Document data
-  ls <- list("Detail_GrossOutput_IO" = DetailGrossOutputIO,
+  dfs <- list("Detail_GrossOutput_IO" = DetailGrossOutputIO,
              "Summary_GrossOutput_IO" = SummaryGrossOutputIO,
              "Sector_GrossOutput_IO" = SectorGrossOutputIO)
-  for (data_name in names(ls)) {
-    # Write data to .rda
-    writeDatatoRDA(data = ls[[data_name]], data_name = data_name)
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = data_name,
-                        year = year_range,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
+  for (data_name in names(dfs)) {
+    writeFile(df = dfs[[data_name]], year = year_range,
+              name = paste0(data_name, "_", schema_year), ls = ls,
+              schema_year = NULL)
   }
 }
 
