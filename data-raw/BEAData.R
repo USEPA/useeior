@@ -313,227 +313,227 @@ getBEASummaryUsePROAfterRedef <- function(year) {
   }
 }
 
-# Get BEA Sector Make (Before Redef, 2012 schema) table from static Excel
-getBEASectorMakeBeforeRedef2012Schema <- function() {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "IOMake_Before_Redefinitions") &
-                  endsWith(files, "Sector.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesIO", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
-  # Load data
-  for (year in 2010:end_year) {
-    SectorMake <- data.frame(readxl::read_excel(FileName,
-                                                sheet = as.character(year)))
-    # Trim table, assign column names
-    SectorMake <- SectorMake[!is.na(SectorMake[, 2]), ]
-    colnames(SectorMake) <- SectorMake[1, ]
-    colname_check <- is.na(colnames(SectorMake))
-    colnames(SectorMake)[colname_check] <- SectorMake[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SectorMake[is.na(SectorMake[, 1]), 1] <- SectorMake[is.na(SectorMake[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SectorMake <- as.data.frame(lapply(SectorMake[-c(1:2), -c(1:2)], as.numeric),
-                                check.names = FALSE,
-                                row.names = SectorMake[-c(1:2), 1])
-    # Replace NA with zero
-    SectorMake[is.na(SectorMake)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SectorMake,
-                   data_name = paste0("Sector_Make_", year, "_BeforeRedef"))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Sector_Make_", year, "_BeforeRedef"),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
-  }
-}
-
-# Get BEA Sector Use (PRO, Before Redef, 2012 schema) table from static Excel
-getBEASectorUsePROBeforeRedef2012Schema <- function() {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "IOUse_Before_Redefinitions_PRO") &
-                  endsWith(files, "Sector.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesIO", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
-  for (year in 2010:end_year) {
-    SectorUse <- data.frame(readxl::read_excel(FileName,
-                                               sheet = as.character(year)))
-    # Trim table, assign column names
-    SectorUse <- SectorUse[!is.na(SectorUse[, 2]), ]
-    colnames(SectorUse) <- SectorUse[1, ]
-    colname_check <- is.na(colnames(SectorUse))
-    colnames(SectorUse)[colname_check] <- SectorUse[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SectorUse[is.na(SectorUse[, 1]), 1] <- SectorUse[is.na(SectorUse[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SectorUse <- as.data.frame(lapply(SectorUse[-c(1:2), -c(1:2)], as.numeric),
-                               check.names = FALSE,
-                               row.names = SectorUse[-c(1:2), 1])
-    # Replace NA with zero
-    SectorUse[is.na(SectorUse)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SectorUse,
-                   data_name = paste0("Sector_Use_", year, "_PRO_BeforeRedef"))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Sector_Use_", year, "_PRO_BeforeRedef"),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
-  }
-}
-
-# Get BEA Sector Use (PUR, Before Redef, 2012 schema) table from static Excel
-getBEASectorUsePURBeforeRedef2012Schema <- function(year) {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "IOUse_Before_Redefinitions_PUR") &
-                  endsWith(files, "Sector.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesIO", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Load data
-  SectorUse <- data.frame(readxl::read_excel(FileName,
-                                             sheet = as.character(year)))
-  # Trim table, assign column names
-  SectorUse <- SectorUse[!is.na(SectorUse[, 2]), ]
-  colnames(SectorUse) <- SectorUse[1, ]
-  colname_check <- is.na(colnames(SectorUse))
-  colnames(SectorUse)[colname_check] <- SectorUse[2, colname_check]
-  # Fill NA in code column with corresponding name
-  SectorUse[is.na(SectorUse[, 1]), 1] <- SectorUse[is.na(SectorUse[, 1]), 2]
-  # Convert all values to numeric, assign row names
-  SectorUse <- as.data.frame(lapply(SectorUse[-c(1:2), -c(1:2)], as.numeric),
-                             check.names = FALSE,
-                             row.names = SectorUse[-c(1:2), 1])
-  # Replace NA with zero
-  SectorUse[is.na(SectorUse)] <- 0
-  # Write data to .rda
-  writeDatatoRDA(data = SectorUse,
-                 data_name = paste0("Sector_Use_", year, "_PUR_BeforeRedef"))
-  # Write metadata to JSON
-  writeMetadatatoJSON(package = "useeior",
-                      name = paste0("Sector_Use_", year, "_PUR_BeforeRedef"),
-                      year = year,
-                      source = "US Bureau of Economic Analysis",
-                      url = url,
-                      date_last_modified = date_last_modified,
-                      date_accessed = date_accessed)
-}
-
-# Get BEA Sector Make (After Redef, 2012 schema) table from static Excel
-getBEASectorMakeAfterRedef2012Schema <- function() {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "IOMake_After_Redefinitions") &
-                  endsWith(files, "Sector.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesIO", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
-  # Load data
-  for (year in 2010:end_year) {
-    SectorMake <- data.frame(readxl::read_excel(FileName,
-                                                sheet = as.character(year)))
-    # Trim table, assign column names
-    SectorMake <- SectorMake[!is.na(SectorMake[, 2]), ]
-    colnames(SectorMake) <- SectorMake[1, ]
-    colname_check <- is.na(colnames(SectorMake))
-    colnames(SectorMake)[colname_check] <- SectorMake[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SectorMake[is.na(SectorMake[, 1]), 1] <- SectorMake[is.na(SectorMake[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SectorMake <- as.data.frame(lapply(SectorMake[-c(1:2), -c(1:2)], as.numeric),
-                                check.names = FALSE,
-                                row.names = SectorMake[-c(1:2), 1])
-    # Replace NA with zero
-    SectorMake[is.na(SectorMake)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SectorMake,
-                   data_name = paste0("Sector_Make_", year, "_AfterRedef"))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Sector_Make_", year, "_AfterRedef"),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
-  }
-}
-
-# Get BEA Sector Use (PRO, After Redef, 2012 schema) table from static Excel
-getBEASectorUsePROAfterRedef2012Schema <- function() {
-  # Download data
-  url <- getBEAIOTables()[["url"]]
-  date_accessed <- getBEAIOTables()[["date_accessed"]]
-  files <- getBEAIOTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "IOUse_After_Redefinitions_PRO") &
-                  endsWith(files, "Sector.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesIO", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
-  for (year in 2010:end_year) {
-    SectorUse <- data.frame(readxl::read_excel(FileName,
-                                               sheet = as.character(year)))
-    # Trim table, assign column names
-    SectorUse <- SectorUse[!is.na(SectorUse[, 2]), ]
-    colnames(SectorUse) <- SectorUse[1, ]
-    colname_check <- is.na(colnames(SectorUse))
-    colnames(SectorUse)[colname_check] <- SectorUse[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SectorUse[is.na(SectorUse[, 1]), 1] <- SectorUse[is.na(SectorUse[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SectorUse <- as.data.frame(lapply(SectorUse[-c(1:2), -c(1:2)], as.numeric),
-                               check.names = FALSE,
-                               row.names = SectorUse[-c(1:2), 1])
-    # Replace NA with zero
-    SectorUse[is.na(SectorUse)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SectorUse,
-                   data_name = paste0("Sector_Use_", year, "_PRO_AfterRedef"))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Sector_Use_", year, "_PRO_AfterRedef"),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
-  }
-}
+# # Get BEA Sector Make (Before Redef, 2012 schema) table from static Excel
+# getBEASectorMakeBeforeRedef2012Schema <- function() {
+#   # Download data
+#   url <- getBEAIOTables()[["url"]]
+#   date_accessed <- getBEAIOTables()[["date_accessed"]]
+#   files <- getBEAIOTables()[["files"]]
+#   # Prepare file name
+#   file <- files[startsWith(files, "IOMake_Before_Redefinitions") &
+#                   endsWith(files, "Sector.xlsx")]
+#   FileName <- file.path("inst/extdata/AllTablesIO", file)
+#   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+#   # Find latest data year
+#   file_split <- unlist(stringr::str_split(file, pattern = "_"))
+#   year_range <- file_split[length(file_split) - 1]
+#   end_year <- sub(".*-", "", year_range)
+#   # Load data
+#   for (year in 2010:end_year) {
+#     SectorMake <- data.frame(readxl::read_excel(FileName,
+#                                                 sheet = as.character(year)))
+#     # Trim table, assign column names
+#     SectorMake <- SectorMake[!is.na(SectorMake[, 2]), ]
+#     colnames(SectorMake) <- SectorMake[1, ]
+#     colname_check <- is.na(colnames(SectorMake))
+#     colnames(SectorMake)[colname_check] <- SectorMake[2, colname_check]
+#     # Fill NA in code column with corresponding name
+#     SectorMake[is.na(SectorMake[, 1]), 1] <- SectorMake[is.na(SectorMake[, 1]), 2]
+#     # Convert all values to numeric, assign row names
+#     SectorMake <- as.data.frame(lapply(SectorMake[-c(1:2), -c(1:2)], as.numeric),
+#                                 check.names = FALSE,
+#                                 row.names = SectorMake[-c(1:2), 1])
+#     # Replace NA with zero
+#     SectorMake[is.na(SectorMake)] <- 0
+#     # Write data to .rda
+#     writeDatatoRDA(data = SectorMake,
+#                    data_name = paste0("Sector_Make_", year, "_BeforeRedef"))
+#     # Write metadata to JSON
+#     writeMetadatatoJSON(package = "useeior",
+#                         name = paste0("Sector_Make_", year, "_BeforeRedef"),
+#                         year = year,
+#                         source = "US Bureau of Economic Analysis",
+#                         url = url,
+#                         date_last_modified = date_last_modified,
+#                         date_accessed = date_accessed)
+#   }
+# }
+# 
+# # Get BEA Sector Use (PRO, Before Redef, 2012 schema) table from static Excel
+# getBEASectorUsePROBeforeRedef2012Schema <- function() {
+#   # Download data
+#   url <- getBEAIOTables()[["url"]]
+#   date_accessed <- getBEAIOTables()[["date_accessed"]]
+#   files <- getBEAIOTables()[["files"]]
+#   # Prepare file name
+#   file <- files[startsWith(files, "IOUse_Before_Redefinitions_PRO") &
+#                   endsWith(files, "Sector.xlsx")]
+#   FileName <- file.path("inst/extdata/AllTablesIO", file)
+#   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+#   # Find latest data year
+#   file_split <- unlist(stringr::str_split(file, pattern = "_"))
+#   year_range <- file_split[length(file_split) - 1]
+#   end_year <- sub(".*-", "", year_range)
+#   for (year in 2010:end_year) {
+#     SectorUse <- data.frame(readxl::read_excel(FileName,
+#                                                sheet = as.character(year)))
+#     # Trim table, assign column names
+#     SectorUse <- SectorUse[!is.na(SectorUse[, 2]), ]
+#     colnames(SectorUse) <- SectorUse[1, ]
+#     colname_check <- is.na(colnames(SectorUse))
+#     colnames(SectorUse)[colname_check] <- SectorUse[2, colname_check]
+#     # Fill NA in code column with corresponding name
+#     SectorUse[is.na(SectorUse[, 1]), 1] <- SectorUse[is.na(SectorUse[, 1]), 2]
+#     # Convert all values to numeric, assign row names
+#     SectorUse <- as.data.frame(lapply(SectorUse[-c(1:2), -c(1:2)], as.numeric),
+#                                check.names = FALSE,
+#                                row.names = SectorUse[-c(1:2), 1])
+#     # Replace NA with zero
+#     SectorUse[is.na(SectorUse)] <- 0
+#     # Write data to .rda
+#     writeDatatoRDA(data = SectorUse,
+#                    data_name = paste0("Sector_Use_", year, "_PRO_BeforeRedef"))
+#     # Write metadata to JSON
+#     writeMetadatatoJSON(package = "useeior",
+#                         name = paste0("Sector_Use_", year, "_PRO_BeforeRedef"),
+#                         year = year,
+#                         source = "US Bureau of Economic Analysis",
+#                         url = url,
+#                         date_last_modified = date_last_modified,
+#                         date_accessed = date_accessed)
+#   }
+# }
+# 
+# # Get BEA Sector Use (PUR, Before Redef, 2012 schema) table from static Excel
+# getBEASectorUsePURBeforeRedef2012Schema <- function(year) {
+#   # Download data
+#   url <- getBEAIOTables()[["url"]]
+#   date_accessed <- getBEAIOTables()[["date_accessed"]]
+#   files <- getBEAIOTables()[["files"]]
+#   # Prepare file name
+#   file <- files[startsWith(files, "IOUse_Before_Redefinitions_PUR") &
+#                   endsWith(files, "Sector.xlsx")]
+#   FileName <- file.path("inst/extdata/AllTablesIO", file)
+#   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+#   # Load data
+#   SectorUse <- data.frame(readxl::read_excel(FileName,
+#                                              sheet = as.character(year)))
+#   # Trim table, assign column names
+#   SectorUse <- SectorUse[!is.na(SectorUse[, 2]), ]
+#   colnames(SectorUse) <- SectorUse[1, ]
+#   colname_check <- is.na(colnames(SectorUse))
+#   colnames(SectorUse)[colname_check] <- SectorUse[2, colname_check]
+#   # Fill NA in code column with corresponding name
+#   SectorUse[is.na(SectorUse[, 1]), 1] <- SectorUse[is.na(SectorUse[, 1]), 2]
+#   # Convert all values to numeric, assign row names
+#   SectorUse <- as.data.frame(lapply(SectorUse[-c(1:2), -c(1:2)], as.numeric),
+#                              check.names = FALSE,
+#                              row.names = SectorUse[-c(1:2), 1])
+#   # Replace NA with zero
+#   SectorUse[is.na(SectorUse)] <- 0
+#   # Write data to .rda
+#   writeDatatoRDA(data = SectorUse,
+#                  data_name = paste0("Sector_Use_", year, "_PUR_BeforeRedef"))
+#   # Write metadata to JSON
+#   writeMetadatatoJSON(package = "useeior",
+#                       name = paste0("Sector_Use_", year, "_PUR_BeforeRedef"),
+#                       year = year,
+#                       source = "US Bureau of Economic Analysis",
+#                       url = url,
+#                       date_last_modified = date_last_modified,
+#                       date_accessed = date_accessed)
+# }
+# 
+# # Get BEA Sector Make (After Redef, 2012 schema) table from static Excel
+# getBEASectorMakeAfterRedef2012Schema <- function() {
+#   # Download data
+#   url <- getBEAIOTables()[["url"]]
+#   date_accessed <- getBEAIOTables()[["date_accessed"]]
+#   files <- getBEAIOTables()[["files"]]
+#   # Prepare file name
+#   file <- files[startsWith(files, "IOMake_After_Redefinitions") &
+#                   endsWith(files, "Sector.xlsx")]
+#   FileName <- file.path("inst/extdata/AllTablesIO", file)
+#   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+#   # Find latest data year
+#   file_split <- unlist(stringr::str_split(file, pattern = "_"))
+#   year_range <- file_split[length(file_split) - 1]
+#   end_year <- sub(".*-", "", year_range)
+#   # Load data
+#   for (year in 2010:end_year) {
+#     SectorMake <- data.frame(readxl::read_excel(FileName,
+#                                                 sheet = as.character(year)))
+#     # Trim table, assign column names
+#     SectorMake <- SectorMake[!is.na(SectorMake[, 2]), ]
+#     colnames(SectorMake) <- SectorMake[1, ]
+#     colname_check <- is.na(colnames(SectorMake))
+#     colnames(SectorMake)[colname_check] <- SectorMake[2, colname_check]
+#     # Fill NA in code column with corresponding name
+#     SectorMake[is.na(SectorMake[, 1]), 1] <- SectorMake[is.na(SectorMake[, 1]), 2]
+#     # Convert all values to numeric, assign row names
+#     SectorMake <- as.data.frame(lapply(SectorMake[-c(1:2), -c(1:2)], as.numeric),
+#                                 check.names = FALSE,
+#                                 row.names = SectorMake[-c(1:2), 1])
+#     # Replace NA with zero
+#     SectorMake[is.na(SectorMake)] <- 0
+#     # Write data to .rda
+#     writeDatatoRDA(data = SectorMake,
+#                    data_name = paste0("Sector_Make_", year, "_AfterRedef"))
+#     # Write metadata to JSON
+#     writeMetadatatoJSON(package = "useeior",
+#                         name = paste0("Sector_Make_", year, "_AfterRedef"),
+#                         year = year,
+#                         source = "US Bureau of Economic Analysis",
+#                         url = url,
+#                         date_last_modified = date_last_modified,
+#                         date_accessed = date_accessed)
+#   }
+# }
+# 
+# # Get BEA Sector Use (PRO, After Redef, 2012 schema) table from static Excel
+# getBEASectorUsePROAfterRedef2012Schema <- function() {
+#   # Download data
+#   url <- getBEAIOTables()[["url"]]
+#   date_accessed <- getBEAIOTables()[["date_accessed"]]
+#   files <- getBEAIOTables()[["files"]]
+#   # Prepare file name
+#   file <- files[startsWith(files, "IOUse_After_Redefinitions_PRO") &
+#                   endsWith(files, "Sector.xlsx")]
+#   FileName <- file.path("inst/extdata/AllTablesIO", file)
+#   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+#   # Find latest data year
+#   file_split <- unlist(stringr::str_split(file, pattern = "_"))
+#   year_range <- file_split[length(file_split) - 1]
+#   end_year <- sub(".*-", "", year_range)
+#   for (year in 2010:end_year) {
+#     SectorUse <- data.frame(readxl::read_excel(FileName,
+#                                                sheet = as.character(year)))
+#     # Trim table, assign column names
+#     SectorUse <- SectorUse[!is.na(SectorUse[, 2]), ]
+#     colnames(SectorUse) <- SectorUse[1, ]
+#     colname_check <- is.na(colnames(SectorUse))
+#     colnames(SectorUse)[colname_check] <- SectorUse[2, colname_check]
+#     # Fill NA in code column with corresponding name
+#     SectorUse[is.na(SectorUse[, 1]), 1] <- SectorUse[is.na(SectorUse[, 1]), 2]
+#     # Convert all values to numeric, assign row names
+#     SectorUse <- as.data.frame(lapply(SectorUse[-c(1:2), -c(1:2)], as.numeric),
+#                                check.names = FALSE,
+#                                row.names = SectorUse[-c(1:2), 1])
+#     # Replace NA with zero
+#     SectorUse[is.na(SectorUse)] <- 0
+#     # Write data to .rda
+#     writeDatatoRDA(data = SectorUse,
+#                    data_name = paste0("Sector_Use_", year, "_PRO_AfterRedef"))
+#     # Write metadata to JSON
+#     writeMetadatatoJSON(package = "useeior",
+#                         name = paste0("Sector_Use_", year, "_PRO_AfterRedef"),
+#                         year = year,
+#                         source = "US Bureau of Economic Analysis",
+#                         url = url,
+#                         date_last_modified = date_last_modified,
+#                         date_accessed = date_accessed)
+#   }
+# }
 
 # Get BEA Detail Import (Before Redef schema) from static Excel
 getBEADetailImportBeforeRedef <- function(year) {
@@ -1409,98 +1409,98 @@ getBEASummaryUseSUT <- function() {
 }
 
 
-# Get BEA Sector Supply table from static Excel
-getBEASectorSupply <- function() {
-  # Download data
-  url <- getBEASupplyUseTables()[["url"]]
-  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
-  files <- getBEASupplyUseTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "Supply") & endsWith(files, "SEC.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesSUP", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
-  # Load data
-  for (year in 2010:end_year) {
-    SectorSupply <- as.data.frame(readxl::read_excel(FileName,
-                                                     sheet = as.character(year)))
-    # Trim table, assign column names
-    SectorSupply <- SectorSupply[!is.na(SectorSupply[, 2]), ]
-    colnames(SectorSupply) <- SectorSupply[1, ]
-    colname_check <- is.na(colnames(SectorSupply))
-    colnames(SectorSupply)[colname_check] <- SectorSupply[2, colname_check]
-    # Assign T017 to Total industry supply if not provided
-    if (is.na(SectorSupply[SectorSupply$`Commodities/Industries` == "Total industry supply", 1])) {
-      SectorSupply[SectorSupply$`Commodities/Industries` == "Total industry supply", 1] <- "T017"
-    }
-    # Fill NA in code column with corresponding name
-    SectorSupply[is.na(SectorSupply[, 1]), 1] <- SectorSupply[is.na(SectorSupply[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SectorSupply <- as.data.frame(lapply(SectorSupply[-c(1:2), -c(1:2)], as.numeric),
-                                  check.names = FALSE,
-                                  row.names = SectorSupply[-c(1:2), 1])
-    # Replace NA with zero
-    SectorSupply[is.na(SectorSupply)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SectorSupply,
-                   data_name = paste0("Sector_Supply_", year))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Sector_Supply_", year),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
-  }
-}
-
-
-# Get BEA Sector Use (under the Supply-Use framework, 2012 schema) table from static Excel
-getBEASectorUseSUT2012Schema <- function() {
-  # Download data
-  url <- getBEASupplyUseTables()[["url"]]
-  date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
-  files <- getBEASupplyUseTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "Use") & endsWith(files, "SECT.xlsx")]
-  FileName <- file.path("inst/extdata/AllTablesSUP", file)
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  # Find latest data year
-  file_split <- unlist(stringr::str_split(file, pattern = "_"))
-  year_range <- file_split[length(file_split) - 1]
-  end_year <- sub(".*-", "", year_range)
-  # Load data
-  for (year in 2010:end_year) {
-    SectorUse <- as.data.frame(readxl::read_excel(FileName,
-                                                  sheet = as.character(year)))
-    # Trim table, assign column names
-    SectorUse <- SectorUse[!is.na(SectorUse[, 2]), ]
-    colnames(SectorUse) <- SectorUse[1, ]
-    colname_check <- is.na(colnames(SectorUse))
-    colnames(SectorUse)[colname_check] <- SectorUse[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SectorUse[is.na(SectorUse[, 1]), 1] <- SectorUse[is.na(SectorUse[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SectorUse <- as.data.frame(lapply(SectorUse[-c(1:2), -c(1:2)], as.numeric),
-                               check.names = FALSE,
-                               row.names = SectorUse[-c(1:2), 1])
-    # Replace NA with zero
-    SectorUse[is.na(SectorUse)] <- 0
-    # Write data to .rda
-    writeDatatoRDA(data = SectorUse,
-                   data_name = paste0("Sector_Use_SUT_", year))
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = paste0("Sector_Use_SUT_", year),
-                        year = year,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
-  }
-}
+# # Get BEA Sector Supply table from static Excel
+# getBEASectorSupply <- function() {
+#   # Download data
+#   url <- getBEASupplyUseTables()[["url"]]
+#   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
+#   files <- getBEASupplyUseTables()[["files"]]
+#   # Prepare file name
+#   file <- files[startsWith(files, "Supply") & endsWith(files, "SEC.xlsx")]
+#   FileName <- file.path("inst/extdata/AllTablesSUP", file)
+#   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+#   # Find latest data year
+#   file_split <- unlist(stringr::str_split(file, pattern = "_"))
+#   year_range <- file_split[length(file_split) - 1]
+#   end_year <- sub(".*-", "", year_range)
+#   # Load data
+#   for (year in 2010:end_year) {
+#     SectorSupply <- as.data.frame(readxl::read_excel(FileName,
+#                                                      sheet = as.character(year)))
+#     # Trim table, assign column names
+#     SectorSupply <- SectorSupply[!is.na(SectorSupply[, 2]), ]
+#     colnames(SectorSupply) <- SectorSupply[1, ]
+#     colname_check <- is.na(colnames(SectorSupply))
+#     colnames(SectorSupply)[colname_check] <- SectorSupply[2, colname_check]
+#     # Assign T017 to Total industry supply if not provided
+#     if (is.na(SectorSupply[SectorSupply$`Commodities/Industries` == "Total industry supply", 1])) {
+#       SectorSupply[SectorSupply$`Commodities/Industries` == "Total industry supply", 1] <- "T017"
+#     }
+#     # Fill NA in code column with corresponding name
+#     SectorSupply[is.na(SectorSupply[, 1]), 1] <- SectorSupply[is.na(SectorSupply[, 1]), 2]
+#     # Convert all values to numeric, assign row names
+#     SectorSupply <- as.data.frame(lapply(SectorSupply[-c(1:2), -c(1:2)], as.numeric),
+#                                   check.names = FALSE,
+#                                   row.names = SectorSupply[-c(1:2), 1])
+#     # Replace NA with zero
+#     SectorSupply[is.na(SectorSupply)] <- 0
+#     # Write data to .rda
+#     writeDatatoRDA(data = SectorSupply,
+#                    data_name = paste0("Sector_Supply_", year))
+#     # Write metadata to JSON
+#     writeMetadatatoJSON(package = "useeior",
+#                         name = paste0("Sector_Supply_", year),
+#                         year = year,
+#                         source = "US Bureau of Economic Analysis",
+#                         url = url,
+#                         date_last_modified = date_last_modified,
+#                         date_accessed = date_accessed)
+#   }
+# }
+# 
+# 
+# # Get BEA Sector Use (under the Supply-Use framework, 2012 schema) table from static Excel
+# getBEASectorUseSUT2012Schema <- function() {
+#   # Download data
+#   url <- getBEASupplyUseTables()[["url"]]
+#   date_accessed <- getBEASupplyUseTables()[["date_accessed"]]
+#   files <- getBEASupplyUseTables()[["files"]]
+#   # Prepare file name
+#   file <- files[startsWith(files, "Use") & endsWith(files, "SECT.xlsx")]
+#   FileName <- file.path("inst/extdata/AllTablesSUP", file)
+#   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+#   # Find latest data year
+#   file_split <- unlist(stringr::str_split(file, pattern = "_"))
+#   year_range <- file_split[length(file_split) - 1]
+#   end_year <- sub(".*-", "", year_range)
+#   # Load data
+#   for (year in 2010:end_year) {
+#     SectorUse <- as.data.frame(readxl::read_excel(FileName,
+#                                                   sheet = as.character(year)))
+#     # Trim table, assign column names
+#     SectorUse <- SectorUse[!is.na(SectorUse[, 2]), ]
+#     colnames(SectorUse) <- SectorUse[1, ]
+#     colname_check <- is.na(colnames(SectorUse))
+#     colnames(SectorUse)[colname_check] <- SectorUse[2, colname_check]
+#     # Fill NA in code column with corresponding name
+#     SectorUse[is.na(SectorUse[, 1]), 1] <- SectorUse[is.na(SectorUse[, 1]), 2]
+#     # Convert all values to numeric, assign row names
+#     SectorUse <- as.data.frame(lapply(SectorUse[-c(1:2), -c(1:2)], as.numeric),
+#                                check.names = FALSE,
+#                                row.names = SectorUse[-c(1:2), 1])
+#     # Replace NA with zero
+#     SectorUse[is.na(SectorUse)] <- 0
+#     # Write data to .rda
+#     writeDatatoRDA(data = SectorUse,
+#                    data_name = paste0("Sector_Use_SUT_", year))
+#     # Write metadata to JSON
+#     writeMetadatatoJSON(package = "useeior",
+#                         name = paste0("Sector_Use_SUT_", year),
+#                         year = year,
+#                         source = "US Bureau of Economic Analysis",
+#                         url = url,
+#                         date_last_modified = date_last_modified,
+#                         date_accessed = date_accessed)
+#   }
+# }
 
