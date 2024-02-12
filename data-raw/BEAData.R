@@ -569,8 +569,9 @@ getBEASummaryImportBeforeRedef <- function(year) {
 }
 
 
-# Get Detail BEA Gross Output
-getBEADetailGrossOutput <- function() {
+#' Get Detail BEA Gross Output
+#' @param level, str "Detail", "Summary", or "Sector"
+getBEAGrossOutput <- function(level) {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
   # Prepare file name
@@ -580,82 +581,32 @@ getBEADetailGrossOutput <- function() {
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
                                                       na = "")))
-  sheet <- paste0(content[content$Title ==
-                            "U.Gross Output by Industry - Detail Level", "Code"],
-                  "-A")
-  DetailGrossOutput <- as.data.frame(readxl::read_excel(FileName,
-                                                        sheet = sheet))
+  if(level=="Detail"){
+    tag = "U.Gross Output by Industry - Detail Level"
+  } else {
+    tag = "U.Gross Output by Industry"
+  }
+  sheet <- paste0(content[content$Title == tag, "Code"], "-A")
+  GrossOutput <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
   # Trim table, assign column names
-  DetailGrossOutput <- DetailGrossOutput[!is.na(DetailGrossOutput[, 4]), ]
-  colnames(DetailGrossOutput) <- DetailGrossOutput[1, ]
-  Gross_Output_Detail_Industry <- DetailGrossOutput[-1, 2]
+  GrossOutput <- GrossOutput[!is.na(GrossOutput[, 4]), ]
+  colnames(GrossOutput) <- GrossOutput[1, ]
+  sector <- GrossOutput[-1, 2]
   # Convert all values to numeric, assign row names
-  DetailGrossOutput <- cbind.data.frame(Gross_Output_Detail_Industry,
-                             lapply(DetailGrossOutput[-1, -c(1:3)],
-                                                  as.numeric))
-  return(DetailGrossOutput)
+  GrossOutput <- cbind.data.frame(sector, 
+                                  lapply(GrossOutput[-1, -c(1:3)], as.numeric))
+  return(GrossOutput)
 }
 
-# Get Summary BEA Gross Output since 2002
-getBEASummaryGrossOutput <- function() {
-  # Download data
-  files <- getBEAUnderlyingTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "GrossOutput")]
-  FileName <- file.path(dir, "UGdpByInd", file)
-  # Load data
-  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
-                                                      sheet = "Contents",
-                                                      na = "")))
-  sheet <- paste0(content[content$Title == "U.Gross Output by Industry", "Code"],
-                  "-A")
-  SummaryGrossOutput <- as.data.frame(readxl::read_excel(FileName,
-                                                         sheet = sheet))
-  # Trim table, assign column names
-  SummaryGrossOutput <- SummaryGrossOutput[!is.na(SummaryGrossOutput[, 4]), ]
-  colnames(SummaryGrossOutput) <- SummaryGrossOutput[1, ]
-  Gross_Output_Industry <- SummaryGrossOutput[-1, 2]
-  # Convert all values to numeric, assign row names
-  SummaryGrossOutput <- cbind.data.frame(Gross_Output_Industry,
-                                         lapply(SummaryGrossOutput[-1, -c(1:3)],
-                                                as.numeric))
-  return(SummaryGrossOutput)
-}
-
-# Get Sector BEA Gross Output
-getBEASectorGrossOutput <- function() {
-  # Download data
-  files <- getBEAUnderlyingTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "GrossOutput")]
-  FileName <- file.path(dir, "UGdpByInd", file)
-  # Load data
-  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
-                                                      sheet = "Contents",
-                                                      na = "")))
-  sheet <- paste0(content[content$Title == "U.Gross Output by Industry", "Code"],
-                  "-A")
-  SectorGrossOutput <- as.data.frame(readxl::read_excel(FileName,
-                                                        sheet = sheet))
-  # Trim table, assign column names
-  SectorGrossOutput <- SectorGrossOutput[!is.na(SectorGrossOutput[, 4]), ]
-  colnames(SectorGrossOutput) <- SectorGrossOutput[1, ]
-  Gross_Output_Industry <- SectorGrossOutput[-1, 2]
-  # Convert all values to numeric, assign row names
-  SectorGrossOutput <- cbind.data.frame(Gross_Output_Industry,
-                                        lapply(SectorGrossOutput[-1, -c(1:3)],
-                                               as.numeric))
-  return(SectorGrossOutput)
-}
 
 # Map gross output ($) from GDP industries to IO industries at Detail, Summary, and Sector IO levels.
-mapBEAGrossOutputtoIOIndustry <- function(year) {
+mapBEAGrossOutputtoIOIndustry <- function(schema_year) {
   ls <- getBEAUnderlyingTables()
   FileName <- file.path(dir, "UGdpByInd",
-                        files[startsWith(ls[["files"]], "GrossOutput")])
+                        ls[["files"]][startsWith(ls[["files"]], "GrossOutput")])
   ls["date_last_modified"] <- as.character(as.Date(file.mtime(FileName)))
   ### Detail ###
-  DetailGrossOutput <- getBEADetailGrossOutput()
+  DetailGrossOutput <- getBEAGrossOutput(level="Detail")
   # Determine year range
   year_range <- colnames(DetailGrossOutput)[2:ncol(DetailGrossOutput)]
   # Map BEA Detail industry code to IO code
@@ -665,10 +616,10 @@ mapBEAGrossOutputtoIOIndustry <- function(year) {
                                       sep = ",", header = TRUE,
                                       stringsAsFactors = FALSE,
                                       quote = "\"")
-  colnames(Detail_mapping) <- c("Gross_Output_Detail_Industry", "BEA_Detail_Code")
+  colnames(Detail_mapping) <- c("sector", "BEA_Detail_Code")
   ## TODO update file for 2017 ^^
   DetailGrossOutputIO <- merge(Detail_mapping, DetailGrossOutput,
-                               by = "Gross_Output_Detail_Industry",
+                               by = "sector",
                                all.y = TRUE)
   # Aggregate by BEA Detail industry code
   DetailGrossOutputIO <- stats::aggregate(DetailGrossOutputIO[, year_range],
@@ -679,14 +630,14 @@ mapBEAGrossOutputtoIOIndustry <- function(year) {
   DetailGrossOutputIO[, 1] <- NULL
 
   ### Summary ###
-  SummaryGrossOutput <- getBEASummaryGrossOutput()
+  SummaryGrossOutput <- getBEAGrossOutput(level="Summary")
   # Map BEA Summary industry code to IO code
   Summary_mapping <- utils::read.table(system.file("extdata",
                                                    paste0("Crosswalk_SummaryGDPIndustrytoIO", 2012, "Schema.csv"),
                                                    package = "useeior"),
                                        sep = ",", header = TRUE,
                                        stringsAsFactors = FALSE)
-  colnames(Summary_mapping) <- c("Gross_Output_Industry", "BEA_Summary_Code")
+  colnames(Summary_mapping) <- c("sector", "BEA_Summary_Code")
   ## TODO update file for 2017 ^^
   SummaryGrossOutputIO <- cbind(Summary_mapping, SummaryGrossOutput)
   # Keep Summary rows
@@ -697,13 +648,13 @@ mapBEAGrossOutputtoIOIndustry <- function(year) {
   SummaryGrossOutputIO[, 1] <- NULL
 
   ### Sector ###
-  SectorGrossOutput <- getBEASectorGrossOutput()
+  SectorGrossOutput <- getBEAGrossOutput(level="Sector")
   # Map BEA Sector industry code to IO code
   Sector_mapping <- utils::read.table(system.file("extdata",
                                                   paste0("Crosswalk_SectorGDPIndustrytoIO", 2012, "Schema.csv"),
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
-  colnames(Sector_mapping) <- c("Gross_Output_Industry", "BEA_Sector_Code")
+  colnames(Sector_mapping) <- c("sector", "BEA_Sector_Code")
   ## TODO update file for 2017 ^^
   SectorGrossOutputIO <- cbind(Sector_mapping, SectorGrossOutput)
   # Keep Summary rows
@@ -724,8 +675,9 @@ mapBEAGrossOutputtoIOIndustry <- function(year) {
   }
 }
 
-# Get Detail BEA Chain-Type Price Indexes (CPI)
-getBEADetailCPI <- function() {
+#' Get Detail BEA Chain-Type Price Indexes (CPI)
+#' @param level, str "Detail", "Summary", or "Sector"
+getBEACPI <- function(level) {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
   # Prepare file name
@@ -735,82 +687,34 @@ getBEADetailCPI <- function() {
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
                                                       na = "")))
-  dataname <- "U.Chain-Type Price Indexes for Gross Output by Industry"
-  sheet <- paste0(content[content$Title == paste(dataname, "- Detail Level"), "Code"],
-                  "-A")
-  DetailCPI <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
+  if(level=="Detail"){
+    tag = "U.Chain-Type Price Indexes for Gross Output by Industry - Detail Level"
+  } else {
+    tag = "U.Chain-Type Price Indexes for Gross Output by Industry"
+  }
+  sheet <- paste0(content[content$Title == tag, "Code"], "-A")
+  CPI <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
   # Trim table, assign column names
-  DetailCPI <- DetailCPI[!is.na(DetailCPI[, 4]), ]
-  colnames(DetailCPI) <- DetailCPI[1, ]
-  Gross_Output_Detail_Industry <- DetailCPI[-1, 2]
+  CPI <- CPI[!is.na(CPI[, 4]), ]
+  colnames(CPI) <- CPI[1, ]
+  sector <- CPI[-1, 2]
   # Convert all values to numeric, assign row names
-  DetailCPI <- cbind.data.frame(Gross_Output_Detail_Industry,
-                                lapply(DetailCPI[-1, -c(1:3)],
-                                       as.numeric))
-  return(DetailCPI)
+  CPI <- cbind.data.frame(sector,
+                          lapply(CPI[-1, -c(1:3)], as.numeric))
+  return(CPI)
 }
 
-# Get Summary BEA Chain-Type Price Indexes (CPI)
-getBEASummaryCPI <- function() {
-  # Download data
-  files <- getBEAUnderlyingTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "GrossOutput")]
-  FileName <- file.path(dir, "UGdpByInd", file)
-  # Load data
-  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
-                                                      sheet = "Contents",
-                                                      na = "")))
-  dataname <- "U.Chain-Type Price Indexes for Gross Output by Industry"
-  sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
-  SummaryCPI <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
-  # Trim table, assign column names
-  SummaryCPI <- SummaryCPI[!is.na(SummaryCPI[, 4]), ]
-  colnames(SummaryCPI) <- SummaryCPI[1, ]
-  Gross_Output_Industry <- SummaryCPI[-1, 2]
-  # Convert all values to numeric, assign row names
-  SummaryCPI <- cbind.data.frame(Gross_Output_Industry,
-                                 lapply(SummaryCPI[-1, -c(1:3)],
-                                        as.numeric))
-  return(SummaryCPI)
-}
-
-# Get Sector BEA Chain-Type Price Indexes (CPI)
-getBEASectorCPI <- function() {
-  # Download data
-  files <- getBEAUnderlyingTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "GrossOutput")]
-  FileName <- file.path(dir, "UGdpByInd", file)
-  # Load data
-  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
-                                                      sheet = "Contents",
-                                                      na = "")))
-  dataname <- "U.Chain-Type Price Indexes for Gross Output by Industry"
-  sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
-  SectorCPI <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
-  # Trim table, assign column names
-  SectorCPI <- SectorCPI[!is.na(SectorCPI[, 4]), ]
-  colnames(SectorCPI) <- SectorCPI[1, ]
-  Gross_Output_Industry <- SectorCPI[-1, 2]
-  # Convert all values to numeric, assign row names
-  SectorCPI <- cbind.data.frame(Gross_Output_Industry,
-                                 lapply(SectorCPI[-1, -c(1:3)],
-                                        as.numeric))
-  return(SectorCPI)
-}
 
 # Map CPI from GDP industries to IO industries at Detail, Summary, and Sector IO levels.
-mapBEACPItoIOIndustry <- function(year) {
+mapBEACPItoIOIndustry <- function(schema_year) {
   ls <- getBEAUnderlyingTables()
   FileName <- file.path(dir, "UGdpByInd",
                         ls[["files"]][startsWith(ls[["files"]], "GrossOutput")])
   ls["date_last_modified"] <- as.character(as.Date(file.mtime(FileName)))
 
   ### Detail ###
-  DetailCPI <- getBEADetailCPI()
-  DetailCPI$Gross_Output_Detail_Industry <- sub("’", "'",
-                                                DetailCPI$Gross_Output_Detail_Industry)
+  DetailCPI <- getBEACPI(level="Detail")
+  DetailCPI$sector <- sub("’", "'", DetailCPI$sector)
   # Determine year range
   year_range <- colnames(DetailCPI)[2:ncol(DetailCPI)]
   # Map BEA Detail industry code to IO code
@@ -822,19 +726,19 @@ mapBEACPItoIOIndustry <- function(year) {
                                       quote = "\"")
   Detail_mapping$Gross_Output_Detail_Industry <- sub("’", "'",
                                                      Detail_mapping$Gross_Output_Detail_Industry)
-  colnames(Detail_mapping) <- c("Gross_Output_Detail_Industry", "BEA_Detail_Code")
+  colnames(Detail_mapping) <- c("sector", "BEA_Detail_Code")
   ## TODO update 2017 mapping ^^
   DetailCPIIO <- merge(Detail_mapping, DetailCPI,
-                       by = "Gross_Output_Detail_Industry", all.y = TRUE)
+                       by = "sector", all.y = TRUE)
   if(sum(is.na(DetailCPIIO$BEA_Detail_Code)) > 0){
     print('ERROR: missing mappings')
     DetailCPIIO$BEA_Detail_Code[is.na(DetailCPIIO$BEA_Detail_Code)] <- "missing"
   }
   # Adjust (weighted average) CPI based on DetailGrossOutput
   # DetailGrossOutput
-  DetailGrossOutput <- getBEADetailGrossOutput()
+  DetailGrossOutput <- getBEAGrossOutput(level="Detail")
   # Merge CPI with GrossOutput
-  DetailCPIIO <- merge(DetailCPIIO, DetailGrossOutput, by = "Gross_Output_Detail_Industry")
+  DetailCPIIO <- merge(DetailCPIIO, DetailGrossOutput, by = "sector")
   # Calculate weighted average of CPI
   for (code in unique(DetailCPIIO[, "BEA_Detail_Code"])) {
     for (y in year_range) {
@@ -852,13 +756,13 @@ mapBEACPItoIOIndustry <- function(year) {
   DetailCPIIO[, 1] <- NULL
 
   ### Summary ###
-  SummaryCPI <- getBEASummaryCPI()
+  SummaryCPI <- getBEACPI(level="Summary")
   # Map BEA Summary industry code to IO code
   Summary_mapping <- utils::read.table(system.file("extdata",
                                                    paste0("Crosswalk_SummaryGDPIndustrytoIO", 2012,"Schema.csv"),
                                                    package = "useeior"),
                                        sep = ",", header = TRUE, stringsAsFactors = FALSE)
-  colnames(Summary_mapping) <- c("Gross Output Industry", "BEA_Summary_Code")
+  colnames(Summary_mapping) <- c("sector", "BEA_Summary_Code")
   SummaryCPIIO <- cbind(Summary_mapping, SummaryCPI)
   # Keep Summary rows
   SummaryCPIIO <- SummaryCPIIO[!SummaryCPIIO$BEA_2012_Summary_Code == "",
@@ -868,13 +772,13 @@ mapBEACPItoIOIndustry <- function(year) {
   SummaryCPIIO[, 1] <- NULL
 
   ### Sector ###
-  SectorCPI <- getBEASectorCPI()
+  SectorCPI <- getBEACPI(level="Sector")
   # Map BEA Sector industry code to IO code
   Sector_mapping <- utils::read.table(system.file("extdata",
                                                   paste0("Crosswalk_SectorGDPIndustrytoIO", 2012,"Schema.csv"),
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
-  colnames(Sector_mapping) <- c("Gross Output Industry", "BEA_Sector_Code")
+  colnames(Sector_mapping) <- c("sector", "BEA_Sector_Code")
   SectorCPIIO <- cbind(Sector_mapping, SectorCPI)
   # Keep Sector rows
   SectorCPIIO <- SectorCPIIO[!SectorCPIIO$BEA_Sector_Code == "",
@@ -919,34 +823,10 @@ getBEASummaryValueAdded <- function() {
   return(SummaryValueAdded)
 }
 
-#' Get Sector BEA Value Added
-getBEASectorValueAdded <- function() {
-  # Download data
-  files <- getBEAUnderlyingTables()[["files"]]
-  # Prepare file name
-  file <- files[startsWith(files, "ValueAdded")]
-  FileName <- file.path(dir, "UGdpByInd", file)
-  # Load data
-  content <- na.omit(as.data.frame(readxl::read_excel(FileName,
-                                                      sheet = "Contents",
-                                                      na = "")))
-  dataname <- "U.Value Added by Industry"
-  sheet <- paste0(content[content$Title == dataname, "Code"], "-A")
-  SectorValueAdded <- as.data.frame(readxl::read_excel(FileName, sheet = sheet))
-  # Trim table, assign column names
-  SectorValueAdded <- SectorValueAdded[!is.na(SectorValueAdded[, 4]), ]
-  colnames(SectorValueAdded) <- SectorValueAdded[1, ]
-  Industry <- SectorValueAdded[-1, 2]
-  # Convert all values to numeric, assign row names
-  SectorValueAdded <- cbind.data.frame(Industry,
-                                       lapply(SectorValueAdded[-1, -c(1:3)],
-                                              as.numeric))
-  return(SectorValueAdded)
-}
 
 #' Map Value Added ($) from GDP industries to IO industries
 #' at Summary and Sector IO levels
-mapBEAValueAddedtoIOIndustry <- function() {
+mapBEAValueAddedtoIOIndustry <- function(schema_year) {
   # Download data
   ls <- getBEAUnderlyingTables()
   FileName <- file.path(dir, "UGdpByInd",
@@ -972,7 +852,7 @@ mapBEAValueAddedtoIOIndustry <- function() {
   SummaryValueAddedIO[, 1] <- NULL
 
   ### Sector ###
-  SectorValueAdded <- getBEASectorValueAdded()
+  SectorValueAdded <- getBEASummaryValueAdded()
   # Map BEA Sector industry code to IO code
   Sector_mapping <- utils::read.table(system.file("extdata",
                                                   paste0("Crosswalk_SectorGDPIndustrytoIO", 2012,"Schema.csv"),
