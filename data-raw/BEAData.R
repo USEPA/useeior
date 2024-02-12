@@ -826,6 +826,10 @@ mapBEACPItoIOIndustry <- function(year) {
   ## TODO update 2017 mapping ^^
   DetailCPIIO <- merge(Detail_mapping, DetailCPI,
                        by = "Gross_Output_Detail_Industry", all.y = TRUE)
+  if(sum(is.na(DetailCPIIO$BEA_Detail_Code)) > 0){
+    print('ERROR: missing mappings')
+    DetailCPIIO$BEA_Detail_Code[is.na(DetailCPIIO$BEA_Detail_Code)] <- "missing"
+  }
   # Adjust (weighted average) CPI based on DetailGrossOutput
   # DetailGrossOutput
   DetailGrossOutput <- getBEADetailGrossOutput()
@@ -833,10 +837,10 @@ mapBEACPItoIOIndustry <- function(year) {
   DetailCPIIO <- merge(DetailCPIIO, DetailGrossOutput, by = "Gross_Output_Detail_Industry")
   # Calculate weighted average of CPI
   for (code in unique(DetailCPIIO[, "BEA_Detail_Code"])) {
-    for (year in year_range) {
+    for (y in year_range) {
       row <- DetailCPIIO$BEA_Detail_Code == code
-      DetailCPIIO[row, year] <- stats::weighted.mean(DetailCPIIO[row, paste(year, "x", sep = ".")],
-                                                     DetailCPIIO[row, paste(year, "y", sep = ".")])
+      DetailCPIIO[row, y] <- stats::weighted.mean(DetailCPIIO[row, paste(y, "x", sep = ".")],
+                                                  DetailCPIIO[row, paste(y, "y", sep = ".")])
     }
   }
   # Aggregate CPI by BEA_Detail_Code
