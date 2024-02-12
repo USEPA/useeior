@@ -670,8 +670,8 @@ mapBEAGrossOutputtoIOIndustry <- function(schema_year) {
              "Sector_GrossOutput_IO" = SectorGrossOutputIO)
   for (data_name in names(dfs)) {
     writeFile(df = dfs[[data_name]], year = year_range,
-              name = paste0(data_name, "_", schema_year), ls = ls,
-              schema_year = NULL)
+              name = data_name, ls = ls,
+              schema_year = schema_year)
   }
 }
 
@@ -793,8 +793,8 @@ mapBEACPItoIOIndustry <- function(schema_year) {
              "Sector_CPI_IO" = SectorCPIIO)
   for (data_name in names(dfs)) {
     writeFile(df = dfs[[data_name]], year = year_range,
-              name = paste0(data_name, "_", schema_year), ls = ls,
-              schema_year = NULL)
+              name = data_name, ls = ls,
+              schema_year = schema_year)
   }
 }
 
@@ -872,8 +872,8 @@ mapBEAValueAddedtoIOIndustry <- function(schema_year) {
              "Sector_ValueAdded_IO" = SectorValueAddedIO)
   for (data_name in names(dfs)) {
     writeFile(df = dfs[[data_name]], year = year_range,
-              name = paste0(data_name, "_", schema_year), ls = ls,
-              schema_year = NULL)
+              name = data_name, ls = ls,
+              schema_year = schema_year)
   }
 }
 
