@@ -116,7 +116,7 @@ unpackFile <- function(year, filename, ioschema) {
 
 #' Process dataframe to remove spaces and assign col/row names
 #' @param df, dataframe of matrix (i.e., make or use table)
-processMatrix <- function(df) {
+processDetailMatrix <- function(df) {
   # Assign row and column names
   df <- df[!is.na(df[, 2]), ]
   colnames(df) <- df[1, ]
@@ -130,6 +130,25 @@ processMatrix <- function(df) {
   return(df)
 }
 
+#' Process dataframe to remove spaces and assign col/row names
+#' @param df, dataframe of matrix (i.e., make or use table)
+processSummaryMatrix <- function(df) {
+  # Trim table, assign column names
+  df <- df[!is.na(df[, 2]), ]
+  colnames(df) <- df[1, ]
+  colname_check <- is.na(colnames(df))
+  colnames(df)[colname_check] <- df[2, colname_check]
+  # Fill NA in code column with corresponding name
+  df[is.na(df[, 1]), 1] <- df[is.na(df[, 1]), 2]
+  # Convert all values to numeric, assign row names
+  df <- as.data.frame(lapply(df[-c(1:2), -c(1:2)], as.numeric),
+                              check.names = FALSE,
+                              row.names = df[-c(1:2), 1])
+  # Replace NA with zero
+  df[is.na(df)] <- 0
+  return(df)
+}
+
 #' Write RDA and json metadata files
 #' @param df, dataframe of matrix (i.e., make or use table)
 #' @param year, str IO data year
@@ -138,9 +157,7 @@ processMatrix <- function(df) {
 #' @param scehma_year str of schema year (e.g., 2012 or 2017)
 writeFile <- function(df, year, name, ls, schema_year) {
   if (!is.null(schema_year)){
-    # append version and schema to filename e.g., _17sch.01
-    # latest_version <- "01"
-    # name <- paste0(name, "_", substring(schema_year, 3, 4), "sch.", latest_version)
+    # append schema to filename e.g., _17sch
     name <- paste0(name, "_", substring(schema_year, 3, 4), "sch")
   }
   # Write data to .rda
@@ -160,7 +177,7 @@ writeFile <- function(df, year, name, ls, schema_year) {
 getBEADetailMakeBeforeRedef <- function(year) {
   ls <- unpackFile(year, filename="IOMake_Before_Redefinitions", ioschema="Detail")
   DetailMake <- data.frame(ls["df"])
-  DetailMake <- processMatrix(DetailMake)
+  DetailMake <- processDetailMatrix(DetailMake)
   writeFile(df = DetailMake, year = year,
             name = paste0("Detail_Make_", year, "_BeforeRedef"), ls = ls,
             schema_year = year)
@@ -170,7 +187,7 @@ getBEADetailMakeBeforeRedef <- function(year) {
 getBEADetailUsePROBeforeRedef <- function(year) {
   ls <- unpackFile(year, filename="IOUse_Before_Redefinitions_PRO", ioschema="Detail")
   DetailUse <- data.frame(ls["df"])
-  DetailUse <- processMatrix(DetailUse)
+  DetailUse <- processDetailMatrix(DetailUse)
   writeFile(df = DetailUse, year = year,
             name = paste0("Detail_Use_", year, "_PRO_BeforeRedef"), ls = ls,
             schema_year = year)
@@ -180,7 +197,7 @@ getBEADetailUsePROBeforeRedef <- function(year) {
 getBEADetailUsePURBeforeRedef <- function(year) {
   ls <- unpackFile(year, filename="IOUse_Before_Redefinitions_PUR", ioschema="Detail")
   DetailUse <- data.frame(ls["df"])
-  DetailUse <- processMatrix(DetailUse)
+  DetailUse <- processDetailMatrix(DetailUse)
   writeFile(df = DetailUse, year = year,
             name = paste0("Detail_Use_", year, "_PUR_BeforeRedef"), ls = ls,
             schema_year = year)
@@ -191,7 +208,7 @@ getBEADetailMakeAfterRedef <- function(year) {
   ls <- unpackFile(year, filename="IOMake_After_Redefinitions", ioschema="Detail ")
   ### ^^ Typo in filename from BEA requires extra space in ioschema ^^^
   DetailMake <- data.frame(ls["df"])
-  DetailMake <- processMatrix(DetailMake)
+  DetailMake <- processDetailMatrix(DetailMake)
   writeFile(df = DetailMake, year = year,
             name = paste0("Detail_Make_", year, "_AfterRedef"), ls = ls,
             schema_year = year)
@@ -201,7 +218,7 @@ getBEADetailMakeAfterRedef <- function(year) {
 getBEADetailUsePROAfterRedef <- function(year) {
   ls <- unpackFile(year, filename="IOUse_After_Redefinitions_PRO", ioschema="Detail")
   DetailUse <- data.frame(ls["df"])
-  DetailUse <- processMatrix(DetailUse)
+  DetailUse <- processDetailMatrix(DetailUse)
   writeFile(df = DetailUse, year = year,
             name = paste0("Detail_Use_", year, "_PRO_AfterRedef"), ls = ls,
             schema_year = year)
@@ -211,7 +228,7 @@ getBEADetailUsePROAfterRedef <- function(year) {
 getBEADetailUsePURAfterRedef <- function(year) {
   ls <- unpackFile(year, filename="IOUse_After_Redefinitions_PUR", ioschema="Detail")
   DetailUse <- data.frame(ls["df"])
-  DetailUse <- processMatrix(DetailUse)
+  DetailUse <- processDetailMatrix(DetailUse)
   writeFile(df = DetailUse, year = year,
             name = paste0("Detail_Use_", year, "_PUR_AfterRedef"), ls = ls,
             schema_year = year)
@@ -250,19 +267,7 @@ getBEASummaryUsePROBeforeRedef <- function() {
   for (y in 2017:end_year) {
     ls <- unpackFile(y, filename="IOUse_Before_Redefinitions_PRO", ioschema="Summary")
     SummaryUse <- data.frame(ls["df"])
-    # Trim table, assign column names
-    SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
-    colnames(SummaryUse) <- SummaryUse[1, ]
-    colname_check <- is.na(colnames(SummaryUse))
-    colnames(SummaryUse)[colname_check] <- SummaryUse[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SummaryUse[is.na(SummaryUse[, 1]), 1] <- SummaryUse[is.na(SummaryUse[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SummaryUse <- as.data.frame(lapply(SummaryUse[-c(1:2), -c(1:2)], as.numeric),
-                                check.names = FALSE,
-                                row.names = SummaryUse[-c(1:2), 1])
-    # Replace NA with zero
-    SummaryUse[is.na(SummaryUse)] <- 0
+    SummaryUse <- processSummaryMatrix(SummaryUse)
     writeFile(df = SummaryUse, year = y,
               name = paste0("Summary_Use_", y, "_PRO_BeforeRedef"), ls = ls,
               schema_year = year)
@@ -274,19 +279,7 @@ getBEASummaryUsePURBeforeRedef <- function(year) {
   # TODO update w/ 2012 schema
   ls <- unpackFile(year, filename="IOUse_Before_Redefinitions_PUR", ioschema="Summary")
   SummaryUse <- data.frame(ls["df"])
-  # Trim table, assign column names
-  SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
-  colnames(SummaryUse) <- SummaryUse[1, ]
-  colname_check <- is.na(colnames(SummaryUse))
-  colnames(SummaryUse)[colname_check] <- SummaryUse[2, colname_check]
-  # Fill NA in code column with corresponding name
-  SummaryUse[is.na(SummaryUse[, 1]), 1] <- SummaryUse[is.na(SummaryUse[, 1]), 2]
-  # Convert all values to numeric, assign row names
-  SummaryUse <- as.data.frame(lapply(SummaryUse[-c(1:2), -c(1:2)], as.numeric),
-                              check.names = FALSE,
-                              row.names = SummaryUse[-c(1:2), 1])
-  # Replace NA with zero
-  SummaryUse[is.na(SummaryUse)] <- 0
+  SummaryUse <- processSummaryMatrix(SummaryUse)
   writeFile(df = SummaryUse, year = year,
             name = paste0("Summary_Use_", year, "_PUR_BeforeRedef"), ls = ls,
             schema_year = year)
@@ -299,19 +292,7 @@ getBEASummaryMakeAfterRedef <- function() {
   for (y in 2017:end_year) {
     ls <- unpackFile(y, filename="IOMake_After_Redefinitions", ioschema="Summary")
     SummaryMake <- data.frame(ls["df"])
-    # Trim table, assign column names
-    SummaryMake <- SummaryMake[!is.na(SummaryMake[, 2]), ]
-    colnames(SummaryMake) <- SummaryMake[1, ]
-    colname_check <- is.na(colnames(SummaryMake))
-    colnames(SummaryMake)[colname_check] <- SummaryMake[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SummaryMake[is.na(SummaryMake[, 1]), 1] <- SummaryMake[is.na(SummaryMake[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SummaryMake <- as.data.frame(lapply(SummaryMake[-c(1:2), -c(1:2)], as.numeric),
-                                 check.names = FALSE,
-                                 row.names = SummaryMake[-c(1:2), 1])
-    # Replace NA with zero
-    SummaryMake[is.na(SummaryMake)] <- 0
+    SummaryMake <- processSummaryMatrix(SummaryMake)
     writeFile(df = SummaryMake, year = y,
               name = paste0("Summary_Make_", y, "_AfterRedef"), ls = ls,
               schema_year = year)
@@ -325,19 +306,7 @@ getBEASummaryUsePROAfterRedef <- function(year) {
   for (y in 2017:end_year) {
     ls <- unpackFile(y, filename="IOUse_After_Redefinitions_PRO", ioschema="Summary")
     SummaryUse <- data.frame(ls["df"])
-    # Trim table, assign column names
-    SummaryUse <- SummaryUse[!is.na(SummaryUse[, 2]), ]
-    colnames(SummaryUse) <- SummaryUse[1, ]
-    colname_check <- is.na(colnames(SummaryUse))
-    colnames(SummaryUse)[colname_check] <- SummaryUse[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SummaryUse[is.na(SummaryUse[, 1]), 1] <- SummaryUse[is.na(SummaryUse[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SummaryUse <- as.data.frame(lapply(SummaryUse[-c(1:2), -c(1:2)], as.numeric),
-                                check.names = FALSE,
-                                row.names = SummaryUse[-c(1:2), 1])
-    # Replace NA with zero
-    SummaryUse[is.na(SummaryUse)] <- 0
+    SummaryUse <- processSummaryMatrix(SummaryUse)
     writeFile(df = SummaryUse, year = y,
               name = paste0("Summary_Use_", y, "_PRO_AfterRedef"), ls = ls,
               schema_year = year)
@@ -578,19 +547,7 @@ getBEADetailImportBeforeRedef <- function(year) {
   # Load data
   DetailImport <- as.data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
-  # Trim table, assign column names
-  DetailImport <- DetailImport[!is.na(DetailImport[, 2]), ]
-  colnames(DetailImport) <- DetailImport[1, ]
-  colname_check <- is.na(colnames(DetailImport))
-  colnames(DetailImport)[colname_check] <- DetailImport[2, colname_check]
-  # Fill NA in code column with corresponding name
-  DetailImport[is.na(DetailImport[, 1]), 1] <- DetailImport[is.na(DetailImport[, 1]), 2]
-  # Convert all values to numeric, assign row names
-  DetailImport <- as.data.frame(lapply(DetailImport[-1, -c(1:2)], as.numeric),
-                                check.names = FALSE,
-                                row.names = DetailImport[-1, 1])
-  # Replace NA with zero
-  DetailImport[is.na(DetailImport)] <- 0
+  DetailImport <- processDetailMatrix(DetailImport)
   ls <- list("url" = url,
              "date_accessed" = as.character(as.Date(file.mtime(FileName))),
              "date_last_modified" = "unknown")
@@ -616,19 +573,7 @@ getBEASummaryImportBeforeRedef2012Schema <- function() {
   for (year in 2010:end_year) {
     SummaryImport <- data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
-    # Trim table, assign column names
-    SummaryImport <- SummaryImport[!is.na(SummaryImport[, 2]), ]
-    colnames(SummaryImport) <- SummaryImport[1, ]
-    colname_check <- is.na(colnames(SummaryImport))
-    colnames(SummaryImport)[colname_check] <- SummaryImport[2, colname_check]
-    # Fill NA in code column with corresponding name
-    SummaryImport[is.na(SummaryImport[, 1]), 1] <- SummaryImport[is.na(SummaryImport[, 1]), 2]
-    # Convert all values to numeric, assign row names
-    SummaryImport <- as.data.frame(lapply(SummaryImport[-c(1:2), -c(1:2)], as.numeric),
-                                check.names = FALSE,
-                                row.names = SummaryImport[-c(1:2), 1])
-    # Replace NA with zero
-    SummaryImport[is.na(SummaryImport)] <- 0
+    SummaryImport <- processSummaryMatrix(SummaryImport)
     # Write data to .rda
     writeDatatoRDA(data = SummaryImport,
                    data_name = paste0("Summary_Import_", year, "_BeforeRedef"))
@@ -1340,16 +1285,7 @@ getBEADetailSupply <- function(year) {
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
   DetailSupply <- as.data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
-  # Assign row and column names
-  DetailSupply <- DetailSupply[!is.na(DetailSupply[, 2]), ]
-  colnames(DetailSupply) <- DetailSupply[1, ]
-  rownames(DetailSupply) <- DetailSupply$Code
-  # Trim table, convert all values to numeric, assign row names
-  DetailSupply <- as.data.frame(lapply(DetailSupply[-1, -c(1:2)], as.numeric),
-                                check.names = FALSE,
-                                row.names = DetailSupply[-1, 1])
-  # Replace NA with zero
-  DetailSupply[is.na(DetailSupply)] <- 0
+  DetailSupply <- processDetailMatrix(DetailSupply)
   ls <- list("url" = url,
              "date_accessed" = as.character(as.Date(file.mtime(FileName))),
              "date_last_modified" = "2024-02-01") # page last modified 
@@ -1372,16 +1308,7 @@ getBEADetailUseSUT <- function(year) {
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
   DetailUse <- as.data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
-  # Assign row and column names
-  DetailUse <- DetailUse[!is.na(DetailUse[, 2]), ]
-  colnames(DetailUse) <- DetailUse[1, ]
-  rownames(DetailUse) <- DetailUse$Code
-  # Trim table, convert all values to numeric, assign row names
-  DetailUse <- as.data.frame(lapply(DetailUse[-1, -c(1:2)], as.numeric),
-                                check.names = FALSE,
-                                row.names = DetailUse[-1, 1])
-  # Replace NA with zero
-  DetailUse[is.na(DetailUse)] <- 0
+  DetailUse <- processDetailMatrix(DetailUse)
   ls <- list("url" = url,
              "date_accessed" = as.character(as.Date(file.mtime(FileName))),
              "date_last_modified" = "2024-02-01") # page last modified 
