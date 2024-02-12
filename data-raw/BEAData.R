@@ -653,6 +653,7 @@ mapBEAGrossOutputtoIOIndustry <- function(year) {
   ls <- getBEAUnderlyingTables()
   FileName <- file.path(dir, "UGdpByInd",
                         files[startsWith(ls[["files"]], "GrossOutput")])
+  ls["date_last_modified"] <- as.character(as.Date(file.mtime(FileName)))
   ### Detail ###
   DetailGrossOutput <- getBEADetailGrossOutput()
   # Determine year range
@@ -723,13 +724,13 @@ mapBEAGrossOutputtoIOIndustry <- function(year) {
   }
 }
 
-# Get Detail BEA Chain-Type Price Indexes (CPI) (2012 schema) since 2002
-getBEADetailCPI2012Schema <- function() {
+# Get Detail BEA Chain-Type Price Indexes (CPI)
+getBEADetailCPI <- function() {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
   # Prepare file name
   file <- files[startsWith(files, "GrossOutput")]
-  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  FileName <- file.path(dir, "UGdpByInd", file)
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
@@ -746,19 +747,16 @@ getBEADetailCPI2012Schema <- function() {
   DetailCPI <- cbind.data.frame(Gross_Output_Detail_Industry,
                                 lapply(DetailCPI[-1, -c(1:3)],
                                        as.numeric))
-  # Keep columns since 2002
-  col_2002 <- which(colnames(DetailCPI) == "2002")
-  DetailCPI <- DetailCPI[, c(1, col_2002:ncol(DetailCPI))]
   return(DetailCPI)
 }
 
-# Get Summary BEA Chain-Type Price Indexes (CPI) (2012 schema) since 2002
-getBEASummaryCPI2012Schema <- function() {
+# Get Summary BEA Chain-Type Price Indexes (CPI)
+getBEASummaryCPI <- function() {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
   # Prepare file name
   file <- files[startsWith(files, "GrossOutput")]
-  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  FileName <- file.path(dir, "UGdpByInd", file)
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
@@ -774,19 +772,16 @@ getBEASummaryCPI2012Schema <- function() {
   SummaryCPI <- cbind.data.frame(Gross_Output_Industry,
                                  lapply(SummaryCPI[-1, -c(1:3)],
                                         as.numeric))
-  # Keep columns since 2002
-  col_2002 <- which(colnames(SummaryCPI) == "2002")
-  SummaryCPI <- SummaryCPI[, c(1, col_2002:ncol(SummaryCPI))]
   return(SummaryCPI)
 }
 
-# Get Sector BEA Chain-Type Price Indexes (CPI) (2012 schema) since 2002
-getBEASectorCPI2012Schema <- function() {
+# Get Sector BEA Chain-Type Price Indexes (CPI)
+getBEASectorCPI <- function() {
   # Download data
   files <- getBEAUnderlyingTables()[["files"]]
   # Prepare file name
   file <- files[startsWith(files, "GrossOutput")]
-  FileName <- file.path("inst/extdata/UGdpByInd", file)
+  FileName <- file.path(dir, "UGdpByInd", file)
   # Load data
   content <- na.omit(as.data.frame(readxl::read_excel(FileName,
                                                       sheet = "Contents",
@@ -802,105 +797,96 @@ getBEASectorCPI2012Schema <- function() {
   SectorCPI <- cbind.data.frame(Gross_Output_Industry,
                                  lapply(SectorCPI[-1, -c(1:3)],
                                         as.numeric))
-  # Keep columns since 2002
-  col_2002 <- which(colnames(SectorCPI) == "2002")
-  SectorCPI <- SectorCPI[, c(1, col_2002:ncol(SectorCPI))]
   return(SectorCPI)
 }
 
-# Map CPI from GDP industries to IO industries (2012 schema) at Detail, Summary, and Sector IO levels.
-mapBEACPItoIOIndustry2012Schema <- function() {
-  # Download data
-  url <- getBEAUnderlyingTables()[["url"]]
-  date_accessed <- getBEAUnderlyingTables()[["date_accessed"]]
-  files <- getBEAUnderlyingTables()[["files"]]
-  FileName <- file.path("inst/extdata/UGdpByInd",
-                        files[startsWith(files, "GrossOutput")])
-  date_last_modified <- as.character(as.Date(file.mtime(FileName)))
+# Map CPI from GDP industries to IO industries at Detail, Summary, and Sector IO levels.
+mapBEACPItoIOIndustry <- function(year) {
+  ls <- getBEAUnderlyingTables()
+  FileName <- file.path(dir, "UGdpByInd",
+                        ls[["files"]][startsWith(ls[["files"]], "GrossOutput")])
+  ls["date_last_modified"] <- as.character(as.Date(file.mtime(FileName)))
 
   ### Detail ###
-  DetailCPI <- getBEADetailCPI2012Schema()
+  DetailCPI <- getBEADetailCPI()
   DetailCPI$Gross_Output_Detail_Industry <- sub("’", "'",
                                                 DetailCPI$Gross_Output_Detail_Industry)
   # Determine year range
   year_range <- colnames(DetailCPI)[2:ncol(DetailCPI)]
   # Map BEA Detail industry code to IO code
   Detail_mapping <- utils::read.table(system.file("extdata",
-                                                  "Crosswalk_DetailGDPIndustrytoIO2012Schema.csv",
+                                                  paste0("Crosswalk_DetailGDPIndustrytoIO", 2012, "Schema.csv"),
                                                   package = "useeior"),
                                       sep = ",", header = TRUE,
                                       stringsAsFactors = FALSE,
                                       quote = "\"")
   Detail_mapping$Gross_Output_Detail_Industry <- sub("’", "'",
                                                      Detail_mapping$Gross_Output_Detail_Industry)
+  colnames(Detail_mapping) <- c("Gross_Output_Detail_Industry", "BEA_Detail_Code")
+  ## TODO update 2017 mapping ^^
   DetailCPIIO <- merge(Detail_mapping, DetailCPI,
                        by = "Gross_Output_Detail_Industry", all.y = TRUE)
   # Adjust (weighted average) CPI based on DetailGrossOutput
   # DetailGrossOutput
-  DetailGrossOutput <- getBEADetailGrossOutput2012Schema()
+  DetailGrossOutput <- getBEADetailGrossOutput()
   # Merge CPI with GrossOutput
   DetailCPIIO <- merge(DetailCPIIO, DetailGrossOutput, by = "Gross_Output_Detail_Industry")
   # Calculate weighted average of CPI
-  for (code in unique(DetailCPIIO[, "BEA_2012_Detail_Code"])) {
+  for (code in unique(DetailCPIIO[, "BEA_Detail_Code"])) {
     for (year in year_range) {
-      row <- DetailCPIIO$BEA_2012_Detail_Code == code
+      row <- DetailCPIIO$BEA_Detail_Code == code
       DetailCPIIO[row, year] <- stats::weighted.mean(DetailCPIIO[row, paste(year, "x", sep = ".")],
                                                      DetailCPIIO[row, paste(year, "y", sep = ".")])
     }
   }
-  # Aggregate CPI by BEA_2012_Detail_Code
+  # Aggregate CPI by BEA_Detail_Code
   DetailCPIIO <- stats::aggregate(DetailCPIIO[, year_range],
-                                  by = list(DetailCPIIO$BEA_2012_Detail_Code),
+                                  by = list(DetailCPIIO$BEA_Detail_Code),
                                   mean)
   # Assign sector code to row names
   rownames(DetailCPIIO) <- DetailCPIIO[, 1]
   DetailCPIIO[, 1] <- NULL
 
   ### Summary ###
-  SummaryCPI <- getBEASummaryCPI2012Schema()
+  SummaryCPI <- getBEASummaryCPI()
   # Map BEA Summary industry code to IO code
   Summary_mapping <- utils::read.table(system.file("extdata",
-                                                   "Crosswalk_SummaryGDPIndustrytoIO2012Schema.csv",
+                                                   paste0("Crosswalk_SummaryGDPIndustrytoIO", 2012,"Schema.csv"),
                                                    package = "useeior"),
                                        sep = ",", header = TRUE, stringsAsFactors = FALSE)
+  colnames(Summary_mapping) <- c("Gross Output Industry", "BEA_Summary_Code")
   SummaryCPIIO <- cbind(Summary_mapping, SummaryCPI)
   # Keep Summary rows
   SummaryCPIIO <- SummaryCPIIO[!SummaryCPIIO$BEA_2012_Summary_Code == "",
-                               c("BEA_2012_Summary_Code", year_range)]
+                               c("BEA_Summary_Code", year_range)]
   # Assign sector code to row names
   rownames(SummaryCPIIO) <- SummaryCPIIO[, 1]
   SummaryCPIIO[, 1] <- NULL
 
   ### Sector ###
-  SectorCPI <- getBEASectorCPI2012Schema()
+  SectorCPI <- getBEASectorCPI()
   # Map BEA Sector industry code to IO code
   Sector_mapping <- utils::read.table(system.file("extdata",
-                                                  "Crosswalk_SectorGDPIndustrytoIO2012Schema.csv",
+                                                  paste0("Crosswalk_SectorGDPIndustrytoIO", 2012,"Schema.csv"),
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
+  colnames(Sector_mapping) <- c("Gross Output Industry", "BEA_Sector_Code")
   SectorCPIIO <- cbind(Sector_mapping, SectorCPI)
   # Keep Sector rows
-  SectorCPIIO <- SectorCPIIO[!SectorCPIIO$BEA_2012_Sector_Code == "",
-                             c("BEA_2012_Sector_Code", year_range)]
+  SectorCPIIO <- SectorCPIIO[!SectorCPIIO$BEA_Sector_Code == "",
+                             c("BEA_Sector_Code", year_range)]
   # Assign sector code to row names
   rownames(SectorCPIIO) <- SectorCPIIO[, 1]
   SectorCPIIO[, 1] <- NULL
 
   ### Save and Document data
-  ls <- list("Detail_CPI_IO" = DetailCPIIO,
+  dfs <- list("Detail_CPI_IO" = DetailCPIIO,
              "Summary_CPI_IO" = SummaryCPIIO,
              "Sector_CPI_IO" = SectorCPIIO)
-  for (data_name in names(ls)) {
-    # Write data to .rda
-    writeDatatoRDA(data = ls[[data_name]], data_name = data_name)
-    # Write metadata to JSON
-    writeMetadatatoJSON(package = "useeior",
-                        name = data_name,
-                        year = year_range,
-                        source = "US Bureau of Economic Analysis",
-                        url = url,
-                        date_last_modified = date_last_modified,
-                        date_accessed = date_accessed)
+  for (data_name in names(dfs)) {
+    writeFile(df = dfs[[data_name]], year = year_range,
+              name = paste0(data_name, "_", schema_year), ls = ls,
+              schema_year = NULL)
   }
 }
 
