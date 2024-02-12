@@ -1153,7 +1153,7 @@ getBEACodeName <- function(schema_year) {
 
   ### Detail ###
   # Load data
-  BEADetail <- as.data.frame(readxl::read_excel(FileName, sheet = schema_year))
+  BEADetail <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(schema_year)))
   ## Commodity & Value Added
   DetailCommVA <- BEADetail[!is.na(BEADetail[, 2]), c(1:2)][-1, ]
   commodity_range <- c(1:(which(DetailCommVA[, 1] == "T005") - 1))
@@ -1204,7 +1204,7 @@ getBEACodeName <- function(schema_year) {
   #                               endsWith(files, "Summary.xlsx")])
   
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  BEASummary <- as.data.frame(readxl::read_excel(FileName, sheet = schema_year))
+  BEASummary <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(schema_year)))
   ## Commodity & Value Added
   SummaryCommVA <- BEASummary[!is.na(BEASummary[, 2]), c(1:2)][-c(1:2), ]
   commodity_range <- c(1:(which(SummaryCommVA[, 2] == "Total Intermediate") - 1))
@@ -1240,7 +1240,7 @@ getBEACodeName <- function(schema_year) {
                         files[startsWith(files, "IOUse_Before_Redefinitions_PRO") &
                               endsWith(files, "Sector.xlsx")])
   date_last_modified <- as.character(as.Date(file.mtime(FileName)))
-  BEASector <- as.data.frame(readxl::read_excel(FileName, sheet = schema_year))
+  BEASector <- as.data.frame(readxl::read_excel(FileName, sheet = as.character(schema_year)))
   ## Commodity & Value Added
   SectorCommVA <- BEASector[!is.na(BEASector[, 2]), c(1:2)][-c(1:2), ]
   commodity_range <- c(1:(which(SectorCommVA[, 2] == "Total Intermediate") - 1))
