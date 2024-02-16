@@ -310,6 +310,7 @@ printValidationResults <- function(model) {
   modelval <- compareEandLCIResult(model, tolerance = 0.01)
   print(paste("Number of flow totals by commodity passing:",modelval$N_Pass))
   print(paste("Number of flow totals by commodity failing:",modelval$N_Fail))
+  print(paste("Sectors with flow totals failing:", paste(unique(modelval$Failure$variable), collapse = ", ")))  
   
   print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total domestic requirements matrix (L_d), and demand vector (y) for US production")
   dom_val <- compareEandLCIResult(model, use_domestic=TRUE, tolerance = 0.01)
