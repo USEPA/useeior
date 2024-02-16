@@ -163,8 +163,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     
   } else{ # Calculate direct perspective results.
     
-    # Direct perspective implemented using the following formula:
-    # LCI_d =
+    # Direct perspective implemented using the following steps:
+    # Imported_LCI = LCI_direct_domestic
     # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Direct Perspective LCI with external import factors...")
     s <- getScalingVector(model$L_d, y_d)
@@ -190,7 +190,25 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
       result$LCI_d <- domesticLCI_d + importedLCI_d
       colnames(result$LCI_d) <- rownames(model$Q_t)
       rownames(result$LCI_d) <- colnames(model$Q_t)
-   }
+    }
+    
+    
+    # # Alternate approach for calculating Direct LCI for IF
+    # # Attempting to duplicate calculateDirectPerspectiveLCI for IF models
+    # econTermOne <- model$L_d %*% y_d
+    # econTermTwo <- model$A_m %*% model$L_d %*% y_d
+    # econTermThree <- y_m
+    # directLCIOne <- model$B %*% diag(as.vector(econTermOne))
+    # directLCITwo <- model$Q_t %*% diag(as.vector(econTermTwo))
+    # directLCIThree <- model$Q_t %*% diag(as.vector(econTermThree))
+    # directLCITotal <- directLCIOne + directLCITwo + directLCIThree
+    # directLCITotal <- t(directLCITotal)
+    # result$LCI_d <- directLCITotal
+    # colnames(result$LCI_d) <- rownames(model$Q_t)
+    # rownames(result$LCI_d) <- colnames(model$Q_t)
+    # # Compare column sums from this approach with column sums from final perspective approach:
+    # LCI_f <- t((model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m))
+    # colSums(LCI_f) / colSums(directLCITotal)
     
     # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Direct Perspective LCIA with external import factors...")
