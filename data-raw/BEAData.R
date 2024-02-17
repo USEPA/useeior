@@ -611,7 +611,7 @@ mapBEAGrossOutputtoIOIndustry <- function(schema_year) {
   year_range <- colnames(DetailGrossOutput)[2:ncol(DetailGrossOutput)]
   # Map BEA Detail industry code to IO code
   Detail_mapping <- utils::read.table(system.file("extdata",
-                                                  paste0("Crosswalk_DetailGDPIndustrytoIO", 2012, "schema.csv"),
+                                                  paste0("Crosswalk_DetailGDPIndustrytoIO", 2012, "Schema.csv"),
                                                   package = "useeior"),
                                       sep = ",", header = TRUE,
                                       stringsAsFactors = FALSE,
