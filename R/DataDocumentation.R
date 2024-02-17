@@ -529,35 +529,35 @@
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
 "Summary_Supply_2016"
 
-#' Summary 2017 Supply (2012 schema)
+#' Summary 2017 Supply (2017 schema)
 #' @format A dataframe with 74 obs. and 83 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Supply_2017"
+"Summary_Supply_2017_17sch"
 
-#' Summary 2018 Supply (2012 schema)
+#' Summary 2018 Supply (2017 schema)
 #' @format A dataframe with 74 obs. and 83 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Supply_2018"
+"Summary_Supply_2018_17sch"
 
-#' Summary 2019 Supply (2012 schema)
+#' Summary 2019 Supply (2017 schema)
 #' @format A dataframe with 74 obs. and 83 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Supply_2019"
+"Summary_Supply_2019_17sch"
 
-#' Summary 2020 Supply (2012 schema)
+#' Summary 2020 Supply (2017 schema)
 #' @format A dataframe with 74 obs. and 83 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Supply_2020"
+"Summary_Supply_2020_17sch"
 
 #' Summary 2021 Supply (2017 schema)
 #' @format A dataframe with 74 obs. and 83 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Supply_2021"
+"Summary_Supply_2021_17sch"
 
 #' Summary 2022 Supply (2017 schema)
 #' @format A dataframe with 74 obs. and 83 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Supply_2022"
+"Summary_Supply_2022_17sch"
 
 #' Summary 2010 Use (2012 schema)
 #' @format A dataframe with 82 obs. and 92 variables
@@ -594,45 +594,45 @@
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
 "Summary_Use_SUT_2016"
 
-#' Summary 2017 Use (2012 schema)
+#' Summary 2017 Use (2017 schema)
 #' @format A dataframe with 82 obs. and 92 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Use_SUT_2017"
+"Summary_Use_SUT_2017_17sch"
 
-#' Summary 2018 Use (2012 schema)
+#' Summary 2018 Use (2017 schema)
 #' @format A dataframe with 82 obs. and 92 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Use_SUT_2018"
+"Summary_Use_SUT_2018_17sch"
 
-#' Summary 2019 Use (2012 schema)
+#' Summary 2019 Use (2017 schema)
 #' @format A dataframe with 82 obs. and 92 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Use_SUT_2019"
+"Summary_Use_SUT_2019_17sch"
 
-#' Summary 2020 Use (2012 schema)
+#' Summary 2020 Use (2017 schema)
 #' @format A dataframe with 82 obs. and 92 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Use_SUT_2020"
+"Summary_Use_SUT_2020_17sch"
 
 #' Summary 2021 Use (2017 schema)
 #' @format A dataframe with 82 obs. and 92 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Use_SUT_2021"
+"Summary_Use_SUT_2021_17sch"
 
 #' Summary 2022 Use (2017 schema)
 #' @format A dataframe with 82 obs. and 92 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Summary_Use_SUT_2022"
+"Summary_Use_SUT_2022_17sch"
 
 #' Detail 2017 Supply (2017 schema)
 #' @format A dataframe with 403 obs. and 414 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Detail_Supply_2017"
+"Detail_Supply_2017_17sch"
 
 #' Detail 2017 Use (under the Supply-Use framework, 2017 schema)
 #' @format A dataframe with 411 obs. and 423 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
-"Detail_Use_SUT_2017"
+"Detail_Use_SUT_2017_17sch"
 
 #' Master Crosswalk table (2017 schema)
 #' @format A dataframe with 4095 obs. and 5 variables:
