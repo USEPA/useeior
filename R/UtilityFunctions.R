@@ -460,3 +460,16 @@ getInputFilePath <- function(configpaths, folderPath="extdata", filename, packag
   filepath <- system.file(folderPath, filename, package = package)
   return(filepath)
 }
+
+#' Return the schema subscript for accessing useeior objects
+#' @param specs list of model specs must include BaseIOSchema
+#' @return schema, str in form "YYsch" or NULL for 2012
+getSchemaCode <- function(specs) {
+  if(specs$BaseIOSchema != 2012) {
+    schema <- paste0(substring(specs$BaseIOSchema, 3,4), "sch")
+  } else {
+    # despite the file name, the objects don't have the schema so it should not be used
+    schema <- NULL
+  }
+  return(schema)
+}

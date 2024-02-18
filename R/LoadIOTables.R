@@ -47,6 +47,8 @@ loadIOData <- function(model, configpaths = NULL) {
   # Add Chain Price Index (CPI) to model
   model$MultiYearIndustryCPI <- loadChainPriceIndexTable(model$specs)[model$Industries$Code, ]
   rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
+  ## TODO check in 2017 schema some new rows get added w/ NA
+  model$MultiYearIndustryCPI[is.na(model$MultiYearIndustryCPI)] <- 100
   
   ## if Disaggregated two-region model, adjust CPI data frame
   if(model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
@@ -218,11 +220,12 @@ loadNationalIOData <- function(model, io_codes) {
 #' @return A list with BEA IO tables
 loadBEAtables <- function(specs, io_codes) {
   BEA <- list()
+  schema <- getSchemaCode(specs)
   if (specs$BasePriceType != "BAS") {
     # Load pre-saved Make and Use tables
     Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
-    BEA$Make <- get(paste(specs$BaseIOLevel, "Make", specs$IOYear, Redef, sep = "_"))
-    BEA$Use <-  get(paste(specs$BaseIOLevel, "Use", specs$IOYear, specs$BasePriceType, Redef, sep = "_"))
+    BEA$Make <- get(paste(na.omit(c(specs$BaseIOLevel, "Make", specs$IOYear, Redef, schema)), collapse="_"))
+    BEA$Use <-  get(paste(na.omit(c(specs$BaseIOLevel, "Use", specs$IOYear, specs$BasePriceType, Redef, schema)), collapse="_"))
     # Separate Make table into specific IO tables (all values in $)
     BEA$MakeTransactions <- BEA$Make[io_codes$Industries, io_codes$Commodities] * 1E6
     # Separate Use table into specific IO tables (all values in $)
@@ -235,8 +238,8 @@ loadBEAtables <- function(specs, io_codes) {
                                  io_codes$Industries] * 1E6
   } else if (specs$BasePriceType == "BAS") {
     # Load pre-saved Supply and Use tables
-    BEA$Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
-    UseSUT_PUR <- get(paste(specs$BaseIOLevel, "Use_SUT", specs$IOYear, sep = "_"))
+    BEA$Supply <- get(paste(na.omit(c(specs$BaseIOLevel, "Supply", specs$IOYear, schema)), collapse = "_"))
+    UseSUT_PUR <- get(paste(na.omit(c(specs$BaseIOLevel, "Use_SUT", specs$IOYear, schema)), collapse = "_"))
     BEA$Use <- convertUsefromPURtoBAS(UseSUT_PUR, specs, io_codes)
     # Separate Supply table into specific IO tables (all values in $)
     # Transpose Supply table to conform the structure of Make table

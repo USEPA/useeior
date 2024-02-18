@@ -15,7 +15,7 @@ initializeModel <- function(modelname, configpaths = NULL) {
     # Get model crosswalk
     crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema),
                      as.environment("package:useeior"))
-    crosswalk <- unique(crosswalk[, c("NAICS_2012_Code",
+    crosswalk <- unique(crosswalk[, c(paste0("NAICS_", model$specs$BaseIOSchema, "_Code"),
                                       colnames(crosswalk)[startsWith(colnames(crosswalk), "BEA")])])
     colnames(crosswalk) <- gsub(paste0("_", model$specs$BaseIOSchema, "|_Code"),
                                 "", colnames(crosswalk))
