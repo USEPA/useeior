@@ -267,10 +267,11 @@ generateInternationalTradeAdjustmentVector <- function(Use, model) {
 convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
   # Load UsePRO and UsePUR under Make-Use framework
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
-  UsePUR <- get(paste(specs$BaseIOLevel, "Use", specs$IOYear, "PUR", Redef, sep = "_"))
-  UsePRO <- get(paste(specs$BaseIOLevel, "Use", specs$IOYear, "PRO", Redef, sep = "_"))
+  schema <- getSchemaCode(specs)
+  UsePUR <- get(paste(na.omit(c(specs$BaseIOLevel, "Use", specs$IOYear, "PUR", Redef, specs)), collapse = "_"))
+  UsePRO <- get(paste(na.omit(c(specs$BaseIOLevel, "Use", specs$IOYear, "PRO", Redef, specs)), collapse = "_"))
   # Load Supply table
-  Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
+  Supply <- get(paste(na.omit(c(specs$BaseIOLevel, "Supply", specs$IOYear, specs)), collapse = "_"))
   
   # Convert from PUR to PRO by removing margins obtained from Supply table
   rows <- io_codes$Commodities
