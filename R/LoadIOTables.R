@@ -47,8 +47,6 @@ loadIOData <- function(model, configpaths = NULL) {
   # Add Chain Price Index (CPI) to model
   model$MultiYearIndustryCPI <- loadChainPriceIndexTable(model$specs)[model$Industries$Code, ]
   rownames(model$MultiYearIndustryCPI) <- model$Industries$Code_Loc
-  ## TODO check in 2017 schema some new rows get added w/ NA
-  model$MultiYearIndustryCPI[is.na(model$MultiYearIndustryCPI)] <- 100
   
   ## if Disaggregated two-region model, adjust CPI data frame
   if(model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
