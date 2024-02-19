@@ -5,7 +5,7 @@
 \alias{Detail_CPI_IO_17sch}
 \title{Detail 2017-2022 CPI (2017 schema)}
 \format{
-A dataframe with 393 obs. and 6 variables
+A dataframe with 402 obs. and 6 variables
 }
 \source{
 \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}

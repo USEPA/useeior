@@ -611,13 +611,14 @@ mapBEAGrossOutputtoIOIndustry <- function(schema_year) {
   year_range <- colnames(DetailGrossOutput)[2:ncol(DetailGrossOutput)]
   # Map BEA Detail industry code to IO code
   Detail_mapping <- utils::read.table(system.file("extdata",
-                                                  paste0("Crosswalk_DetailGDPIndustrytoIO", 2012, "Schema.csv"),
+                                                  "Crosswalk_DetailGDPIndustrytoIO.csv",
                                                   package = "useeior"),
                                       sep = ",", header = TRUE,
                                       stringsAsFactors = FALSE,
                                       quote = "\"")
+  Detail_mapping <- Detail_mapping[,c("Gross_Output_Detail_Industry",
+                                      paste0("BEA_", schema_year, "_Detail_Code"))]
   colnames(Detail_mapping) <- c("sector", "BEA_Detail_Code")
-  ## TODO update file for 2017 ^^
   DetailGrossOutputIO <- merge(Detail_mapping, DetailGrossOutput,
                                by = "sector",
                                all.y = TRUE)
@@ -719,15 +720,16 @@ mapBEACPItoIOIndustry <- function(schema_year) {
   year_range <- colnames(DetailCPI)[2:ncol(DetailCPI)]
   # Map BEA Detail industry code to IO code
   Detail_mapping <- utils::read.table(system.file("extdata",
-                                                  paste0("Crosswalk_DetailGDPIndustrytoIO", 2012, "Schema.csv"),
+                                                  "Crosswalk_DetailGDPIndustrytoIO.csv",
                                                   package = "useeior"),
                                       sep = ",", header = TRUE,
                                       stringsAsFactors = FALSE,
                                       quote = "\"")
   Detail_mapping$Gross_Output_Detail_Industry <- sub("’", "'",
                                                      Detail_mapping$Gross_Output_Detail_Industry)
+  Detail_mapping <- Detail_mapping[,c("Gross_Output_Detail_Industry",
+                                      paste0("BEA_", schema_year, "_Detail_Code"))]
   colnames(Detail_mapping) <- c("sector", "BEA_Detail_Code")
-  ## TODO update 2017 mapping ^^
   DetailCPIIO <- merge(Detail_mapping, DetailCPI,
                        by = "sector", all.y = TRUE)
   if(sum(is.na(DetailCPIIO$BEA_Detail_Code)) > 0){

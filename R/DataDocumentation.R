@@ -716,7 +716,7 @@
 "Detail_Import_2017_BeforeRedef_17sch"
 
 #' Detail 2017-2022 Gross Output (2017 schema)
-#' @format A dataframe with 392 obs. and 6 variables
+#' @format A dataframe with 402 obs. and 6 variables
 #' @source \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
 "Detail_GrossOutput_IO_17sch"
 
@@ -731,7 +731,7 @@
 "Sector_GrossOutput_IO_17sch"
 
 #' Detail 2017-2022 CPI (2017 schema)
-#' @format A dataframe with 393 obs. and 6 variables
+#' @format A dataframe with 402 obs. and 6 variables
 #' @source \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
 "Detail_CPI_IO_17sch"
 
