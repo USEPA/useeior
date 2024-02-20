@@ -236,7 +236,6 @@ getBEADetailUsePURAfterRedef <- function(year) {
 
 # Get BEA Summary Make (Before Redef) table from static Excel
 getBEASummaryMakeBeforeRedef <- function(year) {
-  # TODO update w/ 2012 schema
   end_year <- 2022
   for (y in 2017:end_year) {
     ls <- unpackFile(y, filename="IOMake_Before_Redefinitions", ioschema="Summary")
@@ -250,7 +249,6 @@ getBEASummaryMakeBeforeRedef <- function(year) {
 
 # Get BEA Summary Use (PRO, Before Redef) table from static Excel
 getBEASummaryUsePROBeforeRedef <- function(year) {
-  # TODO update w/ 2012 schema
   end_year <- 2022
   for (y in 2017:end_year) {
     ls <- unpackFile(y, filename="IOUse_Before_Redefinitions_PRO", ioschema="Summary")
@@ -264,7 +262,6 @@ getBEASummaryUsePROBeforeRedef <- function(year) {
 
 # Get BEA Summary Use (PUR, Before Redef) table from static Excel
 getBEASummaryUsePURBeforeRedef <- function(year) {
-  # TODO update w/ 2012 schema
   ls <- unpackFile(year, filename="IOUse_Before_Redefinitions_PUR", ioschema="Summary")
   SummaryUse <- data.frame(ls["df"])
   SummaryUse <- processSummaryMatrix(SummaryUse)
@@ -275,7 +272,6 @@ getBEASummaryUsePURBeforeRedef <- function(year) {
 
 # Get BEA Summary Make (After Redef) table from static Excel
 getBEASummaryMakeAfterRedef <- function(year) {
-  # TODO update w/ 2012 schema
   end_year <- 2022
   for (y in 2017:end_year) {
     ls <- unpackFile(y, filename="IOMake_After_Redefinitions", ioschema="Summary")
@@ -289,7 +285,6 @@ getBEASummaryMakeAfterRedef <- function(year) {
 
 # Get BEA Summary Use (PRO, After Redef) table from static Excel
 getBEASummaryUsePROAfterRedef <- function(year) {
-  # TODO update w/ 2012 schema
   end_year <- 2022
   for (y in 2017:end_year) {
     ls <- unpackFile(y, filename="IOUse_After_Redefinitions_PRO", ioschema="Summary")
@@ -765,6 +760,7 @@ mapBEACPItoIOIndustry <- function(schema_year) {
                                                    package = "useeior"),
                                        sep = ",", header = TRUE, stringsAsFactors = FALSE)
   colnames(Summary_mapping) <- c("sector", "BEA_Summary_Code")
+  ## TODO update file for 2017 ^^
   SummaryCPIIO <- cbind(Summary_mapping, SummaryCPI)
   # Keep Summary rows
   SummaryCPIIO <- SummaryCPIIO[!SummaryCPIIO$BEA_2012_Summary_Code == "",
@@ -781,6 +777,7 @@ mapBEACPItoIOIndustry <- function(schema_year) {
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
   colnames(Sector_mapping) <- c("sector", "BEA_Sector_Code")
+  ## TODO update file for 2017 ^^
   SectorCPIIO <- cbind(Sector_mapping, SectorCPI)
   # Keep Sector rows
   SectorCPIIO <- SectorCPIIO[!SectorCPIIO$BEA_Sector_Code == "",
@@ -845,6 +842,7 @@ mapBEAValueAddedtoIOIndustry <- function(schema_year) {
                                                    package = "useeior"),
                                        sep = ",", header = TRUE, stringsAsFactors = FALSE)
   colnames(Summary_mapping) <- c("Gross_Output_Industry","BEA_Summary_Code")
+  ## TODO update file for 2017 ^^
   SummaryValueAddedIO <- cbind(Summary_mapping, SummaryValueAdded)
   # Keep Summary rows
   SummaryValueAddedIO <- SummaryValueAddedIO[!SummaryValueAddedIO$BEA_Summary_Code == "",
@@ -861,6 +859,7 @@ mapBEAValueAddedtoIOIndustry <- function(schema_year) {
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
   colnames(Sector_mapping) <- c("Gross_Output_Industry","BEA_Sector_Code")
+  ## TODO update file for 2017 ^^
   SectorValueAddedIO <- cbind(Sector_mapping, SectorValueAdded)
   # Keep Sector rows
   SectorValueAddedIO <- SectorValueAddedIO[!SectorValueAddedIO$BEA_Sector_Code == "",
