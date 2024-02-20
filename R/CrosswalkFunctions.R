@@ -1,19 +1,11 @@
 # Functions that use sector crosswalks
 
-#' Function to externalize the BEA to NAICS crosswalk
-#' @return A crosswalk linking 2007 and 2012 NAICS codes to 2012 Sector, Summary, and Detail BEA codes
-loadMasterCrosswalk <- function(){
-  # Pull the mastercrosswalk created in the data-raw subdirectory
-  BEAtoNAICSCrosswalk <- useeior::MasterCrosswalk2012
-  return(BEAtoNAICSCrosswalk)
-}
-
 #' Determine allocation factors between NAICS and BEA sectors based on Industry output.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param year Year of model Industry output.
 #' @return A table of allocation factors between NAICS and BEA sectors.
 getNAICStoBEAAllocation <- function (year, model) {
-  # Keep USEEIO and NAICS columns in MasterCrosswalk2012 table based on the model specs
+  # Keep USEEIO and NAICS columns in MasterCrosswalk table based on the model specs
   NAICStoBEA <- unique(model$crosswalk[, c("NAICS", "USEEIO")])
   colnames(NAICStoBEA) <- c("NAICS_Code", "BEA_Code")
   # Drop 2-digit NAICS code
