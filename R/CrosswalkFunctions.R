@@ -46,14 +46,15 @@ getNAICStoBEAAllocation <- function (year, model) {
 #' @return FileName str
 downloadNAICS2to6DigitsFile <- function (year) {
   # Download 2-6 digits NAICS table
+  dir <- file.path(rappdirs::user_data_dir(), "USEEIO-input")
   if (year == 2017) {
-    FileName <- "inst/extdata/2-digit_2017_Codes.xlsx"
+    FileName <- file.path(dir, "2-digit_2017_Codes.xlsx")
     url <- "https://www.census.gov/naics/2017NAICS/2-6%20digit_2017_Codes.xlsx"
   } else if (year == 2012) {
-    FileName <- "inst/extdata/2-digit_2012_Codes.xls"
+    FileName <- file.path(dir, "2-digit_2012_Codes.xls")
     url <- "https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls"
   } else if (year == 2007) {
-    FileName <- "inst/extdata/naics07.xls"
+    FileName <- file.path(dir, "naics07.xls")
     url <- "https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls"
   } else {
     stop('Specify available year for crosswalk')
@@ -204,7 +205,7 @@ getNAICSCodeName <- function(year) {
 #' @return data frame with columns '2012 NAICS Code', '2012 NAICS Title',
 #' '2007 NAICS Code', and '2007 NAICS Title'.
 getNAICS2012to2007Concordances <- function() {
-  filename <- "inst/extdata/2012_to_2007_NAICS.xls"
+  filename <- file.path(rappdirs::user_data_dir(), "USEEIO-input", "2012_to_2007_NAICS.xls")
   if(!file.exists(filename)) {
     utils::download.file("https://www.census.gov/naics/concordances/2012_to_2007_NAICS.xls",
                          filename, mode = "wb")
@@ -218,9 +219,9 @@ getNAICS2012to2007Concordances <- function() {
 #' @return data frame with columns '2012 NAICS Code', '2012 NAICS Title',
 #' '2017 NAICS Code', and '2017 NAICS Title'.
 getNAICS2012to2017Concordances <- function() {
-  filename <- "inst/extdata/2012_to_2017_NAICS.xlsx"
+  filename <- file.path(rappdirs::user_data_dir(), "USEEIO-input", "2012_to_2017_NAICS.xlsx")
   if(!file.exists(filename)) {
-    utils::download.file("https://www.census.gov/naics/concordances/2012_to_2017_NAICS.xlsx",
+    utils::download.file("https://www.census.gov/naics/concordances/2012_to_2017_NAICS.xls",
                          filename, mode = "wb")
   }
   df <- as.data.frame(readxl::read_excel(filename, sheet = 1, col_names = TRUE, skip = 2))

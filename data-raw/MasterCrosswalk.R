@@ -1,15 +1,16 @@
 source("data-raw/BEAData.R")
+source("R/CrosswalkFunctions.R")
 
 getReferenceFileName <- function () {
   files <- getBEASupplyUseTables()[["files"]]
-  fileName <- file.path("inst/extdata/AllTablesSUP",
+  fileName <- file.path(rappdirs::user_data_dir(), "USEEIO-input", "AllTablesSUP",
                         files[startsWith(files, "Use") &
                                 endsWith(files, "DET.xlsx")])
   return(fileName)
 }
 
 # Get schema year of current data
-getSchemaYearfromFileName <- function (Filename) {
+getSchemaYearfromFileName <- function (FileName) {
   #get year from filename
   year <- substr(FileName,unlist(gregexpr(pattern ='k_',FileName))+2,unlist(gregexpr(pattern ='_D',FileName))-1)
   year <- as.integer(year)
