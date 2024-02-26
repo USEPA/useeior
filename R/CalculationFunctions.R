@@ -128,6 +128,7 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   hh = t(as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
   hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
   rownames(hh) <- codes
+  rownames(hh_lcia) <- codes
   
   # Calculate Final perspective results
   if(perspective == "FINAL"){
