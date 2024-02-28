@@ -634,7 +634,7 @@ mapBEAGrossOutputtoIOIndustry <- function(schema_year) {
                                        sep = ",", header = TRUE,
                                        stringsAsFactors = FALSE)
   colnames(Summary_mapping) <- c("sector", "BEA_Summary_Code")
-  ## TODO update file for 2017 ^^
+  ## TODO can update crosswalk file for 2017, 2017 summary schema is same as 2012 ^^
   SummaryGrossOutputIO <- cbind(Summary_mapping, SummaryGrossOutput)
   # Keep Summary rows
   SummaryGrossOutputIO <- SummaryGrossOutputIO[!SummaryGrossOutputIO$BEA_Summary_Code == "",
@@ -651,7 +651,7 @@ mapBEAGrossOutputtoIOIndustry <- function(schema_year) {
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
   colnames(Sector_mapping) <- c("sector", "BEA_Sector_Code")
-  ## TODO update file for 2017 ^^
+  ## TODO can update crosswalk file for 2017, 2017 sector schema is same as 2012 ^^
   SectorGrossOutputIO <- cbind(Sector_mapping, SectorGrossOutput)
   # Keep Summary rows
   SectorGrossOutputIO <- SectorGrossOutputIO[!SectorGrossOutputIO$BEA_Sector_Code == "",
@@ -760,7 +760,7 @@ mapBEACPItoIOIndustry <- function(schema_year) {
                                                    package = "useeior"),
                                        sep = ",", header = TRUE, stringsAsFactors = FALSE)
   colnames(Summary_mapping) <- c("sector", "BEA_Summary_Code")
-  ## TODO update file for 2017 ^^
+  ## TODO can update crosswalk file for 2017, 2017 summary schema is same as 2012 ^^
   SummaryCPIIO <- cbind(Summary_mapping, SummaryCPI)
   # Keep Summary rows
   SummaryCPIIO <- SummaryCPIIO[!SummaryCPIIO$BEA_2012_Summary_Code == "",
@@ -777,7 +777,7 @@ mapBEACPItoIOIndustry <- function(schema_year) {
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
   colnames(Sector_mapping) <- c("sector", "BEA_Sector_Code")
-  ## TODO update file for 2017 ^^
+  ## TODO can update crosswalk file for 2017, 2017 sector schema is same as 2012 ^^
   SectorCPIIO <- cbind(Sector_mapping, SectorCPI)
   # Keep Sector rows
   SectorCPIIO <- SectorCPIIO[!SectorCPIIO$BEA_Sector_Code == "",
@@ -842,7 +842,7 @@ mapBEAValueAddedtoIOIndustry <- function(schema_year) {
                                                    package = "useeior"),
                                        sep = ",", header = TRUE, stringsAsFactors = FALSE)
   colnames(Summary_mapping) <- c("Gross_Output_Industry","BEA_Summary_Code")
-  ## TODO update file for 2017 ^^
+  ## TODO can update crosswalk file for 2017, 2017 summary schema is same as 2012 ^^
   SummaryValueAddedIO <- cbind(Summary_mapping, SummaryValueAdded)
   # Keep Summary rows
   SummaryValueAddedIO <- SummaryValueAddedIO[!SummaryValueAddedIO$BEA_Summary_Code == "",
@@ -859,7 +859,7 @@ mapBEAValueAddedtoIOIndustry <- function(schema_year) {
                                                   package = "useeior"),
                                       sep = ",", header = TRUE, stringsAsFactors = FALSE)
   colnames(Sector_mapping) <- c("Gross_Output_Industry","BEA_Sector_Code")
-  ## TODO update file for 2017 ^^
+  ## TODO can update crosswalk file for 2017, 2017 sector schema is same as 2012 ^^
   SectorValueAddedIO <- cbind(Sector_mapping, SectorValueAdded)
   # Keep Sector rows
   SectorValueAddedIO <- SectorValueAddedIO[!SectorValueAddedIO$BEA_Sector_Code == "",
