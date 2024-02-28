@@ -348,7 +348,8 @@ removeMissingSectors <- function(tbs) {
   }
   sectors <- unique(tbs[is.na(tbs$SectorName), ])
   if(nrow(sectors)>0){
-    logging::logwarn(paste0("Lost sectors due to missing mapping: ", paste0(sectors[['Sector']], collapse=', ')))
+    logging::logwarn(paste0("Lost sectors due to missing mapping: ",
+                            paste0(unique(sectors[['Sector']]), collapse=', ')))
   }
   return(df)
 }
