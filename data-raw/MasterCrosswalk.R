@@ -199,8 +199,9 @@ getMasterCrosswalk <- function (year) {
   BEAtoUSEEIOtoNAICS <- rbind(BEAtoUSEEIOtoNAICS, Crosswalk23, CrosswalkHSandORE, CrosswalkG, CrosswalkF, CrosswalkV)
   
   # Add USEEIO_Commodity columns
-  SectortoCommodity <- utils::read.table(paste0("inst/extdata/Crosswalk_DetailIndustrytoCommodityName", year, "Schema.csv"),
+  SectortoCommodity <- utils::read.table("inst/extdata/Crosswalk_DetailIndustrytoCommodityNameSchema.csv",
                                          sep = ",", header = TRUE, stringsAsFactors = FALSE, quote = "\"")
+  colnames(SectortoCommodity) <- c(paste0("BEA_", year, "_Detail_Code"), paste0("BEA_", year, "_Detail_Name"), "USEEIO_Name")
   BEAtoUSEEIOtoNAICS <- merge(BEAtoUSEEIOtoNAICS, SectortoCommodity[, -2], by = paste("BEA_", year, "_Detail_Code", sep = ""), all.x = TRUE)
   
   # Keep wanted columns

@@ -183,6 +183,7 @@ BEA_2017_Detail_Code,BEA_2017_Detail_Name,USEEIO_Name
 333618,Other engine equipment manufacturing,Other engine equipment
 333912,Air and gas compressor manufacturing,Air and gas compressors
 33391A,Pump and pumping equipment manufacturing,Pumps and pumping equipment
+333914,Pump and pumping equipment manufacturing,Pumps and pumping equipment
 333920,Material handling equipment manufacturing,Material handling equipment
 333991,Power-driven handtool manufacturing,Power tools
 333993,Packaging machinery manufacturing,Packaging machinery
@@ -212,6 +213,7 @@ BEA_2017_Detail_Code,BEA_2017_Detail_Name,USEEIO_Name
 335110,Electric lamp bulb and part manufacturing,Light bulbs
 335120,Lighting fixture manufacturing,Light fixtures
 335210,Small electrical appliance manufacturing,Small electrical appliances
+335220,Major household appliance manufacturing,Household appliances
 335221,Household cooking appliance manufacturing,Home cooking appliances
 335222,Household refrigerator and home freezer manufacturing,Home refrigerators and freezers
 335224,Household laundry equipment manufacturing,Home laundry machines
