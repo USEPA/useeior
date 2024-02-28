@@ -21,7 +21,7 @@ SatelliteTable:
     DataYears: [2020]
     Locations: ["US"]
     SectorListSource: "NAICS"
-    SectorListYear: 2017
+    SectorListYear: 2012
     SectorListLevel: "6"
     OriginalFlowSource: "FEDEFLv1.1.0"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
