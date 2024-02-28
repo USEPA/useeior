@@ -274,7 +274,12 @@ getMasterCrosswalk <- function (year) {
 
 year <- getSchemaYearfromFileName(getReferenceFileName())
 MasterCrosswalk <- getMasterCrosswalk(year)
-#MasterCrosswalk <- MasterCrosswalk[, c(paste("BEA_",year, c("Sector", "Summary", "Detail"), "Code", sep = "_"),
-#                                               paste("NAICS", c(2017, 2012), "Code", sep = "_"))]
+diff1 <- dplyr::anti_join(MasterCrosswalk, useeior::MasterCrosswalk)
 usethis::use_data(MasterCrosswalk, overwrite = T)
 
+# Check differences with prior crosswalk
+oldMC <- get(paste0("MasterCrosswalk", year), as.environment("package:useeior"))
+newMC <- MasterCrosswalk[, c(paste("BEA",year, c("Sector", "Summary", "Detail"), "Code", sep = "_"),
+                             paste("NAICS", c(2017, 2012), "Code", sep = "_"))]
+diff2 <- dplyr::anti_join(newMC, oldMC)
+writeDatatoRDA(newMC, paste0("MasterCrosswalk", year))
