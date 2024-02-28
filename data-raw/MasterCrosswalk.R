@@ -185,7 +185,7 @@ getMasterCrosswalk <- function (year) {
   BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[!BEAtoUSEEIOtoNAICS[, BEAyearSummaryCode] %in% c("HS", "ORE", "531"), ]
   # Load pre-created tables for 23, G, F, and V sectors
   Columns <- c(paste0(rep("BEA_", 6), year, rep(c("_Sector", "_Summary", "_Detail"), each = 2), rep(c("_Code", "_Name"), 3)),
-               paste0(rep("USEEIO", 2),  c("_Code", "_Name")),
+               paste0(rep("USEEIO", 2),  c("_Code", "_Industry")),
                paste0(rep("NAICS_", 2), year, c("_Code", "_Name")))
   # 23
   Crosswalk23 <- utils::read.table(paste0("inst/extdata/23_BEAtoUSEEIOtoNAICS_", year, ".csv"), sep = ",", header = TRUE, stringsAsFactors = FALSE)
@@ -210,6 +210,9 @@ getMasterCrosswalk <- function (year) {
   BEAtoUSEEIOtoNAICS <- merge(BEAtoUSEEIOtoNAICS, SectortoCommodity[, -2], by = paste("BEA_", year, "_Detail_Code", sep = ""), all.x = TRUE)
   
   # Keep wanted columns
+  Columns <- c(paste0(rep("BEA_", 6), year, rep(c("_Sector", "_Summary", "_Detail"), each = 2), rep(c("_Code", "_Name"), 3)),
+               paste0(rep("USEEIO", 2),  c("_Code", "_Name")),
+               paste0(rep("NAICS_", 2), year, c("_Code", "_Name")))
   BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[, Columns]
   BEAtoUSEEIOtoNAICS <- BEAtoUSEEIOtoNAICS[order(BEAtoUSEEIOtoNAICS[, paste("NAICS_", year, "_Code", sep = "")]), ]
   
