@@ -49,6 +49,9 @@ getImpactMethod <- function(ind_spec) {
   # Subset the method by indicator
   if(!is.null(indicators)){
     imp_method <- imp_method[imp_method$Indicator %in% indicators, ]
+    if(nrow(imp_method)==0) {
+      logging::logwarn("Error selecting indicators from method")
+    }
   }
 
   return(imp_method)

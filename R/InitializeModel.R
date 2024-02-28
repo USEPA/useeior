@@ -9,7 +9,7 @@ initializeModel <- function(modelname, configpaths = NULL) {
   model <- list()
   # Get model specs
   model$specs <- getConfiguration(modelname, "model", configpaths)
-  if (rlang::is_na(model$specs)) {
+  if (is.null(model$specs)) {
     stop(paste("No configuration exists for a model named", modelname))
   } else {
     # Get model crosswalk
