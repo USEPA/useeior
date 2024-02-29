@@ -142,7 +142,7 @@ jobs:
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("GAEEIOv2.0-75-GHG-19")
+          m <- useeior::buildModel("GAEEIOv1.0-75-GHG-19")
           useeior::print2RValidationResults(m)
         shell: Rscript {0}
 
