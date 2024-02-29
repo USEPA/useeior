@@ -119,13 +119,13 @@ jobs:
           useeior::printValidationResults(m)
         shell: Rscript {0}
 
-      - name: Build and validate models - GAEEIOv1.0-s-WAT-12 summary two-region model
+      - name: Build and validate models - GAEEIOv1.0-s-WAT-12 two-region model
         if: always()
         run: |
           require(devtools)
           devtools::load_all()
           m <- useeior::buildModel("GAEEIOv1.0-s-WAT-12")
-          useeior::print2RValidationResults(m)
+          useeior::printValidationResults(m)
         shell: Rscript {0}
 
       - name: Build and validate models - USEEIOv2.0-s-GHG-19-IF summary model with import factors
@@ -134,8 +134,17 @@ jobs:
           require(devtools)
           devtools::load_all()
           m <- useeior::buildModel("USEEIOv2.0-s-GHG-19-IF")
-          useeior:::validateImportFactorsApproach(m)
+          useeior::printValidationResults(m)
         shell: Rscript {0}
+
+      # - name: Build and validate models - GAEEIOv1.0-75-GHG-19 two-region disaggregated model
+      #   if: always()
+      #   run: |
+      #     require(devtools)
+      #     devtools::load_all()
+      #     m <- useeior::buildModel("GAEEIOv1.0-75-GHG-19")
+      #     useeior::printValidationResults(m)
+      #   shell: Rscript {0}
 
       #- name: Show testthat output
       #  if: always()  # step will run even if previous steps fail

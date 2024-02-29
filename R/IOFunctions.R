@@ -76,8 +76,14 @@ generateCommodityMixMatrix <- function (model) {
   C <- normalizeIOTransactions(t(model$MakeTransactions), model$IndustryOutput) # C = V' %*% solve(x_hat)
   # Validation: check if column sums equal to 1
   industryoutputfractions <- colSums(C)
+  if (model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
+    # increase tolerance for disaggregated state models
+    tolerance <- 0.02
+  } else {
+    tolerance <- 0.01
+  }
   for (s in industryoutputfractions) {
-    if (abs(1-s)>0.01) {
+    if (abs(1-s)>tolerance) {
       stop("Error in commoditymix")
     }
   }
@@ -112,9 +118,15 @@ transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
   # To avoid interruption in later calculations, they are forced to 100
   CommodityCPI[CommodityCPI==0] <- 100
   # Validation: check if IO year CommodityCPI is 100
+  if (model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
+    # increase tolerance for disaggregated state models
+    tolerance <- 3.0
+  } else {
+    tolerance <- 0.3
+  }
   if (year==2012) {
     for (s in CommodityCPI) {
-      if (abs(100-s)>0.3) {
+      if (abs(100-s)>tolerance) {
         stop("Error in CommodityCPI")
       }
     }

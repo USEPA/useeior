@@ -1,16 +1,16 @@
-Model: "GAEEIOv1.0-s-GHG-19"
+Model: "GAEEIOv1.0-75-GHG-19"
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2019 # Year for IO data
 ModelRegionAcronyms: ["US-GA", "RoUS"]
 ModelType: "EEIO"
 IODataSource: "stateior"
-IODataVersion: "0.2.1"
+IODataVersion: "0.3.0" # required for disaggregation
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
 ScrapIncluded: FALSE
-DisaggregationSpecs: null
+DisaggregationSpecs: "UtilityDisaggregation"
 
 SatelliteTable:
   GHG:
