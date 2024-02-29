@@ -332,12 +332,13 @@ printValidationResults <- function(model) {
     print(paste("Sectors with flow totals failing:", paste(unique(q_val$Failure$rownames), collapse = ", ")))
   }
   
-  
-  if(model$specs$IODataSource =="stateior")
-  {
+  if(model$specs$IODataSource =="stateior") {
     print2RValidationResults(model)
   }
-  
+
+  if(!is.null(model$specs$ExternalImportFactors)) {
+    validateImportFactorsApproach(model)
+  }
 }
 
 #' Removes hybrid processes form a model object for successful validation
@@ -390,6 +391,10 @@ compareOutputfromMakeandUse <- function(model, output_type = "Commodity") {
 #' @param demand, A demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.
 #' @return A calculated direct requirements table
 validateImportFactorsApproach <- function(model, demand = "Consumption"){
+  if(is.null(model$Q_t)) {
+    return()
+  }
+  
   if(model$specs$IODataSource == "stateior"){
     if(demand != "Consumption"){
       stop("Validation for 2-region models is only available for Consumption demand vector.")
