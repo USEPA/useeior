@@ -219,10 +219,7 @@ prepare2RDemand <- function(model, location, domestic, demand_type = "Production
 print2RValidationResults <- function(model) {
   
   # Check that Production demand can be run without errors
-  cat("Checking that production demand vectors do not produce errors for 2-R models, ",
-      "as well as validating model components.\n\n")
-  printValidationResults(model)
-  cat("\n")
+  cat("\nChecking that production demand vectors do not produce errors for 2-R models.\n")
   
   # Creating 2-R Production Complete demand vector
   f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[1]]

@@ -331,6 +331,13 @@ printValidationResults <- function(model) {
     print(paste("Number of flow totals by commodity failing:",q_val$N_Fail))
     print(paste("Sectors with flow totals failing:", paste(unique(q_val$Failure$rownames), collapse = ", ")))
   }
+  
+  
+  if(model$specs$IODataSource =="stateior")
+  {
+    print2RValidationResults(model)
+  }
+  
 }
 
 #' Removes hybrid processes form a model object for successful validation
