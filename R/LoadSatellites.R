@@ -43,7 +43,10 @@ loadSatTables <- function(model) {
     } else {
       logging::loginfo(paste0("Loading ", sat_spec$FullName, " flows from ", sat_spec$FileLocation, "..."))
     }
-
+    if(sat_spec$SectorListSource == "NAICS" && sat_spec$SectorListYear != model$specs$BaseIOSchema) {
+      logging::logwarn(paste0("SectorListYear of ", sat_spec$FullName," does not match the BaseIOSchema ",
+                              "and may not map to sectors correctly."))
+    }
     ### Generate totals_by_sector, tbs
     tbs0 <- generateTbSfromSatSpec(sat_spec, model)
     
