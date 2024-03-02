@@ -73,8 +73,14 @@ runSPA <- function(model, y = NULL, cut_off = 0.01, T_max = 4, indicator = "Econ
   # Define matrix on which to run SPA
   if(indicator == "Economic"){
     
-    f <- model$C[1,, drop = FALSE] # Create a named vector using the first row of C
-    f[,0:ncol(model$C)] <- 1 # Set all values to 1, which is the matrix equivalent of multiplying by 1
+    f <- c(model$L[,1])
+    #Set all values to 1
+    f[0:nrow(model$L)] <- 1
+    
+#    f <- model$C[1,, drop = FALSE] # Create a named vector using the first row of C
+#    f[,0:ncol(model$C)] <- 1 # Set all values to 1, which is the matrix equivalent of multiplying by 1
+    f_total <- f2 %*% model$L 
+    
   }else{
     
     indicatorNames <- rownames(model$C)
@@ -85,11 +91,12 @@ runSPA <- function(model, y = NULL, cut_off = 0.01, T_max = 4, indicator = "Econ
     } else{
       stop("Incorrect indicator name, please revise.")
     }
+    f_total <- f %*% model$M
   }
   
-  f_total <- f %*% model$M
 
-  #LEFT OFF: TRYING TO FIGURE OUT WHAT F AND F_TOTAL FROM RUNEIO02SPA ARE EQUIVALENT TO IN USEEIOR
+
+  #LEFT OFF: I think f and f_total are correct for both economic and non-economic SPAs. Next step: implement tree functions with economic SPA as example.
       
   # SPA_result <- SPAEIO(model, F, A, y, F_total, T_max, percent, filename, sectornames, thresh_banner)
   
