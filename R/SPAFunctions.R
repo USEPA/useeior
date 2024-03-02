@@ -6,8 +6,8 @@
 #' @return A populated data.tree object
 testDataTrees <- function() {
   
-  #library(data.tree)
-  #library(DiagrammeR)
+  library(data.tree)
+  library(DiagrammeR)
   acme <- Node$new("Acme Inc.")
   accounting <- acme$AddChild("Accounting")
   software <- accounting$AddChild("New Software")
@@ -34,11 +34,66 @@ testDataTrees <- function() {
 #' @param T_max Max number of tiers to search
 #' @param indicator Indicator to return indicator results for ($, CO2, etc.)
 #' @return A completed SPA in a data.tree object
-runSPA <- function(model, y, cut_off = 0.01, T_max, indicator = "Economic"){
+runSPA <- function(model, y = NULL, cut_off = 0.01, T_max = 4, indicator = "Economic"){
   
-  # SPA_result <- SPAEIO(F, A, y, F_total, T_max, percent, filename, sectornames, thresh_banner)
   
-  return(SPA_result)
+  #TODO: add if checks for model types where SPA is not compatible, at least initially
+  
+  # Use CompleteConsumption final demand vector if no vector is provided
+  if(is.null(y)){
+    meta <- model$DemandVectors$meta
+    demand_name <- "CompleteConsumption"
+    location <- model$spec$ModelRegionAcronyms
+    id <- meta[which(meta$Name==demand_name & 
+                       meta$Location==location),"ID"]
+    y <- model$DemandVectors$vectors[[id]]
+    y <- as.matrix(y) 
+  }
+  
+  # # Define matrix on which to run SPA
+  # if(indicator == "Economic"){
+  #   # Run SPA on economic throughput
+  #   total_emissions <- y
+  #   F_total <- model$L
+  # } else {
+  #   # Run SPA on emissions related to a specific indicator
+  #   result_emissions <- calculateEEIOModel(model, perspective="DIRECT", demand = "Consumption")
+  #   result_emissions <- result_emissions$LCIA_d # Get LCIA result
+  # 
+  #   indicator_index <- which(colnames(result_emissions) %in% indicator) #get the relevant emissions vector
+  # 
+  #   if(length(indicator_index) >0){
+  #     total_emissions <- result_emissions[,indicator_index, drop = FALSE]
+  #   } else{
+  #     stop("Incorrect indicator name, please revise.")
+  #   }
+  # 
+  # }
+  
+  # Define matrix on which to run SPA
+  if(indicator == "Economic"){
+    
+    f <- model$C[1,, drop = FALSE] # Create a named vector using the first row of C
+    f[,0:ncol(model$C)] <- 1 # Set all values to 1, which is the matrix equivalent of multiplying by 1
+  }else{
+    
+    indicatorNames <- rownames(model$C)
+    indicator_index <- which(indicatorNames %in% indicator) #get the relevant index based on name
+    
+    if(length(indicator_index) >0){
+      f <- model$C[indicator_index,, drop = FALSE] # get relevant row from C
+    } else{
+      stop("Incorrect indicator name, please revise.")
+    }
+  }
+  
+  f_total <- f %*% model$M
+
+  #LEFT OFF: TRYING TO FIGURE OUT WHAT F AND F_TOTAL FROM RUNEIO02SPA ARE EQUIVALENT TO IN USEEIOR
+      
+  # SPA_result <- SPAEIO(model, F, A, y, F_total, T_max, percent, filename, sectornames, thresh_banner)
+  
+  return(0)
   
 }
 
