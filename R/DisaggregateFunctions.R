@@ -105,7 +105,9 @@ disaggregateSetup <- function (model, configpaths = NULL){
   
   for (disagg in model$DisaggregationSpecs){  
     if(is.null(disagg$package)){
-      disagg$package = "useeior"
+      disagg$package <- "useeior"
+    } else if(disagg$package == "useeior") {
+      configpaths <- NULL
     }
     filename <- getInputFilePath(configpaths, "extdata/disaggspecs", disagg$SectorFile,
                                  package = disagg$package)

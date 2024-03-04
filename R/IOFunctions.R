@@ -76,8 +76,14 @@ generateCommodityMixMatrix <- function (model) {
   C <- normalizeIOTransactions(t(model$MakeTransactions), model$IndustryOutput) # C = V' %*% solve(x_hat)
   # Validation: check if column sums equal to 1
   industryoutputfractions <- colSums(C)
+  if (model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
+    # increase tolerance for disaggregated state models
+    tolerance <- 0.02
+  } else {
+    tolerance <- 0.01
+  }
   for (s in industryoutputfractions) {
-    if (abs(1-s)>0.01) {
+    if (abs(1-s)>tolerance) {
       stop("Error in commoditymix")
     }
   }
@@ -112,9 +118,15 @@ transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
   # To avoid interruption in later calculations, they are forced to 100
   CommodityCPI[CommodityCPI==0] <- 100
   # Validation: check if IO year CommodityCPI is 100
+  if (model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
+    # increase tolerance for disaggregated state models
+    tolerance <- 3.0
+  } else {
+    tolerance <- 0.3
+  }
   if (year==2012) {
     for (s in CommodityCPI) {
-      if (abs(100-s)>0.3) {
+      if (abs(100-s)>tolerance) {
         stop("Error in CommodityCPI")
       }
     }
@@ -234,49 +246,6 @@ generateInternationalTradeAdjustmentVector <- function(Use, Import, model) {
   return(InternationalTradeAdjustment)
 }
 
-#' Create import Use table and validate domestic+import against full use model .
-#' @param model, An EEIO model object with model specs and crosswalk table loaded
-#' @param configpaths str vector, paths (including file name) of model configuration file
-#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
-#' @return A model object with explicit import components.
-buildModelwithImportFactors <- function(model, configpaths = NULL) {
-  # Deriving the economic component of the Swedish equation (see Palm et al. 2019) for import factors: 
-  # f^(d+m) = s^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
-  # s^d are the domestic direct environmental coefficients, and Q are the environmental import multipliers, s_m*L_m. Dropping s_d and s_m we get
-  # x^(d+m) = s^d*L^d*y^d + L^m*A^m*L^d*y^d + L^m*y^m + f^h
-  # Since f^h is not currently part of the useeior model calculations, we drop it:
-  # x^(d+m) = L^d*y^d + L^m*A^m*L^d*y^d + L^m*y^m 
-  # The resulting expression should be equivalent to the x = L*y such that
-  # x^(d+m) = x = L*y
-  
-  logging::loginfo("Building Import A (A_m) accounting for ITA in Domestic FD.\n")
-  # Re-derive import values in Use and final demand
-  # _m denotes import-related structures
-  model$UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
-  model$U_n_m <- normalizeIOTransactions(model$UseTransactions_m, model$IndustryOutput) #normalized imported Use
-  
-  if(model$specs$CommodityorIndustryType == "Commodity") {
-    logging::loginfo("Building commodity-by-commodity A_m matrix (imported direct requirements)...")
-    model$A_m <- model$U_n_m %*% model$V_n
-  } else if(model$specs$CommodityorIndustryType == "Industry") {
-    logging::loginfo("Building industry-by-industry A_m matrix (imported direct requirements)...")
-    model$A_m <- model$V_n %*% model$U_d_m
-  }
-  
-  logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
-  model$M_d <- model$B %*% model$L_d 
-  
-  logging::loginfo("Calculating Q_t matrix (total emissions and resource use per dollar from imported activity)...")
-  Q_t <- loadExternalImportFactors(model, configpaths)
-  
-  # Fill in flows for Q_t not found in Import Factors but that exist in model and align order
-  Q_t <- rbind(Q_t, model$M_d[setdiff(rownames(model$M_d), rownames(Q_t)),])
-  Q_t <- Q_t[rownames(model$M_d), ]
-
-  model$Q_t <- Q_t
-  
-  return(model)
-}
 
 #' Convert Use table in the Supply-Use framework from purchasers' price (PUR)
 #' to basic price (BAS)
