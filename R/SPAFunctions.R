@@ -52,6 +52,16 @@ runSPA <- function(model, y = NULL, percent = 0.01, T_max = 4, indicator = "Econ
     y <- as.matrix(y) 
   }
   
+  if(T_max > 6){
+    T_max <- 6
+    logging::loginfo("Setting max number of tiers at 6 due to memory constraints")
+  }
+  
+  if(percent < 0.01){
+    percent <- 0.01
+    logging::loginfo("Setting cut-off at 1% of total value due to memory constraints")
+  }
+  
   # Define matrix on which to run SPA
   if(indicator == "Economic"){
     
@@ -124,18 +134,67 @@ SPAEIO <- function(f, A, y, f_total, T_max, percent){
 #' @param y Final demand value for which SPA will be run
 #' @param f_total a vector total emissions intensities by sector. Used to calculate total emissions.
 #' @param T_max Max number of tiers to search
-#' @param percent Value to determine point at which to cut-off small sub-trees (percent of total effects)
+#' @param tol Tolerance, i.e., value to determine point at which to cut-off small sub-trees (percent of total effects)
 #' @return A completed SPA in a data.tree object
-build_tree <- function(f, A, y, f_total, T_max, percent){ #TODO: Rename this to initialize_tree
+build_tree <- function(f, A, y, f_total, T_max, tol){ #TODO: Rename this to initialize_tree
   
   t <- 0 # tier 0
-  # define root of tree
+  # Define root of tree
   t0_node <- Node$new("T0")
-  t0_node$value_at_node <- build_tree_value(f, A, y, t) #value of the node, i.e., contribution from node
+  t0_node$value_at_node <- build_tree_value(f, A, y, t0_node, t) #value of the node, i.e., contribution from node #TODO ADD THIS FUNCTION
+  t0_node$sub_tree_value <- calculate_tree_vector(f, A, y, f_total, t0_node, t) # Value of the tree below this node #TODO add this function
   t0_node$parent <- null #a root node has no parent node
   
   #tree_to_build = Build_tree_func(F, A, y, F_total, 0, T_max, tol, uint16([]));
-  #tree_to_build = Build_tree_func(f, A, y, f_total, t, T_max, tol, node); #for useeior
+  t0_node$children <- build_tree_func(f, A, y, f_total, t, T_max, tol, t0_node); #for useeior
+}
+
+
+#' @description Build SPA tree nodes recursively
+#' @param f A vector of direct emissions intensities by sector. Used to calculate individual node contributions.
+#' @param A The direct requirements matrix from the useeior model object 
+#' @param y Final demand value for which SPA will be run
+#' @param f_total a vector total emissions intensities by sector. Used to calculate total emissions.
+#' @param t current tier of tree
+#' @param T_max Max number of tiers to search
+#' @param tol Value to determine point at which to cut-off small sub-trees (percent of total effects)
+#' @param parent Parent node
+#' @return A completed SPA in a data.tree object
+build_tree_func <- function(f, A, y, f_total, t, T_max, tol, parent){ 
+
+  N <- dim(A)[1] # Number of potential children
+  
+  # Initialize current node
+  currentNode <- Node$new("?") # TODO: need to figure out how to name the nodes
+  
+  if(t == T_max){ # At the last tier, i.e., max tree depth
+    # TODO: Build final node of this path
+    
+  }else{ # Not at the last tier
+    # Add a subtree
+    for(i in 1:length(N)){
+      
+      child <- node$AddChild(rownames(A)[i])
+      
+      if(abs(calculate_tree_vector(f, A, y, f_total, child, t+1)) < tol){ #this is a slow line
+       # if the value of the tree below this node is less that the tolerance, do not continue this path 
+        #currentNode$child[i] <- null #TODO FIGURE OUT HOW TO CUT OFF TREE
+      } else{
+        #currentNode$child[i] <- build_tree_func(f, A, y, f_total, t+1, child)
+      }
+     } #end for loop
+    
+    # TODO: FIGURE THIS PART OUT TOO
+    # if numel(sequence)>0 %number of array elements of sequence >0
+    # this_tree.value(2) = Calculate_tree_vector(F, A, y, F_total,sequence, T);
+    # else
+    #   end
+    
+    
+    
+  } 
+  
+  
 }
 
 
