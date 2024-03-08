@@ -25,6 +25,43 @@ testDataTrees <- function() {
 }
 
 
+#' Export model objects for use in matlab SPA function
+#' Requires R.matlab library
+#' @description Export model objects for use in matlab SPA function
+#' @param model useeio model object 
+#' @param filename string indicating the filename to export to
+#' @return A populated data.tree object
+exportModelObjectsForMatlab <- function(model, filename = "matlab_data") {
+
+  library(R.matlab)  # load matlab library
+  data <- list()
+  
+  A <- model$A
+  L <- model$L
+  EIOsecnames <- model$Commodities$Name
+  EIOsecs <- model$Commodities$Code
+  final_ConsumptionComplete <- as.matrix(model$DemandVectors$vectors$`2012_US_Consumption_Household`)
+  EIvect <- model$C %*% model$B
+  indicatorNames <- rownames(model$C)
+  flowNames <- rownames(model$B)
+  
+  
+  filename <- paste(filename, ".mat", sep = "")
+  writeMat(filename, 
+           A = A,
+           L = L,
+           EIOsecnames = EIOsecnames, 
+           EIOsecs = EIOsecs,
+           y = final_ConsumptionComplete,
+           EIvect = EIvect,
+           indicatorNames = indicatorNames,
+           flowNames = flowNames
+           )
+  
+
+}
+
+
 
 #' Wrapper function to run SPA with useeior model object
 #' @description Run a SPA based on given paramters
