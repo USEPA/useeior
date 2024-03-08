@@ -357,9 +357,9 @@ disaggregateMargins <- function(model, disagg) {
 #' @return newTLS A dataframe which contain the TaxLessSubsidies including the disaggregated sectors
 disaggregateTaxLessSubsidies <- function(model, disagg) {
   original <- model$TaxLessSubsidies
-  originalIndex <-  grep(disagg$OriginalSectorCode, model$TaxLessSubsidies$Code_Loc)
+  originalIndex <- grep(paste0("^", disagg$OriginalSectorCode), model$TaxLessSubsidies$Code_Loc)
   originalRow <- model$TaxLessSubsidies[originalIndex,]
-  disaggTLS <-originalRow[rep(seq_len(nrow(originalRow)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]
+  disaggTLS <- originalRow[rep(seq_len(nrow(originalRow)), length(disagg$DisaggregatedSectorCodes)),,drop=FALSE]
   disaggRatios <- unname(disaggregatedRatios(model, disagg, model$specs$CommodityorIndustryType))
   
   codeLength <- nchar(gsub("/.*", "", disagg$DisaggregatedSectorCodes[1]))
