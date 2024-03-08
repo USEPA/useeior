@@ -84,18 +84,27 @@ prepareDemandVectorForStandardResults <- function(model, demand = "Production", 
 #' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
 #' @param location, str optional location code for demand vector, required for two-region models
 prepareDemandVectorForImportResults <- function(model, demand = "Production", location = NULL) {
-  if(is.null(location)) {
-    location <- "US"
+  if (is.character(demand)) {
+    # assume this is a built-in demand 
+    if(is.null(location)) {
+      location <- "US"
+    }
+    # Calculate import demand vector y_m. 
+    if(demand == "Production"){
+      # This option left in for validation purposes.
+      logging::loginfo("Warning: Production demand vector not recommended for estimating results for models with external Import Factors. ")
+      y_m <- prepareImportProductionDemand(model, location = location)
+    } else if(demand == "Consumption"){
+      y_m <- prepareImportConsumptionDemand(model, location = location)
+    }
+  } else {
+    # Assume this is a user-defined demand vector
+    if (isDemandVectorValid(demand, model$L)) {
+      y_m <- formatDemandVector(demand, model$L)
+    } else {
+      stop("Format of the demand vector is invalid. Cannot calculate result.")
+    }
   }
-  # Calculate import demand vector y_m. 
-  if(demand == "Production"){
-    # This option left in for validation purposes.
-    logging::loginfo("Warning: Production demand vector not recommended for estimating results for models with external Import Factors. ")
-    y_m <- prepareImportProductionDemand(model, location = location)
-  } else if(demand == "Consumption"){
-    y_m <- prepareImportConsumptionDemand(model, location = location)
-  }
-
   return(as.matrix(y_m))
 
 }
@@ -167,7 +176,7 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     # Direct perspective implemented using the following steps:
     # Imported_LCI = LCI_direct_domestic
     # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
-    logging::loginfo("Calculating Direct Perspective LCI with external import factors...")
+    logging::loginfo("Calculating Direct + Imported Perspective LCI with external import factors...")
     s <- getScalingVector(model$L_d, y_d)
     domesticLCI_d <- calculateDirectPerspectiveLCI(model$B, s)
     
