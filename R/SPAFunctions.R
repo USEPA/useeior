@@ -35,27 +35,30 @@ exportModelObjectsForMatlab <- function(model, filename = "matlab_data") {
 
   library(R.matlab)  # load matlab library
   data <- list()
-  
+
+  # List objects that are needed to Run SPA in Matlab  
   A <- model$A
   L <- model$L
   EIOsecnames <- model$Commodities$Name
   EIOsecs <- model$Commodities$Code
-  final_ConsumptionComplete <- as.matrix(model$DemandVectors$vectors$`2012_US_Consumption_Household`)
   EIvect <- model$C %*% model$B
   indicatorNames <- rownames(model$C)
   flowNames <- rownames(model$B)
+  y <- as.matrix(model$DemandVectors$vectors$`2012_US_Consumption_Household`) # Get Household consumption vector
+  y[which(y < 0)] <-0 # Remove negative inputs into household consumption
   
-  
+  # Format filename
   filename <- paste(filename, ".mat", sep = "")
+  # Write as a .mat file
   writeMat(filename, 
            A = A,
            L = L,
            EIOsecnames = EIOsecnames, 
            EIOsecs = EIOsecs,
-           y = final_ConsumptionComplete,
            EIvect = EIvect,
            indicatorNames = indicatorNames,
-           flowNames = flowNames
+           flowNames = flowNames,
+           y = y
            )
   
 
