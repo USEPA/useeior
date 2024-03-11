@@ -66,10 +66,9 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v2
 
-      - name: Upload check results
-        # if: failure()  # if any of the previous steps fail, export a log
+      - name: Upload model build and validation log
         uses: actions/upload-artifact@main
         with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: check    
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-test_model_build
+          path: check / useeior.Rcheck / tests / test_model_build*
     
