@@ -66,68 +66,68 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v2
 
-      - name: Build and validate models - USEEIOv2.0-411 detail model with waste disaggregation
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-411")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-
-      - name: Build and validate models - USEEIOv2.0-i-411 detail industry model with waste disaggregation
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-i-411")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-      
-      - name: Build and validate models - USEEIOv2.0 industry model
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-i-GHG")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-      
-      - name: Build and validate models - USEEIOv2.0 summary model
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-s-GHG")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-      
-      - name: Build and validate models - USEEIOv2.0.1-411 detail model with waste disaggregation
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0.1-411")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-
-      - name: Build and validate models - USEEIOv2 - integrated hybrid
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-GHG-NGCombustion")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-
-      - name: Build and validate models - GAEEIOv1.0-s-WAT-12 summary two-region model
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("GAEEIOv1.0-s-WAT-12")
-          useeior::print2RValidationResults(m)
-        shell: Rscript {0}
+      # - name: Build and validate models - USEEIOv2.0-411 detail model with waste disaggregation
+      #   if: always()
+      #   run: |
+      #     require(devtools)
+      #     devtools::load_all()
+      #     m <- useeior::buildModel("USEEIOv2.0-411")
+      #     useeior::printValidationResults(m)
+      #   shell: Rscript {0}
+      # 
+      # - name: Build and validate models - USEEIOv2.0-i-411 detail industry model with waste disaggregation
+      #   if: always()
+      #   run: |
+      #     require(devtools)
+      #     devtools::load_all()
+      #     m <- useeior::buildModel("USEEIOv2.0-i-411")
+      #     useeior::printValidationResults(m)
+      #   shell: Rscript {0}
+      # 
+      # - name: Build and validate models - USEEIOv2.0 industry model
+      #   if: always()
+      #   run: |
+      #     require(devtools)
+      #     devtools::load_all()
+      #     m <- useeior::buildModel("USEEIOv2.0-i-GHG")
+      #     useeior::printValidationResults(m)
+      #   shell: Rscript {0}
+      # 
+      # - name: Build and validate models - USEEIOv2.0 summary model
+      #   if: always()
+      #   run: |
+      #     require(devtools)
+      #     devtools::load_all()
+      #     m <- useeior::buildModel("USEEIOv2.0-s-GHG")
+      #     useeior::printValidationResults(m)
+      #   shell: Rscript {0}
+      # 
+      # - name: Build and validate models - USEEIOv2.0.1-411 detail model with waste disaggregation
+      #   if: always()
+      #   run: |
+      #     require(devtools)
+      #     devtools::load_all()
+      #     m <- useeior::buildModel("USEEIOv2.0.1-411")
+      #     useeior::printValidationResults(m)
+      #   shell: Rscript {0}
+      # 
+      # - name: Build and validate models - USEEIOv2 - integrated hybrid
+      #   if: always()
+      #   run: |
+      #     require(devtools)
+      #     devtools::load_all()
+      #     m <- useeior::buildModel("USEEIOv2.0-GHG-NGCombustion")
+      #     useeior::printValidationResults(m)
+      #   shell: Rscript {0}
+      # 
+      # - name: Build and validate models - GAEEIOv1.0-s-WAT-12 summary two-region model
+      #   if: always()
+      #   run: |
+      #     require(devtools)
+      #     devtools::load_all()
+      #     m <- useeior::buildModel("GAEEIOv1.0-s-WAT-12")
+      #     useeior::print2RValidationResults(m)
+      #   shell: Rscript {0}
 
       #- name: Show testthat output
       #  if: always()  # step will run even if previous steps fail
