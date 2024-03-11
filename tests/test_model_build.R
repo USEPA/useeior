@@ -79,3 +79,9 @@ model <- useeior:::loadandbuildIndicators(model)
 model <- useeior:::loadDemandVectors(model)
 model <- useeior:::constructEEIOMatrices(model)
 printValidationResults(model)
+
+## StateEEIOv1.0 Two-region Summary model
+m <- "GAEEIOv1.0-s-WAT-12"
+cfg <- paste0("modelspecs/", m, ".yml")
+model <- buildModel(m, configpaths = file.path(cfg))
+useeior::print2RValidationResults(model)
