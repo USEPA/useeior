@@ -9,7 +9,7 @@ BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
 ScrapIncluded: FALSE
-HybridizationSpecs: "NGCombustion"
+HybridizationSpecs: "NG_Combustion"
 
 SatelliteTable:
   GHG:
