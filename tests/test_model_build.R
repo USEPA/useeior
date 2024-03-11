@@ -11,36 +11,36 @@ printValidationResults(model)
 
 
 m <- "USEEIOv2.0-GHG-NGCombustion"
-cfg <- c(paste0("tests/modelspecs/", m, ".yml"),
-         "tests/hybridizationspecs/NG_Combustion.yml",
-         "tests/hybridizationspecs/NGCombustion_env.csv",
-         "tests/hybridizationspecs/NGCombustion_tech.csv"
+cfg <- c(paste0("modelspecs/", m, ".yml"),
+         "hybridizationspecs/NG_Combustion.yml",
+         "hybridizationspecs/NGCombustion_env.csv",
+         "hybridizationspecs/NGCombustion_tech.csv"
          )
 model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 
 
 m <- "USEEIOv2.0-GHG"
-cfg <- c(paste0("tests/modelspecs/", m, ".yml"),
-         "tests/disaggregationspecs/WasteDisaggregationSummary.yml",
-         "tests/disaggregationspecs/WasteDisaggregationSummary_Make.csv",
-         "tests/disaggregationspecs/WasteDisaggregationSummary_Use.csv"
+cfg <- c(paste0("modelspecs/", m, ".yml"),
+         "disaggregationspecs/WasteDisaggregationSummary.yml",
+         "disaggregationspecs/WasteDisaggregationSummary_Make.csv",
+         "disaggregationspecs/WasteDisaggregationSummary_Use.csv"
          )
-model <- initializeModel(m, configpaths = file.path(cfg))
-model <- loadIOData(model, file.path(cfg))
-model <- loadandbuildSatelliteTables(model)
-model <- loadandbuildIndicators(model)
-model <- loadDemandVectors(model)
-model <- constructEEIOMatrices(model)
+model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
+model <- useeior:::loadIOData(model, file.path(cfg))
+model <- useeior:::loadandbuildSatelliteTables(model)
+model <- useeior:::loadandbuildIndicators(model)
+model <- useeior:::loadDemandVectors(model)
+model <- useeior:::constructEEIOMatrices(model)
 printValidationResults(model)
 
 
-model <- initializeModel(m, configpaths = file.path(cfg))
+model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
 model$specs$Model <- "USEEIOv2.0-s-GHG"
 model$specs$BaseIOLevel <- "Summary"
-model <- loadIOData(model, file.path(cfg))
-model <- loadandbuildSatelliteTables(model)
-model <- loadandbuildIndicators(model)
-model <- loadDemandVectors(model)
-model <- constructEEIOMatrices(model)
+model <- useeior:::loadIOData(model, file.path(cfg))
+model <- useeior:::loadandbuildSatelliteTables(model)
+model <- useeior:::loadandbuildIndicators(model)
+model <- useeior:::loadDemandVectors(model)
+model <- useeior:::constructEEIOMatrices(model)
 printValidationResults(model)
