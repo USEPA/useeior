@@ -97,10 +97,54 @@ importModelObjectsForMatlab <- function(filename) {
   # 
   
   #TODO: move the below to a new function, read from csv or something
+  library(R.matlab)
+  library(networkD3)
+  library(data.tree)
+  library(DiagrammeR)
+  
   filename <- "../useeior/work/SPA_testing/SPA_results/255_paints/SPA_result_255.csv" #temporary
   csv_data <- read.csv(filename) # Filename must have complete path and file name, e.g., ../useeior/work/SPA_testing/SPA_results/255_paints/SPA_result_255.csv
   colnames(csv_data) <- csv_data[1,]
   spa <- csv_data[-1,]
+  
+  # Name columns 
+  pathNumberCol <- 1
+  pathLengthCol <- 2
+  siteEffectCol <- 3
+  LCIEffectCol <- 4
+  indexCols <- seq(5, length(spa), 2) # columns that contain the indeces of the useeio sector, which make up the paths
+  nameCols <- seq(6, length(spa), 2) # columns that contain the names of the useeio sector, which make up the paths
+  
+  numbericCols <- c(pathNumberCol, pathLengthCol, siteEffectCol, LCIEffectCol, indexCols)
+  T_max <- length(indexCols) # Number of tiers
+  
+  pathIndexes <- spa[,indexCols] # Get every other column, starting at column 5. These are the columns that contain the codes for each path
+  pathNames <- spa[,nameCols] # Get every other column starting at col 6. These are the cols that contain the names for each path
+
+  sorted_spa <- spa[ order( spa[,indexCols[T_max] ], decreasing = TRUE), ] # sort spa dataframe by the spa df column at indexCols[T_max], i.e., the spa df with the last tier values
+  sorted_pathIndexes <- pathIndexes[ order( pathIndexes[,T_max], decreasing = TRUE), ] # sort Path Indexes by the last tier, i.e., T_max
+  
+  # For testing visualization functions: Get only those rows of the spa with values at the max tier, 
+  # or more specifically, keep those rows where values at the max tier col are not equal to ""
+  # NOTE THAT THESE ARE NOT ENOUGH TO DESCRIBE THE COMPLETE TREE
+  # TODO: NEED TO ADD CODE TO FIND LEAFS FROM TIERS THAT ARE NOT AT T_MAX
+  T_max_leafs <- sorted_spa[which(sorted_spa[,indexCols[T_max]] != ""),]
+  pathstring <- apply(T_max_leafs[,indexCols], 1, paste, collapse = "/") # create a pathstring
+  T_max_leafs$pathString <- pathstring
+  T_max_leafs_index_only <- T_max_leafs[,-c(pathNumberCol, pathLengthCol, nameCols)]
+  
+  # Create tree
+  spa_tree <- as.Node(T_max_leafs_index_only)
+  # Create network for networkD3 plotting
+  spa_network <- ToDataFrameNetwork(spa_tree, "name")
+  # simpleNetwork(spa_network[-3], fontSize = 12) # create D3 network plot. The -3 removes the name column from dataframe for plotting purposes
+  
+  # Plot as dendogram
+  plot(as.dendrogram(spa_tree), center = TRUE)
+  
+  # Plot as radial network
+  useRtreeList <- ToListExplicit(spa_tree, unname = TRUE)
+  radialNetwork( useRtreeList)
 }
 
 
