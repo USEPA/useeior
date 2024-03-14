@@ -88,7 +88,10 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
   model$B <- createBfromFlowDataandOutput(model)
-  model$B_h <- as.matrix(standardizeandcastSatelliteTable(model$CbS, model, final_demand=TRUE))
+  B_h <- standardizeandcastSatelliteTable(model$CbS, model, final_demand=TRUE)
+  if(!is.null(B_h)) {
+    model$B_h <- as.matrix(B_h)
+  }
   if(model$specs$ModelType == "EEIO-IH"){
     model$B <- hybridizeBMatrix(model)
   }
@@ -229,7 +232,12 @@ standardizeandcastSatelliteTable <- function(df, model, final_demand = FALSE) {
   df_cast$Flow <- NULL
   if(final_demand) {
     codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
-    df_cast <- df_cast[, codes, drop=FALSE]
+    if(codes %in% colnames(df_cast)) {
+      df_cast <- df_cast[, codes, drop=FALSE]
+    } else {
+      # no final demand emissions in any satellite table, no need for B_h
+      return(NULL)
+    }
   } else {
     # Complete sector list according to model$Industries
     df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 0
