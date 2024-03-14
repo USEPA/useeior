@@ -63,68 +63,63 @@ exportModelObjectsForMatlab <- function(model, filename = "matlab_data") {
 
 }
 
-
-#' Import SPA from MATLAB files
-#' Requires R.matlab library
-#' @description Import SPA from MATLAB files
-#' @param filename string indicating the filename to import from. Note that it must include the complete relative path as a part of the filename
-#' @return A populated data.tree object
-importSPAFromMatlab <- function(filename) {
-  library(R.matlab)  # load matlab library
-  
-  matlab_data <- readMat(filename)
-  
-  # TODO: Finish the code below to re
-
-  library(networkD3)
-  library(data.tree)
-  library(DiagrammeR)
-
-  # matlab_data <- readMat("../useeior/work/SPA_testing/SPA_results/255_paints/sorted_255.mat") # temporary
-  matlab_data <- readMat(filename) # Need to read in sorted data
-  sorted_values <- matlab_data$sorted[seq(1, length(matlab_data$sorted), 2)] # Get every other row starting at row 1
-  sorted_nodes <- matlab_data$sorted[seq(2, length(matlab_data$sorted), 2)] # Get every other row starting at row 2
-
-  # Extract all nodes used in the SPA output
-  D3_nodes_list <- unique(unlist(sorted_nodes))
-  D3_nodes_list <- data.frame(D3_nodes_list) # Convert to data frame
-  colnames(D3_nodes_list) <- c("name") # relabel column name with "names" string to identify these as the names of the nodes for the D3 functions
-
-  # Get nodes into a data frame
-  # The line below returns a dataframe with dimensions length(sorted_nodes) by max tier (i.e. longest subtree)
-  D3_nodes_df <- t(sapply(sorted_nodes, '[', seq(max(lengths(sorted_nodes)))))
-  pathString <- apply(D3_nodes_df, 1, paste, collapse = "/") # create a pathString
-  pathString <- sub("\\/NA.*","",pathString) # remove all the /NA's from the pathString
-  D3_nodes_df[is.na(D3_nodes_df)] <- "" # Convert NAs to ""
-  D3_nodes_df <- data.frame(D3_nodes_df) # conver to df again
-  D3_nodes_df$pathString <- pathString # add pathstring 
-  
-  
-  #TODO: Add Site and LCI effect values (i.e., data in sorted_values object) to the D3_nodes_df dataframe
-  
-  
-  # Create tree
-  spa_tree <- as.Node(D3_nodes_df)
-  # Create network for networkD3 plotting
-  spa_network <- ToDataFrameNetwork(spa_tree, "name")
-  # simpleNetwork(spa_network[-3], fontSize = 12) # create D3 network plot. The -3 removes the name column from dataframe for plotting purposes
-  return(spa_tree)
-
-}
+# TODO: finish properly formatting D3_nodes_df to look like the output of Import/Format SPAFromCSV function
+#' #' Import SPA from MATLAB files
+#' #' Requires R.matlab library
+#' #' @description Import SPA from MATLAB files
+#' #' @param filename string indicating the filename to import from. Note that it must include the complete relative path as a part of the filename
+#' #' @return A DF formatted to create a data.tree object
+#' importSPAFromMatlab <- function(filename) {
+#'   library(R.matlab)  # load matlab library
+#'   library(networkD3)
+#'   library(data.tree)
+#'   library(DiagrammeR)
+#' 
+#'   # matlab_data <- readMat("../useeior/work/SPA_testing/SPA_results/255_paints/sorted_255.mat") # temporary
+#'   matlab_data <- readMat(filename) # Need to read in sorted data
+#'   sorted_values <- matlab_data$sorted[seq(1, length(matlab_data$sorted), 2)] # Get every other row starting at row 1
+#'   sorted_nodes <- matlab_data$sorted[seq(2, length(matlab_data$sorted), 2)] # Get every other row starting at row 2
+#' 
+#'   # Extract all nodes used in the SPA output
+#'   D3_nodes_list <- unique(unlist(sorted_nodes))
+#'   D3_nodes_list <- data.frame(D3_nodes_list) # Convert to data frame
+#'   colnames(D3_nodes_list) <- c("name") # relabel column name with "names" string to identify these as the names of the nodes for the D3 functions
+#' 
+#'   # Get nodes into a data frame
+#'   # The line below returns a dataframe with dimensions length(sorted_nodes) by max tier (i.e. longest subtree)
+#'   D3_nodes_df <- t(sapply(sorted_nodes, '[', seq(max(lengths(sorted_nodes)))))
+#'   pathString <- apply(D3_nodes_df, 1, paste, collapse = "/") # create a pathString
+#'   pathString <- sub("\\/NA.*","",pathString) # remove all the /NA's from the pathString
+#'   D3_nodes_df[is.na(D3_nodes_df)] <- "" # Convert NAs to ""
+#'   D3_nodes_df <- data.frame(D3_nodes_df) # conver to df again
+#'   D3_nodes_df$pathString <- pathString # add pathstring 
+#'   
+#'   return(D3_nodes_df)
+#'   
+#'   #TODO: Add Site and LCI effect values (i.e., data in sorted_values object) to the D3_nodes_df dataframe
+#'   
+#'   # TODO: Code below for testing need to remove
+#'   # # Create tree
+#'   # spa_tree <- as.Node(D3_nodes_df)
+#'   # # Create network for networkD3 plotting
+#'   # spa_network <- ToDataFrameNetwork(spa_tree, "name")
+#'   # # simpleNetwork(spa_network[-3], fontSize = 12) # create D3 network plot. The -3 removes the name column from dataframe for plotting purposes
+#'   # return(spa_tree)
+#' 
+#' }
 
 
 #' Import SPA from CSV file. Note that is SPA produced from MATLAB script
 #' @description Import SPA from CSV file. SPA produced from MATLAB script
 #' @param filename string indicating the filename to import from. Note that it must include the complete relative path as a part of the filename
-#' @return A populated data.tree object
-importModelObjectsForMatlab <- function(filename) {
-  # Load required libraries
-  library(networkD3)
-  library(data.tree)
-  library(DiagrammeR)
-  
+#' @return A DF formatted to create a data.tree object
+importSPAFromCSV <- function(filename) {
+
 #  filename <- "../useeior/work/SPA_testing/SPA_results/255_paints/SPA_result_255.csv" #temporary
   csv_data <- read.csv(filename) # Filename must have complete path and file name, e.g., ../useeior/work/SPA_testing/SPA_results/255_paints/SPA_result_255.csv
+
+  
+  # TODO: Move to a new function: Format SPA DF from CSV 
   colnames(csv_data) <- csv_data[1,]
   spa <- csv_data[-1,]
   
@@ -142,24 +137,65 @@ importModelObjectsForMatlab <- function(filename) {
   spa_node_data <- spa[,-c(pathNumberCol, pathLengthCol, nameCols)] # Remove the Path and Name columns
   spa_node_data$pathString <- pathString
   
-  
-  # Create tree
-  spa_tree <- as.Node(spa_node_data)
-  # Create network for networkD3 plotting
-  spa_network <- ToDataFrameNetwork(spa_tree, "name")
-  # simpleNetwork(spa_network[-3], fontSize = 12) # create D3 network plot. The -3 removes the name column from dataframe for plotting purposes
-  
-  # Plot as dendogram
-  # plot(as.dendrogram(spa_tree), center = TRUE)
-  
-  # Plot as radial network
-  # useRtreeList <- ToListExplicit(spa_tree, unname = TRUE)
-  # radialNetwork( useRtreeList)
-  
-  return(spa_tree)
+   return(spa_node_data)
+  # END of FORMAT SPA DF from CSV Function
   
 }
 
+
+#' Plot SPA 
+#' @description Plot the SPA according to parameter inputs
+#' @param spa_node_data DataFrame containing the SPA in the format required for plotting using the data.tree package
+#' @param subtree_to_plot String denoting whether to plot the entire tree (if NULL) or a specific subtree. Options are:
+#' "top_LCI" to plot the subtree with the highest LCI effect (i.e., subtree with highest cumulative effect)
+#' "top_Site" to plot the subtree containing the highest site effect (i.e., subtree containing the node with the highest individual contribution)
+#' "index" to plot a subtree beginning with a specific index (i.e., specific node). Note that the value for this input is not "index" but the index number.
+#' @param plot_type String denoting the type of plot to use. Default to simpleNetwork plot. Options:
+#' simpleNetwork, dendogram, radial
+plotSPA <- function(spa_node_data, subtree_to_plot = NULL, plot_type = "simpleNetwork") {
+  
+  # Load required libraries
+  library(networkD3)
+  library(data.tree)
+  library(DiagrammeR)
+  
+  # Create tree
+  spa_tree <- as.Node(spa_node_data)
+  
+  
+  # if(subtree_to_plot == "top_LCI"){
+  #   # find subtree with highest LCI value
+  # } else if(subtree_to_plot == "top_Site"){
+  #   # find subtree with highest site value
+  # } else if(is.numeric(subtree_to_plot)){
+  #   # find subtree correspoding to the index node
+  # } else if(is.null(subtree_to_plot)){
+  #   # print the whole tree
+  # } else{
+  #   stop("subtree_to_plot parameter undefined")
+  # }
+  #   
+  
+  
+  
+
+  if(plot_type == "simpleNetwork"){
+    # Create network for networkD3 plotting
+    spa_network <- ToDataFrameNetwork(spa_tree, "name")
+    simpleNetwork(spa_network[-3], fontSize = 12) # create D3 network plot. The -3 removes the name column from dataframe for plotting purposes
+    
+  }else if(plot_type == "dendogram"){
+    # Plot as dendogram
+    plot(as.dendrogram(spa_tree), center = TRUE)
+  } else if(plot_type == "radial"){
+    # Plot as radial network
+    useRtreeList <- ToListExplicit(spa_tree, unname = TRUE)
+    radialNetwork( useRtreeList)
+  } else {
+    stop("Plot_type undefined")
+  }
+
+}
 
 
  # The code below is commented out as the functions are not a complete implementation of SPA yet. 
