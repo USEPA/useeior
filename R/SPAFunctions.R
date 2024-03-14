@@ -64,45 +64,66 @@ exportModelObjectsForMatlab <- function(model, filename = "matlab_data") {
 }
 
 
-#' Import model objects for use in matlab SPA function
+#' Import SPA from MATLAB files
 #' Requires R.matlab library
-#' @description Export model objects for use in matlab SPA function
+#' @description Import SPA from MATLAB files
 #' @param filename string indicating the filename to import from. Note that it must include the complete relative path as a part of the filename
 #' @return A populated data.tree object
-importModelObjectsForMatlab <- function(filename) {
+importSPAFromMatlab <- function(filename) {
   library(R.matlab)  # load matlab library
   
   matlab_data <- readMat(filename)
   
-  # # TODO: Move the below code to a new function
-  # 
-  # library(networkD3)
-  # library(data.tree)
-  # library(DiagrammeR)
-  # 
-  # matlab_data <- readMat(filename) # Need to read in sorted data
-  # sorted_values <- matlab_data$sorted[seq(1, length(matlab_data$sorted), 2)] # Get every other row starting at row 1
-  # sorted_nodes <- matlab_data$sorted[seq(2, length(matlab_data$sorted), 2)] # Get every other row starting at row 2
-  # 
-  # # Extract all nodes used in the SPA output
-  # D3_nodes_list <- unique(unlist(sorted_nodes))
-  # D3_nodes_list <- data.frame(D3_nodes_list) # Convert to data frame
-  # colnames(D3_nodes_list) <- c("name") # relabel column name with "names" string to identify these as the names of the nodes for the D3 functions
-  # 
-  # # Get nodes into a data frame
-  # # The line bewlow returns a dataframe with dimensions length(sorted_nodes) by max tier (i.e. longest subtree)
-  # D3_nodes_df <- t(sapply(sorted_nodes, '[', seq(max(lengths(sorted_nodes))))) 
-  # pathstring <- apply(D3_nodes_df, 1, paste, collapse = "/") # create a pathstring
-  # pathstring <- sub("\\/NA.*","",pathstring) # remove all the /NA's from the pathstring
-  # 
+  # TODO: Finish the code below to re
+
+  library(networkD3)
+  library(data.tree)
+  library(DiagrammeR)
+
+  # matlab_data <- readMat("../useeior/work/SPA_testing/SPA_results/255_paints/sorted_255.mat") # temporary
+  matlab_data <- readMat(filename) # Need to read in sorted data
+  sorted_values <- matlab_data$sorted[seq(1, length(matlab_data$sorted), 2)] # Get every other row starting at row 1
+  sorted_nodes <- matlab_data$sorted[seq(2, length(matlab_data$sorted), 2)] # Get every other row starting at row 2
+
+  # Extract all nodes used in the SPA output
+  D3_nodes_list <- unique(unlist(sorted_nodes))
+  D3_nodes_list <- data.frame(D3_nodes_list) # Convert to data frame
+  colnames(D3_nodes_list) <- c("name") # relabel column name with "names" string to identify these as the names of the nodes for the D3 functions
+
+  # Get nodes into a data frame
+  # The line below returns a dataframe with dimensions length(sorted_nodes) by max tier (i.e. longest subtree)
+  D3_nodes_df <- t(sapply(sorted_nodes, '[', seq(max(lengths(sorted_nodes)))))
+  pathString <- apply(D3_nodes_df, 1, paste, collapse = "/") # create a pathString
+  pathString <- sub("\\/NA.*","",pathString) # remove all the /NA's from the pathString
+  D3_nodes_df[is.na(D3_nodes_df)] <- "" # Convert NAs to ""
+  D3_nodes_df <- data.frame(D3_nodes_df) # conver to df again
+  D3_nodes_df$pathString <- pathString # add pathstring 
   
-  #TODO: move the below to a new function, read from csv or something
-  library(R.matlab)
+  
+  #TODO: Add Site and LCI effect values (i.e., data in sorted_values object) to the D3_nodes_df dataframe
+  
+  
+  # Create tree
+  spa_tree <- as.Node(D3_nodes_df)
+  # Create network for networkD3 plotting
+  spa_network <- ToDataFrameNetwork(spa_tree, "name")
+  # simpleNetwork(spa_network[-3], fontSize = 12) # create D3 network plot. The -3 removes the name column from dataframe for plotting purposes
+  return(spa_tree)
+
+}
+
+
+#' Import SPA from CSV file. Note that is SPA produced from MATLAB script
+#' @description Import SPA from CSV file. SPA produced from MATLAB script
+#' @param filename string indicating the filename to import from. Note that it must include the complete relative path as a part of the filename
+#' @return A populated data.tree object
+importModelObjectsForMatlab <- function(filename) {
+  # Load required libraries
   library(networkD3)
   library(data.tree)
   library(DiagrammeR)
   
-  filename <- "../useeior/work/SPA_testing/SPA_results/255_paints/SPA_result_255.csv" #temporary
+#  filename <- "../useeior/work/SPA_testing/SPA_results/255_paints/SPA_result_255.csv" #temporary
   csv_data <- read.csv(filename) # Filename must have complete path and file name, e.g., ../useeior/work/SPA_testing/SPA_results/255_paints/SPA_result_255.csv
   colnames(csv_data) <- csv_data[1,]
   spa <- csv_data[-1,]
@@ -115,36 +136,28 @@ importModelObjectsForMatlab <- function(filename) {
   indexCols <- seq(5, length(spa), 2) # columns that contain the indeces of the useeio sector, which make up the paths
   nameCols <- seq(6, length(spa), 2) # columns that contain the names of the useeio sector, which make up the paths
   
-  numbericCols <- c(pathNumberCol, pathLengthCol, siteEffectCol, LCIEffectCol, indexCols)
-  T_max <- length(indexCols) # Number of tiers
   
-  pathIndexes <- spa[,indexCols] # Get every other column, starting at column 5. These are the columns that contain the codes for each path
-  pathNames <- spa[,nameCols] # Get every other column starting at col 6. These are the cols that contain the names for each path
-
-  sorted_spa <- spa[ order( spa[,indexCols[T_max] ], decreasing = TRUE), ] # sort spa dataframe by the spa df column at indexCols[T_max], i.e., the spa df with the last tier values
-  sorted_pathIndexes <- pathIndexes[ order( pathIndexes[,T_max], decreasing = TRUE), ] # sort Path Indexes by the last tier, i.e., T_max
+  pathString <- apply(spa[,indexCols], 1, paste, collapse = "/") # create a pathString by concatenating all the index cols for all rows
+  pathString <- sub("(\\d)[^0-9]+$", "\\1", pathString) # remove all the "/" that appear after the last number
+  spa_node_data <- spa[,-c(pathNumberCol, pathLengthCol, nameCols)] # Remove the Path and Name columns
+  spa_node_data$pathString <- pathString
   
-  # For testing visualization functions: Get only those rows of the spa with values at the max tier, 
-  # or more specifically, keep those rows where values at the max tier col are not equal to ""
-  # NOTE THAT THESE ARE NOT ENOUGH TO DESCRIBE THE COMPLETE TREE
-  # TODO: NEED TO ADD CODE TO FIND LEAFS FROM TIERS THAT ARE NOT AT T_MAX
-  T_max_leafs <- sorted_spa[which(sorted_spa[,indexCols[T_max]] != ""),]
-  pathstring <- apply(T_max_leafs[,indexCols], 1, paste, collapse = "/") # create a pathstring
-  T_max_leafs$pathString <- pathstring
-  T_max_leafs_index_only <- T_max_leafs[,-c(pathNumberCol, pathLengthCol, nameCols)]
   
   # Create tree
-  spa_tree <- as.Node(T_max_leafs_index_only)
+  spa_tree <- as.Node(spa_node_data)
   # Create network for networkD3 plotting
   spa_network <- ToDataFrameNetwork(spa_tree, "name")
   # simpleNetwork(spa_network[-3], fontSize = 12) # create D3 network plot. The -3 removes the name column from dataframe for plotting purposes
   
   # Plot as dendogram
-  plot(as.dendrogram(spa_tree), center = TRUE)
+  # plot(as.dendrogram(spa_tree), center = TRUE)
   
   # Plot as radial network
-  useRtreeList <- ToListExplicit(spa_tree, unname = TRUE)
-  radialNetwork( useRtreeList)
+  # useRtreeList <- ToListExplicit(spa_tree, unname = TRUE)
+  # radialNetwork( useRtreeList)
+  
+  return(spa_tree)
+  
 }
 
 
