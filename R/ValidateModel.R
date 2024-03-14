@@ -339,6 +339,10 @@ printValidationResults <- function(model) {
   if(!is.null(model$specs$ExternalImportFactors)) {
     validateImportFactorsApproach(model)
   }
+  
+  if(!is.null(model$B_h)) {
+    validateHouseholdEmissions(model)
+  }
 }
 
 #' Removes hybrid processes form a model object for successful validation
@@ -465,4 +469,23 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   cat("assuming model$M = model$Q_t.\n")
   all.equal(LCIA_dm, LCIA)
   
+}
+
+#' Validate the calculation of household_emissions
+#' @param model, A fully built EEIO model object
+validateHouseholdEmissions <- function(model) {
+  location <- model$specs$ModelRegionAcronyms[1]
+  r <- calculateEEIOModel(model, perspective="FINAL", demand="Consumption",
+                          location = location,
+                          household_emissions = TRUE)
+  codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household") &
+                                   grepl(location, model$FinalDemandMeta$Code_Loc), "Code_Loc"]
+  flows <- model$TbS
+  flows$Code_Loc <- paste0(flows$Sector, "/", flows$Location)
+  flows <- flows[flows$Code_Loc %in% codes, ]
+  flows <- setNames(flows$FlowAmount, flows$Flow)
+
+  cat("\nTesting that LCI emissions from households are equivalent to calculated result from Total Consumption.\n")
+  result <- r$LCI_f[codes, names(flows)]
+  all.equal(flows, result)
 }
