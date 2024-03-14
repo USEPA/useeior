@@ -75,12 +75,12 @@ jobs:
           useeior::printValidationResults(m)
         shell: Rscript {0}
 
-      - name: Build and validate models - USEEIOv2.1 detail model, 2017 schema
+      - name: Build and validate models - USEEIOv3.0 detail model, 2017 schema
         if: always()
         run: |
           require(devtools)
           devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.1-GHG")
+          m <- useeior::buildModel("USEEIOv3.0-GHG")
           useeior::printValidationResults(m)
         shell: Rscript {0}
 
