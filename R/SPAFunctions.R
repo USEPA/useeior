@@ -149,7 +149,7 @@ importSPAFromCSV <- function(filename) {
 #' @param subtree_to_plot String denoting whether to plot the entire tree (if NULL) or a specific subtree. Options are:
 #' "top_LCI" to plot the subtree with the highest LCI effect (i.e., subtree with highest cumulative effect)
 #' "top_Site" to plot the subtree containing the highest site effect (i.e., subtree containing the node with the highest individual contribution)
-#' "index" to plot a subtree beginning with a specific index (i.e., specific node). Note that the value for this input is not "index" but the index number.
+#' "index" to plot all subtrees that contain that specific with a specific index (i.e., specific node). Note that the value for this input is not "index" but the index number as a string, e.g., "244" for index 244.
 #' @param plot_type String denoting the type of plot to use. Default to simpleNetwork plot. Options:
 #' simpleNetwork, dendogram, radial
 plotSPA <- function(spa_node_data, subtree_to_plot = NULL, plot_type = "simpleNetwork") {
@@ -159,25 +159,35 @@ plotSPA <- function(spa_node_data, subtree_to_plot = NULL, plot_type = "simpleNe
   library(data.tree)
   library(DiagrammeR)
   
+  if(is.null(subtree_to_plot)){
+    # Keep entire dataset in tree
+    spa_tree <- spa_node_data
+  } else if(subtree_to_plot == "top_LCI"){
+    # Find subtree with highest LCI value
+    spa_tree <- spa_node_data[spa_node_data$`LCI effects`== max(spa_node_data$`LCI effects`),, drop = FALSE]
+  } else if(subtree_to_plot == "top_Site"){
+    # Find subtree with highest site value
+    spa_tree <- spa_node_data[spa_node_data$`Site Effects` == max(spa_node_data$`Site Effects`),, drop = FALSE]
+    
+  } else{
+    # Assume value is an index node
+    node_indexes <- sapply("pathString", function(x) grep(subtree_to_plot, spa_node_data[,x])) # Find all rows where the subtree_to_plot value is present in the pathString column
+    
+    
+    if(class(node_indexes)[1] == "list"){
+      # If there is no match for the node input
+      stop("subtree_to_plot parameter undefined")
+    } else{
+      spa_tree <- spa_node_data[node_indexes,] 
+    }
+    
+    
+  } # end of options for subtree_to_plot
+
   # Create tree
-  spa_tree <- as.Node(spa_node_data)
+  spa_tree <- as.Node(spa_tree)
   
-  
-  # if(subtree_to_plot == "top_LCI"){
-  #   # find subtree with highest LCI value
-  # } else if(subtree_to_plot == "top_Site"){
-  #   # find subtree with highest site value
-  # } else if(is.numeric(subtree_to_plot)){
-  #   # find subtree correspoding to the index node
-  # } else if(is.null(subtree_to_plot)){
-  #   # print the whole tree
-  # } else{
-  #   stop("subtree_to_plot parameter undefined")
-  # }
-  #   
-  
-  
-  
+  #TODO: add plot type sankey
 
   if(plot_type == "simpleNetwork"){
     # Create network for networkD3 plotting
