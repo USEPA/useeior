@@ -69,7 +69,10 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
 generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym,
                                              IsRoUS = FALSE, model, output_type = "Industry", final_demand = FALSE) {
   if(final_demand) {
-    Output_adj <- data.frame(colSums(model$FinalDemand))
+    # Output_adj <- data.frame(colSums(model$FinalDemand))
+    # Final demand emissions currenlty only assigned to households even though they reflect all final consumption
+    Output_adj <- data.frame(sum(prepareConsumptionDemand(model, location_acronym)))
+    rownames(Output_adj) <- "F010"
     # TODO adjust the final demand to reflect emission year!!
     colnames(Output_adj) <- paste0(outputyear, output_type, "Output")
   } else {

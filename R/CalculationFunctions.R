@@ -134,8 +134,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   if (!is.null(location)) {
     codes <- codes[grepl(location, codes)]
   }
-  hh = t(as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
-  hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
+  hh = t(as.matrix(model$B_h[, codes])) * colSums(y_d + y_m)
+  hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(y_d + y_m)
   rownames(hh) <- codes
   rownames(hh_lcia) <- codes
   
@@ -273,8 +273,8 @@ calculateStandardResults <- function(model, perspective, f, use_domestic_require
   if (!is.null(location)) {
     codes <- codes[grepl(location, codes)]
   }
-  hh = t(as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
-  hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(as.matrix(model$U[, codes]))
+  hh = t(as.matrix(model$B_h[, codes])) * colSums(f)
+  hh_lcia = t(model$C %*% as.matrix(model$B_h[, codes])) * colSums(f)
   rownames(hh) <- codes
   rownames(hh_lcia) <- codes
   # Calculate LCI and LCIA in direct or final perspective
