@@ -232,7 +232,7 @@ standardizeandcastSatelliteTable <- function(df, model, final_demand = FALSE) {
   df_cast$Flow <- NULL
   if(final_demand) {
     codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
-    if(codes %in% colnames(df_cast)) {
+    if(any(codes %in% colnames(df_cast))) {
       df_cast <- df_cast[, codes, drop=FALSE]
     } else {
       # no final demand emissions in any satellite table, no need for B_h
