@@ -161,31 +161,32 @@ plotSPA <- function(spa_node_data, subtree_to_plot = NULL, plot_type = "simpleNe
   
   if(is.null(subtree_to_plot)){
     # Keep entire dataset in tree
-    spa_tree <- spa_node_data
+    spa_node_data <- spa_node_data
   } else if(subtree_to_plot == "top_LCI"){
     # Find subtree with highest LCI value
-    spa_tree <- spa_node_data[spa_node_data$`LCI effects`== max(spa_node_data$`LCI effects`),, drop = FALSE]
+    spa_node_data <- spa_node_data[spa_node_data$`LCI effects`== max(spa_node_data$`LCI effects`),, drop = FALSE]
   } else if(subtree_to_plot == "top_Site"){
     # Find subtree with highest site value
-    spa_tree <- spa_node_data[spa_node_data$`Site Effects` == max(spa_node_data$`Site Effects`),, drop = FALSE]
+    spa_node_data <- spa_node_data[spa_node_data$`Site Effects` == max(spa_node_data$`Site Effects`),, drop = FALSE]
     
   } else{
     # Assume value is an index node
     node_indexes <- sapply("pathString", function(x) grep(subtree_to_plot, spa_node_data[,x])) # Find all rows where the subtree_to_plot value is present in the pathString column
-    
-    
+
     if(class(node_indexes)[1] == "list"){
       # If there is no match for the node input
       stop("subtree_to_plot parameter undefined")
     } else{
-      spa_tree <- spa_node_data[node_indexes,] 
+      #spa_node_data <- spa_node_data[node_indexes,]
+      spa_node_data <- rbind(spa_node_data[1,],spa_node_data[node_indexes,]) # need to keep the root node
+      
     }
     
     
   } # end of options for subtree_to_plot
 
   # Create tree
-  spa_tree <- as.Node(spa_tree)
+  spa_tree <- as.Node(spa_node_data)
   
   #TODO: add plot type sankey
 
@@ -201,9 +202,50 @@ plotSPA <- function(spa_node_data, subtree_to_plot = NULL, plot_type = "simpleNe
     # Plot as radial network
     useRtreeList <- ToListExplicit(spa_tree, unname = TRUE)
     radialNetwork( useRtreeList)
+  } else if(plot_type == "sankey"){
+# 
+#     # Create dfs for sankey diagram
+#     nodes <- data.frame(spa_node_data$pathString)
+#     colnames(nodes) <- c("name")
+#     links <- data.frame(matrix(ncol = 3, nrow = dim(spa_node_data)[1]-1)) # -1 rows because we are skipping first row
+# 
+#     names(links) = c("source", "target", "value")
+#     
+#     paths <- spa_node_data[,3:(dim(spa_node_data)[2]-1)] # get all spa_nodes_data columns that represent the indexes,i.e., node paths
+#     
+#     for(row in 2:nrow(spa_node_data)){ #skipping first row since that only has value at the root node, and not between two nodes
+#       linksRow <- row - 1
+#       empty_indexes <- which(paths[row, ] == "") # get indexes which are empty
+#       
+#       if(length(empty_indexes) == 0){ # if there are no empty indexes, this means we are at a row with a leaf at max tier
+#         empty_indexes[1] <- ncol(paths) + 1 # set the start of the parent pathstring one index beyond the max tier, i.e., beyond the number of columns in the path df, so that the next line gets the proper parent node string.
+#       }
+#       
+#       parentNode <- paste(paths[row,1:(empty_indexes[1]-2)], collapse = "/")   # the parent node is the part of the pathstring consisting of the values on this row which start 2 columns before the last populated column, i.e., value != "" 
+#       
+#       links[linksRow,1] <- spa_node_data$pathString[row] # value at col 1 is node from. In this case, we're going from leaf to parent; the leaf node is defined by the pathstring.
+#       links[linksRow,2] <- parentNode # value at col 2 is node to. In this case, we're going from leaf to parent. The parent is defined as indicated in the comment for the parentNode line.
+#       links[linksRow,3] <- spa_node_data$`Site Effects`[row] # value of link
+#        
+#     }
+#     
+#     links <- transform(links, value = as.numeric(value)) # transform value to a numeric column from a char column.
+#     
+#     
+#     # Plot sankey ## DOES NOT WORK; not all node names are in nodes dataframe. 
+#     # Possible solution, tho currently not working, is to stack the source and target columns in links: temp <- stack(links[,1:2])
+#     # Another possibility is to prepend the word "Node" to all node names, or finally to change all names from pathstring format to Node A, node B, etc.
+#     sankeyNetwork(Links = links, Nodes = nodes,
+#                   Source = "source", Target = "target",
+#                   Value = "value", NodeID = "name",
+#                   fontSize= 12, nodeWidth = 30)
+    
   } else {
     stop("Plot_type undefined")
   }
+  
+  
+  temp <- 1
 
 }
 
