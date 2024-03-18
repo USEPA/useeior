@@ -8,7 +8,7 @@
 
 `useeior` is an R package for building and using [USEEIO models](https://www.epa.gov/land-research/us-environmentally-extended-input-output-useeio-models).
 
-The [model object](format_specs/Model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecification.md) and optional hybridization specification, e.g. [disaggregation](format_specs/DisaggregationAndAggregationSpecification.md).
+The [model object](format_specs/Model.md) is the primary output that is built according to a given [model specification](format_specs/ModelSpecification.md) and optional hybridization specification, e.g. [disaggregation](format_specs/ModelCustomization.md).
 [Model specifications](inst/extdata/modelspecs) and associated hybridization specifications, e.g. [disaggregation](inst/extdata/disaggspecs), for EPA-validated models are included in the package.
 
 `useeior` offers various functions for validating, calculating, visualizing, and writing out models and/or their components.
