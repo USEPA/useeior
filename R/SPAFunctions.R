@@ -302,7 +302,7 @@ plotSPA <- function(spa_node_data, subtree_to_plot = NULL, plot_type = "simpleNe
   #                 Value = "value", NodeID = "name",
   #                 fontSize= 12, nodeWidth = 30)
   #   
-  # } 
+   } 
     else {
     stop("Plot_type undefined")
   }
