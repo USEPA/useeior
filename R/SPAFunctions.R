@@ -189,6 +189,12 @@ importSPAFromCSV <- function(filename) {
 #' simpleNetwork, dendogram, radial
 plotSPA <- function(spa_node_data, subtree_to_plot = NULL, plot_type = "simpleNetwork") {
   
+  # #Example use:
+  # filename <- "../useeior/work/SPA_testing/SPA_results/255_paints/SPA_result_255.csv"
+  # spa_node_data <- importSPAFromCSV(filename)
+  # plotSPA(spa_node_data, subtree_to_plot = "244", plot_type = "sankey")
+  
+  
   # Load required libraries
   library(networkD3)
   library(data.tree)
