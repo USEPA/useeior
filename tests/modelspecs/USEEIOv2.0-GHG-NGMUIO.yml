@@ -1,15 +1,18 @@
-Model: "USEEIOv2.0-GHG-NGCombustion" # 2012 Detail, Commodity
+Model: "USEEIOv2.0-GHG-NGMUIO" # Based on USEEIOv2.0-GHG-NGCombustion.yml testfile
 BaseIOSchema: 2012
-BaseIOLevel: "Detail"
+BaseIOLevel: &BaseIOLevel "Detail"
 IOYear: 2012 # Year for IO data
 ModelRegionAcronyms: ["US"]
-ModelType: "EEIO-IH" #Integrated hybrid model
+ModelType: "MUIO"
 IODataSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
 ScrapIncluded: FALSE
-HybridizationSpecs: "NGCombustion"
+DisaggregationSpecs: null
+HybridizationSpecs: null
+WIOSpecs: null
+MUIOSpecs: "NGMUIO"
 
 SatelliteTable:
   GHG:
@@ -57,3 +60,5 @@ Indicators:
 DemandVectors:
     DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
 # Additional demand vectors beyond useeior defaults
+
+
