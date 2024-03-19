@@ -1,6 +1,7 @@
 # test_model_build.R
 
 # devtools::load_all(".")
+# setwd("tests")
 library(useeior)
 # library(unittest, quietly = TRUE)
 if (!interactive()) options(warn=2, error = function() { sink(stderr()) ; traceback(3) ; q(status = 1) })
@@ -28,6 +29,15 @@ cfg <- c(paste0("modelspecs/", m, ".yml"),
          "hybridizationspecs/NGCombustion_env.csv",
          "hybridizationspecs/NGCombustion_tech.csv"
          )
+model <- buildModel(m, configpaths = file.path(cfg))
+printValidationResults(model)
+
+## USEEIOv2 - mixed unit hybrid model
+m <- "USEEIOv2.0-GHG-NGMUIO"
+cfg <- c(paste0("modelspecs/", m, ".yml"),
+         "muiospecs/NGMUIO.yml",
+         "muiospecs/NGMUIO_Sectors.csv"
+)
 model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 

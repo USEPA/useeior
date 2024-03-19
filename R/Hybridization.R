@@ -20,7 +20,7 @@ hybridizeAMatrix <- function (model, domestic = FALSE){
   processes <- cbind(model$HybridizationSpecs$TechFileDF[,c("ProcessID","ProcessName")],
                      paste0(model$HybridizationSpecs$TechFileDF[,"ProcessID"],"/",
                             model$HybridizationSpecs$TechFileDF[,"Location"])
-  )
+                     )
   processes <- unique(processes)
   colnames(processes) <- c("ProcessID", "ProcessName", "ProcessID_Loc")
   

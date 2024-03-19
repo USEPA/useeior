@@ -78,7 +78,7 @@ getCombinedImpactMethods <- function(ind_spec) {
 }
 
 #' Prepares and reformats LCIAmethod data from LCIAformatter for use
-#' modeled after prepareFlowBySectorCollapsedforSatellite
+#' modeled after prepareFlowBySectorCollapsed
 #' @param lciamethod A full LCIAmethod data frame from LCIAformatter via getInventoryMethod or getImpactMethod.
 #' @return A LCIAmethod data frame formatted for indicators
 prepareLCIAmethodforIndicators <- function(lciamethod) {
