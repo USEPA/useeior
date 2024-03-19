@@ -29,9 +29,10 @@ model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 
 ## USEEIOv3.0-s-GHG Summary, commodity model (2017 Schema)
-model <- useeior:::initializeModel(m)
+model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
 model$specs$Model <- "USEEIOv3.0-s-GHG"
 model$specs$BaseIOLevel <- "Summary"
+model$crosswalk <- useeior:::getModelCrosswalk(model) # reassign for summary model
 model <- useeior:::loadIOData(model)
 model <- useeior:::loadandbuildSatelliteTables(model)
 model <- useeior:::loadandbuildIndicators(model)
