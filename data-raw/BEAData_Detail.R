@@ -1,45 +1,43 @@
 source("data-raw/BEAData.R")
+source("R/UtilityFunctions.R")
 
-schema_year <- 2012
-
-# Download, save and document 2012 BEA Detail Make (Before Redef, 2012 schema)
-getBEADetailMakeBeforeRedef2012Schema(schema_year)
-
-# Download, save and document 2012 BEA Detail Use (PRO, Before Redef, 2012 schema)
-getBEADetailUsePROBeforeRedef2012Schema(schema_year)
-
-# Download, save and document 2012 BEA Detail Use (PUR, Before Redef, 2012 schema)
-getBEADetailUsePURBeforeRedef2012Schema(schema_year)
-
-# Download, save and document 2012 BEA Detail Make (After Redef, 2012 schema)
-getBEADetailMakeAfterRedef2012Schema(schema_year)
-
-# Download, save and document 2012 BEA Detail Use (PRO, After Redef, 2012 schema)
-getBEADetailUsePROAfterRedef2012Schema(schema_year)
-
-# Download, save and document 2012 BEA Detail Use (PUR, After Redef, 2012 schema)
-getBEADetailUsePURAfterRedef2012Schema(schema_year)
+schema_year <- 2017
 
 
-# Download, save and document 2012 BEA Summary Use (PUR, Before Redef, 2012 schema)
-getBEASummaryUsePURBeforeRedef2012Schema(schema_year)
+# Download, save and document BEA Detail Make (Before Redef)
+getBEADetailMakeBeforeRedef(schema_year)
 
-# Download, save and document 2012 BEA Sector Use (PUR, Before Redef, 2012 schema)
-getBEASectorUsePURBeforeRedef2012Schema(schema_year)
+# Download, save and document BEA Detail Use (PRO, Before Redef)
+getBEADetailUsePROBeforeRedef(schema_year)
 
-# Download, save and document 2012 BEA Detail Import matrix
-getBEADetailImportBeforeRedef2012Schema(schema_year)
+# Download, save and document BEA Detail Use (PUR, Before Redef)
+getBEADetailUsePURBeforeRedef(schema_year)
 
-# Download, save and document BEA Detail, Summary, and Sector Code and Name (2012 schema)
-getBEACodeName2012Schema()
+# Download, save and document BEA Detail Make (After Redef)
+getBEADetailMakeAfterRedef(schema_year)
 
-# Download, save and document 2012 BEA Detail Margins table
-getBEADetailMarginsBeforeRedef2012Schema(schema_year)
+# Download, save and document BEA Detail Use (PRO, After Redef)
+getBEADetailUsePROAfterRedef(schema_year)
+
+# Download, save and document BEA Detail Use (PUR, After Redef)
+getBEADetailUsePURAfterRedef(schema_year)
+
+# Download, save and document BEA Summary Use (PUR, Before Redef)
+getBEASummaryUsePURBeforeRedef(schema_year)
+
+# Download, save and document BEA Detail Import matrix
+getBEADetailImportBeforeRedef(schema_year)
+
+# Download, save and document BEA Detail, Summary, and Sector Code and Name
+getBEACodeName(schema_year)
+
+# Download, save and document BEA Detail Margins table
+getBEADetailMarginsBeforeRedef(schema_year)
 
 ## Supply and Use Tables
-# Download, save and document 2012 BEA Detail Supply (2012 schema)
-getBEADetailSupply2012Schema(schema_year)
+# Download, save and document BEA Detail Supply
+getBEADetailSupply(schema_year)
 
-# Download, save and document 2012 BEA Detail Supply (2012 schema)
-getBEADetailUseSUT2012Schema(schema_year)
+# Download, save and document BEA Detail Use
+getBEADetailUseSUT(schema_year)
 

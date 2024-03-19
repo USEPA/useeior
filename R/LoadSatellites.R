@@ -43,7 +43,10 @@ loadSatTables <- function(model) {
     } else {
       logging::loginfo(paste0("Loading ", sat_spec$FullName, " flows from ", sat_spec$FileLocation, "..."))
     }
-
+    if(sat_spec$SectorListSource == "NAICS" && sat_spec$SectorListYear != model$specs$BaseIOSchema) {
+      logging::logwarn(paste0("SectorListYear of ", sat_spec$FullName," does not match the BaseIOSchema ",
+                              "and may not map to sectors correctly."))
+    }
     ### Generate totals_by_sector, tbs
     tbs0 <- generateTbSfromSatSpec(sat_spec, model)
     
@@ -161,7 +164,8 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
   # If not, map data from original sector to BEA.
   if (sat_spec$SectorListSource == "BEA") {
     # If BEA years is not the same as model year, must perform allocation
-    if (all(sat_spec$SectorListLevel == "Detail", sat_spec$SectorListYear == 2007, model$specs$BaseIOSchema == 2012)) {
+    if (all(sat_spec$SectorListLevel == "Detail", sat_spec$SectorListSource == "BEA",
+            sat_spec$SectorListYear == 2007, model$specs$BaseIOSchema == 2012)) {
       tbs <- mapFlowTotalsbySectorfromBEASchema2007to2012(tbs)
     }
     # If the original data is at Detail level but model is not, apply aggregation

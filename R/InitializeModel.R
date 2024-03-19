@@ -12,19 +12,26 @@ initializeModel <- function(modelname, configpaths = NULL) {
   if (is.null(model$specs)) {
     stop(paste("No configuration exists for a model named", modelname))
   } else {
-    # Get model crosswalk
-    crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema),
-                     as.environment("package:useeior"))
-    crosswalk <- unique(crosswalk[, c("NAICS_2012_Code",
-                                      colnames(crosswalk)[startsWith(colnames(crosswalk), "BEA")])])
-    colnames(crosswalk) <- gsub(paste0("_", model$specs$BaseIOSchema, "|_Code"),
-                                "", colnames(crosswalk))
-    rownames(crosswalk) <- NULL
-    # Assign initial model crosswalk based on base schema
-    modelschema <- "USEEIO"
-    baseschema <- paste0("BEA_", model$specs$BaseIOLevel)
-    crosswalk[modelschema] <- crosswalk[baseschema]
-    model$crosswalk <- crosswalk
+    model$crosswalk <- getModelCrosswalk(model)
   }
   return(model)
+}
+
+#' Get model crosswalk based on BaseIOSchema and BaseIOLevel
+#' @param model EEIO model with specs assigned
+#' @return crosswalk as dataframe
+getModelCrosswalk <- function(model) {
+  # Get model crosswalk
+  crosswalk <- get(paste0("MasterCrosswalk", model$specs$BaseIOSchema),
+                   as.environment("package:useeior"))
+  crosswalk <- unique(crosswalk[, c(paste0("NAICS_", model$specs$BaseIOSchema, "_Code"),
+                                    colnames(crosswalk)[startsWith(colnames(crosswalk), "BEA")])])
+  colnames(crosswalk) <- gsub(paste0("_", model$specs$BaseIOSchema, "|_Code"),
+                              "", colnames(crosswalk))
+  rownames(crosswalk) <- NULL
+  # Assign initial model crosswalk based on base schema
+  modelschema <- "USEEIO"
+  baseschema <- paste0("BEA_", model$specs$BaseIOLevel)
+  crosswalk[modelschema] <- crosswalk[baseschema]
+  return(crosswalk)
 }
