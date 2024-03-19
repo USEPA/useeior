@@ -763,7 +763,7 @@ mapBEACPItoIOIndustry <- function(schema_year) {
   ## TODO can update crosswalk file for 2017, 2017 summary schema is same as 2012 ^^
   SummaryCPIIO <- cbind(Summary_mapping, SummaryCPI)
   # Keep Summary rows
-  SummaryCPIIO <- SummaryCPIIO[!SummaryCPIIO$BEA_2012_Summary_Code == "",
+  SummaryCPIIO <- SummaryCPIIO[!SummaryCPIIO$BEA_Summary_Code == "",
                                c("BEA_Summary_Code", year_range)]
   # Assign sector code to row names
   rownames(SummaryCPIIO) <- SummaryCPIIO[, 1]
