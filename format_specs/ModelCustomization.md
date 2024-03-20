@@ -109,7 +109,7 @@ FlowUUID | str| Y | FEDEFL nomenclature
 
 # Mixed Unit File Specification
 Model hybridization which converts economic flows for target sectors into physical flows is available via [Model Type: MUIO](ModelSpecification.md#model-types).
-This hybridization approach requires one .yml input file with one or more csv files that specify the target sectors and price conversation data. 
+This hybridization approach requires one .yml input file with one or more csv files that label specific sectors as mixed unit (using the MUIO tag) and price conversation data. 
 Additional examples of mixed unit models can be found in the [Hybrid Input-Output (HIO) data repository](https://github.com/USEPA/HIO/tree/main/useeior).
 
 |  Field             |  Type   |  Required? |  Description                                 |
@@ -127,7 +127,7 @@ Additional examples of mixed unit models can be found in the [Hybrid Input-Outpu
 
 # Waste Input Output File Specification
 Model hybridization which appends physical waste flows and waste treatment processes via [Model Type: WIO](ModelSpecification.md#model-types).
-This hybridization approach requires one .yml input file with one or more csv files that specify the production and consumption of waste by economic sectors. 
+This hybridization approach requires one .yml input file with one or more csv files that label specific sectors as: Waste Treatment Industries and Waste Treatment Commodities (economic sectors); as well as Waste Generation by Mass and Waste Generation by Treatment (physical sectors). 
 Additional examples of mixed unit models can be found in the [Hybrid Input-Output (HIO) data repository](https://github.com/USEPA/HIO/tree/main/useeior).
 
 ## Waste Sectors Format
