@@ -5,7 +5,7 @@ This includes models with aggregation and/or disaggregation of target sectors, i
 
 # Disaggreation and Aggregation .yml File Specification
 Aggregating a sector requires only one .yml input file, while disaggregation requires a .yml input file and several .csv files to specify the disaggregation parameters. 
-The disaggregation and aggregation files are assigned in a yml file based on the parameters shown below. Each file is a list, named based on the [Code/location](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#sector-meta) of the sector to be disaggregated or aggregated to (e.g. `221100/US`)
+The disaggregation and aggregation files are assigned in a yml file based on the parameters shown below. Each file is a list, named based on the [Code/location](Model.md#sector-meta) of the sector to be disaggregated or aggregated to (e.g. `221100/US`)
 
 
 ## Disaggregation 
@@ -55,11 +55,11 @@ PercentAllocation | numeric | Y | Percent of sector output dedicated to the newl
 Note | string | N |  This column contains short text strings describing the allocation performed in each row. The text is intended to describe how the allocation value is used in the disaggregation. |
 
 ## Disaggregated Satellite Table Format
-Matches [totals-by-sector](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#totals_by_sector) but includes an additional field `SatelliteTable` indicating the satellite table to which each record applies.
+Matches [totals-by-sector](Model.md#totals_by_sector) but includes an additional field `SatelliteTable` indicating the satellite table to which each record applies.
 
 
 # Hybridization File Specification
-Model hybridization, e.g., with LCA data from unit processes is available via [Model Type: EEIO-IH](https://github.com/USEPA/useeior/blob/hybridization/format_specs/ModelSpecification.md#model-types).
+Model hybridization, e.g., with LCA data from unit processes is available via [Model Type: EEIO-IH](ModelSpecification.md#model-types).
 This hybrid model type requires as input data normalized environmental and technical (i.e., supply chain) data.
 Additional examples of integrated hybrid models can be found in the [Hybrid Input-Output (HIO) data repository](https://github.com/USEPA/HIO/tree/main/useeior).
 
@@ -83,7 +83,7 @@ ProcessName | str | Y |
 ProcessUnit | str | Y | Reference flow
 Location | str | Y | two-digit code, e.g., `US`
 Amount | float | Y | Normalized per unit of reference flow
-FlowID | str | Y | ProcessID of the flow being consumed, use [code_loc format](https://github.com/USEPA/useeior/blob/master/format_specs/Model.md#sector-meta)
+FlowID | str | Y | ProcessID of the flow being consumed, use [code_loc format](Model.md#sector-meta)
 Flow | str | N | ProcessName of the flow being consumed
 FlowUnit | str | N | FEDEFL nomenclature
 
@@ -108,7 +108,7 @@ Unit | str | Y | FEDEFL nomenclature
 FlowUUID | str| Y | FEDEFL nomenclature
 
 # Mixed Unit File Specification
-Model hybridization which converts economic flows for target sectors into physical flows is available via [Model Type: MUIO](https://github.com/USEPA/useeior/blob/hybridization/format_specs/ModelSpecification.md#model-types).
+Model hybridization which converts economic flows for target sectors into physical flows is available via [Model Type: MUIO](ModelSpecification.md#model-types).
 This hybridization approach requires one .yml input file with one or more csv files that specify the target sectors and price conversation data. 
 Additional examples of mixed unit models can be found in the [Hybrid Input-Output (HIO) data repository](https://github.com/USEPA/HIO/tree/main/useeior).
 
@@ -126,7 +126,7 @@ Additional examples of mixed unit models can be found in the [Hybrid Input-Outpu
 |  Unit              |  string |  Y         |  Physical target unit                        |
 
 # Waste Input Output File Specification
-Model hybridization which appends physical waste flows and waste treatment processes via [Model Type: WIO](https://github.com/USEPA/useeior/blob/hybridization/format_specs/ModelSpecification.md#model-types).
+Model hybridization which appends physical waste flows and waste treatment processes via [Model Type: WIO](ModelSpecification.md#model-types).
 This hybridization approach requires one .yml input file with one or more csv files that specify the production and consumption of waste by economic sectors. 
 Additional examples of mixed unit models can be found in the [Hybrid Input-Output (HIO) data repository](https://github.com/USEPA/HIO/tree/main/useeior).
 
