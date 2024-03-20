@@ -17,8 +17,10 @@ Model specifications are assigned in a yml file based on the parameters shown be
 | ScrapIncluded | bool | Y | Whether the model includes scrap (TRUE or FALSE) |
 | DisaggregationSpecs | str | N | The [disaggregation specifications](ModelCustomization.md#disaggregation) |
 | HybridizationSpecs | str | N | The [hybridization specifications](ModelCustomization.md#hybridization-file-specification) |
+| MUIOSpecs | str | N | The [mixed unit hybridization specifications](ModelCustomization.md#mixed-unit-file-specification) |
+| WIOSpecs | str | N | The [waste input output specifications](ModelCustomization.md#waste-input-output-file-specification) |
 | SatelliteTable | list |  | The [satellite table specifications](#Satellite-Table-Specifications) |
-| Indicators | list |  | The [indicator specifications](#Indicator-Specifications) |
+| Indicators | list | N | The [indicator specifications](#Indicator-Specifications) |
 | DemandVectors | list |  | The [demand vector specifications](#Demand-Vector-Specifications) |
 
 ## Model Types

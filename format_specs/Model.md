@@ -27,9 +27,12 @@ Items are listed in the order in which they appear in a built Model object in R.
 | TaxLessSubsidies | data.frame | supporting data | [Total product supply in basic price and tax less subsidies](#taxlesssubsidies) |
 | MultiYearIndustryCPI | data.frame | supporting data | Multi-year industry CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityCPI | data.frame |   supporting data | Multi-year commodity CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
-| AggregationSpecs | list | metadata | Specifications for one or more aggregations
-| DisaggregationSpecs | list | metadata | Specifications for one or more [disaggregation](https://github.com/USEPA/useeior/tree/master/format_specs/ModelCustomization.md#disaggreation-and-aggregation-yml-file-specification) |
-| HybridizationSpecs | list | metadata | Specifications for [model hybridization](https://github.com/USEPA/useeior/tree/master/format_specs/ModelCustomization.md#hybridization-file-specification) |
+| AggregationSpecs | list | metadata | (Optional) Specifications for one or more aggregations
+| DisaggregationSpecs | list | metadata | (Optional) Specifications for one or more [disaggregation](https://github.com/USEPA/useeior/tree/master/format_specs/ModelCustomization.md#disaggreation-and-aggregation-yml-file-specification) |
+| HybridizationSpecs | list | metadata | (Optional) Specifications for [model hybridization](https://github.com/USEPA/useeior/tree/master/format_specs/ModelCustomization.md#hybridization-file-specification) |
+| MUIOSpecs | list | metadata | (Optional) Specifications for converting one or more sectors to [physical units](https://github.com/USEPA/useeior/tree/master/format_specs/ModelCustomization.md#mixed-unit-file-specification) |
+| WIOSpecs | list | metadata | (Optional) Specifications for tracking [waste flows as unique sectors](https://github.com/USEPA/useeior/tree/master/format_specs/ModelCustomization.md#waste-input-output-file-specification) |
+| MUIOSectors | data.frame | metadata | (Optional) Metadata associated with new setors representing physical flows |
 | SatelliteTables | list | component data | [Satellite tables](#satellitetables) |
 | Indicators | list | component data | [Indicators](#indicators) |
 | DemandVectors | list | component data | [Demand vectors](#demandvectors) |
