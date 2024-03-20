@@ -264,8 +264,7 @@ assembleWIOModel <- function (model){
   if(length(model$WIOSpecs) > 1 ){
     model <- reorderWIOSectors(model)
   }
-  
-  
+
   return(model)
 }
 
@@ -483,7 +482,6 @@ includeMakeWIO <- function (model, WIO){
 #' @return A model object which contain the model$Commodity or model$Industry objects with WIO sectors
 calculateWIOOutputs<- function (model, WIO){
   # The outputs need to be calculated using the row sums for each table to avoid mixing units
-
   model$IndustryOutput <- rowSums(model$MakeTransactions)
   model$CommodityOutput <- rowSums(model$UseTransactions)+rowSums(model$FinalDemand)
   
@@ -505,8 +503,7 @@ adjustITAwithWIOSectors <- function (model, WIO){
   WIOITA <- double(dim(WIOUseRows)[1])
   names(WIOITA) <- WIOUseRows$Code_Loc
   model$InternationalTradeAdjustment <- append(model$InternationalTradeAdjustment, WIOITA)
-  
-  
+
   return(model)
 }
 
