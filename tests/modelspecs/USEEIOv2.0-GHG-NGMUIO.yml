@@ -1,9 +1,9 @@
 Model: "USEEIOv2.0-GHG-NGMUIO" # Based on USEEIOv2.0-GHG-NGCombustion.yml testfile
 BaseIOSchema: 2012
-BaseIOLevel: &BaseIOLevel "Detail"
+BaseIOLevel: "Detail"
 IOYear: 2012 # Year for IO data
 ModelRegionAcronyms: ["US"]
-ModelType: "MUIO"
+ModelType: "MUIO" # Mixed-unit IO model
 IODataSource: "BEA"
 BasePriceType: "PRO" #producer
 BasewithRedefinitions: FALSE
