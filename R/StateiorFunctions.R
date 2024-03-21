@@ -310,3 +310,77 @@ compare2RVectorTotals <- function(v_One, v_Two) {
   return(failures)
   
 }
+
+
+#' Create Make, Use, and Env ratio files for each state from Proxy data for the relevant sectors.
+#' @param model An stateior model object with model specs and specific IO tables loaded
+#' @param disagg Specifications for disaggregating the current Table
+#' @param disaggYear Integer specifying the state model year
+#' @param disaggState A string value that indicates the state model being disaggregated. For national models, string should be "US"
+#' @return 
+createDisaggFilesFromProxyData <- function(model, disagg, disaggYear, disaggState){
+  
+  # Note: this function assumes: 
+  # 1) The disaggregation will use the same proxy values for all disaggregated sectors across all rows and columns. 
+  #    That is, if we are disaggregating Summary 22 into the 3 Detail utility sectors, and the proxy allocations are (for example) 0.5/0.25/0.25, then 
+  #    in the Use table, the three Detail utility commodities (rows) will have that same split for across all columns (industries/final demand)
+  # 2) The disagg parameter will contain a disagg$stateDF variable that includes the data for the relevant disaggState and disaggYear parameters.
+  
+  temp <-1
+  
+  #Get subset of ratios for current year
+  stateDFYear <- subset(disagg$stateDF, Year == disaggYear & State == disaggState)
+  
+  # If the state/year combination is not found, assume a uniform split between sectors
+  if(dim(stateDFYear)[1] == 0){
+    
+    activity <- unlist(disagg$DisaggregatedSectorCodes)
+    uniformAllocationVector <- 1/length(disagg$DisaggregatedSectorCodes)
+    share <- rep(uniformAllocationVector,length(disagg$DisaggregatedSectorCodes))
+    
+    stateDFYear <- data.frame(State = rep(disaggState, length(disagg$DisaggregatedSectorCodes)),
+                              Activity = activity,
+                              Share = share,
+                              Year = rep(disaggYear, length(disagg$DisaggregatedSectorCodes)))
+    
+  }
+  
+  print(paste0("For ",disaggState,"-",disaggYear, " the allocation to disaggregate ", 
+               disagg$OriginalSectorCode, " into ", disagg$DisaggregatedSectorCodes, " is ", stateDFYear$Share))
+  
+  # Default Make DF based on proxy employment values
+  # Specifying commodity disaggregation (column splits) for Make DF
+  industries <- c(rep(disagg$OriginalSectorCode,length(disagg$DisaggregatedSectorCodes)))
+  commodities <- unlist(disagg$DisaggregatedSectorCodes)
+  PercentMake <- stateDFYear$Share # need to add code to ensure that the order of stateDF$Share is the same as the order of disagg$DisaggregatedSectorCodes
+  note <- c(rep("CommodityDisagg", length(disagg$DisaggregatedSectorCodes)))
+  
+  makeDF <- data.frame(cbind(data.frame(industries), data.frame(commodities), data.frame(PercentMake), data.frame(note))) #need to rename the columns with the correct column names
+  colnames(makeDF) <- c("IndustryCode","CommodityCode",	"PercentMake",	"Note")
+  
+  
+  # Default Use DF based on employment ratios
+  # Specifying industry disaggregation (column splits) for Use DF
+  industries <- unlist(disagg$DisaggregatedSectorCodes)
+  commodities <- c(rep(disagg$OriginalSectorCode,length(disagg$DisaggregatedSectorCodes)))
+  PercentUse <- stateDFYear$Share
+  note <- c(rep("IndustryDisagg", length(disagg$DisaggregatedSectorCodes)))
+  
+  useDF <- data.frame(cbind(data.frame(industries), data.frame(commodities), data.frame(PercentUse), data.frame(note))) #need to rename the columns with the correct column names
+  useDF_2 <- makeDF # so that colnames match
+  colnames(useDF) <- c("IndustryCode","CommodityCode",	"PercentUse",	"Note")
+  colnames(useDF_2) <- c("IndustryCode","CommodityCode",	"PercentUse",	"Note")
+  
+  useDF <- rbind(useDF, useDF_2) #need to bid makeDF because disaggregation procedure requires the UseDF to have the default commodity and industry output.
+  
+  # Add new DFs to disagg and to model
+  disagg$MakeFileDF <- makeDF
+  disagg$UseFileDF <- useDF
+  
+  model$DisaggregationSpecs[[disagg$OriginalSectorCode]] <- disagg
+  
+  
+  temp <-2 
+  return(model)
+  
+}
