@@ -36,30 +36,52 @@ getFlowbySectorCollapsed <- function(sat_spec) {
     fbs_collapsed <- fbs[,!(names(fbs) %in% c('SectorProducedBy', 'SectorConsumedBy'))]
   }
   # reorder col
-  fbs_collapsed <- prepareFlowBySectorCollapsedforSatellite(fbs_collapsed)
+  fbs_collapsed <- prepareFlowBySectorCollapsed(fbs_collapsed, satellite=TRUE)
 
   return(fbs_collapsed)
 }
 
 
 #' Adjusts flowbysector data from flowsa
-#' Currently only works for national totals (location="00000") and
-#' assumes that sector schema is NAICS_2012_Code
 #' @param fbsc A FlowBySector collapsed df from flowsa
+#' @param satellite bool, set to TRUE when used for env satellite tables
 #' @return A data frame of sector by region totals
-prepareFlowBySectorCollapsedforSatellite <- function(fbsc) {
+prepareFlowBySectorCollapsed <- function(fbsc, satellite=TRUE) {
   # Replace Python type None with NA
   fbsc <- replaceNonewithNA(fbsc)
+  # add columns if not present
+  cols <- c('FlowUUID')
+  fbsc[cols[!(cols %in% colnames(fbsc))]] <- ""
+  # Ensure correct type, parquet can come in as vctrs_unspecified
+  fbsc[c("Context", "FlowUUID")] <- sapply(fbsc[c("Context", "FlowUUID")], function(x) as.character(x))
   # If context is NA replace with blank
   fbsc[,"Context"][is.na(fbsc[,"Context"])] <- ""
+  fbsc[,"FlowUUID"][is.na(fbsc[,"FlowUUID"])] <- ""
+  if(satellite) {
   # Filter technosphere flows
-  acceptable_types <- c("ELEMENTARY_FLOW", "WASTE_FLOW")
-  fbsc <- fbsc[fbsc$FlowType %in% acceptable_types, ]
+    acceptable_types <- c("ELEMENTARY_FLOW", "WASTE_FLOW")
+    fbsc <- fbsc[fbsc$FlowType %in% acceptable_types, ]
+  }
   # Map location codes to names
   fbsc$Location <- mapLocationCodestoNames(fbsc$Location, unique(fbsc$LocationSystem))
   # Get standard sat table fields
   fields <- getStandardSatelliteTableFormat()
+  if (!"Sector" %in% colnames(fbsc)) {
+    # keep SPB and SCB when not a FBS collapsed
+    fields <- append(fields, c("SectorProducedBy", "SectorConsumedBy"), 3)
+  }
   # Remove unused data
   fbsc <- fbsc[which(colnames(fbsc) %in% fields)]
   return(fbsc)
+}
+
+
+#' Load flowsa's FlowBySector df
+#' @param filepath, a filepath to local parquet file
+#' @return A data frame for flowsa data in sector by region totals format
+getFlowbySector <- function(filepath) {
+  f <- loadDataCommonsfile(filepath)
+  fbs <- as.data.frame(arrow::read_parquet(f))
+  fbs <- prepareFlowBySectorCollapsed(fbs, satellite=FALSE)
+  return(fbs)
 }

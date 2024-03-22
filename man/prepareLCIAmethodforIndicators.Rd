@@ -3,7 +3,7 @@
 \name{prepareLCIAmethodforIndicators}
 \alias{prepareLCIAmethodforIndicators}
 \title{Prepares and reformats LCIAmethod data from LCIAformatter for use
-modeled after prepareFlowBySectorCollapsedforSatellite}
+modeled after prepareFlowBySectorCollapsed}
 \usage{
 prepareLCIAmethodforIndicators(lciamethod)
 }
@@ -15,5 +15,5 @@ A LCIAmethod data frame formatted for indicators
 }
 \description{
 Prepares and reformats LCIAmethod data from LCIAformatter for use
-modeled after prepareFlowBySectorCollapsedforSatellite
+modeled after prepareFlowBySectorCollapsed
 }

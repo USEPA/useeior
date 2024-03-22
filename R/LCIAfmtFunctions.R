@@ -49,6 +49,9 @@ getImpactMethod <- function(ind_spec) {
   # Subset the method by indicator
   if(!is.null(indicators)){
     imp_method <- imp_method[imp_method$Indicator %in% indicators, ]
+    if(nrow(imp_method)==0) {
+      logging::logwarn("Error selecting indicators from method")
+    }
   }
 
   return(imp_method)
@@ -75,7 +78,7 @@ getCombinedImpactMethods <- function(ind_spec) {
 }
 
 #' Prepares and reformats LCIAmethod data from LCIAformatter for use
-#' modeled after prepareFlowBySectorCollapsedforSatellite
+#' modeled after prepareFlowBySectorCollapsed
 #' @param lciamethod A full LCIAmethod data frame from LCIAformatter via getInventoryMethod or getImpactMethod.
 #' @return A LCIAmethod data frame formatted for indicators
 prepareLCIAmethodforIndicators <- function(lciamethod) {

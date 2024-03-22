@@ -43,7 +43,10 @@ loadSatTables <- function(model) {
     } else {
       logging::loginfo(paste0("Loading ", sat_spec$FullName, " flows from ", sat_spec$FileLocation, "..."))
     }
-
+    if(sat_spec$SectorListSource == "NAICS" && sat_spec$SectorListYear != model$specs$BaseIOSchema) {
+      logging::logwarn(paste0("SectorListYear of ", sat_spec$FullName," does not match the BaseIOSchema ",
+                              "and may not map to sectors correctly."))
+    }
     ### Generate totals_by_sector, tbs
     tbs0 <- generateTbSfromSatSpec(sat_spec, model)
     
@@ -114,10 +117,20 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
       }
     }
     totals_by_sector <- do.call(eval(totalsgenfunction), list(params))
-  } else {
+  } else if (sat_spec$FileLocation == "DataCommons") {
     f <- loadDataCommonsfile(sat_spec$StaticFile)
     totals_by_sector <- utils::read.table(f, sep = ",", header = TRUE, stringsAsFactors = FALSE,
                                           fileEncoding = 'UTF-8-BOM')
+  } else {
+    totals_by_sector <- utils::read.table(sat_spec$StaticFile, sep = ",",
+                                          header = TRUE, stringsAsFactors = FALSE,
+                                          fileEncoding = 'UTF-8-BOM')    
+  }
+  # Ensure context is not NA
+  for (i in c('Context')) {
+    if (all(is.na(totals_by_sector[, i]))) {
+      totals_by_sector[ , i] <- ""
+    }
   }
   return(totals_by_sector)
 }
@@ -151,7 +164,8 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
   # If not, map data from original sector to BEA.
   if (sat_spec$SectorListSource == "BEA") {
     # If BEA years is not the same as model year, must perform allocation
-    if (all(sat_spec$SectorListLevel == "Detail", sat_spec$SectorListYear == 2007, model$specs$BaseIOSchema == 2012)) {
+    if (all(sat_spec$SectorListLevel == "Detail", sat_spec$SectorListSource == "BEA",
+            sat_spec$SectorListYear == 2007, model$specs$BaseIOSchema == 2012)) {
       tbs <- mapFlowTotalsbySectorfromBEASchema2007to2012(tbs)
     }
     # If the original data is at Detail level but model is not, apply aggregation

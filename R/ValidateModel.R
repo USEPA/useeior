@@ -143,10 +143,17 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
 #' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
 #' @export 
 compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- function(model, tolerance=0.05) {
-  commodityCPI_ratio <- model$MultiYearCommodityCPI[, "2017"]/model$MultiYearCommodityCPI[, "2012"]
+  if(model$specs$BaseIOSchema == 2012){
+    target_year <- "2017"
+  } else if(model$specs$BaseIOSchema == 2017){
+    target_year <- "2022"
+  }
+  commodityCPI_ratio <- (model$MultiYearCommodityCPI[, target_year]/
+                           model$MultiYearCommodityCPI[, as.character(model$specs$BaseIOSchema)])
   commodityCPI_ratio[is.na(commodityCPI_ratio)] <- 1
   
-  industryCPI_ratio <- model$MultiYearIndustryCPI[, "2017"]/model$MultiYearIndustryCPI[, "2012"]
+  industryCPI_ratio <- (model$MultiYearIndustryCPI[, target_year]/
+                          model$MultiYearIndustryCPI[, as.character(model$specs$BaseIOSchema)])
   industryCPI_ratio[is.na(industryCPI_ratio)] <- 1
   
   q <- removeHybridProcesses(model, model$q * commodityCPI_ratio)

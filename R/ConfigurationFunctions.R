@@ -12,7 +12,7 @@ getConfiguration <- function(configname, configtype, configpaths = NULL, pkg="us
   if (is.null(configpaths)) {
     configpath <- system.file(paste0("extdata/", configtype, "specs/"), configfile, package = pkg)
   } else {
-    configpath <- configpaths[endsWith(configpaths, configfile)]
+    configpath <- configpaths[endsWith(configpaths, paste0("/", configfile))]
     if (length(configpath) == 0) {
       # Specific input file not found in configpaths, assume it is in useeior
       configpath <- system.file(paste0("extdata/", configtype, "specs/"), configfile, package = "useeior")
@@ -24,6 +24,10 @@ getConfiguration <- function(configname, configtype, configpaths = NULL, pkg="us
     }
   }
   config <- configr::read.config(configpath)
+  if (typeof(config) == "logical" && config == FALSE) {
+    logging::logwarn(paste0("Configuration not found for ", configname))
+    return(NULL)
+  }
   return(config)
 }
 

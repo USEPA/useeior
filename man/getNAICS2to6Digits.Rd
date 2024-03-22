@@ -7,7 +7,7 @@
 getNAICS2to6Digits(year)
 }
 \arguments{
-\item{year}{int, 2012 or 2007 accepted.}
+\item{year}{int, 2017, 2012 or 2007 accepted.}
 }
 \value{
 data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6.

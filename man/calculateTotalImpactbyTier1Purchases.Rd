@@ -2,22 +2,25 @@
 % Please edit documentation in R/CalculationFunctions.R
 \name{calculateTotalImpactbyTier1Purchases}
 \alias{calculateTotalImpactbyTier1Purchases}
-\title{Calculate sector x sector total impacts (single indicator) for Tier 1 purchases
-Multiply each row of sector x sector A matrix by scalar elements of an
-indicator (single) x sector array from N}
+\title{Calculate sector x sector total impacts (single indicator or elementary flow) 
+for Tier 1 purchases. Multiply each row of the sector by sector A matrix by 
+the scalar elements of a single-impact by sector array (indicator: N, flow: M)}
 \usage{
-calculateTotalImpactbyTier1Purchases(model, indicator)
+calculateTotalImpactbyTier1Purchases(model, impact, opt_impact = "indicator")
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
-\item{indicator}{str, index of a model indicator, e.g. "Greenhouse Gases".}
+\item{impact}{str, a model indicator (e.g., "Greenhouse Gases") row index of N, 
+or elementary flow (e.g., "Methane/emission/air/kg") index of M}
+
+\item{opt_impact}{str {'indicator', 'elemflow'}, string code to specify impact type}
 }
 \value{
-A sector x sector, impact-per-tier-1-purchase matrix.
+A sector by sector, impact-per-tier-1-purchase matrix.
 }
 \description{
-Calculate sector x sector total impacts (single indicator) for Tier 1 purchases
-Multiply each row of sector x sector A matrix by scalar elements of an
-indicator (single) x sector array from N
+Calculate sector x sector total impacts (single indicator or elementary flow) 
+for Tier 1 purchases. Multiply each row of the sector by sector A matrix by 
+the scalar elements of a single-impact by sector array (indicator: N, flow: M)
 }

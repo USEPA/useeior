@@ -322,44 +322,65 @@ calculateMarginSectorImpacts <- function(model) {
   return(ls)
 }
 
-#' For a given indicator, disaggregate total impacts per purchase (N) into 
-#' direct impacts (D) and upstream, Tier 1 purchase impacts. Return a long format
-#' dataframe of exchanges, with sector names mapped to sector codes.
+#' For a given impact, provided via indicator or elementary flow label, 
+#' disaggregate the total impacts per purchase (indicator: N, flow: M) into 
+#' direct impacts (indicator: D, flow: B) and upstream, Tier 1 purchase impacts. 
+#' Return a long-format df of exchanges, with sector names mapped to sector codes.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
-#' @param indicator str, index of a model indicator, e.g. "Greenhouse Gases".
+#' @param impact str, a model indicator (e.g., "Greenhouse Gases") row index of N, 
+#'                    or elementary flow (e.g., "Methane/emission/air/kg") index of M
+#' @param opt_impact str {'indicator', 'elemflow'}, string code to specify impact type
 #' @export
 #' @return A data frame of direct and per-tier-1-purchase sector impacts
-disaggregateTotalToDirectAndTier1 <- function(model, indicator) {
-  sector_map <- setNames(model$Commodities$Name, model$Commodities$Code_Loc)
-  
-  # direct sector impacts
-  df_D <- tibble::enframe(model$D[indicator,])
-  df_D <- dplyr::rename(df_D, impact_per_purchase=value, sector_code=name) 
+disaggregateTotalToDirectAndTier1 <- function(model, impact, opt_impact="indicator") {
+  mtx_direct <- c("indicator"="D", "elemflow"="B")[opt_impact]
+  if (is.na(mtx_direct)) {
+    stop(paste0("'",opt_impact,"' is not a valid opt_impact string code"))
+  }
+  # get direct sector impacts
+  df_direct <- tryCatch({  # catches bad `impact` row label
+      tibble::enframe(model[[mtx_direct]][impact,])
+  }, error=function(e) {
+      stop(paste0("'",impact,"' is not a valid ",opt_impact," label"))
+  })
+  df_direct <- dplyr::rename(df_direct, impact_per_purchase=value, sector_code=name) 
   # assign "Direct" as purchased commodity label for data-vis & stat convenience
-  df_D <- dplyr::mutate(df_D, purchased_commodity = 'Direct')
-  
-  # total impacts per Tier 1 purchase by sector
-  df_N <- calculateTotalImpactbyTier1Purchases(model, indicator) 
-  df_N <- tibble::as_tibble(df_N, rownames="purchased_commodity_code") 
-  df_N <- reshape2::melt(df_N, id.vars="purchased_commodity_code", 
-                         variable.name="sector_code", 
-                         value.name="impact_per_purchase") 
-  df_N <- dplyr::mutate(df_N, purchased_commodity = dplyr::recode(
-    purchased_commodity_code, !!!sector_map))
-  
-  # combined df 
-  df_impacts <- dplyr::bind_rows(df_N, df_D) 
-  df_impacts <- dplyr::mutate(df_impacts, sector = dplyr::recode(sector_code, !!!sector_map))
+  df_direct <- dplyr::mutate(df_direct, purchased_commodity = 'Direct')
+  # get total impacts per Tier 1 purchase by sector
+  df_total <- calculateTotalImpactbyTier1Purchases(model, impact, opt_impact) 
+  df_total <- tibble::as_tibble(df_total, rownames="purchased_commodity_code") 
+  df_total <- reshape2::melt(df_total, id.vars="purchased_commodity_code",
+                                       variable.name="sector_code",
+                                       value.name="impact_per_purchase") 
+  # map sector codes to names
+  sector_map <- setNames(model$Commodities$Name, model$Commodities$Code_Loc)
+  df_total <- dplyr::mutate(df_total, 
+    purchased_commodity = dplyr::recode(purchased_commodity_code, !!!sector_map))
+  # concat direct + total impacts  
+  df_impacts <- dplyr::bind_rows(df_total, df_direct) 
+  df_impacts <- dplyr::mutate(df_impacts, 
+    sector = dplyr::recode(sector_code, !!!sector_map))
   return(df_impacts)
 }
 
-#' Calculate sector x sector total impacts (single indicator) for Tier 1 purchases
-#' Multiply each row of sector x sector A matrix by scalar elements of an
-#' indicator (single) x sector array from N
+#' Calculate sector x sector total impacts (single indicator or elementary flow) 
+#' for Tier 1 purchases. Multiply each row of the sector by sector A matrix by 
+#' the scalar elements of a single-impact by sector array (indicator: N, flow: M)
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
-#' @param indicator str, index of a model indicator, e.g. "Greenhouse Gases".
-#' @return A sector x sector, impact-per-tier-1-purchase matrix.
-calculateTotalImpactbyTier1Purchases <- function(model, indicator) {
-  totalImpactPerPurchase <- model$N[indicator,] * model$A
+#' @param impact str, a model indicator (e.g., "Greenhouse Gases") row index of N, 
+#'                    or elementary flow (e.g., "Methane/emission/air/kg") index of M
+#' @param opt_impact str {'indicator', 'elemflow'}, string code to specify impact type
+#' @return A sector by sector, impact-per-tier-1-purchase matrix.
+calculateTotalImpactbyTier1Purchases <- function(model, impact, opt_impact='indicator') {
+  mtx_total <- c("indicator"="N", "elemflow"="M")[opt_impact]
+  if (is.na(mtx_total)) {
+    stop(paste0("'",opt_impact,"' is not a valid opt_impact string code"))
+  }
+  df_direct <- tryCatch({  # catches bad `impact` row label
+    totalImpactPerPurchase <- model[[mtx_total]][impact,] * model$A
+    # totalImpactPerPurchase <- model$N[impact,] * model[["A"]]
+  }, error=function(e) {
+    stop(paste0("'",impact,"' is not a valid ",opt_impact," label"))
+  })
   return(totalImpactPerPurchase)
 }

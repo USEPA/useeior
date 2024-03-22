@@ -71,11 +71,11 @@ generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear
   rownames(Output_adj) <- gsub(paste0("/", location_acronym), "", rownames(Output_adj))
   # Merge the satellite table with the adjusted industry output
   Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "Sector", by.y = 0, all.x = TRUE)
-  # Drop rows where output is zero
   outputcolname <- paste0(outputyear, output_type, "Output")
-  Sattable_USEEIO_wOutput <- Sattable_USEEIO_wOutput[Sattable_USEEIO_wOutput[, outputcolname] != 0, ]
   # Drop rows where output is NA
   Sattable_USEEIO_wOutput <- Sattable_USEEIO_wOutput[!is.na(Sattable_USEEIO_wOutput[, outputcolname]), ]
+  # Drop rows where output is zero
+  Sattable_USEEIO_wOutput <- Sattable_USEEIO_wOutput[Sattable_USEEIO_wOutput[, outputcolname] != 0, ]
   # Calculate FlowAmount by dividing the original FlowAmount by the adjusted industry output
   Sattable_USEEIO_wOutput$FlowAmount <- Sattable_USEEIO_wOutput$FlowAmount/Sattable_USEEIO_wOutput[, outputcolname]
   Sattable_USEEIO_wOutput[, outputcolname] <- NULL
@@ -345,6 +345,11 @@ removeMissingSectors <- function(tbs) {
   n <- nrow(tbs) - nrow(df)
   if(n > 0){
     logging::logdebug(paste0(n, "records dropped with no sector"))
+  }
+  sectors <- unique(tbs[is.na(tbs$SectorName), ])
+  if(nrow(sectors)>0){
+    logging::logwarn(paste0("Lost sectors due to missing mapping: ",
+                            paste0(unique(sectors[['Sector']]), collapse=', ')))
   }
   return(df)
 }

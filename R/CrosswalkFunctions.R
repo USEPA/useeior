@@ -1,19 +1,11 @@
 # Functions that use sector crosswalks
 
-#' Function to externalize the BEA to NAICS crosswalk
-#' @return A crosswalk linking 2007 and 2012 NAICS codes to 2012 Sector, Summary, and Detail BEA codes
-loadMasterCrosswalk <- function(){
-  # Pull the mastercrosswalk created in the data-raw subdirectory
-  BEAtoNAICSCrosswalk <- useeior::MasterCrosswalk2012
-  return(BEAtoNAICSCrosswalk)
-}
-
 #' Determine allocation factors between NAICS and BEA sectors based on Industry output.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param year Year of model Industry output.
 #' @return A table of allocation factors between NAICS and BEA sectors.
 getNAICStoBEAAllocation <- function (year, model) {
-  # Keep USEEIO and NAICS columns in MasterCrosswalk2012 table based on the model specs
+  # Keep USEEIO and NAICS columns in MasterCrosswalk table based on the model specs
   NAICStoBEA <- unique(model$crosswalk[, c("NAICS", "USEEIO")])
   colnames(NAICStoBEA) <- c("NAICS_Code", "BEA_Code")
   # Drop 2-digit NAICS code
@@ -41,26 +33,40 @@ getNAICStoBEAAllocation <- function (year, model) {
   return(AllocationTable)
 }
 
-
-#' Get 2-6 digit NAICS codes and names for year specified.
-#' @param year int. 2012 or 2007 accepted.
-#' @return dataframe with columns NAICS_year_Code and NAICS_year_Name.
-getNAICS2to6DigitsCodeName <- function (year) {
+#' Download NAICS file for 2-6 digit NAICS codes if not present.
+#' @param year int, 2017, 2012, or 2007 accepted.
+#' @return FileName str
+downloadNAICS2to6DigitsFile <- function (year) {
   # Download 2-6 digits NAICS table
-  if (year == 2012) {
-    FileName <- "inst/extdata/2-digit_2012_Codes.xls"
+  dir <- file.path(rappdirs::user_data_dir(), "USEEIO-input")
+  if (year == 2017) {
+    FileName <- file.path(dir, "2-digit_2017_Codes.xlsx")
+    url <- "https://www.census.gov/naics/2017NAICS/2-6%20digit_2017_Codes.xlsx"
+  } else if (year == 2012) {
+    FileName <- file.path(dir, "2-digit_2012_Codes.xls")
     url <- "https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls"
-  } else {
-    FileName <- "inst/extdata/naics07.xls"
+  } else if (year == 2007) {
+    FileName <- file.path(dir, "naics07.xls")
     url <- "https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls"
+  } else {
+    stop('Specify available year for crosswalk')
   }
   if(!file.exists(FileName)) {
     utils::download.file(url, FileName, mode = "wb")
   }
-  
+  return(FileName)
+}
+
+
+#' Get 2-6 digit NAICS codes and names for year specified.
+#' @param year int. 2017, 2012, or 2007 accepted.
+#' @return dataframe with columns NAICS_year_Code and NAICS_year_Name.
+getNAICS2to6DigitsCodeName <- function (year) {
+  FileName <- downloadNAICS2to6DigitsFile(year)
   # Load 2-6 digits NAICS table
   NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   colnames(NAICS) <- c("NAICS_Code", "NAICS_Name")
+  NAICS <- NAICS[c("NAICS_Code", "NAICS_Name")] # Avoid extra columns
   # Split the NAICS code with dash ("-)
   DashSplit <- do.call("rbind.data.frame", apply(do.call("rbind", strsplit(NAICS$NAICS_Code, "-")),
                                                  1, function(x) seq(x[1], x[2], 1)))
@@ -80,24 +86,14 @@ getNAICS2to6DigitsCodeName <- function (year) {
 }
 
 #' Get 2-6 digit NAICS codes in a crosswalk format for year specified.
-#' @param year int, 2012 or 2007 accepted.
+#' @param year int, 2017, 2012 or 2007 accepted.
 #' @return data frame with columns NAICS_2, NAICS_3, NAICS_4, NAICS_5, NAICS_6.
 getNAICS2to6Digits <- function (year) {
-  # Download 2-6 digits NAICS table
-  if (year == 2012) {
-    FileName <- "inst/extdata/2-digit_2012_Codes.xls"
-    url <- "https://www.census.gov/eos/www/naics/2012NAICS/2-digit_2012_Codes.xls"
-  } else {
-    FileName <- "inst/extdata/naics07.xls"
-    url <- "https://www.census.gov/eos/www/naics/reference_files_tools/2007/naics07.xls"
-  }
-  if(!file.exists(FileName)) {
-    utils::download.file(url, FileName, mode = "wb")
-  }
-  
+  FileName <- downloadNAICS2to6DigitsFile(year)
   # Load 2-6 digits NAICS table
   NAICS <- as.data.frame(readxl::read_excel(FileName, sheet = 1, col_names = TRUE))[-1,-1]
   colnames(NAICS) <- c("NAICS_Code", "NAICS_Name")
+  NAICS <- NAICS[c("NAICS_Code", "NAICS_Name")] # Avoid extra columns
   NAICS$NAICS_Code <- suppressWarnings(as.integer(NAICS$NAICS_Code))
   NAICS <- NAICS[!is.na(NAICS$NAICS_Code), ]
   # Reshape the table
@@ -201,7 +197,7 @@ getNAICSCodeName <- function(year) {
 #' @return data frame with columns '2012 NAICS Code', '2012 NAICS Title',
 #' '2007 NAICS Code', and '2007 NAICS Title'.
 getNAICS2012to2007Concordances <- function() {
-  filename <- "inst/extdata/2012_to_2007_NAICS.xls"
+  filename <- file.path(rappdirs::user_data_dir(), "USEEIO-input", "2012_to_2007_NAICS.xls")
   if(!file.exists(filename)) {
     utils::download.file("https://www.census.gov/naics/concordances/2012_to_2007_NAICS.xls",
                          filename, mode = "wb")
@@ -215,9 +211,9 @@ getNAICS2012to2007Concordances <- function() {
 #' @return data frame with columns '2012 NAICS Code', '2012 NAICS Title',
 #' '2017 NAICS Code', and '2017 NAICS Title'.
 getNAICS2012to2017Concordances <- function() {
-  filename <- "inst/extdata/2012_to_2017_NAICS.xlsx"
+  filename <- file.path(rappdirs::user_data_dir(), "USEEIO-input", "2012_to_2017_NAICS.xlsx")
   if(!file.exists(filename)) {
-    utils::download.file("https://www.census.gov/naics/concordances/2012_to_2017_NAICS.xlsx",
+    utils::download.file("https://www.census.gov/naics/concordances/2012_to_2017_NAICS.xls",
                          filename, mode = "wb")
   }
   df <- as.data.frame(readxl::read_excel(filename, sheet = 1, col_names = TRUE, skip = 2))

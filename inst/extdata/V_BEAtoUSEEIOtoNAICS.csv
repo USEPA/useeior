@@ -1,0 +1,4 @@
+BEA_Sector_Code,BEA_Sector_Name,BEA_Summary_Code,BEA_Summary_Name,BEA_Detail_Code,BEA_Detail_Name,USEEIO_Code,USEEIO_Industry,NAICS_Code,NAICS_Name
+V001,Compensation of employees,V001,Compensation of employees,V00100,Compensation of employees,,,,
+V002,"Taxes on production and imports, less subsidies",V002,"Taxes on production and imports, less subsidies",V00200,"Taxes on production and imports, less subsidies",,,,
+V003,Gross operating surplus,V003,Gross operating surplus,V00300,Gross operating surplus,,,,
