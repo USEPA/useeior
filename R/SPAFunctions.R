@@ -187,6 +187,7 @@ importSPAFromCSV <- function(filename) {
 #' "index" to plot all subtrees that contain that specific with a specific index (i.e., specific node). Note that the value for this input is not "index" but the index number as a string, e.g., "244" for index 244.
 #' @param plot_type String denoting the type of plot to use. Default to simpleNetwork plot. Options:
 #' simpleNetwork, dendogram, radial
+#' @return relevant_spa_node_data, a DF with the relavant nodes for plotting
 plotSPA <- function(spa_node_data, subtree_to_plot = NULL, plot_type = "simpleNetwork") {
   
   # #Example use:
@@ -330,7 +331,8 @@ plotSPA <- function(spa_node_data, subtree_to_plot = NULL, plot_type = "simpleNe
     else {
     stop("Plot_type undefined")
   }
-  
+
+  return(relevant_spa_node_data)  
 
 } # End PLOTSPA
 
