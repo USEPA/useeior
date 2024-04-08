@@ -59,9 +59,10 @@ jobs:
           use-public-rspm: true
 
       - name: Install arrow
+        if: matrix.config.os == 'macOS-latest'
         run: |
           Rscript -e "install.packages('arrow', repos = c('https://apache.r-universe.dev'))"
-        if: matrix.os == 'macOS-latest'
+
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
