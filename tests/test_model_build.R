@@ -119,6 +119,7 @@ cfg <- c(paste0("modelspecs/", m, ".yml"),
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
 model$specs$Model <- "USEEIOv2.0-79-GHG-19"
 model$specs$DisaggregationSpecs <- "WasteDisaggregationSummary"
+model$specs$IOYear <- 2013 # TODO some years generate error
 model <- useeior:::loadIOData(model, file.path(cfg))
 model <- useeior:::loadandbuildSatelliteTables(model)
 model <- useeior:::loadandbuildIndicators(model)
