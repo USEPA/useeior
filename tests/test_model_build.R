@@ -142,3 +142,15 @@ model <- useeior:::loadandbuildIndicators(model)
 model <- useeior:::loadDemandVectors(model)
 model <- useeior:::constructEEIOMatrices(model, file.path(cfg))
 printValidationResults(model)
+
+## StateEEIOv1.0 Two-region Summary model with Utility disaggregation
+model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
+model$specs$Model <- "GAEEIOv1.0-75-GHG-19"
+model$specs$IODataVersion <- "0.3.0" # required for disaggregation
+model$specs$DisaggregationSpecs <- "UtilityDisaggregation"
+model <- useeior:::loadIOData(model, file.path(cfg))
+model <- useeior:::loadandbuildSatelliteTables(model)
+model <- useeior:::loadandbuildIndicators(model)
+model <- useeior:::loadDemandVectors(model)
+model <- useeior:::constructEEIOMatrices(model)
+printValidationResults(model)
