@@ -10,6 +10,7 @@ BasewithRedefinitions: FALSE
 CommodityorIndustryType: "Commodity"
 ScrapIncluded: FALSE
 DisaggregationSpecs: null
+ExternalImportFactors: FALSE
 
 SatelliteTable:
   GHG:
@@ -58,5 +59,7 @@ Indicators:
 
 DemandVectors:
     DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
-# Additional demand vectors beyond useeior defaults
 
+# ImportFactors:
+#     StaticFile: "imports_multipliers_2019.csv"
+#     FileLocation: "useeior"
