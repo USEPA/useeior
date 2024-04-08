@@ -529,6 +529,26 @@
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
 "Summary_Supply_2016"
 
+#' Summary 2017 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2017"
+
+#' Summary 2018 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2018"
+
+#' Summary 2019 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2019"
+
+#' Summary 2020 Supply (2012 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2020"
+
 #' Summary 2017 Supply (2017 schema)
 #' @format A dataframe with 74 obs. and 83 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
@@ -593,6 +613,26 @@
 #' @format A dataframe with 82 obs. and 92 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
 "Summary_Use_SUT_2016"
+
+#' Summary 2017 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2017"
+
+#' Summary 2018 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2018"
+
+#' Summary 2019 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2019"
+
+#' Summary 2020 Use (2012 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2020"
 
 #' Summary 2017 Use (2017 schema)
 #' @format A dataframe with 82 obs. and 92 variables
