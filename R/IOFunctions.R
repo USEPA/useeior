@@ -305,8 +305,7 @@ convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
 #' @return A data.frame containing CommodityCode, basic price, tax less subsidies,
 #' and producer price of total product supply
 generateTaxLessSubsidiesTable <- function(model) {
-  # schema <- getSchemaCode(model$specs)
-  schema <- "17sch"
+  schema <- getSchemaCode(model$specs)
   # Load Supply table
   Supply <- get(paste(na.omit(c(model$specs$BaseIOLevel, "Supply", model$specs$IOYear, schema)),
                       collapse = "_"))
