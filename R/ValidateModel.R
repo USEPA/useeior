@@ -343,7 +343,7 @@ printValidationResults <- function(model) {
     print2RValidationResults(model)
   }
 
-  if(!is.null(model$specs$ExternalImportFactors)) {
+  if(!is.null(model$specs$ExternalImportFactors) && model$specs$ExternalImportFactors) {
     validateImportFactorsApproach(model)
   }
   

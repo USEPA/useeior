@@ -117,7 +117,7 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
   logging::loginfo("Calculating Tau matrix (basic over producer price ratio)...")
   model$Tau <- calculateBasicbyProducerPriceRatio(model)
   
-  if(!is.null(model$specs$ExternalImportFactors)) {
+  if(!is.null(model$specs$ExternalImportFactors) && model$specs$ExternalImportFactors) {
     # Alternate model build for implementing Import Factors
     model <- buildModelwithImportFactors(model, configpaths)
   } else {
@@ -149,7 +149,7 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
                      "InternationalTradeAdjustment", "CommodityOutput", "IndustryOutput",
                      "U_n", "U_d_n") 
   # Drop U_n_m, UseTransactions_m for models with external import factors
-  if(!is.null(model$specs$ExternalImportFactors)){
+  if(!is.null(model$specs$ExternalImportFactors) && model$specs$ExternalImportFactors){
     mat_to_remove <- c(mat_to_remove, "U_n_m", "UseTransactions_m")
   }
   

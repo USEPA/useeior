@@ -17,7 +17,7 @@
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL,
                                use_domestic_requirements = FALSE, household_emissions = FALSE) {
-  if (!is.null(model$specs$ExternalImportFactors)) {
+  if (!is.null(model$specs$ExternalImportFactors) && model$specs$ExternalImportFactors) {
     result <- calculateResultsWithExternalFactors(model, perspective, demand, location = location,
                                                   use_domestic_requirements = use_domestic_requirements,
                                                   household_emissions = household_emissions)
