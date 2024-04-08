@@ -7,24 +7,27 @@ Model specifications are assigned in a yml file based on the parameters shown be
 | BaseIOSchema | int | Y | The base IO schema (e.g. 2012) |
 | BaseIOLevel | str | Y | The base IO level of detail (e.g. `Detail`) |
 | IOYear | int | Y | The base IO year |
-| PrimaryRegionAcronym | str | Y | The primary region acronym |
 | ModelRegionAcronyms | list | Y | The model region acronyms |
 | ModelType | str | Y | The [model type](#Model-Types) (e.g. `EEIO`) |
-| ModelSource | str | Y | The model source |
-| BasePriceType | str | Y | The model base price type (producer or purchaser) |
+| IODataSource | str | Y | The model source (e.g. `BEA` or `stateior`) |
+| IODataVersion | str | N | Required if IODataSource is `stateior`, [stateior model version number](https://github.com/USEPA/stateior/wiki/Planned-Package-Releases) |
+| BasePriceType | str | Y | The model base price type (`PRO`: producer or `PUR`: purchaser) |
 | BasewithRedefinitions | bool | Y | Whether the model is based with redefinitions (TRUE or FALSE) |
 | CommodityorIndustryType | str | Y | Define if this is a commodity x commodity (`Commodity`) or industry x industry (`Industry`) model |
 | ScrapIncluded | bool | Y | Whether the model includes scrap (TRUE or FALSE) |
 | DisaggregationSpecs | str | N | The [disaggregation specifications](ModelCustomization.md#disaggregation) |
 | HybridizationSpecs | str | N | The [hybridization specifications](ModelCustomization.md#hybridization-file-specification) |
+| MUIOSpecs | str | N | The [mixed unit hybridization specifications](ModelCustomization.md#mixed-unit-file-specification) |
+| WIOSpecs | str | N | The [waste input output specifications](ModelCustomization.md#waste-input-output-file-specification) |
 | SatelliteTable | list |  | The [satellite table specifications](#Satellite-Table-Specifications) |
-| Indicators | list |  | The [indicator specifications](#Indicator-Specifications) |
+| Indicators | list | N | The [indicator specifications](#Indicator-Specifications) |
 | DemandVectors | list |  | The [demand vector specifications](#Demand-Vector-Specifications) |
 
 ## Model Types
-- EEIO: (default) Environmentally Extended Input Output
-- EEIO-IH: Integrated hybrid model
-
+- `EEIO`: (default) Environmentally Extended Input Output
+- `EEIO-IH`: Integrated Hybrid model
+- `MUIO`: Mixed Unit Input-Output
+- `WIO`: Waste Input-Output
 
 ## Satellite Table Specifications
 | Item | Type | Required? | Description |

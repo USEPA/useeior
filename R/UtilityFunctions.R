@@ -463,3 +463,78 @@ getInputFilePath <- function(configpaths, folderPath="extdata", filename, packag
   filepath <- system.file(folderPath, filename, package = package)
   return(filepath)
 }
+
+#' Return the schema subscript for accessing useeior objects
+#' @param specs list of model specs must include BaseIOSchema
+#' @return schema, str in form "YYsch" or NULL for 2012
+getSchemaCode <- function(specs) {
+  if(specs$BaseIOSchema != 2012) {
+    schema <- paste0(substring(specs$BaseIOSchema, 3,4), "sch")
+  } else {
+    # despite the file name, the objects don't have the schema so it should not be used
+    schema <- NULL
+  }
+  return(schema)
+}
+
+#' Reorder sectors in the model objects according to the provided order.
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param comOrder A list containing the order of the commodities in the model
+#' @param indOrder A list containing the order of the industries in the model
+#' @return A model with the specified MUIO sectors in physical units and rearranged sector orders (optional)
+reorderModelSectors <- function (model, comOrder, indOrder){
+  
+  # Rearrange relevant model objects
+  model$UseTransactions <- model$UseTransactions[comOrder, indOrder]
+  model$DomesticUseTransactions <- model$DomesticUseTransactions[comOrder, indOrder]
+  model$FinalDemand <- model$FinalDemand[comOrder, ]
+  model$DomesticFinalDemand <- model$DomesticFinalDemand[comOrder, ]
+  model$UseValueAdded <- model$UseValueAdded[, indOrder]
+  model$MakeTransactions <- model$MakeTransactions[indOrder, comOrder]
+  model$Commodities <- model$Commodities[comOrder, ]
+  model$Industries <- model$Industries[indOrder, ]
+  model$InternationalTradeAdjustment <- model$InternationalTradeAdjustment[comOrder]
+  model$MultiYearCommodityOutput <- model$MultiYearCommodityOutput[comOrder,]
+  model$MultiYearIndustryOutput <- model$MultiYearIndustryOutput[indOrder,]
+  model$MultiYearCommodityCPI <- model$MultiYearCommodityCPI[comOrder,]
+  model$MultiYearIndustryCPI <- model$MultiYearIndustryCPI[indOrder,]
+  model$CommodityOutput <- model$CommodityOutput[comOrder]
+  model$IndustryOutput <- model$IndustryOutput[indOrder]
+  model$Margins <- model$Margins[comOrder,]
+  
+  # Replace only multi year outputs for the curret model year?
+  multiYearComOutputIndex <- which(colnames(model$MultiYearCommodityOutput) == model$specs$IOYear)
+  multiYearIndOutputIndex <- which(colnames(model$MultiYearIndustryOutput) == model$specs$IOYear)
+  model$MultiYearCommodityOutput[,multiYearComOutputIndex] <- model$CommodityOutput
+  model$MultiYearIndustryOutput[,multiYearIndOutputIndex] <- model$IndustryOutput
+  
+  return(model)
+}
+
+#' Remove sectors from the model objects according to the provided indexes
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param comIndexes A list containing the indexes of the commodities in the model
+#' @param indIndexes A list containing the indexes of the industries in the model
+#' @return A model with the specified MUIO sectors in physical units and rearranged sector orders (optional)
+removeModelSectors <- function (model, comIndexes, indIndexes){
+  
+  # Rearrange relevant model objects
+  model$UseTransactions <- model$UseTransactions[-(comIndexes), -(indIndexes)]
+  model$DomesticUseTransactions <- model$DomesticUseTransactions[-(comIndexes), -(indIndexes)]
+  model$FinalDemand <- model$FinalDemand[-(comIndexes), ]
+  model$DomesticFinalDemand <- model$DomesticFinalDemand[-(comIndexes), ]
+  model$UseValueAdded <- model$UseValueAdded[, -(indIndexes)]
+  model$MakeTransactions <- model$MakeTransactions[-(indIndexes), -(comIndexes)]
+  model$Commodities <- model$Commodities[-(comIndexes), ]
+  model$Industries <- model$Industries[-(indIndexes), ]
+  model$InternationalTradeAdjustment <- model$InternationalTradeAdjustment[-(comIndexes)]
+  model$MultiYearCommodityOutput <- model$MultiYearCommodityOutput[-(comIndexes),]
+  model$MultiYearIndustryOutput <- model$MultiYearIndustryOutput[-(indIndexes),]
+  model$MultiYearCommodityCPI <- model$MultiYearCommodityCPI[-(comIndexes),]
+  model$MultiYearIndustryCPI <- model$MultiYearIndustryCPI[-(indIndexes),]
+  model$CommodityOutput <- model$CommodityOutput[-(comIndexes)]
+  model$IndustryOutput <- model$IndustryOutput[-(indIndexes)]
+  model$Margins <- model$Margins[-(comIndexes),]
+
+  return(model)
+}

@@ -80,6 +80,19 @@ loadIOData <- function(model, configpaths = NULL) {
     model <- getHybridizationSpecs(model, configpaths)
     model <- getHybridizationFiles(model, configpaths)
   }
+  
+  # Check for WIO specs
+  if(model$specs$ModelType == "WIO"){
+    model <- getWIOSpecs(model, configpaths)
+    model <- getWIOFiles(model, configpaths)
+    model <- assembleWIOModel(model)
+  }
+  
+  # Check for mixed units
+  if(model$specs$ModelType == "MUIO"){
+    model <- getMUIOSectors(model, configpaths)
+    model <- convertSectorsToPhysical(model, configpaths)
+  }
     
   return(model)
 }
@@ -230,11 +243,12 @@ loadNationalIOData <- function(model, io_codes) {
 #' @return A list with BEA IO tables
 loadBEAtables <- function(specs, io_codes) {
   BEA <- list()
+  schema <- getSchemaCode(specs)
   if (specs$BasePriceType != "BAS") {
     # Load pre-saved Make and Use tables
     Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
-    BEA$Make <- get(paste(specs$BaseIOLevel, "Make", specs$IOYear, Redef, sep = "_"))
-    BEA$Use <-  get(paste(specs$BaseIOLevel, "Use", specs$IOYear, specs$BasePriceType, Redef, sep = "_"))
+    BEA$Make <- get(paste(na.omit(c(specs$BaseIOLevel, "Make", specs$IOYear, Redef, schema)), collapse="_"))
+    BEA$Use <-  get(paste(na.omit(c(specs$BaseIOLevel, "Use", specs$IOYear, specs$BasePriceType, Redef, schema)), collapse="_"))
     # Separate Make table into specific IO tables (all values in $)
     BEA$MakeTransactions <- BEA$Make[io_codes$Industries, io_codes$Commodities] * 1E6
     # Separate Use table into specific IO tables (all values in $)
@@ -247,8 +261,8 @@ loadBEAtables <- function(specs, io_codes) {
                                  io_codes$Industries] * 1E6
   } else if (specs$BasePriceType == "BAS") {
     # Load pre-saved Supply and Use tables
-    BEA$Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
-    UseSUT_PUR <- get(paste(specs$BaseIOLevel, "Use_SUT", specs$IOYear, sep = "_"))
+    BEA$Supply <- get(paste(na.omit(c(specs$BaseIOLevel, "Supply", specs$IOYear, schema)), collapse = "_"))
+    UseSUT_PUR <- get(paste(na.omit(c(specs$BaseIOLevel, "Use_SUT", specs$IOYear, schema)), collapse = "_"))
     BEA$Use <- convertUsefromPURtoBAS(UseSUT_PUR, specs, io_codes)
     # Separate Supply table into specific IO tables (all values in $)
     # Transpose Supply table to conform the structure of Make table
@@ -298,13 +312,16 @@ loadBEAtables <- function(specs, io_codes) {
 #' @param io_codes A list of BEA IO codes.
 #' @return Import, df of use table imports.
 loadImportMatrix <- function(model, io_codes) {
+  schema <- getSchemaCode(model$specs)
   # Load Import matrix
   if (model$specs$BaseIOLevel != "Sector") {
-    Import <- get(paste(model$specs$BaseIOLevel, "Import",
-                        model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+    Import <- get(paste(na.omit(c(model$specs$BaseIOLevel, "Import",
+                                  model$specs$IOYear, "BeforeRedef", schema)),
+                        collapse = "_"))*1E6
   } else {
     # Load Summary level Import matrix
-    Import <- get(paste("Summary_Import", model$specs$IOYear, "BeforeRedef", sep = "_"))*1E6
+    Import <- get(paste(na.omit(c("Summary_Import", model$specs$IOYear, "BeforeRedef", schema)),
+                        collapse = "_"))*1E6
     # Aggregate Import from Summary to Sector
     Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
   }

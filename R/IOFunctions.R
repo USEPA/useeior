@@ -199,8 +199,8 @@ generateDomesticUse <- function(Use, Import, model) {
   # needs to be subtracted from the original Import matrix
   if (model$specs$BasePriceType == "BAS") {
     # Find "MDTY - import duties" in Supply table
-    Supply <- get(paste(model$specs$BaseIOLevel, "Supply", model$specs$IOYear,
-                        sep = "_")) * 1E6
+    Supply <- get(paste(na.omit(c(model$specs$BaseIOLevel, "Supply", model$specs$IOYear, schema)),
+                        collapse = "_")) * 1E6
     ImportDuty <- Supply[rownames(Import), "MDTY"]
     # Subtract import duties from  Import matrix
     # Expanding it to a matrix based on the Import matrix, except for the import column
@@ -256,10 +256,11 @@ generateInternationalTradeAdjustmentVector <- function(Use, Import, model) {
 convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
   # Load UsePRO and UsePUR under Make-Use framework
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
-  UsePUR <- get(paste(specs$BaseIOLevel, "Use", specs$IOYear, "PUR", Redef, sep = "_"))
-  UsePRO <- get(paste(specs$BaseIOLevel, "Use", specs$IOYear, "PRO", Redef, sep = "_"))
+  schema <- getSchemaCode(specs)
+  UsePUR <- get(paste(na.omit(c(specs$BaseIOLevel, "Use", specs$IOYear, "PUR", Redef, specs)), collapse = "_"))
+  UsePRO <- get(paste(na.omit(c(specs$BaseIOLevel, "Use", specs$IOYear, "PRO", Redef, specs)), collapse = "_"))
   # Load Supply table
-  Supply <- get(paste(specs$BaseIOLevel, "Supply", specs$IOYear, sep = "_"))
+  Supply <- get(paste(na.omit(c(specs$BaseIOLevel, "Supply", specs$IOYear, specs)), collapse = "_"))
   
   # Convert from PUR to PRO by removing margins obtained from Supply table
   rows <- io_codes$Commodities
@@ -304,9 +305,10 @@ convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
 #' @return A data.frame containing CommodityCode, basic price, tax less subsidies,
 #' and producer price of total product supply
 generateTaxLessSubsidiesTable <- function(model) {
+  schema <- getSchemaCode(model$specs)
   # Load Supply table
-  Supply <- get(paste(model$specs$BaseIOLevel, "Supply", model$specs$IOYear,
-                      sep = "_"))
+  Supply <- get(paste(na.omit(c(model$specs$BaseIOLevel, "Supply", model$specs$IOYear, schema)),
+                      collapse = "_"))
   # Get basic price and tax less subsidies vectors from Supply
   import_cols <- getVectorOfCodes(model$specs$BaseIOSchema,
                                   model$specs$BaseIOLevel,

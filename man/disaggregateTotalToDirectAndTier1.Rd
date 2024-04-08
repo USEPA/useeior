@@ -2,22 +2,27 @@
 % Please edit documentation in R/CalculationFunctions.R
 \name{disaggregateTotalToDirectAndTier1}
 \alias{disaggregateTotalToDirectAndTier1}
-\title{For a given indicator, disaggregate total impacts per purchase (N) into 
-direct impacts (D) and upstream, Tier 1 purchase impacts. Return a long format
-dataframe of exchanges, with sector names mapped to sector codes.}
+\title{For a given impact, provided via indicator or elementary flow label, 
+disaggregate the total impacts per purchase (indicator: N, flow: M) into 
+direct impacts (indicator: D, flow: B) and upstream, Tier 1 purchase impacts. 
+Return a long-format df of exchanges, with sector names mapped to sector codes.}
 \usage{
-disaggregateTotalToDirectAndTier1(model, indicator)
+disaggregateTotalToDirectAndTier1(model, impact, opt_impact = "indicator")
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes}
 
-\item{indicator}{str, index of a model indicator, e.g. "Greenhouse Gases".}
+\item{impact}{str, a model indicator (e.g., "Greenhouse Gases") row index of N, 
+or elementary flow (e.g., "Methane/emission/air/kg") index of M}
+
+\item{opt_impact}{str {'indicator', 'elemflow'}, string code to specify impact type}
 }
 \value{
 A data frame of direct and per-tier-1-purchase sector impacts
 }
 \description{
-For a given indicator, disaggregate total impacts per purchase (N) into 
-direct impacts (D) and upstream, Tier 1 purchase impacts. Return a long format
-dataframe of exchanges, with sector names mapped to sector codes.
+For a given impact, provided via indicator or elementary flow label, 
+disaggregate the total impacts per purchase (indicator: N, flow: M) into 
+direct impacts (indicator: D, flow: B) and upstream, Tier 1 purchase impacts. 
+Return a long-format df of exchanges, with sector names mapped to sector codes.
 }

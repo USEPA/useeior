@@ -6,11 +6,11 @@
 getMarginsTable <- function (model) {
   # Define value_columns in Margins table
   value_columns <- c("ProducersValue", "Transportation", "Wholesale", "Retail")
+  schema <- getSchemaCode(model$specs)
   # Use BEA Margin Details table
-  if (model$specs$BaseIOSchema==2012) {
-    MarginsTable <- useeior::Detail_Margins_2012_BeforeRedef
-    MarginsTable[, value_columns] <- MarginsTable[, value_columns]*1E6
-  }
+  MarginsTable <- get(paste0(na.omit(c('Detail_Margins', model$specs$BaseIOSchema, 'BeforeRedef', schema)),
+                             collapse = "_"))
+  MarginsTable[, value_columns] <- MarginsTable[, value_columns]*1E6
   # Remove Export, Import and Change in Inventory records.
   # Exports do not reflect what a US consumer would pay for margins, hence the removal.
   # Imports have negative PRO price which impacts calculations. 
