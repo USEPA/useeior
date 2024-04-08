@@ -8,7 +8,7 @@
 loadExternalImportFactors <- function(model, configpaths = NULL) {
 
   # Read in file with Import factors
-  IFSpec <- model$specs$ImportFactors[[1]]
+  IFSpec <- model$specs$ImportFactors
   if(is.null(IFSpec$FileLocation)){
     filename <- getInputFilePath(configpaths, folderPath = "extdata", filename = IFSpec$StaticFile)
   } else if(IFSpec$FileLocation == "DataCommons") {
