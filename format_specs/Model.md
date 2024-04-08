@@ -4,16 +4,16 @@ A fully constructed USEEIO model is an R named list that contains the following 
  
 ## Notes 
  
- A _sector_ is either a commodity or industry, depending on the [model CommodityorIndustry Type](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecification.md#model-specifications). The _sector_ will be synononmous for that same CommodityorIndustryType for all tables in a given model in which _sector_ is used. 
+ A _sector_ is either a commodity or industry, depending on the [model CommodityorIndustry Type](ModelSpecification.md#model-specifications). The _sector_ will be synononmous for that same CommodityorIndustryType for all tables in a given model in which _sector_ is used. 
 
-Unless another year is specifically called out, all economic values are given in US dollars (USD) in the value the [model IOyear](https://github.com/USEPA/useeior/blob/master/format_specs/ModelSpecification.md#model-specifications). 
+Unless another year is specifically called out, all economic values are given in US dollars (USD) in the value the [model IOyear](ModelSpecification.md#model-specifications). 
 
 ## Model
 Items are listed in the order in which they appear in a built Model object in R.
 
 | Item | Data Structure | Category | Description |
 | --- | --- | --------- | ------ |
-| specs | list | metadata | [Model specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md) |
+| specs | list | metadata | [Model specifications](ModelSpecification.md) |
 | crosswalk | data.frame | metadata | Sector [crosswalk](#crosswalk) |
 | Commodities | data.frame | metadata | Commodity metadata in [sector meta format](#sector-meta) |
 | Industries | data.frame | metadata | Industry metadata in [sector meta format](#sector-meta) |
@@ -27,9 +27,12 @@ Items are listed in the order in which they appear in a built Model object in R.
 | TaxLessSubsidies | data.frame | supporting data | [Total product supply in basic price and tax less subsidies](#taxlesssubsidies) |
 | MultiYearIndustryCPI | data.frame | supporting data | Multi-year industry CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityCPI | data.frame |   supporting data | Multi-year commodity CPI<sup>1</sup> in [sector-by-year format](#sector-by-year) |
-| AggregationSpecs | list | metadata | Specifications for one or more aggregations
-| DisaggregationSpecs | list | metadata | Specifications for one or more [disaggregation](https://github.com/USEPA/useeior/tree/master/format_specs/ModelCustomization.md#disaggreation-and-aggregation-yml-file-specification) |
-| HybridizationSpecs | list | metadata | Specifications for [model hybridization](https://github.com/USEPA/useeior/tree/master/format_specs/ModelCustomization.md#hybridization-file-specification) |
+| AggregationSpecs | list | metadata | (Optional) Specifications for one or more aggregations
+| DisaggregationSpecs | list | metadata | (Optional) Specifications for one or more [disaggregation](ModelCustomization.md#disaggreation-and-aggregation-yml-file-specification) |
+| HybridizationSpecs | list | metadata | (Optional) Specifications for [model hybridization](ModelCustomization.md#hybridization-file-specification) |
+| MUIOSpecs | list | metadata | (Optional) Specifications for converting one or more sectors to [physical units](ModelCustomization.md#mixed-unit-file-specification) |
+| WIOSpecs | list | metadata | (Optional) Specifications for tracking [waste flows as unique sectors](ModelCustomization.md#waste-input-output-file-specification) |
+| MUIOSectors | data.frame | metadata | (Optional) Metadata associated with new setors representing physical flows |
 | SatelliteTables | list | component data | [Satellite tables](#satellitetables) |
 | Indicators | list | component data | [Indicators](#indicators) |
 | DemandVectors | list | component data | [Demand vectors](#demandvectors) |
@@ -174,19 +177,19 @@ The Indicators object contains meta and factors dataframes.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Name | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
-| Code | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
-| Group | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
-| Unit | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
-| SimpleUnit | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
-| SimpleName | str | See [Indicator Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) |
+| Name | str | See [Indicator Specifications](ModelSpecification.md#indicator-specifications) |
+| Code | str | See [Indicator Specifications](ModelSpecification.md#indicator-specifications) |
+| Group | str | See [Indicator Specifications](ModelSpecification.md#indicator-specifications) |
+| Unit | str | See [Indicator Specifications](ModelSpecification.md#indicator-specifications) |
+| SimpleUnit | str | See [Indicator Specifications](ModelSpecification.md#indicator-specifications) |
+| SimpleName | str | See [Indicator Specifications](ModelSpecification.md#indicator-specifications) |
 
 #### factors
  A data table of the characterization factors for indicators included in the model
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Indicator | str | Matches the [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) of the indicator |
+| Indicator | str | Matches the [Name](ModelSpecification.md#indicator-specifications) of the indicator |
 | Flowable | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 | Context | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
 | Unit | str | See [FlowList](https://github.com/USEPA/Federal-LCA-Commons-Elementary-Flow-List/blob/master/format%20specs/FlowList.md) |
@@ -204,11 +207,11 @@ The DemandVector object contains the demand vectors and a metadata table.
 
 | Item | Type | Description |
 | --- | --- | --------- |
-| Type | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
-| Year | int | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
-| System | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
-| Location | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
-| Name | str | See [Demand Vector Specifications](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#demand-vector-specifications) |
+| Type | str | See [Demand Vector Specifications](ModelSpecification.md#demand-vector-specifications) |
+| Year | int | See [Demand Vector Specifications](ModelSpecification.md#demand-vector-specifications) |
+| System | str | See [Demand Vector Specifications](ModelSpecification.md#demand-vector-specifications) |
+| Location | str | See [Demand Vector Specifications](ModelSpecification.md#demand-vector-specifications) |
+| Name | str | See [Demand Vector Specifications](ModelSpecification.md#demand-vector-specifications) |
 | ID | str | A unique ID for that demand vector|
 
 ### Model Component Matrices
@@ -219,7 +222,7 @@ When used in matrix indices, items below take the following format:
 | --- | --------- |
 | sector (commodity or industry) | [Code_Loc](#sector-meta) (e.g. `1111A0/US`) |
 | flow | [Flowable/Context/Unit](#satellite-tables) (e.g. `Carbon dioxide/emission/air/kg`) |
-| indicator | [Name](https://github.com/USEPA/useeior/tree/master/format_specs/ModelSpecification.md#indicator-specifications) (e.g. `Greenhouse Gases`) |
+| indicator | [Name](ModelSpecification.md#indicator-specifications) (e.g. `Greenhouse Gases`) |
 
 
 #### Output vectors

@@ -5,8 +5,10 @@
 #' @return A data.frame of US Gross Output.
 loadNationalGrossOutputTable <- function(specs) {
   logging::loginfo("Initializing Gross Output tables...")
+  schema <- getSchemaCode(specs)
   # Load pre-saved Gross Output tables
-  GrossOutput <- get(paste0(specs$BaseIOLevel, "_GrossOutput_IO")) * 1E6 # data frame, values are in dollars ($)
+  GrossOutput <- get(paste0(na.omit(c(specs$BaseIOLevel, "GrossOutput_IO", schema)),
+                            collapse = "_")) * 1E6 # data frame, values are in dollars ($)
   return(GrossOutput)
 }
 
@@ -15,6 +17,7 @@ loadNationalGrossOutputTable <- function(specs) {
 #' @return A data.frame of Chain Price Index.
 loadChainPriceIndexTable <- function(specs) {
   logging::loginfo("Initializing Chain Price Index tables...")
-  ChainPriceIndex <- get(paste0(specs$BaseIOLevel, "_CPI_IO"))
+  schema <- getSchemaCode(specs)
+  ChainPriceIndex <- get(paste0(na.omit(c(specs$BaseIOLevel, "CPI_IO", schema)), collapse = "_"))
   return(ChainPriceIndex)
 }

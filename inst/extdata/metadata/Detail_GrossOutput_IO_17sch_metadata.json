@@ -1,0 +1,14 @@
+{
+  "tool": ["useeior"],
+  "name_data": ["Detail_GrossOutput_IO_17sch"],
+  "tool_version": ["1.5.0"],
+  "ext": ["json"],
+  "date_created": ["2024-03-22"],
+  "data_meta": {
+    "data_year": ["2017", "2018", "2019", "2020", "2021", "2022"],
+    "author": ["US Bureau of Economic Analysis"],
+    "source_url": ["https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip"],
+    "date_last_modified": ["2023-11-20"],
+    "date_accessed": ["2024-03-22"]
+  }
+}

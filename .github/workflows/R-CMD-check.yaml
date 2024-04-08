@@ -37,7 +37,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'release'}
+          # - {os: macOS-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
           #- {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
@@ -48,7 +48,7 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -66,78 +66,9 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v2
 
-      - name: Build and validate models - USEEIOv2.0-411 detail model with waste disaggregation
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-411")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-
-      - name: Build and validate models - USEEIOv2.0-i-411 detail industry model with waste disaggregation
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-i-411")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-      
-      - name: Build and validate models - USEEIOv2.0 industry model
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-i-GHG")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-      
-      - name: Build and validate models - USEEIOv2.0 summary model
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-s-GHG")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-      
-      - name: Build and validate models - USEEIOv2.0.1-411 detail model with waste disaggregation
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0.1-411")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-
-      - name: Build and validate models - USEEIOv2 - integrated hybrid
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("USEEIOv2.0-GHG-NGCombustion")
-          useeior::printValidationResults(m)
-        shell: Rscript {0}
-
-      - name: Build and validate models - GAEEIOv1.0-s-WAT-12 summary two-region model
-        if: always()
-        run: |
-          require(devtools)
-          devtools::load_all()
-          m <- useeior::buildModel("GAEEIOv1.0-s-WAT-12")
-          useeior::print2RValidationResults(m)
-        shell: Rscript {0}
-
-      #- name: Show testthat output
-      #  if: always()  # step will run even if previous steps fail
-      #  run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
-      #  shell: bash
-
-      - name: Upload check results
-        if: failure()  # if any of the previous steps fail, export a log
+      - name: Upload model build and validation log
         uses: actions/upload-artifact@main
         with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: check    
+          name: ${{ runner.os }}-r${{ matrix.config.r }}-test_model_build
+          path: check/useeior.Rcheck/tests/test_model_build*
     

@@ -46,11 +46,12 @@ calculateProducerbyPurchaserPriceRatio <- function(model) {
   Margins <- Margins[match(rownames(model$Rho), Margins$Code_Loc), ]
   # Prepare ratio table PHI
   PHI <- model$Rho
+  schema <- getSchemaCode(model$specs)
   for (year in colnames(model$Rho)) {
     # Adjust ProducersValue from model$specs$IOyear to currency year using model$Rho
     ProducersValue <- Margins$ProducersValue * (Margins[, year]/Margins[, as.character(model$specs$IOYear)])
     # Adjust Transportation, Wholesale and Retail using corresponding CPI_ratio
-    TWR_CPI <- useeior::Sector_CPI_IO[c("48TW", "42", "44RT"), ]
+    TWR_CPI <- get(paste0(na.omit(c('Sector_CPI_IO', schema)), collapse = "_"))[c("48TW", "42", "44RT"), ]
     TWR_CPI_ratio <- TWR_CPI[, year]/TWR_CPI[, as.character(model$specs$IOYear)]
     TWRValue <- sweep(Margins[, c("Transportation", "Wholesale", "Retail")], 2, TWR_CPI_ratio, "*")
     # Generate PRObyPURRatios, or phi vector
