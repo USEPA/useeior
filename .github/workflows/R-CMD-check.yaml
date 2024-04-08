@@ -58,6 +58,11 @@ jobs:
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
 
+      - name: Install arrow
+        run: |
+          Rscript -e "install.packages('arrow', repos = c('https://apache.r-universe.dev'))"
+        if: matrix.os == 'macOS-latest'
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
