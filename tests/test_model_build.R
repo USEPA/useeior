@@ -160,3 +160,24 @@ printValidationResults(model)
 # model <- useeior:::loadDemandVectors(model)
 # model <- useeior:::constructEEIOMatrices(model)
 # printValidationResults(model)
+
+## StateEEIOv1.0 Two-region Summary model with "standard" Utility disaggregation
+setwd("tests")
+
+devtools::load_all(".")
+devtools::load_all("../../stateior/")
+
+m <- "GAEEIOv1.0-75-GHG-19"
+cfg <- paste0("modelspecs/", m, ".yml")
+model <- buildModel(m, configpaths = file.path(cfg))
+printValidationResults(model)
+
+## StateEEIOv1.0 Two-region Summary model with Utility disaggregation by Proxy 
+## I.e., using employment values by detail-level industries to inform disaggregation
+devtools::load_all(".")
+devtools::load_all("../../stateior/")
+
+m <- "GAEEIOv1.0-75-Proxy-GHG-19"
+cfg <- paste0("modelspecs/", m, ".yml")
+modelProxy <- buildModel(m, configpaths = file.path(cfg))
+printValidationResults(model)
