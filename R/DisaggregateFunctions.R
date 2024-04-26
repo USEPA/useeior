@@ -196,12 +196,58 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
       spec$EnvAllocRatio <- FALSE
     }
 
-    # For Two-region model, develop two-region specs from national disaggregation files
+    # For Two-region model, develop two-region specs
     if (model$specs$IODataSource=="stateior"){
       if (stringr::str_sub(spec$OriginalSectorCode, start=-3)=="/US") {
-        for(region in model$specs$ModelRegionAcronyms){
-          d2 <- prepareTwoRegionDisaggregation(spec, region, model$specs$ModelRegionAcronyms)
-          specs[[d2$OriginalSectorCode]] <- d2
+        
+        if(!is.null(spec$stateFile)){
+          
+          for(region in model$specs$ModelRegionAcronyms){
+            # Define paramters for createDisaggFilesFromProxyData function call
+            year <- as.numeric(model$specs$IOYear)
+            
+            if(region != "RoUS"){
+              state <- sub(".*-", "", model$specs$ModelRegionAcronyms[1]) # Get values after "-" to get state abbreviation
+              state <- state.name[match(state, state.abb)] # Get state name from abbreviation, e.g., Georgia from GA
+            } else {
+              state <- "US"
+            }
+
+            
+            # Get file with proxy data for states
+            proxyFilename <- getInputFilePath(configpaths, folderPath, spec$stateFile,
+                                              package = spec$package)
+            spec$stateDF <- utils::read.table(proxyFilename, sep = ",", header = TRUE, stringsAsFactors = FALSE, check.names = FALSE)
+            
+            # Create Make, Use disagg objects; returns a model object with new Use and Make File objects
+            tempModel <- createDisaggFilesFromProxyData(model, spec, year, state)
+            # Get relevant disagg specs from temp model object
+            d2 <- tempModel$DisaggregationSpecs[[spec$OriginalSectorCode]]
+            rm(tempModel) # Remove tempModel to save on memory
+            
+            # Note: can't call prepareTwoRegionDisaggregation() function here to adjust all the objects in d2 (or spec)
+            # because the make and use files (UseFile and MakeFile) are not the same for the two approaches. 
+            # As a result, need to adjust the objects in a different way, but such that they are still appropriate for the
+            # rest of the functions called under disaggregateModel() for 2R objects
+            
+            # Create appropriate Sector/region code combination
+            regionDisaggCode <- gsub("US", region, d2$OriginalSectorCode)
+            # Replace sector codes from having "US" to having appropriate region code
+            d2$OriginalSectorCode <- gsub("US", region, d2$OriginalSectorCode)
+            d2$NewSectorCodes <- lapply(X = d2$NewSectorCodes, FUN = function(t) gsub("US", region, x = t, fixed = TRUE))
+            
+            # Add to specs object 
+            specs[[regionDisaggCode]] <- d2
+            
+          }
+        } else{
+          # Create disaggregation specs from national tables
+          for(region in model$specs$ModelRegionAcronyms){
+            d2 <- prepareTwoRegionDisaggregation(spec, region, model$specs$ModelRegionAcronyms)
+            specs[[d2$OriginalSectorCode]] <- d2
+          }
+          # # Remove original disaggregation spec
+          # specs[spec$OriginalSectorCode] <- NULL
         }
         # Remove original disaggregation spec
         specs[spec$OriginalSectorCode] <- NULL
