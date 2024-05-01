@@ -20,24 +20,27 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
                                stringsAsFactors = FALSE)
   
   # Store meta data
-  meta <- data.frame(matrix(nrow = 0, ncol = 5))
-  cnames <- colnames(IFTable[1:5])
-  colnames(meta) <- cnames
+  meta <- data.frame(matrix(nrow = 0, ncol = 4))
   meta[1,1] <- model$specs$BaseIOLevel
-  meta[2:5] <- IFTable[1,2:5]
+  meta[2:4] <- IFTable[1,c("ReferenceCurrency", "Year", "PriceType")]
+  colnames(meta) <- c("Sector","ReferenceCurrency", "Year", "PriceType")
   
   # Format IFTable to match model$M
   IFTable['Flow'] <- paste(IFTable$Flowable, IFTable$Context, IFTable$Unit, sep = "/")
 
-  # Convert from basic to producer price using TAU of CurrencyYear
-  Tau <- model$Tau[, as.character(meta$CurrencyYear)]
-  names(Tau) <- gsub("/.*","",names(Tau))
-  # For state models, keep only unique names
-  Tau <- Tau[unique(names(Tau))]
-  IFTable <- merge(IFTable, as.data.frame(Tau), by.x = 'Sector', by.y = 0, all.y = FALSE)
-  IFTable['FlowAmount'] <- IFTable['FlowAmount'] * IFTable['Tau']
-  IFTable['PriceType'] <- 'Producer'
-  IFTable['CurrencyYear'] <- model$specs$IOYear
+  if(meta[1, "PriceType"] == "Basic") {
+    # Convert from basic to producer price using TAU
+    Tau <- model$Tau[, as.character(meta$Year)]
+    names(Tau) <- gsub("/.*","",names(Tau))
+    # For state models, keep only unique names
+    Tau <- Tau[unique(names(Tau))]
+    IFTable <- merge(IFTable, as.data.frame(Tau), by.x = 'Sector', by.y = 0, all.y = FALSE)
+    IFTable['FlowAmount'] <- IFTable['FlowAmount'] * IFTable['Tau']
+    IFTable['PriceType'] <- 'Producer'
+    # write.csv(subset(IFTable, select=-c(Tau, Flow)), IFSpec$StaticFile, row.names=FALSE)
+  } else if (meta[1, "PriceType"] != "Producer") {
+    stop("PriceType must be 'Basic' or 'Producer'")
+  }
   
   if(model$specs$IODataSource =="stateior") {
     IFTable_SoI <- IFTable
