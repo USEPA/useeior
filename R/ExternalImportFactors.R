@@ -6,9 +6,21 @@
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @return Q_t, matrix of import coefficients (flow x sector).
 loadExternalImportFactors <- function(model, configpaths = NULL) {
+  IFTable <- readImportFactorTable(IFSpec=model$specs$ImportFactors, configpaths=configpaths)
+  IFTable <- processImportFactors(model, IFTable)
+  Q_t <- standardizeandcastSatelliteTable(IFTable, model)
+  # standardizeandcast prepares df for industries, convert to commodities
+  Q_t[, setdiff(model$Commodities$Code_Loc, colnames(Q_t))] <- 0
+  # Adjust column order to be the same with V_n rownames
+  Q_t <- Q_t[, model$Commodities$Code_Loc]
+  Q_t <- as.matrix(Q_t)
 
+  return(Q_t)
+}
+
+
+readImportFactorTable <- function(IFSpec, configpaths = NULL) {
   # Read in file with Import factors
-  IFSpec <- model$specs$ImportFactors
   if(is.null(IFSpec$FileLocation)){
     filename <- getInputFilePath(configpaths, folderPath = "extdata", filename = IFSpec$StaticFile)
   } else if(IFSpec$FileLocation == "DataCommons") {
@@ -18,7 +30,16 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
   }
   IFTable <- utils::read.table(filename, sep = ",", header = TRUE,
                                stringsAsFactors = FALSE)
-  
+  return(IFTable)
+}
+
+
+
+#' Load and prepare import coefficients
+#' @param model An EEIO form USEEIO model object with model specs loaded
+#' @param IFtable
+#' @return IFTable, dataframe of processed of import coefficients (flow x sector).
+processImportFactors <- function(model, IFTable) {
   # Store meta data
   meta <- data.frame(matrix(nrow = 0, ncol = 4))
   meta[1,1] <- model$specs$BaseIOLevel
@@ -37,7 +58,6 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
     IFTable <- merge(IFTable, as.data.frame(Tau), by.x = 'Sector', by.y = 0, all.y = FALSE)
     IFTable['FlowAmount'] <- IFTable['FlowAmount'] * IFTable['Tau']
     IFTable['PriceType'] <- 'Producer'
-    # write.csv(subset(IFTable, select=-c(Tau, Flow)), IFSpec$StaticFile, row.names=FALSE)
   } else if (meta[1, "PriceType"] != "Producer") {
     stop("PriceType must be 'Basic' or 'Producer'")
   }
@@ -52,17 +72,8 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
     # assumes that if IODataSource is not stateior, it is a one a region model
     IFTable['Location'] <- "US"
   }
-  
-  Q_t <- standardizeandcastSatelliteTable(IFTable, model)
-  # standardizeandcast prepares df for industries, convert to commodities
-  Q_t[, setdiff(model$Commodities$Code_Loc, colnames(Q_t))] <- 0
-  # Adjust column order to be the same with V_n rownames
-  Q_t <- Q_t[, model$Commodities$Code_Loc]
-  Q_t <- as.matrix(Q_t)
-
-  return(Q_t)
+  return(IFTable)
 }
-
 
 #' Create import Use table and validate domestic+import against full use model .
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
