@@ -2,8 +2,8 @@
 
 #' Load and prepare import coefficients
 #' @param model An EEIO form USEEIO model object with model specs loaded
-#' @param configpaths str vector, paths (including file name) of model configuration file
-#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
+#' @param configpaths str vector, paths (including file name) of model configuration file.
+#' If NULL, built-in config files are used.
 #' @return Q_t, matrix of import coefficients (flow x sector).
 loadExternalImportFactors <- function(model, configpaths = NULL) {
   IFTable <- readImportFactorTable(IFSpec=model$specs$ImportFactors, configpaths=configpaths)
@@ -18,7 +18,11 @@ loadExternalImportFactors <- function(model, configpaths = NULL) {
   return(Q_t)
 }
 
-
+#' Load and prepare import coefficients
+#' @param IFSpec list of specs for import factor file
+#' @param configpaths str vector, paths (including file name) of model configuration file.
+#' If NULL, built-in config files are used.
+#' @return IFtable, dataframe of unprocessed import factors
 readImportFactorTable <- function(IFSpec, configpaths = NULL) {
   # Read in file with Import factors
   if(is.null(IFSpec$FileLocation)){
@@ -37,7 +41,7 @@ readImportFactorTable <- function(IFSpec, configpaths = NULL) {
 
 #' Load and prepare import coefficients
 #' @param model An EEIO form USEEIO model object with model specs loaded
-#' @param IFtable
+#' @param IFtable, dataframe of unprocessed import factors
 #' @return IFTable, dataframe of processed of import coefficients (flow x sector).
 processImportFactors <- function(model, IFTable) {
   # Store meta data

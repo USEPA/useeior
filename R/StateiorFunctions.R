@@ -317,7 +317,7 @@ compare2RVectorTotals <- function(v_One, v_Two) {
 #' @param disagg Specifications for disaggregating the current Table
 #' @param disaggYear Integer specifying the state model year
 #' @param disaggState A string value that indicates the state model being disaggregated. For national models, string should be "US"
-#' @return 
+#' @return model
 createDisaggFilesFromProxyData <- function(model, disagg, disaggYear, disaggState){
   
   # Note: this function assumes: 
