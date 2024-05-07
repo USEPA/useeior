@@ -61,5 +61,5 @@ DemandVectors:
     DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
 
 # ImportFactors:
-#     StaticFile: "imports_multipliers_2019.csv"
+#     StaticFile: "import_factors_summary_2019.csv"
 #     FileLocation: "useeior"
