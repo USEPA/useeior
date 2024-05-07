@@ -41,7 +41,7 @@ readImportFactorTable <- function(IFSpec, configpaths = NULL) {
 
 #' Load and prepare import coefficients
 #' @param model An EEIO form USEEIO model object with model specs loaded
-#' @param IFtable, dataframe of unprocessed import factors
+#' @param IFTable, dataframe of unprocessed import factors
 #' @return IFTable, dataframe of processed of import coefficients (flow x sector).
 processImportFactors <- function(model, IFTable) {
   # Store meta data

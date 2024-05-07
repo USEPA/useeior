@@ -9,7 +9,7 @@ processImportFactors(model, IFTable)
 \arguments{
 \item{model}{An EEIO form USEEIO model object with model specs loaded}
 
-\item{IFtable, }{dataframe of unprocessed import factors}
+\item{IFTable, }{dataframe of unprocessed import factors}
 }
 \value{
 IFTable, dataframe of processed of import coefficients (flow x sector).
