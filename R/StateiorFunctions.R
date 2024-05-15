@@ -326,6 +326,12 @@ createDisaggFilesFromProxyData <- function(model, disagg, disaggYear, disaggStat
   #    in the Use table, the three Detail utility commodities (rows) will have that same split for across all columns (industries/final demand)
   # 2) The disagg parameter will contain a disagg$stateDF variable that includes the data for the relevant disaggState and disaggYear parameters.
   
+  if(!is.null(spec$stateFile)){ 
+    
+    stop("This section of code is meant to be used with 2R models with disaggregated utilities
+                           and is not yet fully implemented.")
+  }
+  
   #Get subset of ratios for current year
   stateDFYear <- subset(disagg$stateDF, Year == disaggYear & State == disaggState)
   
