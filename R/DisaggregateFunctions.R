@@ -197,7 +197,7 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
     }
 
     # For Two-region model, develop two-region specs
-    if (model$specs$IODataSource=="stateior"){
+    if (model$specs$IODataSource=="stateior") {
       if (stringr::str_sub(spec$OriginalSectorCode, start=-3)=="/US") {
         
         # Create disaggregation specs from proxy data (e.g., employment by sector by state)
@@ -244,7 +244,7 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
             specs[[regionDisaggCode]] <- d2
             
           }
-        } else{
+        } else {
           # Create disaggregation specs from national tables
           for(region in model$specs$ModelRegionAcronyms){
             d2 <- prepareTwoRegionDisaggregation(spec, region, model$specs$ModelRegionAcronyms)

@@ -139,7 +139,9 @@ prepare2RDemand <- function(model, location, domestic, demand_type = "Production
   state_abb <- unique(state_abb)
   iolevel <- model$specs$BaseIOLevel
   
-  if(domestic){#TODO: CHANGE domestic FROM BOOLEAN TO STRING WITH VALUES 'domestic', 'production', and 'import', so we can calculate the import matrix in the following if else if else block
+  if(domestic) {
+    # TODO: CHANGE domestic FROM BOOLEAN TO STRING WITH VALUES 'domestic', 'production', 
+    # and 'import', so we can calculate the import matrix in the following if else if else block
     use_table <- model$DomesticUseTransactionswithTrade    
   } else {
     use_table <- model$UseTransactionswithTrade
@@ -161,13 +163,6 @@ prepare2RDemand <- function(model, location, domestic, demand_type = "Production
       } else {
         SoI2SoI_y <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns, "ExportResidual")])
       }
-      
-      # if(!is.null(model$specs$ImportFactors)){
-      #   RoUS2SoI_y  <- rowSums(use_table[["RoUS2SoI"]][, c(FD_columns)]) # ITA column accounted for in domestic production demand vector for models with IF       
-      # }else{
-      #   RoUS2SoI_y  <- rowSums(use_table[["RoUS2SoI"]][, c(FD_columns, ita_column)])
-      # }
-      # 
       RoUS2SoI_y  <- rowSums(use_table[["RoUS2SoI"]][, c(FD_columns, ita_column)])
       y_p <- c(SoI2SoI_y, RoUS2SoI_y)
       
@@ -178,13 +173,6 @@ prepare2RDemand <- function(model, location, domestic, demand_type = "Production
       } else {
         RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns, "ExportResidual")])
       }
-      
-      # if(!is.null(model$specs$ImportFactors)){
-      #   SoI2RoUS_y <- rowSums(use_table[["SoI2RoUS"]][, c(FD_columns)]) # ITA column accounted for in domestic production demand vector for models with IF       
-      # }else{
-      #   SoI2RoUS_y <- rowSums(use_table[["SoI2RoUS"]][, c(FD_columns, ita_column)])
-      # }
-      # 
       SoI2RoUS_y <- rowSums(use_table[["SoI2RoUS"]][, c(FD_columns, ita_column)])
       y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
     }

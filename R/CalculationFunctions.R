@@ -39,7 +39,8 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", locati
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
-prepareDemandVectorForStandardResults <- function(model, demand = "Production", location = NULL, use_domestic_requirements = FALSE) {
+prepareDemandVectorForStandardResults <- function(model, demand = "Production",
+                                                  location = NULL, use_domestic_requirements = FALSE) {
   if (is.character(demand)) {
     #assume this is a model build-in demand 
     #try to load the model vector
@@ -90,11 +91,13 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
       location <- "US"
     }
     # Calculate import demand vector y_m. 
-    if(demand == "Production"){
+    if(demand == "Production") {
       # This option left in for validation purposes.
-      logging::loginfo("Warning: Production demand vector not recommended for estimating results for models with external Import Factors. ")
+      logging::loginfo(paste0("Warning: Production demand vector not recommended ",
+                              "for estimating results for models with external ",
+                              "Import Factors."))
       y_m <- prepareImportProductionDemand(model, location = location)
-    } else if(demand == "Consumption"){
+    } else if(demand == "Consumption") {
       y_m <- prepareImportConsumptionDemand(model, location = location)
     }
   } else {
@@ -140,8 +143,7 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   rownames(hh_lcia) <- codes
   
   # Calculate Final perspective results
-  if(perspective == "FINAL"){
-    
+  if(perspective == "FINAL") {
     y_d <- diag(as.vector(y_d))
     y_m <- diag(as.vector(y_m))
     
@@ -171,8 +173,7 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
       result$LCIA_f <- rbind(result$LCIA_f, hh_lcia)
     }
     
-  } else{ # Calculate direct perspective results.
-    
+  } else { # Calculate direct perspective results.
     # Direct perspective implemented using the following steps:
     # Imported_LCI = LCI_direct_domestic
     # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
@@ -186,7 +187,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
       y_d <- diag(as.vector(y_d))
       y_m <- diag(as.vector(y_m))
       
-      totalLCI <- (model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m) # same equation as final perspective
+      totalLCI <- (model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m)
+      # ^^ same equation as final perspective
       totalLCI <- t(totalLCI)
       rownames(totalLCI) <- colnames(model$Q_t)
       # Taking the overall difference between domestic and total LCI, not by commodity, to be the totals for the imports.
@@ -201,8 +203,7 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
       colnames(result$LCI_d) <- rownames(model$Q_t)
       rownames(result$LCI_d) <- colnames(model$Q_t)
     }
-    
-    
+
     # # Alternate approach for calculating Direct LCI for IF
     # # Attempting to duplicate calculateDirectPerspectiveLCI for IF models
     # econTermOne <- model$L_d %*% y_d
@@ -240,9 +241,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
 }
 
 
-
-#' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that does not have external import factors
-#' for a given perspective and demand vector.
+#' Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model
+#' that does not have external import factors for a given perspective and demand vector.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param perspective Perspective of the model, can be "DIRECT" or "FINAL". "DIRECT" perspective
 #' aligns results with the sectors in which they are produced, while "FINAL" perspective aligns
@@ -515,7 +515,8 @@ calculateMarginSectorImpacts <- function(model) {
     stop("Margins not available for two-region models")
   }
   # Calculation fractions of producer price for each margin
-  MarginCoefficients <- as.matrix(model$Margins[, c("Transportation", "Wholesale", "Retail")]/model$Margins[, c("ProducersValue")])
+  MarginCoefficients <- as.matrix(model$Margins[, c("Transportation", "Wholesale", "Retail")] / 
+                                    model$Margins[, c("ProducersValue")])
   rownames(MarginCoefficients) <- model$Margins$SectorCode
   MarginCoefficients[is.na(MarginCoefficients)] <- 0
   
