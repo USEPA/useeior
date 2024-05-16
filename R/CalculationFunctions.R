@@ -511,6 +511,9 @@ calculateSectorPurchasedbySectorSourcedImpact <- function (y, model, indicator) 
 #' @return A list with M_margin and N_margin
 #' @export
 calculateMarginSectorImpacts <- function(model) {
+  if (model$specs$IODataSource == "stateior") {
+    stop("Margins not available for two-region models")
+  }
   # Calculation fractions of producer price for each margin
   MarginCoefficients <- as.matrix(model$Margins[, c("Transportation", "Wholesale", "Retail")]/model$Margins[, c("ProducersValue")])
   rownames(MarginCoefficients) <- model$Margins$SectorCode

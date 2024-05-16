@@ -41,8 +41,10 @@ loadIOData <- function(model, configpaths = NULL) {
     names(model$InternationalTradeAdjustment) <- model$Industries$Code_Loc
   }
   
-  # Add Margins table
-  model$Margins <- getMarginsTable(model)
+  if (model$specs$IODataSource != "stateior") {
+    # Add Margins table, currently only for one-region models (see Issue #290)
+    model$Margins <- getMarginsTable(model)
+  }
   
   # Add TaxLessSubsidies table
   model$TaxLessSubsidies <- generateTaxLessSubsidiesTable(model)
