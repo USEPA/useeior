@@ -76,8 +76,14 @@ generateCommodityMixMatrix <- function (model) {
   C <- normalizeIOTransactions(t(model$MakeTransactions), model$IndustryOutput) # C = V' %*% solve(x_hat)
   # Validation: check if column sums equal to 1
   industryoutputfractions <- colSums(C)
+  if (model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
+    # increase tolerance for disaggregated state models
+    tolerance <- 0.02
+  } else {
+    tolerance <- 0.01
+  }
   for (s in industryoutputfractions) {
-    if (abs(1-s)>0.01) {
+    if (abs(1-s)>tolerance) {
       stop("Error in commoditymix")
     }
   }
@@ -112,9 +118,15 @@ transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
   # To avoid interruption in later calculations, they are forced to 100
   CommodityCPI[CommodityCPI==0] <- 100
   # Validation: check if IO year CommodityCPI is 100
+  if (model$specs$IODataSource == "stateior" && !is.null(model$specs$DisaggregationSpecs)){
+    # increase tolerance for disaggregated state models
+    tolerance <- 3.0
+  } else {
+    tolerance <- 0.3
+  }
   if (year==2012) {
     for (s in CommodityCPI) {
-      if (abs(100-s)>0.3) {
+      if (abs(100-s)>tolerance) {
         stop("Error in CommodityCPI")
       }
     }
@@ -171,23 +183,10 @@ calculateLeontiefInverse <- function(A) {
 
 #' Generate domestic Use table by adjusting Use table based on Import matrix.
 #' @param Use, dataframe of a Use table
+#' @param Import, dataframe of a Import table
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return A Domestic Use table with rows as commodity codes and columns as industry and final demand codes
-generateDomesticUse <- function(Use, model) {
-  schema <- getSchemaCode(model$specs)
-  # Load Import matrix
-  if (model$specs$BaseIOLevel != "Sector") {
-    Import <- get(paste(na.omit(c(model$specs$BaseIOLevel, "Import",
-                                  model$specs$IOYear, "BeforeRedef", schema)),
-                        collapse = "_"))*1E6
-  } else {
-    # Load Summary level Import matrix
-    Import <- get(paste(na.omit(c("Summary_Import", model$specs$IOYear, "BeforeRedef", schema)),
-                        collapse = "_"))*1E6
-    # Aggregate Import from Summary to Sector
-    Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
-  }
-  Import <- Import[rownames(Use), colnames(Use)]
+generateDomesticUse <- function(Use, Import, model) {
   # Adjust Import matrix to BAS price if model is in BAS price
   # Note: according to the documentation in BEA Import matrix, import values in
   # the Import matrix are in producer (PRO) values. For PRO models, imports in the
@@ -228,21 +227,10 @@ generateDomesticUse <- function(Use, model) {
 
 #' Generate international trade adjustment vector from Use and Import matrix.
 #' @param Use, dataframe of a Use table
+#' @param Import, dataframe of a Import table
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return An international trade adjustment vector with names as commodity codes
-generateInternationalTradeAdjustmentVector <- function(Use, model) {
-  schema <- getSchemaCode(model$specs)
-  # Load Import matrix
-  if (model$specs$BaseIOLevel!="Sector") {
-    Import <- get(paste(na.omit(c(model$specs$BaseIOLevel, "Import", model$specs$IOYear, "BeforeRedef", schema)),
-                        collapse = "_"))*1E6
-  } else {
-    # Load Summary level Import matrix
-    Import <- get(paste(na.omit(c("Summary_Import", model$specs$IOYear, "BeforeRedef", schema)),
-                        collapse = "_"))*1E6
-    # Aggregate Import from Summary to Sector
-    Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
-  }
+generateInternationalTradeAdjustmentVector <- function(Use, Import, model) {
   # Define Import code
   ImportCode <- getVectorOfCodes(model$specs$BaseIOSchema, model$specs$BaseIOLevel, "Import")
   ImportCode <- ImportCode[startsWith(ImportCode, "F")]
@@ -257,6 +245,7 @@ generateInternationalTradeAdjustmentVector <- function(Use, model) {
   names(InternationalTradeAdjustment) <- rownames(Use)
   return(InternationalTradeAdjustment)
 }
+
 
 #' Convert Use table in the Supply-Use framework from purchasers' price (PUR)
 #' to basic price (BAS)
@@ -340,4 +329,3 @@ generateTaxLessSubsidiesTable <- function(model) {
                              by.x = 0, by.y = "Code", all.y = TRUE)
   return(TaxLessSubsidies)
 }
-  

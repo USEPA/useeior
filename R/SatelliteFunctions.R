@@ -64,11 +64,23 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
 #' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param output_type Type of the output, e.g. "Commodity" or "Industry"
+#' @param final_demand, bool, generate coefficients using final demand vector
 #' @return A dataframe contains intensity coefficient (kg/$).
-generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym, IsRoUS = FALSE, model, output_type = "Industry") {
-  # Generate adjusted industry output
-  Output_adj <- adjustOutputbyCPI(outputyear, referenceyear, location_acronym, IsRoUS, model, output_type)
-  rownames(Output_adj) <- gsub(paste0("/", location_acronym), "", rownames(Output_adj))
+generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym,
+                                             IsRoUS = FALSE, model, output_type = "Industry", final_demand = FALSE) {
+  if(final_demand) {
+    # Output_adj <- data.frame(colSums(model$FinalDemand))
+    # Final demand emissions currenlty only assigned to households even though they reflect all final consumption
+    Output_adj <- data.frame(sum(prepareConsumptionDemand(model, location_acronym)))
+    rownames(Output_adj) <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household") &
+                                                    grepl(location_acronym, model$FinalDemandMeta$Code_Loc) , "Code"]
+    # TODO adjust the final demand to reflect emission year!!
+    colnames(Output_adj) <- paste0(outputyear, output_type, "Output")
+  } else {
+    # Generate adjusted industry output
+    Output_adj <- adjustOutputbyCPI(outputyear, referenceyear, location_acronym, IsRoUS, model, output_type)
+  }
+  rownames(Output_adj) <- gsub(paste0("/", location_acronym), "", rownames(Output_adj))    
   # Merge the satellite table with the adjusted industry output
   Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "Sector", by.y = 0, all.x = TRUE)
   outputcolname <- paste0(outputyear, output_type, "Output")

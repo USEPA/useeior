@@ -71,8 +71,6 @@ prepareProductionDemand <- function(model, location) {
 #' @return A named vector with demand
 prepareDomesticProductionDemand <- function(model, location) {
   if (model$specs$IODataSource == "stateior") {
-    # This calls the same function as non-domestic demand since for 2R models the non-domestic Use table is replaced with 
-    # domestic Use table with trade, meaning the model$U and model$U_d objects are equal.
     y_d_p <- prepare2RDemand(model, location, domestic = TRUE) 
   } else {
     loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
@@ -87,6 +85,33 @@ prepareDomesticProductionDemand <- function(model, location) {
   return(y_d_p)
 }
 
+#' Prepares a demand vector representing Import production
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param location, str of location code for demand vector
+#' @return A named vector with demand
+prepareImportProductionDemand <- function(model, location) {
+  if (model$specs$IODataSource == "stateior") {
+    y_m_p <- prepare2RDemand(model, location, domestic = FALSE)
+    stop("Import production demand not yet implemented for 2R models.")
+  } else {
+    # Note that model$mu (i.e., ITA) is not included in import production demand
+    # because it is included in Domestic Production Demand
+    loc <- grepl(location, model$FinalDemandMeta$Code_Loc)
+    export_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Export" & loc, "Code_Loc"]
+    changeinventories_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="ChangeInventories" & loc, "Code_Loc"]
+    import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
+    # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
+    ImportFinalDemand <- model$ImportMatrix[, which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)]
+    y_m_c <- sumforConsumption(model, ImportFinalDemand, location)
+    y_m_e <- sumDemandCols(ImportFinalDemand, export_code)
+    y_m_i <- sumDemandCols(ImportFinalDemand, import_code)
+    y_m_delta <- sumDemandCols(ImportFinalDemand, changeinventories_code)
+
+    y_m_p <- y_m_c + y_m_e + y_m_i + y_m_delta 
+  }
+  return(y_m_p)
+}
+
 #' Prepares a demand vector representing consumption
 #' @param model An EEIO model object with model specs and IO tables loaded
 #' @param location, str of location code for demand vector
@@ -99,6 +124,25 @@ prepareConsumptionDemand <- function(model, location) {
   }
   return(y_c)
 }
+
+#' Prepares a demand vector representing Import consumption
+#' @param model An EEIO model object with model specs and IO tables loaded
+#' @param location, str of location code for demand vector
+#' @return a named vector with demand
+prepareImportConsumptionDemand <- function(model, location) {
+  if (model$specs$IODataSource == "stateior") {
+    ImportMatrix <- model$U - model$U_d
+    ImportMatrix <- head(ImportMatrix, -6) # drop value add rows; TODO update this
+    ImportFinalDemand <- ImportMatrix[, which(colnames(ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)]
+    y_c <- sumforConsumption(model, ImportFinalDemand, location)
+  } else {
+    # Including InternationalTradeAdjustment in DomesticFinalDemand for import factors calculations
+    ImportFinalDemand <- model$ImportMatrix[, which(colnames(model$ImportMatrix) %in% model$FinalDemandMeta$Code_Loc)]
+    y_c <- sumforConsumption(model, ImportFinalDemand, location)
+  }
+  return(y_c)
+}
+
 
 #' Prepares a demand vector representing domestic consumption
 #' @param model An EEIO model object with model specs and IO tables loaded

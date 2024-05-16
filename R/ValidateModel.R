@@ -317,6 +317,7 @@ printValidationResults <- function(model) {
   modelval <- compareEandLCIResult(model, tolerance = 0.01)
   print(paste("Number of flow totals by commodity passing:",modelval$N_Pass))
   print(paste("Number of flow totals by commodity failing:",modelval$N_Fail))
+  print(paste("Sectors with flow totals failing:", paste(unique(modelval$Failure$variable), collapse = ", ")))  
   
   print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total domestic requirements matrix (L_d), and demand vector (y) for US production")
   dom_val <- compareEandLCIResult(model, use_domestic=TRUE, tolerance = 0.01)
@@ -336,6 +337,18 @@ printValidationResults <- function(model) {
     print(paste("Number of flow totals by commodity passing:",q_val$N_Pass))
     print(paste("Number of flow totals by commodity failing:",q_val$N_Fail))
     print(paste("Sectors with flow totals failing:", paste(unique(q_val$Failure$rownames), collapse = ", ")))
+  }
+  
+  if(model$specs$IODataSource =="stateior") {
+    print2RValidationResults(model)
+  }
+
+  if(!is.null(model$specs$ExternalImportFactors) && model$specs$ExternalImportFactors) {
+    validateImportFactorsApproach(model)
+  }
+  
+  if(!is.null(model$B_h)) {
+    validateHouseholdEmissions(model)
   }
 }
 
@@ -361,6 +374,7 @@ removeHybridProcesses <- function(model, object) {
   return(object)
 }
 
+
 #' Compare commodity or industry output calculated from Make and Use tables.
 #' @param model A model list object with model specs and IO tables listed
 #' @param output_type A string indicating commodity or industry output.
@@ -381,4 +395,104 @@ compareOutputfromMakeandUse <- function(model, output_type = "Commodity") {
   rel_diff <- (output_make - output_use) / output_use
   rel_diff[is.nan(rel_diff)] <- 0
   return(rel_diff)
+}
+
+#' Validate the results of the model build using the Import Factor approach (i.e., coupled model approach)
+#' @param model, An EEIO model object with model specs and crosswalk table loaded
+#' @param demand, A demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.
+#' @return A calculated direct requirements table
+validateImportFactorsApproach <- function(model, demand = "Consumption"){
+  if(is.null(model$Q_t)) {
+    return()
+  }
+  
+  if(model$specs$IODataSource == "stateior"){
+    if(demand != "Consumption"){
+      stop("Validation for 2-region models is only available for Consumption demand vector.")
+    }
+    location <- model$specs$ModelRegionAcronyms[[1]]
+  } else {
+    location <- NULL
+  }
+  # Compute standard final demand
+  y <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = FALSE)
+  # Equivalent to as.matrix(rowSums(model$U[1:numCom, (numInd+1):(numInd+numFD)])). Note that both of these include negative values from F050
+  
+  
+  # Retrieve domestic final demand production vector from model$DemandVectors
+  y_d  <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
+  # Equivalent to as.matrix(rowSums(model$DomesticFDWithITA[,c(model$FinalDemandMeta$Code_Loc)]))
+  
+  # Calculate import demand vector y_m.
+  y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
+
+  cat("\nTesting that final demand vector is equivalent between standard and coupled model approaches. I.e.: y = y_m + y_d.\n")
+  print(all.equal(y, y_d+y_m))
+
+  # Calculate "Standard" economic throughput (x)
+  x <- model$L %*% y 
+  
+  # Calculate economic throughput using coupled model approach
+  # Revised equation from RW email (2023-11-01):
+  # x_dm <- L_d * Y_d + L*A_m*L_d*Y_d + L*Y_m
+  
+  x_dm <- (model$L_d %*% y_d) + (model$L %*% model$A_m %*% model$L_d %*% y_d + model$L %*% y_m)
+  
+  cat("\nTesting that economic throughput is equivalement between standard and coupled model approaches for the given final demand vector.\n") 
+  cat("I.e.,: x = x_dm.\n")
+  print(all.equal(x, x_dm))
+  
+  # Calculate "Standard" environmental impacts
+  M <- model$B %*% model$L
+  LCI <- M %*% y # Equivalent to model$M %*% y,
+  
+  # Calculate LCI using coupled model approach
+  # Revised equation from RW email (2023-11-01):
+  # LCI <- (s_d * L_d * Y_d) + (s*L*A_m*L_d*Y_d + s*L*Y_m). I.e., s in RW email is analogous to model$B
+  # For validation, we use M as a stand-in for import emissions , whereas in normally we'd be using model$Q_t
+  
+  LCI_dm <- (model$M_d %*% y_d) + (M %*% model$A_m %*% model$L_d %*% y_d + M %*% y_m)
+  
+  cat("\nTesting that LCI results are equivalent between standard and coupled model approaches (i.e., LCI = LCI_dm) when\n")
+  cat("assuming model$M = model$Q_t.\n")
+  print(all.equal(LCI, LCI_dm))
+  
+  # Calculate LCIA using standard approach
+  LCIA <- t(model$C %*% M %*% diag(as.vector(y))) #same as result_std_consumption$LCIA_f, above
+  colnames(LCIA) <- rownames(model$N_m)
+  rownames(LCIA) <- colnames(model$N_m)
+  
+  # Calculate LCIA using coupled model approach
+  y_d <- diag(as.vector(y_d))
+  y_m <- diag(as.vector(y_m))
+  
+  LCI_dm <- (model$M_d %*% y_d) + (M %*% model$A_m %*% model$L_d %*% y_d + M %*% y_m)
+  
+  LCIA_dm <- t(model$C %*% (LCI_dm))
+  colnames(LCIA_dm) <- rownames(model$N_m)
+  rownames(LCIA_dm) <- colnames(model$N_m)
+  
+  cat("\nTesting that LCIA results are equivalent between standard and coupled model approaches (i.e., LCIA = LCIA_dm) when\n")
+  cat("assuming model$M = model$Q_t.\n")
+  print(all.equal(LCIA_dm, LCIA))
+  
+}
+
+#' Validate the calculation of household_emissions
+#' @param model, A fully built EEIO model object
+validateHouseholdEmissions <- function(model) {
+  location <- model$specs$ModelRegionAcronyms[1]
+  r <- calculateEEIOModel(model, perspective="FINAL", demand="Consumption",
+                          location = location,
+                          household_emissions = TRUE)
+  codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household") &
+                                   grepl(location, model$FinalDemandMeta$Code_Loc), "Code_Loc"]
+  flows <- model$TbS
+  flows$Code_Loc <- paste0(flows$Sector, "/", flows$Location)
+  flows <- flows[flows$Code_Loc %in% codes, ]
+  flows <- setNames(flows$FlowAmount, flows$Flow)
+
+  cat("\nTesting that LCI emissions from households are equivalent to calculated result from Total Consumption.\n")
+  result <- r$LCI_f[codes, names(flows)]
+  all.equal(flows, result)
 }

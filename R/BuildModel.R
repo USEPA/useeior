@@ -10,15 +10,17 @@ buildModel <- function(modelname, configpaths = NULL) {
   model <- loadandbuildSatelliteTables(model)
   model <- loadandbuildIndicators(model)
   model <- loadDemandVectors(model)
-  model <- constructEEIOMatrices(model)
+  model <- constructEEIOMatrices(model, configpaths)
   return(model)
 }
 
 #' Construct EEIO matrices based on loaded IO tables, built satellite tables,
 #' and indicator tables.
 #' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
+#' @param configpaths str vector, paths (including file name) of model configuration file
+#' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @return A list with EEIO matrices.
-constructEEIOMatrices <- function(model) {
+constructEEIOMatrices <- function(model, configpaths = NULL) {
   # Combine data into a single totals by sector df
   model$TbS <- do.call(rbind,model$SatelliteTables$totals_by_sector)
   # Set common year for flow when more than one year exists
@@ -46,13 +48,13 @@ constructEEIOMatrices <- function(model) {
   colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
-  
- if (model$specs$IODataSource=="stateior") {
+
+  if (model$specs$IODataSource=="stateior") {
     model$U_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = FALSE)
     model$U_d_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = TRUE)
   } else {
     model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
-    model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse  
+    model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse 
   }
 
   model$q <- model$CommodityOutput
@@ -86,6 +88,10 @@ constructEEIOMatrices <- function(model) {
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
   model$B <- createBfromFlowDataandOutput(model)
+  B_h <- standardizeandcastSatelliteTable(model$CbS, model, final_demand=TRUE)
+  if(!is.null(B_h)) {
+    model$B_h <- as.matrix(B_h)
+  }
   if(model$specs$ModelType == "EEIO-IH"){
     model$B <- hybridizeBMatrix(model)
   }
@@ -98,41 +104,57 @@ constructEEIOMatrices <- function(model) {
     logging::loginfo("Calculating D matrix (direct environmental impacts per dollar)...")
     model$D <- model$C %*% model$B
   }
-  
-  # Calculate total emissions/resource use per dollar (M)
-  logging::loginfo("Calculating M matrix (total emissions and resource use per dollar)...")
-  model$M <- model$B %*% model$L
-  colnames(model$M) <- colnames(model$M)
-  # Calculate M_d, the domestic emissions per dollar using domestic Leontief
-  logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
-  model$M_d <- model$B %*% model$L_d
-  colnames(model$M_d) <- colnames(model$M)
-  
-  if(!is.null(model$Indicators)) {
-    # Calculate total impacts per dollar (N), impact category x sector
-    logging::loginfo("Calculating N matrix (total environmental impacts per dollar)...")
-    model$N <- model$C %*% model$M
-    logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity)...")
-    model$N_d <- model$C %*% model$M_d
-  }
-  
+
   # Calculate year over model IO year price ratio
   logging::loginfo("Calculating Rho matrix (price year ratio)...")
   model$Rho <- calculateModelIOYearbyYearPriceRatio(model)
   
-  # Calculate producer over purchaser price ratio.
-  logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
-  model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
+  if (model$specs$IODataSource!="stateior") { 
+    # Calculate producer over purchaser price ratio.
+    logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
+    model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
+  }
   
   # Calculate basic over producer price ratio.
   logging::loginfo("Calculating Tau matrix (basic over producer price ratio)...")
   model$Tau <- calculateBasicbyProducerPriceRatio(model)
   
-  #Clean up model elements not written out or used in further functions to reduce clutter
+  if(!is.null(model$specs$ExternalImportFactors) && model$specs$ExternalImportFactors) {
+    # Alternate model build for implementing Import Factors
+    model <- buildModelwithImportFactors(model, configpaths)
+  } else {
+    # Standard model build procedure
+  
+    # Calculate total emissions/resource use per dollar (M)
+    logging::loginfo("Calculating M matrix (total emissions and resource use per dollar)...")
+    model$M <- model$B %*% model$L
+  
+    colnames(model$M) <- colnames(model$M)
+    # Calculate M_d, the domestic emissions per dollar using domestic Leontief
+    logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
+    model$M_d <- model$B %*% model$L_d
+    colnames(model$M_d) <- colnames(model$M)
+  }  
+  if(!is.null(model$Indicators)) {
+    # Calculate total impacts per dollar (N), impact category x sector
+    if(!is.null(model$M)) {
+      logging::loginfo("Calculating N matrix (total environmental impacts per dollar)...")
+      model$N <- model$C %*% model$M
+    }
+    logging::loginfo("Calculating N_d matrix (total environmental impacts per dollar from domestic activity)...")
+    model$N_d <- model$C %*% model$M_d
+  }
+
+  # Clean up model elements not written out or used in further functions to reduce clutter
   mat_to_remove <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
                      "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
                      "InternationalTradeAdjustment", "CommodityOutput", "IndustryOutput",
-                     "U_n", "U_d_n")
+                     "U_n", "U_d_n") 
+  # Drop U_n_m, UseTransactions_m for models with external import factors
+  if(!is.null(model$specs$ExternalImportFactors) && model$specs$ExternalImportFactors){
+    mat_to_remove <- c(mat_to_remove, "U_n_m", "UseTransactions_m")
+  }
+  
   if (model$specs$CommodityorIndustryType=="Industry") {
     mat_to_remove <- c(mat_to_remove,
                        c("FinalDemandbyCommodity", "DomesticFinalDemandbyCommodity",
@@ -168,7 +190,7 @@ createBfromFlowDataandOutput <- function(model) {
 #' @return A dataframe of Coefficients-by-Sector (CbS) table
 generateCbSfromTbSandModel <- function(model) {
   CbS <- data.frame()
-    
+  hh_codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code"]
     #Loop through model regions to get regional output
     for (r in model$specs$ModelRegionAcronyms) {
       tbs_r <- model$TbS[model$TbS$Location==r, ]
@@ -184,7 +206,12 @@ generateCbSfromTbSandModel <- function(model) {
         cbs_r_y <- generateFlowtoDollarCoefficient(tbs_r[tbs_r$Year==year, ], year,
                                                    model$specs$IOYear, r, IsRoUS = IsRoUS,
                                                    model, output_type = "Industry")
-        cbs_r <- rbind(cbs_r,cbs_r_y)
+        # Split out Household emissions and generate coefficients from final demand
+        cbs_h_r_y <- generateFlowtoDollarCoefficient(tbs_r[tbs_r$Year==year & tbs_r$Sector %in% hh_codes, ],
+                                                     year, model$specs$IOYear, r, IsRoUS = IsRoUS,
+                                                     model, output_type = "Industry",
+                                                     final_demand = TRUE)
+        cbs_r <- rbind(cbs_r,cbs_r_y,cbs_h_r_y)
       }
       CbS <- rbind(CbS,cbs_r)
     }
@@ -194,8 +221,9 @@ generateCbSfromTbSandModel <- function(model) {
 #' Converts flows table into flows x sector matrix-like format
 #' @param df a dataframe of flowables, contexts, units, sectors and locations
 #' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
+#' @param final_demand, bool, generate matrix based on final demand columns
 #' @return A matrix-like dataframe of flows x sector 
-standardizeandcastSatelliteTable <- function(df,model) {
+standardizeandcastSatelliteTable <- function(df, model, final_demand = FALSE) {
   # Add fields for sector as combinations of existing fields
   df[, "Sector"] <- apply(df[, c("Sector", "Location")],
                           1, FUN = joinStringswithSlashes)
@@ -204,10 +232,20 @@ standardizeandcastSatelliteTable <- function(df,model) {
   # Move Flow to rowname so matrix is all numbers
   rownames(df_cast) <- df_cast$Flow
   df_cast$Flow <- NULL
-  # Complete sector list according to model$Industries
-  df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 0
-  # Adjust column order to be the same with V_n rownames
-  df_cast <- df_cast[, model$Industries$Code_Loc]
+  if(final_demand) {
+    codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
+    if(any(codes %in% colnames(df_cast))) {
+      df_cast <- df_cast[, codes, drop=FALSE]
+    } else {
+      # no final demand emissions in any satellite table, no need for B_h
+      return(NULL)
+    }
+  } else {
+    # Complete sector list according to model$Industries
+    df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 0
+    # Adjust column order to be the same with V_n rownames
+    df_cast <- df_cast[, model$Industries$Code_Loc]    
+  }
   return(df_cast)
 }
 
@@ -229,6 +267,10 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
   flows_inBnotC <- setdiff(B_flows, colnames(C))
   C[, flows_inBnotC] <- 0
   C[is.na(C)] <- 0
+
+  # Make sure CO2e flows are characterized (see issue #281)
+  f <- B_flows[!(B_flows %in% factors$Flow) & grepl("kg CO2e", B_flows)]
+  C[, f] <- 1
   # Filter and resort model C flows and make it into a matrix
   C <- as.matrix(C[, B_flows])
   return(C)
