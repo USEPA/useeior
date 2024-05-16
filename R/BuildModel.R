@@ -109,9 +109,11 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
   logging::loginfo("Calculating Rho matrix (price year ratio)...")
   model$Rho <- calculateModelIOYearbyYearPriceRatio(model)
   
-  # Calculate producer over purchaser price ratio.
-  logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
-  model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
+  if (model$specs$IODataSource!="stateior") { 
+    # Calculate producer over purchaser price ratio.
+    logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
+    model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
+  }
   
   # Calculate basic over producer price ratio.
   logging::loginfo("Calculating Tau matrix (basic over producer price ratio)...")
