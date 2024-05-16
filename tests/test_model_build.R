@@ -22,15 +22,15 @@ model <- useeior:::loadDemandVectors(model)
 model <- useeior:::constructEEIOMatrices(model)
 printValidationResults(model)
 
-## USEEIOv3.0-GHG Detail, commodity model (2017 Schema)
-m <- "USEEIOv3.0-GHG"
+## USEEIOv2.2-GHG Detail, commodity model (2017 Schema)
+m <- "USEEIOv2.2-GHG"
 cfg <- paste0("modelspecs/", m, ".yml")
 model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 
-## USEEIOv3.0-s-GHG Summary, commodity model (2017 Schema)
+## USEEIOv2.2-s-GHG Summary, commodity model (2017 Schema)
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
-model$specs$Model <- "USEEIOv3.0-s-GHG"
+model$specs$Model <- "USEEIOv2.2-s-GHG"
 model$specs$BaseIOLevel <- "Summary"
 model$crosswalk <- useeior:::getModelCrosswalk(model) # reassign for summary model
 model <- useeior:::loadIOData(model)
