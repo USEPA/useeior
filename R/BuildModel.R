@@ -109,9 +109,11 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
   logging::loginfo("Calculating Rho matrix (price year ratio)...")
   model$Rho <- calculateModelIOYearbyYearPriceRatio(model)
   
-  # Calculate producer over purchaser price ratio.
-  logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
-  model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
+  if (model$specs$IODataSource!="stateior") { 
+    # Calculate producer over purchaser price ratio.
+    logging::loginfo("Calculating Phi matrix (producer over purchaser price ratio)...")
+    model$Phi <- calculateProducerbyPurchaserPriceRatio(model)
+  }
   
   # Calculate basic over producer price ratio.
   logging::loginfo("Calculating Tau matrix (basic over producer price ratio)...")
@@ -267,7 +269,7 @@ createCfromFactorsandBflows <- function(factors,B_flows) {
   C[is.na(C)] <- 0
 
   # Make sure CO2e flows are characterized (see issue #281)
-  f <- B_flows[!(B_flows %in% factors$Flow & grep("kg CO2e", B_flows))]  
+  f <- B_flows[!(B_flows %in% factors$Flow) & grepl("kg CO2e", B_flows)]
   C[, f] <- 1
   # Filter and resort model C flows and make it into a matrix
   C <- as.matrix(C[, B_flows])

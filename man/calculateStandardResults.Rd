@@ -2,8 +2,8 @@
 % Please edit documentation in R/CalculationFunctions.R
 \name{calculateStandardResults}
 \alias{calculateStandardResults}
-\title{Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that does not have external import factors
-for a given perspective and demand vector.}
+\title{Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model
+that does not have external import factors for a given perspective and demand vector.}
 \usage{
 calculateStandardResults(
   model,
@@ -35,6 +35,6 @@ if FALSE, use complete demand and L matrix.}
 A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 }
 \description{
-Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model that does not have external import factors
-for a given perspective and demand vector.
+Calculate total emissions/resources (LCI) and total impacts (LCIA) for an EEIO model
+that does not have external import factors for a given perspective and demand vector.
 }

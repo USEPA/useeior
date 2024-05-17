@@ -285,8 +285,11 @@ writeModelMetadata <- function(model, dirs) {
   years <- data.frame(ID=colnames(model$Rho), stringsAsFactors = FALSE)
   years$Index <- c(1:length(years$ID)-1)
   years <- years[, fields$years]
-  checkNamesandOrdering(years$ID, colnames(model$Phi),
-                        "years in years.csv and cols in Phi matrix")
+  
+  if(!is.null(model$Phi)) {
+    checkNamesandOrdering(years$ID, colnames(model$Phi),
+                          "years in years.csv and cols in Phi matrix")
+  }
   checkNamesandOrdering(years$ID, colnames(model$Rho),
                         "years in years.csv and cols in Rho matrix")
   utils::write.csv(years, paste0(dirs$model, "/years.csv"), na = "",

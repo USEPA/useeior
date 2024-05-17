@@ -474,7 +474,7 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   
   cat("\nTesting that LCIA results are equivalent between standard and coupled model approaches (i.e., LCIA = LCIA_dm) when\n")
   cat("assuming model$M = model$Q_t.\n")
-  all.equal(LCIA_dm, LCIA)
+  print(all.equal(LCIA_dm, LCIA))
   
 }
 
