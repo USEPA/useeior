@@ -285,12 +285,13 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
   return(model_ls)
 }
 
-#' Build an EIO model with economic components only.
+#' Build an IO model with economic components only.
 #' @param modelname Name of the model from a config file.
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
-#' @return A list of EIO model with only economic components
-buildEIOModel <- function(modelname, configpaths = NULL) {
+#' @return A list of IO model with only economic components
+#' @export
+buildIOModel <- function(modelname, configpaths = NULL) {
   model <- initializeModel(modelname, configpaths)
   model <- loadIOData(model, configpaths)
   model <- loadDemandVectors(model)
@@ -314,8 +315,14 @@ buildEIOModel <- function(modelname, configpaths = NULL) {
   colnames(model$U_d) <- colnames(model$U)
   model[c("U", "U_d")] <- lapply(model[c("U", "U_d")],
                                  function(x) ifelse(is.na(x), 0, x))
-  model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
-  model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse
+  
+  if (model$specs$IODataSource=="stateior") {
+    model$U_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = FALSE)
+    model$U_d_n <- generate2RDirectRequirementsfromUseWithTrade(model, domestic = TRUE)
+  } else {
+    model$U_n <- generateDirectRequirementsfromUse(model, domestic = FALSE) #normalized Use
+    model$U_d_n <- generateDirectRequirementsfromUse(model, domestic = TRUE) #normalized DomesticUse  
+  }
   model$q <- model$CommodityOutput
   model$x <- model$IndustryOutput
   model$mu <- model$InternationalTradeAdjustment

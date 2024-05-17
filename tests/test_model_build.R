@@ -13,7 +13,7 @@ printValidationResults(model)
 
 ## USEEIOv2.0.1-411 Detail model with waste disaggregation (Economic only)
 m <- "USEEIOv2.0.1-411"
-model <- buildEIOModel(m)
+model <- buildIOModel(m)
 printValidationResults(model)
 writeModeltoXLSX(model, ".")
 
@@ -121,6 +121,6 @@ model <- buildModel(m, configpaths = file.path(cfg))
 useeior::print2RValidationResults(model)
 
 ## StateEEIOv1.0 Two-region Summary model
-model <- buildEIOModel(m, configpaths = file.path(cfg))
+model <- buildIOModel(m, configpaths = file.path(cfg))
 useeior::print2RValidationResults(model)
 writeModeltoXLSX(model, ".")
