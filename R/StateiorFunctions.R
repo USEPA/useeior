@@ -211,6 +211,11 @@ print2RValidationResults <- function(model) {
   printValidationResults(model)
   cat("\n")
   
+  if(is.null(model$B)) {
+    # Stop validation as no satellite tables
+    return()
+  }
+  
   # Creating 2-R Production Complete demand vector
   f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[1]]
   f <- (f + model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[2]])

@@ -11,6 +11,12 @@ m <- "USEEIOv2.0.1-411"
 model <- buildModel(m)
 printValidationResults(model)
 
+## USEEIOv2.0.1-411 Detail model with waste disaggregation (Economic only)
+m <- "USEEIOv2.0.1-411"
+model <- buildEIOModel(m)
+printValidationResults(model)
+writeModeltoXLSX(model, ".")
+
 ## USEEIOv2.0.1-i-411 Detail, industry model with waste disaggregation
 model <- useeior:::initializeModel(m)
 model$specs$Model <- "USEEIOv2.0.1-i-411"
@@ -113,3 +119,8 @@ m <- "GAEEIOv1.0-s-WAT-12"
 cfg <- paste0("modelspecs/", m, ".yml")
 model <- buildModel(m, configpaths = file.path(cfg))
 useeior::print2RValidationResults(model)
+
+## StateEEIOv1.0 Two-region Summary model
+model <- buildEIOModel(m, configpaths = file.path(cfg))
+useeior::print2RValidationResults(model)
+writeModeltoXLSX(model, ".")

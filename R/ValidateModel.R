@@ -313,16 +313,18 @@ printValidationResults <- function(model) {
   print(paste("Number of sectors failing:",econval$N_Fail))
   print(paste("Sectors failing:", paste(unique(econval$Failure$rownames), collapse = ", ")))
   
-  print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total requirements matrix (L), and demand vector (y) for US production")
-  modelval <- compareEandLCIResult(model, tolerance = 0.01)
-  print(paste("Number of flow totals by commodity passing:",modelval$N_Pass))
-  print(paste("Number of flow totals by commodity failing:",modelval$N_Fail))
-  
-  print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total domestic requirements matrix (L_d), and demand vector (y) for US production")
-  dom_val <- compareEandLCIResult(model, use_domestic=TRUE, tolerance = 0.01)
-  print(paste("Number of flow totals by commodity passing:",dom_val$N_Pass))
-  print(paste("Number of flow totals by commodity failing:",dom_val$N_Fail))
-  print(paste("Sectors with flow totals failing:", paste(unique(dom_val$Failure$variable), collapse = ", ")))  
+  if(!is.null(model$B)) {
+    print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total requirements matrix (L), and demand vector (y) for US production")
+    modelval <- compareEandLCIResult(model, tolerance = 0.01)
+    print(paste("Number of flow totals by commodity passing:",modelval$N_Pass))
+    print(paste("Number of flow totals by commodity failing:",modelval$N_Fail))
+    
+    print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total domestic requirements matrix (L_d), and demand vector (y) for US production")
+    dom_val <- compareEandLCIResult(model, use_domestic=TRUE, tolerance = 0.01)
+    print(paste("Number of flow totals by commodity passing:",dom_val$N_Pass))
+    print(paste("Number of flow totals by commodity failing:",dom_val$N_Fail))
+    print(paste("Sectors with flow totals failing:", paste(unique(dom_val$Failure$variable), collapse = ", ")))  
+  }
   
   print("Validate that commodity output are properly transformed to industry output via MarketShare")
   q_x_val <- compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation(model, tolerance = 0.01)
