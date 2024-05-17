@@ -11,6 +11,12 @@ m <- "USEEIOv2.0.1-411"
 model <- buildModel(m)
 printValidationResults(model)
 
+## USEEIOv2.0.1-411 Detail model with waste disaggregation (Economic only)
+m <- "USEEIOv2.0.1-411"
+model <- buildIOModel(m)
+printValidationResults(model)
+writeModeltoXLSX(model, ".")
+
 ## USEEIOv2.0.1-i-411 Detail, industry model with waste disaggregation
 model <- useeior:::initializeModel(m)
 model$specs$Model <- "USEEIOv2.0.1-i-411"
@@ -135,6 +141,11 @@ model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 writeModeltoXLSX(model, ".")
 
+## StateEEIOv1.0 Two-region Summary model (Economic only)
+model <- buildIOModel(m, configpaths = file.path(cfg))
+printValidationResults(model)
+writeModeltoXLSX(model, ".")
+
 ## StateEEIOv1.0 Two-region Summary model with Import Factors
 cfg <- c(paste0("modelspecs/", m, ".yml"),
          "import_factors_summary_2019.csv"
@@ -175,3 +186,4 @@ printValidationResults(model)
 # cfg <- paste0("modelspecs/", m, ".yml")
 # modelProxy <- buildModel(m, configpaths = file.path(cfg))
 # printValidationResults(model)
+

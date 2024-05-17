@@ -84,6 +84,9 @@ writeModeltoXLSX <- function(model, outputfolder) {
   prepareWriteDirs(model, dirs)
   writeModelMetadata(model, dirs)
   metadata_tabs <- c("demands", "flows", "indicators", "sectors")
+  if(is.null(model$SatelliteTables)){
+    metadata_tabs <- metadata_tabs[metadata_tabs != "flows"]
+  }
   if(is.null(model$Indicators)){
     metadata_tabs <- metadata_tabs[metadata_tabs != "indicators"]
   }
@@ -269,17 +272,19 @@ writeModelMetadata <- function(model, dirs) {
   utils::write.csv(sectors, paste0(dirs$model, "/sectors.csv"), na = "",
                    row.names = FALSE, fileEncoding = "UTF-8")
   
-  # Write flows to csv
-  flows <- model$SatelliteTables$flows
-  flows$ID <- apply(flows[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
-  names(flows)[names(flows) == 'FlowUUID'] <- 'UUID'
-  flows <- flows[order(flows$ID),]
-  flows$Index <- c(1:nrow(flows)-1)
-  flows <- flows[, fields$flows]
-  #checkNamesandOrdering(flows$ID, rownames(model$B),
-  #                      "flows in flows.csv and rows in B matrix")
-  utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "",
-                   row.names = FALSE, fileEncoding = "UTF-8")
+  if(!is.null(model$SatelliteTables)) {
+    # Write flows to csv
+    flows <- model$SatelliteTables$flows
+    flows$ID <- apply(flows[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
+    names(flows)[names(flows) == 'FlowUUID'] <- 'UUID'
+    flows <- flows[order(flows$ID),]
+    flows$Index <- c(1:nrow(flows)-1)
+    flows <- flows[, fields$flows]
+    #checkNamesandOrdering(flows$ID, rownames(model$B),
+    #                      "flows in flows.csv and rows in B matrix")
+    utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "",
+                     row.names = FALSE, fileEncoding = "UTF-8")
+  }
   
   # Write years to csv
   years <- data.frame(ID=colnames(model$Rho), stringsAsFactors = FALSE)
