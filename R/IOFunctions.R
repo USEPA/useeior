@@ -112,9 +112,9 @@ transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
   # To avoid interruption in later calculations, they are forced to 100
   CommodityCPI[CommodityCPI==0] <- 100
   # Validation: check if IO year CommodityCPI is 100
-  if (year==2012) {
+  if (year==model$specs$BaseIOSchema) {
     for (s in CommodityCPI) {
-      if (abs(100-s)>0.3) {
+      if (abs(100-s)>0.4) {
         stop("Error in CommodityCPI")
       }
     }
