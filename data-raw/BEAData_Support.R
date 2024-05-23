@@ -2,7 +2,7 @@ source("data-raw/BEAData.R")
 source("R/UtilityFunctions.R")
 
 schema_year <- 2017
-# 2017 - 2022 tables
+# 2012 - 2022 tables
 
 
 ## Annual Summary Make and Use

@@ -8,6 +8,10 @@ url_ls <- c(IO = "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTabl
 dir <- file.path(rappdirs::user_data_dir(), "USEEIO-input")
 dir.create(dir, showWarnings = FALSE)
 
+# Summary table year range
+start_year <- 2012
+end_year <- 2022
+
 # Download and unzip all IO tables under Make-Use framework from BEA iTable
 getBEAIOTables <- function() {
   # Create the placeholder file
@@ -236,8 +240,7 @@ getBEADetailUsePURAfterRedef <- function(year) {
 
 # Get BEA Summary Make (Before Redef) table from static Excel
 getBEASummaryMakeBeforeRedef <- function(year) {
-  end_year <- 2022
-  for (y in 2017:end_year) {
+  for (y in start_year:end_year) {
     ls <- unpackFile(y, filename="IOMake_Before_Redefinitions", ioschema="Summary")
     SummaryMake <- data.frame(ls["df"])
     SummaryMake <- processSummaryMatrix(SummaryMake)
@@ -249,8 +252,7 @@ getBEASummaryMakeBeforeRedef <- function(year) {
 
 # Get BEA Summary Use (PRO, Before Redef) table from static Excel
 getBEASummaryUsePROBeforeRedef <- function(year) {
-  end_year <- 2022
-  for (y in 2017:end_year) {
+  for (y in start_year:end_year) {
     ls <- unpackFile(y, filename="IOUse_Before_Redefinitions_PRO", ioschema="Summary")
     SummaryUse <- data.frame(ls["df"])
     SummaryUse <- processSummaryMatrix(SummaryUse)
@@ -272,8 +274,7 @@ getBEASummaryUsePURBeforeRedef <- function(year) {
 
 # Get BEA Summary Make (After Redef) table from static Excel
 getBEASummaryMakeAfterRedef <- function(year) {
-  end_year <- 2022
-  for (y in 2017:end_year) {
+  for (y in start_year:end_year) {
     ls <- unpackFile(y, filename="IOMake_After_Redefinitions", ioschema="Summary")
     SummaryMake <- data.frame(ls["df"])
     SummaryMake <- processSummaryMatrix(SummaryMake)
@@ -285,8 +286,7 @@ getBEASummaryMakeAfterRedef <- function(year) {
 
 # Get BEA Summary Use (PRO, After Redef) table from static Excel
 getBEASummaryUsePROAfterRedef <- function(year) {
-  end_year <- 2022
-  for (y in 2017:end_year) {
+  for (y in start_year:end_year) {
     ls <- unpackFile(y, filename="IOUse_After_Redefinitions_PRO", ioschema="Summary")
     SummaryUse <- data.frame(ls["df"])
     SummaryUse <- processSummaryMatrix(SummaryUse)
@@ -542,21 +542,20 @@ getBEADetailImportBeforeRedef <- function(year) {
 # Get BEA Summary Import (Before Redef) from static Excel
 getBEASummaryImportBeforeRedef <- function(year) {
   # Download data
-  file <- "ImportMatrices_Before_Redefinitions_SUM_2017-2022.xlsx"
+  file <- "ImportMatrices_Before_Redefinitions_SUM_1997-2022.xlsx"
   url <- file.path(url_ls["imports"], file)
   FileName <- file.path(dir, file)
   if (!file.exists(FileName)) {
     utils::download.file(url, FileName, mode = "wb")
   }
-  end_year <- 2022
   # Load data
-  for (y in 2017:end_year) {
+  for (y in start_year:end_year) {
     SummaryImport <- data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
     SummaryImport <- processSummaryMatrix(SummaryImport)
     ls <- list("url" = url,
                "date_accessed" = as.character(as.Date(file.mtime(FileName))),
-               "date_last_modified" = "2024-02-01") # page last modified
+               "date_last_modified" = "2024-05-23") # page last modified
     writeFile(df = SummaryImport, year = y,
               name = paste0("Summary_Import_", y, "_BeforeRedef"), ls = ls,
               schema_year = year)
@@ -1088,7 +1087,7 @@ getBEADetailMarginsBeforeRedef <- function(year) {
                                               check.names = FALSE)
   ls <- list("url" = url,
              "date_accessed" = as.character(as.Date(file.mtime(FileName))),
-             "date_last_modified" = "2024-02-01") # page last modified 
+             "date_last_modified" = "2024-05-23") # page last modified 
   writeFile(df = Margins, year = year,
             name = paste0("Detail_Margins_", year, "_BeforeRedef"), ls = ls,
             schema_year = year)
@@ -1101,7 +1100,7 @@ getBEADetailSupply <- function(year) {
   FileName <- file.path(dir, "AllTablesSUP",
                         ls[["files"]][startsWith(ls[["files"]], "Supply") &
                                       endsWith(ls[["files"]], "DET.xlsx")])
-  ls["date_last_modified"] <- "2024-02-01" # page last modified 
+  ls["date_last_modified"] <- as.character(as.Date(file.mtime(FileName)))
   DetailSupply <- as.data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
   DetailSupply <- processDetailMatrix(DetailSupply)
@@ -1117,7 +1116,7 @@ getBEADetailUseSUT <- function(year) {
   FileName <- file.path(dir, "AllTablesSUP",
                         ls[["files"]][startsWith(ls[["files"]], "Use") &
                                         endsWith(ls[["files"]], "DET.xlsx")])
-  ls["date_last_modified"] = "2024-02-01" # page last modified 
+  ls["date_last_modified"] = as.character(as.Date(file.mtime(FileName)))
   DetailUse <- as.data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
   DetailUse <- processDetailMatrix(DetailUse)
@@ -1134,9 +1133,8 @@ getBEASummarySupply <- function(year) {
   file <- ls[["files"]][startsWith(ls[["files"]], "Supply") & 
                           endsWith(ls[["files"]], "Summary.xlsx")]
   FileName <- file.path(dir, "AllTablesSUP", file)
-  end_year <- 2022
   # Load data
-  for (y in 2017:end_year) {
+  for (y in start_year:end_year) {
     SummarySupply <- as.data.frame(readxl::read_excel(FileName,
                                                       sheet = as.character(y)))
     SummarySupply <- processSummaryMatrix(SummarySupply)
@@ -1152,9 +1150,8 @@ getBEASummaryUseSUT <- function(year) {
   file <- ls[["files"]][startsWith(ls[["files"]], "Use") &
                           endsWith(ls[["files"]], "Summary.xlsx")]
   FileName <- file.path(dir, "AllTablesSUP", file)
-  end_year <- 2022
   # Load data
-  for (y in 2017:end_year) {
+  for (y in start_year:end_year) {
     SummaryUse <- as.data.frame(readxl::read_excel(FileName,
                                                    sheet = as.character(year)))
     SummaryUse <- processSummaryMatrix(SummaryUse)
