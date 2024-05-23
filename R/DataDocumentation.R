@@ -549,6 +549,31 @@
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
 "Summary_Supply_2020"
 
+#' Summary 2012 Supply (2017 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2012_17sch"
+
+#' Summary 2013 Supply (2017 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2013_17sch"
+
+#' Summary 2014 Supply (2017 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2014_17sch"
+
+#' Summary 2015 Supply (2017 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2015_17sch"
+
+#' Summary 2016 Supply (2017 schema)
+#' @format A dataframe with 74 obs. and 83 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Supply_2016_17sch"
+
 #' Summary 2017 Supply (2017 schema)
 #' @format A dataframe with 74 obs. and 83 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
@@ -633,6 +658,31 @@
 #' @format A dataframe with 82 obs. and 92 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
 "Summary_Use_SUT_2020"
+
+#' Summary 2012 Use (2017 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2012_17sch"
+
+#' Summary 2013 Use (2017 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2013_17sch"
+
+#' Summary 2014 Use (2017 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2014_17sch"
+
+#' Summary 2015 Use (2017 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2015_17sch"
+
+#' Summary 2016 Use (2017 schema)
+#' @format A dataframe with 82 obs. and 92 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Summary_Use_SUT_2016_17sch"
 
 #' Summary 2017 Use (2017 schema)
 #' @format A dataframe with 82 obs. and 92 variables
@@ -755,43 +805,43 @@
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2017.xlsx}
 "Detail_Import_2017_BeforeRedef_17sch"
 
-#' Detail 2017-2022 Gross Output (2017 schema)
-#' @format A dataframe with 402 obs. and 6 variables
+#' Detail 1997-2022 Gross Output (2017 schema)
+#' @format A dataframe with 402 obs. and 26 variables
 #' @source \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
 "Detail_GrossOutput_IO_17sch"
 
-#' Summary 2017-2022 Gross Output (2017 schema)
-#' @format A dataframe with 71 obs. and 6 variables
+#' Summary 1997-2022 Gross Output (2017 schema)
+#' @format A dataframe with 71 obs. and 26 variables
 #' @source \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
 "Summary_GrossOutput_IO_17sch"
 
-#' Sector 2017-2022 Gross Output (2017 schema)
-#' @format A dataframe with 15 obs. and 6 variables
+#' Sector 1997-2022 Gross Output (2017 schema)
+#' @format A dataframe with 15 obs. and 26 variables
 #' @source \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
 "Sector_GrossOutput_IO_17sch"
 
-#' Detail 2017-2022 CPI (2017 schema)
-#' @format A dataframe with 402 obs. and 6 variables
+#' Detail 1997-2022 CPI (2017 schema)
+#' @format A dataframe with 402 obs. and 26 variables
 #' @source \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
 "Detail_CPI_IO_17sch"
 
-#' Summary 2017-2022 CPI (2017 schema)
-#' @format A dataframe with 71 obs. and 6 variables
+#' Summary 1997-2022 CPI (2017 schema)
+#' @format A dataframe with 71 obs. and 26 variables
 #' @source \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
 "Summary_CPI_IO_17sch"
 
-#' Sector 2017-2022 CPI (2017 schema)
-#' @format A dataframe with 15 obs. and 6 variables
+#' Sector 1997-2022 CPI (2017 schema)
+#' @format A dataframe with 15 obs. and 26 variables
 #' @source \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
 "Sector_CPI_IO_17sch"
 
-#' Summary 2017-2022 Value Added (2017 schema)
-#' @format A dataframe with 71 obs. and 6 variables
+#' Summary 1997-2022 Value Added (2017 schema)
+#' @format A dataframe with 71 obs. and 26 variables
 #' @source \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
 "Summary_ValueAdded_IO_17sch"
 
-#' Sector 2017-2022 Value Added (2017 schema)
-#' @format A dataframe with 15 obs. and 6 variables
+#' Sector 1997-2022 Value Added (2017 schema)
+#' @format A dataframe with 15 obs. and 26 variables
 #' @source \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
 "Sector_ValueAdded_IO_17sch"
 
@@ -855,6 +905,31 @@
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Sector_FinalDemandCodeName_2017"
 
+#' Summary 2012 Import Before Redefinition (2017 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_2017-2022.xlsx}
+"Summary_Import_2012_BeforeRedef_17sch"
+
+#' Summary 2013 Import Before Redefinition (2017 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_2017-2022.xlsx}
+"Summary_Import_2013_BeforeRedef_17sch"
+
+#' Summary 2014 Import Before Redefinition (2017 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_2017-2022.xlsx}
+"Summary_Import_2014_BeforeRedef_17sch"
+
+#' Summary 2015 Import Before Redefinition (2017 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_2017-2022.xlsx}
+"Summary_Import_2015_BeforeRedef_17sch"
+
+#' Summary 2016 Import Before Redefinition (2017 schema)
+#' @format A dataframe with 73 obs. and 93 variables
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_2017-2022.xlsx}
+"Summary_Import_2016_BeforeRedef_17sch"
+
 #' Summary 2017 Import Before Redefinition (2017 schema)
 #' @format A dataframe with 73 obs. and 93 variables
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_2017-2022.xlsx}
@@ -885,6 +960,31 @@
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_SUM_2017-2022.xlsx}
 "Summary_Import_2022_BeforeRedef_17sch"
 
+#' Summary 2012 Make Before Redefinition (2017 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Make_2012_BeforeRedef_17sch"
+
+#' Summary 2013 Make Before Redefinition (2017 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Make_2013_BeforeRedef_17sch"
+
+#' Summary 2014 Make Before Redefinition (2017 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Make_2014_BeforeRedef_17sch"
+
+#' Summary 2015 Make Before Redefinition (2017 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Make_2015_BeforeRedef_17sch"
+
+#' Summary 2016 Make Before Redefinition (2017 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Make_2016_BeforeRedef_17sch"
+
 #' Summary 2017 Make Before Redefinition (2017 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
@@ -914,6 +1014,31 @@
 #' @format A dataframe with 72 obs. and 74 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Summary_Make_2022_BeforeRedef_17sch"
+
+#' Summary 2012 Use Producer's Value Before Redefinition (2017 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2012_PRO_BeforeRedef_17sch"
+
+#' Summary 2013 Use Producer's Value Before Redefinition (2017 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2013_PRO_BeforeRedef_17sch"
+
+#' Summary 2014 Use Producer's Value Before Redefinition (2017 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2014_PRO_BeforeRedef_17sch"
+
+#' Summary 2015 Use Producer's Value Before Redefinition (2017 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2015_PRO_BeforeRedef_17sch"
+
+#' Summary 2016 Use Producer's Value Before Redefinition (2017 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2016_PRO_BeforeRedef_17sch"
 
 #' Summary 2017 Use Producer's Value Before Redefinition (2017 schema)
 #' @format A dataframe with 79 obs. and 94 variables
@@ -979,6 +1104,31 @@
 #' @format A dataframe with 72 obs. and 74 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Summary_Make_2022_AfterRedef_17sch"
+
+#' Summary 2012 Use Producer's Value After Redefinition (2017 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2012_PRO_AfterRedef_17sch"
+
+#' Summary 2013 Use Producer's Value After Redefinition (2017 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2013_PRO_AfterRedef_17sch"
+
+#' Summary 2014 Use Producer's Value After Redefinition (2017 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2014_PRO_AfterRedef_17sch"
+
+#' Summary 2015 Use Producer's Value After Redefinition (2017 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2015_PRO_AfterRedef_17sch"
+
+#' Summary 2016 Use Producer's Value After Redefinition (2017 schema)
+#' @format A dataframe with 79 obs. and 94 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Use_2016_PRO_AfterRedef_17sch"
 
 #' Summary 2017 Use Producer's Value After Redefinition (2017 schema)
 #' @format A dataframe with 79 obs. and 94 variables
