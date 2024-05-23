@@ -1075,6 +1075,31 @@
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Summary_Use_2017_PUR_BeforeRedef_17sch"
 
+#' Summary 2012 Make After Redefinition (2017 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Make_2012_AfterRedef_17sch"
+
+#' Summary 2013 Make After Redefinition (2017 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Make_2013_AfterRedef_17sch"
+
+#' Summary 2014 Make After Redefinition (2017 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Make_2014_AfterRedef_17sch"
+
+#' Summary 2015 Make After Redefinition (2017 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Make_2015_AfterRedef_17sch"
+
+#' Summary 2016 Make After Redefinition (2017 schema)
+#' @format A dataframe with 72 obs. and 74 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Summary_Make_2016_AfterRedef_17sch"
+
 #' Summary 2017 Make After Redefinition (2017 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
