@@ -36,8 +36,10 @@ getBEADetailMarginsBeforeRedef(schema_year)
 
 ## Supply and Use Tables
 # Download, save and document BEA Detail Supply
-getBEADetailSupply(schema_year)
+getBEADetailSupply(year=2012, schema_year)
+getBEADetailSupply(year=2017, schema_year)
 
 # Download, save and document BEA Detail Use
-getBEADetailUseSUT(schema_year)
+getBEADetailUseSUT(year=2012, schema_year)
+getBEADetailUseSUT(year=2017, schema_year)
 

@@ -1095,7 +1095,10 @@ getBEADetailMarginsBeforeRedef <- function(year) {
 
 
 # Get BEA Detail Supply table from static Excel
-getBEADetailSupply <- function(year) {
+getBEADetailSupply <- function(year, schema_year = NULL) {
+  if(is.null(schema_year)) {
+    schema_year <- year
+  }
   ls <- getBEASupplyUseTables()
   FileName <- file.path(dir, "AllTablesSUP",
                         ls[["files"]][startsWith(ls[["files"]], "Supply") &
@@ -1106,12 +1109,15 @@ getBEADetailSupply <- function(year) {
   DetailSupply <- processDetailMatrix(DetailSupply)
   writeFile(df = DetailSupply, year = year,
             name = paste0("Detail_Supply_", year), ls = ls,
-            schema_year = year)
+            schema_year = schema_year)
 }
 
 
 # Get BEA Detail Use (under the Supply-Use framework schema) table from static Excel
-getBEADetailUseSUT <- function(year) {
+getBEADetailUseSUT <- function(year, schema_year = NULL) {
+  if(is.null(schema_year)) {
+    schema_year <- year
+  }
   ls <- getBEASupplyUseTables()
   FileName <- file.path(dir, "AllTablesSUP",
                         ls[["files"]][startsWith(ls[["files"]], "Use") &
@@ -1122,7 +1128,7 @@ getBEADetailUseSUT <- function(year) {
   DetailUse <- processDetailMatrix(DetailUse)
   writeFile(df = DetailUse, year = year,
             name = paste0("Detail_Use_SUT_", year), ls = ls,
-            schema_year = year)
+            schema_year = schema_year)
 }
 
 
