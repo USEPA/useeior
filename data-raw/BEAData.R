@@ -178,23 +178,29 @@ writeFile <- function(df, year, name, ls, schema_year) {
 }
 
 # Get BEA Detail Make (Before Redef) table from static Excel
-getBEADetailMakeBeforeRedef <- function(year) {
+getBEADetailMakeBeforeRedef <- function(year, schema_year = NULL) {
+  if(is.null(schema_year)) {
+    schema_year <- year
+  }
   ls <- unpackFile(year, filename="IOMake_Before_Redefinitions", ioschema="Detail")
   DetailMake <- data.frame(ls["df"])
   DetailMake <- processDetailMatrix(DetailMake)
   writeFile(df = DetailMake, year = year,
             name = paste0("Detail_Make_", year, "_BeforeRedef"), ls = ls,
-            schema_year = year)
+            schema_year = schema_year)
 }
 
 # Get BEA Detail Use (PRO, Before Redef) table from static Excel
-getBEADetailUsePROBeforeRedef <- function(year) {
+getBEADetailUsePROBeforeRedef <- function(year, schema_year = NULL) {
+  if(is.null(schema_year)) {
+    schema_year <- year
+  }
   ls <- unpackFile(year, filename="IOUse_Before_Redefinitions_PRO", ioschema="Detail")
   DetailUse <- data.frame(ls["df"])
   DetailUse <- processDetailMatrix(DetailUse)
   writeFile(df = DetailUse, year = year,
             name = paste0("Detail_Use_", year, "_PRO_BeforeRedef"), ls = ls,
-            schema_year = year)
+            schema_year = schema_year)
 }
 
 # Get BEA Detail Use (PUR, Before Redef) table from static Excel
@@ -519,9 +525,12 @@ getBEASummaryUsePROAfterRedef <- function(year) {
 # }
 
 # Get BEA Detail Import (Before Redef schema) from static Excel
-getBEADetailImportBeforeRedef <- function(year) {
+getBEADetailImportBeforeRedef <- function(year, schema_year = NULL) {
+  if(is.null(schema_year)) {
+    schema_year <- year
+  }
   # Download data
-  file <- paste0("ImportMatrices_Before_Redefinitions_DET_", year, ".xlsx")
+  file <- paste0("ImportMatrices_Before_Redefinitions_DET_", schema_year, ".xlsx")
   url <- file.path(url_ls["imports"], file)
   FileName <- file.path(dir, "/", file)
   if (!file.exists(FileName)) {
@@ -536,7 +545,7 @@ getBEADetailImportBeforeRedef <- function(year) {
              "date_last_modified" = "unknown")
   writeFile(df = DetailImport, year = year,
             name = paste0("Detail_Import_", year, "_BeforeRedef"), ls = ls,
-            schema_year = year)
+            schema_year = schema_year)
 }
 
 # Get BEA Summary Import (Before Redef) from static Excel
@@ -1064,9 +1073,12 @@ getBEACodeName <- function(schema_year) {
 }
 
 # Get Detail Margins (Before Redefinition) table from BEA static URL
-getBEADetailMarginsBeforeRedef <- function(year) {
+getBEADetailMarginsBeforeRedef <- function(year, schema_year = NULL) {
+  if(is.null(schema_year)) {
+    schema_year <- year
+  }
   # Download data
-  file <- "Margins_Before_Redefinitions_2017_DET.xlsx"
+  file <- paste0("Margins_Before_Redefinitions_", schema_year, "_DET.xlsx")
   url <- file.path(url_ls["margins"], file)
   FileName <- file.path(dir, file)
   if (!file.exists(FileName)) {
@@ -1090,7 +1102,7 @@ getBEADetailMarginsBeforeRedef <- function(year) {
              "date_last_modified" = "2024-05-23") # page last modified 
   writeFile(df = Margins, year = year,
             name = paste0("Detail_Margins_", year, "_BeforeRedef"), ls = ls,
-            schema_year = year)
+            schema_year = schema_year)
 }
 
 
