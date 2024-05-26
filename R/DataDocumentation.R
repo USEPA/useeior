@@ -724,6 +724,16 @@
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
 "Detail_Use_SUT_2017_17sch"
 
+#' Detail 2012 Supply (2017 schema)
+#' @format A dataframe with 403 obs. and 414 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Detail_Supply_2012_17sch"
+
+#' Detail 2012 Use (under the Supply-Use framework, 2017 schema)
+#' @format A dataframe with 411 obs. and 423 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesSUP.zip}
+"Detail_Use_SUT_2012_17sch"
+
 #' Master Crosswalk table (2017 schema)
 #' @format A dataframe with 4095 obs. and 5 variables:
 #' \describe{
@@ -764,6 +774,16 @@
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 "Detail_Use_2017_PRO_BeforeRedef_17sch"
 
+#' Detail 2012 Make Before Redefinition (2017 schema)
+#' @format A dataframe with 403 obs. and 403 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Detail_Make_2012_BeforeRedef_17sch"
+
+#' Detail 2012 Use Producer's Value Before Redefinition (2017 schema)
+#' @format A dataframe with 408 obs. and 425 variables
+#' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
+"Detail_Use_2012_PRO_BeforeRedef_17sch"
+
 #' Detail 2017 Use Purchaser's Value Before Redefinition (2017 schema)
 #' @format A dataframe with 400 obs. and 425 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
@@ -800,10 +820,31 @@
 #' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2017.xlsx}
 "Detail_Margins_2017_BeforeRedef_17sch"
 
+#' Detail Margins (Before Redef) table for 2012 (2017 schema)
+#' @format A dataframe with 58032 obs. and 9 variables:
+#' \describe{
+#'  \item{NIPACode}{text code}
+#'  \item{MarginsCategory}{text category name, like 'Therapeutic medical equipment'}
+#'  \item{CommodityCode}{BEA_2017_Detail_Code}
+#'  \item{CommodityDescription}{BEA_2017_Detail_Name}
+#'  \item{ProducersValue}{USD2017}
+#'  \item{Transportation}{USD2017}
+#'  \item{Wholesale}{USD2017}
+#'  \item{Retail}{USD2017}
+#'  \item{PurchasersValue}{USD2017}
+#' }
+#' @source \url{https://apps.bea.gov/industry/xls/underlying-estimates/Margins_Before_Redefinitions_2017.xlsx}
+"Detail_Margins_2012_BeforeRedef_17sch"
+
 #' Detail 2017 Import Before Redefinition (2017 schema)
 #' @format A dataframe with 402 obs. and 424 variables
 #' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2017.xlsx}
 "Detail_Import_2017_BeforeRedef_17sch"
+
+#' Detail 2012 Import Before Redefinition (2017 schema)
+#' @format A dataframe with 402 obs. and 424 variables
+#' @source \url{https://apps.bea.gov/industry/xls/io-annual/ImportMatrices_Before_Redefinitions_DET_2017.xlsx}
+"Detail_Import_2012_BeforeRedef_17sch"
 
 #' Detail 1997-2022 Gross Output (2017 schema)
 #' @format A dataframe with 402 obs. and 26 variables
