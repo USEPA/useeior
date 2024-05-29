@@ -22,10 +22,10 @@ getNAICStoBEAAllocation <- function (year, model) {
   AllocationTable$Output <- AllocationTable[, as.character(year)]
   # Insert placeholders for NAs in the "Output" column
   AllocationTable[is.na(AllocationTable)] <- 1
-  # Aggregate Output for the same NAICS code
-  sum_temp <- stats::aggregate(AllocationTable$Output, by = list(AllocationTable$NAICS_Code), sum)
-  colnames(sum_temp) <- c("NAICS_Code", "SumOutput")
-  AllocationTable <- merge(AllocationTable, sum_temp, by = "NAICS_Code", all.x = TRUE)
+  # Aggregate Output for the same NAICS code and Location
+  AllocationTable$SumOutput <- ave(AllocationTable$Output,
+                                   AllocationTable$NAICS_Code, AllocationTable$Location,
+                                   FUN=sum)
   # Calculate allocation factors
   AllocationTable$allocation_factor <- AllocationTable$Output/AllocationTable$SumOutput
   # Keep wanted columns
