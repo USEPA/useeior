@@ -281,7 +281,7 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
 #'@param tbs0, totals-by-sector df in source schema
 #'@param tbs, totals-by-sector df in model schema
 #'@param tolerance, tolerance level for data loss
-checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.005) {
+checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.001) {
   tbs0 <- tbs0[!is.na(tbs0$Sector), ]
   tbs <- tbs[!is.na(tbs$Sector), ]
   
@@ -311,7 +311,7 @@ checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.005) {
   n <- length(subset(rel_diff, rel_diff > tolerance))
 
   if(n > 0){
-    logging::logdebug("Data loss on conforming to model schema")    
+    logging::logwarn("Data loss on conforming satellite table to model schema")    
   }
 
 }
