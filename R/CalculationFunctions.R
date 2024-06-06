@@ -135,6 +135,7 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   # Calculate household emissions which are the same for direct and final perspectives
   codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
   if (!is.null(location)) {
+    other_code <- codes[!grepl(location, codes)]
     codes <- codes[grepl(location, codes)]
   }
   hh = t(as.matrix(model$B_h[, codes])) * colSums(y_d + y_m)
@@ -142,6 +143,16 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   rownames(hh) <- codes
   rownames(hh_lcia) <- codes
   
+  if (!is.null(location)) {
+    # add in 0 values for 2nd location for household emissions
+    mat <- matrix(0, nrow=nrow(hh), ncol=ncol(hh))
+    rownames(mat) <- other_code
+    hh <- rbind(hh, mat)
+    mat <- matrix(0, nrow=nrow(hh_lcia), ncol=ncol(hh_lcia))
+    rownames(mat) <- other_code
+    hh_lcia <- rbind(hh_lcia, mat)
+  }
+
   # Calculate Final perspective results
   if(perspective == "FINAL") {
     y_d <- diag(as.vector(y_d))
