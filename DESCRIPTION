@@ -1,8 +1,8 @@
 Package: useeior
 Type: Package
 Title: USEEIO R modeling software
-Version: 1.5.1
-Date: 2024-4-8
+Version: 1.5.2
+Date: 2024-5-23
 Authors@R: c(
   person("Ben","Young", email="ben.young@erg.com", role="aut"),
   person("Jorge","Vendries", email="jvendries@gmail.com", role="aut"),
@@ -40,6 +40,7 @@ Depends:
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: xz
 RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0)
