@@ -184,14 +184,14 @@ prepare2RDemand <- function(model, location, domestic, demand_type = "Production
     
     # Calculate consumption demand for both regions
     if(location == state_abb[1]) {
-      # calculate production final demand for SoI
-      SoI2SoI_y   <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns, "ExportResidual")])
+      # calculate consumption final demand for SoI
+      SoI2SoI_y   <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns)])
       RoUS2SoI_y  <- rowSums(use_table[["RoUS2SoI"]][, c(FD_columns)])
       y_p <- c(SoI2SoI_y, RoUS2SoI_y)
     } else if(location == state_abb[2]) {
-      # calculate production final demand for RoUS
+      # calculate consumption final demand for RoUS
       SoI2RoUS_y  <- rowSums(use_table[["SoI2RoUS"]][, c(FD_columns)])
-      RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns, "ExportResidual")])
+      RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns)])
       y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
     }
   }
