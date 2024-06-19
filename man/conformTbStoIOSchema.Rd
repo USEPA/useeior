@@ -4,7 +4,7 @@
 \alias{conformTbStoIOSchema}
 \title{Take a totals-by-sector df and maps flows to the model schema}
 \usage{
-conformTbStoIOSchema(tbs, sat_spec, model)
+conformTbStoIOSchema(tbs, sat_spec, model, agg_metasources = TRUE)
 }
 \arguments{
 \item{tbs, }{totals-by-sector df}
@@ -12,6 +12,8 @@ conformTbStoIOSchema(tbs, sat_spec, model)
 \item{sat_spec, }{a standard specification for a single satellite table}
 
 \item{model}{an EEIO model with IO tables loaded}
+
+\item{agg_metasources, }{bool, TRUE to aggregate TbS ignoring MetaSources field}
 }
 \value{
 a totals-by-sector df with the sectors and flow amounts corresponding to the model schema

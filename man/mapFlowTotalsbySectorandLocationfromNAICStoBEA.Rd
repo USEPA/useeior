@@ -7,7 +7,8 @@
 mapFlowTotalsbySectorandLocationfromNAICStoBEA(
   totals_by_sector,
   totals_by_sector_year,
-  model
+  model,
+  agg_metasources = TRUE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA(
 \item{totals_by_sector_year}{Year of the satellite table.}
 
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+
+\item{agg_metasources, }{bool, TRUE to aggregate TbS ignoring MetaSources field}
 }
 \value{
 A satellite table aggregated by the USEEIO model sector codes.

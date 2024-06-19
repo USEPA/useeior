@@ -4,12 +4,14 @@
 \alias{collapseTBS}
 \title{Collapse a totals by sector table so that each flow sector combination exists only once}
 \usage{
-collapseTBS(tbs, model)
+collapseTBS(tbs, model, agg_metasources = TRUE)
 }
 \arguments{
 \item{tbs}{totals by sector sourced from satellite table}
 
 \item{model}{An EEIO model object with model specs and IO table loaded}
+
+\item{agg_metasources, }{bool, TRUE to aggregate TbS ignoring MetaSources field}
 }
 \value{
 aggregated totals by sector

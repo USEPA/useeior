@@ -11,8 +11,10 @@ getStandardSatelliteTableFormat <- function () {
 #' @param totals_by_sector A standardized satellite table with resource and emission names from original sources.
 #' @param totals_by_sector_year Year of the satellite table.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param agg_metasources, bool, TRUE to aggregate TbS ignoring MetaSources field
 #' @return A satellite table aggregated by the USEEIO model sector codes.
-mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year, model) {
+mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year,
+                                                            model, agg_metasources=TRUE) {
   # Consolidate master crosswalk on model level and rename
   NAICStoBEA <- unique(model$crosswalk[, c("NAICS","USEEIO")])
   colnames(NAICStoBEA) <- c("NAICS","BEA")
@@ -51,7 +53,8 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   # Rename BEA to Sector
   colnames(totals_by_sector_BEA)[colnames(totals_by_sector_BEA)=="BEA"] <- "Sector"
   
-  totals_by_sector_BEA_agg <- collapseTBS(totals_by_sector_BEA, model)
+  totals_by_sector_BEA_agg <- collapseTBS(totals_by_sector_BEA, model,
+                                          agg_metasources=agg_metasources)
 
   return(totals_by_sector_BEA_agg)
 }
@@ -135,8 +138,9 @@ aggregateSatelliteTable <- function(sattable, from_level, model) {
 #' Collapse a totals by sector table so that each flow sector combination exists only once
 #' @param tbs totals by sector sourced from satellite table
 #' @param model An EEIO model object with model specs and IO table loaded
+#' @param agg_metasources, bool, TRUE to aggregate TbS ignoring MetaSources field
 #' @return aggregated totals by sector
-collapseTBS <- function(tbs, model) {
+collapseTBS <- function(tbs, model, agg_metasources = TRUE) {
   # Add in BEA industry names
   sectornames <- unique(model$Industries[, c("Code", "Name")])
   colnames(sectornames) <- c("Sector", "SectorName")
@@ -158,21 +162,38 @@ collapseTBS <- function(tbs, model) {
     tbs[is.na(tbs[, f]), f] <- 5
   }
   # Aggregate to BEA sectors using unique aggregation functions depending on the quantitative variable
-  tbs_agg <- dplyr::group_by(tbs, Flowable, Context, FlowUUID, Sector, SectorName,
-                             Location, Unit, Year, DistributionType) 
-  tbs_agg <- dplyr::summarize(
-    tbs_agg,
-    FlowAmountAgg = sum(FlowAmount),
-    Min = min(Min),
-    Max = max(Max),
-    DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
-    TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
-    GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
-    TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
-    DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
-    MetaSources = paste(sort(unique(MetaSources)), collapse = ' '),
-    .groups = 'drop'
-  )
+  if(agg_metasources) {
+    tbs_agg <- dplyr::group_by(tbs, Flowable, Context, FlowUUID, Sector, SectorName,
+                               Location, Unit, Year, DistributionType) 
+    tbs_agg <- dplyr::summarize(
+      tbs_agg,
+      FlowAmountAgg = sum(FlowAmount),
+      Min = min(Min),
+      Max = max(Max),
+      DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
+      TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
+      GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
+      TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
+      DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
+      MetaSources = paste(sort(unique(MetaSources)), collapse = ' '),
+      .groups = 'drop'
+    )
+  } else {
+    tbs_agg <- dplyr::group_by(tbs, Flowable, Context, FlowUUID, Sector, SectorName,
+                               Location, Unit, Year, DistributionType, MetaSources) 
+    tbs_agg <- dplyr::summarize(
+      tbs_agg,
+      FlowAmountAgg = sum(FlowAmount),
+      Min = min(Min),
+      Max = max(Max),
+      DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
+      TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
+      GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
+      TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
+      DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
+      .groups = 'drop'
+    )
+  }
   colnames(tbs_agg)[colnames(tbs_agg)=="FlowAmountAgg"] <- "FlowAmount"
   return(tbs_agg)
     
