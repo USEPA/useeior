@@ -173,9 +173,9 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     logging::loginfo("Calculating Direct + Imported Perspective LCI with external import factors...")
     s <- getScalingVector(model$L_d, y_d)
 
-    r1 <- calculateDirectPerspectiveLCI(model$B, s)
-    r2 <- calculateDirectPerspectiveLCI(model$Q_t %*% model$A_m, s)
-    r3 <- t(model$Q_t %*% diag(as.vector(y_m)))
+    r1 <- t(calculateDirectPerspectiveLCI(model$B, s)) # Domestic emissions from domestic production
+    r2 <- t(calculateDirectPerspectiveLCI(model$Q_t, (model$A_m %*% model$L_d %*% y_d))) # Emissions from imported goods consumed as intermediate products
+    r3 <- model$Q_t %*% diag(as.vector(y_m)) # Emissions from imported goods consumed as final products
     
     if (use_domestic_requirements) {
       result$LCI_d <- r1
