@@ -128,7 +128,6 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", demand = "Consumption", location = NULL,
                                                 use_domestic_requirements = FALSE, household_emissions = FALSE) {
   result <- list()
-  
   y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
   y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
   
@@ -139,17 +138,18 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   
   # Calculate Final perspective results
   if(perspective == "FINAL") {
-    y_d <- diag(as.vector(y_d))
-    y_m <- diag(as.vector(y_m))
-    
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Final Perspective LCI with external import factors...")
     
     # parentheses used to denote (domestic) and (import) components
+    r1 <- model$B %*% model$L_d %*% diag(as.vector(y_d))
+    r2 <- model$Q_t %*% model$A_m %*% model$L_d %*% diag(as.vector(y_d))
+    r3 <- model$Q_t %*% diag(as.vector(y_m))
+    
     if (use_domestic_requirements) {
-      result$LCI_f <- (model$B %*% model$L_d %*% y_d)
+      result$LCI_f <- r1
     } else {
-      result$LCI_f <- (model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m)
+      result$LCI_f <- r1 + r2 + r3
     }
     # Calculate Final Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Final Perspective LCIA with external import factors...")
@@ -169,34 +169,18 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     }
     
   } else { # Calculate direct perspective results.
-    # Direct perspective implemented using the following steps:
-    # Imported_LCI = LCI_direct_domestic
     # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Direct + Imported Perspective LCI with external import factors...")
     s <- getScalingVector(model$L_d, y_d)
-    domesticLCI_d <- calculateDirectPerspectiveLCI(model$B, s)
+
+    r1 <- calculateDirectPerspectiveLCI(model$B, s) # Domestic emissions from domestic production
+    r2 <- calculateDirectPerspectiveLCI(model$Q_t, (model$A_m %*% model$L_d %*% y_d)) # Emissions from imported goods consumed as intermediate products
+    r3 <- t(model$Q_t %*% diag(as.vector(y_m))) # Emissions from imported goods consumed as final products
     
     if (use_domestic_requirements) {
-      result$LCI_d <- domesticLCI_d
+      result$LCI_d <- r1
     } else {
-      y_d <- diag(as.vector(y_d))
-      y_m <- diag(as.vector(y_m))
-      
-      totalLCI <- (model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m)
-      # ^^ same equation as final perspective
-      totalLCI <- t(totalLCI)
-      rownames(totalLCI) <- colnames(model$Q_t)
-      # Taking the overall difference between domestic and total LCI, not by commodity, to be the totals for the imports.
-      importedLCI <- colSums(totalLCI) - colSums(domesticLCI_d)
-      # Using Q_t * y_m to estimate proportions for each commodity
-      import_allocations <- t(model$Q_t %*% y_m)
-      import_allocations <- sweep(import_allocations, 2, colSums(import_allocations), "/")
-      # Multiply proportions by import totals to get solution.
-      importedLCI_d <- import_allocations %*% diag(importedLCI)
-      
-      result$LCI_d <- domesticLCI_d + importedLCI_d
-      colnames(result$LCI_d) <- rownames(model$Q_t)
-      rownames(result$LCI_d) <- colnames(model$Q_t)
+      result$LCI_d <- r1 + r2 + r3
     }
 
     # # Alternate approach for calculating Direct LCI for IF
@@ -221,6 +205,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     result$LCIA_d <- model$C %*% t(result$LCI_d)
     result$LCIA_d <- t(result$LCIA_d)
     
+    colnames(result$LCI_d) <- rownames(model$Q_t)
+    rownames(result$LCI_d) <- colnames(model$Q_t)    
     colnames(result$LCIA_d) <- rownames(model$D)
     rownames(result$LCIA_d) <- colnames(model$D)
 
