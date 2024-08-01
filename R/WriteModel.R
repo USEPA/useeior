@@ -2,7 +2,8 @@
 
 #' The vector of matrices to write out
 matrices <- c("V", "U", "U_d", "A", "A_d", "B", "C", "D", "L", "L_d",
-              "M", "M_d", "N", "N_d", "Rho", "Phi", "Tau")
+              "M", "M_d", "M_m", "N", "N_d", "N_m",
+              "Rho", "Phi", "Tau")
 
 #' Writes all model data and metadata components to the API
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
