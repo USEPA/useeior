@@ -8,13 +8,7 @@
 loadExternalImportFactors <- function(model, configpaths = NULL) {
   IFTable <- readImportFactorTable(IFSpec=model$specs$ImportFactors, configpaths=configpaths)
   IFTable <- processImportFactors(model, IFTable)
-  M_m <- standardizeandcastSatelliteTable(IFTable, model)
-  # standardizeandcast prepares df for industries, convert to commodities
-  M_m[, setdiff(model$Commodities$Code_Loc, colnames(M_m))] <- 0
-  # Adjust column order to be the same with V_n rownames
-  M_m <- M_m[, model$Commodities$Code_Loc]
-  M_m <- as.matrix(M_m)
-
+  M_m <- castImportFactors(IFTable, model)
   return(M_m)
 }
 
@@ -36,8 +30,6 @@ readImportFactorTable <- function(IFSpec, configpaths = NULL) {
                                stringsAsFactors = FALSE)
   return(IFTable)
 }
-
-
 
 #' Load and prepare import coefficients
 #' @param model An EEIO form USEEIO model object with model specs loaded
@@ -77,6 +69,27 @@ processImportFactors <- function(model, IFTable) {
     IFTable['Location'] <- "US"
   }
   return(IFTable)
+}
+
+#' Converts import factors table (of commodities) into flows x sector matrix-like format
+#' @param IFTable, dataframe of import factors
+#' @param model An EEIO model object with model specs, IO tables, and matrices loaded
+#' @return A matrix of flows x sector 
+castImportFactors <- function(IFTable, model) {
+  # Add fields for sector as combinations of existing fields
+  IFTable[, "Sector"] <- apply(IFTable[, c("Sector", "Location")],
+                               1, FUN = joinStringswithSlashes)
+  # Cast df into a flow x sector matrix
+  df_cast <- reshape2::dcast(df, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount")
+  # Move Flow to rowname so matrix is all numbers
+  rownames(df_cast) <- df_cast$Flow
+  df_cast$Flow <- NULL
+  # Complete sector list according to model$Commodities
+  df_cast[, setdiff(model$Commodities$Code_Loc, colnames(df_cast))] <- 0
+  # Adjust column order to be the same with M_d
+  df_cast <- df_cast[, colnames(model$M_d)]
+  M_m <- as.matrix(df_cast)
+  return(M_m)
 }
 
 #' Create import Use table and validate domestic+import against full use model .
