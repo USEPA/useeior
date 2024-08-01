@@ -19,6 +19,7 @@ Model specifications are assigned in a yml file based on the parameters shown be
 | HybridizationSpecs | str | N | The [hybridization specifications](ModelCustomization.md#hybridization-file-specification) |
 | MUIOSpecs | str | N | The [mixed unit hybridization specifications](ModelCustomization.md#mixed-unit-file-specification) |
 | WIOSpecs | str | N | The [waste input output specifications](ModelCustomization.md#waste-input-output-file-specification) |
+| ExternalImportFactors | bool | N | Whether the model includes specifications for [Import Emission Factors](ModelCustomization.md#import-emission-factors) |
 | SatelliteTable | list |  | The [satellite table specifications](#Satellite-Table-Specifications) |
 | Indicators | list | N | The [indicator specifications](#Indicator-Specifications) |
 | DemandVectors | list |  | The [demand vector specifications](#Demand-Vector-Specifications) |

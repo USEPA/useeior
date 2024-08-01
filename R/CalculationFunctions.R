@@ -143,8 +143,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     
     # parentheses used to denote (domestic) and (import) components
     r1 <- model$B %*% model$L_d %*% diag(as.vector(y_d))
-    r2 <- model$Q_t %*% model$A_m %*% model$L_d %*% diag(as.vector(y_d))
-    r3 <- model$Q_t %*% diag(as.vector(y_m))
+    r2 <- model$M_m %*% model$A_m %*% model$L_d %*% diag(as.vector(y_d))
+    r3 <- model$M_m %*% diag(as.vector(y_m))
     
     if (use_domestic_requirements) {
       result$LCI_f <- r1
@@ -157,8 +157,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     result$LCI_f <- t(result$LCI_f)
     result$LCIA_f <- t(result$LCIA_f)
     
-    colnames(result$LCI_f) <- rownames(model$Q_t)
-    rownames(result$LCI_f) <- colnames(model$Q_t)
+    colnames(result$LCI_f) <- rownames(model$M_m)
+    rownames(result$LCI_f) <- colnames(model$M_m)
     colnames(result$LCIA_f) <- rownames(model$D)
     rownames(result$LCIA_f) <- colnames(model$D)
     
@@ -174,8 +174,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     s <- getScalingVector(model$L_d, y_d)
 
     r1 <- calculateDirectPerspectiveLCI(model$B, s) # Domestic emissions from domestic production
-    r2 <- calculateDirectPerspectiveLCI(model$Q_t, (model$A_m %*% model$L_d %*% y_d)) # Emissions from imported goods consumed as intermediate products
-    r3 <- t(model$Q_t %*% diag(as.vector(y_m))) # Emissions from imported goods consumed as final products
+    r2 <- calculateDirectPerspectiveLCI(model$M_m, (model$A_m %*% model$L_d %*% y_d)) # Emissions from imported goods consumed as intermediate products
+    r3 <- t(model$M_m %*% diag(as.vector(y_m))) # Emissions from imported goods consumed as final products
     
     if (use_domestic_requirements) {
       result$LCI_d <- r1
@@ -183,30 +183,13 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
       result$LCI_d <- r1 + r2 + r3
     }
 
-    # # Alternate approach for calculating Direct LCI for IF
-    # # Attempting to duplicate calculateDirectPerspectiveLCI for IF models
-    # econTermOne <- model$L_d %*% y_d
-    # econTermTwo <- model$A_m %*% model$L_d %*% y_d
-    # econTermThree <- y_m
-    # directLCIOne <- model$B %*% diag(as.vector(econTermOne))
-    # directLCITwo <- model$Q_t %*% diag(as.vector(econTermTwo))
-    # directLCIThree <- model$Q_t %*% diag(as.vector(econTermThree))
-    # directLCITotal <- directLCIOne + directLCITwo + directLCIThree
-    # directLCITotal <- t(directLCITotal)
-    # result$LCI_d <- directLCITotal
-    # colnames(result$LCI_d) <- rownames(model$Q_t)
-    # rownames(result$LCI_d) <- colnames(model$Q_t)
-    # # Compare column sums from this approach with column sums from final perspective approach:
-    # LCI_f <- t((model$B %*% model$L_d %*% y_d) + (model$Q_t %*% model$A_m %*% model$L_d %*% y_d + model$Q_t %*% y_m))
-    # colSums(LCI_f) / colSums(directLCITotal)
-    
     # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Direct Perspective LCIA with external import factors...")
     result$LCIA_d <- model$C %*% t(result$LCI_d)
     result$LCIA_d <- t(result$LCIA_d)
     
-    colnames(result$LCI_d) <- rownames(model$Q_t)
-    rownames(result$LCI_d) <- colnames(model$Q_t)    
+    colnames(result$LCI_d) <- rownames(model$M_m)
+    rownames(result$LCI_d) <- colnames(model$M_m)    
     colnames(result$LCIA_d) <- rownames(model$D)
     rownames(result$LCIA_d) <- colnames(model$D)
 

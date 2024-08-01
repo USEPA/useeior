@@ -404,7 +404,7 @@ compareOutputfromMakeandUse <- function(model, output_type = "Commodity") {
 #' @param demand, A demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.
 #' @return A calculated direct requirements table
 validateImportFactorsApproach <- function(model, demand = "Consumption"){
-  if(is.null(model$Q_t)) {
+  if(is.null(model$M_m)) {
     return()
   }
   
@@ -451,12 +451,12 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   # Calculate LCI using coupled model approach
   # Revised equation from RW email (2023-11-01):
   # LCI <- (s_d * L_d * Y_d) + (s*L*A_m*L_d*Y_d + s*L*Y_m). I.e., s in RW email is analogous to model$B
-  # For validation, we use M as a stand-in for import emissions , whereas in normally we'd be using model$Q_t
+  # For validation, we use M as a stand-in for import emissions , whereas in normally we'd be using model$M_m
   
   LCI_dm <- (model$M_d %*% y_d) + (M %*% model$A_m %*% model$L_d %*% y_d + M %*% y_m)
   
   cat("\nTesting that LCI results are equivalent between standard and coupled model approaches (i.e., LCI = LCI_dm) when\n")
-  cat("assuming model$M = model$Q_t.\n")
+  cat("assuming model$M = model$M_m.\n")
   print(all.equal(LCI, LCI_dm))
   
   # Calculate LCIA using standard approach
@@ -475,7 +475,7 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   rownames(LCIA_dm) <- colnames(model$N_m)
   
   cat("\nTesting that LCIA results are equivalent between standard and coupled model approaches (i.e., LCIA = LCIA_dm) when\n")
-  cat("assuming model$M = model$Q_t.\n")
+  cat("assuming model$M = model$M_m.\n")
   print(all.equal(LCIA_dm, LCIA))
   
 }

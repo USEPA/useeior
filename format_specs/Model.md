@@ -57,12 +57,12 @@ Items are listed in the order in which they appear in a built Model object in R.
 | D | matrix | result matrix | [The direct impact matrix](#D) |
 | M | matrix | result matrix | [The total emissions and resource use matrix](#M) |
 | M_d | matrix |  result matrix | [The total emissions and resource use (from and by domestic activity) matrix](#M) |
+| M_m| matrix | component matrix | [The total emissions and resource use from imported activity matrix](#M) |
 | N | matrix | result matrix | [The total impact matrix](#N) |
 | N_d | matrix | result matrix | [The total impact (from domestic activity) matrix](#N) |
 | Rho | matrix | component matrix | [The CPI<sup>1</sup> price year ratio matrix for a given model](#Rho)|
 | Phi | matrix | component matrix | [The producer-to-purchaser price ratio matrix for a given model](#Phi)|
 | Tau | matrix | component matrix | [The basic-to-producer price ratio matrix for a given model](#Tau)|
-| Q_t| matrix | component matrix | [The total emissions and resource use from imported activity matrix](#Q_t) |
 
 <sup>1</sup> Chain-type Price Index
 
@@ -386,6 +386,7 @@ flows           |       |
 ```
 
 The related `M_d` matrix provides direct + indirect emissions and resources per dollar output that are only from the US.
+While the `M_m` matrix provides direct + indirect emissions and resources per dollar of imported goods if a model is built with [ExternalImportFactors](ModelSpecification.md).
 
 #### N
 The matrix `N` is a `indicator x sector` matrix and contains in each column
