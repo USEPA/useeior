@@ -90,17 +90,6 @@ cfg <- c(paste0("modelspecs/", m, ".yml"))
 model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 
-## USEEIOv2.3 Detail, commodity model with GHGs and Import Factors
-m <- "USEEIOv2.3-GHG"
-model <- buildModel(m)
-printValidationResults(model)
-writeModeltoXLSX(model, ".")
-
-## USEEIOv2.3 Summary, commodity model with GHGs and Import Factors
-m <- "USEEIOv2.3-s-GHG-19"
-model <- buildModel(m)
-printValidationResults(model)
-
 ## USEEIOv2.0 Summary, industry model
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
 model$specs$Model <- "USEEIOv2.0-is-GHG-19"
@@ -127,6 +116,17 @@ model <- useeior:::loadandbuildSatelliteTables(model)
 model <- useeior:::loadandbuildIndicators(model)
 model <- useeior:::loadDemandVectors(model)
 model <- useeior:::constructEEIOMatrices(model)
+printValidationResults(model)
+
+## USEEIOv2.3 Detail, commodity model with GHGs and Import Factors
+m <- "USEEIOv2.3-GHG"
+model <- buildModel(m)
+printValidationResults(model)
+writeModeltoXLSX(model, ".")
+
+## USEEIOv2.3 Summary, commodity model with GHGs and Import Factors
+m <- "USEEIOv2.3-s-GHG-19"
+model <- buildModel(m)
 printValidationResults(model)
 
 ## StateEEIOv1.0 Two-region Summary model
