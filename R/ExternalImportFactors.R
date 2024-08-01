@@ -80,7 +80,7 @@ castImportFactors <- function(IFTable, model) {
   IFTable[, "Sector"] <- apply(IFTable[, c("Sector", "Location")],
                                1, FUN = joinStringswithSlashes)
   # Cast df into a flow x sector matrix
-  df_cast <- reshape2::dcast(df, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount")
+  df_cast <- reshape2::dcast(IFTable, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount")
   # Move Flow to rowname so matrix is all numbers
   rownames(df_cast) <- df_cast$Flow
   df_cast$Flow <- NULL
