@@ -74,7 +74,7 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
       logging::loginfo("Calculating N matrix (total environmental impacts per dollar)...")
       model$N <- model$C %*% model$M
     }
-    if(!is.null(model$M)) {
+    if(!is.null(model$M_m)) {
       logging::loginfo("Calculating N_m matrix (total environmental impacts per dollar from imported activity)...")
       model$N_m <- model$C %*% model$M_m
     }
