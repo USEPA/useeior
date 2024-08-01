@@ -90,20 +90,15 @@ cfg <- c(paste0("modelspecs/", m, ".yml"))
 model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 
-## USEEIOv2.0 Summary, commodity model with GHGs and Import Factors
-cfg <- c(paste0("modelspecs/", m, ".yml"),
-         "import_factors_summary_2019.csv"
-         )
-model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
-model$specs$Model <- "USEEIOv2.0-s-GHG-19-IF"
-model$specs$ExternalImportFactors <- TRUE
-model$specs$ImportFactors <- list()
-model$specs$ImportFactors$StaticFile <- "import_factors_summary_2019.csv"
-model <- useeior:::loadIOData(model, file.path(cfg))
-model <- useeior:::loadandbuildSatelliteTables(model)
-model <- useeior:::loadandbuildIndicators(model)
-model <- useeior:::loadDemandVectors(model)
-model <- useeior:::constructEEIOMatrices(model, file.path(cfg))
+## USEEIOv2.3 Detail, commodity model with GHGs and Import Factors
+m <- "USEEIOv2.3-GHG"
+model <- buildModel(m)
+printValidationResults(model)
+writeModeltoXLSX(model, ".")
+
+## USEEIOv2.3 Summary, commodity model with GHGs and Import Factors
+m <- "USEEIOv2.3-s-GHG-19"
+model <- buildModel(m)
 printValidationResults(model)
 
 ## USEEIOv2.0 Summary, industry model
