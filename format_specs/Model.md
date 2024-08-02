@@ -21,6 +21,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | InternationalTradeAdjustmentMeta | data.frame | metadata | Metadata for international trade adjusment in [sector meta with group format](#Sector-Meta-with-Group) |
 | MarginSectors | data.frame | metadata | Margin sector metadata in [sector meta format](#sector-meta) |
 | ValueAddedMeta | data.frame | metadata | Value added metadata in [sector meta format](#sector-meta) |
+| ImportMatrix | data.frame | supporting data | A version of the model Use table with imports only |
 | MultiYearIndustryOutput | data.frame | supporting data | Multi-year industry output in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityOutput | data.frame | supporting data | Multi-year commodity output  in [sector-by-year format](#sector-by-year) |
 | Margins | data.frame | supporting data | [The final consumer margins table](#margins) |
@@ -283,8 +284,8 @@ sectors |       |
         +-------+
 ```
 
-The related `A_d` matrix provides direct sector inputs per dollar sector output that are only from the US.
-
+The related `A_d` matrix provides direct sector inputs per dollar sector output for inputs that are from the US.
+The related `A_m` matrix provides direct sector inputs per dollar output for inputs that are international imports if a model is built with [ExternalImportFactors](ModelSpecification.md).
 #### L
 `L` is also a `sector x sector` matrix and contains in each column `i` the
 total requirements of the respective sectors inputs per 1 USD of output
@@ -299,7 +300,7 @@ sectors |       |
 ```
 
 The related `L_d` matrix provides direct + indirect sector inputs per dollar output for inputs that are from the US.
-The related `L_m` matrix provides direct + indirect sector inputs per dollar output for inputs that are international imports if a model is built with [ExternalImportFactors](ModelSpecification.md).
+
 
 #### B
 The satellite matrix `B` is a `flow x sector` matrix and contains in
