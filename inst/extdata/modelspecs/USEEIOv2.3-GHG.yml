@@ -31,7 +31,7 @@ SatelliteTable:
       USEPA_GHG_2024:
         Title: "GHG Inventory"
         Author: "USEPA"
-        DataYear: 2022
+        DataYear: 2019
         URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2022"
         Primary: TRUE
 
