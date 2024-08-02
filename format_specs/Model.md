@@ -298,7 +298,8 @@ sectors |       |
         +-------+
 ```
 
-The related `L_d` matrix provides direct + indirect sector inputs per dollar output that are only from the US.
+The related `L_d` matrix provides direct + indirect sector inputs per dollar output for inputs that are from the US.
+The related `L_m` matrix provides direct + indirect sector inputs per dollar output for inputs that are international imports if a model is built with [ExternalImportFactors](ModelSpecification.md).
 
 #### B
 The satellite matrix `B` is a `flow x sector` matrix and contains in
@@ -387,7 +388,7 @@ flows           |       |
 ```
 
 The related `M_d` matrix provides direct + indirect emissions and resources per dollar output that are only from the US.
-While the `M_m` matrix provides direct + indirect emissions and resources per dollar of imported goods if a model is built with [ExternalImportFactors](ModelSpecification.md).
+The related `M_m` matrix provides direct + indirect emissions and resources per dollar of imported goods if a model is built with [ExternalImportFactors](ModelSpecification.md).
 
 #### N
 The matrix `N` is a `indicator x sector` matrix and contains in each column
@@ -402,4 +403,4 @@ indicators      |       |
 ```
 
 The related `N_d` matrix provides direct + indirect impact results per dollar output that are only from the US.
-While the `N_m` matrix provides direct + indirect impact results per dollar of imported goods if a model is built with [ExternalImportFactors](ModelSpecification.md).
+The related `N_m` matrix provides direct + indirect impact results per dollar of imported goods if a model is built with [ExternalImportFactors](ModelSpecification.md).
