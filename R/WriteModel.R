@@ -1,7 +1,7 @@
 # Functions for exporting the model to disc
 
 #' The vector of matrices to write out
-matrices <- c("V", "U", "U_d", "A", "A_d", "B", "C", "D", "L", "L_d",
+matrices <- c("V", "U", "U_d", "A", "A_d", "A_m", "B", "C", "D", "L", "L_d",
               "M", "M_d", "M_m", "N", "N_d", "N_m",
               "Rho", "Phi", "Tau")
 
