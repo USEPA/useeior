@@ -2,11 +2,10 @@ Package: useeior
 Type: Package
 Title: USEEIO R modeling software
 Version: 1.6.0
-Date: 2024-8-2
+Date: 2024-8-6
 Authors@R: c(
   person("Ben","Young", email="ben.young@erg.com", role="aut"),
   person("Jorge","Vendries", email="jvendries@gmail.com", role="aut"),
-  person("Mo","Li", email="mo.li@gdit.com", role="aut"),
   person("Wesley","Ingwersen", email="ingwersen.wesley@epa.gov", role= c("aut", "cre")))
 Description: The United States Environmentally-Extended Input-Output model
   is a model used to estimate potential environmental and economic impacts
@@ -41,7 +40,7 @@ License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
