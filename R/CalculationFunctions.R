@@ -395,7 +395,7 @@ calculateSectorContributiontoImpact <- function (model, sector, indicator, domes
 #' @param indicator, str, index of a model indicator for use in the C matrix, e.g. "Acidification Potential".
 #' @param domestic, boolean, sets model to use domestic flow matrix. Default is FALSE.
 #' @return A dataframe sorted by contribution (high-to-low), also showing "M", "C", "impact".
-#' @export 
+## @export ##temporarily comment out due to failure for models with external import factors
 calculateFlowContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
   M <- model$M
   C <- model$C
@@ -466,7 +466,7 @@ calculateSectorPurchasedbySectorSourcedImpact <- function (y, model, indicator) 
 #' Calculate sector margin impacts in the form of M and N Matrix
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @return A list with M_margin and N_margin
-#' @export
+## @export ##temporarily comment out due to failure for models with external import factors
 calculateMarginSectorImpacts <- function(model) {
   if (model$specs$IODataSource == "stateior") {
     stop("Margins not available for two-region models")
@@ -550,8 +550,8 @@ calculateHouseholdEmissions <- function(model, f, location, characterized=FALSE)
 #' @param impact str, a model indicator (e.g., "Greenhouse Gases") row index of N, 
 #'                    or elementary flow (e.g., "Methane/emission/air/kg") index of M
 #' @param opt_impact str {'indicator', 'elemflow'}, string code to specify impact type
-#' @export
 #' @return A data frame of direct and per-tier-1-purchase sector impacts
+## @export ##temporarily comment out due to failure for models with external import factors
 disaggregateTotalToDirectAndTier1 <- function(model, impact, opt_impact="indicator") {
   mtx_direct <- c("indicator"="D", "elemflow"="B")[opt_impact]
   if (is.na(mtx_direct)) {
