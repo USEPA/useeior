@@ -515,7 +515,6 @@ calculateMarginSectorImpacts <- function(model) {
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param characterized, bool, TRUE to characterize using C matrix, FALSE to show LCI
 #' @return A result vector with rows for final demand sector(s)
-#' @export
 calculateHouseholdEmissions <- function(model, f, location, characterized=FALSE) {
   if(!"B_h" %in% names(model)) {
     logging::logwarn("Household emissions not found in this model")
