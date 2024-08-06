@@ -5,7 +5,6 @@
 #' @param use_domestic, a logical value indicating whether to use domestic demand vector
 #' @param tolerance, a numeric value, tolerance level of the comparison
 #' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#' @export
 compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) {
   # Prepare left side of the equation
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
@@ -80,7 +79,6 @@ calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) 
 #' @param use_domestic, a logical value indicating whether to use domestic demand vector
 #' @param tolerance, a numeric value, tolerance level of the comparison
 #' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#' @export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   # Generate output and scaling vector
   if(model$specs$CommodityorIndustryType == "Commodity") {
@@ -111,7 +109,6 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param tolerance, a numeric value, tolerance level of the comparison
 #' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#' @export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   q <- removeHybridProcesses(model, model$q)
   demand <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors),"Production_Domestic")][[1]]
@@ -141,7 +138,6 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param tolerance, a numeric value, tolerance level of the comparison
 #' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#' @export 
 compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- function(model, tolerance=0.05) {
   if(model$specs$BaseIOSchema == 2012){
     target_year <- "2017"
