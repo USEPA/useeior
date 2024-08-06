@@ -123,7 +123,6 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements bool, if TRUE, return only domestic portion of results
 #' @param household_emissions, bool, if TRUE, include calculation of emissions from households
-#' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", demand = "Consumption", location = NULL,
                                                 use_domestic_requirements = FALSE, household_emissions = FALSE) {
