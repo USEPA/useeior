@@ -217,7 +217,6 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
 #' if FALSE, use complete demand and L matrix.
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param household_emissions, bool, if TRUE, include calculation of emissions from households
-#' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateStandardResults <- function(model, perspective, f, use_domestic_requirements = FALSE,
                                      location = NULL, household_emissions = FALSE) {
@@ -372,7 +371,7 @@ calculatePercentContributiontoImpact <- function (x,y) {
 #' @param indicator, str, index of a model indicator for use in the D matrix, e.g. "Acidification Potential".
 #' @param domestic, boolean, sets model to use domestic flow matrix. Default is FALSE.
 #' @return A dataframe sorted by contribution (high-to-low), also showing "L", "D", "impact".
-#' @export
+## @export
 calculateSectorContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
   L <- model$L
   if (domestic) {
