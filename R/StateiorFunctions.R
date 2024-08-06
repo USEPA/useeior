@@ -286,7 +286,6 @@ validate2RCommodityTotals <- function(model) {
 #' @param v_One A vector of totals derived from specific 2R model object
 #' @param v_Two A vector of totals dervied from a different 2R model object than v_One
 #' @return A list of sectors that failed the comparison between the two specified q vectors. 
-#' @export
 compare2RVectorTotals <- function(v_One, v_Two) {
   
   # Calculate relative differences in v_One and v_Two

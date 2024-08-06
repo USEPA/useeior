@@ -123,7 +123,6 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements bool, if TRUE, return only domestic portion of results
 #' @param household_emissions, bool, if TRUE, include calculation of emissions from households
-#' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", demand = "Consumption", location = NULL,
                                                 use_domestic_requirements = FALSE, household_emissions = FALSE) {
@@ -217,7 +216,6 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
 #' if FALSE, use complete demand and L matrix.
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param household_emissions, bool, if TRUE, include calculation of emissions from households
-#' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateStandardResults <- function(model, perspective, f, use_domestic_requirements = FALSE,
                                      location = NULL, household_emissions = FALSE) {
@@ -372,7 +370,7 @@ calculatePercentContributiontoImpact <- function (x,y) {
 #' @param indicator, str, index of a model indicator for use in the D matrix, e.g. "Acidification Potential".
 #' @param domestic, boolean, sets model to use domestic flow matrix. Default is FALSE.
 #' @return A dataframe sorted by contribution (high-to-low), also showing "L", "D", "impact".
-#' @export
+## @export
 calculateSectorContributiontoImpact <- function (model, sector, indicator, domestic=FALSE) {
   L <- model$L
   if (domestic) {
@@ -416,7 +414,6 @@ calculateFlowContributiontoImpact <- function (model, sector, indicator, domesti
 #' @param to_level    The level of BEA code this matrix will be aggregated to
 #' @param crosswalk   Sector crosswalk between levels of detail
 #' @return An aggregated matrix with sectors as rows
-#' @export
 aggregateResultMatrixbyRow <- function (matrix, to_level, crosswalk) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- "USEEIO"
@@ -517,7 +514,6 @@ calculateMarginSectorImpacts <- function(model) {
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param characterized, bool, TRUE to characterize using C matrix, FALSE to show LCI
 #' @return A result vector with rows for final demand sector(s)
-#' @export
 calculateHouseholdEmissions <- function(model, f, location, characterized=FALSE) {
   if(!"B_h" %in% names(model)) {
     logging::logwarn("Household emissions not found in this model")
