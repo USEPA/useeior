@@ -415,7 +415,6 @@ calculateFlowContributiontoImpact <- function (model, sector, indicator, domesti
 #' @param to_level    The level of BEA code this matrix will be aggregated to
 #' @param crosswalk   Sector crosswalk between levels of detail
 #' @return An aggregated matrix with sectors as rows
-#' @export
 aggregateResultMatrixbyRow <- function (matrix, to_level, crosswalk) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- "USEEIO"
