@@ -146,20 +146,21 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     r3 <- model$M_m %*% diag(as.vector(y_m))
     
     if (use_domestic_requirements) {
-      result$LCI_f <- r1
-    } else {
-      result$LCI_f <- r1 + r2 + r3
+      r2[] <- 0
+      r3[] <- 0
     }
+    result$LCI_f <- cbind(r1 + r2, r3) # Term 3 is assigned to RoW
     # Calculate Final Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Final Perspective LCIA with external import factors...")
     result$LCIA_f <- model$C %*% result$LCI_f
     result$LCI_f <- t(result$LCI_f)
     result$LCIA_f <- t(result$LCIA_f)
     
+    row_names <- c(colnames(model$M_m), gsub("/US", "/RoW", colnames(model$M_m)))
     colnames(result$LCI_f) <- rownames(model$M_m)
-    rownames(result$LCI_f) <- colnames(model$M_m)
+    rownames(result$LCI_f) <- row_names
     colnames(result$LCIA_f) <- rownames(model$D)
-    rownames(result$LCIA_f) <- colnames(model$D)
+    rownames(result$LCIA_f) <- row_names
     
     # Add household emissions to results if applicable
     if(household_emissions) {
@@ -177,20 +178,20 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     r3 <- t(model$M_m %*% diag(as.vector(y_m))) # Emissions from imported goods consumed as final products
     
     if (use_domestic_requirements) {
-      result$LCI_d <- r1
-    } else {
-      result$LCI_d <- r1 + r2 + r3
+      r2[] <- 0
+      r3[] <- 0
     }
-
+    result$LCI_d <- rbind(r1, r2 + r3) # Term 2 and Term 3 are assigned to RoW
     # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Direct Perspective LCIA with external import factors...")
     result$LCIA_d <- model$C %*% t(result$LCI_d)
     result$LCIA_d <- t(result$LCIA_d)
     
+    row_names <- c(colnames(model$M_m), gsub("/US", "/RoW", colnames(model$M_m)))
     colnames(result$LCI_d) <- rownames(model$M_m)
-    rownames(result$LCI_d) <- colnames(model$M_m)    
+    rownames(result$LCI_d) <- row_names    
     colnames(result$LCIA_d) <- rownames(model$D)
-    rownames(result$LCIA_d) <- colnames(model$D)
+    rownames(result$LCIA_d) <- row_names
 
     # Add household emissions to results if applicable
     if(household_emissions) {
