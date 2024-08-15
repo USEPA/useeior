@@ -135,6 +135,14 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     hh_lcia <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=TRUE)
   }
   
+  if(model$specs$IODataSource=="stateior") {
+    row_names <- c(colnames(model$M_m),
+                   gsub("/.*", "/RoW", colnames(model$M_m[, 1:(nrow(y_d)/2)])))
+  } else {
+    row_names <- c(colnames(model$M_m),
+                   gsub("/.*", "/RoW", colnames(model$M_m)))
+  }
+
   # Calculate Final perspective results
   if(perspective == "FINAL") {
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
@@ -149,6 +157,14 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
       r2[] <- 0
       r3[] <- 0
     }
+    
+    if(model$specs$IODataSource=="stateior") {
+      # collapse third term for SoI and RoUS
+      z <- r3[, 1:(ncol(r3)/2)] + r3[, ((ncol(r3)/2)+1):ncol(r3)]
+      # rowSums(z) == rowSums(r3)
+      r3 <- z
+    }
+
     result$LCI_f <- cbind(r1 + r2, r3) # Term 3 is assigned to RoW
     # Calculate Final Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Final Perspective LCIA with external import factors...")
@@ -156,7 +172,6 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     result$LCI_f <- t(result$LCI_f)
     result$LCIA_f <- t(result$LCIA_f)
     
-    row_names <- c(colnames(model$M_m), gsub("/US", "/RoW", colnames(model$M_m)))
     colnames(result$LCI_f) <- rownames(model$M_m)
     rownames(result$LCI_f) <- row_names
     colnames(result$LCIA_f) <- rownames(model$D)
@@ -181,13 +196,23 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
       r2[] <- 0
       r3[] <- 0
     }
+    
+    if(model$specs$IODataSource=="stateior") {
+      # collapse second and third term for SoI and RoUS
+      z <- r3[1:(nrow(r3)/2), ] + r3[((nrow(r3)/2)+1):nrow(r3), ]
+      # colSums(z) == colSums(r3)
+      r3 <- z
+      z <- r2[1:(nrow(r2)/2), ] + r2[((nrow(r2)/2)+1):nrow(r2), ]
+      # colSums(z) == colSums(r2)
+      r2 <- z
+    }
+
     result$LCI_d <- rbind(r1, r2 + r3) # Term 2 and Term 3 are assigned to RoW
     # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Direct Perspective LCIA with external import factors...")
     result$LCIA_d <- model$C %*% t(result$LCI_d)
     result$LCIA_d <- t(result$LCIA_d)
     
-    row_names <- c(colnames(model$M_m), gsub("/US", "/RoW", colnames(model$M_m)))
     colnames(result$LCI_d) <- rownames(model$M_m)
     rownames(result$LCI_d) <- row_names    
     colnames(result$LCIA_d) <- rownames(model$D)
