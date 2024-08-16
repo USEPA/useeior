@@ -217,7 +217,7 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
         # colSums(z) == colSums(r2)
         r2 <- z
       }
-      result$LCI_d <- cbind(r1, r2 + r3) # Term 2 and Term 3 are assigned to RoW
+      result$LCI_d <- rbind(r1, r2 + r3) # Term 2 and Term 3 are assigned to RoW
     } else {
       result$LCI_d <- r1 + r2 + r3 # All three terms combined and regions do not change
     }  
