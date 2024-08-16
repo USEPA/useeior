@@ -206,8 +206,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     
   # Add household emissions to results if applicable
   if(household_emissions) {
-    hh <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=FALSE)
-    hh_lcia <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=TRUE)
+    hh <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=FALSE, show_RoW=show_RoW)
+    hh_lcia <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=TRUE, show_RoW=show_RoW)
     LCI <- rbind(LCI, hh)
     LCIA <- rbind(LCIA, hh_lcia)
   }
@@ -527,8 +527,10 @@ calculateMarginSectorImpacts <- function(model) {
 #' numeric values in USD with the same dollar year as model.
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param characterized, bool, TRUE to characterize using C matrix, FALSE to show LCI
+#' @param show_RoW, bool, if TRUE, include rows for commodities in RoW, e.g. `111CA/RoW` in result objects.
+#' Only valid currently for models with ExternalImportFactors.
 #' @return A result vector with rows for final demand sector(s)
-calculateHouseholdEmissions <- function(model, f, location, characterized=FALSE) {
+calculateHouseholdEmissions <- function(model, f, location, characterized=FALSE, show_RoW=FALSE) {
   if(!"B_h" %in% names(model)) {
     logging::logwarn("Household emissions not found in this model")
     return(NULL)
@@ -550,10 +552,17 @@ calculateHouseholdEmissions <- function(model, f, location, characterized=FALSE)
   }
   rownames(hh) <- codes
 
+  # Create a matrix of 0 values for potential addition to household emissions matrix
+  mat <- matrix(0, nrow=nrow(hh), ncol=ncol(hh))
+  
   if(!is.null(location)) {
-    # add in 0 values for 2nd location for household emissions
-    mat <- matrix(0, nrow=nrow(hh), ncol=ncol(hh))
+    # add in 0 values for RoUS
     rownames(mat) <- other_code
+    hh <- rbind(hh, mat)
+  }
+  if(show_RoW) {
+    # add in 0 values for RoW
+    rownames(mat) <- gsub("/.*", "/RoW", codes)
     hh <- rbind(hh, mat)
   }
   return(hh)
