@@ -151,96 +151,71 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   } else {
     row_names <- colnames(model$M_m)
   }
-  # Calculate Final perspective results
+
+  ## Description of result components apply to both FINAL and DIRECT perspectives
+  # r1 - Domestic emissions from domestic production
+  # r2 - Emissions from imported goods consumed as intermediate products
+  # r3 - Emissions from imported goods consumed as final products
+
   if(perspective == "FINAL") {
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
-    logging::loginfo("Calculating Final Perspective LCI with external import factors...")
-    
+    logging::loginfo("Calculating Final Perspective LCI and LCIA with external import factors...")
+    subscript <- "f"
     r1 <- model$B %*% model$L_d %*% diag(as.vector(y_d))
     r2 <- model$M_m %*% model$A_m %*% model$L_d %*% diag(as.vector(y_d))
-    r3 <- model$M_m %*% diag(as.vector(y_m))
-    
-    if (use_domestic_requirements) {
-      # zero out the import results
-      r2[] <- 0
-      r3[] <- 0
-    }
-    
-    if(show_RoW) {
-      if(model$specs$IODataSource=="stateior") {
-        # collapse third term for SoI and RoUS
-        z <- r3[, 1:sector_count] + r3[, (sector_count+1):(sector_count*2)]
-        # rowSums(z) == rowSums(r3)
-        r3 <- z
-      }
-      result$LCI_f <- cbind(r1 + r2, r3) # Term 3 is assigned to RoW  
-    } else {
-      result$LCI_f <- r1 + r2 + r3 # All three terms combined and regions do not change 
-    }
-    
-    # Calculate Final Perspective LCIA (matrix with direct impacts in form of sector x impacts)
-    logging::loginfo("Calculating Final Perspective LCIA with external import factors...")
-    result$LCIA_f <- model$C %*% result$LCI_f
-    result$LCI_f <- t(result$LCI_f)
-    result$LCIA_f <- t(result$LCIA_f)
-    
-    colnames(result$LCI_f) <- rownames(model$M_m)
-    rownames(result$LCI_f) <- row_names
-    colnames(result$LCIA_f) <- rownames(model$D)
-    rownames(result$LCIA_f) <- row_names
-    
-    # Add household emissions to results if applicable
-    if(household_emissions) {
-      result$LCI_f <- rbind(result$LCI_f, hh)
-      result$LCIA_f <- rbind(result$LCIA_f, hh_lcia)
-    }
-    
+
   } else { # Calculate direct perspective results.
     # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
-    logging::loginfo("Calculating Direct + Imported Perspective LCI with external import factors...")
+    logging::loginfo("Calculating Direct + Imported Perspective LCI and LCIA with external import factors...")
+    subscript <- "d"
     s <- getScalingVector(model$L_d, y_d)
-
-    r1 <- calculateDirectPerspectiveLCI(model$B, s) # Domestic emissions from domestic production
-    r2 <- calculateDirectPerspectiveLCI(model$M_m, (model$A_m %*% model$L_d %*% y_d)) # Emissions from imported goods consumed as intermediate products
-    r3 <- t(model$M_m %*% diag(as.vector(y_m))) # Emissions from imported goods consumed as final products
-    
-    if (use_domestic_requirements) {
-      # zero out the import results
-      r2[] <- 0
-      r3[] <- 0
-    }
-    
-    if(show_RoW) {
-      if(model$specs$IODataSource=="stateior") {
-        # collapse second and third term for SoI and RoUS
-        z <- r3[1:sector_count, ] + r3[(sector_count+1):(sector_count*2), ]
-        # colSums(z) == colSums(r3)
-        r3 <- z
-        z <- r2[1:sector_count, ] + r2[(sector_count+1):(sector_count*2), ]
-        # colSums(z) == colSums(r2)
-        r2 <- z
-      }
-      result$LCI_d <- rbind(r1, r2 + r3) # Term 2 and Term 3 are assigned to RoW
-    } else {
-      result$LCI_d <- r1 + r2 + r3 # All three terms combined and regions do not change
-    }  
-    # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
-    logging::loginfo("Calculating Direct Perspective LCIA with external import factors...")
-    result$LCIA_d <- model$C %*% t(result$LCI_d)
-    result$LCIA_d <- t(result$LCIA_d)
-    
-    colnames(result$LCI_d) <- rownames(model$M_m)
-    rownames(result$LCI_d) <- row_names    
-    colnames(result$LCIA_d) <- rownames(model$D)
-    rownames(result$LCIA_d) <- row_names
-
-    # Add household emissions to results if applicable
-    if(household_emissions) {
-      result$LCI_d <- rbind(result$LCI_d, hh)
-      result$LCIA_d <- rbind(result$LCIA_d, hh_lcia)
-    }
+    r1 <- t(calculateDirectPerspectiveLCI(model$B, s))
+    r2 <- t(calculateDirectPerspectiveLCI(model$M_m, (model$A_m %*% model$L_d %*% y_d)))
   }
-  
+  r3 <- model$M_m %*% diag(as.vector(y_m))
+
+  if (use_domestic_requirements) {
+    # zero out the import results
+    r2[] <- 0
+    r3[] <- 0
+  }
+    
+  if(show_RoW) {
+    if(model$specs$IODataSource=="stateior") {
+      # collapse third term for SoI and RoUS
+      r3 <- r3[, 1:sector_count] + r3[, (sector_count+1):(sector_count*2)]
+      
+      if(perspective == "DIRECT") {
+        # collapse second and third term for SoI and RoUS
+        r2 <- r2[, 1:sector_count] + r2[, (sector_count+1):(sector_count*2)]
+      }
+    }
+    if(perspective == "DIRECT") {
+      LCI <- cbind(r1, r2 + r3) # Term 2 and Term 3 are assigned to RoW
+    } else {
+      LCI <- cbind(r1 + r2, r3) # Term 3 is assigned to RoW
+    }
+  } else {
+    LCI <- r1 + r2 + r3 # All three terms combined and regions do not change 
+  }
+    
+  # Calculate LCIA (matrix with direct impacts in form of sector x impacts)
+  LCIA <- model$C %*% LCI
+  LCI <- t(LCI)
+  LCIA <- t(LCIA)
+    
+  colnames(LCI) <- rownames(model$M_m)
+  rownames(LCI) <- row_names
+  colnames(LCIA) <- rownames(model$D)
+  rownames(LCIA) <- row_names
+    
+  # Add household emissions to results if applicable
+  if(household_emissions) {
+    LCI <- rbind(LCI, hh)
+    LCIA <- rbind(LCIA, hh_lcia)
+  }
+  result[[paste0("LCI_", subscript)]] <- LCI
+  result[[paste0("LCIA_", subscript)]] <- LCIA
   return(result)
   
 }
