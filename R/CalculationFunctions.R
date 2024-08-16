@@ -141,8 +141,9 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   
   if(show_RoW) {
     if(model$specs$IODataSource=="stateior") {
+      sector_count <- nrow(y_d)/2
       row_names <- c(colnames(model$M_m),
-                     gsub("/.*", "/RoW", colnames(model$M_m[, 1:(nrow(y_d)/2)])))
+                     gsub("/.*", "/RoW", colnames(model$M_m[, 1:sector_count])))
     } else {
       row_names <- c(colnames(model$M_m),
                      gsub("/.*", "/RoW", colnames(model$M_m)))
@@ -155,12 +156,12 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Final Perspective LCI with external import factors...")
     
-    # parentheses used to denote (domestic) and (import) components
     r1 <- model$B %*% model$L_d %*% diag(as.vector(y_d))
     r2 <- model$M_m %*% model$A_m %*% model$L_d %*% diag(as.vector(y_d))
     r3 <- model$M_m %*% diag(as.vector(y_m))
     
     if (use_domestic_requirements) {
+      # zero out the import results
       r2[] <- 0
       r3[] <- 0
     }
@@ -168,13 +169,13 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     if(show_RoW) {
       if(model$specs$IODataSource=="stateior") {
         # collapse third term for SoI and RoUS
-        z <- r3[, 1:(ncol(r3)/2)] + r3[, ((ncol(r3)/2)+1):ncol(r3)]
+        z <- r3[, 1:sector_count] + r3[, (sector_count+1):(sector_count*2)]
         # rowSums(z) == rowSums(r3)
         r3 <- z
       }
       result$LCI_f <- cbind(r1 + r2, r3) # Term 3 is assigned to RoW  
     } else {
-      result$LCI_f <- r1 + r2 + r3 # Term 3 is assigned to RoW  
+      result$LCI_f <- r1 + r2 + r3 # All three terms combined and regions do not change 
     }
     
     # Calculate Final Perspective LCIA (matrix with direct impacts in form of sector x impacts)
@@ -204,6 +205,7 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     r3 <- t(model$M_m %*% diag(as.vector(y_m))) # Emissions from imported goods consumed as final products
     
     if (use_domestic_requirements) {
+      # zero out the import results
       r2[] <- 0
       r3[] <- 0
     }
@@ -211,10 +213,10 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     if(show_RoW) {
       if(model$specs$IODataSource=="stateior") {
         # collapse second and third term for SoI and RoUS
-        z <- r3[1:(nrow(r3)/2), ] + r3[((nrow(r3)/2)+1):nrow(r3), ]
+        z <- r3[1:sector_count, ] + r3[(sector_count+1):(sector_count*2), ]
         # colSums(z) == colSums(r3)
         r3 <- z
-        z <- r2[1:(nrow(r2)/2), ] + r2[((nrow(r2)/2)+1):nrow(r2), ]
+        z <- r2[1:sector_count, ] + r2[(sector_count+1):(sector_count*2), ]
         # colSums(z) == colSums(r2)
         r2 <- z
       }
