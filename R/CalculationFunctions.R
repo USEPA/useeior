@@ -133,12 +133,7 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   result <- list()
   y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
   y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
-  
-  if(household_emissions) {
-    hh <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=FALSE)
-    hh_lcia <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=TRUE)
-  }
-  
+
   if(show_RoW) {
     if(model$specs$IODataSource=="stateior") {
       sector_count <- nrow(y_d)/2
@@ -211,6 +206,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     
   # Add household emissions to results if applicable
   if(household_emissions) {
+    hh <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=FALSE)
+    hh_lcia <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=TRUE)
     LCI <- rbind(LCI, hh)
     LCIA <- rbind(LCIA, hh_lcia)
   }
