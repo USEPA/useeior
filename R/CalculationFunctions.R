@@ -559,6 +559,10 @@ calculateHouseholdEmissions <- function(model, f, location, characterized=FALSE)
     logging::logwarn("Household emissions not found in this model")
     return(NULL)
   }
+  if(length(model$specs$ModelRegionAcronyms) == 1) {
+    # Set location as NULL for single region model
+    location <- NULL
+  }
   codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
   if (!is.null(location)) {
     other_code <- codes[!grepl(location, codes)]
