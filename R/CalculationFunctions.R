@@ -14,7 +14,7 @@
 #' if FALSE, use complete demand and L matrix.
 #' @param household_emissions, bool, if TRUE, include calculation of emissions from households
 #' @param show_RoW, bool, if TRUE, include rows for commodities in RoW, e.g. `111CA/RoW` in result objects.
-#'  Only valid currently for models with ExternalImportFactors. 
+#' Only valid currently for models with ExternalImportFactors.
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL,
@@ -125,6 +125,7 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements bool, if TRUE, return only domestic portion of results
 #' @param household_emissions, bool, if TRUE, include calculation of emissions from households
+#' @param show_RoW, bool, if TRUE, include rows for commodities in RoW, e.g. `111CA/RoW` in result objects.
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", demand = "Consumption", location = NULL,
                                                 use_domestic_requirements = FALSE, household_emissions = FALSE,
