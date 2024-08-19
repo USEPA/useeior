@@ -4,7 +4,13 @@
 \alias{calculateHouseholdEmissions}
 \title{Calculate household emissions from B_h}
 \usage{
-calculateHouseholdEmissions(model, f, location, characterized = FALSE)
+calculateHouseholdEmissions(
+  model,
+  f,
+  location,
+  characterized = FALSE,
+  show_RoW = FALSE
+)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
@@ -15,6 +21,9 @@ numeric values in USD with the same dollar year as model.}
 \item{location, }{str optional location code for demand vector, required for two-region models}
 
 \item{characterized, }{bool, TRUE to characterize using C matrix, FALSE to show LCI}
+
+\item{show_RoW, }{bool, if TRUE, include rows for commodities in RoW, e.g. `111CA/RoW` in result objects.
+Only valid currently for models with ExternalImportFactors.}
 }
 \value{
 A result vector with rows for final demand sector(s)

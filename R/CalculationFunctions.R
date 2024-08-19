@@ -13,14 +13,16 @@
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
 #' @param household_emissions, bool, if TRUE, include calculation of emissions from households
+#' @param show_RoW, bool, if TRUE, include rows for commodities in RoW, e.g. `111CA/RoW` in result objects.
+#' Only valid currently for models with ExternalImportFactors.
 #' @export
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateEEIOModel <- function(model, perspective, demand = "Production", location = NULL,
-                               use_domestic_requirements = FALSE, household_emissions = FALSE) {
+                               use_domestic_requirements = FALSE, household_emissions = FALSE, show_RoW = FALSE) {
   if (!is.null(model$specs$ExternalImportFactors) && model$specs$ExternalImportFactors) {
     result <- calculateResultsWithExternalFactors(model, perspective, demand, location = location,
                                                   use_domestic_requirements = use_domestic_requirements,
-                                                  household_emissions = household_emissions)
+                                                  household_emissions = household_emissions, show_RoW = show_RoW)
   } else {
     # Standard model results calculation
     f <- prepareDemandVectorForStandardResults(model, demand, location, use_domestic_requirements)
@@ -123,82 +125,94 @@ prepareDemandVectorForImportResults <- function(model, demand = "Production", lo
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param use_domestic_requirements bool, if TRUE, return only domestic portion of results
 #' @param household_emissions, bool, if TRUE, include calculation of emissions from households
+#' @param show_RoW, bool, if TRUE, include rows for commodities in RoW, e.g. `111CA/RoW` in result objects.
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
 calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", demand = "Consumption", location = NULL,
-                                                use_domestic_requirements = FALSE, household_emissions = FALSE) {
+                                                use_domestic_requirements = FALSE, household_emissions = FALSE,
+                                                show_RoW = FALSE) {
   result <- list()
   y_d <- prepareDemandVectorForStandardResults(model, demand, location = location, use_domestic_requirements = TRUE)
   y_m <- prepareDemandVectorForImportResults(model, demand, location = location)
-  
-  if(household_emissions) {
-    hh <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=FALSE)
-    hh_lcia <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=TRUE)
+
+  if(show_RoW) {
+    if(model$specs$IODataSource=="stateior") {
+      sector_count <- nrow(y_d)/2
+      row_names <- c(colnames(model$M_m),
+                     gsub("/.*", "/RoW", colnames(model$M_m[, 1:sector_count])))
+    } else {
+      row_names <- c(colnames(model$M_m),
+                     gsub("/.*", "/RoW", colnames(model$M_m)))
+    }
+  } else {
+    row_names <- colnames(model$M_m)
   }
-  
-  # Calculate Final perspective results
+
+  ## Description of result components apply to both FINAL and DIRECT perspectives
+  # r1 - Domestic emissions from domestic production
+  # r2 - Emissions from imported goods consumed as intermediate products
+  # r3 - Emissions from imported goods consumed as final products
+
   if(perspective == "FINAL") {
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
-    logging::loginfo("Calculating Final Perspective LCI with external import factors...")
-    
-    # parentheses used to denote (domestic) and (import) components
+    logging::loginfo("Calculating Final Perspective LCI and LCIA with external import factors...")
+    subscript <- "f"
     r1 <- model$B %*% model$L_d %*% diag(as.vector(y_d))
     r2 <- model$M_m %*% model$A_m %*% model$L_d %*% diag(as.vector(y_d))
-    r3 <- model$M_m %*% diag(as.vector(y_m))
-    
-    if (use_domestic_requirements) {
-      result$LCI_f <- r1
-    } else {
-      result$LCI_f <- r1 + r2 + r3
-    }
-    # Calculate Final Perspective LCIA (matrix with direct impacts in form of sector x impacts)
-    logging::loginfo("Calculating Final Perspective LCIA with external import factors...")
-    result$LCIA_f <- model$C %*% result$LCI_f
-    result$LCI_f <- t(result$LCI_f)
-    result$LCIA_f <- t(result$LCIA_f)
-    
-    colnames(result$LCI_f) <- rownames(model$M_m)
-    rownames(result$LCI_f) <- colnames(model$M_m)
-    colnames(result$LCIA_f) <- rownames(model$D)
-    rownames(result$LCIA_f) <- colnames(model$D)
-    
-    # Add household emissions to results if applicable
-    if(household_emissions) {
-      result$LCI_f <- rbind(result$LCI_f, hh)
-      result$LCIA_f <- rbind(result$LCIA_f, hh_lcia)
-    }
-    
+
   } else { # Calculate direct perspective results.
     # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
-    logging::loginfo("Calculating Direct + Imported Perspective LCI with external import factors...")
+    logging::loginfo("Calculating Direct + Imported Perspective LCI and LCIA with external import factors...")
+    subscript <- "d"
     s <- getScalingVector(model$L_d, y_d)
-
-    r1 <- calculateDirectPerspectiveLCI(model$B, s) # Domestic emissions from domestic production
-    r2 <- calculateDirectPerspectiveLCI(model$M_m, (model$A_m %*% model$L_d %*% y_d)) # Emissions from imported goods consumed as intermediate products
-    r3 <- t(model$M_m %*% diag(as.vector(y_m))) # Emissions from imported goods consumed as final products
-    
-    if (use_domestic_requirements) {
-      result$LCI_d <- r1
-    } else {
-      result$LCI_d <- r1 + r2 + r3
-    }
-
-    # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
-    logging::loginfo("Calculating Direct Perspective LCIA with external import factors...")
-    result$LCIA_d <- model$C %*% t(result$LCI_d)
-    result$LCIA_d <- t(result$LCIA_d)
-    
-    colnames(result$LCI_d) <- rownames(model$M_m)
-    rownames(result$LCI_d) <- colnames(model$M_m)    
-    colnames(result$LCIA_d) <- rownames(model$D)
-    rownames(result$LCIA_d) <- colnames(model$D)
-
-    # Add household emissions to results if applicable
-    if(household_emissions) {
-      result$LCI_d <- rbind(result$LCI_d, hh)
-      result$LCIA_d <- rbind(result$LCIA_d, hh_lcia)
-    }
+    r1 <- t(calculateDirectPerspectiveLCI(model$B, s))
+    r2 <- t(calculateDirectPerspectiveLCI(model$M_m, (model$A_m %*% model$L_d %*% y_d)))
   }
-  
+  r3 <- model$M_m %*% diag(as.vector(y_m))
+
+  if (use_domestic_requirements) {
+    # zero out the import results
+    r2[] <- 0
+    r3[] <- 0
+  }
+    
+  if(show_RoW) {
+    if(model$specs$IODataSource=="stateior") {
+      # collapse third term for SoI and RoUS
+      r3 <- r3[, 1:sector_count] + r3[, (sector_count+1):(sector_count*2)]
+      
+      if(perspective == "DIRECT") {
+        # collapse second and third term for SoI and RoUS
+        r2 <- r2[, 1:sector_count] + r2[, (sector_count+1):(sector_count*2)]
+      }
+    }
+    if(perspective == "DIRECT") {
+      LCI <- cbind(r1, r2 + r3) # Term 2 and Term 3 are assigned to RoW
+    } else {
+      LCI <- cbind(r1 + r2, r3) # Term 3 is assigned to RoW
+    }
+  } else {
+    LCI <- r1 + r2 + r3 # All three terms combined and regions do not change 
+  }
+    
+  # Calculate LCIA (matrix with direct impacts in form of sector x impacts)
+  LCIA <- model$C %*% LCI
+  LCI <- t(LCI)
+  LCIA <- t(LCIA)
+    
+  colnames(LCI) <- rownames(model$M_m)
+  rownames(LCI) <- row_names
+  colnames(LCIA) <- rownames(model$D)
+  rownames(LCIA) <- row_names
+    
+  # Add household emissions to results if applicable
+  if(household_emissions) {
+    hh <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=FALSE, show_RoW=show_RoW)
+    hh_lcia <- calculateHouseholdEmissions(model, f=(y_d + y_m), location, characterized=TRUE, show_RoW=show_RoW)
+    LCI <- rbind(LCI, hh)
+    LCIA <- rbind(LCIA, hh_lcia)
+  }
+  result[[paste0("LCI_", subscript)]] <- LCI
+  result[[paste0("LCIA_", subscript)]] <- LCIA
   return(result)
   
 }
@@ -513,11 +527,17 @@ calculateMarginSectorImpacts <- function(model) {
 #' numeric values in USD with the same dollar year as model.
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param characterized, bool, TRUE to characterize using C matrix, FALSE to show LCI
+#' @param show_RoW, bool, if TRUE, include rows for commodities in RoW, e.g. `111CA/RoW` in result objects.
+#' Only valid currently for models with ExternalImportFactors.
 #' @return A result vector with rows for final demand sector(s)
-calculateHouseholdEmissions <- function(model, f, location, characterized=FALSE) {
+calculateHouseholdEmissions <- function(model, f, location, characterized=FALSE, show_RoW=FALSE) {
   if(!"B_h" %in% names(model)) {
     logging::logwarn("Household emissions not found in this model")
     return(NULL)
+  }
+  if(length(model$specs$ModelRegionAcronyms) == 1) {
+    # Set location as NULL for single region model
+    location <- NULL
   }
   codes <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household"), "Code_Loc"]
   if (!is.null(location)) {
@@ -532,10 +552,17 @@ calculateHouseholdEmissions <- function(model, f, location, characterized=FALSE)
   }
   rownames(hh) <- codes
 
+  # Create a matrix of 0 values for potential addition to household emissions matrix
+  mat <- matrix(0, nrow=nrow(hh), ncol=ncol(hh))
+  
   if(!is.null(location)) {
-    # add in 0 values for 2nd location for household emissions
-    mat <- matrix(0, nrow=nrow(hh), ncol=ncol(hh))
+    # add in 0 values for RoUS
     rownames(mat) <- other_code
+    hh <- rbind(hh, mat)
+  }
+  if(show_RoW) {
+    # add in 0 values for RoW
+    rownames(mat) <- gsub("/.*", "/RoW", codes)
     hh <- rbind(hh, mat)
   }
   return(hh)
