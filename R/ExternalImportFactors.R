@@ -100,7 +100,7 @@ castImportFactors <- function(IFTable, model) {
 buildModelwithImportFactors <- function(model, configpaths = NULL) {
   # (see Palm et al. 2019)
 
-  logging::loginfo("Building Import A (A_m) accounting for ITA in Domestic FD.\n")
+  logging::loginfo("Building A_m (import requirements) accounting for international trade adjustment in domestic final demand.\n")
   # Re-derive import values in Use and final demand
   # _m denotes import-related structures
   model$UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
@@ -126,5 +126,38 @@ buildModelwithImportFactors <- function(model, configpaths = NULL) {
   
   model$M_m <- M_m
   
+  model$M <- deriveMMatrix(model)
+  
   return(model)
+}
+
+#' Derives an aggregate M matrix from M_d and M_m based on the Consumption demand vector and
+#' FINAL perspective. Results from this M matrix match those calculated using the Import Emission
+#' Factors when using the Consumption demand vector and FINAL perspective.
+#' @param model, An EEIO model object with model specs and crosswalk table loaded
+#' @return An M matrix of flows x sector
+deriveMMatrix <- function(model) {
+  y <- prepareDemandVectorForStandardResults(model, demand="Consumption",
+                                             location=model$specs$ModelRegionAcronyms[1],
+                                             use_domestic_requirements=FALSE)
+  y_d  <- prepareDemandVectorForStandardResults(model, demand="Consumption",
+                                                location=model$specs$ModelRegionAcronyms[1],
+                                                use_domestic_requirements=TRUE)
+  y_m <- prepareDemandVectorForImportResults(model, demand="Consumption",
+                                             location=model$specs$ModelRegionAcronyms[1])
+  if(!all.equal(y, y_d+y_m)) {
+    stop("Error in calculating demand for coupled model approach")
+  }
+  logging::loginfo("Deriving M matrix (total emissions and resource use per dollar) consistent with the FINAL perspective ...")
+  result <- calculateResultsWithExternalFactors(model, demand="Consumption", perspective="FINAL",
+                                                location=model$specs$ModelRegionAcronyms[1])[["LCI_f"]]
+  # Derive M by dividing the result by the final demand
+  M <- t(result) %*% solve(diag(as.vector(replace(y, y == 0 , 1))))
+  colnames(M) <- colnames(model$M_d)
+  result2 <- calculateFinalPerspectiveLCI(M, y)
+  if(!all.equal(result, result2)) {
+    stop("Error deriving M matrix for coupled model approach")
+  }
+
+  return(M)
 }
