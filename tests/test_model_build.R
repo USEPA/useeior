@@ -130,7 +130,7 @@ model <- buildModel(m)
 printValidationResults(model)
 
 ## StateEEIOv1.0 Two-region Summary model
-m <- "GAEEIOv1.0-s-GHG-19"
+m <- "GAEEIOv1.0-GHG-19"
 cfg <- paste0("modelspecs/", m, ".yml")
 model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
@@ -141,12 +141,12 @@ model <- buildIOModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 writeModeltoXLSX(model, ".")
 
-## StateEEIOv1.0 Two-region Summary model with Import Factors
+## StateEEIOv1.1 Two-region Summary model with Import Factors
 cfg <- c(paste0("modelspecs/", m, ".yml"),
          "US_summary_import_factors_exio_2019_17sch.csv"
          )
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
-model$specs$Model <- "GAEEIOv1.0-s-GHG-19-IF"
+model$specs$Model <- "GAEEIOv1.1-GHG-19-IF"
 model$specs$ExternalImportFactors <- TRUE
 model$specs$ImportFactors <- list()
 model$specs$ImportFactors$StaticFile <- "useeior/US_summary_import_factors_exio_2019_17sch.csv"

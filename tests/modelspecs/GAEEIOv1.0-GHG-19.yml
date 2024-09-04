@@ -1,4 +1,4 @@
-Model: "GAEEIOv1.0-s-GHG-19"
+Model: "GAEEIOv1.0-GHG-19"
 BaseIOSchema: 2012
 BaseIOLevel: "Summary"
 IOYear: 2019 # Year for IO data
