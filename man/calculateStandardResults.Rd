@@ -8,7 +8,7 @@ that does not have external import factors for a given perspective and demand ve
 calculateStandardResults(
   model,
   perspective,
-  f,
+  demand,
   use_domestic_requirements = FALSE,
   location = NULL,
   household_emissions = FALSE
@@ -21,7 +21,8 @@ calculateStandardResults(
 aligns results with the sectors in which they are produced, while "FINAL" perspective aligns
 results with the sectors consumed by the final user.}
 
-\item{f}{A demand vector with names as one or more model sectors and
+\item{demand}{A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
+or an actual demand vector with names as one or more model sectors and
 numeric values in USD with the same dollar year as model.}
 
 \item{use_domestic_requirements}{A logical value: if TRUE, use domestic demand and L_d matrix;

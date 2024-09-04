@@ -25,8 +25,7 @@ calculateEEIOModel <- function(model, perspective, demand = "Production", locati
                                                   household_emissions = household_emissions, show_RoW = show_RoW)
   } else {
     # Standard model results calculation
-    f <- prepareDemandVectorForStandardResults(model, demand, location, use_domestic_requirements)
-    result <- calculateStandardResults(model, perspective, f, use_domestic_requirements, location, household_emissions)
+    result <- calculateStandardResults(model, perspective, demand, use_domestic_requirements, location, household_emissions)
   }
   
   logging::loginfo("Result calculation complete.")
@@ -224,15 +223,17 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
 #' @param perspective Perspective of the model, can be "DIRECT" or "FINAL". "DIRECT" perspective
 #' aligns results with the sectors in which they are produced, while "FINAL" perspective aligns
 #' results with the sectors consumed by the final user.
-#' @param f A demand vector with names as one or more model sectors and
+#' @param demand A demand vector, can be name of a built-in model demand vector, e.g. "Production" or "Consumption",
+#' or an actual demand vector with names as one or more model sectors and
 #' numeric values in USD with the same dollar year as model.
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
 #' @param location, str optional location code for demand vector, required for two-region models
 #' @param household_emissions, bool, if TRUE, include calculation of emissions from households
 #' @return A list with LCI and LCIA results (in data.frame format) of the EEIO model.
-calculateStandardResults <- function(model, perspective, f, use_domestic_requirements = FALSE,
+calculateStandardResults <- function(model, perspective, demand, use_domestic_requirements = FALSE,
                                      location = NULL, household_emissions = FALSE) {
+  f <- prepareDemandVectorForStandardResults(model, demand, location, use_domestic_requirements)
   # Initialize results list
   result <- list() 
   # Generate Total Requirements (L or L_d) matrix based on whether "use_domestic"
