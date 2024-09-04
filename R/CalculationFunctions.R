@@ -147,50 +147,51 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   }
 
   ## Description of result components apply to both FINAL and DIRECT perspectives
-  # r1 - Domestic emissions from domestic production
-  # r2 - Emissions from imported goods consumed as intermediate products
-  # r3 - Emissions from imported goods consumed as final products
+  # see equations 4-7 and 9-12 in EPA 600/R-24/116
+  # G_d - Domestic emissions from domestic production
+  # G_mi - Emissions from imported goods consumed as intermediate products by domestic industries
+  # G_mf - Emissions from imported goods consumed as final products
 
   if(perspective == "FINAL") {
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Final Perspective LCI and LCIA with external import factors...")
-    subscript <- "f"
-    r1 <- model$B %*% model$L_d %*% diag(as.vector(y_d))
-    r2 <- model$M_m %*% model$A_m %*% model$L_d %*% diag(as.vector(y_d))
+    subscript <- "l"
+    G_d <- model$B %*% model$L_d %*% diag(as.vector(y_d))
+    G_mi <- model$M_m %*% model$A_m %*% model$L_d %*% diag(as.vector(y_d))
 
   } else { # Calculate direct perspective results.
     # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Direct + Imported Perspective LCI and LCIA with external import factors...")
-    subscript <- "d"
+    subscript <- "r"
     s <- getScalingVector(model$L_d, y_d)
-    r1 <- t(calculateDirectPerspectiveLCI(model$B, s))
-    r2 <- t(calculateDirectPerspectiveLCI(model$M_m, (model$A_m %*% model$L_d %*% y_d)))
+    G_d <- t(calculateDirectPerspectiveLCI(model$B, s))
+    G_mi <- t(calculateDirectPerspectiveLCI(model$M_m, (model$A_m %*% model$L_d %*% y_d)))
   }
-  r3 <- model$M_m %*% diag(as.vector(y_m))
+  G_mf <- model$M_m %*% diag(as.vector(y_m))
 
   if (use_domestic_requirements) {
     # zero out the import results
-    r2[] <- 0
-    r3[] <- 0
+    G_mi[] <- 0
+    G_mf[] <- 0
   }
     
   if(show_RoW) {
     if(model$specs$IODataSource=="stateior") {
       # collapse third term for SoI and RoUS
-      r3 <- r3[, 1:sector_count] + r3[, (sector_count+1):(sector_count*2)]
+      G_mf <- G_mf[, 1:sector_count] + G_mf[, (sector_count+1):(sector_count*2)]
       
       if(perspective == "DIRECT") {
         # collapse second and third term for SoI and RoUS
-        r2 <- r2[, 1:sector_count] + r2[, (sector_count+1):(sector_count*2)]
+        G_mi <- G_mi[, 1:sector_count] + G_mi[, (sector_count+1):(sector_count*2)]
       }
     }
     if(perspective == "DIRECT") {
-      LCI <- cbind(r1, r2 + r3) # Term 2 and Term 3 are assigned to RoW
+      LCI <- cbind(G_d, G_mi + G_mf) # Term 2 and Term 3 are assigned to RoW
     } else {
-      LCI <- cbind(r1 + r2, r3) # Term 3 is assigned to RoW
+      LCI <- cbind(G_d + G_mi, G_mf) # Term 3 is assigned to RoW
     }
   } else {
-    LCI <- r1 + r2 + r3 # All three terms combined and regions do not change 
+    LCI <- G_d + G_mi + G_mf # All three terms combined and regions do not change 
   }
     
   # Calculate LCIA (matrix with direct impacts in form of sector x impacts)
