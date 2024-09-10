@@ -135,14 +135,14 @@ buildModelwithImportFactors <- function(model, configpaths = NULL) {
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return An M matrix of flows x sector
 deriveMMatrix <- function(model) {
-  # logging::loginfo("Deriving M matrix (total emissions and resource use per dollar) ...")
+  logging::loginfo("Deriving M matrix (total emissions and resource use per dollar) ...")
   q <- model$q
   loc <- grepl(model$specs$ModelRegionAcronyms[1], model$FinalDemandMeta$Code_Loc)
   import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
   # derive total imports (m) from the Use table
   U_m <- model$U - model$U_d
   # Exclude imports col when calculating total imports
-  m <- head(rowSums(U_m[, !(colnames(U_m) %in% import_code)]), -3) # drop VA
+  m <- rowSums(U_m[model$Commodities$Code_Loc, !(colnames(U_m) %in% import_code)]) # drop VA
   
   dr <- q / (q + m)
   mr <- 1 - dr
