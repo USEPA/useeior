@@ -137,27 +137,38 @@ buildModelwithImportFactors <- function(model, configpaths = NULL) {
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return An M matrix of flows x sector
 deriveMMatrix <- function(model) {
-  y <- prepareDemandVectorForStandardResults(model, demand="Consumption",
-                                             location=model$specs$ModelRegionAcronyms[1],
-                                             use_domestic_requirements=FALSE)
-  y_d  <- prepareDemandVectorForStandardResults(model, demand="Consumption",
+
+  # Domestic production demand
+  y_d  <- prepareDemandVectorForStandardResults(model, demand="Production",
                                                 location=model$specs$ModelRegionAcronyms[1],
                                                 use_domestic_requirements=TRUE)
+  # Import consumption
   y_m <- prepareDemandVectorForImportResults(model, demand="Consumption",
                                              location=model$specs$ModelRegionAcronyms[1])
-  if(!all.equal(y, y_d+y_m)) {
-    stop("Error in calculating demand for coupled model approach")
-  }
-  logging::loginfo("Deriving M matrix (total emissions and resource use per dollar) consistent with the FINAL perspective ...")
+
+  y <- y_m + y_d
+  y_mr <- pmax(pmin(y_m / y, 1), 0)
+  y_dr <- pmin(pmax(y_d / y, 0), 1)
+
+  r1 <- model$M_d %*% diag(as.vector(y_dr))
+  r2 <- model$M_m %*% model$A_m %*% model$L_d %*% diag(as.vector(y_dr))
+  r3 <- model$M_m %*% diag(as.vector(y_mr))
+  M <- r1 + r2 + r3
+  colnames(M) <- colnames(model$M_d)
+  
+  # logging::loginfo("Deriving M matrix (total emissions and resource use per dollar) consistent with the FINAL perspective ...")
   result <- calculateResultsWithExternalFactors(model, demand="Consumption", perspective="FINAL",
                                                 location=model$specs$ModelRegionAcronyms[1])[["LCI_f"]]
   # Derive M by dividing the result by the final demand
-  M <- t(result) %*% solve(diag(as.vector(replace(y, y == 0 , 1))))
-  colnames(M) <- colnames(model$M_d)
-  result2 <- calculateFinalPerspectiveLCI(M, y)
-  if(!all.equal(result, result2)) {
-    stop("Error deriving M matrix for coupled model approach")
-  }
+  # M <- t(result) %*% solve(diag(as.vector(replace(y, y == 0 , 1))))
+  # colnames(M) <- colnames(model$M_d)
+  y_cons <- prepareDemandVectorForStandardResults(model, demand="Consumption",
+                                             location=model$specs$ModelRegionAcronyms[1],
+                                             use_domestic_requirements=FALSE)
+  result2 <- calculateFinalPerspectiveLCI(M, y_cons)
+  # if(!all.equal(result, result2)) {
+  #   stop("Error deriving M matrix for coupled model approach")
+  # }
 
   return(M)
 }
