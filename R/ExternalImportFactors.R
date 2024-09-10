@@ -131,44 +131,29 @@ buildModelwithImportFactors <- function(model, configpaths = NULL) {
   return(model)
 }
 
-#' Derives an aggregate M matrix from M_d and M_m based on the Consumption demand vector and
-#' FINAL perspective. Results from this M matrix match those calculated using the Import Emission
-#' Factors when using the Consumption demand vector and FINAL perspective.
+#' Derives an aggregate M matrix from M_d and M_m based on the ratio of commodity output to total imports.
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @return An M matrix of flows x sector
 deriveMMatrix <- function(model) {
-
-  # Domestic production demand
-  y_d  <- prepareDemandVectorForStandardResults(model, demand="Production",
-                                                location=model$specs$ModelRegionAcronyms[1],
-                                                use_domestic_requirements=TRUE)
-  # Import consumption
-  y_m <- prepareDemandVectorForImportResults(model, demand="Consumption",
-                                             location=model$specs$ModelRegionAcronyms[1])
-
-  y <- y_m + y_d
-  y_mr <- pmax(pmin(y_m / y, 1), 0)
-  y_dr <- pmin(pmax(y_d / y, 0), 1)
-
-  r1 <- model$M_d %*% diag(as.vector(y_dr))
-  r2 <- model$M_m %*% model$A_m %*% model$L_d %*% diag(as.vector(y_dr))
-  r3 <- model$M_m %*% diag(as.vector(y_mr))
-  M <- r1 + r2 + r3
+  # logging::loginfo("Deriving M matrix (total emissions and resource use per dollar) ...")
+  q <- model$q
+  loc <- grepl(model$specs$ModelRegionAcronyms[1], model$FinalDemandMeta$Code_Loc)
+  import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
+  y_m <- sumDemandCols(model$FinalDemand, import_code)
+  
+  dr <- q / (q + abs(y_m))
+  mr <- 1 - dr
+  # Derive M by taking the ratio of domestic vs imported goods
+  M <- model$M_d %*% diag(as.vector(dr)) + model$M_m %*% diag(as.vector(mr))
   colnames(M) <- colnames(model$M_d)
   
-  # logging::loginfo("Deriving M matrix (total emissions and resource use per dollar) consistent with the FINAL perspective ...")
-  result <- calculateResultsWithExternalFactors(model, demand="Consumption", perspective="FINAL",
-                                                location=model$specs$ModelRegionAcronyms[1])[["LCI_f"]]
-  # Derive M by dividing the result by the final demand
-  # M <- t(result) %*% solve(diag(as.vector(replace(y, y == 0 , 1))))
-  # colnames(M) <- colnames(model$M_d)
-  y_cons <- prepareDemandVectorForStandardResults(model, demand="Consumption",
-                                             location=model$specs$ModelRegionAcronyms[1],
-                                             use_domestic_requirements=FALSE)
-  result2 <- calculateFinalPerspectiveLCI(M, y_cons)
-  # if(!all.equal(result, result2)) {
-  #   stop("Error deriving M matrix for coupled model approach")
-  # }
+  # result <- calculateResultsWithExternalFactors(model, demand="Consumption", perspective="FINAL",
+  #                                               location=model$specs$ModelRegionAcronyms[1])[["LCI_f"]]
+  # model2 <- model
+  # model2$M <- M
+  # model2$N <- model$C %*% M
+  # result2 <- calculateStandardResults(model2, demand="Consumption", perspective="FINAL",
+  #                                     location=model$specs$ModelRegionAcronyms[1])[["LCI_f"]]
 
   return(M)
 }

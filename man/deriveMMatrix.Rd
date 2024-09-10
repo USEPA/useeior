@@ -2,9 +2,7 @@
 % Please edit documentation in R/ExternalImportFactors.R
 \name{deriveMMatrix}
 \alias{deriveMMatrix}
-\title{Derives an aggregate M matrix from M_d and M_m based on the Consumption demand vector and
-FINAL perspective. Results from this M matrix match those calculated using the Import Emission
-Factors when using the Consumption demand vector and FINAL perspective.}
+\title{Derives an aggregate M matrix from M_d and M_m based on the ratio of commodity output to total imports.}
 \usage{
 deriveMMatrix(model)
 }
@@ -15,7 +13,5 @@ deriveMMatrix(model)
 An M matrix of flows x sector
 }
 \description{
-Derives an aggregate M matrix from M_d and M_m based on the Consumption demand vector and
-FINAL perspective. Results from this M matrix match those calculated using the Import Emission
-Factors when using the Consumption demand vector and FINAL perspective.
+Derives an aggregate M matrix from M_d and M_m based on the ratio of commodity output to total imports.
 }
