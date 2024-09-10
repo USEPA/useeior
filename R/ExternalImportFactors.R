@@ -139,21 +139,16 @@ deriveMMatrix <- function(model) {
   q <- model$q
   loc <- grepl(model$specs$ModelRegionAcronyms[1], model$FinalDemandMeta$Code_Loc)
   import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import" & loc, "Code_Loc"]
-  y_m <- sumDemandCols(model$FinalDemand, import_code)
+  # derive total imports (m) from the Use table
+  U_m <- model$U - model$U_d
+  # Exclude imports col when calculating total imports
+  m <- head(rowSums(U_m[, !(colnames(U_m) %in% import_code)]), -3) # drop VA
   
-  dr <- q / (q + abs(y_m))
+  dr <- q / (q + m)
   mr <- 1 - dr
   # Derive M by taking the ratio of domestic vs imported goods
   M <- model$M_d %*% diag(as.vector(dr)) + model$M_m %*% diag(as.vector(mr))
   colnames(M) <- colnames(model$M_d)
-  
-  # result <- calculateResultsWithExternalFactors(model, demand="Consumption", perspective="FINAL",
-  #                                               location=model$specs$ModelRegionAcronyms[1])[["LCI_f"]]
-  # model2 <- model
-  # model2$M <- M
-  # model2$N <- model$C %*% M
-  # result2 <- calculateStandardResults(model2, demand="Consumption", perspective="FINAL",
-  #                                     location=model$specs$ModelRegionAcronyms[1])[["LCI_f"]]
 
   return(M)
 }
