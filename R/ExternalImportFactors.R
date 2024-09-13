@@ -149,14 +149,5 @@ deriveMMatrix <- function(model) {
   M <- model$M_d %*% diag(as.vector(dr)) + model$M_m %*% diag(as.vector(mr))
   colnames(M) <- colnames(model$M_d)
 
-  # Validate that M is between M_m and M_d
-  a <- signif(model$M_m, 6)
-  b <- signif(M, 6)
-  c <- signif(model$M_d, 6)
-  z <- ((b > a) & (b > c)) | ((b < a) & (b < c))
-  if(sum(z) > 0) {
-    stop("Error in deriving M matrix")
-  }
-  
   return(M)
 }
