@@ -4,18 +4,12 @@
 #' @param model An EEIO form USEEIO model object with model specs loaded
 #' @param configpaths str vector, paths (including file name) of model configuration file.
 #' If NULL, built-in config files are used.
-#' @return Q_t, matrix of import coefficients (flow x sector).
+#' @return M_m, matrix of import coefficients (flow x sector).
 loadExternalImportFactors <- function(model, configpaths = NULL) {
   IFTable <- readImportFactorTable(IFSpec=model$specs$ImportFactors, configpaths=configpaths)
   IFTable <- processImportFactors(model, IFTable)
-  Q_t <- standardizeandcastSatelliteTable(IFTable, model)
-  # standardizeandcast prepares df for industries, convert to commodities
-  Q_t[, setdiff(model$Commodities$Code_Loc, colnames(Q_t))] <- 0
-  # Adjust column order to be the same with V_n rownames
-  Q_t <- Q_t[, model$Commodities$Code_Loc]
-  Q_t <- as.matrix(Q_t)
-
-  return(Q_t)
+  M_m <- castImportFactors(IFTable, model)
+  return(M_m)
 }
 
 #' Load and prepare import coefficients
@@ -36,8 +30,6 @@ readImportFactorTable <- function(IFSpec, configpaths = NULL) {
                                stringsAsFactors = FALSE)
   return(IFTable)
 }
-
-
 
 #' Load and prepare import coefficients
 #' @param model An EEIO form USEEIO model object with model specs loaded
@@ -79,21 +71,35 @@ processImportFactors <- function(model, IFTable) {
   return(IFTable)
 }
 
+#' Converts import factors table (of commodities) into flows x sector matrix-like format
+#' @param IFTable, dataframe of import factors
+#' @param model An EEIO model object with model specs, IO tables, and matrices loaded
+#' @return A matrix of flows x sector 
+castImportFactors <- function(IFTable, model) {
+  # Add fields for sector as combinations of existing fields
+  IFTable[, "Sector"] <- apply(IFTable[, c("Sector", "Location")],
+                               1, FUN = joinStringswithSlashes)
+  # Cast df into a flow x sector matrix
+  df_cast <- reshape2::dcast(IFTable, Flow ~ Sector, fun.aggregate = sum, value.var = "FlowAmount")
+  # Move Flow to rowname so matrix is all numbers
+  rownames(df_cast) <- df_cast$Flow
+  df_cast$Flow <- NULL
+  # Complete sector list according to model$Commodities
+  df_cast[, setdiff(model$Commodities$Code_Loc, colnames(df_cast))] <- 0
+  # Adjust column order to be the same with M_d
+  df_cast <- df_cast[, colnames(model$M_d)]
+  M_m <- as.matrix(df_cast)
+  return(M_m)
+}
+
 #' Create import Use table and validate domestic+import against full use model .
 #' @param model, An EEIO model object with model specs and crosswalk table loaded
 #' @param configpaths str vector, paths (including file name) of model configuration file
 #' and optional agg/disagg configuration file(s). If NULL, built-in config files are used.
 #' @return A model object with explicit import components.
 buildModelwithImportFactors <- function(model, configpaths = NULL) {
-  # Deriving the economic component of the Swedish equation (see Palm et al. 2019) for import factors: 
-  # f^(d+m) = s^d*L^d*y^d + Q^t*A^m*L^d*y^d + Q^t*y^m + f^h
-  # s^d are the domestic direct environmental coefficients, and Q are the environmental import multipliers, s_m*L_m. Dropping s_d and s_m we get
-  # x^(d+m) = s^d*L^d*y^d + L^m*A^m*L^d*y^d + L^m*y^m + f^h
-  # Since f^h is not currently part of the useeior model calculations, we drop it:
-  # x^(d+m) = L^d*y^d + L^m*A^m*L^d*y^d + L^m*y^m 
-  # The resulting expression should be equivalent to the x = L*y such that
-  # x^(d+m) = x = L*y
-  
+  # (see Palm et al. 2019)
+
   logging::loginfo("Building Import A (A_m) accounting for ITA in Domestic FD.\n")
   # Re-derive import values in Use and final demand
   # _m denotes import-related structures
@@ -111,14 +117,14 @@ buildModelwithImportFactors <- function(model, configpaths = NULL) {
   logging::loginfo("Calculating M_d matrix (total emissions and resource use per dollar from domestic activity)...")
   model$M_d <- model$B %*% model$L_d 
   
-  logging::loginfo("Calculating Q_t matrix (total emissions and resource use per dollar from imported activity)...")
-  Q_t <- loadExternalImportFactors(model, configpaths)
+  logging::loginfo("Calculating M_m matrix (total emissions and resource use per dollar from imported activity)...")
+  M_m <- loadExternalImportFactors(model, configpaths)
   
-  # Fill in flows for Q_t not found in Import Factors but that exist in model and align order
-  Q_t <- rbind(Q_t, model$M_d[setdiff(rownames(model$M_d), rownames(Q_t)),])
-  Q_t <- Q_t[rownames(model$M_d), ]
+  # Fill in flows for M_m not found in Import Factors but that exist in model and align order
+  M_m <- rbind(M_m, model$M_d[setdiff(rownames(model$M_d), rownames(M_m)),])
+  M_m <- M_m[rownames(model$M_d), ]
   
-  model$Q_t <- Q_t
+  model$M_m <- M_m
   
   return(model)
 }

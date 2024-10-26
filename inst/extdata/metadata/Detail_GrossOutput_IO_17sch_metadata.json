@@ -1,14 +1,14 @@
 {
   "tool": ["useeior"],
   "name_data": ["Detail_GrossOutput_IO_17sch"],
-  "tool_version": ["1.5.0"],
+  "tool_version": ["1.5.2"],
   "ext": ["json"],
-  "date_created": ["2024-03-22"],
+  "date_created": ["2024-05-23"],
   "data_meta": {
-    "data_year": ["2017", "2018", "2019", "2020", "2021", "2022"],
+    "data_year": ["1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
     "author": ["US Bureau of Economic Analysis"],
     "source_url": ["https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip"],
-    "date_last_modified": ["2023-11-20"],
-    "date_accessed": ["2024-03-22"]
+    "date_last_modified": ["2024-05-22"],
+    "date_accessed": ["2024-05-23"]
   }
 }

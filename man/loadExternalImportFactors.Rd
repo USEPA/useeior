@@ -13,7 +13,7 @@ loadExternalImportFactors(model, configpaths = NULL)
 If NULL, built-in config files are used.}
 }
 \value{
-Q_t, matrix of import coefficients (flow x sector).
+M_m, matrix of import coefficients (flow x sector).
 }
 \description{
 Load and prepare import coefficients

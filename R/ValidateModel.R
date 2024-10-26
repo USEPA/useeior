@@ -5,7 +5,6 @@
 #' @param use_domestic, a logical value indicating whether to use domestic demand vector
 #' @param tolerance, a numeric value, tolerance level of the comparison
 #' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#' @export
 compareEandLCIResult <- function(model, use_domestic = FALSE, tolerance = 0.05) {
   # Prepare left side of the equation
   CbS_cast <- standardizeandcastSatelliteTable(model$CbS,model)
@@ -80,7 +79,6 @@ calculateProductofLeontiefAndProductionDemand <- function (model, use_domestic) 
 #' @param use_domestic, a logical value indicating whether to use domestic demand vector
 #' @param tolerance, a numeric value, tolerance level of the comparison
 #' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#' @export
 compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance=0.05) {
   # Generate output and scaling vector
   if(model$specs$CommodityorIndustryType == "Commodity") {
@@ -111,7 +109,6 @@ compareOutputandLeontiefXDemand <- function(model, use_domestic=FALSE, tolerance
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param tolerance, a numeric value, tolerance level of the comparison
 #' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#' @export 
 compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tolerance=0.05) {
   q <- removeHybridProcesses(model, model$q)
   demand <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors),"Production_Domestic")][[1]]
@@ -141,7 +138,6 @@ compareCommodityOutputandDomesticUseplusProductionDemand <- function(model, tole
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes
 #' @param tolerance, a numeric value, tolerance level of the comparison
 #' @return A list with pass/fail validation result and the cell-by-cell relative diff matrix
-#' @export 
 compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation <- function(model, tolerance=0.05) {
   if(model$specs$BaseIOSchema == 2012){
     target_year <- "2017"
@@ -312,18 +308,20 @@ printValidationResults <- function(model) {
   print(paste("Number of sectors passing:",econval$N_Pass))
   print(paste("Number of sectors failing:",econval$N_Fail))
   print(paste("Sectors failing:", paste(unique(econval$Failure$rownames), collapse = ", ")))
-  
-  print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total requirements matrix (L), and demand vector (y) for US production")
-  modelval <- compareEandLCIResult(model, tolerance = 0.01)
-  print(paste("Number of flow totals by commodity passing:",modelval$N_Pass))
-  print(paste("Number of flow totals by commodity failing:",modelval$N_Fail))
-  print(paste("Sectors with flow totals failing:", paste(unique(modelval$Failure$variable), collapse = ", ")))  
-  
-  print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total domestic requirements matrix (L_d), and demand vector (y) for US production")
-  dom_val <- compareEandLCIResult(model, use_domestic=TRUE, tolerance = 0.01)
-  print(paste("Number of flow totals by commodity passing:",dom_val$N_Pass))
-  print(paste("Number of flow totals by commodity failing:",dom_val$N_Fail))
-  print(paste("Sectors with flow totals failing:", paste(unique(dom_val$Failure$variable), collapse = ", ")))  
+
+  if(!is.null(model$B)) {
+    print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total requirements matrix (L), and demand vector (y) for US production")
+    modelval <- compareEandLCIResult(model, tolerance = 0.01)
+    print(paste("Number of flow totals by commodity passing:",modelval$N_Pass))
+    print(paste("Number of flow totals by commodity failing:",modelval$N_Fail))
+    print(paste("Sectors with flow totals failing:", paste(unique(modelval$Failure$variable), collapse = ", ")))
+    
+    print("Validate that flow totals by commodity (E_c) can be recalculated (within 1%) using the model satellite matrix (B), market shares matrix (V_n), total domestic requirements matrix (L_d), and demand vector (y) for US production")
+    dom_val <- compareEandLCIResult(model, use_domestic=TRUE, tolerance = 0.01)
+    print(paste("Number of flow totals by commodity passing:",dom_val$N_Pass))
+    print(paste("Number of flow totals by commodity failing:",dom_val$N_Fail))
+    print(paste("Sectors with flow totals failing:", paste(unique(dom_val$Failure$variable), collapse = ", ")))  
+  }
   
   print("Validate that commodity output are properly transformed to industry output via MarketShare")
   q_x_val <- compareCommodityOutputXMarketShareandIndustryOutputwithCPITransformation(model, tolerance = 0.01)
@@ -402,7 +400,7 @@ compareOutputfromMakeandUse <- function(model, output_type = "Commodity") {
 #' @param demand, A demand vector, has to be name of a built-in model demand vector, e.g. "Production" or "Consumption". Consumption used as default.
 #' @return A calculated direct requirements table
 validateImportFactorsApproach <- function(model, demand = "Consumption"){
-  if(is.null(model$Q_t)) {
+  if(is.null(model$M_m)) {
     return()
   }
   
@@ -449,12 +447,12 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   # Calculate LCI using coupled model approach
   # Revised equation from RW email (2023-11-01):
   # LCI <- (s_d * L_d * Y_d) + (s*L*A_m*L_d*Y_d + s*L*Y_m). I.e., s in RW email is analogous to model$B
-  # For validation, we use M as a stand-in for import emissions , whereas in normally we'd be using model$Q_t
+  # For validation, we use M as a stand-in for import emissions , whereas in normally we'd be using model$M_m
   
   LCI_dm <- (model$M_d %*% y_d) + (M %*% model$A_m %*% model$L_d %*% y_d + M %*% y_m)
   
   cat("\nTesting that LCI results are equivalent between standard and coupled model approaches (i.e., LCI = LCI_dm) when\n")
-  cat("assuming model$M = model$Q_t.\n")
+  cat("assuming model$M = model$M_m.\n")
   print(all.equal(LCI, LCI_dm))
   
   # Calculate LCIA using standard approach
@@ -473,7 +471,7 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   rownames(LCIA_dm) <- colnames(model$N_m)
   
   cat("\nTesting that LCIA results are equivalent between standard and coupled model approaches (i.e., LCIA = LCIA_dm) when\n")
-  cat("assuming model$M = model$Q_t.\n")
+  cat("assuming model$M = model$M_m.\n")
   print(all.equal(LCIA_dm, LCIA))
   
 }

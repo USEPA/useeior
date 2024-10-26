@@ -11,6 +11,12 @@ m <- "USEEIOv2.0.1-411"
 model <- buildModel(m)
 printValidationResults(model)
 
+## USEEIOv2.0.1-411 Detail model with waste disaggregation (Economic only)
+m <- "USEEIOv2.0.1-411"
+model <- buildIOModel(m)
+printValidationResults(model)
+writeModeltoXLSX(model, ".")
+
 ## USEEIOv2.0.1-i-411 Detail, industry model with waste disaggregation
 model <- useeior:::initializeModel(m)
 model$specs$Model <- "USEEIOv2.0.1-i-411"
@@ -84,22 +90,6 @@ cfg <- c(paste0("modelspecs/", m, ".yml"))
 model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 
-## USEEIOv2.0 Summary, commodity model with GHGs and Import Factors
-cfg <- c(paste0("modelspecs/", m, ".yml"),
-         "import_factors_summary_2019.csv"
-         )
-model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
-model$specs$Model <- "USEEIOv2.0-s-GHG-19-IF"
-model$specs$ExternalImportFactors <- TRUE
-model$specs$ImportFactors <- list()
-model$specs$ImportFactors$StaticFile <- "import_factors_summary_2019.csv"
-model <- useeior:::loadIOData(model, file.path(cfg))
-model <- useeior:::loadandbuildSatelliteTables(model)
-model <- useeior:::loadandbuildIndicators(model)
-model <- useeior:::loadDemandVectors(model)
-model <- useeior:::constructEEIOMatrices(model, file.path(cfg))
-printValidationResults(model)
-
 ## USEEIOv2.0 Summary, industry model
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
 model$specs$Model <- "USEEIOv2.0-is-GHG-19"
@@ -128,22 +118,39 @@ model <- useeior:::loadDemandVectors(model)
 model <- useeior:::constructEEIOMatrices(model)
 printValidationResults(model)
 
+## USEEIOv2.3 Detail, commodity model with GHGs and Import Factors
+m <- "USEEIOv2.3-GHG"
+model <- buildModel(m)
+printValidationResults(model)
+writeModeltoXLSX(model, ".")
+
+## USEEIOv2.3 Summary, commodity model with GHGs and Import Factors
+m <- "USEEIOv2.3-s-GHG-19"
+model <- buildModel(m)
+printValidationResults(model)
+
 ## StateEEIOv1.0 Two-region Summary model
-m <- "GAEEIOv1.0-s-GHG-19"
+m <- "GAEEIOv1.0-GHG-19"
 cfg <- paste0("modelspecs/", m, ".yml")
 model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 writeModeltoXLSX(model, ".")
 
-## StateEEIOv1.0 Two-region Summary model with Import Factors
+## StateEEIOv1.0 Two-region Summary model (Economic only)
+model <- buildIOModel(m, configpaths = file.path(cfg))
+printValidationResults(model)
+writeModeltoXLSX(model, ".")
+
+## StateEEIOv1.1 Two-region Summary model with Import Factors
 cfg <- c(paste0("modelspecs/", m, ".yml"),
-         "import_factors_summary_2019.csv"
+         "US_summary_import_factors_exio_2019_12sch.csv"
          )
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
-model$specs$Model <- "GAEEIOv1.0-s-GHG-19-IF"
+model$specs$Model <- "GAEEIOv1.1-GHG-19-IF"
 model$specs$ExternalImportFactors <- TRUE
 model$specs$ImportFactors <- list()
-model$specs$ImportFactors$StaticFile <- "import_factors_summary_2019.csv"
+model$specs$ImportFactors$StaticFile <- "useeior/US_summary_import_factors_exio_2019_12sch.csv"
+model$specs$ImportFactors$FileLocation <- "DataCommons"
 model <- useeior:::loadIOData(model, file.path(cfg))
 model <- useeior:::loadandbuildSatelliteTables(model)
 model <- useeior:::loadandbuildIndicators(model)
@@ -175,3 +182,4 @@ printValidationResults(model)
 # model <- useeior:::loadDemandVectors(model)
 # model <- useeior:::constructEEIOMatrices(model)
 # printValidationResults(model)
+

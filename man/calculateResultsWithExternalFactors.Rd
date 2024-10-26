@@ -12,7 +12,8 @@ calculateResultsWithExternalFactors(
   demand = "Consumption",
   location = NULL,
   use_domestic_requirements = FALSE,
-  household_emissions = FALSE
+  household_emissions = FALSE,
+  show_RoW = FALSE
 )
 }
 \arguments{
@@ -29,6 +30,8 @@ results with the sectors consumed by the final user.}
 \item{use_domestic_requirements}{bool, if TRUE, return only domestic portion of results}
 
 \item{household_emissions, }{bool, if TRUE, include calculation of emissions from households}
+
+\item{show_RoW, }{bool, if TRUE, include rows for commodities in RoW, e.g. `111CA/RoW` in result objects.}
 }
 \value{
 A list with LCI and LCIA results (in data.frame format) of the EEIO model.

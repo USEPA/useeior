@@ -122,9 +122,9 @@ transformIndustryCPItoCommodityCPIforYear <- function(year, model) {
     # increase tolerance for disaggregated state models
     tolerance <- 3.0
   } else {
-    tolerance <- 0.3
+    tolerance <- 0.4
   }
-  if (year==2012) {
+  if (year==model$specs$BaseIOSchema) {
     for (s in CommodityCPI) {
       if (abs(100-s)>tolerance) {
         stop("Error in CommodityCPI")

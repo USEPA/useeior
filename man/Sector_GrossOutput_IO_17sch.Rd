@@ -3,9 +3,9 @@
 \docType{data}
 \name{Sector_GrossOutput_IO_17sch}
 \alias{Sector_GrossOutput_IO_17sch}
-\title{Sector 2017-2022 Gross Output (2017 schema)}
+\title{Sector 1997-2022 Gross Output (2017 schema)}
 \format{
-A dataframe with 15 obs. and 6 variables
+A dataframe with 15 obs. and 26 variables
 }
 \source{
 \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
@@ -14,6 +14,6 @@ A dataframe with 15 obs. and 6 variables
 Sector_GrossOutput_IO_17sch
 }
 \description{
-Sector 2017-2022 Gross Output (2017 schema)
+Sector 1997-2022 Gross Output (2017 schema)
 }
 \keyword{datasets}

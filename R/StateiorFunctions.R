@@ -184,14 +184,14 @@ prepare2RDemand <- function(model, location, domestic, demand_type = "Production
     
     # Calculate consumption demand for both regions
     if(location == state_abb[1]) {
-      # calculate production final demand for SoI
-      SoI2SoI_y   <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns, "ExportResidual")])
+      # calculate consumption final demand for SoI
+      SoI2SoI_y   <- rowSums(use_table[["SoI2SoI"]][, c(FD_columns)])
       RoUS2SoI_y  <- rowSums(use_table[["RoUS2SoI"]][, c(FD_columns)])
       y_p <- c(SoI2SoI_y, RoUS2SoI_y)
     } else if(location == state_abb[2]) {
-      # calculate production final demand for RoUS
+      # calculate consumption final demand for RoUS
       SoI2RoUS_y  <- rowSums(use_table[["SoI2RoUS"]][, c(FD_columns)])
-      RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns, "ExportResidual")])
+      RoUS2RoUS_y <- rowSums(use_table[["RoUS2RoUS"]][, c(FD_columns)])
       y_p <- c(SoI2RoUS_y, RoUS2RoUS_y)
     }
   }
@@ -202,12 +202,15 @@ prepare2RDemand <- function(model, location, domestic, demand_type = "Production
 
 #' Run validation checks for 2R models and print to console
 #' @param model A complete 2R EEIO model: a list with USEEIO model components and attributes
-#' @return A list with 2R model results. 
-#' @export
 print2RValidationResults <- function(model) {
   
   # Check that Production demand can be run without errors
   cat("\nChecking that production demand vectors do not produce errors for 2-R models.\n")
+  
+  if(is.null(model$B)) {
+    # Stop validation as no satellite tables
+    return()
+  }
   
   # Creating 2-R Production Complete demand vector
   f <- model$DemandVectors$vectors[endsWith(names(model$DemandVectors$vectors), "Production_Complete")][[1]]
@@ -253,7 +256,6 @@ print2RValidationResults <- function(model) {
 #' Validate commodity totals between 2R Use table, Make table, and total commodity output objects
 #' @param model A complete 2R EEIO model: a list with USEEIO model components and attributes
 #' @return A list containing failures of commodity total comparisons between various model objects. 
-#' @export
 validate2RCommodityTotals <- function(model) {
   
   failures_ls <- list()
@@ -281,7 +283,6 @@ validate2RCommodityTotals <- function(model) {
 #' @param v_One A vector of totals derived from specific 2R model object
 #' @param v_Two A vector of totals dervied from a different 2R model object than v_One
 #' @return A list of sectors that failed the comparison between the two specified q vectors. 
-#' @export
 compare2RVectorTotals <- function(v_One, v_Two) {
   
   # Calculate relative differences in v_One and v_Two

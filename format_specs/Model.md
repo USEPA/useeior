@@ -21,6 +21,7 @@ Items are listed in the order in which they appear in a built Model object in R.
 | InternationalTradeAdjustmentMeta | data.frame | metadata | Metadata for international trade adjusment in [sector meta with group format](#Sector-Meta-with-Group) |
 | MarginSectors | data.frame | metadata | Margin sector metadata in [sector meta format](#sector-meta) |
 | ValueAddedMeta | data.frame | metadata | Value added metadata in [sector meta format](#sector-meta) |
+| ImportMatrix | data.frame | supporting data | A version of the model Use table with imports only |
 | MultiYearIndustryOutput | data.frame | supporting data | Multi-year industry output in [sector-by-year format](#sector-by-year) |
 | MultiYearCommodityOutput | data.frame | supporting data | Multi-year commodity output  in [sector-by-year format](#sector-by-year) |
 | Margins | data.frame | supporting data | [The final consumer margins table](#margins) |
@@ -57,12 +58,13 @@ Items are listed in the order in which they appear in a built Model object in R.
 | D | matrix | result matrix | [The direct impact matrix](#D) |
 | M | matrix | result matrix | [The total emissions and resource use matrix](#M) |
 | M_d | matrix |  result matrix | [The total emissions and resource use (from and by domestic activity) matrix](#M) |
+| M_m| matrix | result matrix | [The total emissions and resource use (from imported activity) matrix](#M) |
 | N | matrix | result matrix | [The total impact matrix](#N) |
 | N_d | matrix | result matrix | [The total impact (from domestic activity) matrix](#N) |
+| N_m | matrix | result matrix | [The total impact (from imported activity) matrix](#N) |
 | Rho | matrix | component matrix | [The CPI<sup>1</sup> price year ratio matrix for a given model](#Rho)|
 | Phi | matrix | component matrix | [The producer-to-purchaser price ratio matrix for a given model](#Phi)|
 | Tau | matrix | component matrix | [The basic-to-producer price ratio matrix for a given model](#Tau)|
-| Q_t| matrix | component matrix | [The total emissions and resource use from imported activity matrix](#Q_t) |
 
 <sup>1</sup> Chain-type Price Index
 
@@ -282,8 +284,8 @@ sectors |       |
         +-------+
 ```
 
-The related `A_d` matrix provides direct sector inputs per dollar sector output that are only from the US.
-
+The related `A_d` matrix provides direct sector inputs per dollar sector output for inputs that are from the US.
+The related `A_m` matrix provides direct sector inputs per dollar output for inputs that are international imports if a model is built with [ExternalImportFactors](ModelSpecification.md).
 #### L
 `L` is also a `sector x sector` matrix and contains in each column `i` the
 total requirements of the respective sectors inputs per 1 USD of output
@@ -297,7 +299,8 @@ sectors |       |
         +-------+
 ```
 
-The related `L_d` matrix provides direct + indirect sector inputs per dollar output that are only from the US.
+The related `L_d` matrix provides direct + indirect sector inputs per dollar output for inputs that are from the US.
+
 
 #### B
 The satellite matrix `B` is a `flow x sector` matrix and contains in
@@ -386,6 +389,7 @@ flows           |       |
 ```
 
 The related `M_d` matrix provides direct + indirect emissions and resources per dollar output that are only from the US.
+The related `M_m` matrix provides direct + indirect emissions and resources per dollar of imported goods if a model is built with [ExternalImportFactors](ModelSpecification.md).
 
 #### N
 The matrix `N` is a `indicator x sector` matrix and contains in each column
@@ -400,3 +404,4 @@ indicators      |       |
 ```
 
 The related `N_d` matrix provides direct + indirect impact results per dollar output that are only from the US.
+The related `N_m` matrix provides direct + indirect impact results per dollar of imported goods if a model is built with [ExternalImportFactors](ModelSpecification.md).

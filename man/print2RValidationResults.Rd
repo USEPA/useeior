@@ -9,9 +9,6 @@ print2RValidationResults(model)
 \arguments{
 \item{model}{A complete 2R EEIO model: a list with USEEIO model components and attributes}
 }
-\value{
-A list with 2R model results.
-}
 \description{
 Run validation checks for 2R models and print to console
 }

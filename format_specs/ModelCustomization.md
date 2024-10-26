@@ -154,3 +154,13 @@ Unit   | str | Y |  |
 WIO Section | str | N |  |
 Note | string | N |   |
 
+## Import Emission Factors
+
+Specifications for import emission factors file, e.g.,
+
+```
+ImportFactors:
+  StaticFile: "useeior/US_summary_import_factors_exio_2019_17sch.csv"
+  FileLocation: "DataCommons"
+```
+
