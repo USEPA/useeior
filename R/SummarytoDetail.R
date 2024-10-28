@@ -9,13 +9,14 @@
 #' Disaggregate a specific sector in a summary level model to detail level
 #' @param modelname String indicating which model to generate. Must be a detail level model.
 #' @param detailModel Completed build of detail model. If NULL, must pass modelname.
-#' @param sectorToDisaggregate String with the summary level code of the sector to be disaggregated from Summary to Detail Level
-#' @param specificiedDetailLevelSector String to denote whether to disaggregate only the specified summary level sector to all related detail level sectors, or only one related detail level sector (if value is TRUE)
+#' @param sectorToDisaggregate String with the summary level code of the sector to be disaggregated from Summary to Detail Level,
+#' @param specificiedDetailLevelSector String to denote whether to disaggregate only the specified summary level sector to all related detail level sectors, or only one related detail level sector (if value is TRUE).
 #' @param disagg Specifications for disaggregating the current Table. Pass to append outputs to the disagg object.
+#' @param writePath String that specifies a path to write allocation csv files to.
 #' @return A list object containing dataframes with the economic allocations for the Use and Make tables; environmental allocations for the TbS object; and the Sector CSV file output required for disaggregation.  
 disaggregateSummaryModel <- function (modelname = "USEEIOv2.0", detailModel = NULL,
                                       sectorToDisaggregate = NULL, specifiedDetailLevelSector = NULL,
-                                      disagg = NULL){
+                                      disagg = NULL, writePath = NULL){
   # Check for appropriate input in sectorToDisaggregate and make sure format matches BEA_Summary column in model$crosswalk.
   if(is.null(sectorToDisaggregate)){
     stop("No summary level sector specified for disaggregation to detail level")
@@ -88,7 +89,7 @@ disaggregateSummaryModel <- function (modelname = "USEEIOv2.0", detailModel = NU
   outputDF$originalSector <- sectorToDisaggregate # Needed for the case where we want to combine multiple allocations later.
   
   #Write DFs to correct folder
-  writeAllocationsToCSV(outputDF, disaggParams)
+  writeAllocationsToCSV(outputDF, disaggParams, writePath)
   return(outputDF)
   }
   
@@ -918,14 +919,23 @@ createSectorsCSV <- function (disaggParams){
 #' Write allocation dataframes to csv files at the specified directory
 #' @param outputDF A dataframe containing a list of outputDFs to write to CSV: Use table, Make table, and environmental allocations for TbS object, as well as the Sectors CSV. 
 #' @param disaggParams List of disaggregation parameters
+#' @param writePath String that specifies a path to write allocation csv files to
 #' @description Write allocation dataframes to csv files at the specified directory
-writeAllocationsToCSV <- function(outputDF, disaggParams){
+writeAllocationsToCSV <- function(outputDF, disaggParams, writePath = NULL){
   
   # Path pointing to write directory
-  writePath <- "inst/extdata/disaggspecs/"
+  if(is.null(writePath)){
+    writePath <- "inst/extdata/disaggspecs/"
+  }else if(toupper(writePath) == "NOCSV"){
+    # If writePath = "NoCSV", skip the rest of this function (don't print to csv)
+    return()
+  }else{
+    # Check that path exists
+    if(dir.exists(writePath) == FALSE){
+      stop(paste0(writePath," does not exist."))
+    }
+  }
   
-#  curPath <- getwd()
- 
   # If we are creating csvs to disaggregate a specific detail level sector rather than all detail level sectors mapped to the summary level sector
   if(!is.null(disaggParams$specifiedDetailLevelSector)){
     detailCode <- strsplit(disaggParams$specifiedDetailLevelSector,"/")[[1]]
@@ -966,9 +976,13 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg){
   # Obtain the correct table and disaggregation parameters
   if(Table == "Use"){
     originalTable <- disaggParams$detailModel$U
-    # Bind ValeAdded codes for Commodities and FinalDemand codes for Industries to match dimensions of as model$U object, which includes VA and FD values. 
-    originalRowCodes <- rbind(disaggParams$detailModel$Commodities[c("Code", "Name", "Code_Loc")], disaggParams$detailModel$ValueAddedMeta)
-    originalColCodes <- rbind(disaggParams$detailModel$Industries, disaggParams$detailModel$FinalDemandMeta[c("Code", "Name", "Code_Loc")])
+    # Bind ValueAdded codes for Commodities and FinalDemand codes for Industries to match dimensions of as model$U object, 
+    # which includes VA and FD values. 
+    originalRowCodes <- rbind(disaggParams$detailModel$Commodities[c("Code", "Name", "Code_Loc")], 
+                              disaggParams$detailModel$ValueAddedMeta)
+    originalColCodes <- rbind(disaggParams$detailModel$Industries[c("Code", "Name", "Code_Loc")], 
+                              disaggParams$detailModel$FinalDemandMeta[c("Code", "Name", "Code_Loc")])
+    
     allocName <- "PercentUse"
     
     # DetailCodeOutput index indicates which column in the output data to assign the detail (disaggregated) codes. 
