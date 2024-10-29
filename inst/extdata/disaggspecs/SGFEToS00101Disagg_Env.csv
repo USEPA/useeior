@@ -47,8 +47,8 @@
 "Nickel","emission/air","","GFEX",1
 "Nitrogen dioxide","emission/air","","GFEX",1
 "PAH/POM, unspecified","emission/air","","GFEX",1
-"Particulate matter, = 2.5µm","emission/air","","GFEX",1
-"Particulate matter, > 2.5µm and = 10µm","emission/air","","GFEX",1
+"Particulate matter, > 2.5Î¼m and â‰¤ 10Î¼m","emission/air","","GFEX",1
+"Particulate matter, â‰¤ 2.5Î¼m","emission/air","","GFEX",1
 "Phenanthrene","emission/air","","GFEX",1
 "Pyrene","emission/air","","GFEX",1
 "Selenium","emission/air","","GFEX",1

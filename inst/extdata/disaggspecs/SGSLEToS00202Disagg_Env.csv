@@ -86,8 +86,8 @@
 "o-Xylene","emission/air","","GSLEX",1
 "p-Nitrophenol","emission/air","","GSLEX",1
 "PAH/POM, unspecified","emission/air","","GSLEX",1
-"Particulate matter, = 2.5µm","emission/air","","GSLEX",1
-"Particulate matter, > 2.5µm and = 10µm","emission/air","","GSLEX",1
+"Particulate matter, > 2.5Î¼m and â‰¤ 10Î¼m","emission/air","","GSLEX",1
+"Particulate matter, â‰¤ 2.5Î¼m","emission/air","","GSLEX",1
 "Pentachlorophenol","emission/air","","GSLEX",1
 "Perylene","emission/air","","GSLEX",1
 "Phenanthrene","emission/air","","GSLEX",1

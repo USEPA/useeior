@@ -346,12 +346,12 @@
 "PAH/POM, unspecified","emission/air","","221100",0.975954577902492
 "PAH/POM, unspecified","emission/air","","221200",0.0188132579825469
 "PAH/POM, unspecified","emission/air","","221300",0.00523216411496078
-"Particulate matter, = 2.5µm","emission/air","","221100",0.978362321284935
-"Particulate matter, = 2.5µm","emission/air","","221200",0.00770148430558551
-"Particulate matter, = 2.5µm","emission/air","","221300",0.0139361944094798
-"Particulate matter, > 2.5µm and = 10µm","emission/air","","221100",0.990606680033475
-"Particulate matter, > 2.5µm and = 10µm","emission/air","","221200",0.00047286075736233
-"Particulate matter, > 2.5µm and = 10µm","emission/air","","221300",0.00892045920916243
+"Particulate matter, > 2.5Î¼m and â‰¤ 10Î¼m","emission/air","","221100",0.990606680033475
+"Particulate matter, > 2.5Î¼m and â‰¤ 10Î¼m","emission/air","","221200",0.00047286075736233
+"Particulate matter, > 2.5Î¼m and â‰¤ 10Î¼m","emission/air","","221300",0.00892045920916243
+"Particulate matter, â‰¤ 2.5Î¼m","emission/air","","221100",0.978362321284935
+"Particulate matter, â‰¤ 2.5Î¼m","emission/air","","221200",0.00770148430558551
+"Particulate matter, â‰¤ 2.5Î¼m","emission/air","","221300",0.0139361944094798
 "Pentachlorobiphenyl","emission/air","","221100",0.324176008264763
 "Pentachlorobiphenyl","emission/air","","221300",0.675823991735237
 "Pentachlorophenol","emission/air","","221100",0.115761021226301

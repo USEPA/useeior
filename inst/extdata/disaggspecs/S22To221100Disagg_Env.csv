@@ -281,10 +281,10 @@
 "p-Xylene","emission/air","","22X",0.215569183723874
 "PAH/POM, unspecified","emission/air","","221100",0.975954577902492
 "PAH/POM, unspecified","emission/air","","22X",0.0240454220975077
-"Particulate matter, = 2.5µm","emission/air","","221100",0.978362321284935
-"Particulate matter, = 2.5µm","emission/air","","22X",0.0216376787150654
-"Particulate matter, > 2.5µm and = 10µm","emission/air","","221100",0.990606680033475
-"Particulate matter, > 2.5µm and = 10µm","emission/air","","22X",0.00939331996652476
+"Particulate matter, > 2.5Î¼m and â‰¤ 10Î¼m","emission/air","","221100",0.990606680033475
+"Particulate matter, > 2.5Î¼m and â‰¤ 10Î¼m","emission/air","","22X",0.00939331996652476
+"Particulate matter, â‰¤ 2.5Î¼m","emission/air","","221100",0.978362321284935
+"Particulate matter, â‰¤ 2.5Î¼m","emission/air","","22X",0.0216376787150654
 "Pentachlorobiphenyl","emission/air","","221100",0.324176008264763
 "Pentachlorobiphenyl","emission/air","","22X",0.675823991735237
 "Pentachlorophenol","emission/air","","221100",0.115761021226301

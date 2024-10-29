@@ -88,10 +88,10 @@
 "o-Xylene","emission/air","","111CAX",0.981532607316715
 "p-Xylene","emission/air","","1111A0",0.000552838070263096
 "p-Xylene","emission/air","","111CAX",0.999447161929737
-"Particulate matter, = 2.5µm","emission/air","","1111A0",0.190500146355704
-"Particulate matter, = 2.5µm","emission/air","","111CAX",0.809499853644296
-"Particulate matter, > 2.5µm and = 10µm","emission/air","","1111A0",0.19357434663993
-"Particulate matter, > 2.5µm and = 10µm","emission/air","","111CAX",0.80642565336007
+"Particulate matter, > 2.5Î¼m and â‰¤ 10Î¼m","emission/air","","1111A0",0.19357434663993
+"Particulate matter, > 2.5Î¼m and â‰¤ 10Î¼m","emission/air","","111CAX",0.80642565336007
+"Particulate matter, â‰¤ 2.5Î¼m","emission/air","","1111A0",0.190500146355704
+"Particulate matter, â‰¤ 2.5Î¼m","emission/air","","111CAX",0.809499853644296
 "Perylene","emission/air","","1111A0",0.724101602185622
 "Perylene","emission/air","","111CAX",0.275898397814378
 "Phenanthrene","emission/air","","1111A0",0.106887082562043
