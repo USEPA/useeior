@@ -1485,8 +1485,12 @@ getDefaultAllocationPercentages <- function(FileDF, disagg, numNewSectors, outpu
     defaultPercentages <- defaultPercentages[match(disagg$NewSectorCodes, defaultPercentages$CommodityCode),]
   }
 
-  #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0) assume uniform split, otherwise use the csv values
-  if(nrow(defaultPercentages)==0) {
+  #If there are no default percentages from values from csv (i.e. number of rows in defaultRowPercentages dataframe is 0 or dataframe is all NAs), 
+  # assume uniform split, otherwise use the csv values
+  if(nrow(defaultPercentages)==0 || all(is.na(defaultPercentages))) {
+    #Note: The second part of the if state added for use in Summary to Detail disaggregations, where no
+    # default percentages are provided but disaggregation splits for all values are
+    #TODO: Consider changing this function to not use uniform split but a split based on % of total output of disagg sectors if available.
     #Uniform split
     defaultPercentages <- data.frame(rep(1/numNewSectors, numNewSectors))
   } else {
