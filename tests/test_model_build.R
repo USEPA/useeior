@@ -143,13 +143,13 @@ writeModeltoXLSX(model, ".")
 
 ## StateEEIOv1.1 Two-region Summary model with Import Factors
 cfg <- c(paste0("modelspecs/", m, ".yml"),
-         "US_summary_import_factors_exio_2019_17sch.csv"
+         "US_summary_import_factors_exio_2019_12sch.csv"
          )
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
 model$specs$Model <- "GAEEIOv1.1-GHG-19-IF"
 model$specs$ExternalImportFactors <- TRUE
 model$specs$ImportFactors <- list()
-model$specs$ImportFactors$StaticFile <- "useeior/US_summary_import_factors_exio_2019_17sch.csv"
+model$specs$ImportFactors$StaticFile <- "useeior/US_summary_import_factors_exio_2019_12sch.csv"
 model$specs$ImportFactors$FileLocation <- "DataCommons"
 model <- useeior:::loadIOData(model, file.path(cfg))
 model <- useeior:::loadandbuildSatelliteTables(model)

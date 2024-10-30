@@ -202,8 +202,6 @@ prepare2RDemand <- function(model, location, domestic, demand_type = "Production
 
 #' Run validation checks for 2R models and print to console
 #' @param model A complete 2R EEIO model: a list with USEEIO model components and attributes
-#' @return A list with 2R model results. 
-#' @export
 print2RValidationResults <- function(model) {
   
   # Check that Production demand can be run without errors
@@ -258,7 +256,6 @@ print2RValidationResults <- function(model) {
 #' Validate commodity totals between 2R Use table, Make table, and total commodity output objects
 #' @param model A complete 2R EEIO model: a list with USEEIO model components and attributes
 #' @return A list containing failures of commodity total comparisons between various model objects. 
-#' @export
 validate2RCommodityTotals <- function(model) {
   
   failures_ls <- list()
