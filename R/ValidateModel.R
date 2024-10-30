@@ -474,6 +474,19 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   cat("assuming model$M = model$M_m.\n")
   print(all.equal(LCIA_dm, LCIA))
   
+  cat("\nValidating that the derived M matrix has all values between M_d and M_m\n")
+
+  # Validate that M is between M_m and M_d
+  a <- signif(model$M_m, 6)
+  b <- signif(model$M, 6)
+  c <- signif(model$M_d, 6)
+  z <- ((b > a) & (b > c)) | ((b < a) & (b < c))
+  if(sum(z) == 0) {
+    print(TRUE)
+  } else {
+    comm <- colSums(z) > 0
+    print(paste0("Failures: ", names(comm)[comm == TRUE]))
+  }
 }
 
 #' Validate the calculation of household_emissions
