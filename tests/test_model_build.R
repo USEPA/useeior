@@ -4,7 +4,7 @@
 # setwd("tests")
 library(useeior)
 # library(unittest, quietly = TRUE)
-if (!interactive()) options(warn=2, error = function() { sink(stderr()) ; traceback(3) ; q(status = 1) })
+if (!interactive()) options(warn=1, error = function() { sink(stderr()) ; traceback(3) ; q(status = 1) })
 
 ## USEEIOv2.0.1-411 Detail model with waste disaggregation
 m <- "USEEIOv2.0.1-411"
