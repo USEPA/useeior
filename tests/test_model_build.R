@@ -131,13 +131,12 @@ printValidationResults(model)
 
 ## StateEEIOv1.0 Two-region Summary model
 m <- "GAEEIOv1.0-GHG-19"
-cfg <- paste0("modelspecs/", m, ".yml")
-model <- buildModel(m, configpaths = file.path(cfg))
+model <- buildModel(m)
 printValidationResults(model)
 writeModeltoXLSX(model, ".")
 
 ## StateEEIOv1.0 Two-region Summary model (Economic only)
-model <- buildIOModel(m, configpaths = file.path(cfg))
+model <- buildIOModel(m)
 printValidationResults(model)
 writeModeltoXLSX(model, ".")
 
