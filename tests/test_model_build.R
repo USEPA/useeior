@@ -10,6 +10,8 @@ if (!interactive()) options(warn=2, error = function() { sink(stderr()) ; traceb
 m <- "USEEIOv2.0.1-411"
 model <- buildModel(m)
 printValidationResults(model)
+testCalculationFunctions(model)
+testVisualizationFunctions(model)
 
 ## USEEIOv2.0.1-411 Detail model with waste disaggregation (Economic only)
 m <- "USEEIOv2.0.1-411"
@@ -128,12 +130,16 @@ writeModeltoXLSX(model, ".")
 m <- "USEEIOv2.3-s-GHG-19"
 model <- buildModel(m)
 printValidationResults(model)
+testCalculationFunctions(model)
+testVisualizationFunctions(model)
 
 ## StateEEIOv1.0 Two-region Summary model
 m <- "GAEEIOv1.0-GHG-19"
 model <- buildModel(m)
 printValidationResults(model)
 writeModeltoXLSX(model, ".")
+testCalculationFunctions(model)
+testVisualizationFunctions(model)
 
 ## StateEEIOv1.0 Two-region Summary model (Economic only)
 model <- buildIOModel(m)
@@ -141,9 +147,7 @@ printValidationResults(model)
 writeModeltoXLSX(model, ".")
 
 ## StateEEIOv1.1 Two-region Summary model with Import Factors
-cfg <- c(paste0("modelspecs/", m, ".yml"),
-         "US_summary_import_factors_exio_2019_12sch.csv"
-         )
+cfg <- c("US_summary_import_factors_exio_2019_12sch.csv")
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
 model$specs$Model <- "GAEEIOv1.1-GHG-19-IF"
 model$specs$ExternalImportFactors <- TRUE
@@ -156,6 +160,8 @@ model <- useeior:::loadandbuildIndicators(model)
 model <- useeior:::loadDemandVectors(model)
 model <- useeior:::constructEEIOMatrices(model, file.path(cfg))
 printValidationResults(model)
+testCalculationFunctions(model)
+testVisualizationFunctions(model)
 
 # ## StateEEIOv1.0 Two-region Summary model with Utility disaggregation
 # model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
