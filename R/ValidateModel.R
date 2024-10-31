@@ -516,6 +516,7 @@ validateHouseholdEmissions <- function(model) {
 #' calculateMarginSectorImpacts
 #' 
 #' @param model, A fully built EEIO model object
+#' @export
 testCalculationFunctions <- function(model) {
   target_year <- ifelse(model$specs$IOYear != 2019, 2019, 2020)
   sector <- model$Commodities$Code_Loc[[10]]
@@ -560,6 +561,7 @@ testCalculationFunctions <- function(model) {
 #' heatmapSatelliteTableCoverage, heatmapSectorRanking, plotMatrixCoefficient
 #' 
 #' @param model, A fully built EEIO model object
+#' @export
 testVisualizationFunctions <- function(model) {
   model_list <- list("model" = model)
   loc <- model$specs$ModelRegionAcronyms[[1]]
