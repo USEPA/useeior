@@ -1,0 +1,9 @@
+Disaggregation:
+  327/US:
+    OriginalSectorCode: "327/US"
+    OriginalSectorName: "Clay, glass, cement, concrete, and other nonmetallic mineral products"
+    DisaggregationType: "Userdefined"
+    SectorFile: S327ToBEADetDisagg_Sectors.csv 
+    MakeFile: S327ToBEADetDisagg_Make.csv # ratios from 2017 detail model
+    UseFile: S327ToBEADetDisagg_Use.csv # ratios from 2017 detail model
+    package: "useeior
