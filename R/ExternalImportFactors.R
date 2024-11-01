@@ -100,7 +100,7 @@ castImportFactors <- function(IFTable, model) {
 buildModelwithImportFactors <- function(model, configpaths = NULL) {
   # (see Palm et al. 2019)
 
-  logging::loginfo("Building A_m (import requirements) accounting for international trade adjustment in domestic final demand.\n")
+  logging::loginfo("Building Import A (A_m) accounting for ITA in Domestic FD.\n")
   # Re-derive import values in Use and final demand
   # _m denotes import-related structures
   model$UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
@@ -126,28 +126,5 @@ buildModelwithImportFactors <- function(model, configpaths = NULL) {
   
   model$M_m <- M_m
   
-  model$M <- deriveMMatrix(model)
-  
   return(model)
-}
-
-#' Derives an aggregate M matrix from M_d and M_m based on the ratio of commodity output to total imports.
-#' @param model, An EEIO model object with model specs and crosswalk table loaded
-#' @return An M matrix of flows x sector
-deriveMMatrix <- function(model) {
-  logging::loginfo("Deriving M matrix (total emissions and resource use per dollar) ...")
-  q <- model$q
-  import_code <- model$FinalDemandMeta[model$FinalDemandMeta$Group=="Import", "Code_Loc"]
-  # derive total imports (m) from the Use table
-  U_m <- model$U - model$U_d
-  # Exclude imports col when calculating total imports
-  m <- rowSums(U_m[model$Commodities$Code_Loc, !(colnames(U_m) %in% import_code)]) # drop VA
-  
-  dr <- q / (q + m)
-  mr <- 1 - dr
-  # Derive M by taking the ratio of domestic vs imported goods
-  M <- model$M_d %*% diag(as.vector(dr)) + model$M_m %*% diag(as.vector(mr))
-  colnames(M) <- colnames(model$M_d)
-
-  return(M)
 }
