@@ -237,6 +237,9 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
 #' @export
 heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_sector, x_title = NULL,
                                  use_codes = TRUE) {
+  if(model$specs$IODataSource == "stateior") {
+    stop("heatmapSectorRanking not available for two-region models.")
+  }
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
   mapping$GroupName <- mapping$SectorName
