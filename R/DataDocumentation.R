@@ -216,7 +216,7 @@
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
 "Summary_Make_2020_AfterRedef"
 
-#' Summary 2022 Make After Redefinition (2012 schema)
+#' Summary 2021 Make After Redefinition (2012 schema)
 #' @format A dataframe with 72 obs. and 74 variables
 #' @source \url{https://apps.bea.gov/industry/iTables\%20Static\%20Files/AllTablesIO.zip}
 #' @note Remove 'backslash' before 'percent sign' in url to access the source of data.
