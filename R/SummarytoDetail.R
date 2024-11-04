@@ -13,10 +13,11 @@
 #' @param specificDetailLevelSector String to denote whether to disaggregate only the specific summary level sector to all related detail level sectors, or only one related detail level sector (if value is TRUE).
 #' @param disagg Specifications for disaggregating the current Table. Pass to append outputs to the disagg object.
 #' @param writePath String that specifies a path to write allocation csv files to.
+#' @param writeFile String that specifies a file name for the csv files.  
 #' @return A list object containing dataframes with the economic allocations for the Use and Make tables; environmental allocations for the TbS object; and the Sector CSV file output required for disaggregation.  
 disaggregateSummaryModel <- function (modelname = "USEEIOv2.0", detailModel = NULL,
                                       sectorToDisaggregate = NULL, specificDetailLevelSector = NULL,
-                                      disagg = NULL, writePath = NULL){
+                                      disagg = NULL, writePath = NULL, writeFile = NULL){
   # Check for appropriate input in sectorToDisaggregate and make sure format matches BEA_Summary column in model$crosswalk.
   if(is.null(sectorToDisaggregate)){
     stop("No summary level sector provided for disaggregation to detail level")
@@ -925,8 +926,9 @@ createSectorsCSV <- function (disaggParams){
 #' @param outputDF A dataframe containing a list of outputDFs to write to CSV: Use table, Make table, and environmental allocations for TbS object, as well as the Sectors CSV. 
 #' @param disaggParams List of disaggregation parameters
 #' @param writePath String that specifies a path to write allocation csv files to
+#' @param writeFile String that specifies a file name for the csv files. 
 #' @description Write allocation dataframes to csv files at the specific directory
-writeAllocationsToCSV <- function(outputDF, disaggParams, writePath = NULL){
+writeAllocationsToCSV <- function(outputDF, disaggParams, writePath = NULL, writeFile = NULL){
   
   # Path pointing to write directory
   if(is.null(writePath)){
@@ -941,8 +943,13 @@ writeAllocationsToCSV <- function(outputDF, disaggParams, writePath = NULL){
     }
   }
   
-  # If we are creating csvs to disaggregate a specific detail level sector rather than all detail level sectors mapped to the summary level sector
-  if(!is.null(disaggParams$specificDetailLevelSector)){
+  
+  if(!is.null(writeFile)){
+    filePrefix <- writeFile
+  }
+  else if(!is.null(disaggParams$specificDetailLevelSector)){
+    # If we are creating csvs to disaggregate a specific detail level sector rather than all detail 
+    # level sectors mapped to the summary level sector
     detailCode <- strsplit(disaggParams$specificDetailLevelSector,"/")[[1]]
     detailCode <- detailCode[1]
     filePrefix <- paste0("S",disaggParams$summaryCode,"To",detailCode,"Disagg")
