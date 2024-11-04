@@ -1,0 +1,66 @@
+Model: "USEEIOv2.3-s-GHG-19"
+BaseIOSchema: 2017
+BaseIOLevel: "Summary"
+IOYear: 2019 # Year for IO data
+ModelRegionAcronyms: ["US"]
+ModelType: "EEIO"
+IODataSource: "BEA"
+BasePriceType: "PRO" #producer
+BasewithRedefinitions: FALSE
+CommodityorIndustryType: "Commodity"
+ScrapIncluded: FALSE
+DisaggregationSpecs: null
+ExternalImportFactors: TRUE
+
+SatelliteTable:
+  GHG:
+    FullName: "Greenhouse Gases"
+    Abbreviation: "GHG"
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/GHG_national_2019_m1_v2.0.3_1cb504c.parquet"
+    FileLocation: "DataCommons"
+    DataYears: [2019]
+    Locations: ["US"]
+    SectorListSource: "NAICS"
+    SectorListYear: 2017
+    SectorListLevel: "6"
+    OriginalFlowSource: "FEDEFLv1.2"
+    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+    ScriptFunctionParameters: null
+    DataSources:
+      USEPA_GHG_2024:
+        Title: "GHG Inventory"
+        Author: "USEPA"
+        DataYear: 2019
+        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2022"
+        Primary: TRUE
+
+Indicators:
+  GreenhouseGases:
+    Name: "Greenhouse Gases"
+    Code: "GHG"
+    Group: "Impact Potential"
+    Unit: "kg CO2 eq"
+    SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
+    SimpleName: "Greenhouse Gases"
+    StaticSource: TRUE
+    StaticFile: "lciafmt/ipcc/IPCC_v1.1.1_27ba917.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["AR6-100"]
+    DataSources:
+      IPCC_AR6:
+        Title: "IPCC Sixth Assessment Report: Direct Global Warming Potentials for 100 year time horizon"
+        Author: "IPCC"
+        DataYear: 2021
+        URL: ""
+        Primary: TRUE
+
+DemandVectors:
+    DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
+# Additional demand vectors beyond useeior defaults
+
+ImportFactors:
+  StaticFile: "useeior/US_summary_import_factors_exio_2019_17sch.csv"
+  FileLocation: "DataCommons"    

@@ -4,10 +4,12 @@
 \alias{generateDomesticUse}
 \title{Generate domestic Use table by adjusting Use table based on Import matrix.}
 \usage{
-generateDomesticUse(Use, model)
+generateDomesticUse(Use, Import, model)
 }
 \arguments{
 \item{Use, }{dataframe of a Use table}
+
+\item{Import, }{dataframe of a Import table}
 
 \item{model, }{An EEIO model object with model specs and crosswalk table loaded}
 }

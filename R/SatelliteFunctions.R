@@ -11,8 +11,10 @@ getStandardSatelliteTableFormat <- function () {
 #' @param totals_by_sector A standardized satellite table with resource and emission names from original sources.
 #' @param totals_by_sector_year Year of the satellite table.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param agg_metasources, bool, TRUE to aggregate TbS ignoring MetaSources field
 #' @return A satellite table aggregated by the USEEIO model sector codes.
-mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year, model) {
+mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, totals_by_sector_year,
+                                                            model, agg_metasources=TRUE) {
   # Consolidate master crosswalk on model level and rename
   NAICStoBEA <- unique(model$crosswalk[, c("NAICS","USEEIO")])
   colnames(NAICStoBEA) <- c("NAICS","BEA")
@@ -51,7 +53,8 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
   # Rename BEA to Sector
   colnames(totals_by_sector_BEA)[colnames(totals_by_sector_BEA)=="BEA"] <- "Sector"
   
-  totals_by_sector_BEA_agg <- collapseTBS(totals_by_sector_BEA, model)
+  totals_by_sector_BEA_agg <- collapseTBS(totals_by_sector_BEA, model,
+                                          agg_metasources=agg_metasources)
 
   return(totals_by_sector_BEA_agg)
 }
@@ -64,11 +67,23 @@ mapFlowTotalsbySectorandLocationfromNAICStoBEA <- function (totals_by_sector, to
 #' @param IsRoUS A logical parameter indicating whether to adjust Industry output for Rest of US (RoUS).
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param output_type Type of the output, e.g. "Commodity" or "Industry"
+#' @param final_demand, bool, generate coefficients using final demand vector
 #' @return A dataframe contains intensity coefficient (kg/$).
-generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym, IsRoUS = FALSE, model, output_type = "Industry") {
-  # Generate adjusted industry output
-  Output_adj <- adjustOutputbyCPI(outputyear, referenceyear, location_acronym, IsRoUS, model, output_type)
-  rownames(Output_adj) <- gsub(paste0("/", location_acronym), "", rownames(Output_adj))
+generateFlowtoDollarCoefficient <- function (sattable, outputyear, referenceyear, location_acronym,
+                                             IsRoUS = FALSE, model, output_type = "Industry", final_demand = FALSE) {
+  if(final_demand) {
+    # Output_adj <- data.frame(colSums(model$FinalDemand))
+    # Final demand emissions currenlty only assigned to households even though they reflect all final consumption
+    Output_adj <- data.frame(sum(prepareConsumptionDemand(model, location_acronym)))
+    rownames(Output_adj) <- model$FinalDemandMeta[model$FinalDemandMeta$Group%in%c("Household") &
+                                                    grepl(location_acronym, model$FinalDemandMeta$Code_Loc) , "Code"]
+    # TODO adjust the final demand to reflect emission year!!
+    colnames(Output_adj) <- paste0(outputyear, output_type, "Output")
+  } else {
+    # Generate adjusted industry output
+    Output_adj <- adjustOutputbyCPI(outputyear, referenceyear, location_acronym, IsRoUS, model, output_type)
+  }
+  rownames(Output_adj) <- gsub(paste0("/", location_acronym), "", rownames(Output_adj))    
   # Merge the satellite table with the adjusted industry output
   Sattable_USEEIO_wOutput <- merge(sattable, Output_adj, by.x = "Sector", by.y = 0, all.x = TRUE)
   outputcolname <- paste0(outputyear, output_type, "Output")
@@ -123,8 +138,9 @@ aggregateSatelliteTable <- function(sattable, from_level, model) {
 #' Collapse a totals by sector table so that each flow sector combination exists only once
 #' @param tbs totals by sector sourced from satellite table
 #' @param model An EEIO model object with model specs and IO table loaded
+#' @param agg_metasources, bool, TRUE to aggregate TbS ignoring MetaSources field
 #' @return aggregated totals by sector
-collapseTBS <- function(tbs, model) {
+collapseTBS <- function(tbs, model, agg_metasources = TRUE) {
   # Add in BEA industry names
   sectornames <- unique(model$Industries[, c("Code", "Name")])
   colnames(sectornames) <- c("Sector", "SectorName")
@@ -146,21 +162,38 @@ collapseTBS <- function(tbs, model) {
     tbs[is.na(tbs[, f]), f] <- 5
   }
   # Aggregate to BEA sectors using unique aggregation functions depending on the quantitative variable
-  tbs_agg <- dplyr::group_by(tbs, Flowable, Context, FlowUUID, Sector, SectorName,
-                             Location, Unit, Year, DistributionType) 
-  tbs_agg <- dplyr::summarize(
-    tbs_agg,
-    FlowAmountAgg = sum(FlowAmount),
-    Min = min(Min),
-    Max = max(Max),
-    DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
-    TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
-    GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
-    TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
-    DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
-    MetaSources = paste(sort(unique(MetaSources)), collapse = ' '),
-    .groups = 'drop'
-  )
+  if(agg_metasources) {
+    tbs_agg <- dplyr::group_by(tbs, Flowable, Context, FlowUUID, Sector, SectorName,
+                               Location, Unit, Year, DistributionType) 
+    tbs_agg <- dplyr::summarize(
+      tbs_agg,
+      FlowAmountAgg = sum(FlowAmount),
+      Min = min(Min),
+      Max = max(Max),
+      DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
+      TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
+      GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
+      TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
+      DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
+      MetaSources = paste(sort(unique(MetaSources)), collapse = ' '),
+      .groups = 'drop'
+    )
+  } else {
+    tbs_agg <- dplyr::group_by(tbs, Flowable, Context, FlowUUID, Sector, SectorName,
+                               Location, Unit, Year, DistributionType, MetaSources) 
+    tbs_agg <- dplyr::summarize(
+      tbs_agg,
+      FlowAmountAgg = sum(FlowAmount),
+      Min = min(Min),
+      Max = max(Max),
+      DataReliability = stats::weighted.mean(DataReliability, FlowAmount),
+      TemporalCorrelation = stats::weighted.mean(TemporalCorrelation, FlowAmount),
+      GeographicalCorrelation = stats::weighted.mean(GeographicalCorrelation, FlowAmount),
+      TechnologicalCorrelation = stats::weighted.mean(TechnologicalCorrelation, FlowAmount),
+      DataCollection = stats::weighted.mean(DataCollection, FlowAmount),
+      .groups = 'drop'
+    )
+  }
   colnames(tbs_agg)[colnames(tbs_agg)=="FlowAmountAgg"] <- "FlowAmount"
   return(tbs_agg)
     
@@ -281,7 +314,7 @@ mapFlowTotalsbySectorfromBEASchema2007to2012 <- function(totals_by_sector) {
 #'@param tbs0, totals-by-sector df in source schema
 #'@param tbs, totals-by-sector df in model schema
 #'@param tolerance, tolerance level for data loss
-checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.005) {
+checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.001) {
   tbs0 <- tbs0[!is.na(tbs0$Sector), ]
   tbs <- tbs[!is.na(tbs$Sector), ]
   
@@ -311,7 +344,7 @@ checkSatelliteFlowLoss <- function(tbs0, tbs, tolerance=0.005) {
   n <- length(subset(rel_diff, rel_diff > tolerance))
 
   if(n > 0){
-    logging::logdebug("Data loss on conforming to model schema")    
+    logging::logwarn("Data loss on conforming satellite table to model schema")    
   }
 
 }

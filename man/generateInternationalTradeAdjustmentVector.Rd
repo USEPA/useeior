@@ -4,10 +4,12 @@
 \alias{generateInternationalTradeAdjustmentVector}
 \title{Generate international trade adjustment vector from Use and Import matrix.}
 \usage{
-generateInternationalTradeAdjustmentVector(Use, model)
+generateInternationalTradeAdjustmentVector(Use, Import, model)
 }
 \arguments{
 \item{Use, }{dataframe of a Use table}
+
+\item{Import, }{dataframe of a Import table}
 
 \item{model, }{An EEIO model object with model specs and crosswalk table loaded}
 }

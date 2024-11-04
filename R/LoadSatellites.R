@@ -139,8 +139,9 @@ generateTbSfromSatSpec <- function(sat_spec, model) {
 #'@param tbs, totals-by-sector df
 #'@param sat_spec, a standard specification for a single satellite table
 #'@param model an EEIO model with IO tables loaded
+#' @param agg_metasources, bool, TRUE to aggregate TbS ignoring MetaSources field
 #'@return a totals-by-sector df with the sectors and flow amounts corresponding to the model schema
-conformTbStoIOSchema <- function(tbs, sat_spec, model) {
+conformTbStoIOSchema <- function(tbs, sat_spec, model, agg_metasources=TRUE) {
   # Check if aggregation or disaggregation are needed based on model metadata
   if(!is.null(sat_spec$StaticFile)) {
     for(aggSpecs in model$AggregationSpecs) {
@@ -173,7 +174,8 @@ conformTbStoIOSchema <- function(tbs, sat_spec, model) {
       tbs <- aggregateSatelliteTable(tbs,from_level = sat_spec$SectorListLevel,model)
     }
   } else if ("NAICS" %in% sat_spec$SectorListSource) {
-    tbs <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(tbs, sat_spec$DataYears[1], model)
+    tbs <- mapFlowTotalsbySectorandLocationfromNAICStoBEA(tbs, sat_spec$DataYears[1], model,
+                                                          agg_metasources=agg_metasources)
   }  
   return(tbs)
 }

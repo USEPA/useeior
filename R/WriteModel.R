@@ -1,8 +1,9 @@
 # Functions for exporting the model to disc
 
 #' The vector of matrices to write out
-matrices <- c("V", "U", "U_d", "A", "A_d", "B", "C", "D", "L", "L_d",
-              "M", "M_d", "N", "N_d", "Rho", "Phi", "Tau")
+matrices <- c("V", "U", "U_d", "A", "A_d", "A_m", "B", "C", "D", "L", "L_d",
+              "M", "M_d", "M_m", "N", "N_d", "N_m",
+              "Rho", "Phi", "Tau")
 
 #' Writes all model data and metadata components to the API
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
@@ -84,6 +85,9 @@ writeModeltoXLSX <- function(model, outputfolder) {
   prepareWriteDirs(model, dirs)
   writeModelMetadata(model, dirs)
   metadata_tabs <- c("demands", "flows", "indicators", "sectors")
+  if(is.null(model$SatelliteTables)){
+    metadata_tabs <- metadata_tabs[metadata_tabs != "flows"]
+  }
   if(is.null(model$Indicators)){
     metadata_tabs <- metadata_tabs[metadata_tabs != "indicators"]
   }
@@ -269,24 +273,29 @@ writeModelMetadata <- function(model, dirs) {
   utils::write.csv(sectors, paste0(dirs$model, "/sectors.csv"), na = "",
                    row.names = FALSE, fileEncoding = "UTF-8")
   
-  # Write flows to csv
-  flows <- model$SatelliteTables$flows
-  flows$ID <- apply(flows[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
-  names(flows)[names(flows) == 'FlowUUID'] <- 'UUID'
-  flows <- flows[order(flows$ID),]
-  flows$Index <- c(1:nrow(flows)-1)
-  flows <- flows[, fields$flows]
-  #checkNamesandOrdering(flows$ID, rownames(model$B),
-  #                      "flows in flows.csv and rows in B matrix")
-  utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "",
-                   row.names = FALSE, fileEncoding = "UTF-8")
+  if(!is.null(model$SatelliteTables)) {
+    # Write flows to csv
+    flows <- model$SatelliteTables$flows
+    flows$ID <- apply(flows[, c("Flowable", "Context", "Unit")], 1, FUN = joinStringswithSlashes)
+    names(flows)[names(flows) == 'FlowUUID'] <- 'UUID'
+    flows <- flows[order(flows$ID),]
+    flows$Index <- c(1:nrow(flows)-1)
+    flows <- flows[, fields$flows]
+    #checkNamesandOrdering(flows$ID, rownames(model$B),
+    #                      "flows in flows.csv and rows in B matrix")
+    utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "",
+                     row.names = FALSE, fileEncoding = "UTF-8")
+  }
   
   # Write years to csv
   years <- data.frame(ID=colnames(model$Rho), stringsAsFactors = FALSE)
   years$Index <- c(1:length(years$ID)-1)
   years <- years[, fields$years]
-  checkNamesandOrdering(years$ID, colnames(model$Phi),
-                        "years in years.csv and cols in Phi matrix")
+  
+  if(!is.null(model$Phi)) {
+    checkNamesandOrdering(years$ID, colnames(model$Phi),
+                          "years in years.csv and cols in Phi matrix")
+  }
   checkNamesandOrdering(years$ID, colnames(model$Rho),
                         "years in years.csv and cols in Rho matrix")
   utils::write.csv(years, paste0(dirs$model, "/years.csv"), na = "",

@@ -19,8 +19,12 @@ adjustResultMatrixPrice <- function(matrix_name, currency_year, purchaser_price=
   }
   # Adjust price type of multiplier
   if (purchaser_price) {
-    logging::loginfo(paste("Adjusting", matrix_name, "matrix from producer to purchaser price..."))
-    mat <- adjustMultiplierPriceType(mat, currency_year, model)
+    if(is.null(model$Phi)) {
+      logging::logwarn("Model does not contain margins, purchaser price can not be calculated")
+    } else {
+      logging::loginfo(paste("Adjusting", matrix_name, "matrix from producer to purchaser price..."))
+      mat <- adjustMultiplierPriceType(mat, currency_year, model)
+    }
   } else {
     logging::loginfo(paste("Keeping", matrix_name, "matrix in producer price..."))
   }

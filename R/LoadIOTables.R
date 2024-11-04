@@ -12,15 +12,18 @@ loadIOData <- function(model, configpaths = NULL) {
   model <- loadIOmeta(model)
   # Define IO table names
   io_table_names <- c("MakeTransactions", "UseTransactions", "DomesticUseTransactions",
-                      "DomesticUseTransactionswithTrade", "UseTransactionswithTrade",
                       "UseValueAdded", "FinalDemand", "DomesticFinalDemand",
                       "InternationalTradeAdjustment")
   # Load IO data
   if (model$specs$IODataSource=="BEA") {
     io_codes <- loadIOcodes(model$specs)
+    io_table_names <- c(io_table_names, "ImportMatrix") #TODO: Move this outside of If-else, depending on how it works with 2R models
     model[io_table_names] <- loadNationalIOData(model, io_codes)[io_table_names]
+
   } else if (model$specs$IODataSource=="stateior") {
+    io_table_names <- c(io_table_names, "DomesticUseTransactionswithTrade", "UseTransactionswithTrade")
     model[io_table_names] <- loadTwoRegionStateIOtables(model)[io_table_names]
+    #TODO: Load 2R Imports
   }
   
   # Add Industry and Commodity Output
@@ -38,8 +41,10 @@ loadIOData <- function(model, configpaths = NULL) {
     names(model$InternationalTradeAdjustment) <- model$Industries$Code_Loc
   }
   
-  # Add Margins table
-  model$Margins <- getMarginsTable(model)
+  if (model$specs$IODataSource != "stateior") {
+    # Add Margins table, currently only for one-region models (see Issue #290)
+    model$Margins <- getMarginsTable(model)
+  }
   
   # Add TaxLessSubsidies table
   model$TaxLessSubsidies <- generateTaxLessSubsidiesTable(model)
@@ -195,12 +200,16 @@ loadNationalIOData <- function(model, io_codes) {
                                                           "F")]
   io_codes$FinalDemandCodes <- colnames(BEA$FinalDemand)
   
+  BEA$ImportMatrix <- loadImportMatrix(model, io_codes)
+  
   # Generate domestic Use transaction and final demand
-  DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$FinalDemand), model)
+  DomesticUse <- generateDomesticUse(cbind(BEA$UseTransactions, BEA$FinalDemand),
+                                     BEA$ImportMatrix, model)
   BEA$DomesticUseTransactions <- DomesticUse[, io_codes$Industries]
   BEA$DomesticFinalDemand <- DomesticUse[, io_codes$FinalDemandCodes]
   # Generate Import Cost vector
-  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(cbind(BEA$UseTransactions, BEA$FinalDemand), model)
+  BEA$InternationalTradeAdjustment <- generateInternationalTradeAdjustmentVector(
+    cbind(BEA$UseTransactions, BEA$FinalDemand), BEA$ImportMatrix, model)
   # Modify row and column names to Code_Loc format in all IO tables
   # Use model$Industries
   rownames(BEA$MakeTransactions) <-
@@ -210,6 +219,7 @@ loadNationalIOData <- function(model, io_codes) {
     model$Industries$Code_Loc
   # Use model$Commodities
   colnames(BEA$MakeTransactions) <-
+    rownames(BEA$ImportMatrix) <- 
     rownames(BEA$UseTransactions) <-
     rownames(BEA$DomesticUseTransactions) <-
     rownames(BEA$FinalDemand) <-
@@ -222,6 +232,10 @@ loadNationalIOData <- function(model, io_codes) {
     model$FinalDemandMeta$Code_Loc
   # Use model$ValueAddedMeta
   rownames(BEA$UseValueAdded) <- model$ValueAddedMeta$Code_Loc
+  
+  # Use model$Industries and model$FInalDemandMeta together
+  colnames(BEA$ImportMatrix) <- c(model$Industries$Code_Loc, model$FinalDemandMeta$Code_Loc)
+  
   return(BEA)
 }
 
@@ -292,6 +306,32 @@ loadBEAtables <- function(specs, io_codes) {
     BEA$FinalDemand[is.na(BEA$FinalDemand)] <- 0
   }
   return(BEA)
+}
+
+
+#' Load, format, and save import matrix as a USEEIO model object.
+#' @param model A model object with model specs loaded.
+#' @param io_codes A list of BEA IO codes.
+#' @return Import, df of use table imports.
+loadImportMatrix <- function(model, io_codes) {
+  schema <- getSchemaCode(model$specs)
+  # Load Import matrix
+  if (model$specs$BaseIOLevel != "Sector") {
+    Import <- get(paste(na.omit(c(model$specs$BaseIOLevel, "Import",
+                                  model$specs$IOYear, "BeforeRedef", schema)),
+                        collapse = "_"))*1E6
+  } else {
+    # Load Summary level Import matrix
+    Import <- get(paste(na.omit(c("Summary_Import", model$specs$IOYear, "BeforeRedef", schema)),
+                        collapse = "_"))*1E6
+    # Aggregate Import from Summary to Sector
+    Import <- as.data.frame(aggregateMatrix(as.matrix(Import), "Summary", "Sector", model))
+  }
+  
+  FD_codes <- io_codes$FinalDemandCodes[startsWith(io_codes$FinalDemandCodes,"F")]
+  Import <- Import[io_codes$Commodities, c(io_codes$Industries, FD_codes)]
+  
+  return(Import)
 }
 
 #' Load two-region state IO tables in a list based on model config.

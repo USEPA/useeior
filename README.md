@@ -52,7 +52,7 @@ devtools::install_github("USEPA/useeior")
 devtools::install_github("USEPA/useeior@v1.0.0")
 ```
 
-See [Releases](https://github.com/USEPA/useeior/releases) for all previously realeased versions.
+See [Releases](https://github.com/USEPA/useeior/releases) for all previously released versions.
 
 ## Usage
 

@@ -237,6 +237,9 @@ heatmapSatelliteTableCoverage <- function(model, form="Commodity") {
 #' @export
 heatmapSectorRanking <- function(model, matrix, indicators, sector_to_remove, N_sector, x_title = NULL,
                                  use_codes = TRUE) {
+  if(model$specs$IODataSource == "stateior") {
+    stop("heatmapSectorRanking not available for two-region models.")
+  }
   # Generate BEA sector color mapping
   mapping <- getBEASectorColorMapping(model)
   mapping$GroupName <- mapping$SectorName
@@ -339,8 +342,8 @@ getBEASectorColorMapping <- function(model) {
   ColorLabelMapping$color <- rownames(ColorLabelMapping)
   # Add Households, Used and Other
   # ColorLabelMapping["#FFE119", ] <- c("Households", "F010", "#FFE119") # yellow
-  # ColorLabelMapping["#42D4F4", ] <- c("Used", "Used", "#42D4F4") # cyan (bright blue)
-  # ColorLabelMapping["#469990", ] <- c("Other", "Other", "#469990") # teal
+  ColorLabelMapping["#42D4F4", ] <- c("Used", "Used", "#42D4F4") # cyan (bright blue)
+  ColorLabelMapping["#469990", ] <- c("Other", "Other", "#469990") # teal
   # Prepare BEA Sector-modelIOLevel mapping
   mapping <- unique(model$crosswalk[, c("BEA_Sector", "USEEIO")])
   colnames(mapping) <- c("Sector", paste0(model$specs$BaseIOLevel, "Code"))
