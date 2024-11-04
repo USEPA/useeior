@@ -48,18 +48,18 @@ print(paste("Sectors failing:", paste(econval$Failure$rownames, collapse = ", ")
 ```{r include=FALSE}
 result <- c(useeior::calculateEEIOModel(model, perspective = 'DIRECT', demand = "Production"),
             useeior::calculateEEIOModel(model, perspective = 'FINAL', demand = "Consumption"))
-colnames(result$LCIA_d) <- model$Indicators$meta[match(colnames(result$LCIA_d), model$Indicators$meta$Name), "Code"]
-colnames(result$LCIA_f) <- colnames(result$LCIA_d)
+colnames(result$H_r) <- model$Indicators$meta[match(colnames(result$H_r), model$Indicators$meta$Name), "Code"]
+colnames(result$H_l) <- colnames(result$H_r)
 indicators <- c("ACID", "CCDD", "CMSW", "CRHW", "ENRG", "ETOX", "EUTR", "GHG",
                 "HRSP", "HTOX", "LAND", "MNRL", "OZON", "SMOG", "WATR")
 model_list <- list("USEEIOv2.0.1-411" = model)
 ```
 
 ```{r "ranking_direct_prod_final_cons_v2.0.1", fig.width = 20, fig.height = 12}
-p1 <- heatmapSectorRanking(model, matrix = result$LCIA_d, indicators,
-                           sector_to_remove = "", N_sector = 20, x_title = "LCIA_d (DIRECT perspective) & US production demand")
-p2 <- heatmapSectorRanking(model, matrix = result$LCIA_f, indicators,
-                           sector_to_remove = "", N_sector = 20, x_title = "LCIA_f (FINAL perspective) & US consumption demand")
+p1 <- heatmapSectorRanking(model, matrix = result$H_r, indicators,
+                           sector_to_remove = "", N_sector = 20, x_title = "H_r (DIRECT perspective) & US production demand")
+p2 <- heatmapSectorRanking(model, matrix = result$H_l, indicators,
+                           sector_to_remove = "", N_sector = 20, x_title = "H_l (FINAL perspective) & US consumption demand")
 gridExtra::grid.arrange(p1, p2, nrow = 1)
 ```
 
@@ -71,7 +71,7 @@ plotMatrixCoefficient(model_list, matrix_name = "N", coefficient_name = coeffs, 
 ```{r "domestic_proportion_impact_USconsumption_v2.0.1", include=FALSE, fig.height = 12, fig.width = 12}
 fullcons <- calculateEEIOModel(model, perspective = "DIRECT", demand = "Consumption",  use_domestic_requirements = FALSE)
 domcons <- calculateEEIOModel(model, perspective = "DIRECT", demand = "Consumption", use_domestic_requirements = TRUE)
-barplotFloworImpactFractionbyRegion(R1_calc_result = domcons$LCIA_d, Total_calc_result = fullcons$LCIA_d, x_title = "")
+barplotFloworImpactFractionbyRegion(R1_calc_result = domcons$H_r, Total_calc_result = fullcons$H_r, x_title = "")
 ```
 
 ```{r "indicator_score_v2.0.1", fig.height = 12, fig.width = 12}

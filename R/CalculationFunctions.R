@@ -147,50 +147,51 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
   }
 
   ## Description of result components apply to both FINAL and DIRECT perspectives
-  # r1 - Domestic emissions from domestic production
-  # r2 - Emissions from imported goods consumed as intermediate products
-  # r3 - Emissions from imported goods consumed as final products
+  # see equations 4-7 and 9-12 in EPA 600/R-24/116
+  # G_d - Domestic emissions from domestic production
+  # G_mi - Emissions from imported goods consumed as intermediate products by domestic industries
+  # G_mf - Emissions from imported goods consumed as final products
 
   if(perspective == "FINAL") {
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Final Perspective LCI and LCIA with external import factors...")
-    subscript <- "f"
-    r1 <- model$B %*% model$L_d %*% diag(as.vector(y_d))
-    r2 <- model$M_m %*% model$A_m %*% model$L_d %*% diag(as.vector(y_d))
+    subscript <- "l"
+    G_d <- model$B %*% model$L_d %*% diag(as.vector(y_d))
+    G_mi <- model$M_m %*% model$A_m %*% model$L_d %*% diag(as.vector(y_d))
 
   } else { # Calculate direct perspective results.
     # Calculate Direct Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Direct + Imported Perspective LCI and LCIA with external import factors...")
-    subscript <- "d"
+    subscript <- "r"
     s <- getScalingVector(model$L_d, y_d)
-    r1 <- t(calculateDirectPerspectiveLCI(model$B, s))
-    r2 <- t(calculateDirectPerspectiveLCI(model$M_m, (model$A_m %*% model$L_d %*% y_d)))
+    G_d <- t(calculateDirectPerspectiveLCI(model$B, s))
+    G_mi <- t(calculateDirectPerspectiveLCI(model$M_m, (model$A_m %*% model$L_d %*% y_d)))
   }
-  r3 <- model$M_m %*% diag(as.vector(y_m))
+  G_mf <- model$M_m %*% diag(as.vector(y_m))
 
   if (use_domestic_requirements) {
     # zero out the import results
-    r2[] <- 0
-    r3[] <- 0
+    G_mi[] <- 0
+    G_mf[] <- 0
   }
     
   if(show_RoW) {
     if(model$specs$IODataSource=="stateior") {
       # collapse third term for SoI and RoUS
-      r3 <- r3[, 1:sector_count] + r3[, (sector_count+1):(sector_count*2)]
+      G_mf <- G_mf[, 1:sector_count] + G_mf[, (sector_count+1):(sector_count*2)]
       
       if(perspective == "DIRECT") {
         # collapse second and third term for SoI and RoUS
-        r2 <- r2[, 1:sector_count] + r2[, (sector_count+1):(sector_count*2)]
+        G_mi <- G_mi[, 1:sector_count] + G_mi[, (sector_count+1):(sector_count*2)]
       }
     }
     if(perspective == "DIRECT") {
-      LCI <- cbind(r1, r2 + r3) # Term 2 and Term 3 are assigned to RoW
+      LCI <- cbind(G_d, G_mi + G_mf) # Term 2 and Term 3 are assigned to RoW
     } else {
-      LCI <- cbind(r1 + r2, r3) # Term 3 is assigned to RoW
+      LCI <- cbind(G_d + G_mi, G_mf) # Term 3 is assigned to RoW
     }
   } else {
-    LCI <- r1 + r2 + r3 # All three terms combined and regions do not change 
+    LCI <- G_d + G_mi + G_mf # All three terms combined and regions do not change 
   }
     
   # Calculate LCIA (matrix with direct impacts in form of sector x impacts)
@@ -210,8 +211,8 @@ calculateResultsWithExternalFactors <- function(model, perspective = "FINAL", de
     LCI <- rbind(LCI, hh)
     LCIA <- rbind(LCIA, hh_lcia)
   }
-  result[[paste0("LCI_", subscript)]] <- LCI
-  result[[paste0("LCIA_", subscript)]] <- LCIA
+  result[[paste0("G_", subscript)]] <- LCI
+  result[[paste0("H_", subscript)]] <- LCIA
   return(result)
   
 }
@@ -255,24 +256,24 @@ calculateStandardResults <- function(model, perspective, demand, use_domestic_re
     # Calculate Direct Perspective LCI (a matrix with direct impacts in form of sector x flows)
     logging::loginfo("Calculating Direct Perspective LCI...")
     s <- getScalingVector(L, f)
-    result$LCI_d <- calculateDirectPerspectiveLCI(model$B, s)
+    result$G_r <- calculateDirectPerspectiveLCI(model$B, s)
     # Calculate Direct Perspective LCIA (matrix with direct impacts in form of sector x impacts)
     logging::loginfo("Calculating Direct Perspective LCIA...")
-    result$LCIA_d <- calculateDirectPerspectiveLCIA(model$D, s)
+    result$H_r <- calculateDirectPerspectiveLCIA(model$D, s)
     if(household_emissions) {
-      result$LCI_d <- rbind(result$LCI_d, hh)
-      result$LCIA_d <- rbind(result$LCIA_d, hh_lcia)
+      result$G_r <- rbind(result$G_r, hh)
+      result$H_r <- rbind(result$H_r, hh_lcia)
     }
   } else if (perspective=="FINAL") {
     # Calculate Final Perspective LCI (a matrix with total impacts in form of sector x flows)
     logging::loginfo("Calculating Final Perspective LCI...")
-    result$LCI_f <- calculateFinalPerspectiveLCI(M, f)
+    result$G_l <- calculateFinalPerspectiveLCI(M, f)
     # Calculate Final Perspective LCIA (matrix with total impacts in form of sector x impacts)
     logging::loginfo("Calculating Final Perspective LCIA...")
-    result$LCIA_f <- calculateFinalPerspectiveLCIA(N, f)
+    result$H_l <- calculateFinalPerspectiveLCIA(N, f)
     if(household_emissions) {
-      result$LCI_f <- rbind(result$LCI_f, hh)
-      result$LCIA_f <- rbind(result$LCIA_f, hh_lcia)
+      result$G_l <- rbind(result$G_l, hh)
+      result$H_l <- rbind(result$H_l, hh_lcia)
     }
   }
   
@@ -304,9 +305,9 @@ getScalingVector <- function(L, demand) {
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 9.
 calculateDirectPerspectiveLCI <- function(B, s) {
-  lci_d <- t(B %*% diag(as.vector(s), nrow(s)))
-  rownames(lci_d) <- rownames(s)
-  return(lci_d)
+  G_r <- t(B %*% diag(as.vector(s), nrow(s)))
+  rownames(G_r) <- rownames(s)
+  return(G_r)
 }
 
 #' The final perspective LCI aligns flows with sectors consumed by final users.
@@ -319,10 +320,10 @@ calculateDirectPerspectiveLCI <- function(B, s) {
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 10.
 calculateFinalPerspectiveLCI <- function(M, y) {
-  lci_f <- t(M %*% diag(as.vector(y)))
-  colnames(lci_f) <- rownames(M)
-  rownames(lci_f) <- colnames(M)
-  return(lci_f)
+  G_l <- t(M %*% diag(as.vector(y)))
+  colnames(G_l) <- rownames(M)
+  rownames(G_l) <- colnames(M)
+  return(G_l)
 }
 
 #' The direct perspective LCIA aligns impacts with sectors consumed by direct use.
@@ -335,9 +336,9 @@ calculateFinalPerspectiveLCI <- function(M, y) {
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 9.
 calculateDirectPerspectiveLCIA <- function(D, s) {
-  lcia_d <- t(D %*% diag(as.vector(s), nrow(s)))
-  rownames(lcia_d) <- rownames(s)
-  return(lcia_d)
+  H_r <- t(D %*% diag(as.vector(s), nrow(s)))
+  rownames(H_r) <- rownames(s)
+  return(H_r)
 }
 
 #' The final perspective LCIA aligns impacts with sectors consumed by final users.
@@ -350,10 +351,10 @@ calculateDirectPerspectiveLCIA <- function(D, s) {
 #' Journal of Cleaner Production 158 (August): 308–18. https://doi.org/10.1016/j.jclepro.2017.04.150.
 #' SI1, Equation 10.
 calculateFinalPerspectiveLCIA <- function(N, y) {
-  lcia_f <- t(N %*% diag(as.vector(y)))
-  colnames(lcia_f) <- rownames(N)
-  rownames(lcia_f) <- colnames(N)
-  return(lcia_f)
+  H_l <- t(N %*% diag(as.vector(y)))
+  colnames(H_l) <- rownames(N)
+  rownames(H_l) <- colnames(N)
+  return(H_l)
 }
 
 #' Divide/Normalize a sector x flows matrix by the total of respective flow (column sum)
