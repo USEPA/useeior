@@ -7,7 +7,8 @@
 aggregateResultMatrix(matrix, to_level, crosswalk)
 }
 \arguments{
-\item{matrix}{A matrix with sectors as rows and columns}
+\item{matrix}{A matrix of inventory or impact results with sectors as both rows and columns,
+such as the output from calculateSectorPurchasedbySectorSourcedImpact()}
 
 \item{to_level}{The level of BEA code this matrix will be aggregated to}
 
