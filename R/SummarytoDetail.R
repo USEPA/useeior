@@ -90,7 +90,7 @@ disaggregateSummaryModel <- function (modelname = "USEEIOv2.0", detailModel = NU
   outputDF$originalSector <- sectorToDisaggregate # Needed for the case where we want to combine multiple allocations later.
   
   #Write DFs to correct folder
-  writeAllocationsToCSV(outputDF, disaggParams, writePath)
+  writeAllocationsToCSV(outputDF, disaggParams, writePath, writeFile)
   return(outputDF)
   }
   
