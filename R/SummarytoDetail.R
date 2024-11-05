@@ -357,7 +357,7 @@ assignCombinedPercentagesByTable <- function(listOfAllocations, listOfCrosswalks
   allocDFUse <- reshape2::melt(t(t(listOfUseTables[[length(listOfUseTables)]])), id.vars=1) # Need double transpose to get the right melt shape and row ordering
   allocDFUse <- allocDFUse[,c(2,1,3)] #reorder columns
   
-  colnames(allocDFUse) <- c("IndustryCode", "CommodityCode", "PercentUse")
+  colnames(allocDFUse) <- c("IndustryCode", "CommodityCode", "PercentUsed")
   noteDF <-  data.frame(Note = I(rep("CommodityDisagg", nrow(allocDFUse))))
   allocDFUse <- cbind(allocDFUse, noteDF)
   
@@ -983,7 +983,7 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg) {
   
   # Initialize dataframe that contains allocation values
   outputDF <- data.frame(IndustryCode = character(), CommodityCode = character(),
-                         PercentUse = double(), Note = character())
+                         PercentUsed = double(), Note = character())
   # Get a list of all summary sectors
   summarySectorList <- as.list(unique(disaggParams$detailModel$crosswalk$BEA_Summary))
   
@@ -997,7 +997,7 @@ generateEconomicAllocations <- function (disaggParams, Table, vectorToDisagg) {
     originalColCodes <- rbind(disaggParams$detailModel$Industries[c("Code", "Name", "Code_Loc")], 
                               disaggParams$detailModel$FinalDemandMeta[c("Code", "Name", "Code_Loc")])
     
-    allocName <- "PercentUse"
+    allocName <- "PercentUsed"
     
     # DetailCodeOutput index indicates which column in the output data to assign the detail (disaggregated) codes. 
     # For Use column disagg (industries) the index is 1. 
