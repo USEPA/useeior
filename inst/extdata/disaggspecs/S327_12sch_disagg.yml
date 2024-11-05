@@ -1,0 +1,10 @@
+Disaggregation:
+  327/US:
+    OriginalSectorCode: "327/US"
+    OriginalSectorName: "Clay, glass, cement, concrete, and other nonmetallic mineral products"
+    DisaggregationType: "Userdefined"
+    SectorFile: S327_12sch_disagg_Sectors.csv 
+    MakeFile: S327_12sch_disagg_Make.csv
+    UseFile: S327_12sch_disagg_Use.csv
+    EnvFile: S327_12sch_disagg_Env.csv #Update of GHGs from NGIAM for waste sectors
+
