@@ -910,6 +910,9 @@ createSectorsCSV <- function (disaggParams){
     colnames(descriptionsDF) <- colnames(disaggParams$detailModel$Commodities[commodityIndex, 2:5])
     colnames(descriptionsDF)[1] <- c("USEEIO_Name")
     colnames(outputDF) <- c("NAICS_2012_Code","USEEIO_Code")
+    # ^^ TODO: if running a 2017 model this label won't be accurate (but ultimately needs
+    # to align with the model where it will be used, e.g. a state 2r model, so keep for now).
+    
     outputDF <- cbind(outputDF, descriptionsDF)
 
 
