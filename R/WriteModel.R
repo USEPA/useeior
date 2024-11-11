@@ -19,9 +19,23 @@ writeModelforAPI <-function(model, basedir){
   writeSectorCrosswalk(model, dirs$data)
 }
 
+#' Writes all model data and metadata components to JSON
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param basedir Base directory to write the model components to
+#' @description Writes all model data and metadata components to JSON
+#' @export
+writeModeltoJSON <- function(model, basedir) {
+  dirs <- setWriteDirs(model,basedir)
+  prepareWriteDirs(model, dirs)
+  writeModelMatrices(model,"json",dirs$model)
+  writeModelDemandstoJSON(model,dirs$demands)
+  # writeModelMetadata(model,dirs)
+  # writeSectorCrosswalk(model, dirs$data)
+}
+
 #' Write model matrices as .csv or .bin files to output folder.
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
-#' @param to_format A string specifying the format of write-to file, can be "csv" or "bin".
+#' @param to_format A string specifying the format of write-to file, can be "csv", "bin", or "json".
 #' @param outputfolder A directory to write matrices out to
 #' @description Writes model matrices as .csv or .bin files to output folder.
 #' @export
@@ -46,6 +60,13 @@ writeModelMatrices <- function(model, to_format, outputfolder) {
     # Write x (Industry Output) or q (Commodity Output) to .bin files
     writeMatrixasBinFile(as.matrix(model$q), paste0(modelfolder, "/q.bin"))
     writeMatrixasBinFile(as.matrix(model$x), paste0(modelfolder, "/x.bin"))
+  } else if (to_format=="json") {
+    modelfolder <- paste0(outputfolder, "/matrix")
+    dir.create(modelfolder, showWarnings = FALSE)
+    for (matrix in c(matrix_ls, "q", "x")) {
+      writeMatrixtoJSON(as.matrix(model[[matrix]]),
+                        paste0(modelfolder, "/", matrix, ".json"))
+    }
   }
   logging::loginfo(paste0("Model matrices written to ", modelfolder, "."))
 }
@@ -197,6 +218,15 @@ writeModelDemandstoJSON <- function(model, outputfolder) {
     write(f, paste0(outputfolder, "/", n, ".json"))
   }
   logging::loginfo(paste0("Model demand vectors for API written to ", outputfolder, "."))
+}
+
+#' Write model matrix as JSON files to output folder.
+#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param outputpath A directory and file to write to.
+#' @description Writes model objects.
+writeMatrixtoJSON <- function(matrix, outputpath) {
+  mat <- jsonlite::toJSON(matrix, pretty = TRUE)
+  write(mat,outputpath)
 }
 
 #' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder
