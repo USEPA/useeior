@@ -7,9 +7,9 @@
 writeMatrixtoJSON(matrix, outputpath)
 }
 \arguments{
-\item{outputpath}{A directory and file to write to.}
+\item{matrix}{A matrix to be written}
 
-\item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
+\item{outputpath}{A directory and file to write to.}
 }
 \description{
 Writes model objects.

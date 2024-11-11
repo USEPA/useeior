@@ -221,7 +221,7 @@ writeModelDemandstoJSON <- function(model, outputfolder) {
 }
 
 #' Write model matrix as JSON files to output folder.
-#' @param model A complete EEIO model: a list with USEEIO model components and attributes.
+#' @param matrix A matrix to be written
 #' @param outputpath A directory and file to write to.
 #' @description Writes model objects.
 writeMatrixtoJSON <- function(matrix, outputpath) {
