@@ -129,6 +129,7 @@ writeModeltoXLSX(model, ".")
 ## USEEIOv2.3 Summary, commodity model with GHGs and Import Factors
 m <- "USEEIOv2.3-s-GHG-19"
 model <- buildModel(m)
+writeModeltoJSON(model, ".")
 printValidationResults(model)
 testCalculationFunctions(model)
 testVisualizationFunctions(model)
@@ -137,6 +138,7 @@ testVisualizationFunctions(model)
 m <- "GAEEIOv1.0-GHG-19"
 model <- buildModel(m)
 printValidationResults(model)
+writeModeltoJSON(model, ".")
 writeModeltoXLSX(model, ".")
 testCalculationFunctions(model)
 testVisualizationFunctions(model)
