@@ -4,13 +4,15 @@
 \alias{writeSectorCrosswalk}
 \title{Write the model sector crosswalk as .csv file}
 \usage{
-writeSectorCrosswalk(model, outputfolder)
+writeSectorCrosswalk(model, outputfolder, to_format = "csv")
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
 \item{outputfolder}{A directory to write model sector crosswalk}
+
+\item{to_format}{A string specifying the format of write-to file, can be "csv" or "json".}
 }
 \description{
-Writes the model sector crosswalk as .csv file
+Writes the model sector crosswalk as .csv  or .json file
 }

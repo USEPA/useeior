@@ -9,7 +9,7 @@ writeModelMatrices(model, to_format, outputfolder)
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
-\item{to_format}{A string specifying the format of write-to file, can be "csv" or "bin".}
+\item{to_format}{A string specifying the format of write-to file, can be "csv", "bin", or "json".}
 
 \item{outputfolder}{A directory to write matrices out to}
 }
