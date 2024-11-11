@@ -240,7 +240,7 @@ writeModelMetadata <- function(model, dirs, to_format="csv") {
                                              package="useeior"))
   
   # Write model description to models.csv
-  model_desc <- file.path(dirs$data, "models.csv")
+  model_desc <- file.path(dirs$data, paste0("models.", to_format))
   ID <- model$specs$Model
   Name <- model$specs$Model
   Location <- model$specs$ModelRegionAcronyms[1]
@@ -262,8 +262,12 @@ writeModelMetadata <- function(model, dirs, to_format="csv") {
   if (!file.exists(model_desc)) {
     df <- cbind.data.frame(model_fields)
   } else {
-    df <- utils::read.table(model_desc, sep = ",", header = TRUE,
-                            stringsAsFactors = FALSE, check.names = FALSE)
+    if(to_format == "csv") {
+      df <- utils::read.table(model_desc, sep = ",", header = TRUE,
+                              stringsAsFactors = FALSE, check.names = FALSE)
+    } else if (to_format == "json") {
+      df <- jsonlite::fromJSON(model_desc)
+    }
     if (!ID%in%df$ID) {
       df <- rbind(df, cbind.data.frame(model_fields))
     }
