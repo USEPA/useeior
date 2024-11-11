@@ -16,7 +16,7 @@ writeModelforAPI <-function(model, basedir){
   writeModelMatrices(model,"bin",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
   writeModelMetadata(model,dirs,"csv")
-  writeSectorCrosswalk(model, dirs$data)
+  writeSectorCrosswalk(model,dirs$data,"csv")
 }
 
 #' Writes all model data and metadata components to JSON
@@ -30,7 +30,7 @@ writeModeltoJSON <- function(model, basedir) {
   writeModelMatrices(model,"json",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
   writeModelMetadata(model,dirs,"json")
-  # writeSectorCrosswalk(model, dirs$data)
+  writeSectorCrosswalk(model,dirs$data,"json")
 }
 
 #' Write model matrices as .csv or .bin files to output folder.
@@ -365,14 +365,19 @@ writeModelMetadata <- function(model, dirs, to_format="csv") {
 #' Write the model sector crosswalk as .csv file
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param outputfolder A directory to write model sector crosswalk
-#' @description Writes the model sector crosswalk as .csv file
-writeSectorCrosswalk <- function(model, outputfolder){
+#' @param to_format A string specifying the format of write-to file, can be "csv" or "json".
+#' @description Writes the model sector crosswalk as .csv  or .json file
+writeSectorCrosswalk <- function(model, outputfolder, to_format="csv"){
   crosswalk <- prepareModelSectorCrosswalk(model)
   crosswalk$ModelSchema <- ""
-  utils::write.csv(crosswalk, paste0(outputfolder, "/sectorcrosswalk.csv"),
-                   na = "", row.names = FALSE, fileEncoding = "UTF-8")
-  logging::loginfo(paste0("Sector crosswalk written as sectorcrosswalk.csv to ",
-                          outputfolder, "."))
+  if(to_format == "csv") {
+    utils::write.csv(crosswalk, paste0(outputfolder, "/sectorcrosswalk.csv"),
+                     na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  } else if (to_format == "json") {
+    write(jsonlite::toJSON(crosswalk, pretty = TRUE),
+          file.path(outputfolder, "sectorcrosswalk.json"))
+  }
+  logging::loginfo(paste0("Sector crosswalk written to ", outputfolder, "."))
 }
 
 #' Write out session information to a "Rsessioninfo.txt file in the given path
