@@ -15,7 +15,7 @@ writeModelforAPI <-function(model, basedir){
   prepareWriteDirs(model, dirs)
   writeModelMatrices(model,"bin",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
-  writeModelMetadata(model,dirs)
+  writeModelMetadata(model,dirs,"csv")
   writeSectorCrosswalk(model, dirs$data)
 }
 
@@ -29,7 +29,7 @@ writeModeltoJSON <- function(model, basedir) {
   prepareWriteDirs(model, dirs)
   writeModelMatrices(model,"json",dirs$model)
   writeModelDemandstoJSON(model,dirs$demands)
-  # writeModelMetadata(model,dirs)
+  writeModelMetadata(model,dirs,"json")
   # writeSectorCrosswalk(model, dirs$data)
 }
 
@@ -104,7 +104,7 @@ writeModeltoXLSX <- function(model, outputfolder) {
   dirs <- setWriteDirs(model, file.path(rappdirs::user_data_dir(), "useeior",
                                         "Model_Builds", model$specs$Model))
   prepareWriteDirs(model, dirs)
-  writeModelMetadata(model, dirs)
+  writeModelMetadata(model, dirs, "csv")
   metadata_tabs <- c("demands", "flows", "indicators", "sectors")
   if(is.null(model$SatelliteTables)){
     metadata_tabs <- metadata_tabs[metadata_tabs != "flows"]
@@ -225,16 +225,16 @@ writeModelDemandstoJSON <- function(model, outputfolder) {
 #' @param outputpath A directory and file to write to.
 #' @description Writes model objects.
 writeMatrixtoJSON <- function(matrix, outputpath) {
-  mat <- jsonlite::toJSON(matrix, pretty = TRUE)
-  write(mat,outputpath)
+  write(jsonlite::toJSON(matrix, pretty = TRUE), outputpath)
 }
 
 #' Write model metadata (indicators and demands, sectors, and flows) as CSV files to output folder
 #' format for file is here https://github.com/USEPA/USEEIO_API/blob/master/doc/data_format.md
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param dirs A named list of directories with model and data directory paths
+#' @param to_format A string specifying the format of write-to file, can be "csv" or "json".
 #' @description Writes model metadata, including indicators and demands.
-writeModelMetadata <- function(model, dirs) {
+writeModelMetadata <- function(model, dirs, to_format="csv") {
   # Load metadata fields for API
   fields <- configr::read.config(system.file("extdata/USEEIO_API_fields.yml",
                                              package="useeior"))
@@ -268,7 +268,11 @@ writeModelMetadata <- function(model, dirs) {
       df <- rbind(df, cbind.data.frame(model_fields))
     }
   }
-  utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  if(to_format == "csv") {
+    utils::write.csv(df, model_desc, na = "", row.names = FALSE, fileEncoding = "UTF-8")
+  } else if(to_format == "json") {
+    write(jsonlite::toJSON(df, pretty = TRUE), file.path(dirs$data, "models.json"))
+  }
   
   if(!is.null(model$Indicators)) {
     # Write indicators to indicators.csv
@@ -280,16 +284,24 @@ writeModelMetadata <- function(model, dirs) {
     indicators <- indicators[,fields$indicators]
     checkNamesandOrdering(indicators$Name, rownames(model$C),
                           "code in indicators.csv and rows in C matrix")
-    utils::write.csv(indicators, paste0(dirs$model, "/indicators.csv"), na = "",
-                     row.names = FALSE, fileEncoding = "UTF-8")
+    if(to_format == "csv") {
+      utils::write.csv(indicators, paste0(dirs$model, "/indicators.csv"), na = "",
+                       row.names = FALSE, fileEncoding = "UTF-8")
+    } else if(to_format == "json") {
+      write(jsonlite::toJSON(indicators, pretty = TRUE), file.path(dirs$model, "indicators.json"))
+    }
   }
   
   # Write demands to demands.csv
   demands <- model$DemandVectors$meta
   demands$Index <- c(1:nrow(demands)-1)
   demands <- demands[,fields$demands]
-  utils::write.csv(demands, paste0(dirs$model, "/demands.csv"), na = "",
-                   row.names = FALSE, fileEncoding = "UTF-8")
+  if(to_format == "csv") {
+    utils::write.csv(demands, paste0(dirs$model, "/demands.csv"), na = "",
+                     row.names = FALSE, fileEncoding = "UTF-8")
+  } else if(to_format == "json") {
+    write(jsonlite::toJSON(demands, pretty = TRUE), file.path(dirs$model, "demands.json"))
+  }
   
   # Write sectors to csv
   sectors <- model[[gsub("y", "ies", model$specs$CommodityorIndustryType)]]
@@ -300,8 +312,13 @@ writeModelMetadata <- function(model, dirs) {
   sectors <- sectors[, fields$sectors]
   checkNamesandOrdering(sectors$ID, rownames(model$L),
                         "code in sectors.csv and rows in L matrix")
-  utils::write.csv(sectors, paste0(dirs$model, "/sectors.csv"), na = "",
-                   row.names = FALSE, fileEncoding = "UTF-8")
+  if(to_format == "csv") {
+    utils::write.csv(sectors, paste0(dirs$model, "/sectors.csv"), na = "",
+                     row.names = FALSE, fileEncoding = "UTF-8")
+  } else if(to_format == "json") {
+    sectors$Description <- NULL
+    write(jsonlite::toJSON(sectors, pretty = TRUE), file.path(dirs$model, "sectors.json"))
+  }
   
   if(!is.null(model$SatelliteTables)) {
     # Write flows to csv
@@ -313,8 +330,12 @@ writeModelMetadata <- function(model, dirs) {
     flows <- flows[, fields$flows]
     #checkNamesandOrdering(flows$ID, rownames(model$B),
     #                      "flows in flows.csv and rows in B matrix")
-    utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "",
-                     row.names = FALSE, fileEncoding = "UTF-8")
+    if(to_format == "csv") {
+        utils::write.csv(flows, paste0(dirs$model, "/flows.csv"), na = "",
+                         row.names = FALSE, fileEncoding = "UTF-8")
+    } else if(to_format == "json") {
+      write(jsonlite::toJSON(flows, pretty = TRUE), file.path(dirs$model, "flows.json"))
+    }
   }
   
   # Write years to csv
@@ -328,8 +349,13 @@ writeModelMetadata <- function(model, dirs) {
   }
   checkNamesandOrdering(years$ID, colnames(model$Rho),
                         "years in years.csv and cols in Rho matrix")
-  utils::write.csv(years, paste0(dirs$model, "/years.csv"), na = "",
-                   row.names = FALSE, fileEncoding = "UTF-8")
+  if(to_format == "csv") {
+    utils::write.csv(years, paste0(dirs$model, "/years.csv"), na = "",
+                     row.names = FALSE, fileEncoding = "UTF-8")
+  } else if(to_format == "json") {
+    #todo: is this needed for json?
+    write(jsonlite::toJSON(years, pretty = TRUE), file.path(dirs$model, "years.json"))
+  }
   
   # Write session info to R sessioninfo.txt inside the model folder
   writeSessionInfotoFile(dirs$model)
