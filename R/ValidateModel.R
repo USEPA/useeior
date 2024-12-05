@@ -558,8 +558,8 @@ testVisualizationFunctions <- function(model) {
                                  location = loc)
   domcons <- calculateEEIOModel(model, perspective='DIRECT', demand="Consumption",
                                 location = loc,  use_domestic_requirements = TRUE)
-  barplotFloworImpactFractionbyRegion(domcons$LCIA_d,
-                                      fullcons$LCIA_d,
+  barplotFloworImpactFractionbyRegion(domcons$H_r,
+                                      fullcons$H_r,
                                       "Domestic Proportion of Impact")
   ## ^^ This may not be working correctly for 2R models
   
@@ -575,7 +575,7 @@ testVisualizationFunctions <- function(model) {
   
   if(model$specs$IODataSource != "stateior") {
     # not working for 2R models
-    heatmapSectorRanking(model, matrix = fullcons$LCIA_d, indicators,
+    heatmapSectorRanking(model, matrix = fullcons$H_r, indicators,
                          sector_to_remove = "", N_sector = 20)
   }
   
