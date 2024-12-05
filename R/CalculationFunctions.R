@@ -426,10 +426,10 @@ calculateFlowContributiontoImpact <- function (model, sector, indicator, domesti
 
 #' Aggregate result matrix by rows
 #'
-#' @param matrix      A matrix with sectors as rows
+#' @param matrix      A result calculation matrix (e.g. `G` or `H`) with sectors as rows
 #' @param to_level    The level of BEA code this matrix will be aggregated to
 #' @param crosswalk   Sector crosswalk between levels of detail
-#' @return An aggregated matrix with sectors as rows
+#' @return An aggregated result calculation matrix with sectors as rows
 aggregateResultMatrixbyRow <- function (matrix, to_level, crosswalk) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- "USEEIO"
@@ -450,7 +450,8 @@ aggregateResultMatrixbyRow <- function (matrix, to_level, crosswalk) {
 
 #' Aggregate result matrix by rows and columns
 #'
-#' @param matrix      A matrix with sectors as rows and columns
+#' @param matrix      A matrix of inventory or impact results with sectors as both rows and columns,
+#' such as the output from calculateSectorPurchasedbySectorSourcedImpact()
 #' @param to_level    The level of BEA code this matrix will be aggregated to
 #' @param crosswalk   Sector crosswalk between levels of detail
 #' @return An aggregated matrix with sectors as rows and columns

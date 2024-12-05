@@ -7,14 +7,14 @@
 aggregateResultMatrixbyRow(matrix, to_level, crosswalk)
 }
 \arguments{
-\item{matrix}{A matrix with sectors as rows}
+\item{matrix}{A result calculation matrix (e.g. `G` or `H`) with sectors as rows}
 
 \item{to_level}{The level of BEA code this matrix will be aggregated to}
 
 \item{crosswalk}{Sector crosswalk between levels of detail}
 }
 \value{
-An aggregated matrix with sectors as rows
+An aggregated result calculation matrix with sectors as rows
 }
 \description{
 Aggregate result matrix by rows
