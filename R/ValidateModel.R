@@ -456,7 +456,7 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   print(all.equal(LCI, LCI_dm))
   
   # Calculate LCIA using standard approach
-  LCIA <- t(model$C %*% M %*% diag(as.vector(y))) #same as result_std_consumption$LCIA_f, above
+  LCIA <- t(model$C %*% M %*% diag(as.vector(y)))
   colnames(LCIA) <- rownames(model$N_m)
   rownames(LCIA) <- colnames(model$N_m)
   
@@ -491,7 +491,7 @@ validateHouseholdEmissions <- function(model) {
   flows <- setNames(flows$FlowAmount, flows$Flow)
 
   cat("\nTesting that LCI emissions from households are equivalent to calculated result from Total Consumption.\n")
-  result <- r$LCI_f[codes, names(flows)]
+  result <- r$G_l[codes, names(flows)]
   all.equal(flows, result)
 }
 
