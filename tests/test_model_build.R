@@ -36,6 +36,23 @@ cfg <- paste0("modelspecs/", m, ".yml")
 model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 
+
+### NEW
+## USEEIOv2.2.1-408-GHG Detail, commodity model (2017 Schema)
+m <- "USEEIOv2.2.1-408-GHG"
+cfg <- c(paste0("modelspecs/", m, ".yml"),
+         "disaggspecs/WasteDisaggregationDetail2017.yml",
+         "disaggspecs/WasteDisaggregationDetail2017_Make.csv",
+         "disaggspecs/WasteDisaggregationDetail2017_Use.csv",
+         "disaggspecs/WasteDisaggregationDetail2017_Env.csv",
+         "disaggspecs/WasteDisaggregationDetail2017_Sectors.csv"
+)
+model <- buildModel(m, configpaths = file.path(cfg))
+
+
+###
+
+
 ## USEEIOv2.2-s-GHG Summary, commodity model (2017 Schema)
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
 model$specs$Model <- "USEEIOv2.2-s-GHG"
