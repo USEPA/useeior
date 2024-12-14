@@ -1,0 +1,106 @@
+Flowable,Sector,SectorName,Year,FlowAmount,DataReliability,TechnologicalCorrelation,DataCollection,GeographicalCorrelation,TemporalCorrelation,Location,Context,Unit,FlowUUID,MetaSources,SatelliteTable
+Hexafluoroethane,562910,Remediation services,2016,0,NA,NA,1,1,1,US,emission/air,kg,b24a2de2-da9b-30b8-ae33-3d4ffa692029,GHG,GHG
+Hexafluoroethane,562920,Material separation/recovery facilities,2016,0,NA,NA,1,1,1,US,emission/air,kg,b24a2de2-da9b-30b8-ae33-3d4ffa692029,GHG,GHG
+Hexafluoroethane,562HAZ,Hazardous waste collection treatment and disposal,2016,0,NA,NA,1,1,1,US,emission/air,kg,b24a2de2-da9b-30b8-ae33-3d4ffa692029,GHG,GHG
+Hexafluoroethane,562OTH,Other waste collection and treatment services,2016,0,NA,NA,1,1,1,US,emission/air,kg,b24a2de2-da9b-30b8-ae33-3d4ffa692029,GHG,GHG
+Hexafluoroethane,562111,Solid waste collection,2016,0,NA,NA,1,1,1,US,emission/air,kg,b24a2de2-da9b-30b8-ae33-3d4ffa692029,GHG,GHG
+Hexafluoroethane,562212,Solid waste landfilling,2016,0,NA,NA,1,1,1,US,emission/air,kg,b24a2de2-da9b-30b8-ae33-3d4ffa692029,GHG,GHG
+Hexafluoroethane,562213,Solid waste combustors and incinerators,2016,0,NA,NA,1,1,1,US,emission/air,kg,b24a2de2-da9b-30b8-ae33-3d4ffa692029,GHG,GHG
+Perfluoropropane,562920,Material separation/recovery facilities,2016,0,NA,NA,1,1,1,US,emission/air,kg,d7bc2a19-d1a1-3cbb-b19b-758691f823c1,GHG,GHG
+Perfluoropropane,562HAZ,Hazardous waste collection treatment and disposal,2016,0,NA,NA,1,1,1,US,emission/air,kg,d7bc2a19-d1a1-3cbb-b19b-758691f823c1,GHG,GHG
+Perfluoropropane,562111,Solid waste collection,2016,0,NA,NA,1,1,1,US,emission/air,kg,d7bc2a19-d1a1-3cbb-b19b-758691f823c1,GHG,GHG
+Perfluoropropane,562212,Solid waste landfilling,2016,0,NA,NA,1,1,1,US,emission/air,kg,d7bc2a19-d1a1-3cbb-b19b-758691f823c1,GHG,GHG
+Perfluoropropane,562910,Remediation services,2016,0,NA,NA,1,1,1,US,emission/air,kg,d7bc2a19-d1a1-3cbb-b19b-758691f823c1,GHG,GHG
+Perfluoropropane,562OTH,Other waste collection and treatment services,2016,0,NA,NA,1,1,1,US,emission/air,kg,d7bc2a19-d1a1-3cbb-b19b-758691f823c1,GHG,GHG
+Perfluoropropane,562213,Solid waste combustors and incinerators,2016,0,NA,NA,1,1,1,US,emission/air,kg,d7bc2a19-d1a1-3cbb-b19b-758691f823c1,GHG,GHG
+Perfluorocyclobutane,562111,Solid waste collection,2016,0,NA,NA,1,1,1,US,emission/air,kg,8dbc9ab8-994d-3120-a843-bdbd98c41047,GHG,GHG
+Perfluorocyclobutane,562212,Solid waste landfilling,2016,0,NA,NA,1,1,1,US,emission/air,kg,8dbc9ab8-994d-3120-a843-bdbd98c41047,GHG,GHG
+Perfluorocyclobutane,562213,Solid waste combustors and incinerators,2016,0,NA,NA,1,1,1,US,emission/air,kg,8dbc9ab8-994d-3120-a843-bdbd98c41047,GHG,GHG
+Perfluorocyclobutane,562910,Remediation services,2016,0,NA,NA,1,1,1,US,emission/air,kg,8dbc9ab8-994d-3120-a843-bdbd98c41047,GHG,GHG
+Perfluorocyclobutane,562920,Material separation/recovery facilities,2016,0,NA,NA,1,1,1,US,emission/air,kg,8dbc9ab8-994d-3120-a843-bdbd98c41047,GHG,GHG
+Perfluorocyclobutane,562HAZ,Hazardous waste collection treatment and disposal,2016,0,NA,NA,1,1,1,US,emission/air,kg,8dbc9ab8-994d-3120-a843-bdbd98c41047,GHG,GHG
+Perfluorocyclobutane,562OTH,Other waste collection and treatment services,2016,0,NA,NA,1,1,1,US,emission/air,kg,8dbc9ab8-994d-3120-a843-bdbd98c41047,GHG,GHG
+Carbon tetrafluoride,562111,Solid waste collection,2016,0,NA,NA,1,1,1,US,emission/air,kg,fbfa508b-f3c9-3977-a47d-1138e96914a3,GHG,GHG
+Carbon tetrafluoride,562212,Solid waste landfilling,2016,0,NA,NA,1,1,1,US,emission/air,kg,fbfa508b-f3c9-3977-a47d-1138e96914a3,GHG,GHG
+Carbon tetrafluoride,562213,Solid waste combustors and incinerators,2016,0,NA,NA,1,1,1,US,emission/air,kg,fbfa508b-f3c9-3977-a47d-1138e96914a3,GHG,GHG
+Carbon tetrafluoride,562HAZ,Hazardous waste collection treatment and disposal,2016,0,NA,NA,1,1,1,US,emission/air,kg,fbfa508b-f3c9-3977-a47d-1138e96914a3,GHG,GHG
+Carbon tetrafluoride,562910,Remediation services,2016,0,NA,NA,1,1,1,US,emission/air,kg,fbfa508b-f3c9-3977-a47d-1138e96914a3,GHG,GHG
+Carbon tetrafluoride,562OTH,Other waste collection and treatment services,2016,0,NA,NA,1,1,1,US,emission/air,kg,fbfa508b-f3c9-3977-a47d-1138e96914a3,GHG,GHG
+Carbon tetrafluoride,562920,Material separation/recovery facilities,2016,0,NA,NA,1,1,1,US,emission/air,kg,fbfa508b-f3c9-3977-a47d-1138e96914a3,GHG,GHG
+Methane,562111,Solid waste collection,2016,72426.62017,4,5,1,1,1,US,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80,GHG,GHG
+Methane,562212,Solid waste landfilling,2016,4308011322,2,1,1,1,1,US,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80,GHG,GHG
+Methane,562213,Solid waste combustors and incinerators,2016,4652.673673,4,5,1,1,1,US,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80,GHG,GHG
+Methane,562910,Remediation services,2016,26985.5073,4,5,1,1,1,US,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80,GHG,GHG
+Methane,562920,Material separation/recovery facilities,2016,7599.366999,4,5,1,1,1,US,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80,GHG,GHG
+Methane,562HAZ,Hazardous waste collection treatment and disposal,2016,19696.31855,4,5,1,1,1,US,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80,GHG,GHG
+Methane,562OTH,Other waste collection and treatment services,2016,84012407.13,2,1,1,1,1,US,emission/air,kg,aab83476-ec6c-3742-af85-15d320b7ce80,GHG,GHG
+Carbon dioxide,562111,Solid waste collection,2016,592744553.3,4,5,1,1,1,US,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7,GHG,GHG
+Carbon dioxide,562212,Solid waste landfilling,2016,92656000.84,4,5,1,1,1,US,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7,GHG,GHG
+Carbon dioxide,562213,Solid waste combustors and incinerators,2016,10738077809,2,1,1,1,1,US,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7,GHG,GHG
+Carbon dioxide,562910,Remediation services,2016,220851289.7,4,5,1,1,1,US,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7,GHG,GHG
+Carbon dioxide,562920,Material separation/recovery facilities,2016,62193753.99,4,5,1,1,1,US,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7,GHG,GHG
+Carbon dioxide,562HAZ,Hazardous waste collection treatment and disposal,2016,161196056.3,4,5,1,1,1,US,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7,GHG,GHG
+Carbon dioxide,562OTH,Other waste collection and treatment services,2016,101540822.8,4,5,1,1,1,US,emission/air,kg,b6f010fb-a764-3063-af2d-bcb8309a97b7,GHG,GHG
+HFC-125,562111,Solid waste collection,2016,44805.15779,4,5,1,1,1,US,emission/air,kg,44be3f68-dee3-3228-adb4-04b003485c5f,GHG,GHG
+HFC-125,562212,Solid waste landfilling,2016,7003.804108,4,5,1,1,1,US,emission/air,kg,44be3f68-dee3-3228-adb4-04b003485c5f,GHG,GHG
+HFC-125,562213,Solid waste combustors and incinerators,2016,2878.275661,4,5,1,1,1,US,emission/air,kg,44be3f68-dee3-3228-adb4-04b003485c5f,GHG,GHG
+HFC-125,562910,Remediation services,2016,16693.99883,4,5,1,1,1,US,emission/air,kg,44be3f68-dee3-3228-adb4-04b003485c5f,GHG,GHG
+HFC-125,562920,Material separation/recovery facilities,2016,4701.18358,4,5,1,1,1,US,emission/air,kg,44be3f68-dee3-3228-adb4-04b003485c5f,GHG,GHG
+HFC-125,562HAZ,Hazardous waste collection treatment and disposal,2016,12184.7003,4,5,1,1,1,US,emission/air,kg,44be3f68-dee3-3228-adb4-04b003485c5f,GHG,GHG
+HFC-125,562OTH,Other waste collection and treatment services,2016,7675.401763,4,5,1,1,1,US,emission/air,kg,44be3f68-dee3-3228-adb4-04b003485c5f,GHG,GHG
+HFC-134a,562212,Solid waste landfilling,2016,19108.77573,4,5,1,1,1,US,emission/air,kg,4fd60c2c-8625-3b10-8618-e3eacc121bbb,GHG,GHG
+HFC-134a,562910,Remediation services,2016,45546.9449,4,5,1,1,1,US,emission/air,kg,4fd60c2c-8625-3b10-8618-e3eacc121bbb,GHG,GHG
+HFC-134a,562213,Solid waste combustors and incinerators,2016,7852.921534,4,5,1,1,1,US,emission/air,kg,4fd60c2c-8625-3b10-8618-e3eacc121bbb,GHG,GHG
+HFC-134a,562920,Material separation/recovery facilities,2016,12826.43851,4,5,1,1,1,US,emission/air,kg,4fd60c2c-8625-3b10-8618-e3eacc121bbb,GHG,GHG
+HFC-134a,562HAZ,Hazardous waste collection treatment and disposal,2016,33244.03449,4,5,1,1,1,US,emission/air,kg,4fd60c2c-8625-3b10-8618-e3eacc121bbb,GHG,GHG
+HFC-134a,562111,Solid waste collection,2016,122243.8119,4,5,1,1,1,US,emission/air,kg,4fd60c2c-8625-3b10-8618-e3eacc121bbb,GHG,GHG
+HFC-134a,562OTH,Other waste collection and treatment services,2016,20941.12409,4,5,1,1,1,US,emission/air,kg,4fd60c2c-8625-3b10-8618-e3eacc121bbb,GHG,GHG
+HFC-143a,562212,Solid waste landfilling,2016,3019.849578,4,5,1,1,1,US,emission/air,kg,3c29f66a-2dd8-3f9b-a05c-c8cb3d93f0f1,GHG,GHG
+HFC-143a,562213,Solid waste combustors and incinerators,2016,1241.034073,4,5,1,1,1,US,emission/air,kg,3c29f66a-2dd8-3f9b-a05c-c8cb3d93f0f1,GHG,GHG
+HFC-143a,562910,Remediation services,2016,7197.997623,4,5,1,1,1,US,emission/air,kg,3c29f66a-2dd8-3f9b-a05c-c8cb3d93f0f1,GHG,GHG
+HFC-143a,562920,Material separation/recovery facilities,2016,2027.022319,4,5,1,1,1,US,emission/air,kg,3c29f66a-2dd8-3f9b-a05c-c8cb3d93f0f1,GHG,GHG
+HFC-143a,562HAZ,Hazardous waste collection treatment and disposal,2016,5253.710909,4,5,1,1,1,US,emission/air,kg,3c29f66a-2dd8-3f9b-a05c-c8cb3d93f0f1,GHG,GHG
+HFC-143a,562OTH,Other waste collection and treatment services,2016,3309.424195,4,5,1,1,1,US,emission/air,kg,3c29f66a-2dd8-3f9b-a05c-c8cb3d93f0f1,GHG,GHG
+HFC-143a,562111,Solid waste collection,2016,19318.76374,4,5,1,1,1,US,emission/air,kg,3c29f66a-2dd8-3f9b-a05c-c8cb3d93f0f1,GHG,GHG
+HFC-23,562111,Solid waste collection,2016,0,NA,NA,1,1,1,US,emission/air,kg,b7bab095-d0bf-3d7b-9c8e-c247d71a8f85,GHG,GHG
+HFC-23,562212,Solid waste landfilling,2016,0,NA,NA,1,1,1,US,emission/air,kg,b7bab095-d0bf-3d7b-9c8e-c247d71a8f85,GHG,GHG
+HFC-23,562213,Solid waste combustors and incinerators,2016,0,NA,NA,1,1,1,US,emission/air,kg,b7bab095-d0bf-3d7b-9c8e-c247d71a8f85,GHG,GHG
+HFC-23,562910,Remediation services,2016,0,NA,NA,1,1,1,US,emission/air,kg,b7bab095-d0bf-3d7b-9c8e-c247d71a8f85,GHG,GHG
+HFC-23,562920,Material separation/recovery facilities,2016,0,NA,NA,1,1,1,US,emission/air,kg,b7bab095-d0bf-3d7b-9c8e-c247d71a8f85,GHG,GHG
+HFC-23,562HAZ,Hazardous waste collection treatment and disposal,2016,0,NA,NA,1,1,1,US,emission/air,kg,b7bab095-d0bf-3d7b-9c8e-c247d71a8f85,GHG,GHG
+HFC-23,562OTH,Other waste collection and treatment services,2016,0,NA,NA,1,1,1,US,emission/air,kg,b7bab095-d0bf-3d7b-9c8e-c247d71a8f85,GHG,GHG
+HFC-236fa,562111,Solid waste collection,2016,366.78081,4,5,1,1,1,US,emission/air,kg,32057bc6-6839-3dbc-b33d-5b72e542e3fc,GHG,GHG
+HFC-236fa,562212,Solid waste landfilling,2016,57.33404524,4,5,1,1,1,US,emission/air,kg,32057bc6-6839-3dbc-b33d-5b72e542e3fc,GHG,GHG
+HFC-236fa,562213,Solid waste combustors and incinerators,2016,23.5619364,4,5,1,1,1,US,emission/air,kg,32057bc6-6839-3dbc-b33d-5b72e542e3fc,GHG,GHG
+HFC-236fa,562910,Remediation services,2016,136.6592311,4,5,1,1,1,US,emission/air,kg,32057bc6-6839-3dbc-b33d-5b72e542e3fc,GHG,GHG
+HFC-236fa,562920,Material separation/recovery facilities,2016,38.48449612,4,5,1,1,1,US,emission/air,kg,32057bc6-6839-3dbc-b33d-5b72e542e3fc,GHG,GHG
+HFC-236fa,562HAZ,Hazardous waste collection treatment and disposal,2016,99.74553077,4,5,1,1,1,US,emission/air,kg,32057bc6-6839-3dbc-b33d-5b72e542e3fc,GHG,GHG
+HFC-236fa,562OTH,Other waste collection and treatment services,2016,62.8318304,4,5,1,1,1,US,emission/air,kg,32057bc6-6839-3dbc-b33d-5b72e542e3fc,GHG,GHG
+HFC-32,562212,Solid waste landfilling,2016,3888.522357,4,5,1,1,1,US,emission/air,kg,747fa9a4-559b-37a4-ac9b-5ca630274739,GHG,GHG
+HFC-32,562213,Solid waste combustors and incinerators,2016,1598.022887,4,5,1,1,1,US,emission/air,kg,747fa9a4-559b-37a4-ac9b-5ca630274739,GHG,GHG
+HFC-32,562910,Remediation services,2016,9268.532742,4,5,1,1,1,US,emission/air,kg,747fa9a4-559b-37a4-ac9b-5ca630274739,GHG,GHG
+HFC-32,562920,Material separation/recovery facilities,2016,2610.104048,4,5,1,1,1,US,emission/air,kg,747fa9a4-559b-37a4-ac9b-5ca630274739,GHG,GHG
+HFC-32,562HAZ,Hazardous waste collection treatment and disposal,2016,6764.963553,4,5,1,1,1,US,emission/air,kg,747fa9a4-559b-37a4-ac9b-5ca630274739,GHG,GHG
+HFC-32,562OTH,Other waste collection and treatment services,2016,4261.394364,4,5,1,1,1,US,emission/air,kg,747fa9a4-559b-37a4-ac9b-5ca630274739,GHG,GHG
+HFC-32,562111,Solid waste collection,2016,24875.8896,4,5,1,1,1,US,emission/air,kg,747fa9a4-559b-37a4-ac9b-5ca630274739,GHG,GHG
+Nitrous oxide,562111,Solid waste collection,2016,2661.242494,4,5,1,1,1,US,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492,GHG,GHG
+Nitrous oxide,562212,Solid waste landfilling,2016,415.9972206,4,5,1,1,1,US,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492,GHG,GHG
+Nitrous oxide,562213,Solid waste combustors and incinerators,2016,1006882.367,2,1,1,1,1,US,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492,GHG,GHG
+Nitrous oxide,562910,Remediation services,2016,991.555019,4,5,1,1,1,US,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492,GHG,GHG
+Nitrous oxide,562OTH,Other waste collection and treatment services,2016,6376294.814,4,1,1,1,1,US,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492,GHG,GHG
+Nitrous oxide,562920,Material separation/recovery facilities,2016,279.2310111,4,5,1,1,1,US,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492,GHG,GHG
+Nitrous oxide,562HAZ,Hazardous waste collection treatment and disposal,2016,723.721192,4,5,1,1,1,US,emission/air,kg,cfee0524-7ad6-300b-b050-6249135a2492,GHG,GHG
+Nitrogen trifluoride,562111,Solid waste collection,2016,0,NA,NA,1,1,1,US,emission/air,kg,80d4ef62-ca97-37d6-87ac-83233956c063,GHG,GHG
+Nitrogen trifluoride,562212,Solid waste landfilling,2016,0,NA,NA,1,1,1,US,emission/air,kg,80d4ef62-ca97-37d6-87ac-83233956c063,GHG,GHG
+Nitrogen trifluoride,562213,Solid waste combustors and incinerators,2016,0,NA,NA,1,1,1,US,emission/air,kg,80d4ef62-ca97-37d6-87ac-83233956c063,GHG,GHG
+Nitrogen trifluoride,562910,Remediation services,2016,0,NA,NA,1,1,1,US,emission/air,kg,80d4ef62-ca97-37d6-87ac-83233956c063,GHG,GHG
+Nitrogen trifluoride,562HAZ,Hazardous waste collection treatment and disposal,2016,0,NA,NA,1,1,1,US,emission/air,kg,80d4ef62-ca97-37d6-87ac-83233956c063,GHG,GHG
+Nitrogen trifluoride,562920,Material separation/recovery facilities,2016,0,NA,NA,1,1,1,US,emission/air,kg,80d4ef62-ca97-37d6-87ac-83233956c063,GHG,GHG
+Nitrogen trifluoride,562OTH,Other waste collection and treatment services,2016,0,NA,NA,1,1,1,US,emission/air,kg,80d4ef62-ca97-37d6-87ac-83233956c063,GHG,GHG
+Sulfur hexafluoride,562111,Solid waste collection,2016,0,NA,NA,1,1,1,US,emission/air,kg,8334c424-1603-3274-bec1-15a7bd5c8e86,GHG,GHG
+Sulfur hexafluoride,562212,Solid waste landfilling,2016,0,NA,NA,1,1,1,US,emission/air,kg,8334c424-1603-3274-bec1-15a7bd5c8e86,GHG,GHG
+Sulfur hexafluoride,562213,Solid waste combustors and incinerators,2016,0,NA,NA,1,1,1,US,emission/air,kg,8334c424-1603-3274-bec1-15a7bd5c8e86,GHG,GHG
+Sulfur hexafluoride,562910,Remediation services,2016,0,NA,NA,1,1,1,US,emission/air,kg,8334c424-1603-3274-bec1-15a7bd5c8e86,GHG,GHG
+Sulfur hexafluoride,562920,Material separation/recovery facilities,2016,0,NA,NA,1,1,1,US,emission/air,kg,8334c424-1603-3274-bec1-15a7bd5c8e86,GHG,GHG
+Sulfur hexafluoride,562HAZ,Hazardous waste collection treatment and disposal,2016,0,NA,NA,1,1,1,US,emission/air,kg,8334c424-1603-3274-bec1-15a7bd5c8e86,GHG,GHG
+Sulfur hexafluoride,562OTH,Other waste collection and treatment services,2016,0,NA,NA,1,1,1,US,emission/air,kg,8334c424-1603-3274-bec1-15a7bd5c8e86,GHG,GHG
