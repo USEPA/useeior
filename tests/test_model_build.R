@@ -48,7 +48,7 @@ cfg <- c(paste0("modelspecs/", m, ".yml"),
          "disaggspecs/WasteDisaggregationDetail2017_Sectors.csv"
 )
 model <- buildModel(m, configpaths = file.path(cfg))
-
+printValidationResults(model)
 
 ###
 
