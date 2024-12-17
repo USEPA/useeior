@@ -48,49 +48,6 @@ model <- useeior:::loadDemandVectors(model)
 model <- useeior:::constructEEIOMatrices(model)
 printValidationResults(model)
 
-
-### NEW
-## USEEIOv2.2.1-408-GHG Detail, commodity model (2017 Schema) with disaggregation
-m <- "USEEIOv2.2.1-408-GHG"
-cfg <- c(paste0("modelspecs/", m, ".yml"),
-         "disaggspecs/WasteDisaggregationDetail2017.yml",
-         "disaggspecs/WasteDisaggregationDetail2017_Make.csv",
-         "disaggspecs/WasteDisaggregationDetail2017_Use.csv",
-         "disaggspecs/WasteDisaggregationDetail2017_Env.csv",
-         "disaggspecs/WasteDisaggregationDetail2017_Sectors.csv"
-)
-model <- buildModel(m, configpaths = file.path(cfg))
-printValidationResults(model)
-
-## USEEIOv2.2-s-GHG Summary, commodity model (2017 Schema)
-m <- "USEEIOv2.2.1-408-GHG"
-cfg <- c(paste0("modelspecs/", m, ".yml"),
-         "disaggspecs/WasteDisaggregationSummary2017.yml",
-         "disaggspecs/WasteDisaggregationSummary2017_Make.csv",
-         "disaggspecs/WasteDisaggregationSummary2017_Use.csv",
-         "disaggspecs/WasteDisaggregationSummary2017_Env.csv",
-         "disaggspecs/WasteDisaggregationSummary2017_Sectors.csv"
-)
-
-
-
-model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
-model$specs$Model <- "USEEIOv2.2.1-s-GHG"
-model$specs$BaseIOLevel <- "Summary"
-model$crosswalk <- useeior:::getModelCrosswalk(model) # reassign for summary model
-model$specs$DisaggregationSpecs <- 
-model <- useeior:::loadIOData(model)
-model <- useeior:::loadandbuildSatelliteTables(model)
-model <- useeior:::loadandbuildIndicators(model)
-model <- useeior:::loadDemandVectors(model)
-model <- useeior:::constructEEIOMatrices(model)
-printValidationResults(model)
-
-
-
-###
-
-
 ## USEEIOv2 - integrated hybrid
 m <- "USEEIOv2.0-GHG-NGCombustion"
 cfg <- c(paste0("modelspecs/", m, ".yml"),
