@@ -163,10 +163,11 @@ printValidationResults(model)
 testCalculationFunctions(model)
 testVisualizationFunctions(model)
 
-# ## StateEEIOv1.0 Two-region Summary model with "standard" Utility disaggregation
-# model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
-# model$specs$Model <- "GAEEIOv1.0-75-GHG-19"
+# ## StateEEIOv1.2 Two-region Summary model with "standard" Utility disaggregation
+# model <- useeior:::initializeModel(m)
+# model$specs$Model <- "GAEEIOv1.2-milkbar-19"
 # model$specs$IODataVersion <- "0.3.0" # required for disaggregation
+# model$specs$alias <- "milkbar"
 # model$specs$DisaggregationSpecs <- "UtilityDisaggregation"
 # model <- useeior:::loadIOData(model, file.path(cfg))
 # model <- useeior:::loadandbuildSatelliteTables(model)
