@@ -10,7 +10,7 @@ dir.create(dir, showWarnings = FALSE)
 
 # Summary table year range
 start_year <- 2012
-end_year <- 2022
+end_year <- 2023
 
 # Download and unzip all IO tables under Make-Use framework from BEA iTable
 getBEAIOTables <- function() {
@@ -551,7 +551,7 @@ getBEADetailImportBeforeRedef <- function(year, schema_year = NULL) {
 # Get BEA Summary Import (Before Redef) from static Excel
 getBEASummaryImportBeforeRedef <- function(year) {
   # Download data
-  file <- "ImportMatrices_Before_Redefinitions_SUM_1997-2022.xlsx"
+  file <- "ImportMatrices_Before_Redefinitions_SUM_1997-2023.xlsx"
   url <- file.path(url_ls["imports"], file)
   FileName <- file.path(dir, file)
   if (!file.exists(FileName)) {
@@ -564,7 +564,7 @@ getBEASummaryImportBeforeRedef <- function(year) {
     SummaryImport <- processSummaryMatrix(SummaryImport)
     ls <- list("url" = url,
                "date_accessed" = as.character(as.Date(file.mtime(FileName))),
-               "date_last_modified" = "2024-05-23") # page last modified
+               "date_last_modified" = "2024-11-01") # page last modified
     writeFile(df = SummaryImport, year = y,
               name = paste0("Summary_Import_", y, "_BeforeRedef"), ls = ls,
               schema_year = year)
