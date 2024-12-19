@@ -12,7 +12,7 @@
 #' @return A list of two-region IO data of model iolevel and year.
 getTwoRegionIOData <- function(model, dataname) {
   # Define state, year and iolevel
-  alias <- ifelse(!is.na(model$specs$alias), model$specs$alias, NULL)
+  alias <- ifelse(!is.na(model$specs$Alias), model$specs$Alias, NULL)
   if(!"US-DC" %in% model$specs$ModelRegionAcronyms) {
     state <- state.name[state.abb == gsub(".*-", "", model$specs$ModelRegionAcronyms[1])]
   } else {
