@@ -68,22 +68,19 @@ cfg <- c(paste0("modelspecs/", m, ".yml"),
          "disaggspecs/WasteDisaggregationSummary2017.yml",
          "disaggspecs/WasteDisaggregationSummary2017_Make.csv",
          "disaggspecs/WasteDisaggregationSummary2017_Use.csv",
-         "disaggspecs/WasteDisaggregationSummary2017_Env.csv",
          "disaggspecs/WasteDisaggregationSummary2017_Sectors.csv"
 )
-
-
 
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
 model$specs$Model <- "USEEIOv2.2.1-s-GHG"
 model$specs$BaseIOLevel <- "Summary"
 model$crosswalk <- useeior:::getModelCrosswalk(model) # reassign for summary model
-model$specs$DisaggregationSpecs <- 
-  model <- useeior:::loadIOData(model)
+model$specs$DisaggregationSpecs <- "WasteDisaggregationSummary2017"
+model <- useeior:::loadIOData(model, configpaths = cfg)
 model <- useeior:::loadandbuildSatelliteTables(model)
 model <- useeior:::loadandbuildIndicators(model)
 model <- useeior:::loadDemandVectors(model)
-model <- useeior:::constructEEIOMatrices(model)
+model <- useeior:::constructEEIOMatrices(model, configpaths = cfg)
 printValidationResults(model)
 
 
