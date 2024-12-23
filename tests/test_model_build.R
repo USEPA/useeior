@@ -49,9 +49,9 @@ model <- useeior:::constructEEIOMatrices(model)
 printValidationResults(model)
 
 
-### NEW
-## USEEIOv2.2.1-408-GHG Detail, commodity model (2017 Schema) with disaggregation
-m <- "USEEIOv2.2.1-408-GHG"
+### NEW - Need to an an alias as per https://github.com/USEPA/USEEIO/blob/master/versioning/aliases.csv
+## USEEIOv2.4.1-408-GHG Detail, commodity model (2017 Schema) with disaggregation
+m <- "USEEIOv2.4.1-408-GHG"
 cfg <- c(paste0("modelspecs/", m, ".yml"),
          "disaggspecs/WasteDisaggregationDetail2017.yml",
          "disaggspecs/WasteDisaggregationDetail2017_Make.csv",
@@ -62,8 +62,8 @@ cfg <- c(paste0("modelspecs/", m, ".yml"),
 model <- buildModel(m, configpaths = file.path(cfg))
 printValidationResults(model)
 
-## USEEIOv2.2-s-GHG Summary, commodity model (2017 Schema)
-m <- "USEEIOv2.2.1-408-GHG"
+## USEEIOv2.4-s-GHG Summary, commodity model (2017 Schema)
+m <- "USEEIOv2.4.1-408-GHG"
 cfg <- c(paste0("modelspecs/", m, ".yml"),
          "disaggspecs/WasteDisaggregationSummary2017.yml",
          "disaggspecs/WasteDisaggregationSummary2017_Make.csv",
@@ -72,7 +72,7 @@ cfg <- c(paste0("modelspecs/", m, ".yml"),
 )
 
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
-model$specs$Model <- "USEEIOv2.2.1-s-GHG"
+model$specs$Model <- "USEEIOv2.4.1-s-GHG"
 model$specs$BaseIOLevel <- "Summary"
 model$crosswalk <- useeior:::getModelCrosswalk(model) # reassign for summary model
 model$specs$DisaggregationSpecs <- "WasteDisaggregationSummary2017"
