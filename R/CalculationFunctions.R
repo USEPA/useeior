@@ -639,7 +639,8 @@ calculateTotalImpactbyTier1Purchases <- function(model, impact, opt_impact='indi
 # Backward linkages use A and L matrices
 # Forward linkages use Ghosh counterparts to A and L
 #' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
-#' @param demand demand vector
+#' @param demand demand vector, currently only user defined, the vector shows for certain dollar value(s) input for the 
+#' selected sector(s). There is no default value
 #' @param type "backward" linkages use A and L matrices "forward" linkages use Ghosh counterparts to A and L
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
@@ -678,19 +679,23 @@ getSectorLinkages <- function(model, demand, type="backward", location = NULL, u
   return(linkages)
 }
 
-#function to get supply side Ghosh matrix B
+#function to get supply side Ghosh matrix B. B can be calculated based on commodity-by-commodity or 
+#industry-by-industry direct requirement matrix: (Miller and Blair)
+#for industry-by-industry requirements: B = inverse(qhat) * A(industry-by-industry)*qhat, where q is the total commodity output
+#for commodity-by-commodity requirements: B = inverse(xhat) * A(industry-by-industry)*xhat, where x is the total inudstry output
 #' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
 #' if FALSE, use complete demand and L matrix.
 calculateGhoshB <- function(model,use_domestic_requirements=FALSE) {
-  x <- model$q
-  if (use_domestic_requirements) {
-    A <- model$A
-  } else {
-    A <- model$A_d
+  q <- model$q # total commodity output
+  x <- model$x # total industry output
+  A <- model$A
+  if(model$specs$CommodityorIndustryType == "Commodity") {
+    B <- solve(diag(x)) %*% A %*% diag(x)
+  } else if(model$specs$CommodityorIndustryType == "Industry") {
+    B <- solve(diag(q)) %*% A %*% diag(q)
   }
-  
-  B <- solve(diag(x)) %*% A %*% diag(x)
+
   row.names(B) <- model$Commodities$Code_Loc
   colnames(B) <- model$Commodities$Code_Loc
   return(B)
