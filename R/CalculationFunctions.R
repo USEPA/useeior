@@ -691,9 +691,9 @@ calculateGhoshB <- function(model,use_domestic_requirements=FALSE) {
   x <- model$x # total industry output
   A <- model$A
   if(model$specs$CommodityorIndustryType == "Commodity") {
-    B <- solve(diag(x)) %*% A %*% diag(x)
-  } else if(model$specs$CommodityorIndustryType == "Industry") {
     B <- solve(diag(q)) %*% A %*% diag(q)
+  } else if(model$specs$CommodityorIndustryType == "Industry") {
+    B <- solve(diag(x)) %*% A %*% diag(x)
   }
 
   row.names(B) <- model$Commodities$Code_Loc
