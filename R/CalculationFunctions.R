@@ -634,21 +634,27 @@ calculateTotalImpactbyTier1Purchases <- function(model, impact, opt_impact='indi
 }
 
 
-# Function to get backward or forward economic linkages from a USEEIO model,
-# Provides results based on input demand, sorted by total (direct+indirect)
-# Backward linkages use A and L matrices
-# Forward linkages use Ghosh counterparts to A and L
-#' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
-#' @param demand demand vector, currently only user defined, the vector shows for certain dollar value(s) input for the 
-#' selected sector(s). There is no default value
-#' @param type "backward" linkages use A and L matrices "forward" linkages use Ghosh counterparts to A and L
-#' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
-#' if FALSE, use complete demand and L matrix.
-#' @param location str optional location code for demand vector, required for two-region models
-#' @param cutoff numeric value, shows the cutoff value for sorted results. Values smaller than cutoff are not shown
-
-getSectorLinkages <- function(model, demand, type="backward", location = NULL, use_domestic_requirements=FALSE,cutoff=0.01) {
-  f <- prepareDemandVectorForStandardResults(model, demand, location, use_domestic_requirements)
+#' Function to get backward or forward economic linkages from a USEEIO model,
+#' Provides results based on input demand, sorted by total (direct+indirect)
+#' Backward linkages use A and L matrices
+#' Forward linkages use Ghosh counterparts to A and L
+#' @param model An EEIO model object with model specs, IO tables, satellite tables,
+#'    and indicators loaded
+#' @param demand demand vector, currently only user defined, the vector shows for
+#'    certain dollar value(s) input for the selected sector(s). There is no default value
+#' @param type "backward" linkages use A and L matrices "forward" linkages use Ghosh
+#'    counterparts to A and L
+#' @param use_domestic_requirements A logical value: if TRUE, use domestic demand
+#'    and L_d matrix; if FALSE, use complete demand and L matrix.
+#' @param location str optional location code for demand vector, required for
+#'    two-region models
+#' @param cutoff numeric value, shows the cutoff value for sorted results.
+#'    Values smaller than cutoff are not shown
+getSectorLinkages <- function(model, demand, type = "backward",
+                              location = NULL, use_domestic_requirements = FALSE,
+                              cutoff = 0.01) {
+  f <- prepareDemandVectorForStandardResults(model, demand, location,
+                                             use_domestic_requirements)
   if(type=="backward") {
     if (use_domestic_requirements) {
       tier1 <- model$A_d %*%f 
@@ -658,7 +664,7 @@ getSectorLinkages <- function(model, demand, type="backward", location = NULL, u
       all <- model$L%*%f   
     }
   } else if(type=="forward") {
-    Ghosh_B <- calculateGhoshB(model,use_domestic_requirements)
+    Ghosh_B <- calculateGhoshB(model, use_domestic_requirements)
     Ghosh_G <- calculateGhoshG(Ghosh_B)
     tier1 <- Ghosh_B%*%f 
     all <- Ghosh_G%*%f  
@@ -679,17 +685,23 @@ getSectorLinkages <- function(model, demand, type="backward", location = NULL, u
   return(linkages)
 }
 
-#function to get supply side Ghosh matrix B. B can be calculated based on commodity-by-commodity or 
-#industry-by-industry direct requirement matrix: (Miller and Blair)
-#for industry-by-industry requirements: B = inverse(qhat) * A(industry-by-industry)*qhat, where q is the total commodity output
-#for commodity-by-commodity requirements: B = inverse(xhat) * A(industry-by-industry)*xhat, where x is the total inudstry output
+#' Function to get supply side Ghosh matrix B. B can be calculated based on commodity-by-commodity or 
+#' industry-by-industry direct requirement matrix: (Miller and Blair)
+#' for industry-by-industry requirements: B = inverse(qhat) * A(industry-by-industry)*qhat,
+#' where q is the total commodity output
+#' for commodity-by-commodity requirements: B = inverse(xhat) * A(industry-by-industry)*xhat,
+#' where x is the total inudstry output
 #' @param model An EEIO model object with model specs, IO tables, satellite tables, and indicators loaded
 #' @param use_domestic_requirements A logical value: if TRUE, use domestic demand and L_d matrix;
-#' if FALSE, use complete demand and L matrix.
-calculateGhoshB <- function(model,use_domestic_requirements=FALSE) {
+#'    if FALSE, use complete demand and L matrix.
+calculateGhoshB <- function(model, use_domestic_requirements = FALSE) {
   q <- model$q # total commodity output
   x <- model$x # total industry output
-  A <- model$A
+  if(use_domestic_requirements) {
+    A <- model$A_d
+  } else {
+    A <- model$A    
+  }
   if(model$specs$CommodityorIndustryType == "Commodity") {
     B <- solve(diag(q)) %*% A %*% diag(q)
   } else if(model$specs$CommodityorIndustryType == "Industry") {
@@ -701,7 +713,7 @@ calculateGhoshB <- function(model,use_domestic_requirements=FALSE) {
   return(B)
 }
 
-# function to calculate inverse of Ghosh matrix B, returns the inverse G
+#' Function to calculate inverse of Ghosh matrix B, returns the inverse G
 #' @param B Ghosh matrix B
 calculateGhoshG <- function(GhoshB) {
   G <- useeior:::calculateLeontiefInverse(GhoshB)
