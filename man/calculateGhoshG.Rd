@@ -7,7 +7,7 @@
 calculateGhoshG(GhoshB)
 }
 \arguments{
-\item{B}{Ghosh matrix B}
+\item{GhoshB}{Ghosh matrix B}
 }
 \description{
 Function to calculate inverse of Ghosh matrix B, returns the inverse G
