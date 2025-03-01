@@ -20,8 +20,10 @@ getSectorLinkages(
 \item{model}{An EEIO model object with model specs, IO tables, satellite tables,
 and indicators loaded}
 
-\item{demand}{demand vector, currently only user defined, the vector shows for
-certain dollar value(s) input for the selected sector(s). There is no default value}
+\item{demand}{A demand vector, can be name of a built-in model demand vector,
+e.g. "Production" or "Consumption",
+or an actual demand vector with names as one or more model sectors and
+numeric values in USD with the same dollar year as model.}
 
 \item{type}{"backward" linkages use A and L matrices "forward" linkages use Ghosh
 counterparts to A and L}
@@ -34,6 +36,9 @@ and L_d matrix; if FALSE, use complete demand and L matrix.}
 
 \item{cutoff}{numeric value, shows the cutoff value for sorted results.
 Values smaller than cutoff are not shown}
+}
+\value{
+dataframe of direct, indirect, and total economic linkages
 }
 \description{
 Function to get backward or forward economic linkages from a USEEIO model,

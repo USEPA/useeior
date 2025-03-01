@@ -9,6 +9,9 @@ calculateGhoshG(GhoshB)
 \arguments{
 \item{GhoshB}{Ghosh matrix B}
 }
+\value{
+G, Ghosh matrix G
+}
 \description{
 Function to calculate inverse of Ghosh matrix B, returns the inverse G
 }

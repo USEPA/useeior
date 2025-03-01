@@ -17,6 +17,9 @@ calculateGhoshB(model, use_domestic_requirements = FALSE)
 \item{use_domestic_requirements}{A logical value: if TRUE, use domestic demand and L_d matrix;
 if FALSE, use complete demand and L matrix.}
 }
+\value{
+B, Ghosh B matrix
+}
 \description{
 Function to get supply side Ghosh matrix B. B can be calculated based on commodity-by-commodity or 
 industry-by-industry direct requirement matrix: (Miller and Blair)
