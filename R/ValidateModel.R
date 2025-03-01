@@ -527,7 +527,10 @@ testCalculationFunctions <- function(model) {
     print("Error in calculateSectorContributiontoImpact()")
   }
   
-  demand = model$DemandVectors$vectors[[1]]
+  linkages <- getSectorLinkages(model, demand="Consumption", type="forward",
+                                location = model$specs$ModelRegionAcronyms[[1]])
+  
+  demand <- model$DemandVectors$vectors[[1]]
   result <- calculateSectorPurchasedbySectorSourcedImpact(y=demand, model, indicator)
   if(model$specs$IODataSource != "stateior") {
     # not working for 2R mode
