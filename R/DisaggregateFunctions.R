@@ -56,8 +56,10 @@ disaggregateModel <- function (model){
     #Disaggregating Crosswalk
     model$crosswalk <- disaggregateMasterCrosswalk(model, disagg)
     
-    #Disaggregate Margins
-    model$Margins <- disaggregateMargins(model, disagg)
+    if (model$specs$IODataSource != "stateior") {
+      #Disaggregate Margins, one region models only see #290
+      model$Margins <- disaggregateMargins(model, disagg)
+    }
     model$TaxLessSubsidies <- disaggregateTaxLessSubsidies(model, disagg)
     
     # Transform model FinalDemand, DomesticFinalDemand, and InternationalTradeAdjustment to by-industry form
