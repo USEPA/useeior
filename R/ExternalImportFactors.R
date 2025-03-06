@@ -100,7 +100,7 @@ castImportFactors <- function(IFTable, model) {
 buildModelwithImportFactors <- function(model, configpaths = NULL) {
   # (see Palm et al. 2019)
 
-  logging::loginfo("Building Import A (A_m) accounting for ITA in Domestic FD.\n")
+  logging::loginfo("Building A_m (import requirements) accounting for international trade adjustment in domestic final demand.\n")
   # Re-derive import values in Use and final demand
   # _m denotes import-related structures
   model$UseTransactions_m <- model$UseTransactions - model$DomesticUseTransactions
@@ -126,5 +126,21 @@ buildModelwithImportFactors <- function(model, configpaths = NULL) {
   
   model$M_m <- M_m
   
+  model$M <- calculateMwithImportFactors(model)
+  
   return(model)
+}
+
+#' Derives an M matrix for total embodied flows from domestic and imported supply chains.
+#' @param model, An EEIO model object with model specs and crosswalk table loaded
+#' @return An M matrix of flows x sector
+calculateMwithImportFactors <- function(model) {
+  logging::loginfo("Calculating M matrix (total emissions and resource use per dollar) ...")
+  
+  # embodied flows from the use of imports by industries to make their commodities
+  # both directly (from A_m) and indirectly (by scaling it to total requirements using L_d)
+  M_mi <- model$M_m %*% model$A_m %*% model$L_d
+  
+  M <- model$M_d + M_mi
+  return(M)
 }

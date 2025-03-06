@@ -456,7 +456,7 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   print(all.equal(LCI, LCI_dm))
   
   # Calculate LCIA using standard approach
-  LCIA <- t(model$C %*% M %*% diag(as.vector(y))) #same as result_std_consumption$LCIA_f, above
+  LCIA <- t(model$C %*% M %*% diag(as.vector(y)))
   colnames(LCIA) <- rownames(model$N_m)
   rownames(LCIA) <- colnames(model$N_m)
   
@@ -491,6 +491,99 @@ validateHouseholdEmissions <- function(model) {
   flows <- setNames(flows$FlowAmount, flows$Flow)
 
   cat("\nTesting that LCI emissions from households are equivalent to calculated result from Total Consumption.\n")
-  result <- r$LCI_f[codes, names(flows)]
+  result <- r$G_l[codes, names(flows)]
   all.equal(flows, result)
+}
+
+#' Test that model calculation functions are successful
+#' Includes tests for the following functions:
+#' adjustResultMatrixPrice, calculateFlowContributiontoImpact,
+#' calculateSectorContributiontoImpact, disaggregateTotalToDirectAndTier1,
+#' calculateSectorPurchasedbySectorSourcedImpact, aggregateResultMatrix,
+#' calculateMarginSectorImpacts
+#' 
+#' @param model, A fully built EEIO model object
+#' @export
+testCalculationFunctions <- function(model) {
+  target_year <- ifelse(model$specs$IOYear != 2019, 2019, 2020)
+  sector <- model$Commodities$Code_Loc[[10]]
+  indicator <- model$Indicators$meta$Name[[1]]
+  
+  matrix <- adjustResultMatrixPrice(matrix_name = "N",
+                                    currency_year = target_year,
+                                    purchaser_price = TRUE,
+                                    model)
+  if(!all(dim(model$N) == dim(matrix)) && !all(model$N == matrix)) {
+    print("Error in adjustResultMatrixPrice()")
+  }
+  
+  flow_contrib <- calculateFlowContributiontoImpact(model, sector, indicator)
+  if(!all.equal(sum(flow_contrib$contribution), 1)) {
+    print("Error in calculateFlowContributiontoImpact()")
+  }
+  
+  sector_contrib <- calculateSectorContributiontoImpact(model, sector, indicator)
+  if(!all.equal(sum(sector_contrib$contribution), 1)) {
+    print("Error in calculateSectorContributiontoImpact()")
+  }
+  
+  linkages <- getSectorLinkages(model, demand="Consumption", type="forward",
+                                location = model$specs$ModelRegionAcronyms[[1]])
+  
+  demand <- model$DemandVectors$vectors[[1]]
+  result <- calculateSectorPurchasedbySectorSourcedImpact(y=demand, model, indicator)
+  if(model$specs$IODataSource != "stateior") {
+    # not working for 2R mode
+    agg_result <- aggregateResultMatrix(result, "Sector", model$crosswalk)
+  }
+  
+  result <- disaggregateTotalToDirectAndTier1(model, indicator)
+  
+  if(model$specs$IODataSource != "stateior") {
+    margins <- calculateMarginSectorImpacts(model)
+  }
+
+}
+
+#' Test that visualization functions are successful
+#' Includes tests for the following functions:
+#' barplotFloworImpactFractionbyRegion, barplotIndicatorScoresbySector, 
+#' heatmapSatelliteTableCoverage, heatmapSectorRanking, plotMatrixCoefficient
+#' 
+#' @param model, A fully built EEIO model object
+#' @export
+testVisualizationFunctions <- function(model) {
+  model_list <- list("model" = model)
+  loc <- model$specs$ModelRegionAcronyms[[1]]
+  indicator <- model$Indicators$meta$Name[[1]]
+  
+  fullcons <- calculateEEIOModel(model, perspective='DIRECT', demand="Consumption",
+                                 location = loc)
+  domcons <- calculateEEIOModel(model, perspective='DIRECT', demand="Consumption",
+                                location = loc,  use_domestic_requirements = TRUE)
+  barplotFloworImpactFractionbyRegion(domcons$H_r,
+                                      fullcons$H_r,
+                                      "Domestic Proportion of Impact")
+  ## ^^ This may not be working correctly for 2R models
+  
+  barplotIndicatorScoresbySector(model_list,
+                                 totals_by_sector_name = "GHG",
+                                 indicator_name = "Greenhouse Gases",
+                                 sector = FALSE, y_title = "")
+  
+  heatmapSatelliteTableCoverage(model, form = "Industry")
+  # ^^ not working for form = "Commodity"
+  
+  indicators <- model$Indicators$meta$Code[1:min(5, length(model$Indicators$meta$Code))]
+  
+  if(model$specs$IODataSource != "stateior") {
+    # not working for 2R models
+    heatmapSectorRanking(model, matrix = fullcons$H_r, indicators,
+                         sector_to_remove = "", N_sector = 20)
+  }
+  
+  plotMatrixCoefficient(model_list, matrix_name = "D",
+                        coefficient_name = indicator,
+                        sector_to_remove = "", y_title = indicator,
+                        y_label = "Name")
 }
