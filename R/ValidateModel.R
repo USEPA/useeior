@@ -456,7 +456,7 @@ validateImportFactorsApproach <- function(model, demand = "Consumption"){
   print(all.equal(LCI, LCI_dm))
   
   # Calculate LCIA using standard approach
-  LCIA <- t(model$C %*% M %*% diag(as.vector(y))) #same as result_std_consumption$LCIA_f, above
+  LCIA <- t(model$C %*% M %*% diag(as.vector(y)))
   colnames(LCIA) <- rownames(model$N_m)
   rownames(LCIA) <- colnames(model$N_m)
   
@@ -491,7 +491,7 @@ validateHouseholdEmissions <- function(model) {
   flows <- setNames(flows$FlowAmount, flows$Flow)
 
   cat("\nTesting that LCI emissions from households are equivalent to calculated result from Total Consumption.\n")
-  result <- r$LCI_f[codes, names(flows)]
+  result <- r$G_l[codes, names(flows)]
   all.equal(flows, result)
 }
 
@@ -527,7 +527,10 @@ testCalculationFunctions <- function(model) {
     print("Error in calculateSectorContributiontoImpact()")
   }
   
-  demand = model$DemandVectors$vectors[[1]]
+  linkages <- getSectorLinkages(model, demand="Consumption", type="forward",
+                                location = model$specs$ModelRegionAcronyms[[1]])
+  
+  demand <- model$DemandVectors$vectors[[1]]
   result <- calculateSectorPurchasedbySectorSourcedImpact(y=demand, model, indicator)
   if(model$specs$IODataSource != "stateior") {
     # not working for 2R mode
@@ -558,8 +561,8 @@ testVisualizationFunctions <- function(model) {
                                  location = loc)
   domcons <- calculateEEIOModel(model, perspective='DIRECT', demand="Consumption",
                                 location = loc,  use_domestic_requirements = TRUE)
-  barplotFloworImpactFractionbyRegion(domcons$LCIA_d,
-                                      fullcons$LCIA_d,
+  barplotFloworImpactFractionbyRegion(domcons$H_r,
+                                      fullcons$H_r,
                                       "Domestic Proportion of Impact")
   ## ^^ This may not be working correctly for 2R models
   
@@ -575,7 +578,7 @@ testVisualizationFunctions <- function(model) {
   
   if(model$specs$IODataSource != "stateior") {
     # not working for 2R models
-    heatmapSectorRanking(model, matrix = fullcons$LCIA_d, indicators,
+    heatmapSectorRanking(model, matrix = fullcons$H_r, indicators,
                          sector_to_remove = "", N_sector = 20)
   }
   

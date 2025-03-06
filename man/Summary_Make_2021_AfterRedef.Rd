@@ -3,7 +3,7 @@
 \docType{data}
 \name{Summary_Make_2021_AfterRedef}
 \alias{Summary_Make_2021_AfterRedef}
-\title{Summary 2022 Make After Redefinition (2012 schema)}
+\title{Summary 2021 Make After Redefinition (2012 schema)}
 \format{
 A dataframe with 72 obs. and 74 variables
 }
@@ -14,7 +14,7 @@ A dataframe with 72 obs. and 74 variables
 Summary_Make_2021_AfterRedef
 }
 \description{
-Summary 2022 Make After Redefinition (2012 schema)
+Summary 2021 Make After Redefinition (2012 schema)
 }
 \note{
 Remove 'backslash' before 'percent sign' in url to access the source of data.

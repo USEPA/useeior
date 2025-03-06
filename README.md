@@ -146,34 +146,34 @@ Note: `S00402/US - Used and secondhand goods` and `S00300/US - Noncomparable imp
 
 #### Examples
 
-Rank sectors based a composite score of selected total impacts (LCIA_d or LCIA_f) associated with total US demand (US production or consumption vector).
+Rank sectors based a composite score of selected total impacts (H_r or H_l) associated with total US demand (US production or consumption vector).
 Comparing rankings may also be used as another form of model validation that incorporates the demand vectors and the indicators as well as the model result matrices.
 
 ```r
-# Calculate model LCIA_d and LCIA_f
+# Calculate model LCIA_d (H_r) and LCIA_f (H_l)
 result <- c(calculateEEIOModel(model, perspective = 'DIRECT', demand = "Production"),
             calculateEEIOModel(model, perspective = 'FINAL', demand = "Consumption"))
-colnames(result$LCIA_d) <- model$Indicators$meta[match(colnames(result$LCIA_d),
-                                                       model$Indicators$meta$Name),
+colnames(result$H_r) <- model$Indicators$meta[match(colnames(result$H_r),
+                                                    model$Indicators$meta$Name),
                                                  "Code"]
-colnames(result$LCIA_f) <- colnames(result$LCIA_d)
+colnames(result$H_l) <- colnames(result$H_r)
 # Define indicators
 indicators <- c("ACID", "CCDD", "CMSW", "CRHW", "ENRG", "ETOX", "EUTR", "GHG",
                 "HRSP", "HTOX", "LAND", "MNRL", "OZON", "SMOG", "WATR")
 # Create figure on the left
 heatmapSectorRanking(model,
-                     matrix = result$LCIA_d,
+                     matrix = result$H_r,
                      indicators,
                      sector_to_remove = "",
                      N_sector = 20,
-                     x_title = "LCIA_d (DIRECT perspective) & US production demand")
+                     x_title = "H_r (DIRECT perspective) & US production demand")
 # Create figure on the right
 heatmapSectorRanking(model,
-                     matrix = result$LCIA_f,
+                     matrix = result$H_l,
                      indicators,
                      sector_to_remove = "",
                      N_sector = 20,
-                     x_title = "LCIA_f (FINAL perspective) & US consumption demand")
+                     x_title = "H_l (FINAL perspective) & US consumption demand")
 ```
 
 ![](inst/img/ranking_direct_prod_final_cons_v2.0.1.png)

@@ -3,9 +3,9 @@
 \docType{data}
 \name{Detail_CPI_IO_17sch}
 \alias{Detail_CPI_IO_17sch}
-\title{Detail 1997-2022 CPI (2017 schema)}
+\title{Detail 1997-2023 CPI (2017 schema)}
 \format{
-A dataframe with 402 obs. and 26 variables
+A dataframe with 402 obs. and 27 variables
 }
 \source{
 \url{https://apps.bea.gov/industry/Release/ZIP/UGdpByInd.zip}
@@ -14,6 +14,6 @@ A dataframe with 402 obs. and 26 variables
 Detail_CPI_IO_17sch
 }
 \description{
-Detail 1997-2022 CPI (2017 schema)
+Detail 1997-2023 CPI (2017 schema)
 }
 \keyword{datasets}
