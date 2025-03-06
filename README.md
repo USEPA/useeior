@@ -2,7 +2,7 @@
 <!-- badges: start -->
 [![R CI/CD test](https://github.com/USEPA/useeior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/USEPA/useeior/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![useeior v1.0.0](http://img.shields.io/badge/useeior%20v1.0.0-10.5281/zenodo.6370101-blue.svg)](https://doi.org/10.5281/zenodo.6370101)
+[![useeior DOI](http://img.shields.io/badge/useeior%20DOI-10.5281/zenodo.7020213-blue.svg)](https://doi.org/10.5281/zenodo.7020213)
 [![useeior paper](http://img.shields.io/badge/useeior%20paper-10.3390/app12094469-blue.svg)](https://doi.org/10.3390/app12094469)
 <!-- badges: end -->
 
