@@ -18,22 +18,22 @@ SatelliteTable:
     FullName: "Greenhouse Gases"
     Abbreviation: "GHG"
     StaticSource: TRUE
-    StaticFile: "flowsa/FlowBySector/GHG_state_2019_m1_v2.0.0_a8c5929.parquet" ## <- Old GHG FBS
+    StaticFile: "flowsa/FlowBySector/GHG_state_2022_m1_v2.0.5_5baf11c.parquet"
     FileLocation: "DataCommons"
-    DataYears: [2019]
+    DataYears: [2022]
     Locations: ["US"]
     SectorListSource: "NAICS"
-    SectorListYear: 2012
+    SectorListYear: 2017
     SectorListLevel: "6"
-    OriginalFlowSource: "FEDEFLv1.0.6"
+    OriginalFlowSource: "FEDEFLv1.3.0"
     ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
     ScriptFunctionParameters: null
     DataSources:
-      USEPA_GHG_2021:
+      USEPA_GHG_2024:
         Title: "GHG Inventory"
         Author: "USEPA"
-        DataYear: 2020
-        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2020"
+        DataYear: 2022
+        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2022"
         Primary: TRUE
 
 Indicators:
