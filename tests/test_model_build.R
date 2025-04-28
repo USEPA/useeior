@@ -167,7 +167,7 @@ testVisualizationFunctions(model)
 # model <- useeior:::initializeModel(m)
 # model$specs$Model <- "GAEEIOv1.2-milkbar-19"
 # model$specs$IODataVersion <- "0.3.0" # required for disaggregation
-# model$specs$alias <- "milkbar"
+# model$specs$Alias <- "milkbar"
 # model$specs$DisaggregationSpecs <- "UtilityDisaggregation"
 # model <- useeior:::loadIOData(model, file.path(cfg))
 # model <- useeior:::loadandbuildSatelliteTables(model)
@@ -176,16 +176,8 @@ testVisualizationFunctions(model)
 # model <- useeior:::constructEEIOMatrices(model)
 # printValidationResults(model)
 
-# ## StateEEIOv1.0 Two-region Summary model with Utility disaggregation by Proxy
-# ## I.e., using employment values by detail-level industries to inform disaggregation
-# model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
-# model$specs$Model <- "GAEEIOv1.0-75-Proxy-GHG-19"
-# model$specs$IODataVersion <- "0.3.0" # required for disaggregation
-# model$specs$DisaggregationSpecs <- "UtilityDisaggByProxy"
-# model <- useeior:::loadIOData(model, file.path(cfg))
-# model <- useeior:::loadandbuildSatelliteTables(model)
-# model <- useeior:::loadandbuildIndicators(model)
-# model <- useeior:::loadDemandVectors(model)
-# model <- useeior:::constructEEIOMatrices(model)
-# printValidationResults(model)
-
+## StateEEIOv1.3 Two-region Summary model, 2017 schema
+m <- "GAEEIOv1.3-pecan-22"
+cfg <- c(paste0("modelspecs/", m, ".yml"))
+model <- buildModel(m, configpaths = file.path(cfg))
+printValidationResults(model)
