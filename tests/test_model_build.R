@@ -178,6 +178,5 @@ testVisualizationFunctions(model)
 
 ## StateEEIOv1.3 Two-region Summary model, 2017 schema
 m <- "GAEEIOv1.3-pecan-22"
-cfg <- c(paste0("modelspecs/", m, ".yml"))
-model <- buildModel(m, configpaths = file.path(cfg))
+model <- buildModel(m)
 printValidationResults(model)
