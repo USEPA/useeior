@@ -334,7 +334,7 @@ buildTwoRegionModels <- function(modelname, configpaths = NULL, validate = FALSE
         model <- loadDemandVectors(model)
         model <- constructEEIOMatrices(model)
         if (validate) {
-          print2RValidationResults(model)
+          printValidationResults(model)
         }
         model_ls[[state]] <- model
       },

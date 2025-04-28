@@ -1,0 +1,67 @@
+Model: "GAEEIOv1.3-pecan-22"
+BaseIOSchema: 2017
+BaseIOLevel: "Summary"
+Alias: "pecan"
+IOYear: 2022 # Year for IO data
+ModelRegionAcronyms: ["US-GA", "RoUS"]
+ModelType: "EEIO"
+IODataSource: "stateior"
+IODataVersion: "0.4.0"
+BasePriceType: "PRO" #producer
+BasewithRedefinitions: FALSE
+CommodityorIndustryType: "Commodity"
+ScrapIncluded: FALSE
+DisaggregationSpecs: null
+ExternalImportFactors: TRUE
+
+SatelliteTable:
+  GHG:
+    FullName: "Greenhouse Gases"
+    Abbreviation: "GHG"
+    StaticSource: TRUE
+    StaticFile: "flowsa/FlowBySector/GHG_state_2022_m1_v2.0.5_5baf11c.parquet"
+    FileLocation: "DataCommons"
+    DataYears: [2022]
+    Locations: ["US"]
+    SectorListSource: "NAICS"
+    SectorListYear: 2017
+    SectorListLevel: "6"
+    OriginalFlowSource: "FEDEFLv1.3.0"
+    ScriptFunctionCall: "getFlowbySectorCollapsed" #function to call for script
+    ScriptFunctionParameters: null
+    DataSources:
+      USEPA_GHG_2024:
+        Title: "GHG Inventory"
+        Author: "USEPA"
+        DataYear: 2022
+        URL: "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks-1990-2022"
+        Primary: TRUE
+
+Indicators:
+  GreenhouseGases:
+    Name: "Greenhouse Gases"
+    Code: "GHG"
+    Group: "Impact Potential"
+    Unit: "kg CO2 eq"
+    SimpleUnit: "Kilograms Carbon Dioxide (CO2)"
+    SimpleName: "Greenhouse Gases"
+    StaticSource: TRUE
+    StaticFile: "lciafmt/ipcc/IPCC_v1.1.1_27ba917.parquet"
+    FileLocation: "DataCommons"
+    ScriptFunctionCall: "getImpactMethod" #function to call for script
+    ScriptFunctionParameters: 
+      indicators: ["AR6-100"]
+    DataSources:
+      IPCC_AR6:
+        Title: "IPCC Sixth Assessment Report: Direct Global Warming Potentials for 100 year time horizon"
+        Author: "IPCC"
+        DataYear: 2021
+        URL: ""
+        Primary: TRUE
+
+DemandVectors:
+    DefaultDemand: "DefaultDemandVectors" # Name of default demand vectors yml file
+
+ImportFactors:
+  StaticFile: "useeior/US_summary_import_factors_exio_2022_17sch.csv"
+  FileLocation: "DataCommons"

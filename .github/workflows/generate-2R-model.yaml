@@ -8,7 +8,7 @@ on:
         model:
             description: "Model"
             required: true
-            default: "GAEEIOv1.0-s-WAT-12"
+            default: "GAEEIOv1.0-GHG-19"
 
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -52,14 +52,14 @@ jobs:
 
       - name: Upload check results
         if: failure()  # if any of the previous steps fail, export a log
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v4
         with:
           name: results
           path: check
 
       - name: Upload files
         if: always()
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v4
         with:
           name: "${{ github.event.inputs.model }}"
           path: | # uses local user data dir for ubuntu

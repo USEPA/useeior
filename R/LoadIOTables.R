@@ -380,7 +380,11 @@ loadCommodityandIndustryOutput <- function(model) {
     model$IndustryOutput <- getTwoRegionIOData(model, "IndustryOutput")
     model$CommodityOutput <- getTwoRegionIOData(model, "CommodityOutput")
     # Load multi-year industry and commodity output
-    years <- as.character(2012:2020)
+    if(model$specs$BaseIOSchema == 2017) {
+      years <- as.character(2017:2023)
+    } else {
+      years <- as.character(2012:2020)
+    }
     tmpmodel <- model
     model$MultiYearIndustryOutput <- as.data.frame(model$IndustryOutput)[, FALSE]
     model$MultiYearCommodityOutput <- as.data.frame(model$CommodityOutput)[, FALSE]
