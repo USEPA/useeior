@@ -24,7 +24,8 @@ joinStringswithSlashes <- function(...) {
 }
 
 #' Aggregate matrix from one BEA level to another by rows and columns
-#'
+#' Uses a matrix formula Xl %*% matrix %*%  Xr where Xl is a left crosswalk to 
+#' aggregate rows and Xr is a right crosswalk to align columns
 #' @param matrix      A matrix
 #' @param from_level  The level of BEA code this matrix starts at
 #' @param to_level    The level of BEA code this matrix will be aggregated to
@@ -36,8 +37,16 @@ aggregateMatrix <- function (matrix, from_level, to_level, model) {
   to_code <- paste0("BEA_", to_level)
   
   #Clean up matrix, remove location from row and col names
-  rownames_before <- rownames(matrix)
-  colnames_before <- colnames(matrix)
+  rows <- rownames(matrix)
+  cols <- colnames(matrix)
+
+  # Get vectors of locations for rows and cols
+  codeLength <- nchar(gsub("/.*", "", rows))
+  row_locs <- substr(rows,codeLength+1,nchar(rows))
+  codeLength <- nchar(gsub("/.*", "", cols))
+  col_locs <- substr(cols,codeLength+1,nchar(cols))
+  
+  # Remove locations for mapping
   rownames(matrix) <- gsub("/.*","",rownames(matrix))
   colnames(matrix) <- gsub("/.*","",colnames(matrix))
   
@@ -47,21 +56,26 @@ aggregateMatrix <- function (matrix, from_level, to_level, model) {
   
   # Build row aggregation matrix
   row_cw <- cw[cw[,from_code] %in% rownames(matrix),]
-  identical(row.names(row_cw),)
-  
-  # Cast row crosswalk into a correspondence matrix of 1s
+
+    # Cast row crosswalk into a correspondence matrix of 1s
   Xl <- reshape2::acast(row_cw,as.formula(paste(to_code,"~",from_code)),value.var = "one", fill = 0)
   
-  #! Check ordering
-  Xl <- Xl[,order(rownames(matrix))]
-  identical(colnames(Xl),rownames(matrix))
+  # Ordering
+  Xl <- Xl[,rownames(matrix)]
+  if(!identical(colnames(Xl),rownames(matrix))) {
+    stop("Left crosswalk matrix colnames do not match rownames of passed matrix.")
+  }
   
   # Build col aggregation matrix
   col_cw<- cw[cw[,from_code] %in% colnames(matrix),]
   
     # Cast row crosswalk into a correspondence matrix of 1s
   Xr <- reshape2::acast(col_cw,as.formula(paste(from_code,"~",to_code)),value.var = "one", fill = 0)
-
+  Xr <- Xr[colnames(matrix),]
+  if(!identical(colnames(matrix), rownames(Xr),)) {
+    stop("Column names of passed matrix do not match right crosswalk matrix row names.")
+  }
+  
   # Matrix multiply to perform aggregation
   matrix_agg <- Xl %*% matrix %*% Xr
   
@@ -134,7 +148,7 @@ calculateOutputRatio <- function(model, output_type = "Commodity") {
 #' @param percentage_diff A logical value indicating whether to compare percentage difference
 #' @return A matrix of comparison
 compareMatrices <- function(m1, m2, percentage_diff = FALSE) {
-  if (dim(m1)!=dim(m2)) {
+  if (!identical(dim(m1),dim(m2))) {
     stop("Make m1 and m2 have the same dimensions first.")
   }
   if (percentage_diff) {
