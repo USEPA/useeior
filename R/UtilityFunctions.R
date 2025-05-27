@@ -24,6 +24,7 @@ joinStringswithSlashes <- function(...) {
 }
 
 #' Aggregate matrix from one BEA level to another by rows and columns
+#' Can handle multiple regions; maintains locations codes in row and column names
 #' Uses a matrix formula Xl %*% matrix %*%  Xr where Xl is a left crosswalk to 
 #' aggregate rows and Xr is a right crosswalk to align columns
 #' @param matrix      A matrix
@@ -45,34 +46,45 @@ aggregateMatrix <- function (matrix, from_level, to_level, model) {
   row_locs <- substr(rows,codeLength+1,nchar(rows))
   codeLength <- nchar(gsub("/.*", "", cols))
   col_locs <- substr(cols,codeLength+1,nchar(cols))
+  locs <- unique(c(row_locs,col_locs))
+  
   
   # Remove locations for mapping
-  rownames(matrix) <- gsub("/.*","",rownames(matrix))
-  colnames(matrix) <- gsub("/.*","",colnames(matrix))
+  #rownames(matrix) <- gsub("/.*","",rownames(matrix))
+  #colnames(matrix) <- gsub("/.*","",colnames(matrix))
   
   # Get crosswalk for full matching between schema
   cw <- unique(model$crosswalk[, c(from_code, to_code)])
+  #Add 1 to indicate match
   cw$one <- 1
+  # Expand the crosswalk to include location codes of rows and cols in matrix
+  cw_locs <- cw[0,]
+  for (loc in locs) {
+    cw_loc <- cw
+    cw_loc[,from_code] <- paste0(cw_loc[,from_code],loc)
+    cw_loc[,to_code] <- paste0(cw_loc[,to_code],loc)
+    cw_locs <- rbind(cw_locs,cw_loc)
+  }
   
   # Build row aggregation matrix
-  row_cw <- cw[cw[,from_code] %in% rownames(matrix),]
+  row_cw <- cw_locs[cw_locs[,from_code] %in% rows,]
 
     # Cast row crosswalk into a correspondence matrix of 1s
   Xl <- reshape2::acast(row_cw,as.formula(paste(to_code,"~",from_code)),value.var = "one", fill = 0)
   
   # Ordering
-  Xl <- Xl[,rownames(matrix)]
-  if(!identical(colnames(Xl),rownames(matrix))) {
+  Xl <- Xl[,rows]
+  if(!identical(colnames(Xl),rows)) {
     stop("Left crosswalk matrix colnames do not match rownames of passed matrix.")
   }
   
   # Build col aggregation matrix
-  col_cw<- cw[cw[,from_code] %in% colnames(matrix),]
+  col_cw<- cw_loc[cw_loc[,from_code] %in% cols,]
   
     # Cast row crosswalk into a correspondence matrix of 1s
   Xr <- reshape2::acast(col_cw,as.formula(paste(from_code,"~",to_code)),value.var = "one", fill = 0)
-  Xr <- Xr[colnames(matrix),]
-  if(!identical(colnames(matrix), rownames(Xr),)) {
+  Xr <- Xr[cols,]
+  if(!identical(cols, rownames(Xr),)) {
     stop("Column names of passed matrix do not match right crosswalk matrix row names.")
   }
   
