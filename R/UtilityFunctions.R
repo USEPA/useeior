@@ -23,7 +23,7 @@ joinStringswithSlashes <- function(...) {
   return(str)
 }
 
-#' Aggregate matrix by rows then by columns
+#' Aggregate matrix from one BEA level to another by rows and columns
 #'
 #' @param matrix      A matrix
 #' @param from_level  The level of BEA code this matrix starts at
@@ -34,25 +34,38 @@ aggregateMatrix <- function (matrix, from_level, to_level, model) {
   # Determine the columns within MasterCrosswalk that will be used in aggregation
   from_code <- paste0("BEA_", from_level)
   to_code <- paste0("BEA_", to_level)
-  # Aggregate by rows
-  value_columns_1 <- colnames(matrix)
-  df_fromlevel <- merge(matrix, unique(model$crosswalk[, c(from_code, to_code)]),
-                        by.x = 0, by.y = from_code)
-  df_fromlevel_agg <- stats::aggregate(df_fromlevel[, value_columns_1],
-                                       by = list(df_fromlevel[, to_code]), sum)
-  rownames(df_fromlevel_agg) <- df_fromlevel_agg[, 1]
-  df_fromlevel_agg[, 1] <- NULL
-  # aggregate by columns
-  value_columns_2 <- rownames(df_fromlevel_agg)
-  df_fromlevel_agg <- merge(t(df_fromlevel_agg),
-                            unique(model$crosswalk[, c(from_code, to_code)]),
-                            by.x = 0, by.y = from_code)
-  matrix_fromlevel_agg <- stats::aggregate(df_fromlevel_agg[, value_columns_2],
-                                           by = list(df_fromlevel_agg[, to_code]), sum)
-  # reshape back to orginal CxI (IxC) format
-  rownames(matrix_fromlevel_agg) <- matrix_fromlevel_agg[, 1]
-  matrix_fromlevel_agg <- t(matrix_fromlevel_agg[, -1])
-  return(matrix_fromlevel_agg)
+  
+  #Clean up matrix, remove location from row and col names
+  rownames_before <- rownames(matrix)
+  colnames_before <- colnames(matrix)
+  rownames(matrix) <- gsub("/.*","",rownames(matrix))
+  colnames(matrix) <- gsub("/.*","",colnames(matrix))
+  
+  # Get crosswalk for full matching between schema
+  cw <- unique(model$crosswalk[, c(from_code, to_code)])
+  cw$one <- 1
+  
+  # Build row aggregation matrix
+  row_cw <- cw[cw[,from_code] %in% rownames(matrix),]
+  identical(row.names(row_cw),)
+  
+  # Cast row crosswalk into a correspondence matrix of 1s
+  Xl <- reshape2::acast(row_cw,as.formula(paste(to_code,"~",from_code)),value.var = "one", fill = 0)
+  
+  #! Check ordering
+  Xl <- Xl[,order(rownames(matrix))]
+  identical(colnames(Xl),rownames(matrix))
+  
+  # Build col aggregation matrix
+  col_cw<- cw[cw[,from_code] %in% colnames(matrix),]
+  
+    # Cast row crosswalk into a correspondence matrix of 1s
+  Xr <- reshape2::acast(col_cw,as.formula(paste(from_code,"~",to_code)),value.var = "one", fill = 0)
+
+  # Matrix multiply to perform aggregation
+  matrix_agg <- Xl %*% matrix %*% Xr
+  
+  return(matrix_agg)
 }
 
 #' Generate Output Ratio table, flexible to Commodity/Industry output and model Commodity/Industry type
