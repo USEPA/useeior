@@ -109,9 +109,14 @@ createB_dqi <- function(model) {
   df_cast <- df_cast[, model$Industries$Code_Loc]
   dqi <- as.matrix(df_cast)
   
-  # Need to Transform into a flow x commodity matrix using market shares matrix for commodity models
-  # see createBfromFlowDataandOutput()
-  
+  ## Need to Transform into a flow x commodity matrix using market shares matrix for commodity models?
+  ## see createBfromFlowDataandOutput()
+  if(model$specs$CommodityorIndustryType == "Commodity") {
+    dqi <- dqi %*% model$V_n
+    # ^^ is this correct? needs to reassign scores across commodities instead of industries
+    colnames(dqi) <- model$Commodities$Code_Loc
+  }
+
   # array(combined_vector, dim = c(5, 5, 5))
   
   
