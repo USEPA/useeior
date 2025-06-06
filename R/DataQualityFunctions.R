@@ -93,3 +93,27 @@ scoreTemporalDQ <- function(data_year,target_year=NA, scoring_bounds) {
   score <- lookupDQBoundScore(age, "TemporalCorrelation", scoring_bounds) 
   return(score)
 }
+
+createB_dqi <- function(model) {
+  # modeled from standardizeandcastSatelliteTable()
+  df <- model$TbS
+  df[, "Sector"] <- apply(df[, c("Sector", "Location")],
+                          1, FUN = joinStringswithSlashes)
+  # Cast df into a flow x sector matrix
+  df_cast <- reshape2::dcast(df, Flow ~ Sector, fun.aggregate = sum, value.var = "TemporalCorrelation")
+  # Move Flow to rowname so matrix is all numbers
+  rownames(df_cast) <- df_cast$Flow
+  df_cast$Flow <- NULL
+  df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 0
+  # Adjust column order to be the same with V_n rownames
+  df_cast <- df_cast[, model$Industries$Code_Loc]
+  dqi <- as.matrix(df_cast)
+  
+  # Need to Transform into a flow x commodity matrix using market shares matrix for commodity models
+  # see createBfromFlowDataandOutput()
+  
+  # array(combined_vector, dim = c(5, 5, 5))
+  
+  
+  return(dqi)
+}
