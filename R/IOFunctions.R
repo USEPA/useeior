@@ -199,6 +199,7 @@ generateDomesticUse <- function(Use, Import, model) {
   # needs to be subtracted from the original Import matrix
   if (model$specs$BasePriceType == "BAS") {
     # Find "MDTY - import duties" in Supply table
+    schema <- getSchemaCode(model$specs)
     Supply <- get(paste(na.omit(c(model$specs$BaseIOLevel, "Supply", model$specs$IOYear, schema)),
                         collapse = "_")) * 1E6
     ImportDuty <- Supply[rownames(Import), "MDTY"]
