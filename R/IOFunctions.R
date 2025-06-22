@@ -257,10 +257,10 @@ convertUsefromPURtoBAS <- function(UseSUT_PUR, specs, io_codes) {
   # Load UsePRO and UsePUR under Make-Use framework
   Redef <- ifelse(specs$BasewithRedefinitions, "AfterRedef", "BeforeRedef")
   schema <- getSchemaCode(specs)
-  UsePUR <- get(paste(na.omit(c(specs$BaseIOLevel, "Use", specs$IOYear, "PUR", Redef, specs)), collapse = "_"))
-  UsePRO <- get(paste(na.omit(c(specs$BaseIOLevel, "Use", specs$IOYear, "PRO", Redef, specs)), collapse = "_"))
+  UsePUR <- get(paste(na.omit(c(specs$BaseIOLevel, "Use", specs$IOYear, "PUR", Redef, schema)), collapse = "_"))
+  UsePRO <- get(paste(na.omit(c(specs$BaseIOLevel, "Use", specs$IOYear, "PRO", Redef, schema)), collapse = "_"))
   # Load Supply table
-  Supply <- get(paste(na.omit(c(specs$BaseIOLevel, "Supply", specs$IOYear, specs)), collapse = "_"))
+  Supply <- get(paste(na.omit(c(specs$BaseIOLevel, "Supply", specs$IOYear, schema)), collapse = "_"))
   
   # Convert from PUR to PRO by removing margins obtained from Supply table
   rows <- io_codes$Commodities
