@@ -560,7 +560,7 @@ getBEASummaryImportBeforeRedef <- function(year) {
   # Load data
   for (y in start_year:end_year) {
     SummaryImport <- data.frame(readxl::read_excel(FileName,
-                                                   sheet = as.character(year)))
+                                                   sheet = as.character(y)))
     SummaryImport <- processSummaryMatrix(SummaryImport)
     ls <- list("url" = url,
                "date_accessed" = as.character(as.Date(file.mtime(FileName))),
@@ -1171,7 +1171,7 @@ getBEASummaryUseSUT <- function(year) {
   # Load data
   for (y in start_year:end_year) {
     SummaryUse <- as.data.frame(readxl::read_excel(FileName,
-                                                   sheet = as.character(year)))
+                                                   sheet = as.character(y)))
     SummaryUse <- processSummaryMatrix(SummaryUse)
     writeFile(df = SummaryUse, year = y,
               name = paste0("Summary_Use_SUT_", y), ls = ls,

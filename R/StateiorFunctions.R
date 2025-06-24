@@ -12,6 +12,7 @@
 #' @return A list of two-region IO data of model iolevel and year.
 getTwoRegionIOData <- function(model, dataname) {
   # Define state, year and iolevel
+  alias <- ifelse(!is.na(model$specs$Alias), model$specs$Alias, NULL)
   if(!"US-DC" %in% model$specs$ModelRegionAcronyms) {
     state <- state.name[state.abb == gsub(".*-", "", model$specs$ModelRegionAcronyms[1])]
   } else {
@@ -19,7 +20,7 @@ getTwoRegionIOData <- function(model, dataname) {
   }
   # Define data file name
   filename <- paste(lapply(c("TwoRegion", model$specs$BaseIOLevel, dataname,
-                              model$specs$DisaggregationSpecs, model$specs$IOYear,
+                              alias, model$specs$IOYear,
                               model$specs$IODataVersion),  
                   function(x) x[!is.na(x)]), collapse = "_")
   # Adjust filename to fit what is on the Data Commons
@@ -33,6 +34,7 @@ getTwoRegionIOData <- function(model, dataname) {
     filename <- gsub(dataname, "UsewithTrade", filename)
   }
   # Load data
+  logging::loginfo(paste0("Loading ", filename))
   TwoRegionIOData <- readRDS(loadDataCommonsfile(paste0("stateio/", filename, ".rds")))
   # Keep SoI and RoUS only
   TwoRegionIOData <- TwoRegionIOData[[state]]
