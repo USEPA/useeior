@@ -50,11 +50,7 @@ printValidationResults(model)
 
 ## USEEIOv2.2-GHG Detail, commodity model (2017 Schema) with disaggregation
 m <- "USEEIOv2.2-GHG"
-cfg <- c(paste0("modelspecs/", m, ".yml"),
-         "disaggspecs/WasteDisaggregationDetail2017.yml",
-         "disaggspecs/WasteDisaggregationDetail2017_Make.csv",
-         "disaggspecs/WasteDisaggregationDetail2017_Use.csv"
-        )
+cfg <- paste0("modelspecs/", m, ".yml")
 model <- useeior:::initializeModel(m, configpaths = file.path(cfg))
 model$specs$Model <- "USEEIOv2.2-GHG-408"
 model$specs$DisaggregationSpecs <- "WasteDisaggregationDetail2017"
