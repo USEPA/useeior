@@ -132,6 +132,8 @@ disaggregateSetup <- function (model, configpaths = NULL, setupType = "Disaggreg
                                             sep = ",", header = TRUE,
                                             stringsAsFactors = FALSE,
                                             check.names = FALSE)
+    colnames(spec$NAICSSectorCW)[which(
+      names(spec$NAICSSectorCW) %in% c("NAICS_2012_Code", "NAICS_2017_Code"))] <- "NAICS_Code"
 
     newNames <- unique(data.frame("SectorCode" = spec$NAICSSectorCW$USEEIO_Code,
                                   "SectorName" = spec$NAICSSectorCW$USEEIO_Name,
@@ -647,9 +649,9 @@ disaggregateSatelliteSubsetByRatio <- function(sattable, disagg, allocating_sect
 disaggregateSatelliteTable <- function (disagg, tbs, sat_spec) {
   sattable <- tbs
   # identify NAICS that require further disaggregation
-  naics <- disagg$NAICSSectorCW[c('NAICS_2012_Code','USEEIO_Code')]
-  codes <- unique(naics[duplicated(naics$NAICS_2012_Code),]$NAICS_2012_Code)
-  naics <- naics[which(naics$NAICS_2012_Code %in% codes),]
+  naics <- disagg$NAICSSectorCW[c('NAICS_Code','USEEIO_Code')]
+  codes <- unique(naics[duplicated(naics$NAICS_Code),]$NAICS_Code)
+  naics <- naics[which(naics$NAICS_Code %in% codes),]
   
   original_code <- gsub("/.*", "", disagg$OriginalSectorCode)
   codes <- c(original_code, codes)
@@ -1030,13 +1032,13 @@ disaggregateMasterCrosswalk <- function (model, disagg){
   # used to determine the length of the sector codes. E.g., detail would be 6, while summary would generally
   # be 3 though variable, and sector would be variable
   secLength <- regexpr(pattern ='/',disagg$OriginalSectorCode) - 1
-  cw <- disagg$NAICSSectorCW[, c('NAICS_2012_Code','USEEIO_Code')]
+  cw <- disagg$NAICSSectorCW[, c('NAICS_Code','USEEIO_Code')]
   # For all rows in the USEEIO_Code column, remove all characters after (and including) "/"
   cw$USEEIO_Code <- sub("/.*","",cw$USEEIO_Code)
 
   # Update original sector codes with disaggregated sector codes in the relevant column (i.e. cwColIndex)
   # where rows have an exact match for the disaggregated codes in the NAICS column
-  new_cw <-merge(new_cw, cw, by.x=c("NAICS"), by.y=c("NAICS_2012_Code"), all=T)
+  new_cw <-merge(new_cw, cw, by.x=c("NAICS"), by.y=c("NAICS_Code"), all=T)
   
   new_cw$USEEIO <- ifelse(is.na(new_cw$USEEIO_Code), new_cw$USEEIO, new_cw$USEEIO_Code)
   
@@ -1053,10 +1055,10 @@ disaggregateMasterCrosswalk <- function (model, disagg){
       rowComparisons[1:length(disagg$NewSectorCodes)] <- TRUE
     } else {
       #compare the value in the first column (NAICS) to the NAICS values in the disaggCrosswalk. Result is a string with TRUE where first column is a substring of values in disaggCrosswalk
-      rowComparisons <- grepl(crosswalkRow$NAICS[1], disagg$NAICSSectorCW$NAICS_2012_Code) 
+      rowComparisons <- grepl(crosswalkRow$NAICS[1], disagg$NAICSSectorCW$NAICS_Code) 
     }
     
-    rowReplacements <- disagg$NAICSSectorCW$NAICS_2012_Code[rowComparisons] #Get the NAICS sector codes in the disagg crosswalk that are a match for the NAICS substring in the master crosswalk 
+    rowReplacements <- disagg$NAICSSectorCW$NAICS_Code[rowComparisons] #Get the NAICS sector codes in the disagg crosswalk that are a match for the NAICS substring in the master crosswalk 
     rowReplacements <- sub("/.*","",disagg$NAICSSectorCW$USEEIO_Code[rowComparisons]) #Get the disaggregated sector codes that are mapped to the matches of the NAICS substring
     rowReplacements <- unique(rowReplacements) #reduce the list to the unique number of disaggregated sectors that the row comparisons map to
     
