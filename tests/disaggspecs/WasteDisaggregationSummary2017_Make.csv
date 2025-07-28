@@ -1,0 +1,70 @@
+IndustryCode,CommodityCode,PercentMake,Note
+562/US,562111/US,4.77E-01,Make column sum
+562/US,562HAZ/US,1.29E-01,Make column sum
+562/US,562212/US,8.15E-02,Make column sum
+562/US,562213/US,1.36E-02,Make column sum
+562/US,562910/US,1.47E-01,Make column sum
+562/US,562920/US,5.41E-02,Make column sum
+562/US,562OTH/US,9.79E-02,Make column sum
+562111/US,562111/US,4.21E-01,Make table intersection
+562HAZ/US,562HAZ/US,1.51E-01,Make table intersection
+562212/US,562212/US,7.90E-02,Make table intersection
+562213/US,562213/US,1.32E-02,Make table intersection
+562910/US,562910/US,1.69E-01,Make table intersection
+562920/US,562920/US,5.25E-02,Make table intersection
+562OTH/US,562OTH/US,1.15E-01,Make table intersection
+22/US,562111/US,7.62E-01,commodity disaggregation
+22/US,562212/US,1.30E-01,commodity disaggregation
+22/US,562213/US,2.17E-02,commodity disaggregation
+22/US,562920/US,8.64E-02,commodity disaggregation
+484/US,562111/US,1.00E+00,commodity disaggregation
+511/US,562111/US,1.00E+00,commodity disaggregation
+561/US,562910/US,1.00E+00,commodity disaggregation
+GSLG/US,562111/US,7.62E-01,commodity disaggregation
+GSLG/US,562212/US,1.30E-01,commodity disaggregation
+GSLG/US,562213/US,2.17E-02,commodity disaggregation
+GSLG/US,562920/US,8.64E-02,commodity disaggregation
+562212/US,211/US,1.00E+00,industry disaggregation
+562111/US,23/US,4.31E-01,industry disaggregation
+562HAZ/US,23/US,1.94E-01,industry disaggregation
+562212/US,23/US,8.19E-02,industry disaggregation
+562213/US,23/US,1.36E-02,industry disaggregation
+562910/US,23/US,1.51E-01,industry disaggregation
+562920/US,23/US,4.06E-02,industry disaggregation
+562OTH/US,23/US,8.85E-02,industry disaggregation
+562111/US,4A0/US,4.31E-01,industry disaggregation
+562HAZ/US,4A0/US,1.94E-01,industry disaggregation
+562212/US,4A0/US,8.19E-02,industry disaggregation
+562213/US,4A0/US,1.36E-02,industry disaggregation
+562910/US,4A0/US,1.51E-01,industry disaggregation
+562920/US,4A0/US,4.06E-02,industry disaggregation
+562OTH/US,4A0/US,8.85E-02,industry disaggregation
+562111/US,487OS/US,4.31E-01,industry disaggregation
+562HAZ/US,487OS/US,1.94E-01,industry disaggregation
+562212/US,487OS/US,8.19E-02,industry disaggregation
+562213/US,487OS/US,1.36E-02,industry disaggregation
+562910/US,487OS/US,1.51E-01,industry disaggregation
+562920/US,487OS/US,4.06E-02,industry disaggregation
+562OTH/US,487OS/US,8.85E-02,industry disaggregation
+562111/US,532RL/US,4.31E-01,industry disaggregation
+562HAZ/US,532RL/US,1.94E-01,industry disaggregation
+562212/US,532RL/US,8.19E-02,industry disaggregation
+562213/US,532RL/US,1.36E-02,industry disaggregation
+562910/US,532RL/US,1.51E-01,industry disaggregation
+562920/US,532RL/US,4.06E-02,industry disaggregation
+562OTH/US,532RL/US,8.85E-02,industry disaggregation
+562111/US,5415/US,4.31E-01,industry disaggregation
+562HAZ/US,5415/US,1.94E-01,industry disaggregation
+562212/US,5415/US,8.19E-02,industry disaggregation
+562213/US,5415/US,1.36E-02,industry disaggregation
+562910/US,5415/US,1.51E-01,industry disaggregation
+562920/US,5415/US,4.06E-02,industry disaggregation
+562OTH/US,5415/US,8.85E-02,industry disaggregation
+562111/US,5412OP/US,4.31E-01,industry disaggregation
+562HAZ/US,5412OP/US,1.94E-01,industry disaggregation
+562212/US,5412OP/US,8.19E-02,industry disaggregation
+562213/US,5412OP/US,1.36E-02,industry disaggregation
+562910/US,5412OP/US,1.51E-01,industry disaggregation
+562920/US,5412OP/US,4.06E-02,industry disaggregation
+562OTH/US,5412OP/US,8.85E-02,industry disaggregation
+562920/US,Used/US,1.00E+00,industry disaggregation

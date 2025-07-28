@@ -7,8 +7,8 @@
 \format{
 A dataframe with 58032 obs. and 9 variables:
 \describe{
- \item{NIPACode}{text code}
- \item{MarginsCategory}{text category name, like 'Therapeutic medical equipment'}
+ \item{IndustryCode}{text code}
+ \item{IndustryDescription}{text category name, like 'Therapeutic medical equipment'}
  \item{CommodityCode}{BEA_2017_Detail_Code}
  \item{CommodityDescription}{BEA_2017_Detail_Name}
  \item{ProducersValue}{USD2017}

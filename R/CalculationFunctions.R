@@ -726,6 +726,6 @@ calculateGhoshB <- function(model, use_domestic_requirements = FALSE) {
 #' @param GhoshB Ghosh matrix B
 #' @return G, Ghosh matrix G
 calculateGhoshG <- function(GhoshB) {
-  G <- useeior:::calculateLeontiefInverse(GhoshB)
+  G <- calculateLeontiefInverse(GhoshB)
   return(G)
 }

@@ -741,7 +741,7 @@ addSectorsToWIOCW <- function (model, spec){
   WIONAICSSectorCW[,1] <- "WIO"
   WIONAICSSectorCW$Tag <- "USEEIO sectors as WIO Treatment sectors"
   WIONAICSSectorCW$Type <- "N/A"
-  WIONAICSSectorCW$NAICS_2012_Code <- "N/A"
+  WIONAICSSectorCW$NAICS_Code <- "N/A"
   WIONAICSSectorCW$Subcategory <- "N/A"
   WIONAICSSectorCW$Description <- "N/A"
 
