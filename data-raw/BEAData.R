@@ -1089,7 +1089,7 @@ getBEADetailMarginsBeforeRedef <- function(year, schema_year = NULL) {
   # Trim table, assign column names
   Margins <- Margins[!is.na(Margins[, 4]), ][-1, ]
   rownames(Margins) <- NULL
-  colnames(Margins) <- c("NIPACode", "MarginsCategory",
+  colnames(Margins) <- c("IndustryCode", "IndustryDescription",
                          "CommodityCode", "CommodityDescription",
                          "ProducersValue", "Transportation",
                          "Wholesale", "Retail", "PurchasersValue")
