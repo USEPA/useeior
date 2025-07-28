@@ -17,7 +17,7 @@ getMarginsTable <- function (model) {
   # Change in inventory has negative margins for positive change, which does not accurately portray actual margins either.
   purchaser_removal <- sapply(list("Export", "Import", "ChangeInventories"), getVectorOfCodes,
                               ioschema = model$specs$BaseIOSchema, iolevel = "Detail")
-  MarginsTable <- MarginsTable[!MarginsTable$NIPACode%in%purchaser_removal,]
+  MarginsTable <- MarginsTable[!MarginsTable$IndustryCode%in%purchaser_removal,]
   # Remove Scrap, Used and secondhand goods, and Non-comparable imports, and Rest of world adjustment commodities
   commodity_removal <- sapply(list("Scrap", "UsedGoods", "NonComparableImport", "RoWAdjustment"), getVectorOfCodes,
                               ioschema = model$specs$BaseIOSchema, iolevel = model$specs$BaseIOLevel)
