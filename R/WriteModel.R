@@ -4,6 +4,7 @@
 matrices <- c("V", "U", "U_d", "A", "A_d", "A_m", "B", "C", "D", "L", "L_d",
               "M", "M_d", "M_m", "N", "N_d", "N_m",
               "Rho", "Phi", "Tau")
+dqi_matrices <- c("B_dqi", "D_dqi", "M_dqi", "N_dqi")
 
 #' Writes all model data and metadata components to the API
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
@@ -53,11 +54,15 @@ writeModelMatrices <- function(model, to_format, outputfolder) {
 #' Write selected model matrices, demand vectors, and metadata as XLSX file to output folder
 #' @param model A complete EEIO model: a list with USEEIO model components and attributes.
 #' @param outputfolder A directory to write model matrices and metadata as XLSX file.
+#' @param dqi, bool, set to TRUE to write dqi matrices if available
 #' @description Writes model matrices demand vectors, and metadata as XLSX file to output folder.
 #' @export
-writeModeltoXLSX <- function(model, outputfolder) {
+writeModeltoXLSX <- function(model, outputfolder, dqi=FALSE) {
   # List model matrices
   USEEIOtoXLSX_ls <- model[matrices]
+  if (dqi) {
+    USEEIOtoXLSX_ls <- append(USEEIOtoXLSX_ls, model[dqi_matrices])
+  }
   # Remove non-existent model objects (e.g. indicator matrices)
   USEEIOtoXLSX_ls <- USEEIOtoXLSX_ls[!sapply(USEEIOtoXLSX_ls,is.null)]
   # Write commodity and industry output
@@ -68,6 +73,9 @@ writeModeltoXLSX <- function(model, outputfolder) {
   USEEIOtoXLSX_ls[names(model$DemandVectors$vectors)] <- model$DemandVectors$vectors
   # Format tables
   for (n in names(USEEIOtoXLSX_ls)) {
+    if(n %in% dqi_matrices) {
+      USEEIOtoXLSX_ls[[n]] <- combineDQItoString(USEEIOtoXLSX_ls[[n]])
+    }
     if (is.matrix(USEEIOtoXLSX_ls[[n]]) | is.data.frame(USEEIOtoXLSX_ls[[n]])) {
       USEEIOtoXLSX_ls[[n]] <- cbind.data.frame(rownames(USEEIOtoXLSX_ls[[n]]),
                                                USEEIOtoXLSX_ls[[n]])

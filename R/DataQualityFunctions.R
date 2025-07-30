@@ -191,3 +191,22 @@ createNdqi <- function(model) {
   return(dqi_3d)
 }
 
+#' Collapses 3d DQI matrices into a single string rounded to a single decimal
+#' @param dqi_3d A 3d matrix of dqi scores.
+#' @return A single matrix of collapsed dqi scores as string
+combineDQItoString <- function(dqi_3d) {
+  # Get dimensions
+  dims <- dim(dqi_3d)
+  # Initialize result matrix
+  string_matrix <- matrix("", nrow =  dims[1], ncol = dims[2],
+                          dimnames = list(rownames(dqi_3d), colnames(dqi_3d)))
+  
+  # Loop through each cell and concatenate values from all slices
+  for (i in 1: dims[1]) {
+    for (j in 1:dims[2]) {
+      values <- round(dqi_3d[i, j, ], 1)
+      string_matrix[i, j] <- paste0("(", paste(values, collapse = "; "), ")")
+    }
+  }
+  return(string_matrix)
+}
