@@ -157,7 +157,7 @@ createDdqi <- function(model) {
   B_dqi <- model$B_dqi
   D_dqi <- (model$C %*% (model$B * B_dqi[,,1])) / model$D # Temporary for initialization
   dqi_3d <- initializeArray(D_dqi, dim(B_dqi)[3], dimnames(B_dqi)[[3]])
-  for (i in seq_along(dim(B_dqi)[3])) {
+  for (i in 1:dim(B_dqi)[3]) {
     dqi_3d[,,i] <- (model$C %*% (model$B * B_dqi[,,i])) / model$D
   }
   return(dqi_3d)
@@ -171,7 +171,7 @@ createMdqi <- function(model) {
   B_dqi <- model$B_dqi
   M_dqi <- ((model$B * B_dqi[,,1]) %*% model$L) / model$M # Temporary for initialization
   dqi_3d <- initializeArray(M_dqi, dim(B_dqi)[3], dimnames(B_dqi)[[3]])
-  for (i in seq_along(dim(B_dqi)[3])) {
+  for (i in 1:dim(B_dqi)[3]) {
     dqi_3d[,,i] <- ((model$B * B_dqi[,,i]) %*% model$L) / model$M
   }
   return(dqi_3d)
@@ -185,7 +185,7 @@ createNdqi <- function(model) {
   D_dqi <- model$D_dqi
   N_dqi <- ((model$D * D_dqi[,,1]) %*% model$L) / model$N # Temporary for initialization
   dqi_3d <- initializeArray(N_dqi, dim(D_dqi)[3], dimnames(D_dqi)[[3]])
-  for (i in seq_along(dim(D_dqi)[3])) {
+  for (i in 1:dim(D_dqi)[3]) {
     dqi_3d[,,i] <- ((model$D * D_dqi[,,i]) %*% model$L) / model$N
   }
   return(dqi_3d)
