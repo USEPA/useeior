@@ -33,7 +33,7 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
   # Generate B matrix
   logging::loginfo("Building B matrix (direct emissions and resource use per dollar)...")
   model$B <- createBfromFlowDataandOutput(model)
-  model$B_dqi <- createB_dqi(model)
+  model$B_dqi <- createBdqi(model)
   B_h <- standardizeandcastSatelliteTable(model$CbS, model, final_demand=TRUE)
   if(!is.null(B_h)) {
     model$B_h <- as.matrix(B_h)

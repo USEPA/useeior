@@ -97,7 +97,7 @@ scoreTemporalDQ <- function(data_year,target_year=NA, scoring_bounds) {
 #' Creates a 3d matrix of data quality scores (flow by sector)
 #' @param model A complete EEIO model object with TbS
 #' @return A 3d matrix, third dimension is the individual data quality indicator
-createB_dqi <- function(model) {
+createBdqi <- function(model) {
   df <- model$TbS
   df[, "Sector"] <- apply(df[, c("Sector", "Location")],
                           1, FUN = joinStringswithSlashes)

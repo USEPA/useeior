@@ -4,12 +4,14 @@
 \alias{writeModeltoXLSX}
 \title{Write selected model matrices, demand vectors, and metadata as XLSX file to output folder}
 \usage{
-writeModeltoXLSX(model, outputfolder)
+writeModeltoXLSX(model, outputfolder, dqi = FALSE)
 }
 \arguments{
 \item{model}{A complete EEIO model: a list with USEEIO model components and attributes.}
 
 \item{outputfolder}{A directory to write model matrices and metadata as XLSX file.}
+
+\item{dqi, }{bool, set to TRUE to write dqi matrices if available}
 }
 \description{
 Writes model matrices demand vectors, and metadata as XLSX file to output folder.
