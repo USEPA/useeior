@@ -192,7 +192,7 @@ createNdqi <- function(model) {
   if(is.null(D_dqi) || (ncol(model$D) != ncol(D_dqi))) {
     return(NULL)
   }
-  if(model$specs$ExternalImportFactors) {
+  if(!is.null(model$specs$ExternalImportFactors) && model$specs$ExternalImportFactors) {
     logging::logwarn("Some model DQI can not be calculated for models with External Import Factors .")
     return(NULL)
   }
