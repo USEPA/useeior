@@ -2,8 +2,7 @@
 % Please edit documentation in R/DataQualityFunctions.R
 \name{createMdqi}
 \alias{createMdqi}
-\title{Creates M_dqi matrix from B_dqi using the formula
-((B * B_dqi) %*% L) / M}
+\title{Creates M_dqi matrix from B_dqi}
 \usage{
 createMdqi(model)
 }
@@ -14,6 +13,5 @@ createMdqi(model)
 A 3d matrix of dqi scores for M
 }
 \description{
-Creates M_dqi matrix from B_dqi using the formula
-((B * B_dqi) %*% L) / M
+Using the formula: ((B * B_dqi) \%*\% L) / M
 }

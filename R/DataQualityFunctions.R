@@ -147,8 +147,9 @@ initializeArray <- function(dqi, num_matrices, name_matrices) {
   return(dqi_3d)
 }
 
-#' Creates D_dqi matrix from B_dqi using the formula
-#' (C %*% (B * B_dqi)) / D
+#' Creates D_dqi matrix from B_dqi
+#' 
+#' Using the formula: (C \%*\% (B * B_dqi)) / D
 #' @param model A complete EEIO model object.
 #' @return A 3d matrix of dqi scores for D
 createDdqi <- function(model) {
@@ -165,8 +166,9 @@ createDdqi <- function(model) {
   return(dqi_3d)
 }
 
-#' Creates M_dqi matrix from B_dqi using the formula
-#' ((B * B_dqi) %*% L) / M
+#' Creates M_dqi matrix from B_dqi
+#' 
+#' Using the formula: ((B * B_dqi) \%*\% L) / M
 #' @param model A complete EEIO model object.
 #' @return A 3d matrix of dqi scores for M
 createMdqi <- function(model) {
@@ -183,8 +185,9 @@ createMdqi <- function(model) {
   return(dqi_3d)
 }
 
-#' Creates N_dqi matrix from D_dqi using the formula
-#' ((D * D_dqi) %*% L) / N
+#' Creates N_dqi matrix from D_dqi
+#' 
+#' Using the formula: ((D * D_dqi) \%*\% L) / N
 #' @param model A complete EEIO model object.
 #' @return A 3d matrix of dqi scores for N
 createNdqi <- function(model) {

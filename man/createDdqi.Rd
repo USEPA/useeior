@@ -2,8 +2,7 @@
 % Please edit documentation in R/DataQualityFunctions.R
 \name{createDdqi}
 \alias{createDdqi}
-\title{Creates D_dqi matrix from B_dqi using the formula
-(C %*% (B * B_dqi)) / D}
+\title{Creates D_dqi matrix from B_dqi}
 \usage{
 createDdqi(model)
 }
@@ -14,6 +13,5 @@ createDdqi(model)
 A 3d matrix of dqi scores for D
 }
 \description{
-Creates D_dqi matrix from B_dqi using the formula
-(C %*% (B * B_dqi)) / D
+Using the formula: (C \%*\% (B * B_dqi)) / D
 }
