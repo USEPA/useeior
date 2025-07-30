@@ -49,7 +49,7 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
     # Add direct impact matrix
     logging::loginfo("Calculating D matrix (direct environmental impacts per dollar)...")
     model$D <- model$C %*% model$B
-    model$D_dqi <- (model$C %*% (model$B * model$B_dqi)) / model$D
+    model$D_dqi <- createDdqi(model)
   }
 
   model <- buildPriceMatrices(model)
@@ -63,7 +63,7 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
     # Calculate total emissions/resource use per dollar (M)
     logging::loginfo("Calculating M matrix (total emissions and resource use per dollar)...")
     model$M <- model$B %*% model$L
-    model$M_dqi <- ((model$B * model$B_dqi) %*% model$L) / model$M
+    model$M_dqi <- createMdqi(model)
   
     colnames(model$M) <- colnames(model$M)
     # Calculate M_d, the domestic emissions per dollar using domestic Leontief
@@ -76,7 +76,7 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
     if(!is.null(model$M)) {
       logging::loginfo("Calculating N matrix (total environmental impacts per dollar)...")
       model$N <- model$C %*% model$M
-      model$N_dqi <- ((model$D * model$D_dqi) %*% model$L) / model$N
+      model$N_dqi <- createNdqi(model)
     }
     if(!is.null(model$M_m)) {
       logging::loginfo("Calculating N_m matrix (total environmental impacts per dollar from imported activity)...")

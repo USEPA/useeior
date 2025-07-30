@@ -94,31 +94,100 @@ scoreTemporalDQ <- function(data_year,target_year=NA, scoring_bounds) {
   return(score)
 }
 
+#' Creates a 3d matrix of data quality scores (flow by sector)
+#' @param model A complete EEIO model object with TbS
+#' @return A 3d matrix, third dimension is the individual data quality indicator
 createB_dqi <- function(model) {
-  # modeled from standardizeandcastSatelliteTable()
   df <- model$TbS
   df[, "Sector"] <- apply(df[, c("Sector", "Location")],
                           1, FUN = joinStringswithSlashes)
-  # Cast df into a flow x sector matrix
-  df_cast <- reshape2::dcast(df, Flow ~ Sector, fun.aggregate = sum, value.var = "TemporalCorrelation")
-  # Move Flow to rowname so matrix is all numbers
-  rownames(df_cast) <- df_cast$Flow
-  df_cast$Flow <- NULL
-  df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 0
-  # Adjust column order to be the same with V_n rownames
-  df_cast <- df_cast[, model$Industries$Code_Loc]
-  dqi <- as.matrix(df_cast)
-  
-  ## Need to Transform into a flow x commodity matrix using market shares matrix for commodity models?
-  ## see createBfromFlowDataandOutput()
-  if(model$specs$CommodityorIndustryType == "Commodity") {
-    dqi <- dqi %*% model$V_n
-    # ^^ is this correct? needs to reassign scores across commodities instead of industries
-    colnames(dqi) <- model$Commodities$Code_Loc
-  }
 
-  # array(combined_vector, dim = c(5, 5, 5))
+  dq_fields <- getDQfields(df)
+  # Default score is 5
+  df[dq_fields] <- lapply(df[dq_fields], function(x) ifelse(is.na(x), 5, x))
+  # Get unique Flow and Sector values
+  flows <- unique(df$Flow)
+  sectors <- model$Industries$Code_Loc
   
+  # Initialize 3D array
+  dqi_3d <- array(5, dim = c(length(flows), length(sectors), length(dq_fields)),
+                  dimnames = list(Flow = flows, Sector = sectors, Variable = dq_fields))
   
-  return(dqi)
+  # Fill the array
+  for (i in seq_along(dq_fields)) {
+    df_cast <- reshape2::dcast(df, Flow ~ Sector, value.var = dq_fields[i], fun.aggregate = sum, fill = 5)
+    df_cast[, setdiff(model$Industries$Code_Loc, colnames(df_cast))] <- 5
+    # Adjust column order to be the same with V_n rownames
+    df_cast <- df_cast[, model$Industries$Code_Loc]
+    dqi_3d[,,i] <- as.matrix(df_cast)
+  }
+  
+  ## Transform into a flow x commodity matrix using market shares matrix for commodity models
+  if(model$specs$CommodityorIndustryType == "Commodity") {
+    transformed_3d <- array(5, dim = c(length(flows), length(model$Commodities$Code_Loc), length(dq_fields)),
+                            dimnames = list(Flow = flows, Sector = model$Commodities$Code_Loc, Variable = dq_fields))
+    for (i in seq_along(dq_fields)) {
+      transformed_3d[,,i] <- dqi_3d[,,i] %*% model$V_n
+    }
+    dqi_3d <- transformed_3d
+  }
+  # TODO round values
+
+  return(dqi_3d)
 }
+
+#' Helper function to create a 3d array for dqi matrices
+#' @param dqi A complete EEIO model object with TbS
+#' @param num_matrices, int of number of matrices (e.g. 5)
+#' @param name_matrices, name of each matrix
+#' @return A 3d matrix, of correct dimensions
+initializeArray <- function(dqi, num_matrices, name_matrices) {
+  dqi_3d <- array(5, dim = c(nrow(dqi), ncol(dqi), num_matrices),
+                  dimnames = list(rows = rownames(dqi),
+                                  columns = colnames(dqi),
+                                  Variable = name_matrices))
+  return(dqi_3d)
+}
+
+#' Creates D_dqi matrix from B_dqi using the formula
+#' (C %*% (B * B_dqi)) / D
+#' @param model A complete EEIO model object.
+#' @return A 3d matrix of dqi scores for D
+createDdqi <- function(model) {
+  B_dqi <- model$B_dqi
+  D_dqi <- (model$C %*% (model$B * B_dqi[,,1])) / model$D # Temporary for initialization
+  dqi_3d <- initializeArray(D_dqi, dim(B_dqi)[3], dimnames(B_dqi)[[3]])
+  for (i in seq_along(dim(B_dqi)[3])) {
+    dqi_3d[,,i] <- (model$C %*% (model$B * B_dqi[,,i])) / model$D
+  }
+  return(dqi_3d)
+}
+
+#' Creates M_dqi matrix from B_dqi using the formula
+#' ((B * B_dqi) %*% L) / M
+#' @param model A complete EEIO model object.
+#' @return A 3d matrix of dqi scores for M
+createMdqi <- function(model) {
+  B_dqi <- model$B_dqi
+  M_dqi <- ((model$B * B_dqi[,,1]) %*% model$L) / model$M # Temporary for initialization
+  dqi_3d <- initializeArray(M_dqi, dim(B_dqi)[3], dimnames(B_dqi)[[3]])
+  for (i in seq_along(dim(B_dqi)[3])) {
+    dqi_3d[,,i] <- ((model$B * B_dqi[,,i]) %*% model$L) / model$M
+  }
+  return(dqi_3d)
+}
+
+#' Creates N_dqi matrix from D_dqi using the formula
+#' ((D * D_dqi) %*% L) / N
+#' @param model A complete EEIO model object.
+#' @return A 3d matrix of dqi scores for N
+createNdqi <- function(model) {
+  D_dqi <- model$D_dqi
+  N_dqi <- ((model$D * D_dqi[,,1]) %*% model$L) / model$N # Temporary for initialization
+  dqi_3d <- initializeArray(N_dqi, dim(D_dqi)[3], dimnames(D_dqi)[[3]])
+  for (i in seq_along(dim(D_dqi)[3])) {
+    dqi_3d[,,i] <- ((model$D * D_dqi[,,i]) %*% model$L) / model$N
+  }
+  return(dqi_3d)
+}
+
