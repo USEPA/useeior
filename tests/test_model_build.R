@@ -124,7 +124,7 @@ printValidationResults(model)
 m <- "USEEIOv2.3-GHG"
 model <- buildModel(m)
 printValidationResults(model)
-writeModeltoXLSX(model, ".")
+writeModeltoXLSX(model, ".", dqi=TRUE)
 
 ## USEEIOv2.3 Summary, commodity model with GHGs and Import Factors
 m <- "USEEIOv2.3-s-GHG-19"

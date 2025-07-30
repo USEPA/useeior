@@ -192,6 +192,10 @@ createNdqi <- function(model) {
   if(is.null(D_dqi) || (ncol(model$D) != ncol(D_dqi))) {
     return(NULL)
   }
+  if(model$specs$ExternalImportFactors) {
+    logging::logwarn("Some model DQI can not be calculated for models with External Import Factors .")
+    return(NULL)
+  }
   N_dqi <- ((model$D * D_dqi[,,1]) %*% model$L) / model$N # Temporary for initialization
   dqi_3d <- initializeArray(N_dqi, dim(D_dqi)[3], dimnames(D_dqi)[[3]])
   for (i in 1:dim(D_dqi)[3]) {
