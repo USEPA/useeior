@@ -40,6 +40,8 @@ constructEEIOMatrices <- function(model, configpaths = NULL) {
   }
   if(model$specs$ModelType == "EEIO-IH"){
     model$B <- hybridizeBMatrix(model)
+    # DQI not yet incorporated for hybrid models
+    model$B_dqi <- NULL
   }
   if(!is.null(model$Indicators)) {
     # Generate C matrix

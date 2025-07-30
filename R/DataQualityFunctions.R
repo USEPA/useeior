@@ -131,8 +131,6 @@ createB_dqi <- function(model) {
     }
     dqi_3d <- transformed_3d
   }
-  # TODO round values
-
   return(dqi_3d)
 }
 
@@ -155,6 +153,10 @@ initializeArray <- function(dqi, num_matrices, name_matrices) {
 #' @return A 3d matrix of dqi scores for D
 createDdqi <- function(model) {
   B_dqi <- model$B_dqi
+  if(is.null(B_dqi) || (ncol(model$B) != ncol(B_dqi))) {
+    logging::logwarn("Model DQI can not be calculated.")
+    return(NULL)
+  }
   D_dqi <- (model$C %*% (model$B * B_dqi[,,1])) / model$D # Temporary for initialization
   dqi_3d <- initializeArray(D_dqi, dim(B_dqi)[3], dimnames(B_dqi)[[3]])
   for (i in 1:dim(B_dqi)[3]) {
@@ -169,6 +171,10 @@ createDdqi <- function(model) {
 #' @return A 3d matrix of dqi scores for M
 createMdqi <- function(model) {
   B_dqi <- model$B_dqi
+  if(is.null(B_dqi) || (ncol(model$B) != ncol(B_dqi))) {
+    logging::logwarn("Model DQI can not be calculated.")
+    return(NULL)
+  }
   M_dqi <- ((model$B * B_dqi[,,1]) %*% model$L) / model$M # Temporary for initialization
   dqi_3d <- initializeArray(M_dqi, dim(B_dqi)[3], dimnames(B_dqi)[[3]])
   for (i in 1:dim(B_dqi)[3]) {
@@ -183,6 +189,9 @@ createMdqi <- function(model) {
 #' @return A 3d matrix of dqi scores for N
 createNdqi <- function(model) {
   D_dqi <- model$D_dqi
+  if(is.null(D_dqi) || (ncol(model$D) != ncol(D_dqi))) {
+    return(NULL)
+  }
   N_dqi <- ((model$D * D_dqi[,,1]) %*% model$L) / model$N # Temporary for initialization
   dqi_3d <- initializeArray(N_dqi, dim(D_dqi)[3], dimnames(D_dqi)[[3]])
   for (i in 1:dim(D_dqi)[3]) {
